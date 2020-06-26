@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import org.json.JSONException;
 
 public class SampleViewModelFactory implements ViewModelProvider.Factory {
+
     private Application application;
     private String testUniqueId;
 
@@ -27,4 +28,5 @@ public class SampleViewModelFactory implements ViewModelProvider.Factory {
         }
         return null;
     }
+
 }

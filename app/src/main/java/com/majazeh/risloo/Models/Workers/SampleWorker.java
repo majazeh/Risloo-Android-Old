@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Workers;
+package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 
@@ -6,31 +6,34 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.majazeh.risloo.Entities.Sample.Sample;
 import com.majazeh.risloo.Models.Remotes.Apis.SampleApi;
 import com.majazeh.risloo.Models.Remotes.Generators.RetroGenerator;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 
 public class SampleWorker extends Worker {
-    private SampleApi api;
+
+    private SampleApi sampleApi;
 
     public SampleWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
-        api = RetroGenerator.getRetrofit().create(SampleApi.class);
+
+        sampleApi = RetroGenerator.getRetrofit().create(SampleApi.class);
     }
 
     @NonNull
     @Override
     public Result doWork() {
         String work = getInputData().getString("work");
+
         if (work != null) {
             switch (work) {
-                case "send_answers":
-                    //send_answers(sending_data);
+                case "send":
+                    send(data());
                     break;
             }
         }
@@ -38,9 +41,13 @@ public class SampleWorker extends Worker {
         return Result.success();
     }
 
-    public boolean send_answers(ArrayList sending_data) {
+    private ArrayList data() {
+        return new ArrayList();
+    }
+
+    private boolean send(ArrayList data) {
         try {
-            Call<Sample> call = api.insert(sending_data);
+            Call<ResponseBody> call = sampleApi.send(data);
 
             return call.execute().isSuccessful();
 
@@ -49,4 +56,5 @@ public class SampleWorker extends Worker {
             return false;
         }
     }
+
 }

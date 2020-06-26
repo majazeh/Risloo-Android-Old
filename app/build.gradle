@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.application' // Android Build
 
 android {
     compileSdkVersion 29
@@ -10,41 +10,42 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-
+        resConfigs "en"
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
-    }
+
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile ('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
+
     implementation 'androidx.appcompat:appcompat:1.1.0' // AppCompat
     implementation 'androidx.multidex:multidex:2.0.1' // MultiDex
-
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3' // ConstraintLayout
     implementation 'androidx.cardview:cardview:1.0.0' // CardView
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3' // ConstraintLayout
     implementation 'androidx.recyclerview:recyclerview:1.1.0' // RecyclerView
     implementation 'androidx.viewpager:viewpager:1.0.0' // ViewPager
-    implementation "androidx.navigation:navigation-fragment:2.3.0-beta01" // Navigation Fragment
-    implementation "androidx.navigation:navigation-ui:2.3.0-beta01" // Navigation UI
-    implementation 'de.hdodenhof:circleimageview:3.1.0' // CircleImageView
-    implementation 'com.squareup.picasso:picasso:2.71828' // Picasso
-    implementation 'com.duolingo.open:rtl-viewpager:2.0.0' // RtlViewPager
-    implementation 'com.intuit.sdp:sdp-android:1.0.6' // Mobile Dimensions
-    implementation 'com.intuit.ssp:ssp-android:1.0.6' // Mobile Texts
 
-    testImplementation 'junit:junit:4.12' // Unit test
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1' // Unit test
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0' // Espresso Core
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0" // ViewModel
+    implementation "androidx.lifecycle:lifecycle-livedata:2.2.0" // LiveData
+    implementation "androidx.lifecycle:lifecycle-runtime:2.2.0" // Lifecycles Without ViewModel And LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0" // Extensions
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0" // Lifecycle Annotation processor
 
     implementation "androidx.room:room-runtime:2.2.5" // Room
     annotationProcessor "androidx.room:room-compiler:2.2.5" // Room Annotation Processor
@@ -53,16 +54,21 @@ dependencies {
 
     implementation 'androidx.work:work-runtime:2.3.4' // WorkManager
 
+    implementation 'de.hdodenhof:circleimageview:3.1.0' // CircleImageView
+
+    implementation 'com.duolingo.open:rtl-viewpager:2.0.0' // RtlViewPager
+
+    implementation 'com.intuit.sdp:sdp-android:1.0.6' // Mobile Dimensions
+    implementation 'com.intuit.ssp:ssp-android:1.0.6' // Mobile Texts
+
+    implementation 'com.squareup.picasso:picasso:2.71828' // Picasso
     implementation 'com.squareup.okhttp3:logging-interceptor:4.7.2' // OKHttp3
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0' // Retrofit2
 
-    implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0" // ViewModel
-    implementation "androidx.lifecycle:lifecycle-livedata:2.2.0" // LiveData
-    implementation "androidx.lifecycle:lifecycle-runtime:2.2.0" // Lifecycle Without ViewModel And LiveData
+    implementation 'com.google.android.material:material:1.1.0' // Google Material
 
-    implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0" // Lifecycle Annotation processor
+    testImplementation 'junit:junit:4.13' // Unit Framework
 
-    implementation "androidx.lifecycle:lifecycle-extensions:2.1.0" // Lifecycle Extensions
-
-
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1' // Unit Test
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0' // Espresso Core
 }

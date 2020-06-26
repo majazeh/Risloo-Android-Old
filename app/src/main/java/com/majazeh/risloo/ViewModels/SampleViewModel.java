@@ -5,55 +5,94 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.majazeh.risloo.Entities.Sample.Sample;
+import com.majazeh.risloo.Entities.Sample;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class SampleViewModel extends AndroidViewModel {
-    SampleRepository repository;
+
+    private SampleRepository repository;
 
     public SampleViewModel(@NonNull Application application, String testUniqueId) throws JSONException {
         super(application);
+
         repository = new SampleRepository(application, testUniqueId);
     }
 
+    public void insertToLocalData(int item, int answer) {
+        repository.insertToLocalData(item, answer);
+    }
+
+    public void insertToRemoteData(int item, int answer) {
+        repository.insertToRemoteData(item, answer);
+    }
+
+    public void insertRemoteDataToLocalData() {
+        repository.insertRemoteDataToLocalData();
+    }
+
+    public void writeToCache(JSONArray jsonArray, String fileName) {
+        repository.writeToCache(jsonArray, fileName);
+    }
+
+    public JSONArray readFromCache(String fileName) {
+        return repository.readFromCache(fileName);
+    }
+
+    public boolean saveToCSV(JSONArray jsonArray, String fileName) {
+        return repository.saveToCSV(jsonArray, fileName);
+    }
+
+    public File loadFromCSV(String fileName) {
+        return repository.loadFromCSV(fileName);
+    }
+
+    public ArrayList getLocalData(){
+        return repository.items().localData();
+    }
+
+    public ArrayList getRemoteData(){
+        return repository.items().remoteData();
+    }
+
     public String getTitle() throws JSONException {
-        return repository.getTitle();
+        return repository.json().getString("title");
     }
 
     public String getDescription() throws JSONException {
-        return repository.getDescription();
+        return repository.json().getString("description");
     }
 
     public int getVersion() throws JSONException {
-        return repository.getVersion();
+        return repository.json().getInt("version");
     }
 
-    public String Edition() throws JSONException {
-        return repository.getEdition();
+    public String getEdition() throws JSONException {
+        return repository.json().getString("edition");
     }
 
-    public String getEdition_version() throws JSONException {
-        return repository.getEdition_version();
+    public String getEditionVersion() throws JSONException {
+        return repository.json().getString("edition_version");
     }
 
     public String getFiller() throws JSONException {
-        return repository.getFiller();
+        return repository.json().getString("filler");
     }
 
     public Sample getItem(int index) {
-        return repository.items().getItem(index);
+        return repository.items().item(index);
     }
 
-    public Sample next() {
+    public Sample getNext() {
         return repository.items().next();
     }
 
-    public Sample prev() {
+    public Sample getPrev() {
         return repository.items().prev();
     }
 
@@ -61,43 +100,12 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.items().goToIndex(index);
     }
 
-    public void writeToFile(JSONArray jsonArray, String file_name) {
-        repository.writeToFile(jsonArray, file_name);
-    }
-
-    public JSONArray readFromFile(String file_name) {
-        return repository.readFromFile(file_name);
-    }
-
     public int getCurrentIndex() {
-        return repository.items().getCurrentIndex();
+        return repository.items().currentIndex();
     }
 
     public int getSize() {
-        return repository.items().getSize();
+        return repository.items().size();
     }
 
-    public boolean saveToCSV(JSONArray jsonArray, String file_name) {
-        return repository.saveToCSV(jsonArray, file_name);
-    }
-
-    public void setData(int item,int answer){
-        repository.items().setData(item, answer);
-    }
-
-    public void setSending_data(int item,int answer){
-        repository.items().setSending_data(item, answer);
-    }
-
-    public void putSDtoD(){
-         repository.items().putSDtoD();
-    }
-
-    public ArrayList data(){
-        return repository.items().data();
-    }
-
-    public ArrayList sending_data(){
-        return repository.items().sending_data();
-    }
 }

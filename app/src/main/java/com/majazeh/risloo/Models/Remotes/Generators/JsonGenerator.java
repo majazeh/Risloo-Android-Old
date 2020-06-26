@@ -1,36 +1,27 @@
 package com.majazeh.risloo.Models.Remotes.Generators;
 
 import android.content.Context;
-import android.util.Log;
-
-import com.majazeh.risloo.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.nio.charset.Charset;
 
 public class JsonGenerator {
 
-    private static String json = "";
+    private static String json;
 
-    public String getJson(Context context, String file_name) {
+    public String getJson(Context context, String fileName) {
         try {
-            InputStream inputStream = context.getAssets().open(file_name);
+            InputStream inputStream = context.getAssets().open(fileName);
             int size = inputStream.available();
             byte[] buffer = new byte[size];
             inputStream.read(buffer);
@@ -43,9 +34,10 @@ public class JsonGenerator {
         return json;
     }
 
-    public void saveJsonSampleToCache(Context context, JSONObject jsonObject, String answer_file) {
+    public void writeObjectToCache(Context context, JSONObject jsonObject, String fileName) {
         try {
-            FileOutputStream fos = new FileOutputStream(new File(context.getCacheDir(), "") + File.separator + answer_file);
+            File file = new File(context.getCacheDir(), fileName);
+            FileOutputStream fos = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(jsonObject.toString());
             oos.close();
@@ -56,10 +48,25 @@ public class JsonGenerator {
         }
     }
 
-    public JSONObject readJsonSampleFromCache(Context context, String answer_file) {
+    public void writeArrayToCache(Context context, JSONArray jsonArray, String fileName) {
+        try {
+            File file = new File(context.getCacheDir(), fileName);
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(jsonArray.toString());
+            oos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public JSONObject readObjectFromCache(Context context, String fileName) {
         JSONObject jsonObject;
         try {
-            FileInputStream fis = new FileInputStream(new File(context.getCacheDir() + File.separator + answer_file));
+            File file = new File(context.getCacheDir(), fileName);
+            FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
             jsonObject = new JSONObject((String) ois.readObject());
             ois.close();
@@ -79,23 +86,11 @@ public class JsonGenerator {
         return jsonObject;
     }
 
-    public void saveJsonAnswerToCache(Context context, JSONArray jsonArray, String answer_file) {
-        try {
-            FileOutputStream fos = new FileOutputStream(new File(context.getCacheDir(), "") + File.separator + answer_file);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(jsonArray.toString());
-            oos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public JSONArray readJsonAnswerFromCache(Context context, String answer_file) {
+    public JSONArray readArrayFromCache(Context context, String fileName) {
         JSONArray jsonArray;
         try {
-            FileInputStream fis = new FileInputStream(new File(context.getCacheDir() + File.separator + answer_file));
+            File file = new File(context.getCacheDir(), fileName);
+            FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
             jsonArray = new JSONArray((String) ois.readObject());
             ois.close();
@@ -115,10 +110,9 @@ public class JsonGenerator {
         return jsonArray;
     }
 
-    public boolean saveToCSV(Context context, JSONArray jsonArray, String file_name) {
+    public boolean saveToCSV(Context context, JSONArray jsonArray, String fileName) {
         try {
-            FileOutputStream fos = context.openFileOutput(file_name, Context.MODE_PRIVATE);
-
+            FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
             for (int i = 0; i < jsonArray.length(); i++) {
                 fos.write(String.valueOf(i).getBytes("UTF-8"));
                 fos.write(",".getBytes("UTF-8"));
@@ -135,6 +129,10 @@ public class JsonGenerator {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public File loadFromCSV(Context context, String fileName) {
+        return new File(context.getCacheDir(), fileName);
     }
 
 }
