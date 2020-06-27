@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Models.Items;
+package com.majazeh.risloo.Models.Repositories.Sample;
 
 import com.majazeh.risloo.Entities.Sample;
 

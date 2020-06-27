@@ -1,4 +1,4 @@
-package com.majazeh.risloo.ViewModels;
+package com.majazeh.risloo.ViewModels.Sample;
 
 import android.app.Application;
 

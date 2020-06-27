@@ -4,11 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.ViewModels.SampleViewModel;
-import com.majazeh.risloo.ViewModels.SampleViewModelFactory;
+import com.majazeh.risloo.ViewModels.Sample.SampleViewModel;
+import com.majazeh.risloo.ViewModels.Sample.SampleViewModelFactory;
 
 public class SampleActivity extends AppCompatActivity {
 

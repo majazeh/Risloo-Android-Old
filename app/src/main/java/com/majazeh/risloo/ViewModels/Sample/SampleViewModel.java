@@ -1,4 +1,4 @@
-package com.majazeh.risloo.ViewModels;
+package com.majazeh.risloo.ViewModels.Sample;
 
 import android.app.Application;
 
@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.majazeh.risloo.Entities.Sample;
-import com.majazeh.risloo.Models.Repositories.SampleRepository;
+import com.majazeh.risloo.Models.Repositories.Sample.SampleRepository;
 
 import org.json.JSONArray;
 import org.json.JSONException;
