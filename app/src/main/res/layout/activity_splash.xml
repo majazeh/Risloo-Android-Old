@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_splash"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:fitsSystemWindows="true"
+    android:background="@color/Primary"
+    tools:context=".Views.Ui.SplashActivity"
+    tools:ignore="UnusedAttribute">
+
+    <ImageView
+        android:id="@+id/activity_splash_logo_imageView"
+        android:layout_width="@dimen/_110sdp"
+        android:layout_height="@dimen/_110sdp"
+        android:layout_marginBottom="@dimen/_24sdp"
+        android:layout_gravity="center"
+        android:tint="@color/White"
+        android:src="@drawable/ic_brain" />
+
+    <TextView
+        android:id="@+id/activity_splash_version_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:maxLines="1"
+        android:gravity="center"
+        android:text="@string/SplashVersion"
+        android:textSize="@dimen/_12ssp"
+        android:textStyle="normal"
+        android:textColor="@color/Quartz"
+        android:textAlignment="gravity" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

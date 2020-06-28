@@ -1,3 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="AppName">Risloo</string>
+
+    // app strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="AppName">ریسلو</string>
+
+    <string name="ApiKey">place api key here</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // toast strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // dialog strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // splash strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="SplashVersion">نسخه 1.0.0</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // intro strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="IntroTitle1">ریسلو</string>
+    <string name="IntroTitle2">درمان</string>
+    <string name="IntroTitle3">آموزش</string>
+    <string name="IntroTitle4">پژوهش</string>
+
+    <string name="IntroDescription1">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="IntroDescription2">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="IntroDescription3">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="IntroDescription4">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+
+    <string name="IntroNext">بعدی</string>
+    <string name="IntroSkip">رد شدن</string>
+    <string name="IntroStart">شروع</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // auth strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="AuthSerialTitle">بررسی سریال</string>
+    <string name="AuthRegisterTitle">ورود یا عضویت</string>
+    <string name="AuthSMSTitle">تایید شماره موبایل</string>
+    <string name="AuthPinTitle">شروع نمونه</string>
+
+    <string name="AuthSerialDescription">کاربر گرامی، برای شروع انجام نمونه لطفا سریال خود را در فیلد زیر وارد نمایید</string>
+    <string name="AuthRegisterDescription">شماره موبایل و رمز عبور در فیلد های زیر وارد نمایید</string>
+    <string name="AuthSMSDescription">کد 4 رقمی ارسال شده به 989000000000+ را در فیلد زیر وارد نمایید</string>
+    <string name="AuthPinDescription">پین مربوط به نمونه را در فیلد زیر وارد نمایید</string>
+
+    <string name="AuthRegisterNote">در صورتیکه که کاربر جدید هستید از یک رمز عبور جدید استفاده کنید</string>
+
+    <string name="AuthSerial">سریال</string>
+    <string name="AuthMobile">شماره موبایل</string>
+    <string name="AuthPassword">رمز عبور</string>
+    <string name="AuthSMS">کد 4 رقمی</string>
+    <string name="AuthPin">پین</string>
+
+    <string name="AuthCheck">بررسی</string>
+    <string name="AuthRegister">ورود / عضویت</string>
+    <string name="AuthAccept">تأیید</string>
+    <string name="AuthStart">شروع</string>
+
+    <string name="AuthSerialHelp">قبلا نمونه انجام دادی؟</string>
+    <string name="AuthRegisterHelp">رمز عبور خود فراموش کردی؟</string>
+    <string name="AuthSMSHelp">کد پیامکی دریافت نکردی؟</string>
+
+    <string name="AuthSerialAction">مشاهده بایگانی</string>
+    <string name="AuthRegisterAction">بازیابی</string>
+    <string name="AuthSMSAction">إرسال مجدد</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // test strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // outro strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="OutroTitle">نمونه شما با موفقیت انجام شد!</string>
+
+    <string name="OutroDescription">برای اطلاع دادن ریسلو از وضعیت نمونه شما لازم است که فایل نمونه را بصورت إنترنتی یا پیامکی إرسال نمایید.</string>
+
+    <string name="OutroSendWithInternet">إرسال إینترنتی نمونه به ریسلو</string>
+    <string name="OutroSendWithSMS">إرسال پیامکی نمونه به ریسلو</string>
+    <string name="OutroDownload">دریافت فایل نمونه</string>
+    <string name="OutroLater">بعدن إرسال کنم</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // archive strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="ArchiveTitle">بایگانی نمونه ها</string>
+
+    <string name="ArchiveCount">عدد</string>
+
+    <string name="ArchiveTestSerial">سریال نمونه</string>
+    <string name="ArchiveAnswerDate">زمان پاسخ</string>
+    <string name="ArchiveStatus">وضعیت</string>
+    <string name="ArchiveNotCompleted">تکمیل نشد</string>
+    <string name="ArchiveNotSend">إرسال نشد</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // more strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="MoreTitle">امکانات دیگر</string>
+
+    <string name="MoreAboutUs">درباره ما</string>
+    <string name="MoreQuestions">سؤالات متداول</string>
+    <string name="MoreCallUs">ارتباط با ما</string>
+    <string name="MoreTermsAndConditions">قوانین و مقررات</string>
+    <string name="MoreFollow">دنبال کردن</string>
+    <string name="MoreShare">اشتراک گذاری</string>
+    <string name="MoreRate">نظرسنجی</string>
+
+    <string name="MoreVersion">نسخه</string>
+    <string name="MoreUpdate">بروزرسانی</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // about us strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="AboutUsTitle">درباره ما</string>
+
+    <string name="AboutUsName">ریسلو</string>
+    <string name="AboutUsDescription">شما به‌عنوان یک روان‌شناس، در سه حوزه درمان، آموزش و پژوهش کارهایی را مجبود هستید انجام دهید که شما را از خود پژوهش، آموزش و درمان باز می‌دارد؛ این کارها لازمه کار است اما در عصر حاضر و با پیشرفت روزافزون علم، می‌توان به‌سادگی این کارها را توسط برنامه و نرم‌افزاری انجام داد و روان‌شناس به کارهای اصلی خود در سه حوزه بپردازد. ریسلو همراه شماست در سه حوزه درمان، آموزش و پژوه تا این خلاء را برای شما پر کند.</string>
+
+    <string name="AboutUsRights">تمام حقوق متعلق به ریسلو می باشد</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // questions strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="QuestionsTitle">سؤالات متداول</string>
+
+    <string name="QuestionsSubject">چگونه می توانم یک نمونه انجام دهم؟</string>
+    <string name="QuestionsAnswer">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // call us strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="CallUsTitle">ارتباط با ما</string>
+
+    <string name="CallUsName">نام و نام خانوادگی</string>
+    <string name="CallUsMobile">شماره موبایل</string>
+    <string name="CallUsMessage">محتوای پیام شما</string>
+
+    <string name="CallUsSend">إرسال پیام</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // terms and conditions strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="TermsAndConditionsTitle">قوانین و مقررات</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
 </resources>

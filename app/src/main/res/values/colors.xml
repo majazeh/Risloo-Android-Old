@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+
+    // app colors
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <color name="Primary">#5867DD</color>
+    <color name="PrimaryDark">#4652B1</color>
+    <color name="Accent">#1DC9B7</color>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // customize colors
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <color name="MoonYellow">#FFB822</color>
+    <color name="VioletRed">#FD397A</color>
+
+    <color name="White">#FFFFFF</color>
+    <color name="Snow">#FAFAFA</color>
+    <color name="Solitude">#F4F5F8</color>
+    <color name="Quartz">#E1E1EF</color>
+    <color name="Mischka">#A0A9B8</color>
+    <color name="Mischka20P">#34A0A9B8</color>
+    <color name="Grey">#757575</color>
+    <color name="Nero">#222222</color>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
 </resources>

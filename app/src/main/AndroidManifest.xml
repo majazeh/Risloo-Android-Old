@@ -21,13 +21,17 @@
         android:theme="@style/AppTheme"
         tools:ignore="UnusedAttribute">
 
-        <activity android:name=".Views.Ui.SampleActivity">
+        <activity android:name=".Views.Ui.SplashActivity" android:theme="@style/LauncherTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".Views.Ui.IntroActivity" android:theme="@style/TransparentTheme" />
+        <activity android:name=".Views.Ui.SampleActivity" />
+
     </application>
 
 </manifest>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    // app arrays
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <array name="activeColors">
+        <item>@color/Primary</item>
+        <item>@color/Primary</item>
+        <item>@color/Primary</item>
+        <item>@color/Primary</item>
+    </array>
+
+    <array name="inActiveColors">
+        <item>@color/Mischka20P</item>
+        <item>@color/Mischka20P</item>
+        <item>@color/Mischka20P</item>
+        <item>@color/Mischka20P</item>
+    </array>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+</resources>
