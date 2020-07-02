@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_question_single_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:clipToPadding="true"
+    app:cardCornerRadius="@dimen/_16sdp"
+    app:cardElevation="0dp">
+
+    <LinearLayout
+        android:id="@+id/activity_question_single_item_root_linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_6sdp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/_2sdp"
+            android:paddingBottom="@dimen/_2sdp"
+            android:paddingLeft="@dimen/_4sdp"
+            android:paddingRight="@dimen/_6sdp"
+            android:layoutDirection="rtl"
+            android:gravity="center"
+            android:orientation="horizontal"
+            tools:ignore="UnusedAttribute">
+
+            <ImageView
+                android:id="@+id/activity_question_single_item_expand_imageView"
+                android:layout_width="@dimen/_16sdp"
+                android:layout_height="@dimen/_16sdp"
+                android:layout_marginLeft="@dimen/_6sdp"
+                android:src="@drawable/ic_plus" />
+
+            <TextView
+                android:id="@+id/activity_question_single_item_subject_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textSize="@dimen/_11ssp"
+                android:textStyle="bold"
+                android:textAlignment="gravity"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/activity_question_single_item_answer_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:paddingTop="@dimen/_6sdp"
+            android:paddingBottom="@dimen/_6sdp"
+            android:paddingLeft="@dimen/_6sdp"
+            android:paddingRight="@dimen/_8sdp"
+            android:visibility="gone"
+            android:gravity="right"
+            android:textSize="@dimen/_11ssp"
+            android:textStyle="normal"
+            android:textColor="@color/Mischka"
+            android:textAlignment="gravity"
+            android:background="@drawable/draw_12sdp_white"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

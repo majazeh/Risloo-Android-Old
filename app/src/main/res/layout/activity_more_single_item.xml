@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_more_single_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:clipToPadding="true"
+    app:cardCornerRadius="@dimen/_16sdp"
+    app:cardElevation="0dp">
+
+    <LinearLayout
+        android:id="@+id/activity_more_single_item_root_linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/_24sdp"
+        android:paddingBottom="@dimen/_18sdp"
+        android:paddingLeft="@dimen/_8sdp"
+        android:paddingRight="@dimen/_8sdp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@color/Snow">
+
+        <ImageView
+            android:id="@+id/activity_more_single_item_avatar_imageView"
+            android:layout_width="@dimen/_42sdp"
+            android:layout_height="@dimen/_42sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:tint="@color/PrimaryDark"/>
+
+        <TextView
+            android:id="@+id/activity_more_single_item_title_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold"
+            android:textColor="@color/Grey"
+            android:textAlignment="gravity"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

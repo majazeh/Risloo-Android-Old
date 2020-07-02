@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_intro_1"
+    android:id="@+id/activity_intro_single_item_4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@null">
+    android:layoutDirection="rtl"
+    android:background="@null"
+    tools:ignore="UnusedAttribute">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,16 +22,16 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_160sdp"
             android:layout_marginBottom="@dimen/_28sdp"
-            android:src="@drawable/illu_startup" />
+            android:src="@drawable/illu_research" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/_12sdp"
-            android:maxLines="2"
+            android:maxLines="1"
             android:gravity="center"
-            android:text="@string/IntroTitle1"
+            android:text="@string/IntroTitle4"
             android:textSize="@dimen/_18ssp"
             android:textStyle="bold"
             android:textColor="@color/Nero"
@@ -43,7 +45,7 @@
             android:paddingRight="@dimen/_12sdp"
             android:maxLines="2"
             android:gravity="center"
-            android:text="@string/IntroDescription1"
+            android:text="@string/IntroDescription4"
             android:textSize="@dimen/_12ssp"
             android:textStyle="normal"
             android:textColor="@color/Grey"
@@ -51,4 +53,4 @@
 
     </LinearLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>

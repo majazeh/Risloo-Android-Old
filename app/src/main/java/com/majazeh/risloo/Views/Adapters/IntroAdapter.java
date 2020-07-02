@@ -13,9 +13,8 @@ public class IntroAdapter extends PagerAdapter {
     private Activity activity;
     private int[] layouts;
 
-    public IntroAdapter(Activity activity, int[] layouts) {
+    public IntroAdapter(Activity activity) {
         this.activity = activity;
-        this.layouts = layouts;
     }
 
     @NonNull
@@ -27,11 +26,6 @@ public class IntroAdapter extends PagerAdapter {
     }
 
     @Override
-    public int getCount() {
-        return layouts.length;
-    }
-
-    @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return view == object;
     }
@@ -39,6 +33,16 @@ public class IntroAdapter extends PagerAdapter {
     @Override
     public void destroyItem(@NonNull ViewGroup viewGroup, int i, @NonNull Object object) {
         viewGroup.removeView((View) object);
+    }
+
+    @Override
+    public int getCount() {
+        return layouts.length;
+    }
+
+    public void setLayout(int[] layouts) {
+        this.layouts = layouts;
+        notifyDataSetChanged();
     }
 
 }
