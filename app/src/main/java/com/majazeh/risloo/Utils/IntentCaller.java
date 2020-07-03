@@ -51,6 +51,17 @@ public class IntentCaller {
         context.startActivity(Intent.createChooser(intent, chooser));
     }
 
+    public void rate(Context context) {
+        Intent intent;
+        try {
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + context.getPackageName()));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        } catch (ActivityNotFoundException e) {
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + context.getPackageName()));
+        }
+        context.startActivity(intent);
+    }
+
     public void facebook(Context context, String facebookID) {
         Intent intent;
         try {

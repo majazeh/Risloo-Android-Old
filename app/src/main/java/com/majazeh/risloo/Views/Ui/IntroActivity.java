@@ -151,19 +151,8 @@ public class IntroActivity extends AppCompatActivity {
         editor.putBoolean("firstTimeLaunch", false);
         editor.apply();
 
-        Intent intent = new Intent(IntroActivity.this, AuthActivity.class);
-        startActivity(intent);
-
+        startActivity(new Intent(this, AuthActivity.class));
         finish();
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        finish();
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
 }

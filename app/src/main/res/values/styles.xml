@@ -10,6 +10,7 @@
         <item name="colorAccent">@color/Accent</item>
 
         <item name="android:fontFamily">@font/dana</item>
+        <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
     </style>
 
     <style name="LauncherTheme" parent="AppTheme">
@@ -50,6 +51,18 @@
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/fade_in</item>
         <item name="android:windowExitAnimation">@anim/fade_out</item>
+    </style>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // activity theme
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <style name="ActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/fade_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/fade_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/fade_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
     </style>
 
     ////////////////////////////////////////////////////////////////////////////////

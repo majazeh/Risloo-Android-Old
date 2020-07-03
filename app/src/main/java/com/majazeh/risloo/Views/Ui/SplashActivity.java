@@ -22,9 +22,6 @@ import com.majazeh.risloo.Utils.WindowDecorator;
 
 public class SplashActivity extends AppCompatActivity {
 
-    // Vars
-    private boolean backPressed = false;
-
     // Objects
     private Handler handler;
     private WindowManager.LayoutParams layoutParams;
@@ -128,23 +125,16 @@ public class SplashActivity extends AppCompatActivity {
 
     private void launchActivity() {
         handler.postDelayed(() -> {
-            if (!backPressed) {
-                Intent intent = new Intent(this, IntroActivity.class);
-                startActivity(intent);
-
-                finish();
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            }
+            startActivity(new Intent(this, IntroActivity.class));
+            finish();
         }, 1000);
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        backPressed = true;
+    public void finish() {
+        super.finish();
 
-        finish();
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        handler.removeCallbacksAndMessages(null);
     }
 
 }

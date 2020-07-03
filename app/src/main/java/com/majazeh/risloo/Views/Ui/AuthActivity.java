@@ -37,20 +37,7 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void listener() {
-        toolbar.setNavigationOnClickListener(v -> {
-            Intent intent = new Intent(this, MoreActivity.class);
-            startActivity(intent);
-
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        });
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-        finish();
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(this, MoreActivity.class)));
     }
 
 }

@@ -4,16 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.WindowDecorator;
 
-public class AboutUsActivity extends AppCompatActivity {
+public class CallUsActivity extends AppCompatActivity {
 
     // Widgets
     private Toolbar toolbar;
-    private TextView nameTextView, descriptionTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +19,7 @@ public class AboutUsActivity extends AppCompatActivity {
 
         decorator();
 
-        setContentView(R.layout.activity_about_us);
+        setContentView(R.layout.activity_call_us);
 
         initializer();
 
@@ -34,12 +32,7 @@ public class AboutUsActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        toolbar = findViewById(R.id.activity_about_us_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
-
-        nameTextView = findViewById(R.id.activity_about_us_name_textView);
-        descriptionTextView = findViewById(R.id.activity_about_us_description_textView);
+        toolbar = findViewById(R.id.activity_call_us_toolbar);
     }
 
     private void listener() {

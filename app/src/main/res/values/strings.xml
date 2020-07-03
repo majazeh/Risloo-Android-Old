@@ -128,6 +128,9 @@
     <string name="MoreShare">اشتراک گذاری</string>
     <string name="MoreRate">نظرسنجی</string>
 
+    <string name="MoreShareLink">ApplicationLink</string>
+    <string name="MoreShareChooser">اشتراک گذاری برنامه</string>
+
     <string name="MoreVersion">نسخه</string>
     <string name="MoreUpdate">به روز رسانی</string>
 

@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.More;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Views.Ui.AboutUsActivity;
+import com.majazeh.risloo.Views.Ui.CallUsActivity;
 import com.majazeh.risloo.Views.Ui.QuestionActivity;
 import com.majazeh.risloo.Views.Ui.TermsConditionsActivity;
 
@@ -78,33 +80,30 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
         notifyDataSetChanged();
     }
 
-    public void doWork(int i) {
-        int selectedMore = i;
+    public void doWork(int position) {
+        IntentCaller intentCaller = new IntentCaller();
 
-        switch (selectedMore) {
+        switch (position) {
             case 0:
                 activity.startActivity(new Intent(activity, AboutUsActivity.class));
-                activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
             case 1:
                 activity.startActivity(new Intent(activity, QuestionActivity.class));
-                activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
             case 2:
-
+                activity.startActivity(new Intent(activity, CallUsActivity.class));
                 break;
             case 3:
                 activity.startActivity(new Intent(activity, TermsConditionsActivity.class));
-                activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
             case 4:
 
                 break;
             case 5:
-
+                intentCaller.share(activity, activity.getResources().getString(R.string.MoreShareLink), activity.getResources().getString(R.string.MoreShareChooser));
                 break;
             case 6:
-
+                intentCaller.rate(activity);
                 break;
             case 7:
 

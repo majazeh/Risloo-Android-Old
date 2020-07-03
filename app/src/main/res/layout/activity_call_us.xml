@@ -2,13 +2,13 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_question"
+    android:id="@+id/activity_call_us"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
     android:background="@color/White"
-    tools:context=".Views.Ui.QuestionActivity"
+    tools:context=".Views.Ui.CallUsActivity"
     tools:ignore="UnusedAttribute">
 
     <LinearLayout
@@ -17,22 +17,15 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/activity_question_toolbar"
+            android:id="@+id/activity_call_us_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/ToolbarTheme"
             android:background="@null"
-            app:title="@string/QuestionTitle"
+            app:title="@string/CallUsTitle"
             app:titleTextAppearance="@style/ToolbarTextAppearance"
             app:navigationIcon="@drawable/tool_chevron_right"
             app:contentInsetStartWithNavigation="0dp" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/activity_question_recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="always"
-            android:layoutAnimation="@anim/rec_silde_in_right"/>
 
     </LinearLayout>
 

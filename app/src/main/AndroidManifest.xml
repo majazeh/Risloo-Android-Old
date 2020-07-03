@@ -34,6 +34,7 @@
         <activity android:name=".Views.Ui.MoreActivity" />
         <activity android:name=".Views.Ui.AboutUsActivity" />
         <activity android:name=".Views.Ui.QuestionActivity" />
+        <activity android:name=".Views.Ui.CallUsActivity" />
         <activity android:name=".Views.Ui.TermsConditionsActivity" />
     </application>
 
