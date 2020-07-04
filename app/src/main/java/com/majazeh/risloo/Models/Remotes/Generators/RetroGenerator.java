@@ -12,7 +12,7 @@ public class RetroGenerator {
 
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
-            String baseUrl = "Enter Your Base Url Here";
+            String baseUrl = "http://risloo.1ghalam.ir/api/";
 
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
