@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.ViewModels.Authentication.AuthViewModel;
@@ -16,31 +17,13 @@ import org.json.JSONException;
 
 public class SampleActivity extends AppCompatActivity {
 
-    private AuthViewModel authViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
 
-        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
-        try {
-            authViewModel.start("9356032043");
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        authViewModel.auth_theory("admin@Admin#1301", "130171");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
 
-                }
-            }, 1000);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     public String checkTestUniqueId(int testUniqueId) {

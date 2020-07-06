@@ -1,8 +1,6 @@
 package com.majazeh.risloo.Models.Repositories.Authentication;
 
 import android.app.Application;
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Data;
@@ -12,7 +10,6 @@ import androidx.work.WorkManager;
 import com.majazeh.risloo.Models.Workers.AuthWorker;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 public class AuthController {
     public static String callback = "";
@@ -23,6 +20,10 @@ public class AuthController {
     public static String code = "";
     public static String token = "";
     public static String exception = "";
+    public static String work = "";
+    public static String name = "";
+    public static String gender = "";
+    public static String mobile = "";
     public static MutableLiveData<Integer> workState;
     private Application application;
 
@@ -51,6 +52,15 @@ public class AuthController {
 
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(AuthWorker.class)
                 .setInputData(data("authTheory"))
+                .build();
+        WorkManager.getInstance(application).enqueue(workRequest);
+
+    }
+
+    public void signIn() throws JSONException {
+
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(AuthWorker.class)
+                .setInputData(data("signIn"))
                 .build();
         WorkManager.getInstance(application).enqueue(workRequest);
 

@@ -31,4 +31,8 @@ public interface SampleApi {
     @FormUrlEncoded
     @POST("auth/theory/{LoginKey}")
     Call<ResponseBody> authTheory(@Header("Authorization") String authorization, @Path("LoginKey") String LoginKey, @Field("callback") String callback, @Query("password") String input, @Query("code") String coe);
+
+    @POST("register")
+    Call<ResponseBody> signIn(@Query("name") String name, @Query("gender") String gender, @Query("mobile") String mobile, @Query("password") String password);
+
 }
