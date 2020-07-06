@@ -51,8 +51,6 @@ public class QuestionActivity extends AppCompatActivity {
         adapter.setQuestion(viewModel.getAll());
 
         toolbar = findViewById(R.id.activity_question_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         recyclerView = findViewById(R.id.activity_question_recyclerView);
         recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout",(int) getResources().getDimension(R.dimen._16sdp)));

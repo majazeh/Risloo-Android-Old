@@ -35,8 +35,6 @@ public class TermsConditionsActivity extends AppCompatActivity {
 
     private void initializer() {
         toolbar = findViewById(R.id.activity_terms_conditions_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         contentTextView = findViewById(R.id.activity_terms_conditions_content_textView);
     }

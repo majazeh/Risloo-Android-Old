@@ -3,10 +3,17 @@ package com.majazeh.risloo.Utils;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 
 public class StringCustomizer {
+
+    public static SpannableString clickable(String value, int startIndex, int endIndex, ClickableSpan clickableSpan) {
+        SpannableString spannableString = new SpannableString(value);
+        spannableString.setSpan(clickableSpan, startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannableString;
+    }
 
     public static SpannableString foreground(String value, int startIndex, int endIndex, int color) {
         SpannableString spannableString = new SpannableString(value);

@@ -35,8 +35,6 @@ public class AboutUsActivity extends AppCompatActivity {
 
     private void initializer() {
         toolbar = findViewById(R.id.activity_about_us_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         nameTextView = findViewById(R.id.activity_about_us_name_textView);
         descriptionTextView = findViewById(R.id.activity_about_us_description_textView);

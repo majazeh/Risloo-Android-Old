@@ -52,8 +52,6 @@ public class MoreActivity extends AppCompatActivity {
         adapter.setMore(viewModel.getAll());
 
         toolbar = findViewById(R.id.activity_more_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         recyclerView = findViewById(R.id.activity_more_recyclerView);
         recyclerView.addItemDecoration(new ItemDecorator("gridLayout",(int) getResources().getDimension(R.dimen._32sdp)));

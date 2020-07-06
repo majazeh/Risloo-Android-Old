@@ -48,35 +48,36 @@
     ////////////////////////////////////////////////////////////////////////////////
 
     <string name="AuthSerialTitle">بررسی سریال</string>
-    <string name="AuthRegisterTitle">ورود یا عضویت</string>
-    <string name="AuthSMSTitle">تایید شماره موبایل</string>
+    <string name="AuthSerialDescription">برای شروع انجام نمونه سریال مورد نظر را وارد نمایید</string>
+    <string name="AuthSerialHint">سریال</string>
+    <string name="AuthSerialButton">بررسی</string>
+    <string name="AuthSerialLink">کاربر جدید هستید؟ ثبت نام</string>
+
+    <string name="AuthPasswordTitle">بررسی رمز عبور</string>
+    <string name="AuthPasswordDescription">رمز عبور یا شناسه خود را وارد نمایید</string>
+    <string name="AuthPasswordHint">رمز عبور</string>
+    <string name="AuthPasswordButton">تأیید</string>
+    <string name="AuthPasswordLink">رمز عبور خود فراموش کردی؟ بازیابی</string>
+
+    <string name="AuthMobileTitle">تایید شماره موبایل</string>
+    <string name="AuthMobileDescription">کد پیامکی إرسال شده به شماره را وارد نمایید</string>
+    <string name="AuthMobileHint">کد پیامکی</string>
+    <string name="AuthMobileButton">تأیید</string>
+    <string name="AuthMobileLink">کد پیامکی دریافت نکردی؟ إرسال مجدد</string>
+
     <string name="AuthPinTitle">شروع نمونه</string>
-
-    <string name="AuthSerialDescription">کاربر گرامی، برای شروع انجام نمونه لطفا سریال خود را در فیلد زیر وارد نمایید</string>
-    <string name="AuthRegisterDescription">شماره موبایل و رمز عبور در فیلد های زیر وارد نمایید</string>
-    <string name="AuthSMSDescription">کد 4 رقمی ارسال شده به 989000000000+ را در فیلد زیر وارد نمایید</string>
     <string name="AuthPinDescription">پین مربوط به نمونه را در فیلد زیر وارد نمایید</string>
+    <string name="AuthPinHint">پین</string>
+    <string name="AuthPinButton">شروع</string>
 
-    <string name="AuthRegisterNote">در صورتیکه که کاربر جدید هستید از یک رمز عبور جدید استفاده کنید</string>
-
-    <string name="AuthSerial">سریال</string>
-    <string name="AuthMobile">شماره موبایل</string>
-    <string name="AuthPassword">رمز عبور</string>
-    <string name="AuthSMS">کد 4 رقمی</string>
-    <string name="AuthPin">پین</string>
-
-    <string name="AuthCheck">بررسی</string>
-    <string name="AuthRegister">ورود / عضویت</string>
-    <string name="AuthAccept">تأیید</string>
-    <string name="AuthStart">شروع</string>
-
-    <string name="AuthSerialHelp">قبلا نمونه انجام دادی؟</string>
-    <string name="AuthRegisterHelp">رمز عبور خود فراموش کردی؟</string>
-    <string name="AuthSMSHelp">کد پیامکی دریافت نکردی؟</string>
-
-    <string name="AuthSerialAction">مشاهده بایگانی</string>
-    <string name="AuthRegisterAction">بازیابی</string>
-    <string name="AuthSMSAction">إرسال مجدد</string>
+    <string name="RegisterTitle">ثبت نام</string>
+    <string name="RegisterDescription">اطلاعات و مشخصات خود را وارد نمایید</string>
+    <string name="RegisterNameHint">نام و نام خانوادگی</string>
+    <string name="RegisterMobileHint">شماره موبایل</string>
+    <string name="RegisterManHint">مرد</string>
+    <string name="RegisterWomanHint">زن</string>
+    <string name="RegisterPasswordHint">رمز عبور</string>
+    <string name="RegisterButton">ثبت نام</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
