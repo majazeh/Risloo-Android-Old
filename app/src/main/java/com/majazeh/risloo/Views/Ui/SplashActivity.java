@@ -11,9 +11,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -22,12 +22,13 @@ import com.majazeh.risloo.Utils.WindowDecorator;
 
 public class SplashActivity extends AppCompatActivity {
 
+    // Vars
+    private String update = "";
+
     // Objects
     private Handler handler;
-    private WindowManager.LayoutParams layoutParams;
 
     // Widgets
-    private ImageView logoImageView;
     private TextView loadingTextView, versionTextView, updateDialogTitle, updateDialogDescription, updateDialogPositive, updateDialogNegative;
     private ProgressBar updatingProgressBar;
     private Dialog updateDialog;
@@ -46,7 +47,7 @@ public class SplashActivity extends AppCompatActivity {
 
         listener();
 
-        launchActivity();
+        checkContent();
     }
 
     private void decorator() {
@@ -56,8 +57,6 @@ public class SplashActivity extends AppCompatActivity {
 
     private void initializer() {
         handler = new Handler();
-
-        logoImageView = findViewById(R.id.activity_splash_logo_imageView);
 
         loadingTextView = findViewById(R.id.activity_splash_loading_textView);
         versionTextView = findViewById(R.id.activity_splash_version_textView);
@@ -71,20 +70,16 @@ public class SplashActivity extends AppCompatActivity {
         updateDialog.setContentView(R.layout.dialog_action);
         updateDialog.setCancelable(true);
 
-        layoutParams = new WindowManager.LayoutParams();
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(updateDialog.getWindow().getAttributes());
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         updateDialog.getWindow().setAttributes(layoutParams);
 
         updateDialogTitle = updateDialog.findViewById(R.id.dialog_action_title_textView);
-        updateDialogTitle.setText(getResources().getString(R.string.SplashUpdateDialogTitle));
         updateDialogDescription = updateDialog.findViewById(R.id.dialog_action_description_textView);
-        updateDialogDescription.setText(getResources().getString(R.string.SplashUpdateDialogDescription));
         updateDialogPositive = updateDialog.findViewById(R.id.dialog_action_positive_textView);
-        updateDialogPositive.setText(getResources().getString(R.string.SplashUpdateDialogPositive));
         updateDialogNegative = updateDialog.findViewById(R.id.dialog_action_negative_textView);
-        updateDialogNegative.setText(getResources().getString(R.string.SplashUpdateDialogNegative));
     }
 
     private void detector() {
@@ -96,7 +91,11 @@ public class SplashActivity extends AppCompatActivity {
 
     private void listener() {
         updateDialogPositive.setOnClickListener(v -> {
-            // TODO : Update The App In Background
+            updateDialogPositive.setClickable(false);
+            handler.postDelayed(() -> updateDialogPositive.setClickable(true), 1000);
+            updateDialog.dismiss();
+
+            updateApp();
         });
 
         updateDialogNegative.setOnClickListener(v -> {
@@ -104,14 +103,87 @@ public class SplashActivity extends AppCompatActivity {
             handler.postDelayed(() -> updateDialogNegative.setClickable(true), 1000);
             updateDialog.dismiss();
 
-            launchActivity();
+            if (update != "force") {
+                launchIntro();
+            } else {
+                finish();
+            }
         });
 
         updateDialog.setOnCancelListener(dialog -> {
             updateDialog.dismiss();
 
-            launchActivity();
+            if (update != "force") {
+                launchIntro();
+            } else {
+                finish();
+            }
         });
+    }
+
+    private void checkContent() {
+        if (newContent()) {
+            loadContent();
+        } else {
+            checkUpdate();
+        }
+    }
+
+    private boolean newContent() {
+        // TODO : Check The Server For New Content For Our Samples Or New Samples And Return The Answer
+        return false;
+    }
+
+    private void loadContent() {
+        loadingTextView.setVisibility(View.VISIBLE);
+        // TODO : Load Our Samples Content Or Add New Samples And Then Call checkUpdate();
+        loadingTextView.setVisibility(View.INVISIBLE);
+        checkUpdate();
+    }
+
+    private void checkUpdate() {
+        if (newUpdate()) {
+            if (forceUpdate()) {
+                updateDialogTitle.setText(newVersion());
+                updateDialogDescription.setText(getResources().getString(R.string.SplashUpdateDialogForceDescription));
+                updateDialogPositive.setText(getResources().getString(R.string.SplashUpdateDialogForcePositive));
+                updateDialogNegative.setText(getResources().getString(R.string.SplashUpdateDialogForceNegative));
+
+                updateDialog.show();
+
+                update = "force";
+            } else {
+                updateDialogTitle.setText(newVersion());
+                updateDialogDescription.setText(getResources().getString(R.string.SplashUpdateDialogNotForceDescription));
+                updateDialogPositive.setText(getResources().getString(R.string.SplashUpdateDialogNotForcePositive));
+                updateDialogNegative.setText(getResources().getString(R.string.SplashUpdateDialogNotForceNegative));
+
+                updateDialog.show();
+
+                update = "notForce";
+            }
+        } else {
+            launchIntro();
+        }
+    }
+
+    private boolean newUpdate() {
+        // TODO : Check The Server For New Version For Our App
+        return false;
+    }
+
+    private boolean forceUpdate() {
+        // TODO : Check IF Our Update Is Force Or Not
+        return false;
+    }
+
+    private void updateApp() {
+        updatingProgressBar.setVisibility(View.VISIBLE);
+        versionTextView.setText(getResources().getString(R.string.SplashIsUpdating));
+        // TODO : Update Our App And Launch Intro When Finished
+        updatingProgressBar.setVisibility(View.INVISIBLE);
+        versionTextView.setText(newVersion());
+        launchIntro();
     }
 
     private String appVersion() {
@@ -123,7 +195,12 @@ public class SplashActivity extends AppCompatActivity {
         } return null;
     }
 
-    private void launchActivity() {
+    private String newVersion() {
+        // TODO : Get The New Version From Server And Return It
+        return getResources().getString(R.string.SplashVersion) + " " + "1.1.0" + " " + getResources().getString(R.string.SplashArrived);
+    }
+
+    private void launchIntro() {
         handler.postDelayed(() -> {
             startActivity(new Intent(this, IntroActivity.class));
             finish();

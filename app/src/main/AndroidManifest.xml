@@ -21,22 +21,22 @@
         android:theme="@style/AppTheme"
         tools:ignore="UnusedAttribute">
 
-        <activity android:name=".Views.Ui.SplashActivity" android:theme="@style/LauncherTheme" >
+        <activity android:name=".Views.Ui.SplashActivity" android:theme="@style/LauncherTheme" android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Views.Ui.IntroActivity" android:theme="@style/TransparentTheme" />
-        <activity android:name=".Views.Ui.AuthActivity" />
-        <activity android:name=".Views.Ui.SampleActivity" />
-        <activity android:name=".Views.Ui.OutroActivity" />
-        <activity android:name=".Views.Ui.MoreActivity" />
-        <activity android:name=".Views.Ui.AboutUsActivity" />
-        <activity android:name=".Views.Ui.QuestionActivity" />
-        <activity android:name=".Views.Ui.CallUsActivity" />
-        <activity android:name=".Views.Ui.TermsConditionsActivity" />
+        <activity android:name=".Views.Ui.IntroActivity" android:theme="@style/TransparentTheme" android:screenOrientation="portrait" />
+        <activity android:name=".Views.Ui.AuthActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Views.Ui.SampleActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Views.Ui.OutroActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Views.Ui.MoreActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Views.Ui.AboutUsActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Views.Ui.QuestionActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Views.Ui.CallUsActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Views.Ui.TermsConditionsActivity" android:screenOrientation="portrait" />
     </application>
 
 </manifest>

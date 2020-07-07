@@ -47,11 +47,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0" // Extensions
     implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0" // Lifecycle Annotation processor
 
-    implementation "androidx.room:room-runtime:2.2.5" // Room
-    annotationProcessor "androidx.room:room-compiler:2.2.5" // Room Annotation Processor
-
-    implementation "androidx.paging:paging-runtime:2.1.2" // Paging
-
     implementation 'androidx.work:work-runtime:2.3.4' // WorkManager
 
     implementation 'de.hdodenhof:circleimageview:3.1.0' // CircleImageView

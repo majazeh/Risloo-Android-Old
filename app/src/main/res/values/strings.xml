@@ -13,15 +13,19 @@
     // splash strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="SplashLoading">در حال بارگذاری. لطفا منتظر بمانید …</string>
-
     <string name="SplashVersion">نسخه</string>
-    <string name="SplashUpdating">در حال به روز رسانی</string>
+    <string name="SplashArrived">رسید</string>
 
-    <string name="SplashUpdateDialogTitle">نسخه 1.1.0 آماده است</string>
-    <string name="SplashUpdateDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
-    <string name="SplashUpdateDialogPositive">به روز رسانی</string>
-    <string name="SplashUpdateDialogNegative">کار با این نسخه</string>
+    <string name="SplashIsUpdating">در حال به روز رسانی</string>
+    <string name="SplashIsLoading">در حال بارگذاری نمونه های جدید</string>
+
+    <string name="SplashUpdateDialogForceDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="SplashUpdateDialogForcePositive">به روز رسانی</string>
+    <string name="SplashUpdateDialogForceNegative">خروج از برنامه</string>
+
+    <string name="SplashUpdateDialogNotForceDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="SplashUpdateDialogNotForcePositive">به روز رسانی</string>
+    <string name="SplashUpdateDialogNotForceNegative">کار با این نسخه</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
