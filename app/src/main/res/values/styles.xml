@@ -11,6 +11,7 @@
 
         <item name="android:fontFamily">@font/dana</item>
         <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
+        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
     </style>
 
     <style name="LauncherTheme" parent="AppTheme">
@@ -65,6 +66,19 @@
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/fade_in</item>
         <item name="android:windowExitAnimation">@anim/fade_out</item>
+    </style>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // bottomSheetDialog theme
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetDialogModal</item>
+    </style>
+
+    <style name="BottomSheetDialogModal" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/draw_16sdp_top_white</item>
     </style>
 
     ////////////////////////////////////////////////////////////////////////////////

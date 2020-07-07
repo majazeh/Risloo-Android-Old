@@ -20,6 +20,7 @@ import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Views.Ui.AboutUsActivity;
 import com.majazeh.risloo.Views.Ui.CallUsActivity;
+import com.majazeh.risloo.Views.Ui.MoreActivity;
 import com.majazeh.risloo.Views.Ui.QuestionActivity;
 import com.majazeh.risloo.Views.Ui.TermsConditionsActivity;
 
@@ -82,6 +83,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
 
     public void doWork(int position) {
         IntentCaller intentCaller = new IntentCaller();
+        SocialBottomSheetDialog bottomSheet = new SocialBottomSheetDialog(activity);
 
         switch (position) {
             case 0:
@@ -97,7 +99,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
                 activity.startActivity(new Intent(activity, TermsConditionsActivity.class));
                 break;
             case 4:
-
+                bottomSheet.show(((MoreActivity)activity).getSupportFragmentManager(), "socialBottomSheet");
                 break;
             case 5:
                 intentCaller.share(activity, activity.getResources().getString(R.string.MoreShareLink), activity.getResources().getString(R.string.MoreShareChooser));

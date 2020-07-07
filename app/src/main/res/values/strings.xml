@@ -132,6 +132,18 @@
     <string name="MoreShareLink">ApplicationLink</string>
     <string name="MoreShareChooser">اشتراک گذاری برنامه</string>
 
+    <string name="MoreFollowTelegram">uxitten</string>
+    <string name="MoreFollowInstagram">80829078894</string>
+    <string name="MoreFollowFacebook">plaza_semanggi</string>
+    <string name="MoreFollowTwitter">#plazasemanggi</string>
+
+    <string name="MoreFollowDialogTitle">ما را در شبکه های اجتماعی دنبال کنید</string>
+    <string name="MoreFollowDialogTelegram">تلگرام</string>
+    <string name="MoreFollowDialogInstagram">اینستگرام</string>
+    <string name="MoreFollowDialogFacebook">فیسبوک</string>
+    <string name="MoreFollowDialogTwitter">توییتر</string>
+    <string name="MoreFollowDialogClose">بستن</string>
+
     <string name="MoreVersion">نسخه</string>
     <string name="MoreUpdate">به روز رسانی</string>
 
