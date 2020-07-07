@@ -16,8 +16,8 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/_24sdp"
         android:paddingBottom="@dimen/_18sdp"
-        android:paddingLeft="@dimen/_8sdp"
-        android:paddingRight="@dimen/_8sdp"
+        android:paddingLeft="@dimen/_6sdp"
+        android:paddingRight="@dimen/_6sdp"
         android:gravity="center"
         android:orientation="vertical"
         android:background="@color/Snow">

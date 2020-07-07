@@ -23,7 +23,6 @@ public class OutroActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
-    private WindowManager.LayoutParams layoutParams;
 
     // Widgets
     private Button internetButton, smsButton, downloadButton, laterButton;
@@ -76,7 +75,7 @@ public class OutroActivity extends AppCompatActivity {
         outroDialog.setContentView(R.layout.dialog_action);
         outroDialog.setCancelable(true);
 
-        layoutParams = new WindowManager.LayoutParams();
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(outroDialog.getWindow().getAttributes());
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;

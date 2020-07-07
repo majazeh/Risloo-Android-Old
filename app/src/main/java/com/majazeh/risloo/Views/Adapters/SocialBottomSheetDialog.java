@@ -24,9 +24,11 @@ import com.majazeh.risloo.Utils.IntentCaller;
 
 public class SocialBottomSheetDialog extends BottomSheetDialogFragment {
 
+    private IntentCaller intentCaller;
+
     private Activity activity;
     private Handler handler;
-    private IntentCaller intentCaller;
+
     private LinearLayout telegramLinearLayout, instagramLinearLayout, facebookLinearLayout, twitterLinearLayout;
     private TextView closeTextView;
 

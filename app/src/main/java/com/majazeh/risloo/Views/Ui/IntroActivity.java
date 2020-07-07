@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -27,6 +28,7 @@ public class IntroActivity extends AppCompatActivity {
     private IntroAdapter adapter;
 
     // Objects
+    private Handler handler;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -40,7 +42,7 @@ public class IntroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (firstTimeLaunch()) {
-            launchActivity();
+            launchAuth();
         } else {
             decorator();
 
@@ -70,6 +72,8 @@ public class IntroActivity extends AppCompatActivity {
         adapter = new IntroAdapter(this);
         adapter.setLayout(layouts);
 
+        handler = new Handler();
+
         rtlViewPager = findViewById(R.id.activity_intro_rtlViewPager);
         rtlViewPager.setAdapter(adapter);
 
@@ -81,17 +85,23 @@ public class IntroActivity extends AppCompatActivity {
 
     private void listener() {
         nextTextView.setOnClickListener(v -> {
+            nextTextView.setClickable(false);
+            handler.postDelayed(() -> nextTextView.setClickable(true), 500);
+
             int currentPage = rtlViewPager.getCurrentItem() + 1;
 
             if (currentPage < layouts.length) {
                 rtlViewPager.setCurrentItem(currentPage);
             } else {
-                launchActivity();
+                launchAuth();
             }
         });
 
         skipTextView.setOnClickListener(v -> {
-            launchActivity();
+            skipTextView.setClickable(false);
+            handler.postDelayed(() -> skipTextView.setClickable(true), 1000);
+
+            launchAuth();
         });
 
         rtlViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -147,7 +157,7 @@ public class IntroActivity extends AppCompatActivity {
         return !sharedPreferences.getBoolean("firstTimeLaunch", true);
     }
 
-    private void launchActivity() {
+    private void launchAuth() {
         editor.putBoolean("firstTimeLaunch", false);
         editor.apply();
 

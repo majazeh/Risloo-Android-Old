@@ -33,14 +33,14 @@
     ////////////////////////////////////////////////////////////////////////////////
 
     <string name="IntroTitle1">ریسلو</string>
-    <string name="IntroTitle2">درمان</string>
-    <string name="IntroTitle3">آموزش</string>
-    <string name="IntroTitle4">پژوهش</string>
+    <string name="IntroTitle2">آزمون‌</string>
+    <string name="IntroTitle3">اداره مراکز درمانی</string>
+    <string name="IntroTitle4">همیار پژوهش و آموزش</string>
 
-    <string name="IntroDescription1">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
-    <string name="IntroDescription2">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
-    <string name="IntroDescription3">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
-    <string name="IntroDescription4">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="IntroDescription1">بستری یک‌پارچه که کارهای روان‌شناس را در سه حوزه درمان، آموزش و پژوهش تسهیل می‌کند.</string>
+    <string name="IntroDescription2">آزمون روان‌شناختی مورد نیاز خود را انتخاب کنید و به آسانی آن را اجرا کرده، نمره‌گذاری و تفسیر آن را در اختیار داشته باشید.</string>
+    <string name="IntroDescription3">برنامه‌ریزی‌ کارهای مراکز درمانی خود را با ریسلو انجام داده و دغدغه آن‌ها را نداشته باشید.</string>
+    <string name="IntroDescription4">کارهای  پژوهشی و علمی خود را به راحتی در بستری یک‌پارچه ساماندهی کنید.</string>
 
     <string name="IntroNext">بعدی</string>
     <string name="IntroSkip">رد شدن</string>
@@ -148,6 +148,9 @@
     <string name="MoreShare">اشتراک گذاری</string>
     <string name="MoreRate">نظرسنجی</string>
 
+    <string name="MoreVersion">نسخه</string>
+    <string name="MoreUpdate">به روز رسانی</string>
+
     <string name="MoreShareLink">ApplicationLink</string>
     <string name="MoreShareChooser">اشتراک گذاری برنامه</string>
 
@@ -163,8 +166,12 @@
     <string name="MoreFollowDialogTwitter">توییتر</string>
     <string name="MoreFollowDialogClose">بستن</string>
 
-    <string name="MoreVersion">نسخه</string>
-    <string name="MoreUpdate">به روز رسانی</string>
+    <string name="MoreNoUpdateDialogDescription">شما آخرین نسخه ریسلو را دارید. در صورت وجود نسخه جدید به شما اطلاع داده خواهد شد.</string>
+    <string name="MoreNoUpdateDialogClose">بستن</string>
+
+    <string name="MoreAvailableUpdateDialogDescription">برای استفاده بهتر از ریسلو لطفا بروز رسانی کنید. همیشه در تلاشیم که بهترین خدمات به شما إرائه دهیم.</string>
+    <string name="MoreAvailableUpdateDialogPositive">به روز رسانی</string>
+    <string name="MoreAvailableUpdateDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
