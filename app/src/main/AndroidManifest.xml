@@ -31,6 +31,7 @@
         <activity android:name=".Views.Ui.IntroActivity" android:theme="@style/TransparentTheme" />
         <activity android:name=".Views.Ui.AuthActivity" />
         <activity android:name=".Views.Ui.SampleActivity" />
+        <activity android:name=".Views.Ui.OutroActivity" />
         <activity android:name=".Views.Ui.MoreActivity" />
         <activity android:name=".Views.Ui.AboutUsActivity" />
         <activity android:name=".Views.Ui.QuestionActivity" />

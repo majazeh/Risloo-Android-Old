@@ -21,6 +21,7 @@ import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Views.Ui.AboutUsActivity;
 import com.majazeh.risloo.Views.Ui.CallUsActivity;
 import com.majazeh.risloo.Views.Ui.MoreActivity;
+import com.majazeh.risloo.Views.Ui.OutroActivity;
 import com.majazeh.risloo.Views.Ui.QuestionActivity;
 import com.majazeh.risloo.Views.Ui.TermsConditionsActivity;
 
@@ -108,7 +109,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
                 intentCaller.rate(activity);
                 break;
             case 7:
-
+                activity.startActivity(new Intent(activity, OutroActivity.class));
                 break;
         }
     }

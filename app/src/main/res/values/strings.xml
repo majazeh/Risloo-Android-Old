@@ -94,10 +94,25 @@
 
     <string name="OutroDescription">برای اطلاع دادن ریسلو از وضعیت نمونه شما لازم است که فایل نمونه را بصورت إنترنتی یا پیامکی إرسال نمایید.</string>
 
-    <string name="OutroSendWithInternet">إرسال إینترنتی نمونه به ریسلو</string>
-    <string name="OutroSendWithSMS">إرسال پیامکی نمونه به ریسلو</string>
+    <string name="OutroInternet">إرسال إینترنتی نمونه به ریسلو</string>
+    <string name="OutroSMS">إرسال پیامکی نمونه به ریسلو</string>
     <string name="OutroDownload">دریافت فایل نمونه</string>
     <string name="OutroLater">بعدن إرسال کنم</string>
+
+    <string name="OutroInternetDialogTitle">إرسال إینترنتی</string>
+    <string name="OutroInternetDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="OutroInternetDialogPositive">إرسال</string>
+    <string name="OutroInternetDialogNegative">بستن</string>
+
+    <string name="OutroSMSDialogTitle">إرسال پیامکی</string>
+    <string name="OutroSMSDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="OutroSMSDialogPositive">إرسال</string>
+    <string name="OutroSMSDialogNegative">بستن</string>
+
+    <string name="OutroDownloadDialogTitle">دریافت فایل</string>
+    <string name="OutroDownloadDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="OutroDownloadDialogPositive">دریافت</string>
+    <string name="OutroDownloadDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
