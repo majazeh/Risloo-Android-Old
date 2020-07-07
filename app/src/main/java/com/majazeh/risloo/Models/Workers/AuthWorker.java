@@ -91,6 +91,7 @@ public class AuthWorker extends Worker {
                 AuthController.token = object.getString("token");
             else
                 AuthController.token = "";
+            AuthController.exception = "";
             AuthController.workState.postValue(1);
         } else {
             AuthController.workState.postValue(0);
@@ -125,8 +126,8 @@ public class AuthWorker extends Worker {
                 AuthController.token = object.getString("token");
             else
                 AuthController.token = "";
+            AuthController.exception = "";
             AuthController.workState.postValue(1);
-
         } else {
             AuthController.workState.postValue(0);
             AuthController.exception = bodyResponse.message();
@@ -156,8 +157,8 @@ public class AuthWorker extends Worker {
                 AuthController.token = object.getString("token");
             else
                 AuthController.token = "";
+            AuthController.exception = "";
             AuthController.workState.postValue(1);
-
         } else {
             AuthController.workState.postValue(0);
             AuthController.exception = bodyResponse.message();

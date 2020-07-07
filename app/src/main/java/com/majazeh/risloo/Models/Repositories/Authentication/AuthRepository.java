@@ -18,12 +18,14 @@ public class AuthRepository extends MainRepository {
     }
 
     public void auth(String authorized_key) throws JSONException {
+        AuthController.workState.setValue(-1);
         controller.authorized_key = authorized_key;
         controller.work = "auth";
         controller.auth();
     }
 
     public void auth_theory(String password, String code) throws JSONException {
+        AuthController.workState.setValue(-1);
         controller.password = password;
         controller.code = code;
         controller.work = "authTheory";
@@ -32,6 +34,7 @@ public class AuthRepository extends MainRepository {
     }
 
     public void signIn(String name, String gender, String mobile, String password) throws JSONException {
+        AuthController.workState.setValue(-1);
         controller.name = name;
         controller.gender = gender;
         controller.mobile = mobile;
@@ -41,11 +44,6 @@ public class AuthRepository extends MainRepository {
         checkState();
     }
 
-    public void start(String authorized_key) throws JSONException {
-        controller.authorized_key = authorized_key;
-        controller.auth();
-        checkState();
-    }
 
     public void checkState() {
         controller.workState().observeForever(integer -> {
@@ -116,16 +114,13 @@ public class AuthRepository extends MainRepository {
         JSONObject items = new JSONObject();
 
         switch (step){
-            case "serial":
+            case "auth":
                 items = serialItems();
                 break;
             case "password":
                 items = passwordItems();
                 break;
-            case "mobile":
-                items = mobileItems();
-                break;
-            case "pin":
+            case "mobileCode":
                 items = pinItems();
                 break;
         } return items;

@@ -14,7 +14,7 @@ import org.json.JSONException;
 public class AuthController {
     public static String callback = "";
     public static String key = "";
-    public static String theory = "";
+    public static String theory = "auth";
     public static String authorized_key = "";
     public static String password = "";
     public static String code = "";

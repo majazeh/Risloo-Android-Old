@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.ImageViewCompat;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
@@ -17,6 +19,7 @@ import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -25,8 +28,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
+import com.majazeh.risloo.Models.Repositories.Authentication.AuthController;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -41,7 +46,7 @@ public class AuthActivity extends AppCompatActivity {
     private AuthViewModel viewModel;
 
     // Vars
-    private String input, name, mobile, gender = "man", password, previousStep = "none", currentStep = "serial";
+    private String input, name, mobile, gender = "male", password, previousStep = "none", currentStep = "serial";
     private boolean inputTouch, inputError, nameTouch, nameError, mobileTouch, mobileError, passwordTouch, passwordError, passwordVisibility;
 
     // Objects
@@ -71,7 +76,7 @@ public class AuthActivity extends AppCompatActivity {
 
         listener();
 
-        launchStep(viewModel.getStep(currentStep));
+        launchStep(viewModel.getStep());
     }
 
     private void decorator() {
@@ -121,7 +126,7 @@ public class AuthActivity extends AppCompatActivity {
         titleToolbar.setNavigationOnClickListener(v -> startActivity(new Intent(this, MoreActivity.class)));
 
         authInputEditText.setOnTouchListener((v, event) -> {
-            if(MotionEvent.ACTION_UP == event.getAction()) {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
                 authInputEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
                 authInputEditText.setCursorVisible(true);
 
@@ -132,7 +137,7 @@ public class AuthActivity extends AppCompatActivity {
         });
 
         registerNameEditText.setOnTouchListener((v, event) -> {
-            if(MotionEvent.ACTION_UP == event.getAction()) {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
                 registerNameEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
                 registerNameEditText.setCursorVisible(true);
 
@@ -145,19 +150,21 @@ public class AuthActivity extends AppCompatActivity {
                     registerMobileEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
                 } else {
                     registerMobileEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-                } mobileTouch = false;
+                }
+                mobileTouch = false;
 
                 if (passwordError) {
                     registerPasswordEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
                 } else {
                     registerPasswordEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-                } passwordTouch = false;
+                }
+                passwordTouch = false;
             }
             return false;
         });
 
         registerMobileEditText.setOnTouchListener((v, event) -> {
-            if(MotionEvent.ACTION_UP == event.getAction()) {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
                 registerMobileEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
                 registerMobileEditText.setCursorVisible(true);
 
@@ -170,19 +177,21 @@ public class AuthActivity extends AppCompatActivity {
                     registerPasswordEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
                 } else {
                     registerPasswordEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-                } passwordTouch = false;
+                }
+                passwordTouch = false;
 
                 if (nameError) {
                     registerNameEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
                 } else {
                     registerNameEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-                } nameTouch = false;
+                }
+                nameTouch = false;
             }
             return false;
         });
 
         registerPasswordEditText.setOnTouchListener((v, event) -> {
-            if(MotionEvent.ACTION_UP == event.getAction()) {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
                 registerPasswordEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
                 registerPasswordEditText.setCursorVisible(true);
 
@@ -197,13 +206,15 @@ public class AuthActivity extends AppCompatActivity {
                     registerNameEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
                 } else {
                     registerNameEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-                } nameTouch = false;
+                }
+                nameTouch = false;
 
                 if (mobileError) {
                     registerMobileEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
                 } else {
                     registerMobileEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-                } mobileTouch = false;
+                }
+                mobileTouch = false;
             }
             return false;
         });
@@ -218,7 +229,7 @@ public class AuthActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (registerPasswordEditText.length() == 0) {
                     registerPasswordImageView.setVisibility(View.INVISIBLE);
-                } else if (registerPasswordEditText.length() == 1){
+                } else if (registerPasswordEditText.length() == 1) {
                     registerPasswordImageView.setVisibility(View.VISIBLE);
                 }
             }
@@ -234,10 +245,10 @@ public class AuthActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0:
-                        gender = "man";
+                        gender = "male";
                         break;
                     case 1:
-                        gender = "woman";
+                        gender = "female";
                         break;
                 }
             }
@@ -274,29 +285,8 @@ public class AuthActivity extends AppCompatActivity {
                 checkInput("auth");
             } else {
                 clearData("auth");
+                checkState();
 
-                switch (currentStep){
-                    case "serial":
-                        previousStep = "serial";
-                        currentStep = "password";
-                        launchStep(viewModel.getStep(currentStep));
-                        break;
-                    case "password":
-                        previousStep = "password";
-                        currentStep = "pin";
-                        launchStep(viewModel.getStep(currentStep));
-                        break;
-                    case "mobile":
-                        previousStep = "mobile";
-                        currentStep = "pin";
-                        launchStep(viewModel.getStep(currentStep));
-                        break;
-                    case "pin":
-                        previousStep = "pin";
-                        currentStep = "sample";
-                        launchSample();
-                        break;
-                }
             }
         });
 
@@ -310,10 +300,21 @@ public class AuthActivity extends AppCompatActivity {
             } else {
                 clearData("register");
 
-                previousStep = "register";
-                currentStep = "mobile";
-                showAuth();
-                launchStep(viewModel.getStep(currentStep));
+                try {
+                    viewModel.signIn(name, gender, mobile, password);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                AuthController.workState.observe((LifecycleOwner) this, integer -> {
+                    if (AuthController.workState.getValue() == 1) {
+                        previousStep = "register";
+                        currentStep = "mobile";
+                        showAuth();
+                        launchStep(viewModel.getStep());
+                    } else {
+                        // TODO: handle error with AuthController.exception
+                    }
+                });
             }
         });
 
@@ -519,29 +520,99 @@ public class AuthActivity extends AppCompatActivity {
         startActivity(new Intent(this, SampleActivity.class));
     }
 
+    private void checkState() {
+        // TODO: start loading
+        switch (AuthController.theory) {
+            case "auth":
+                try {
+                    viewModel.auth(input);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                AuthController.workState.observe((LifecycleOwner) this, integer -> {
+                    if (AuthController.workState.getValue() == 1) {
+                        previousStep = "serial";
+                        currentStep = "password";
+                        if (AuthController.theory.equals(""))
+                            launchSample();
+                        else
+                            launchStep(viewModel.getStep());
+                        // TODO: end loading
+                    } else {
+                        AuthController.workState.removeObservers((LifecycleOwner) this);
+                        // TODO: handle error with AuthController.exception
+                        Log.e("listener: ", "error");
+                    }
+                });
+                break;
+            case "password":
+                try {
+                    viewModel.auth_theory(input, "");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                AuthController.workState.observe((LifecycleOwner) this, integer -> {
+                    if (AuthController.workState.getValue() == 1) {
+                        previousStep = "serial";
+                        currentStep = "password";
+                        if (AuthController.theory.equals(""))
+                            launchSample();
+                        else
+                            launchStep(viewModel.getStep());
+                        // TODO: end loading
+                    } else {
+                        AuthController.workState.removeObservers((LifecycleOwner) this);
+                        // TODO: handle error with AuthController.exception
+                        Log.e("listener: ", "error");
+                    }
+                });
+                break;
+            case "mobileCode":
+                try {
+                    viewModel.auth_theory("", input);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                AuthController.workState.observe((LifecycleOwner) this, integer -> {
+                    if (AuthController.workState.getValue() == 1) {
+                        previousStep = "serial";
+                        currentStep = "password";
+                        if (AuthController.theory.equals(""))
+                            launchSample();
+                        else
+                            launchStep(viewModel.getStep());
+                        // TODO: end loading
+                    } else {
+                        AuthController.workState.removeObservers((LifecycleOwner) this);
+                        // TODO: handle error with AuthController.exception
+                        Log.e("listener: ", "error");
+                    }
+                });
+                break;
+
+        }
+
+
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-
-        if ("sample".equals(currentStep)) {
-            previousStep = "none";
-            currentStep = "serial";
-            launchStep(viewModel.getStep(currentStep));
-        }
+        // TODO: back process
     }
 
     @Override
     public void onBackPressed() {
-        switch (currentStep){
+        switch (AuthController.theory) {
             case "pin":
                 if (previousStep == "mobile") {
                     previousStep = "none";
                     currentStep = "serial";
-                    launchStep(viewModel.getStep(currentStep));
+                    launchStep(viewModel.getStep());
                 } else if (previousStep == "password") {
                     previousStep = "serial";
                     currentStep = "password";
-                    launchStep(viewModel.getStep(currentStep));
+                    launchStep(viewModel.getStep());
                 }
                 break;
             case "mobile":
@@ -554,7 +625,7 @@ public class AuthActivity extends AppCompatActivity {
                 previousStep = "none";
                 currentStep = "serial";
                 showAuth();
-                launchStep(viewModel.getStep(currentStep));
+                launchStep(viewModel.getStep());
                 break;
             case "serial":
                 finish();
