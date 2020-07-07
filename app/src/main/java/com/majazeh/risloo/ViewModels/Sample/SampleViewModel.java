@@ -4,6 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
 
 import com.majazeh.risloo.Entities.Sample;
 import com.majazeh.risloo.Models.Repositories.Sample.SampleRepository;
@@ -28,9 +29,9 @@ public class SampleViewModel extends AndroidViewModel {
         repository.insertToLocalData(item, answer);
     }
 
-    public void insertToRemoteData(int item, int answer) {
-        repository.insertToRemoteData(item, answer);
-    }
+//    public void insertToRemoteData(int item, int answer) {
+//        repository.insertToRemoteData(item, answer);
+//    }
 
     public void insertRemoteDataToLocalData() {
         repository.insertRemoteDataToLocalData();
@@ -52,13 +53,13 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.loadFromCSV(fileName);
     }
 
-    public ArrayList getLocalData(){
-        return repository.items().localData();
-    }
+//    public ArrayList getLocalData(){
+//        return repository.items().localData();
+//    }
 
-    public ArrayList getRemoteData(){
-        return repository.items().remoteData();
-    }
+   // public ArrayList getRemoteData(){
+//        return repository.items().remoteData();
+//    }
 
     public String getTitle() throws JSONException {
         return repository.json().getString("title");
@@ -106,6 +107,21 @@ public class SampleViewModel extends AndroidViewModel {
 
     public int getSize() {
         return repository.items().size();
+    }
+
+    public MutableLiveData<ArrayList<ArrayList<Integer>>> getLocalData(){
+        return repository.localData();
+    }
+    public ArrayList<ArrayList<Integer>> getRemoteData(){
+        return repository.remoteData();
+    }
+
+    public boolean inProgress(){
+        return repository.inProgress;
+    }
+
+    public void process() throws JSONException {
+        repository.process();
     }
 
 }

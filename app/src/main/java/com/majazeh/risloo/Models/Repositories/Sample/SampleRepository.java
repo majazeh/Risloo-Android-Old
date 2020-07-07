@@ -4,9 +4,14 @@ import android.app.Application;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.majazeh.risloo.Models.Remotes.Generators.JsonGenerator;
 import com.majazeh.risloo.Models.Repositories.MainRepository;
+import com.majazeh.risloo.Models.Workers.AuthWorker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 public class SampleRepository extends MainRepository {
 
@@ -26,6 +32,9 @@ public class SampleRepository extends MainRepository {
     private JSONObject sampleJson;
     private SampleItems sampleItems;
     private SampleController sampleController;
+    public static boolean inProgress = false;
+    public static MutableLiveData<ArrayList<ArrayList<Integer>>> localData = new MutableLiveData<>();
+    public static ArrayList<ArrayList<Integer>> remoteData = new ArrayList<>();
 
     public SampleRepository(@NonNull Application application, String testUniqueId) throws JSONException {
         super(application);
@@ -36,17 +45,52 @@ public class SampleRepository extends MainRepository {
         sampleItems = new SampleItems(sampleJson.getJSONArray("items"));
     }
 
+
+
     public void insertToLocalData(int item, int answer) {
-        sampleItems.insertToLocalData(item, answer);
+        ArrayList arrayList = new ArrayList();
+        arrayList.add(item);
+        arrayList.add(answer);
+
+        localData.setValue(arrayList);
     }
 
     public void insertToRemoteData(int item, int answer) {
-        sampleItems.insertToRemoteData(item, answer);
+        ArrayList arrayList = new ArrayList();
+        arrayList.add(item);
+        arrayList.add(answer);
+
+        remoteData.add(arrayList);
     }
 
     public void insertRemoteDataToLocalData() {
-        sampleItems.insertRemoteDataToLocalData();
+        for (int i = 0; i < remoteData.size(); i++) {
+            ArrayList arrayList = new ArrayList();
+            arrayList.add(remoteData.get(i));
+
+            localData.setValue(arrayList);
+        }
+        remoteData.clear();
     }
+
+    public void insertLocalDataToRemoteData() {
+        for (int i = 0; i < localData.getValue().size(); i++) {
+            ArrayList arrayList = new ArrayList();
+            arrayList.add(localData.getValue().get(i));
+
+            remoteData.add(arrayList);
+        }
+        localData.getValue().clear();
+    }
+
+    public MutableLiveData<ArrayList<ArrayList<Integer>>> localData() {
+        return localData;
+    }
+
+    public ArrayList remoteData() {
+        return remoteData;
+    }
+
 
     public void writeToCache(JSONArray jsonArray, String fileName) {
         try {
@@ -117,6 +161,23 @@ public class SampleRepository extends MainRepository {
 
     public SampleItems items() {
         return sampleItems;
+    }
+
+    public void process() throws JSONException {
+        if (remoteData().size() == 0){
+            insertLocalDataToRemoteData();
+            inProgress = true;
+            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(AuthWorker.class)
+                    .setInputData(data("sendAnswers"))
+                    .build();
+            WorkManager.getInstance(application).enqueue(workRequest);
+            localData().getValue().clear();
+        }
+    }
+    private Data data(String work) throws JSONException {
+        return new Data.Builder()
+                .putString("work", work)
+                .build();
     }
 
 }
