@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ItemDecorator extends RecyclerView.ItemDecoration {
 
+    // Vars
     private String layoutManager;
     private int margin;
 

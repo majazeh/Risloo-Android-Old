@@ -6,7 +6,7 @@
 
     <string name="AppName">ریسلو</string>
 
-    <string name="ApiKey">place api key here</string>
+    <string name="ApiKey">Api Key</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -16,8 +16,7 @@
     <string name="SplashVersion">نسخه</string>
     <string name="SplashArrived">رسید</string>
 
-    <string name="SplashIsUpdating">در حال به روز رسانی</string>
-    <string name="SplashIsLoading">در حال بارگذاری نمونه های جدید</string>
+    <string name="SplashIsUpdating">در حال بارگذاری نمونه های جدید</string>
 
     <string name="SplashUpdateDialogForceDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
     <string name="SplashUpdateDialogForcePositive">به روز رسانی</string>
@@ -149,6 +148,7 @@
     <string name="MoreRate">نظرسنجی</string>
 
     <string name="MoreVersion">نسخه</string>
+    <string name="MoreArrived">رسید</string>
     <string name="MoreUpdate">به روز رسانی</string>
 
     <string name="MoreShareLink">ApplicationLink</string>

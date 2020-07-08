@@ -10,8 +10,11 @@ import androidx.viewpager.widget.PagerAdapter;
 
 public class IntroAdapter extends PagerAdapter {
 
-    private Activity activity;
+    // Vars
     private int[] layouts;
+
+    // Object
+    private Activity activity;
 
     public IntroAdapter(Activity activity) {
         this.activity = activity;

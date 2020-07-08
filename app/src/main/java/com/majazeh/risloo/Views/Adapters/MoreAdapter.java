@@ -37,13 +37,18 @@ import java.util.ArrayList;
 
 public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
 
+    // Class
     private IntentCaller intentCaller;
     private SocialBottomSheetDialog bottomSheet;
 
-    private Activity activity;
-    private Handler handler;
+    // Vars
     private ArrayList<More> mores;
 
+    // Objects
+    private Activity activity;
+    private Handler handler;
+
+    // Widgets
     private TextView noUpdateDialogTitle, noUpdateDialogDescription, noUpdateDialogConfirm, availableUpdateDialogTitle, availableUpdateDialogDescription, availableUpdateDialogPositive, availableUpdateDialogNegative;
     private Dialog noUpdateDialog, availableUpdateDialog;
 
@@ -57,10 +62,6 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
         View view = LayoutInflater.from(activity).inflate(R.layout.activity_more_single_item, viewGroup, false);
 
         initializer();
-
-        detector();
-
-        listener();
 
         return new MoreHolder(view);
     }
@@ -78,8 +79,10 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
             } else {
                 if (newUpdate()) {
                     holder.titleTextView.setText(activity.getResources().getString(R.string.MoreUpdate));
+                    holder.updateTextView.setVisibility(View.VISIBLE);
                 } else {
-                    holder.titleTextView.setText(activity.getResources().getString(R.string.MoreVersion) + " " +  appVersion());
+                    holder.titleTextView.setText(appVersion());
+                    holder.updateTextView.setVisibility(View.INVISIBLE);
                 }
             }
             holder.avatarImageView.setImageDrawable((Drawable) mores.get(i).get("image"));
@@ -92,8 +95,6 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
             handler.postDelayed(() -> holder.itemView.setClickable(true), 1000);
 
             doWork(i);
-
-            notifyDataSetChanged();
         });
 
     }
@@ -101,6 +102,13 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
     @Override
     public int getItemCount() {
         return mores.size();
+    }
+
+    private void initializer() {
+        intentCaller = new IntentCaller();
+        bottomSheet = new SocialBottomSheetDialog(activity);
+
+        handler = new Handler();
     }
 
     public void setMore(ArrayList<More> mores) {
@@ -129,25 +137,26 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
                 intentCaller.share(activity, activity.getResources().getString(R.string.MoreShareLink), activity.getResources().getString(R.string.MoreShareChooser));
                 break;
             case 6:
-                intentCaller.rate(activity);
+                intentCaller.googlePlay(activity);
                 break;
             case 7:
+                initDialog();
+
+                detector();
+
+                listener();
+
                 if (newUpdate()) {
                     availableUpdateDialogTitle.setText(newVersion());
                     availableUpdateDialog.show();
                 } else {
-                    noUpdateDialogTitle.setText(activity.getResources().getString(R.string.MoreVersion) + " " +  appVersion());
+                    noUpdateDialogTitle.setText(appVersion());
                     noUpdateDialog.show();
                 } break;
         }
     }
 
-    private void initializer() {
-        intentCaller = new IntentCaller();
-        bottomSheet = new SocialBottomSheetDialog(activity);
-
-        handler = new Handler();
-
+    private void initDialog() {
         noUpdateDialog = new Dialog(activity, R.style.DialogTheme);
         noUpdateDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         noUpdateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -202,7 +211,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
             handler.postDelayed(() -> availableUpdateDialogPositive.setClickable(true), 1000);
             availableUpdateDialog.dismiss();
 
-            // TODO : Go To GooglePlayPage And Update
+            intentCaller.googlePlay(activity);
         });
 
         availableUpdateDialogNegative.setOnClickListener(v -> {
@@ -224,13 +233,13 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
 
     private boolean newUpdate() {
         // TODO : Check The Server For New Version For Our App
-        return true;
+        return false;
     }
 
     private String appVersion() {
         try {
             PackageInfo packageInfo = activity.getPackageManager().getPackageInfo(activity.getPackageName(), 0);
-            return packageInfo.versionName;
+            return activity.getResources().getString(R.string.MoreVersion) + " " + packageInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         } return null;
@@ -238,19 +247,20 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
 
     private String newVersion() {
         // TODO : Get The New Version From Server And Return It
-        return activity.getResources().getString(R.string.MoreUpdate) + " " + "از" + " " + appVersion() + " " + "به" + " " + "1.1.0";
+        return activity.getResources().getString(R.string.MoreVersion) + " " + "1.1.0" + " " + activity.getResources().getString(R.string.MoreArrived);
     }
 
     public class MoreHolder extends RecyclerView.ViewHolder {
 
         public LinearLayout rootLinearLayout;
-        public TextView titleTextView;
+        public TextView titleTextView, updateTextView;
         public ImageView avatarImageView;
 
         public MoreHolder(View view) {
             super(view);
             rootLinearLayout = view.findViewById(R.id.activity_more_single_item_root_linearLayout);
             titleTextView = view.findViewById(R.id.activity_more_single_item_title_textView);
+            updateTextView = view.findViewById(R.id.activity_more_single_item_update_textView);
             avatarImageView = view.findViewById(R.id.activity_more_single_item_avatar_imageView);
         }
     }

@@ -51,7 +51,7 @@ public class IntentCaller {
         context.startActivity(Intent.createChooser(intent, chooser));
     }
 
-    public void rate(Context context) {
+    public void googlePlay(Context context) {
         Intent intent;
         try {
             intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + context.getPackageName()));

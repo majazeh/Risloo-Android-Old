@@ -18,9 +18,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.WindowDecorator;
 
 public class SplashActivity extends AppCompatActivity {
+
+    // Class
+    private IntentCaller intentCaller;
 
     // Vars
     private String update = "";
@@ -29,7 +33,7 @@ public class SplashActivity extends AppCompatActivity {
     private Handler handler;
 
     // Widgets
-    private TextView loadingTextView, versionTextView, updateDialogTitle, updateDialogDescription, updateDialogPositive, updateDialogNegative;
+    private TextView versionTextView, updateDialogTitle, updateDialogDescription, updateDialogPositive, updateDialogNegative;
     private ProgressBar updatingProgressBar;
     private Dialog updateDialog;
 
@@ -56,9 +60,10 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void initializer() {
+        intentCaller = new IntentCaller();
+
         handler = new Handler();
 
-        loadingTextView = findViewById(R.id.activity_splash_loading_textView);
         versionTextView = findViewById(R.id.activity_splash_version_textView);
         versionTextView.setText(appVersion());
 
@@ -95,7 +100,8 @@ public class SplashActivity extends AppCompatActivity {
             handler.postDelayed(() -> updateDialogPositive.setClickable(true), 1000);
             updateDialog.dismiss();
 
-            updateApp();
+            intentCaller.googlePlay(this);
+            finish();
         });
 
         updateDialogNegative.setOnClickListener(v -> {
@@ -135,9 +141,11 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void loadContent() {
-        loadingTextView.setVisibility(View.VISIBLE);
+        updatingProgressBar.setVisibility(View.VISIBLE);
+        versionTextView.setText(getResources().getString(R.string.SplashIsUpdating));
         // TODO : Load Our Samples Content Or Add New Samples And Then Call checkUpdate();
-        loadingTextView.setVisibility(View.INVISIBLE);
+        updatingProgressBar.setVisibility(View.INVISIBLE);
+        versionTextView.setText(appVersion());
         checkUpdate();
     }
 
@@ -175,15 +183,6 @@ public class SplashActivity extends AppCompatActivity {
     private boolean forceUpdate() {
         // TODO : Check IF Our Update Is Force Or Not
         return false;
-    }
-
-    private void updateApp() {
-        updatingProgressBar.setVisibility(View.VISIBLE);
-        versionTextView.setText(getResources().getString(R.string.SplashIsUpdating));
-        // TODO : Update Our App And Launch Intro When Finished
-        updatingProgressBar.setVisibility(View.INVISIBLE);
-        versionTextView.setText(newVersion());
-        launchIntro();
     }
 
     private String appVersion() {
