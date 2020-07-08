@@ -24,10 +24,13 @@ import java.util.ArrayList;
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.QuestionHolder> {
 
-    private Activity activity;
+    // Vars
+    private int position = -1;
     private ArrayList<Question> questions;
     private ArrayList<Boolean> expandedQuestions = new ArrayList<>();
-    private int position = -1;
+
+    // Objects
+    private Activity activity;
 
     public QuestionAdapter(Activity activity) {
         this.activity = activity;

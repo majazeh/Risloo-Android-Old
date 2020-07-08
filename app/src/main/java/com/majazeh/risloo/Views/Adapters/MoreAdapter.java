@@ -16,10 +16,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.More;
@@ -71,7 +71,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
 
         try {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                holder.rootLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_snow_ripple);
+                holder.rootCoordinatorLayout.setBackgroundResource(R.drawable.draw_16sdp_snow_ripple);
             }
 
             if (i != mores.size() - 1) {
@@ -120,15 +120,19 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
         switch (position) {
             case 0:
                 activity.startActivity(new Intent(activity, AboutUsActivity.class));
+                activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 break;
             case 1:
                 activity.startActivity(new Intent(activity, QuestionActivity.class));
+                activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 break;
             case 2:
                 activity.startActivity(new Intent(activity, CallUsActivity.class));
+                activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 break;
             case 3:
                 activity.startActivity(new Intent(activity, TermsConditionsActivity.class));
+                activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 break;
             case 4:
                 bottomSheet.show(((MoreActivity)activity).getSupportFragmentManager(), "socialBottomSheet");
@@ -252,13 +256,13 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
 
     public class MoreHolder extends RecyclerView.ViewHolder {
 
-        public LinearLayout rootLinearLayout;
+        public CoordinatorLayout rootCoordinatorLayout;
         public TextView titleTextView, updateTextView;
         public ImageView avatarImageView;
 
         public MoreHolder(View view) {
             super(view);
-            rootLinearLayout = view.findViewById(R.id.activity_more_single_item_root_linearLayout);
+            rootCoordinatorLayout = view.findViewById(R.id.activity_more_single_item_root_coordinatorLayout);
             titleTextView = view.findViewById(R.id.activity_more_single_item_title_textView);
             updateTextView = view.findViewById(R.id.activity_more_single_item_update_textView);
             avatarImageView = view.findViewById(R.id.activity_more_single_item_avatar_imageView);

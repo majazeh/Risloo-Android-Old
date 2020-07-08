@@ -4,12 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MotionEvent;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -20,10 +29,17 @@ public class CallUsActivity extends AppCompatActivity {
     private String name, mobile, message;
     private boolean nameTouch, nameError, mobileTouch, mobileError, messageTouch, messageError;
 
+    // Objects
+    private Handler handler;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+
     // Widgets
     private Toolbar toolbar;
+    private TextView infoDialogTitle, infoDialogDescription, infoDialogConfirm;
     private EditText nameEditText, mobileEditText, messageEditText;
     private Button sendButton;
+    private Dialog infoDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +54,10 @@ public class CallUsActivity extends AppCompatActivity {
         detector();
 
         listener();
+
+        if (firstTimeLoad()) {
+            showDialog();
+        }
     }
 
     private void decorator() {
@@ -46,6 +66,13 @@ public class CallUsActivity extends AppCompatActivity {
     }
 
     private void initializer() {
+        handler = new Handler();
+
+        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
+        editor = sharedPreferences.edit();
+        editor.apply();
+
         toolbar = findViewById(R.id.activity_call_us_toolbar);
 
         nameEditText = findViewById(R.id.activity_call_us_name_editText);
@@ -56,17 +83,49 @@ public class CallUsActivity extends AppCompatActivity {
         messageEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         sendButton = findViewById(R.id.activity_call_us_send_button);
+
+        infoDialog = new Dialog(this, R.style.DialogTheme);
+        infoDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        infoDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        infoDialog.setContentView(R.layout.dialog_note);
+        infoDialog.setCancelable(true);
+
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(infoDialog.getWindow().getAttributes());
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        infoDialog.getWindow().setAttributes(layoutParams);
+
+        infoDialogTitle = infoDialog.findViewById(R.id.dialog_note_title_textView);
+        infoDialogTitle.setText(getResources().getString(R.string.CallUsInfoDialogTitle));
+        infoDialogDescription = infoDialog.findViewById(R.id.dialog_note_description_textView);
+        infoDialogDescription.setText(getResources().getString(R.string.CallUsInfoDialogDescription));
+        infoDialogConfirm = infoDialog.findViewById(R.id.dialog_note_confirm_textView);
+        infoDialogConfirm.setText(getResources().getString(R.string.CallUsInfoDialogConfirm));
     }
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             sendButton.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
+
+            infoDialogConfirm.setBackgroundResource(R.drawable.draw_12sdp_quartz_ripple);
         }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void listener() {
-        toolbar.setNavigationOnClickListener(v -> finish());
+        toolbar.setNavigationOnClickListener(v -> {
+            finish();
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        infoDialogConfirm.setOnClickListener(v -> {
+            infoDialogConfirm.setClickable(false);
+            handler.postDelayed(() -> infoDialogConfirm.setClickable(true), 1000);
+            infoDialog.dismiss();
+        });
+
+        infoDialog.setOnCancelListener(dialog -> infoDialog.dismiss());
 
         nameEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
@@ -146,9 +205,25 @@ public class CallUsActivity extends AppCompatActivity {
                 checkInput();
             } else {
                 clearData();
-                // TODO : Send The Message To The Server
+                sendMessage();
             }
         });
+    }
+
+    private boolean firstTimeLoad() {
+        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
+        editor = sharedPreferences.edit();
+        editor.apply();
+
+        return sharedPreferences.getBoolean("firstTimeLoad", true);
+    }
+
+    private void showDialog() {
+        infoDialog.show();
+
+        editor.putBoolean("firstTimeLoad", false);
+        editor.apply();
     }
 
     private void checkInput() {
@@ -235,6 +310,16 @@ public class CallUsActivity extends AppCompatActivity {
         nameError = false;
         mobileError = false;
         messageError = false;
+    }
+
+    private void sendMessage() {
+        // TODO : Send The Message To The Server
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
 }

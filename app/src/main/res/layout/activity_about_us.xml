@@ -43,24 +43,14 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <androidx.cardview.widget.CardView
+                <ImageView
                     android:layout_width="@dimen/_94sdp"
                     android:layout_height="@dimen/_94sdp"
                     android:layout_marginBottom="@dimen/_24sdp"
-                    android:clipToPadding="true"
-                    app:cardBackgroundColor="@color/Primary"
-                    app:cardCornerRadius="@dimen/_16sdp"
-                    app:cardElevation="0dp">
-
-                    <ImageView
-                        android:id="@+id/activity_about_us_logo_imageView"
-                        android:layout_width="@dimen/_52sdp"
-                        android:layout_height="@dimen/_52sdp"
-                        android:layout_gravity="center"
-                        android:tint="@color/White"
-                        android:src="@drawable/ic_brain" />
-
-                </androidx.cardview.widget.CardView>
+                    android:padding="@dimen/_18sdp"
+                    android:tint="@color/White"
+                    android:src="@drawable/ic_brain"
+                    android:background="@drawable/draw_16sdp_primary_ripple" />
 
                 <TextView
                     android:id="@+id/activity_about_us_name_textView"

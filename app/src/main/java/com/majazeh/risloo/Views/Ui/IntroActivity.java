@@ -42,8 +42,6 @@ public class IntroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (firstTimeLaunch()) {
-            launchAuth();
-        } else {
             decorator();
 
             setContentView(R.layout.activity_intro);
@@ -53,6 +51,8 @@ public class IntroActivity extends AppCompatActivity {
             listener();
 
             addDots(0);
+        } else {
+            launchAuth();
         }
     }
 
@@ -85,9 +85,6 @@ public class IntroActivity extends AppCompatActivity {
 
     private void listener() {
         nextTextView.setOnClickListener(v -> {
-            nextTextView.setClickable(false);
-            handler.postDelayed(() -> nextTextView.setClickable(true), 500);
-
             int currentPage = rtlViewPager.getCurrentItem() + 1;
 
             if (currentPage < layouts.length) {
@@ -154,7 +151,7 @@ public class IntroActivity extends AppCompatActivity {
         editor = sharedPreferences.edit();
         editor.apply();
 
-        return !sharedPreferences.getBoolean("firstTimeLaunch", true);
+        return sharedPreferences.getBoolean("firstTimeLaunch", true);
     }
 
     private void launchAuth() {

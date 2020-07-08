@@ -203,6 +203,10 @@
 
     <string name="CallUsSend">إرسال پیام</string>
 
+    <string name="CallUsInfoDialogTitle">کاربر گرامی</string>
+    <string name="CallUsInfoDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="CallUsInfoDialogConfirm">بستن</string>
+
     ////////////////////////////////////////////////////////////////////////////////
 
     // terms conditions strings
