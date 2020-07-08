@@ -69,7 +69,6 @@ public class AuthWorker extends Worker {
         if (token()) {
             token = "Bearer " + AuthController.token;
         }
-
         Call<ResponseBody> call = sampleApi.auth(token, AuthController.callback, AuthController.authorized_key);
 
         Response<ResponseBody> bodyResponse = call.execute();
@@ -98,7 +97,6 @@ public class AuthWorker extends Worker {
             AuthController.exception = bodyResponse.message();
         }
 
-
     }
 
     public void authTheory() throws JSONException, IOException {
@@ -122,8 +120,10 @@ public class AuthWorker extends Worker {
                 AuthController.callback = object.getString("callback");
             else
                 AuthController.callback = "";
-            if (object.has("token"))
+            if (object.has("token")) {
+                Log.e("token", object.getString("token"));
                 AuthController.token = object.getString("token");
+            }
             else
                 AuthController.token = "";
             AuthController.exception = "";

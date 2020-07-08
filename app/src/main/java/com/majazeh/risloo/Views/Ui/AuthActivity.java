@@ -40,6 +40,8 @@ import com.majazeh.risloo.ViewModels.AuthViewModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.logging.Logger;
+
 public class AuthActivity extends AppCompatActivity {
 
     // ViewModels
@@ -523,7 +525,7 @@ public class AuthActivity extends AppCompatActivity {
     private void checkState() {
         // TODO: start loading
         switch (AuthController.theory) {
-            case "auth":
+            case "":
                 try {
                     viewModel.auth(input);
                 } catch (JSONException e) {
@@ -533,15 +535,19 @@ public class AuthActivity extends AppCompatActivity {
                     if (AuthController.workState.getValue() == 1) {
                         previousStep = "serial";
                         currentStep = "password";
-                        if (AuthController.theory.equals(""))
+                        if (AuthController.theory.equals("")) {
+                            AuthController.workState.removeObservers((LifecycleOwner) this);
                             launchSample();
+                        } else if (AuthController.theory.equals("auth"))
+                            authentication();
                         else
                             launchStep(viewModel.getStep());
                         // TODO: end loading
-                    } else {
-                        AuthController.workState.removeObservers((LifecycleOwner) this);
+                    } else if (AuthController.workState.getValue() == 0) {
                         // TODO: handle error with AuthController.exception
-                        Log.e("listener: ", "error");
+                        //Log.e("listener: ", String.valueOf(AuthController.workState.getValue()));
+                    } else {
+                        //noting
                     }
                 });
                 break;
@@ -555,15 +561,19 @@ public class AuthActivity extends AppCompatActivity {
                     if (AuthController.workState.getValue() == 1) {
                         previousStep = "serial";
                         currentStep = "password";
-                        if (AuthController.theory.equals(""))
+                        if (AuthController.theory.equals("")) {
+                            AuthController.workState.removeObservers((LifecycleOwner) this);
                             launchSample();
+                        } else if (AuthController.theory.equals("auth"))
+                            authentication();
                         else
                             launchStep(viewModel.getStep());
                         // TODO: end loading
-                    } else {
-                        AuthController.workState.removeObservers((LifecycleOwner) this);
+                    } else if (AuthController.workState.getValue() == 0) {
                         // TODO: handle error with AuthController.exception
-                        Log.e("listener: ", "error");
+                        //Log.e("listener: ", String.valueOf(AuthController.workState.getValue()));
+                    } else {
+                        //noting
                     }
                 });
                 break;
@@ -577,22 +587,51 @@ public class AuthActivity extends AppCompatActivity {
                     if (AuthController.workState.getValue() == 1) {
                         previousStep = "serial";
                         currentStep = "password";
-                        if (AuthController.theory.equals(""))
+                        if (AuthController.theory.equals("")) {
+                            AuthController.workState.removeObservers((LifecycleOwner) this);
                             launchSample();
+                        } else if (AuthController.theory.equals("auth"))
+                            authentication();
                         else
                             launchStep(viewModel.getStep());
                         // TODO: end loading
-                    } else {
-                        AuthController.workState.removeObservers((LifecycleOwner) this);
+                    } else if (AuthController.workState.getValue() == 0) {
                         // TODO: handle error with AuthController.exception
-                        Log.e("listener: ", "error");
+                        //Log.e("listener: ", String.valueOf(AuthController.workState.getValue()));
+                    } else {
+                        //noting
                     }
                 });
                 break;
 
         }
+        Log.e("checkState: ", AuthController.token);
 
+    }
 
+    public void authentication() {
+        try {
+            viewModel.auth_theory("", "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        AuthController.workState.observe((LifecycleOwner) this, integer -> {
+            if (AuthController.workState.getValue() == 1) {
+                previousStep = "serial";
+                currentStep = "password";
+                if (AuthController.theory.equals("")) {
+                    AuthController.workState.removeObservers((LifecycleOwner) this);
+                    launchSample();
+                } else
+                    launchStep(viewModel.getStep());
+                // TODO: end loading
+            } else if (AuthController.workState.getValue() == 0) {
+                // TODO: handle error with AuthController.exception
+                //Log.e("listener: ", String.valueOf(AuthController.workState.getValue()));
+            } else {
+                //noting
+            }
+        });
     }
 
     @Override

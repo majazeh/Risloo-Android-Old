@@ -1,6 +1,8 @@
 package com.majazeh.risloo.Models.Repositories.Authentication;
 
 import android.app.Application;
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Data;
@@ -14,7 +16,7 @@ import org.json.JSONException;
 public class AuthController {
     public static String callback = "";
     public static String key = "";
-    public static String theory = "auth";
+    public static String theory = "";
     public static String authorized_key = "";
     public static String password = "";
     public static String code = "";
@@ -43,7 +45,6 @@ public class AuthController {
                 .setInputData(data("auth"))
                 .build();
         WorkManager.getInstance(application).enqueue(workRequest);
-
 
     }
 

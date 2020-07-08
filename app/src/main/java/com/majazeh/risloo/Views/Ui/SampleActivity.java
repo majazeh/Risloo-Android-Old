@@ -21,19 +21,19 @@ public class SampleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
-
-        SampleViewModel viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
-        viewModel.getLocalData().observe((LifecycleOwner) this, arrayLists -> {
-            if (viewModel.inProgress()) {
-
-            } else {
-                try {
-                    viewModel.process();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//
+//        SampleViewModel viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
+//        viewModel.getLocalData().observe((LifecycleOwner) this, arrayLists -> {
+//            if (viewModel.inProgress()) {
+//
+//            } else {
+//                try {
+//                    viewModel.process();
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
 
     }

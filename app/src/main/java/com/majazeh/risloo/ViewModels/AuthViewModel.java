@@ -1,6 +1,7 @@
 package com.majazeh.risloo.ViewModels;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -28,6 +29,7 @@ public class AuthViewModel extends AndroidViewModel {
 
     public void auth(String authorized_key) throws JSONException {
         repository.auth(authorized_key);
+        Log.e( "auth: ", String.valueOf(AuthController.workState.getValue()));
     }
 
     public void signIn(String name, String gender, String mobile, String password) throws JSONException {

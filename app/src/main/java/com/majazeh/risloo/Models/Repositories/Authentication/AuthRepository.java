@@ -30,7 +30,7 @@ public class AuthRepository extends MainRepository {
         controller.code = code;
         controller.work = "authTheory";
         controller.auth_theory();
-        checkState();
+       // checkState();
     }
 
     public void signIn(String name, String gender, String mobile, String password) throws JSONException {
@@ -41,80 +41,14 @@ public class AuthRepository extends MainRepository {
         controller.password = password;
         controller.work = "signIn";
         controller.signIn();
-        checkState();
-    }
-
-
-    public void checkState() {
-        controller.workState().observeForever(integer -> {
-            //auth
-            if (controller.work.equals("auth")) {
-                if (controller.workState().getValue() == 1) {
-                    if (!controller.key.equals("")) {
-                        switch (controller.theory) {
-                            case "password":
-                                //TODO: open password theory
-                                break;
-                            case "mobileCode":
-                                //TODO: open PIN theory
-                                break;
-                        }
-                    } else if (!controller.callback.equals("")) {
-                        // TODO: go to auth with another authorized_key
-                    } else {
-                        // TODO: open panel
-                        controller.workState().removeObservers(() -> null);
-                    }
-                } else if (controller.workState().getValue() == 0) {
-                    //TODO: have an error
-                    Log.e("error", controller.exception);
-                } else {
-
-                }
-                //auth theory
-            } else if (controller.work.equals("authTheory")) {
-                if (controller.workState().getValue() == 1) {
-                    if (!controller.key.equals("")) {
-                        switch (controller.theory) {
-                            case "password":
-                                //TODO: open password theory
-                                break;
-                            case "mobileCode":
-                                //TODO: open PIN theory
-                        }
-                    } else {
-                        // TODO: open panel
-                        controller.workState().removeObservers(() -> null);
-                    }
-                } else {
-                    //TODO: have an error
-                    Log.e("error", controller.exception);
-                }
-                //signIn
-            } else if (controller.work.equals("signIn")) {
-                if (controller.workState().getValue() == 1) {
-                    if (!controller.key.equals("")) {
-                        switch (controller.theory) {
-                            case "password":
-                                //TODO: open password theory
-                                break;
-                            case "mobileCode":
-                                //TODO: open PIN theory
-                        }
-                    }
-                } else {
-                    //TODO: have an error
-                    Log.e("error", controller.exception);
-                }
-            }
-        });
+       // checkState();
     }
 
     public JSONObject getStep(String step) {
         JSONObject items = new JSONObject();
 
         switch (step){
-            case "auth":
+            case "":
                 items = serialItems();
                 break;
             case "password":
