@@ -1,6 +1,7 @@
 package com.majazeh.risloo.Models.Repositories;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.majazeh.risloo.Models.Controller.AuthController;
 import com.majazeh.risloo.R;
@@ -43,10 +44,10 @@ public class AuthRepository extends MainRepository {
         controller.workManager("register");
     }
 
-    public JSONObject getStep() {
+    public JSONObject getStep(String theory) {
         JSONObject items = new JSONObject();
-        switch (controller.theory){
-            case "":
+        switch (theory){
+            case "auth":
                 items = serialItems();
                 break;
             case "password":
@@ -99,5 +100,7 @@ public class AuthRepository extends MainRepository {
         }
         return authItems;
     }
+
+
 
 }

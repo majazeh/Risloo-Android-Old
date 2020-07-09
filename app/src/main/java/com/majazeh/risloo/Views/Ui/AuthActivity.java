@@ -17,6 +17,7 @@ import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -35,6 +36,8 @@ import com.majazeh.risloo.ViewModels.AuthViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.logging.Logger;
 
 public class AuthActivity extends AppCompatActivity {
 
@@ -73,7 +76,7 @@ public class AuthActivity extends AppCompatActivity {
 
         listener();
 
-        launchStep(viewModel.getStep());
+        launchStep(viewModel.getStep("auth"));
     }
 
     private void decorator() {
@@ -342,6 +345,9 @@ public class AuthActivity extends AppCompatActivity {
 
         authButton.setOnClickListener(v -> {
             input = authInputEditText.getText().toString().trim();
+            name = "";
+            mobile = "";
+            password = "";
 
             if (authInputEditText.length() == 0) {
                 checkInput("auth");
@@ -352,6 +358,7 @@ public class AuthActivity extends AppCompatActivity {
         });
 
         registerButton.setOnClickListener(v -> {
+            input = "";
             name = registerNameEditText.getText().toString().trim();
             mobile = registerMobileEditText.getText().toString().trim();
             password = registerPasswordEditText.getText().toString().trim();
@@ -360,7 +367,8 @@ public class AuthActivity extends AppCompatActivity {
                 checkInput("register");
             } else {
                 clearData("register");
-                registering();
+                AuthController.theory = "register";
+                checkProcess();
             }
         });
     }
@@ -494,7 +502,7 @@ public class AuthActivity extends AppCompatActivity {
         viewFlipper.setOutAnimation(this, R.anim.slide_out_right_with_fade);
         viewFlipper.showNext();
     }
-    
+
     ////////////////////////////////////////////////////////////////////////
 
     private void authProcess(String theory) {
@@ -504,9 +512,8 @@ public class AuthActivity extends AppCompatActivity {
     private void checkProcess() {
         // TODO : start loading
         try {
-
             switch (AuthController.theory) {
-                case "":
+                case "auth":
                     viewModel.auth(input);
                     authenticating();
                     break;
@@ -518,10 +525,10 @@ public class AuthActivity extends AppCompatActivity {
                     viewModel.authTheory("", input);
                     authenticating();
                     break;
-//                case "register":
-//                    viewModel.register(name, mobile, gender, password);
-//                    registering();
-//                    break;
+                case "register":
+                    viewModel.register(name, mobile, gender, password);
+                    authenticating();
+                    break;
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -529,21 +536,28 @@ public class AuthActivity extends AppCompatActivity {
 
     }
 
-    private void authenticating(){
+    private void authenticating() {
         AuthController.workState.observe(this, integer -> {
             if (AuthController.workState.getValue() == 1) {
-                if (AuthController.theory.equals("")) {
-                    AuthController.workState.removeObservers(this);
-                    startActivity(new Intent(this, SampleActivity.class));
-                } else if (AuthController.theory.equals("auth")) {
-                    try {
-                        viewModel.authTheory("", "");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                if (AuthController.key == "") {
+                    if (AuthController.callback == "") {
+                        AuthController.workState.removeObservers(this);
+                        startActivity(new Intent(this, SampleActivity.class));
+                    } else {
+                        launchStep(viewModel.getStep("auth"));
                     }
                 } else {
-                    launchStep(viewModel.getStep());
-                    // TODO: end loading
+                    if (AuthController.theory == "auth") {
+                        try {
+                            viewModel.authTheory("", "");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else
+                        launchStep(viewModel.getStep(AuthController.theory));
+                }
+                if (!name.equals("")){
+                    showAuth();
                 }
             } else if (AuthController.workState.getValue() == 0) {
                 // TODO: handle error with AuthController.exception
@@ -551,27 +565,21 @@ public class AuthActivity extends AppCompatActivity {
             } else {
                 // DO Nothing
             }
+
         });
+
     }
 
-    private void registering() {
-       // AuthController.theory = "register";
-
-        try {
-            viewModel.register(name, mobile, gender, password);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        AuthController.workState.observe(this, integer -> {
-            if (AuthController.workState.getValue() == 1) {
-                showAuth();
-                launchStep(viewModel.getStep());
-            } else {
-                // TODO: handle error with AuthController.exception
-            }
-        });
-    }
+//    private void registering() {
+//        AuthController.workState.observe(this, integer -> {
+//            if (AuthController.workState.getValue() == 1) {
+//                showAuth();
+////                launchStep(viewModel.getStep("register"));
+//            } else {
+//                // TODO: handle error with AuthController.exception
+//            }
+//        });
+//    }
 
     private void launchStep(JSONObject step) {
         try {
@@ -582,7 +590,7 @@ public class AuthActivity extends AppCompatActivity {
             authButton.setText(step.get("button").toString());
 
             switch (AuthController.theory) {
-                case "":
+                case "auth":
                     authLinkTextView.setText(StringCustomizer.clickable(step.get("link").toString(), 18, 25, serialLinkSpan));
                     break;
                 case "password":
@@ -599,29 +607,29 @@ public class AuthActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        switch (AuthController.theory) {
-            case "mobileCode":
-                if (AuthController.preTheory.equals("password")) {
-                    AuthController.theory.equals("password");
-                    launchStep(viewModel.getStep());
-                } else if (AuthController.preTheory.equals("register")) {
-
-                } else if (AuthController.preTheory.equals("")) {
-
-                }
-                break;
-            case "serial":
-                if (AuthController.theory.equals("password")) {
-                    launchStep(viewModel.getStep());
-                } else if (AuthController.theory.equals("register")) {
-                    showAuth();
-                    launchStep(viewModel.getStep());
-                }
-                break;
-            case "":
-                finish();
-                break;
-        }
+//        switch (AuthController.theory) {
+//            case "mobileCode":
+//                if (AuthController.preTheory.equals("password")) {
+//                    AuthController.theory.equals("password");
+//                    launchStep(viewModel.getStep());
+//                } else if (AuthController.preTheory.equals("register")) {
+//
+//                } else if (AuthController.preTheory.equals("")) {
+//
+//                }
+//                break;
+//            case "serial":
+//                if (AuthController.theory.equals("password")) {
+//                    launchStep(viewModel.getStep());
+//                } else if (AuthController.theory.equals("register")) {
+//                    showAuth();
+//                    launchStep(viewModel.getStep());
+//                }
+//                break;
+//            case "":
+//                finish();
+//                break;
+//        }
     }
 
 }

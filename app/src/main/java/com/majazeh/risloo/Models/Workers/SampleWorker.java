@@ -49,7 +49,7 @@ public class SampleWorker extends Worker {
 
     private void send() {
         try {
-            Call<ResponseBody> call = sampleApi.send(SampleRepository.remoteData);
+            Call<ResponseBody> call = sampleApi.send("Barzeghar.json",SampleRepository.remoteData);
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 SampleRepository.remoteData.clear();

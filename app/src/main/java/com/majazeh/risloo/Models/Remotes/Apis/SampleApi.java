@@ -19,8 +19,12 @@ public interface SampleApi {
 
     @Headers({"content-type: application/x-www-form-urlencoded"})
     @FormUrlEncoded
-    @POST("answers")
-    Call<ResponseBody> send(@Field("data") ArrayList data);
+    @POST("$/samples/{Sample_id}/items")
+    Call<ResponseBody> send(@Path("Sample_id") String sample_id,@Path("items") ArrayList<ArrayList<Integer>> items);
+
+    @Headers({"content-type: application/x-www-form-urlencoded"})
+    @POST("auth/verification")
+    Call<ResponseBody> verification(@Query("mobile") String mobile);
 
     @Headers({"content-type: application/x-www-form-urlencoded"})
     @FormUrlEncoded
@@ -34,5 +38,9 @@ public interface SampleApi {
 
     @POST("register")
     Call<ResponseBody> signIn(@Query("name") String name, @Query("gender") String gender, @Query("mobile") String mobile, @Query("password") String password);
+
+    @GET("explode")
+    Call<ResponseBody> explode();
+
 
 }

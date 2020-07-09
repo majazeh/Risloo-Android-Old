@@ -32,8 +32,10 @@ public class AuthViewModel extends AndroidViewModel {
         repository.register(name, mobile, gender, password);
     }
 
-    public JSONObject getStep() {
-        return repository.getStep();
+    public JSONObject getStep(String theory) {
+        return repository.getStep(theory);
     }
+
+
 
 }

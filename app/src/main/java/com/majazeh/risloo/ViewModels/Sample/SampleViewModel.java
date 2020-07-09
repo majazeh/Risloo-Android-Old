@@ -120,8 +120,8 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.inProgress;
     }
 
-    public void process() throws JSONException {
-        repository.process();
+    public void sendAnswers() throws JSONException {
+        repository.sendAnswers();
     }
 
 }

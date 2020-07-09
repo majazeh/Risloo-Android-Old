@@ -119,7 +119,7 @@ public class AuthWorker extends Worker {
                 AuthController.key = object.getString("key");
             else
                 AuthController.key = "";
-                AuthController.preTheory = AuthController.theory;
+            AuthController.preTheory = AuthController.theory;
             if (object.has("theory")) {
                 AuthController.theory = object.getString("theory");
             } else
@@ -150,7 +150,7 @@ public class AuthWorker extends Worker {
                 AuthController.key = object.getString("key");
             else
                 AuthController.key = "";
-                AuthController.preTheory = AuthController.theory;
+            AuthController.preTheory = AuthController.theory;
             if (object.has("theory")) {
                 AuthController.theory = object.getString("theory");
             } else
@@ -175,5 +175,7 @@ public class AuthWorker extends Worker {
     public boolean token() {
         return !AuthController.token.isEmpty();
     }
+
+
 
 }

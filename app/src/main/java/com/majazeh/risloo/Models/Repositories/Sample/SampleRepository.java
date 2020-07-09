@@ -163,7 +163,7 @@ public class SampleRepository extends MainRepository {
         return sampleItems;
     }
 
-    public void process() throws JSONException {
+    public void sendAnswers() throws JSONException {
         if (remoteData().size() == 0){
             insertLocalDataToRemoteData();
             inProgress = true;
