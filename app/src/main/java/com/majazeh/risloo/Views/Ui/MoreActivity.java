@@ -61,7 +61,16 @@ public class MoreActivity extends AppCompatActivity {
     }
 
     private void listener() {
-        toolbar.setNavigationOnClickListener(v -> finish());
+        toolbar.setNavigationOnClickListener(v -> {
+            finish();
+            overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
+        });
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
     }
 
 }

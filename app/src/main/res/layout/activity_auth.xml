@@ -26,185 +26,41 @@
             app:navigationIcon="@drawable/tool_menu"
             app:contentInsetStartWithNavigation="0dp" />
 
-        <LinearLayout
-            android:id="@+id/activity_auth_linearLayout"
+        <ViewFlipper
+            android:id="@+id/activity_auth_viewFlipper"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/_24sdp"
-            android:layout_marginRight="@dimen/_24sdp"
-            android:gravity="center"
-            android:visibility="visible"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/activity_auth_description_textView"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_28sdp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_24sdp"
+                android:layout_marginRight="@dimen/_24sdp"
                 android:gravity="center"
-                android:textSize="@dimen/_13ssp"
-                android:textStyle="bold"
-                android:textColor="@color/Grey"
-                android:textAlignment="gravity" />
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/activity_auth_input_editText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:paddingTop="@dimen/_8sdp"
-                android:paddingBottom="@dimen/_8sdp"
-                android:paddingLeft="@dimen/_16sdp"
-                android:paddingRight="@dimen/_16sdp"
-                android:inputType="text"
-                android:gravity="center"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="normal"
-                android:textColor="@color/Grey"
-                android:textColorHint="@color/Mischka"
-                android:textAlignment="gravity"
-                android:background="@drawable/draw_18sdp_quartz_border" />
-
-            <Button
-                android:id="@+id/activity_auth_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/_4sdp"
-                android:paddingBottom="@dimen/_4sdp"
-                android:layout_marginBottom="@dimen/_18sdp"
-                android:gravity="center"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="bold"
-                android:textColor="@color/White"
-                android:textAlignment="gravity"
-                android:background="@drawable/draw_18sdp_primary"
-                style="?android:attr/borderlessButtonStyle"/>
-
-            <TextView
-                android:id="@+id/activity_auth_link_textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="@dimen/_11ssp"
-                android:textStyle="bold"
-                android:textColor="@color/Mischka"
-                android:textAlignment="gravity" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/activity_register_linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/_24sdp"
-            android:layout_marginRight="@dimen/_24sdp"
-            android:gravity="center"
-            android:visibility="gone"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_28sdp"
-                android:gravity="center"
-                android:text="@string/RegisterDescription"
-                android:textSize="@dimen/_13ssp"
-                android:textStyle="bold"
-                android:textColor="@color/Grey"
-                android:textAlignment="gravity" />
-
-            <EditText
-                android:id="@+id/activity_register_name_editText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_8sdp"
-                android:paddingTop="@dimen/_8sdp"
-                android:paddingBottom="@dimen/_8sdp"
-                android:paddingLeft="@dimen/_16sdp"
-                android:paddingRight="@dimen/_16sdp"
-                android:inputType="text"
-                android:gravity="center"
-                android:hint="@string/RegisterNameHint"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="normal"
-                android:textColor="@color/Grey"
-                android:textColorHint="@color/Mischka"
-                android:textAlignment="gravity"
-                android:background="@drawable/draw_18sdp_quartz_border" />
-
-            <EditText
-                android:id="@+id/activity_register_mobile_editText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_8sdp"
-                android:paddingTop="@dimen/_8sdp"
-                android:paddingBottom="@dimen/_8sdp"
-                android:paddingLeft="@dimen/_16sdp"
-                android:paddingRight="@dimen/_16sdp"
-                android:inputType="text"
-                android:gravity="center"
-                android:hint="@string/RegisterMobileHint"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="normal"
-                android:textColor="@color/Grey"
-                android:textColorHint="@color/Mischka"
-                android:textAlignment="gravity"
-                android:background="@drawable/draw_18sdp_quartz_border" />
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_34sdp"
-                android:layout_marginBottom="@dimen/_8sdp"
-                app:cardBackgroundColor="@color/White"
-                app:cardCornerRadius="@dimen/_18sdp"
-                app:cardElevation="0dp">
-
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/activity_register_gender_tabLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:theme="@style/TabTheme"
-                    android:background="@drawable/draw_18sdp_quartz_border"
-                    app:tabMode="fixed"
-                    app:tabGravity="fill"
-                    app:tabRippleColor="@color/Quartz"
-                    app:tabIndicatorColor="@color/Solitude"
-                    app:tabIndicatorHeight="@dimen/_34sdp"
-                    app:tabTextColor="@color/Mischka"
-                    app:tabSelectedTextColor="@color/Grey"
-                    app:tabBackground="@null"
-                    app:tabTextAppearance="@style/TabTextAppearance">
-
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="@string/RegisterManHint" />
-
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="@string/RegisterWomanHint" />
-
-                </com.google.android.material.tabs.TabLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_24sdp">
-
-                <EditText
-                    android:id="@+id/activity_register_password_editText"
+                <TextView
+                    android:id="@+id/activity_auth_description_textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_28sdp"
+                    android:gravity="center"
+                    android:textSize="@dimen/_13ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Grey"
+                    android:textAlignment="gravity" />
+
+                <EditText
+                    android:id="@+id/activity_auth_input_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp"
                     android:paddingTop="@dimen/_8sdp"
                     android:paddingBottom="@dimen/_8sdp"
-                    android:paddingLeft="@dimen/_32sdp"
+                    android:paddingLeft="@dimen/_16sdp"
                     android:paddingRight="@dimen/_16sdp"
-                    android:inputType="textPassword"
+                    android:inputType="text"
                     android:gravity="center"
-                    android:hint="@string/RegisterPasswordHint"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"
                     android:textColor="@color/Grey"
@@ -212,35 +68,183 @@
                     android:textAlignment="gravity"
                     android:background="@drawable/draw_18sdp_quartz_border" />
 
-                <ImageView
-                    android:id="@+id/activity_register_password_imageView"
-                    android:layout_width="@dimen/_32sdp"
-                    android:layout_height="@dimen/_32sdp"
-                    android:layout_gravity="left|center"
-                    android:layout_marginLeft="@dimen/_8sdp"
-                    android:padding="@dimen/_6sdp"
-                    android:visibility="invisible"
-                    android:tint="@color/Mischka"
-                    android:src="@drawable/ic_eye_slash"/>
+                <Button
+                    android:id="@+id/activity_auth_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/_4sdp"
+                    android:paddingBottom="@dimen/_4sdp"
+                    android:layout_marginBottom="@dimen/_18sdp"
+                    android:gravity="center"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/White"
+                    android:textAlignment="gravity"
+                    android:background="@drawable/draw_18sdp_primary"
+                    style="?android:attr/borderlessButtonStyle"/>
 
-            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                <TextView
+                    android:id="@+id/activity_auth_link_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="@dimen/_11ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Mischka"
+                    android:textAlignment="gravity" />
 
-            <Button
-                android:id="@+id/activity_register_button"
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/_4sdp"
-                android:paddingBottom="@dimen/_4sdp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_24sdp"
+                android:layout_marginRight="@dimen/_24sdp"
                 android:gravity="center"
-                android:text="@string/RegisterButton"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="bold"
-                android:textColor="@color/White"
-                android:textAlignment="gravity"
-                android:background="@drawable/draw_18sdp_primary"
-                style="?android:attr/borderlessButtonStyle"/>
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_28sdp"
+                    android:gravity="center"
+                    android:text="@string/RegisterDescription"
+                    android:textSize="@dimen/_13ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Grey"
+                    android:textAlignment="gravity" />
+
+                <EditText
+                    android:id="@+id/activity_register_name_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:paddingLeft="@dimen/_16sdp"
+                    android:paddingRight="@dimen/_16sdp"
+                    android:inputType="text"
+                    android:gravity="center"
+                    android:hint="@string/RegisterNameHint"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="normal"
+                    android:textColor="@color/Grey"
+                    android:textColorHint="@color/Mischka"
+                    android:textAlignment="gravity"
+                    android:background="@drawable/draw_18sdp_quartz_border" />
+
+                <EditText
+                    android:id="@+id/activity_register_mobile_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:paddingLeft="@dimen/_16sdp"
+                    android:paddingRight="@dimen/_16sdp"
+                    android:inputType="number"
+                    android:maxLength="11"
+                    android:gravity="center"
+                    android:hint="@string/RegisterMobileHint"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="normal"
+                    android:textColor="@color/Grey"
+                    android:textColorHint="@color/Mischka"
+                    android:textAlignment="gravity"
+                    android:background="@drawable/draw_18sdp_quartz_border" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_34sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    app:cardBackgroundColor="@color/White"
+                    app:cardCornerRadius="@dimen/_18sdp"
+                    app:cardElevation="0dp">
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/activity_register_gender_tabLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:theme="@style/TabTheme"
+                        android:background="@drawable/draw_18sdp_quartz_border"
+                        app:tabMode="fixed"
+                        app:tabGravity="fill"
+                        app:tabRippleColor="@color/Quartz"
+                        app:tabIndicatorColor="@color/Solitude"
+                        app:tabIndicatorHeight="@dimen/_34sdp"
+                        app:tabTextColor="@color/Mischka"
+                        app:tabSelectedTextColor="@color/Grey"
+                        app:tabBackground="@null"
+                        app:tabTextAppearance="@style/TabTextAppearance">
+
+                        <com.google.android.material.tabs.TabItem
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="@string/RegisterManHint" />
+
+                        <com.google.android.material.tabs.TabItem
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="@string/RegisterWomanHint" />
+
+                    </com.google.android.material.tabs.TabLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.coordinatorlayout.widget.CoordinatorLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_24sdp">
+
+                    <EditText
+                        android:id="@+id/activity_register_password_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/_8sdp"
+                        android:paddingBottom="@dimen/_8sdp"
+                        android:paddingLeft="@dimen/_32sdp"
+                        android:paddingRight="@dimen/_16sdp"
+                        android:inputType="textPassword"
+                        android:gravity="center"
+                        android:hint="@string/RegisterPasswordHint"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Grey"
+                        android:textColorHint="@color/Mischka"
+                        android:textAlignment="gravity"
+                        android:background="@drawable/draw_18sdp_quartz_border" />
+
+                    <ImageView
+                        android:id="@+id/activity_register_password_imageView"
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:layout_gravity="left|center"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:padding="@dimen/_6sdp"
+                        android:visibility="invisible"
+                        android:tint="@color/Mischka"
+                        android:src="@drawable/ic_eye_slash"/>
+
+                </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+                <Button
+                    android:id="@+id/activity_register_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/_4sdp"
+                    android:paddingBottom="@dimen/_4sdp"
+                    android:gravity="center"
+                    android:text="@string/RegisterButton"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/White"
+                    android:textAlignment="gravity"
+                    android:background="@drawable/draw_18sdp_primary"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+            </LinearLayout>
+
+        </ViewFlipper>
 
     </LinearLayout>
 

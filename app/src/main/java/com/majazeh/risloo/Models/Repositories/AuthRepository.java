@@ -1,53 +1,51 @@
-package com.majazeh.risloo.Models.Repositories.Authentication;
+package com.majazeh.risloo.Models.Repositories;
 
 import android.app.Application;
-import android.util.Log;
 
-import com.majazeh.risloo.Models.Repositories.MainRepository;
+import com.majazeh.risloo.Models.Controller.AuthController;
 import com.majazeh.risloo.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class AuthRepository extends MainRepository {
+
     private AuthController controller;
 
     public AuthRepository(Application application) {
         super(application);
+
         controller = new AuthController(application);
     }
 
-    public void auth(String authorized_key) throws JSONException {
-        AuthController.workState.setValue(-1);
-        controller.authorized_key = authorized_key;
+    public void auth(String authorizedKey) throws JSONException {
+        controller.authorizedKey = authorizedKey;
         controller.work = "auth";
-        controller.auth();
+        controller.workState.setValue(-1);
+        controller.workManager("auth");
     }
 
-    public void auth_theory(String password, String code) throws JSONException {
-        AuthController.workState.setValue(-1);
+    public void authTheory(String password, String code) throws JSONException {
         controller.password = password;
         controller.code = code;
         controller.work = "authTheory";
-        controller.auth_theory();
-       // checkState();
+        controller.workState.setValue(-1);
+        controller.workManager("authTheory");
     }
 
-    public void signIn(String name, String gender, String mobile, String password) throws JSONException {
-        AuthController.workState.setValue(-1);
+    public void register(String name, String mobile, String gender, String password) throws JSONException {
         controller.name = name;
-        controller.gender = gender;
         controller.mobile = mobile;
+        controller.gender = gender;
         controller.password = password;
-        controller.work = "signIn";
-        controller.signIn();
-       // checkState();
+        controller.work = "register";
+        controller.workState.setValue(-1);
+        controller.workManager("register");
     }
 
-    public JSONObject getStep(String step) {
+    public JSONObject getStep() {
         JSONObject items = new JSONObject();
-
-        switch (step){
+        switch (controller.theory){
             case "":
                 items = serialItems();
                 break;
@@ -63,7 +61,6 @@ public class AuthRepository extends MainRepository {
     private JSONObject serialItems() {
         JSONObject authItems = new JSONObject();
         try {
-            authItems.put("step", "serial");
             authItems.put("title", application.getApplicationContext().getResources().getString(R.string.AuthSerialTitle));
             authItems.put("description", application.getApplicationContext().getResources().getString(R.string.AuthSerialDescription));
             authItems.put("hint", application.getApplicationContext().getResources().getString(R.string.AuthSerialHint));
@@ -78,7 +75,6 @@ public class AuthRepository extends MainRepository {
     private JSONObject passwordItems() {
         JSONObject authItems = new JSONObject();
         try {
-            authItems.put("step", "password");
             authItems.put("title", application.getApplicationContext().getResources().getString(R.string.AuthPasswordTitle));
             authItems.put("description", application.getApplicationContext().getResources().getString(R.string.AuthPasswordDescription));
             authItems.put("hint", application.getApplicationContext().getResources().getString(R.string.AuthPasswordHint));
@@ -90,30 +86,14 @@ public class AuthRepository extends MainRepository {
         return authItems;
     }
 
-    private JSONObject mobileItems() {
-        JSONObject authItems = new JSONObject();
-        try {
-            authItems.put("step", "mobile");
-            authItems.put("title", application.getApplicationContext().getResources().getString(R.string.AuthMobileTitle));
-            authItems.put("description", application.getApplicationContext().getResources().getString(R.string.AuthMobileDescription));
-            authItems.put("hint", application.getApplicationContext().getResources().getString(R.string.AuthMobileHint));
-            authItems.put("button", application.getApplicationContext().getResources().getString(R.string.AuthMobileButton));
-            authItems.put("link", application.getApplicationContext().getResources().getString(R.string.AuthMobileLink));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return authItems;
-    }
-
     private JSONObject pinItems() {
         JSONObject authItems = new JSONObject();
         try {
-            authItems.put("step", "pin");
             authItems.put("title", application.getApplicationContext().getResources().getString(R.string.AuthPinTitle));
             authItems.put("description", application.getApplicationContext().getResources().getString(R.string.AuthPinDescription));
             authItems.put("hint", application.getApplicationContext().getResources().getString(R.string.AuthPinHint));
             authItems.put("button", application.getApplicationContext().getResources().getString(R.string.AuthPinButton));
-            authItems.put("link", "");
+            authItems.put("link", application.getApplicationContext().getResources().getString(R.string.AuthPinLink));
         } catch (JSONException e) {
             e.printStackTrace();
         }

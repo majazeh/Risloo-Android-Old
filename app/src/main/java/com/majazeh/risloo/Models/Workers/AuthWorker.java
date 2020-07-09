@@ -9,7 +9,7 @@ import androidx.work.WorkerParameters;
 
 import com.majazeh.risloo.Models.Remotes.Apis.SampleApi;
 import com.majazeh.risloo.Models.Remotes.Generators.RetroGenerator;
-import com.majazeh.risloo.Models.Repositories.Authentication.AuthController;
+import com.majazeh.risloo.Models.Controller.AuthController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,13 +20,13 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static android.content.ContentValues.TAG;
-
 public class AuthWorker extends Worker {
+
     private SampleApi sampleApi;
 
     public AuthWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
+
         sampleApi = RetroGenerator.getRetrofit().create(SampleApi.class);
     }
 
@@ -50,9 +50,9 @@ public class AuthWorker extends Worker {
                     } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
-                case "signIn":
+                case "register":
                     try {
-                        signIn();
+                        register();
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
@@ -60,16 +60,19 @@ public class AuthWorker extends Worker {
                     }
             }
         }
+
         return Result.success();
 
     }
 
     public void auth() throws JSONException, IOException {
         String token = "";
+
         if (token()) {
             token = "Bearer " + AuthController.token;
         }
-        Call<ResponseBody> call = sampleApi.auth(token, AuthController.callback, AuthController.authorized_key);
+
+        Call<ResponseBody> call = sampleApi.auth(token, AuthController.callback, AuthController.authorizedKey);
 
         Response<ResponseBody> bodyResponse = call.execute();
         if (bodyResponse.isSuccessful()) {
@@ -78,9 +81,10 @@ public class AuthWorker extends Worker {
                 AuthController.key = object.getString("key");
             else
                 AuthController.key = "";
-            if (object.has("theory"))
+            AuthController.preTheory = AuthController.theory;
+            if (object.has("theory")) {
                 AuthController.theory = object.getString("theory");
-            else
+            } else
                 AuthController.theory = "";
             if (object.has("callback"))
                 AuthController.callback = object.getString("callback");
@@ -101,10 +105,13 @@ public class AuthWorker extends Worker {
 
     public void authTheory() throws JSONException, IOException {
         String token = "";
+
         if (token()) {
             token = "Bearer" + AuthController.token;
         }
+
         Call<ResponseBody> call = sampleApi.authTheory(token, AuthController.key, AuthController.callback, AuthController.password, AuthController.code);
+
         Response<ResponseBody> bodyResponse = call.execute();
         if (bodyResponse.isSuccessful()) {
             JSONObject object = new JSONObject(bodyResponse.body().string());
@@ -112,32 +119,30 @@ public class AuthWorker extends Worker {
                 AuthController.key = object.getString("key");
             else
                 AuthController.key = "";
-            if (object.has("theory"))
+                AuthController.preTheory = AuthController.theory;
+            if (object.has("theory")) {
                 AuthController.theory = object.getString("theory");
-            else
+            } else
                 AuthController.theory = "";
             if (object.has("callback"))
                 AuthController.callback = object.getString("callback");
             else
                 AuthController.callback = "";
             if (object.has("token")) {
-                Log.e("token", object.getString("token"));
                 AuthController.token = object.getString("token");
-            }
-            else
+            } else
                 AuthController.token = "";
             AuthController.exception = "";
             AuthController.workState.postValue(1);
         } else {
             AuthController.workState.postValue(0);
             AuthController.exception = bodyResponse.message();
-
-
         }
     }
 
-    public void signIn() throws IOException, JSONException {
+    public void register() throws IOException, JSONException {
         Call<ResponseBody> call = sampleApi.signIn(AuthController.name, AuthController.gender, AuthController.mobile, AuthController.password);
+
         Response<ResponseBody> bodyResponse = call.execute();
         if (bodyResponse.isSuccessful()) {
             JSONObject object = new JSONObject(bodyResponse.body().string());
@@ -145,9 +150,10 @@ public class AuthWorker extends Worker {
                 AuthController.key = object.getString("key");
             else
                 AuthController.key = "";
-            if (object.has("theory"))
+                AuthController.preTheory = AuthController.theory;
+            if (object.has("theory")) {
                 AuthController.theory = object.getString("theory");
-            else
+            } else
                 AuthController.theory = "";
             if (object.has("callback"))
                 AuthController.callback = object.getString("callback");
@@ -169,4 +175,5 @@ public class AuthWorker extends Worker {
     public boolean token() {
         return !AuthController.token.isEmpty();
     }
+
 }

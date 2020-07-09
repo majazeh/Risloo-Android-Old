@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.ImageViewCompat;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
@@ -19,19 +17,17 @@ import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.google.android.material.tabs.TabLayout;
-import com.majazeh.risloo.Models.Repositories.Authentication.AuthController;
+import com.majazeh.risloo.Models.Controller.AuthController;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -40,29 +36,28 @@ import com.majazeh.risloo.ViewModels.AuthViewModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.logging.Logger;
-
 public class AuthActivity extends AppCompatActivity {
 
     // ViewModels
     private AuthViewModel viewModel;
 
     // Vars
-    private String input, name, mobile, gender = "male", password, previousStep = "none", currentStep = "serial";
-    private boolean inputTouch, inputError, nameTouch, nameError, mobileTouch, mobileError, passwordTouch, passwordError, passwordVisibility;
+    private String input, name, mobile, gender = "male", password;
+    private boolean inputTouch, inputError, nameTouch, nameError, mobileTouch, mobileError, passwordTouch, passwordError;
+    private boolean passwordVisibility;
 
     // Objects
-    private ClickableSpan serialLinkSpan, passwordLinkSpan, mobileLinkSpan;
+    private ClickableSpan serialLinkSpan, passwordLinkSpan, pinLinkSpan;
 
     // Widgets
     private Toolbar titleToolbar;
-    private LinearLayout authLinearLayout, registerLinearLayout;
+    private ViewFlipper viewFlipper;
     private TextView authDescriptionTextView;
     private EditText authInputEditText, registerNameEditText, registerMobileEditText, registerPasswordEditText;
     private TabLayout registerGenderTabLayout;
     private ImageView registerPasswordImageView;
-    private Button authButton, registerButton;
     private TextView authLinkTextView;
+    private Button authButton, registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +86,7 @@ public class AuthActivity extends AppCompatActivity {
 
         titleToolbar = findViewById(R.id.activity_auth_toolbar);
 
-        authLinearLayout = findViewById(R.id.activity_auth_linearLayout);
-        registerLinearLayout = findViewById(R.id.activity_register_linearLayout);
+        viewFlipper = findViewById(R.id.activity_auth_viewFlipper);
 
         authDescriptionTextView = findViewById(R.id.activity_auth_description_textView);
 
@@ -109,11 +103,11 @@ public class AuthActivity extends AppCompatActivity {
 
         registerPasswordImageView = findViewById(R.id.activity_register_password_imageView);
 
-        authButton = findViewById(R.id.activity_auth_button);
-        registerButton = findViewById(R.id.activity_register_button);
-
         authLinkTextView = findViewById(R.id.activity_auth_link_textView);
         authLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        authButton = findViewById(R.id.activity_auth_button);
+        registerButton = findViewById(R.id.activity_register_button);
     }
 
     private void detector() {
@@ -125,7 +119,10 @@ public class AuthActivity extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     private void listener() {
-        titleToolbar.setNavigationOnClickListener(v -> startActivity(new Intent(this, MoreActivity.class)));
+        titleToolbar.setNavigationOnClickListener(v -> {
+            startActivity(new Intent(this, MoreActivity.class));
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+        });
 
         authInputEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
@@ -136,6 +133,28 @@ public class AuthActivity extends AppCompatActivity {
                 inputError = false;
             }
             return false;
+        });
+
+        authInputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (AuthController.theory.equals("mobileCode")) {
+                    authInputEditText.setMaxEms(6);
+                    if (authInputEditText.length() == 6) {
+                        checkProcess();
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
         });
 
         registerNameEditText.setOnTouchListener((v, event) -> {
@@ -280,51 +299,11 @@ public class AuthActivity extends AppCompatActivity {
             }
         });
 
-        authButton.setOnClickListener(v -> {
-            input = authInputEditText.getText().toString().trim();
-
-            if (authInputEditText.length() == 0) {
-                checkInput("auth");
-            } else {
-                clearData("auth");
-                checkState();
-
-            }
-        });
-
-        registerButton.setOnClickListener(v -> {
-            name = registerNameEditText.getText().toString().trim();
-            mobile = registerMobileEditText.getText().toString().trim();
-            password = registerPasswordEditText.getText().toString().trim();
-
-            if (registerNameEditText.length() == 0 || registerMobileEditText.length() == 0 || registerPasswordEditText.length() == 0) {
-                checkInput("register");
-            } else {
-                clearData("register");
-
-                try {
-                    viewModel.signIn(name, gender, mobile, password);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                AuthController.workState.observe((LifecycleOwner) this, integer -> {
-                    if (AuthController.workState.getValue() == 1) {
-                        previousStep = "register";
-                        currentStep = "mobile";
-                        showAuth();
-                        launchStep(viewModel.getStep());
-                    } else {
-                        // TODO: handle error with AuthController.exception
-                    }
-                });
-            }
-        });
-
         serialLinkSpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                previousStep = "serial";
-                currentStep = "register";
+                AuthController.preTheory = "";
+                AuthController.theory = "register";
                 showRegister();
             }
 
@@ -348,7 +327,7 @@ public class AuthActivity extends AppCompatActivity {
             }
         };
 
-        mobileLinkSpan = new ClickableSpan() {
+        pinLinkSpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
                 resendCode();
@@ -360,6 +339,30 @@ public class AuthActivity extends AppCompatActivity {
                 textPaint.setUnderlineText(false);
             }
         };
+
+        authButton.setOnClickListener(v -> {
+            input = authInputEditText.getText().toString().trim();
+
+            if (authInputEditText.length() == 0) {
+                checkInput("auth");
+            } else {
+                clearData("auth");
+                checkProcess();
+            }
+        });
+
+        registerButton.setOnClickListener(v -> {
+            name = registerNameEditText.getText().toString().trim();
+            mobile = registerMobileEditText.getText().toString().trim();
+            password = registerPasswordEditText.getText().toString().trim();
+
+            if (registerNameEditText.length() == 0 || registerMobileEditText.length() == 0 || registerPasswordEditText.length() == 0) {
+                checkInput("register");
+            } else {
+                clearData("register");
+                registering();
+            }
+        });
     }
 
     private void checkInput(String value) {
@@ -441,8 +444,6 @@ public class AuthActivity extends AppCompatActivity {
                 passwordError = false;
             }
         }
-
-
     }
 
     private void clearData(String value) {
@@ -482,14 +483,94 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void showAuth() {
-        authLinearLayout.setVisibility(View.VISIBLE);
-        registerLinearLayout.setVisibility(View.GONE);
+        viewFlipper.setInAnimation(this, R.anim.slide_in_right_with_fade);
+        viewFlipper.setOutAnimation(this, R.anim.slide_out_left_with_fade);
+        viewFlipper.showPrevious();
     }
 
     private void showRegister() {
         titleToolbar.setTitle(getResources().getString(R.string.RegisterTitle));
-        authLinearLayout.setVisibility(View.GONE);
-        registerLinearLayout.setVisibility(View.VISIBLE);
+        viewFlipper.setInAnimation(this, R.anim.slide_in_left_with_fade);
+        viewFlipper.setOutAnimation(this, R.anim.slide_out_right_with_fade);
+        viewFlipper.showNext();
+    }
+    
+    ////////////////////////////////////////////////////////////////////////
+
+    private void authProcess(String theory) {
+
+    }
+
+    private void checkProcess() {
+        // TODO : start loading
+        try {
+
+            switch (AuthController.theory) {
+                case "":
+                    viewModel.auth(input);
+                    authenticating();
+                    break;
+                case "password":
+                    viewModel.authTheory(input, "");
+                    authenticating();
+                    break;
+                case "mobileCode":
+                    viewModel.authTheory("", input);
+                    authenticating();
+                    break;
+//                case "register":
+//                    viewModel.register(name, mobile, gender, password);
+//                    registering();
+//                    break;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void authenticating(){
+        AuthController.workState.observe(this, integer -> {
+            if (AuthController.workState.getValue() == 1) {
+                if (AuthController.theory.equals("")) {
+                    AuthController.workState.removeObservers(this);
+                    startActivity(new Intent(this, SampleActivity.class));
+                } else if (AuthController.theory.equals("auth")) {
+                    try {
+                        viewModel.authTheory("", "");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    launchStep(viewModel.getStep());
+                    // TODO: end loading
+                }
+            } else if (AuthController.workState.getValue() == 0) {
+                // TODO: handle error with AuthController.exception
+
+            } else {
+                // DO Nothing
+            }
+        });
+    }
+
+    private void registering() {
+       // AuthController.theory = "register";
+
+        try {
+            viewModel.register(name, mobile, gender, password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        AuthController.workState.observe(this, integer -> {
+            if (AuthController.workState.getValue() == 1) {
+                showAuth();
+                launchStep(viewModel.getStep());
+            } else {
+                // TODO: handle error with AuthController.exception
+            }
+        });
     }
 
     private void launchStep(JSONObject step) {
@@ -500,173 +581,44 @@ public class AuthActivity extends AppCompatActivity {
             authInputEditText.setHint(step.get("hint").toString());
             authButton.setText(step.get("button").toString());
 
-            if (step.get("link").toString() == "") {
-                authLinkTextView.setVisibility(View.INVISIBLE);
-            } else {
-                authLinkTextView.setVisibility(View.VISIBLE);
-
-                if (step.get("step") == "serial") {
+            switch (AuthController.theory) {
+                case "":
                     authLinkTextView.setText(StringCustomizer.clickable(step.get("link").toString(), 18, 25, serialLinkSpan));
-                } else if (step.get("step") == "password") {
+                    break;
+                case "password":
                     authLinkTextView.setText(StringCustomizer.clickable(step.get("link").toString(), 26, 33, passwordLinkSpan));
-                } else if (step.get("step") == "mobile") {
-                    authLinkTextView.setText(StringCustomizer.clickable(step.get("link").toString(), 24, 34, mobileLinkSpan));
-                }
+                    break;
+                case "mobileCode":
+                    authLinkTextView.setText(StringCustomizer.clickable(step.get("link").toString(), 24, 34, pinLinkSpan));
+                    break;
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    private void launchSample() {
-        startActivity(new Intent(this, SampleActivity.class));
-    }
-
-    private void checkState() {
-        // TODO: start loading
-        switch (AuthController.theory) {
-            case "":
-                try {
-                    viewModel.auth(input);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                AuthController.workState.observe((LifecycleOwner) this, integer -> {
-                    if (AuthController.workState.getValue() == 1) {
-                        previousStep = "serial";
-                        currentStep = "password";
-                        if (AuthController.theory.equals("")) {
-                            AuthController.workState.removeObservers((LifecycleOwner) this);
-                            launchSample();
-                        } else if (AuthController.theory.equals("auth"))
-                            authentication();
-                        else
-                            launchStep(viewModel.getStep());
-                        // TODO: end loading
-                    } else if (AuthController.workState.getValue() == 0) {
-                        // TODO: handle error with AuthController.exception
-                        //Log.e("listener: ", String.valueOf(AuthController.workState.getValue()));
-                    } else {
-                        //noting
-                    }
-                });
-                break;
-            case "password":
-                try {
-                    viewModel.auth_theory(input, "");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                AuthController.workState.observe((LifecycleOwner) this, integer -> {
-                    if (AuthController.workState.getValue() == 1) {
-                        previousStep = "serial";
-                        currentStep = "password";
-                        if (AuthController.theory.equals("")) {
-                            AuthController.workState.removeObservers((LifecycleOwner) this);
-                            launchSample();
-                        } else if (AuthController.theory.equals("auth"))
-                            authentication();
-                        else
-                            launchStep(viewModel.getStep());
-                        // TODO: end loading
-                    } else if (AuthController.workState.getValue() == 0) {
-                        // TODO: handle error with AuthController.exception
-                        //Log.e("listener: ", String.valueOf(AuthController.workState.getValue()));
-                    } else {
-                        //noting
-                    }
-                });
-                break;
-            case "mobileCode":
-                try {
-                    viewModel.auth_theory("", input);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                AuthController.workState.observe((LifecycleOwner) this, integer -> {
-                    if (AuthController.workState.getValue() == 1) {
-                        previousStep = "serial";
-                        currentStep = "password";
-                        if (AuthController.theory.equals("")) {
-                            AuthController.workState.removeObservers((LifecycleOwner) this);
-                            launchSample();
-                        } else if (AuthController.theory.equals("auth"))
-                            authentication();
-                        else
-                            launchStep(viewModel.getStep());
-                        // TODO: end loading
-                    } else if (AuthController.workState.getValue() == 0) {
-                        // TODO: handle error with AuthController.exception
-                        //Log.e("listener: ", String.valueOf(AuthController.workState.getValue()));
-                    } else {
-                        //noting
-                    }
-                });
-                break;
-
-        }
-        Log.e("checkState: ", AuthController.token);
-
-    }
-
-    public void authentication() {
-        try {
-            viewModel.auth_theory("", "");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        AuthController.workState.observe((LifecycleOwner) this, integer -> {
-            if (AuthController.workState.getValue() == 1) {
-                previousStep = "serial";
-                currentStep = "password";
-                if (AuthController.theory.equals("")) {
-                    AuthController.workState.removeObservers((LifecycleOwner) this);
-                    launchSample();
-                } else
-                    launchStep(viewModel.getStep());
-                // TODO: end loading
-            } else if (AuthController.workState.getValue() == 0) {
-                // TODO: handle error with AuthController.exception
-                //Log.e("listener: ", String.valueOf(AuthController.workState.getValue()));
-            } else {
-                //noting
-            }
-        });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // TODO: back process
     }
 
     @Override
     public void onBackPressed() {
         switch (AuthController.theory) {
-            case "pin":
-                if (previousStep == "mobile") {
-                    previousStep = "none";
-                    currentStep = "serial";
+            case "mobileCode":
+                if (AuthController.preTheory.equals("password")) {
+                    AuthController.theory.equals("password");
                     launchStep(viewModel.getStep());
-                } else if (previousStep == "password") {
-                    previousStep = "serial";
-                    currentStep = "password";
+                } else if (AuthController.preTheory.equals("register")) {
+
+                } else if (AuthController.preTheory.equals("")) {
+
+                }
+                break;
+            case "serial":
+                if (AuthController.theory.equals("password")) {
+                    launchStep(viewModel.getStep());
+                } else if (AuthController.theory.equals("register")) {
+                    showAuth();
                     launchStep(viewModel.getStep());
                 }
                 break;
-            case "mobile":
-                previousStep = "serial";
-                currentStep = "register";
-                showRegister();
-                break;
-            case "password":
-            case "register":
-                previousStep = "none";
-                currentStep = "serial";
-                showAuth();
-                launchStep(viewModel.getStep());
-                break;
-            case "serial":
+            case "":
                 finish();
                 break;
         }

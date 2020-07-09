@@ -51,29 +51,24 @@
     ////////////////////////////////////////////////////////////////////////////////
 
     <string name="AuthSerialTitle">بررسی سریال</string>
-    <string name="AuthSerialDescription">برای شروع انجام نمونه سریال مورد نظر را وارد نمایید</string>
+    <string name="AuthSerialDescription">برای شروع انجام نمونه سریال مورد نظر خود را وارد نمایید</string>
     <string name="AuthSerialHint">سریال</string>
     <string name="AuthSerialButton">بررسی</string>
     <string name="AuthSerialLink">کاربر جدید هستید؟ ثبت نام</string>
 
     <string name="AuthPasswordTitle">بررسی رمز عبور</string>
-    <string name="AuthPasswordDescription">رمز عبور یا شناسه خود را وارد نمایید</string>
+    <string name="AuthPasswordDescription">رمز عبور یا شماره همراه خود را وارد نمایید</string>
     <string name="AuthPasswordHint">رمز عبور</string>
-    <string name="AuthPasswordButton">تأیید</string>
+    <string name="AuthPasswordButton">بررسی</string>
     <string name="AuthPasswordLink">رمز عبور خود فراموش کردی؟ بازیابی</string>
 
-    <string name="AuthMobileTitle">تایید شماره موبایل</string>
-    <string name="AuthMobileDescription">کد پیامکی إرسال شده به شماره را وارد نمایید</string>
-    <string name="AuthMobileHint">کد پیامکی</string>
-    <string name="AuthMobileButton">تأیید</string>
-    <string name="AuthMobileLink">کد پیامکی دریافت نکردی؟ إرسال مجدد</string>
-
     <string name="AuthPinTitle">شروع نمونه</string>
-    <string name="AuthPinDescription">پین مربوط به نمونه را در فیلد زیر وارد نمایید</string>
-    <string name="AuthPinHint">پین</string>
+    <string name="AuthPinDescription">کد پیامکی إرسال شده به شما را وارد نمایید</string>
+    <string name="AuthPinHint">کد 6 رقمی</string>
     <string name="AuthPinButton">شروع</string>
+    <string name="AuthPinLink">کد پیامکی دریافت نکردی؟ إرسال مجدد</string>
 
-    <string name="RegisterTitle">ثبت نام</string>
+    <string name="RegisterTitle">ثبت نام جدید</string>
     <string name="RegisterDescription">اطلاعات و مشخصات خود را وارد نمایید</string>
     <string name="RegisterNameHint">نام و نام خانوادگی</string>
     <string name="RegisterMobileHint">شماره موبایل</string>
