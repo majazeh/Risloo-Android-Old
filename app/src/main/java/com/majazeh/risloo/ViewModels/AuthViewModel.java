@@ -32,10 +32,12 @@ public class AuthViewModel extends AndroidViewModel {
         repository.register(name, mobile, gender, password);
     }
 
+    public void verification() throws JSONException {
+        repository.verification();
+    }
+
     public JSONObject getStep(String theory) {
         return repository.getStep(theory);
     }
-
-
 
 }

@@ -5,13 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.ImageViewCompat;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
@@ -20,11 +25,14 @@ import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.google.android.material.tabs.TabLayout;
@@ -45,7 +53,7 @@ public class AuthActivity extends AppCompatActivity {
     private AuthViewModel viewModel;
 
     // Vars
-    private String input, name, mobile, gender = "male", password;
+    private String input = "", name = "", mobile = "", gender = "male", password = "";
     private boolean inputTouch, inputError, nameTouch, nameError, mobileTouch, mobileError, passwordTouch, passwordError;
     private boolean passwordVisibility;
 
@@ -61,6 +69,7 @@ public class AuthActivity extends AppCompatActivity {
     private ImageView registerPasswordImageView;
     private TextView authLinkTextView;
     private Button authButton, registerButton;
+    private Dialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +120,18 @@ public class AuthActivity extends AppCompatActivity {
 
         authButton = findViewById(R.id.activity_auth_button);
         registerButton = findViewById(R.id.activity_register_button);
+
+        progressDialog = new Dialog(this, R.style.DialogTheme);
+        progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        progressDialog.setContentView(R.layout.dialog_progress);
+        progressDialog.setCancelable(false);
+
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(progressDialog.getWindow().getAttributes());
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        progressDialog.getWindow().setAttributes(layoutParams);
     }
 
     private void detector() {
@@ -146,12 +167,13 @@ public class AuthActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (AuthController.theory.equals("mobileCode")) {
-                    authInputEditText.setMaxEms(6);
-                    if (authInputEditText.length() == 6) {
-                        checkProcess();
+                if (authInputEditText.length() == 6) {
+                    if (AuthController.theory.equals("mobileCode")) {
+                        authInputEditText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(6)});
+                        checkStep();
                     }
                 }
+
             }
 
             @Override
@@ -305,7 +327,6 @@ public class AuthActivity extends AppCompatActivity {
         serialLinkSpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                AuthController.preTheory = "";
                 AuthController.theory = "register";
                 showRegister();
             }
@@ -333,7 +354,11 @@ public class AuthActivity extends AppCompatActivity {
         pinLinkSpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                resendCode();
+                try {
+                    resendCode();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -345,20 +370,16 @@ public class AuthActivity extends AppCompatActivity {
 
         authButton.setOnClickListener(v -> {
             input = authInputEditText.getText().toString().trim();
-            name = "";
-            mobile = "";
-            password = "";
 
             if (authInputEditText.length() == 0) {
                 checkInput("auth");
             } else {
                 clearData("auth");
-                checkProcess();
+                checkStep();
             }
         });
 
         registerButton.setOnClickListener(v -> {
-            input = "";
             name = registerNameEditText.getText().toString().trim();
             mobile = registerMobileEditText.getText().toString().trim();
             password = registerPasswordEditText.getText().toString().trim();
@@ -368,7 +389,7 @@ public class AuthActivity extends AppCompatActivity {
             } else {
                 clearData("register");
                 AuthController.theory = "register";
-                checkProcess();
+                checkStep();
             }
         });
     }
@@ -486,31 +507,30 @@ public class AuthActivity extends AppCompatActivity {
         // TODO : Recover User's Password If He Has Forgot It
     }
 
-    private void resendCode() {
-        // TODO : Resend Mobile Register Code If He Hasn't Got The Previous Code
+    private void resendCode() throws JSONException {
+        viewModel.verification();
     }
 
     private void showAuth() {
+        name = "";
+        mobile = "";
+        gender = "";
         viewFlipper.setInAnimation(this, R.anim.slide_in_right_with_fade);
         viewFlipper.setOutAnimation(this, R.anim.slide_out_left_with_fade);
         viewFlipper.showPrevious();
     }
 
     private void showRegister() {
+        input = "";
         titleToolbar.setTitle(getResources().getString(R.string.RegisterTitle));
         viewFlipper.setInAnimation(this, R.anim.slide_in_left_with_fade);
         viewFlipper.setOutAnimation(this, R.anim.slide_out_right_with_fade);
         viewFlipper.showNext();
     }
 
-    ////////////////////////////////////////////////////////////////////////
+    private void checkStep() {
+        progressDialog.show();
 
-    private void authProcess(String theory) {
-
-    }
-
-    private void checkProcess() {
-        // TODO : start loading
         try {
             switch (AuthController.theory) {
                 case "auth":
@@ -537,11 +557,11 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void authenticating() {
-        AuthController.workState.observe(this, integer -> {
+        AuthController.workState.observe((LifecycleOwner)this, integer -> {
             if (AuthController.workState.getValue() == 1) {
                 if (AuthController.key == "") {
                     if (AuthController.callback == "") {
-                        AuthController.workState.removeObservers(this);
+                        AuthController.workState.removeObservers((LifecycleOwner)this);
                         startActivity(new Intent(this, SampleActivity.class));
                     } else {
                         launchStep(viewModel.getStep("auth"));
@@ -556,30 +576,20 @@ public class AuthActivity extends AppCompatActivity {
                     } else
                         launchStep(viewModel.getStep(AuthController.theory));
                 }
-                if (!name.equals("")){
+                if (!name.equals("")) {
                     showAuth();
                 }
+                progressDialog.dismiss();
+                AuthController.workState.removeObservers((LifecycleOwner)this);
             } else if (AuthController.workState.getValue() == 0) {
-                // TODO: handle error with AuthController.exception
-
+                progressDialog.dismiss();
+                Toast.makeText(this, "" + AuthController.exception, Toast.LENGTH_SHORT).show();
+                AuthController.workState.removeObservers((LifecycleOwner)this);
             } else {
                 // DO Nothing
             }
-
         });
-
     }
-
-//    private void registering() {
-//        AuthController.workState.observe(this, integer -> {
-//            if (AuthController.workState.getValue() == 1) {
-//                showAuth();
-////                launchStep(viewModel.getStep("register"));
-//            } else {
-//                // TODO: handle error with AuthController.exception
-//            }
-//        });
-//    }
 
     private void launchStep(JSONObject step) {
         try {

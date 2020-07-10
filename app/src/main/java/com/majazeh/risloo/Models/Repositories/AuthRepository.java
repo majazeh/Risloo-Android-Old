@@ -1,7 +1,6 @@
 package com.majazeh.risloo.Models.Repositories;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.majazeh.risloo.Models.Controller.AuthController;
 import com.majazeh.risloo.R;
@@ -42,6 +41,12 @@ public class AuthRepository extends MainRepository {
         controller.work = "register";
         controller.workState.setValue(-1);
         controller.workManager("register");
+    }
+
+    public void verification() throws JSONException {
+        controller.work = "verification";
+        controller.workState.setValue(-1);
+        controller.workManager("verification");
     }
 
     public JSONObject getStep(String theory) {
@@ -100,7 +105,5 @@ public class AuthRepository extends MainRepository {
         }
         return authItems;
     }
-
-
 
 }

@@ -8,12 +8,9 @@ import androidx.work.WorkerParameters;
 
 import com.majazeh.risloo.Models.Remotes.Apis.SampleApi;
 import com.majazeh.risloo.Models.Remotes.Generators.RetroGenerator;
-import com.majazeh.risloo.Models.Repositories.Sample.SampleItems;
 import com.majazeh.risloo.Models.Repositories.Sample.SampleRepository;
-import com.majazeh.risloo.Models.Repositories.Sample.Samples;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -22,12 +19,11 @@ import retrofit2.Response;
 public class SampleWorker extends Worker {
 
     private SampleApi sampleApi;
-    private Samples samples;
 
     public SampleWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
+
         sampleApi = RetroGenerator.getRetrofit().create(SampleApi.class);
-        samples = new Samples();
     }
 
     @NonNull
@@ -44,12 +40,13 @@ public class SampleWorker extends Worker {
         }
 
         return Result.success();
-    }
 
+    }
 
     private void send() {
         try {
             Call<ResponseBody> call = sampleApi.send("Barzeghar.json",SampleRepository.remoteData);
+
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 SampleRepository.remoteData.clear();
@@ -60,7 +57,6 @@ public class SampleWorker extends Worker {
                 }
             }
             SampleRepository.inProgress = false;
-
         } catch (IOException e) {
             e.printStackTrace();
 

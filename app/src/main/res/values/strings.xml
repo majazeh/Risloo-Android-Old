@@ -56,9 +56,9 @@
     <string name="AuthSerialButton">بررسی</string>
     <string name="AuthSerialLink">کاربر جدید هستید؟ ثبت نام</string>
 
-    <string name="AuthPasswordTitle">بررسی رمز عبور</string>
+    <string name="AuthPasswordTitle">بررسی رمز عبور یا شماره همراه</string>
     <string name="AuthPasswordDescription">رمز عبور یا شماره همراه خود را وارد نمایید</string>
-    <string name="AuthPasswordHint">رمز عبور</string>
+    <string name="AuthPasswordHint">رمز عبور یا شماره همراه</string>
     <string name="AuthPasswordButton">بررسی</string>
     <string name="AuthPasswordLink">رمز عبور خود فراموش کردی؟ بازیابی</string>
 
@@ -68,6 +68,8 @@
     <string name="AuthPinButton">شروع</string>
     <string name="AuthPinLink">کد پیامکی دریافت نکردی؟ إرسال مجدد</string>
 
+    <string name="AuthPinTimer">کد پیامکی مجددا به شما إرسال شد</string>
+
     <string name="RegisterTitle">ثبت نام جدید</string>
     <string name="RegisterDescription">اطلاعات و مشخصات خود را وارد نمایید</string>
     <string name="RegisterNameHint">نام و نام خانوادگی</string>
@@ -76,6 +78,8 @@
     <string name="RegisterWomanHint">زن</string>
     <string name="RegisterPasswordHint">رمز عبور</string>
     <string name="RegisterButton">ثبت نام</string>
+
+    <string name="AuthProgressDialogTitle">لطفا منتظر بمانید …</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
