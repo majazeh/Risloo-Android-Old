@@ -15,6 +15,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextPaint;
@@ -22,7 +23,6 @@ import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -45,7 +45,7 @@ import com.majazeh.risloo.ViewModels.AuthViewModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.logging.Logger;
+import java.util.Locale;
 
 public class AuthActivity extends AppCompatActivity {
 
@@ -58,16 +58,17 @@ public class AuthActivity extends AppCompatActivity {
     private boolean passwordVisibility;
 
     // Objects
+    private CountDownTimer pinCountDownTimer;
     private ClickableSpan serialLinkSpan, passwordLinkSpan, pinLinkSpan;
 
     // Widgets
     private Toolbar titleToolbar;
-    private ViewFlipper viewFlipper;
+    private ViewFlipper layoutViewFlipper, linkViewFlipper;
     private TextView authDescriptionTextView;
     private EditText authInputEditText, registerNameEditText, registerMobileEditText, registerPasswordEditText;
     private TabLayout registerGenderTabLayout;
     private ImageView registerPasswordImageView;
-    private TextView authLinkTextView;
+    private TextView authLinkTextView, authTimerTextView;
     private Button authButton, registerButton;
     private Dialog progressDialog;
 
@@ -98,7 +99,8 @@ public class AuthActivity extends AppCompatActivity {
 
         titleToolbar = findViewById(R.id.activity_auth_toolbar);
 
-        viewFlipper = findViewById(R.id.activity_auth_viewFlipper);
+        layoutViewFlipper = findViewById(R.id.activity_auth_layout_viewFlipper);
+        linkViewFlipper = findViewById(R.id.activity_auth_link_viewFlipper);
 
         authDescriptionTextView = findViewById(R.id.activity_auth_description_textView);
 
@@ -117,6 +119,8 @@ public class AuthActivity extends AppCompatActivity {
 
         authLinkTextView = findViewById(R.id.activity_auth_link_textView);
         authLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        authTimerTextView = findViewById(R.id.activity_auth_timer_textView);
 
         authButton = findViewById(R.id.activity_auth_button);
         registerButton = findViewById(R.id.activity_register_button);
@@ -354,17 +358,28 @@ public class AuthActivity extends AppCompatActivity {
         pinLinkSpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                try {
-                    resendCode();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                resendCode();
             }
 
             @Override
             public void updateDrawState(@NonNull TextPaint textPaint) {
                 textPaint.setColor(getResources().getColor(R.color.PrimaryDark));
                 textPaint.setUnderlineText(false);
+            }
+        };
+
+        pinCountDownTimer = new CountDownTimer(60000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                int minutes = (int) (millisUntilFinished / 1000) / 60;
+                int seconds = (int) (millisUntilFinished / 1000) % 60;
+
+                authTimerTextView.setText(String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds));
+            }
+
+            @Override
+            public void onFinish() {
+                showLink();
             }
         };
 
@@ -507,25 +522,44 @@ public class AuthActivity extends AppCompatActivity {
         // TODO : Recover User's Password If He Has Forgot It
     }
 
-    private void resendCode() throws JSONException {
-        viewModel.verification();
+    private void resendCode() {
+        try {
+            viewModel.verification();
+            authenticating();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showAuth() {
         name = "";
         mobile = "";
         gender = "";
-        viewFlipper.setInAnimation(this, R.anim.slide_in_right_with_fade);
-        viewFlipper.setOutAnimation(this, R.anim.slide_out_left_with_fade);
-        viewFlipper.showPrevious();
+        layoutViewFlipper.setInAnimation(this, R.anim.slide_in_right_with_fade);
+        layoutViewFlipper.setOutAnimation(this, R.anim.slide_out_left_with_fade);
+        layoutViewFlipper.showPrevious();
     }
 
     private void showRegister() {
         input = "";
         titleToolbar.setTitle(getResources().getString(R.string.RegisterTitle));
-        viewFlipper.setInAnimation(this, R.anim.slide_in_left_with_fade);
-        viewFlipper.setOutAnimation(this, R.anim.slide_out_right_with_fade);
-        viewFlipper.showNext();
+        layoutViewFlipper.setInAnimation(this, R.anim.slide_in_left_with_fade);
+        layoutViewFlipper.setOutAnimation(this, R.anim.slide_out_right_with_fade);
+        layoutViewFlipper.showNext();
+    }
+
+    private void showTimer() {
+        linkViewFlipper.setInAnimation(this, R.anim.slide_in_left_with_fade);
+        linkViewFlipper.setOutAnimation(this, R.anim.slide_out_right_with_fade);
+        linkViewFlipper.showNext();
+        pinCountDownTimer.start();
+    }
+
+    private void showLink() {
+        linkViewFlipper.setInAnimation(this, R.anim.slide_in_right_with_fade);
+        linkViewFlipper.setOutAnimation(this, R.anim.slide_out_left_with_fade);
+        linkViewFlipper.showPrevious();
+        pinCountDownTimer.cancel();
     }
 
     private void checkStep() {
@@ -557,34 +591,38 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void authenticating() {
-        AuthController.workState.observe((LifecycleOwner)this, integer -> {
+        AuthController.workState.observe((LifecycleOwner) this, integer -> {
             if (AuthController.workState.getValue() == 1) {
-                if (AuthController.key == "") {
-                    if (AuthController.callback == "") {
-                        AuthController.workState.removeObservers((LifecycleOwner)this);
-                        startActivity(new Intent(this, SampleActivity.class));
-                    } else {
-                        launchStep(viewModel.getStep("auth"));
-                    }
+                if (AuthController.theory.equals("mobileCode") && AuthController.preTheory.equals("mobileCode")) {
+                    showTimer();
                 } else {
-                    if (AuthController.theory == "auth") {
-                        try {
-                            viewModel.authTheory("", "");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    if (AuthController.key.equals("")) {
+                        if (AuthController.callback.equals("")) {
+                            AuthController.workState.removeObservers((LifecycleOwner) this);
+                            startActivity(new Intent(this, SampleActivity.class));
+                        } else {
+                            launchStep(viewModel.getStep("auth"));
                         }
-                    } else
-                        launchStep(viewModel.getStep(AuthController.theory));
+                    } else {
+                        if (AuthController.theory.equals("auth")) {
+                            try {
+                                viewModel.authTheory("", "");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else
+                            launchStep(viewModel.getStep(AuthController.theory));
+                    }
+                    if (!name.equals("")) {
+                        showAuth();
+                    }
+                    progressDialog.dismiss();
                 }
-                if (!name.equals("")) {
-                    showAuth();
-                }
-                progressDialog.dismiss();
-                AuthController.workState.removeObservers((LifecycleOwner)this);
+                AuthController.workState.removeObservers((LifecycleOwner) this);
             } else if (AuthController.workState.getValue() == 0) {
                 progressDialog.dismiss();
                 Toast.makeText(this, "" + AuthController.exception, Toast.LENGTH_SHORT).show();
-                AuthController.workState.removeObservers((LifecycleOwner)this);
+                AuthController.workState.removeObservers((LifecycleOwner) this);
             } else {
                 // DO Nothing
             }
@@ -617,29 +655,17 @@ public class AuthActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-//        switch (AuthController.theory) {
-//            case "mobileCode":
-//                if (AuthController.preTheory.equals("password")) {
-//                    AuthController.theory.equals("password");
-//                    launchStep(viewModel.getStep());
-//                } else if (AuthController.preTheory.equals("register")) {
-//
-//                } else if (AuthController.preTheory.equals("")) {
-//
-//                }
-//                break;
-//            case "serial":
-//                if (AuthController.theory.equals("password")) {
-//                    launchStep(viewModel.getStep());
-//                } else if (AuthController.theory.equals("register")) {
-//                    showAuth();
-//                    launchStep(viewModel.getStep());
-//                }
-//                break;
-//            case "":
-//                finish();
-//                break;
-//        }
+        if (!AuthController.theory.equals("auth")) {
+            if (AuthController.theory.equals("register")) {
+                AuthController.theory = "auth";
+                showAuth();
+            } else {
+                AuthController.theory = "auth";
+                launchStep(viewModel.getStep("auth"));
+            }
+        } else {
+            finish();
+        }
     }
 
 }

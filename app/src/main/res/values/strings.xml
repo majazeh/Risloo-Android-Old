@@ -68,7 +68,7 @@
     <string name="AuthPinButton">شروع</string>
     <string name="AuthPinLink">کد پیامکی دریافت نکردی؟ إرسال مجدد</string>
 
-    <string name="AuthPinTimer">کد پیامکی مجددا به شما إرسال شد</string>
+    <string name="AuthPinTimer">کد پیامکی مجددا به شما إرسال شد :</string>
 
     <string name="RegisterTitle">ثبت نام جدید</string>
     <string name="RegisterDescription">اطلاعات و مشخصات خود را وارد نمایید</string>
