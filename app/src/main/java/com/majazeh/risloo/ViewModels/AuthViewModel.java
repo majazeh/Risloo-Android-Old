@@ -8,7 +8,6 @@ import androidx.lifecycle.AndroidViewModel;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 public class AuthViewModel extends AndroidViewModel {
 
@@ -34,10 +33,6 @@ public class AuthViewModel extends AndroidViewModel {
 
     public void verification() throws JSONException {
         repository.verification();
-    }
-
-    public JSONObject getStep(String theory) {
-        return repository.getStep(theory);
     }
 
 }

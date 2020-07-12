@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_register"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:background="@null"
+    tools:context=".Views.Ui.Fragments.RegisterFragment"
+    tools:ignore="UnusedAttribute">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_24sdp"
+        android:layout_marginRight="@dimen/_24sdp"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_28sdp"
+            android:gravity="center"
+            android:text="@string/RegisterDescription"
+            android:textSize="@dimen/_13ssp"
+            android:textStyle="bold"
+            android:textColor="@color/Grey"
+            android:textAlignment="gravity" />
+
+        <EditText
+            android:id="@+id/fragment_register_name_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:paddingTop="@dimen/_8sdp"
+            android:paddingBottom="@dimen/_8sdp"
+            android:paddingLeft="@dimen/_16sdp"
+            android:paddingRight="@dimen/_16sdp"
+            android:inputType="text"
+            android:gravity="center"
+            android:hint="@string/RegisterNameHint"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="normal"
+            android:textColor="@color/Grey"
+            android:textColorHint="@color/Mischka"
+            android:textAlignment="gravity"
+            android:background="@drawable/draw_18sdp_quartz_border" />
+
+        <EditText
+            android:id="@+id/fragment_register_mobile_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:paddingTop="@dimen/_8sdp"
+            android:paddingBottom="@dimen/_8sdp"
+            android:paddingLeft="@dimen/_16sdp"
+            android:paddingRight="@dimen/_16sdp"
+            android:inputType="number"
+            android:maxLength="11"
+            android:gravity="center"
+            android:hint="@string/RegisterMobileHint"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="normal"
+            android:textColor="@color/Grey"
+            android:textColorHint="@color/Mischka"
+            android:textAlignment="gravity"
+            android:background="@drawable/draw_18sdp_quartz_border" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_34sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            app:cardBackgroundColor="@color/White"
+            app:cardCornerRadius="@dimen/_18sdp"
+            app:cardElevation="0dp">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/fragment_register_gender_tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:theme="@style/TabTheme"
+                android:background="@drawable/draw_18sdp_quartz_border"
+                app:tabMode="fixed"
+                app:tabGravity="fill"
+                app:tabRippleColor="@color/Quartz"
+                app:tabIndicatorColor="@color/Solitude"
+                app:tabIndicatorHeight="@dimen/_34sdp"
+                app:tabTextColor="@color/Mischka"
+                app:tabSelectedTextColor="@color/Grey"
+                app:tabBackground="@null"
+                app:tabTextAppearance="@style/TabTextAppearance">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/RegisterManHint" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/RegisterWomanHint" />
+
+            </com.google.android.material.tabs.TabLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_24sdp">
+
+            <EditText
+                android:id="@+id/fragment_register_password_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                android:paddingLeft="@dimen/_32sdp"
+                android:paddingRight="@dimen/_32sdp"
+                android:inputType="textPassword"
+                android:gravity="center"
+                android:hint="@string/RegisterPasswordHint"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="normal"
+                android:textColor="@color/Grey"
+                android:textColorHint="@color/Mischka"
+                android:textAlignment="gravity"
+                android:background="@drawable/draw_18sdp_quartz_border" />
+
+            <ImageView
+                android:id="@+id/fragment_register_imageView"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:padding="@dimen/_6sdp"
+                android:visibility="invisible"
+                android:tint="@color/Mischka"
+                android:src="@drawable/ic_eye_slash"/>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <Button
+            android:id="@+id/fragment_register_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/_4sdp"
+            android:paddingBottom="@dimen/_4sdp"
+            android:gravity="center"
+            android:text="@string/RegisterButton"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            android:textColor="@color/White"
+            android:textAlignment="gravity"
+            android:background="@drawable/draw_18sdp_primary"
+            style="?android:attr/borderlessButtonStyle"/>
+
+    </LinearLayout>
+
+</FrameLayout>

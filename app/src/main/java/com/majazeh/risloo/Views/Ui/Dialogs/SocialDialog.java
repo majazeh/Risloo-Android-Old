@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Views.Adapters;
+package com.majazeh.risloo.Views.Ui.Dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -22,7 +22,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.IntentCaller;
 
-public class SocialBottomSheetDialog extends BottomSheetDialogFragment {
+public class SocialDialog extends BottomSheetDialogFragment {
 
     // Class
     private IntentCaller intentCaller;
@@ -35,7 +35,7 @@ public class SocialBottomSheetDialog extends BottomSheetDialogFragment {
     private LinearLayout telegramLinearLayout, instagramLinearLayout, facebookLinearLayout, twitterLinearLayout;
     private TextView closeTextView;
 
-    public SocialBottomSheetDialog(Activity activity) {
+    public SocialDialog(Activity activity) {
         this.activity = activity;
     }
 
@@ -53,15 +53,7 @@ public class SocialBottomSheetDialog extends BottomSheetDialogFragment {
         return view;
     }
 
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-        customizeDialog(dialog);
-        return dialog;
-    }
-
-    private void initializer(@NonNull View view) {
+    private void initializer(View view) {
         intentCaller = new IntentCaller();
 
         handler = new Handler();
@@ -118,6 +110,14 @@ public class SocialBottomSheetDialog extends BottomSheetDialogFragment {
             handler.postDelayed(() -> closeTextView.setClickable(true), 1000);
             dismiss();
         });
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        customizeDialog(dialog);
+        return dialog;
     }
 
     private void customizeDialog(@NonNull Dialog dialog) {

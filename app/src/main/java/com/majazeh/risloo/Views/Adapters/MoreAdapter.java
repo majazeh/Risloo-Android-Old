@@ -25,11 +25,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Entities.More;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.IntentCaller;
-import com.majazeh.risloo.Views.Ui.AboutUsActivity;
-import com.majazeh.risloo.Views.Ui.CallUsActivity;
-import com.majazeh.risloo.Views.Ui.MoreActivity;
-import com.majazeh.risloo.Views.Ui.QuestionActivity;
-import com.majazeh.risloo.Views.Ui.TermsConditionsActivity;
+import com.majazeh.risloo.Views.Ui.Activities.AboutUsActivity;
+import com.majazeh.risloo.Views.Ui.Activities.CallUsActivity;
+import com.majazeh.risloo.Views.Ui.Activities.MoreActivity;
+import com.majazeh.risloo.Views.Ui.Activities.QuestionActivity;
+import com.majazeh.risloo.Views.Ui.Dialogs.SocialDialog;
+import com.majazeh.risloo.Views.Ui.Activities.TermsConditionsActivity;
 
 import org.json.JSONException;
 
@@ -39,7 +40,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
 
     // Class
     private IntentCaller intentCaller;
-    private SocialBottomSheetDialog bottomSheet;
+    private SocialDialog socialDialog;
 
     // Vars
     private ArrayList<More> mores;
@@ -106,7 +107,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
 
     private void initializer() {
         intentCaller = new IntentCaller();
-        bottomSheet = new SocialBottomSheetDialog(activity);
+        socialDialog = new SocialDialog(activity);
 
         handler = new Handler();
     }
@@ -135,7 +136,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
                 activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 break;
             case 4:
-                bottomSheet.show(((MoreActivity)activity).getSupportFragmentManager(), "socialBottomSheet");
+                socialDialog.show(((MoreActivity)activity).getSupportFragmentManager(), "socialBottomSheet");
                 break;
             case 5:
                 intentCaller.share(activity, activity.getResources().getString(R.string.MoreShareLink), activity.getResources().getString(R.string.MoreShareChooser));

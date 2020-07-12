@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Views.Ui;
+package com.majazeh.risloo.Views.Ui.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
