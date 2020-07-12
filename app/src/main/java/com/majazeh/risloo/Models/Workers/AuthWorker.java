@@ -67,15 +67,6 @@ public class AuthWorker extends Worker {
                         e.printStackTrace();
                     }
                     break;
-                case "forgetPassword":
-                    try {
-                        forgetPassword();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    break;
             }
         }
 
@@ -230,40 +221,5 @@ public class AuthWorker extends Worker {
         }
 
     }
-
-    private void forgetPassword() throws IOException, JSONException {
-        Call<ResponseBody> call = authApi.forgetPassword(AuthController.mobile);
-
-        Response<ResponseBody> bodyResponse = call.execute();
-        if (bodyResponse.isSuccessful()) {
-            JSONObject object = new JSONObject(bodyResponse.body().string());
-            if (object.has("key"))
-                AuthController.key = object.getString("key");
-            else
-                AuthController.key = "";
-            AuthController.preTheory = AuthController.theory;
-            if (object.has("theory")) {
-                AuthController.theory = object.getString("theory");
-            } else
-                AuthController.theory = "";
-            if (object.has("callback"))
-                AuthController.callback = object.getString("callback");
-            else
-                AuthController.callback = "";
-            if (object.has("token"))
-                AuthController.token = object.getString("token");
-            else
-                AuthController.token = "";
-            AuthController.exception = "";
-            AuthController.workState.postValue(1);
-        } else {
-            AuthController.exception = "";
-            AuthController.workState.postValue(0);
-            JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-            AuthController.exception = errorBody.getString("message_text");
-        }
-
-    }
-
 
 }
