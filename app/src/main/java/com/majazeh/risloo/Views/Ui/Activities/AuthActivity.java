@@ -52,7 +52,8 @@ public class AuthActivity extends AppCompatActivity {
 
         listener();
 
-        showFragment();
+        titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
+        loadFragment(new SerialFragment(this), 0, 0);
     }
 
     private void decorator() {
@@ -81,8 +82,9 @@ public class AuthActivity extends AppCompatActivity {
         });
     }
 
-    private void loadFragment(Fragment fragment) {
+    private void loadFragment(Fragment fragment, int enterAnim, int exitAnim) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(enterAnim, exitAnim);
         transaction.replace(R.id.activity_auth_frameLayout, fragment);
         transaction.commit();
     }
@@ -91,24 +93,24 @@ public class AuthActivity extends AppCompatActivity {
         switch (AuthController.theory) {
             case "auth":
                 titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
-                loadFragment(new SerialFragment(this));
+                loadFragment(new SerialFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
                 break;
             case "password":
                 titleToolbar.setTitle(getResources().getString(R.string.PasswordTitle));
-                loadFragment(new PasswordFragment(this));
+                loadFragment(new PasswordFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
                 break;
             case "mobileCode":
                 titleToolbar.setTitle(getResources().getString(R.string.PinTitle));
-                loadFragment(new PinFragment(this));
+                loadFragment(new PinFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
                 break;
             case "register":
                 titleToolbar.setTitle(getResources().getString(R.string.RegisterTitle));
-                loadFragment(new RegisterFragment(this));
+                loadFragment(new RegisterFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
                 break;
             case "mobile":
             case "recover":
                 titleToolbar.setTitle(getResources().getString(R.string.MobileTitle));
-                loadFragment(new MobileFragment(this));
+                loadFragment(new MobileFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
                 break;
         }
     }
@@ -119,6 +121,8 @@ public class AuthActivity extends AppCompatActivity {
                 if (AuthController.preTheory.equals("mobileCode") && AuthController.theory.equals("mobileCode")) {
                     callTimer.setValue(true);
                 } else {
+                    callTimer.postValue(false);
+                    callTimer.removeObservers((LifecycleOwner) this);
                     if (AuthController.key.equals("")) {
                         if (AuthController.callback.equals("")) {
                             startActivity(new Intent(this, SampleActivity.class));
@@ -151,10 +155,20 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
+        loadFragment(new SerialFragment(this), 0, 0);
+    }
+
+    @Override
     public void onBackPressed() {
         if (!AuthController.theory.equals("auth")) {
             AuthController.theory = "auth";
-            showFragment();
+
+            titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
+            loadFragment(new SerialFragment(this), R.anim.slide_in_right_with_fade, R.anim.slide_out_left_with_fade);
         } else {
             finish();
         }

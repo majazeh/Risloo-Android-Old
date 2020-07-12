@@ -171,7 +171,6 @@ public class PinFragment extends Fragment {
             @Override
             public void onFinish() {
                 showTimer(false);
-                ((AuthActivity) Objects.requireNonNull(getActivity())).callTimer.removeObservers((LifecycleOwner) activity);
             }
         };
     }
