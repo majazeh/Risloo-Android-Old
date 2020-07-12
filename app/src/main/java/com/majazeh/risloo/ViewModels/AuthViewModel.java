@@ -35,4 +35,8 @@ public class AuthViewModel extends AndroidViewModel {
         repository.verification();
     }
 
+    public void forgetPassword(String mobile) throws JSONException {
+        repository.forgetPassword(mobile);
+    }
+
 }

@@ -29,4 +29,8 @@ public interface AuthApi {
     @POST("auth/verification")
     Call<ResponseBody> verification(@Query("mobile") String mobile);
 
+    @Headers({"content-type: application/x-www-form-urlencoded"})
+    @POST("auth/recovery")
+    Call<ResponseBody> forgetPassword(@Query("username") String username);
+
 }

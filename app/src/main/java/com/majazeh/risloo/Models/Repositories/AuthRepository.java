@@ -47,4 +47,11 @@ public class AuthRepository extends MainRepository {
         controller.workManager("verification");
     }
 
+    public void forgetPassword(String mobile) throws JSONException {
+        controller.mobile = mobile;
+        controller.work = "forgetPassword";
+        controller.workState.setValue(-1);
+        controller.workManager("forgetPassword");
+    }
+
 }

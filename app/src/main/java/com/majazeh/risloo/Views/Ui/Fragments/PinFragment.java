@@ -23,6 +23,7 @@ import android.widget.ViewFlipper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.majazeh.risloo.R;
@@ -71,6 +72,8 @@ public class PinFragment extends Fragment {
         listener();
 
         setText();
+
+        observeTimer();
 
         return view;
     }
@@ -168,12 +171,37 @@ public class PinFragment extends Fragment {
             @Override
             public void onFinish() {
                 showTimer(false);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).callTimer.removeObservers((LifecycleOwner) activity);
             }
         };
     }
 
     private void setText() {
         pinLinkTextView.setText(StringCustomizer.clickable(activity.getResources().getString(R.string.PinLink), 24, 34, pinLinkSpan));
+    }
+
+    private void observeTimer() {
+        ((AuthActivity) Objects.requireNonNull(getActivity())).callTimer.observe((LifecycleOwner) activity, aBoolean -> {
+            if (aBoolean) {
+                showTimer(true);
+            }
+        });
+    }
+
+    public void showTimer(boolean value) {
+        if (value) {
+            pinCountDownTimer.start();
+
+            pinViewFlipper.setInAnimation(activity, R.anim.slide_in_left_with_fade);
+            pinViewFlipper.setOutAnimation(activity, R.anim.slide_out_right_with_fade);
+            pinViewFlipper.showNext();
+        } else {
+            pinCountDownTimer.cancel();
+
+            pinViewFlipper.setInAnimation(activity, R.anim.slide_in_right_with_fade);
+            pinViewFlipper.setOutAnimation(activity, R.anim.slide_out_left_with_fade);
+            pinViewFlipper.showPrevious();
+        }
     }
 
     private void checkInput() {
@@ -194,22 +222,6 @@ public class PinFragment extends Fragment {
 
         pinTouch = false;
         pinError = false;
-    }
-
-    private void showTimer(boolean value) {
-        if (value) {
-            pinCountDownTimer.start();
-
-            pinViewFlipper.setInAnimation(activity, R.anim.slide_in_left_with_fade);
-            pinViewFlipper.setOutAnimation(activity, R.anim.slide_out_right_with_fade);
-            pinViewFlipper.showNext();
-        } else {
-            pinCountDownTimer.cancel();
-
-            pinViewFlipper.setInAnimation(activity, R.anim.slide_in_right_with_fade);
-            pinViewFlipper.setOutAnimation(activity, R.anim.slide_out_left_with_fade);
-            pinViewFlipper.showPrevious();
-        }
     }
 
     private void doWork(String value) {

@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.majazeh.risloo.Models.Controller.AuthController;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Ui.Activities.AuthActivity;
@@ -146,7 +147,10 @@ public class MobileFragment extends Fragment {
     private void doWork() {
         try {
             ((AuthActivity) Objects.requireNonNull(getActivity())).progressDialog.show();
-            viewModel.auth(mobile);
+            if (AuthController.theory.equals("mobile"))
+                viewModel.auth(mobile);
+            else
+                viewModel.forgetPassword(mobile);
             ((AuthActivity) Objects.requireNonNull(getActivity())).observeWork();
         } catch (JSONException e) {
             e.printStackTrace();

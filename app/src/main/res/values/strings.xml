@@ -83,10 +83,6 @@
     <string name="RegisterPasswordHint">رمز عبور</string>
     <string name="RegisterButton">ثبت نام</string>
 
-    <string name="AuthInfoDialogTitle">کاربر گرامی</string>
-    <string name="AuthInfoDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
-    <string name="AuthInfoDialogConfirm">بستن</string>
-
     <string name="AuthProgressDialogTitle">لطفا منتظر بمانید …</string>
 
     ////////////////////////////////////////////////////////////////////////////////
