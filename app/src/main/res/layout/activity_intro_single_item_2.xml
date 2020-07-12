@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:background="@null"
+    tools:context=".Views.Ui.Activities.IntroActivity"
     tools:ignore="UnusedAttribute">
 
     <LinearLayout

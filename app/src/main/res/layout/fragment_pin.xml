@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_pin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:background="@null"
+    tools:context=".Views.Ui.Fragments.PinFragment"
+    tools:ignore="UnusedAttribute">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_24sdp"
+        android:layout_marginRight="@dimen/_24sdp"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_28sdp"
+            android:gravity="center"
+            android:text="@string/PinDescription"
+            android:textSize="@dimen/_13ssp"
+            android:textStyle="bold"
+            android:textColor="@color/Grey"
+            android:textAlignment="gravity" />
+
+        <EditText
+            android:id="@+id/fragment_pin_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:paddingTop="@dimen/_8sdp"
+            android:paddingBottom="@dimen/_8sdp"
+            android:paddingLeft="@dimen/_16sdp"
+            android:paddingRight="@dimen/_16sdp"
+            android:inputType="number"
+            android:maxLength="6"
+            android:gravity="center"
+            android:hint="@string/PinHint"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="normal"
+            android:textColor="@color/Grey"
+            android:textColorHint="@color/Mischka"
+            android:textAlignment="gravity"
+            android:background="@drawable/draw_18sdp_quartz_border" />
+
+        <Button
+            android:id="@+id/fragment_pin_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_18sdp"
+            android:paddingTop="@dimen/_4sdp"
+            android:paddingBottom="@dimen/_4sdp"
+            android:gravity="center"
+            android:text="@string/PinButton"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            android:textColor="@color/White"
+            android:textAlignment="gravity"
+            android:background="@drawable/draw_18sdp_primary"
+            style="?android:attr/borderlessButtonStyle"/>
+
+        <ViewFlipper
+            android:id="@+id/fragment_pin_viewFlipper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/fragment_pin_link_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/_11ssp"
+                android:textStyle="bold"
+                android:textColor="@color/Mischka"
+                android:textAlignment="gravity" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layoutDirection="rtl"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:gravity="center"
+                    android:text="@string/PinTimer"
+                    android:textSize="@dimen/_11ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Mischka"
+                    android:textAlignment="gravity" />
+
+                <TextView
+                    android:id="@+id/fragment_pin_timer_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="@dimen/_11ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Grey"
+                    android:textAlignment="gravity" />
+
+            </LinearLayout>
+
+        </ViewFlipper>
+
+    </LinearLayout>
+
+</FrameLayout>

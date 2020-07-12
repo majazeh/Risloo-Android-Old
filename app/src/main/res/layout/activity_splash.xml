@@ -8,7 +8,7 @@
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
     android:background="@color/Primary"
-    tools:context=".Views.Ui.SplashActivity"
+    tools:context=".Views.Ui.Activities.SplashActivity"
     tools:ignore="UnusedAttribute">
 
     <ImageView

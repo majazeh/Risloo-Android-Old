@@ -50,34 +50,42 @@
     // auth strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="AuthSerialTitle">بررسی سریال</string>
-    <string name="AuthSerialDescription">برای شروع انجام نمونه سریال مورد نظر خود را وارد نمایید</string>
-    <string name="AuthSerialHint">سریال</string>
-    <string name="AuthSerialButton">بررسی</string>
-    <string name="AuthSerialLink">کاربر جدید هستید؟ ثبت نام</string>
+    <string name="SerialTitle">ورود به سیستم</string>
+    <string name="SerialDescription">برای شروع انجام نمونه سریال خود را وارد نمایید</string>
+    <string name="SerialHint">سریال</string>
+    <string name="SerialButton">بررسی</string>
+    <string name="SerialLink">کاربر جدید هستید؟ ثبت نام</string>
 
-    <string name="AuthPasswordTitle">بررسی رمز عبور یا شماره همراه</string>
-    <string name="AuthPasswordDescription">رمز عبور یا شماره همراه خود را وارد نمایید</string>
-    <string name="AuthPasswordHint">رمز عبور یا شماره همراه</string>
-    <string name="AuthPasswordButton">بررسی</string>
-    <string name="AuthPasswordLink">رمز عبور خود فراموش کردی؟ بازیابی</string>
+    <string name="PasswordTitle">بررسی رمز عبور</string>
+    <string name="PasswordDescription">رمز عبور خود را وارد نمایید</string>
+    <string name="PasswordHint">رمز عبور</string>
+    <string name="PasswordButton">بررسی</string>
+    <string name="PasswordLink">رمز عبور خود فراموش کردی؟ بازیابی</string>
 
-    <string name="AuthPinTitle">شروع نمونه</string>
-    <string name="AuthPinDescription">کد پیامکی إرسال شده به شما را وارد نمایید</string>
-    <string name="AuthPinHint">کد 6 رقمی</string>
-    <string name="AuthPinButton">شروع</string>
-    <string name="AuthPinLink">کد پیامکی دریافت نکردی؟ إرسال مجدد</string>
+    <string name="MobileTitle">بررسی شماره همراه</string>
+    <string name="MobileDescription">شماره همراه خود را وارد نمایید</string>
+    <string name="MobileHint">شماره همراه</string>
+    <string name="MobileButton">بررسی</string>
 
-    <string name="AuthPinTimer">کد پیامکی مجددا به شما إرسال شد :</string>
+    <string name="PinTitle">شروع نمونه</string>
+    <string name="PinDescription">کد پیامکی ارسال شده به شما را وارد نمایید</string>
+    <string name="PinHint">کد 6 رقمی</string>
+    <string name="PinButton">شروع</string>
+    <string name="PinLink">کد پیامکی دریافت نکردی؟ ارسال مجدد</string>
+    <string name="PinTimer">کد پیامکی مجددا به شما ارسال شد :</string>
 
     <string name="RegisterTitle">ثبت نام جدید</string>
-    <string name="RegisterDescription">اطلاعات و مشخصات خود را وارد نمایید</string>
+    <string name="RegisterDescription">لطفا اطلاعات و مشخصات خود را وارد نمایید</string>
     <string name="RegisterNameHint">نام و نام خانوادگی</string>
     <string name="RegisterMobileHint">شماره موبایل</string>
     <string name="RegisterManHint">مرد</string>
     <string name="RegisterWomanHint">زن</string>
     <string name="RegisterPasswordHint">رمز عبور</string>
     <string name="RegisterButton">ثبت نام</string>
+
+    <string name="AuthInfoDialogTitle">کاربر گرامی</string>
+    <string name="AuthInfoDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="AuthInfoDialogConfirm">بستن</string>
 
     <string name="AuthProgressDialogTitle">لطفا منتظر بمانید …</string>
 
@@ -94,21 +102,21 @@
 
     <string name="OutroTitle">نمونه شما با موفقیت انجام شد!</string>
 
-    <string name="OutroDescription">برای اطلاع دادن ریسلو از وضعیت نمونه شما لازم است که فایل نمونه را بصورت إنترنتی یا پیامکی إرسال نمایید.</string>
+    <string name="OutroDescription">برای اطلاع دادن ریسلو از وضعیت نمونه شما لازم است که فایل نمونه را بصورت انترنتی یا پیامکی ارسال نمایید.</string>
 
-    <string name="OutroInternet">إرسال إینترنتی نمونه به ریسلو</string>
-    <string name="OutroSMS">إرسال پیامکی نمونه به ریسلو</string>
+    <string name="OutroInternet">ارسال إینترنتی نمونه به ریسلو</string>
+    <string name="OutroSMS">ارسال پیامکی نمونه به ریسلو</string>
     <string name="OutroDownload">دریافت فایل نمونه</string>
-    <string name="OutroLater">بعدن إرسال کنم</string>
+    <string name="OutroLater">بعدن ارسال کنم</string>
 
-    <string name="OutroInternetDialogTitle">إرسال إینترنتی</string>
+    <string name="OutroInternetDialogTitle">ارسال إینترنتی</string>
     <string name="OutroInternetDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
-    <string name="OutroInternetDialogPositive">إرسال</string>
+    <string name="OutroInternetDialogPositive">ارسال</string>
     <string name="OutroInternetDialogNegative">بستن</string>
 
-    <string name="OutroSMSDialogTitle">إرسال پیامکی</string>
+    <string name="OutroSMSDialogTitle">ارسال پیامکی</string>
     <string name="OutroSMSDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
-    <string name="OutroSMSDialogPositive">إرسال</string>
+    <string name="OutroSMSDialogPositive">ارسال</string>
     <string name="OutroSMSDialogNegative">بستن</string>
 
     <string name="OutroDownloadDialogTitle">دریافت فایل</string>
@@ -129,7 +137,7 @@
     <string name="ArchiveAnswerDate">زمان پاسخ</string>
     <string name="ArchiveStatus">وضعیت</string>
     <string name="ArchiveNotCompleted">تکمیل نشد</string>
-    <string name="ArchiveNotSend">إرسال نشد</string>
+    <string name="ArchiveNotSend">ارسال نشد</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -200,7 +208,7 @@
     <string name="CallUsMobile">شماره موبایل</string>
     <string name="CallUsMessage">محتوای پیام شما</string>
 
-    <string name="CallUsSend">إرسال پیام</string>
+    <string name="CallUsSend">ارسال پیام</string>
 
     <string name="CallUsInfoDialogTitle">کاربر گرامی</string>
     <string name="CallUsInfoDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
