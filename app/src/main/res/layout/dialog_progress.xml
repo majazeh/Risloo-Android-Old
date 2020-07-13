@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layoutDirection="rtl"
-    android:background="@drawable/draw_12sdp_solitude"
+    android:background="@drawable/draw_12sdp_snow"
     tools:ignore="UnusedAttribute">
 
     <LinearLayout

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialog_navigate"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/_16sdp"
+    android:layout_marginRight="@dimen/_16sdp"
+    android:layout_gravity="center"
+    android:layoutDirection="rtl"
+    android:background="@drawable/draw_16sdp_white"
+    tools:ignore="UnusedAttribute">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/_18sdp"
+        android:paddingBottom="@dimen/_6sdp"
+        android:paddingLeft="@dimen/_16sdp"
+        android:paddingRight="@dimen/_16sdp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:gravity="right"
+            android:text="@string/SampleNavigateDialogTitle"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold"
+            android:textColor="@color/Nero"
+            android:textAlignment="gravity" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/dialog_navigate_forward_textView"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_9sdp"
+                android:tint="@color/Grey"
+                android:src="@drawable/ic_chevron_left" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/dialog_navigate_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/dialog_navigate_backward_textView"
+                android:layout_toRightOf="@id/dialog_navigate_forward_textView"
+                android:overScrollMode="never" />
+
+            <ImageView
+                android:id="@+id/dialog_navigate_backward_textView"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_9sdp"
+                android:tint="@color/Grey"
+                android:src="@drawable/ic_chevron_right" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/dialog_navigate_close_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/_8sdp"
+            android:paddingBottom="@dimen/_8sdp"
+            android:gravity="center"
+            android:text="@string/SampleNavigateDialogClose"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            android:textColor="@color/Mischka"
+            android:textAlignment="gravity" />
+
+    </LinearLayout>
+
+</FrameLayout>

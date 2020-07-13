@@ -108,7 +108,7 @@ public class CallUsActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             sendButton.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
 
-            infoDialogConfirm.setBackgroundResource(R.drawable.draw_12sdp_quartz_ripple);
+            infoDialogConfirm.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
         }
     }
 

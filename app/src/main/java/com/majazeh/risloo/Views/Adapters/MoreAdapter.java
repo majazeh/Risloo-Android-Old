@@ -197,16 +197,17 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
         availableUpdateDialogDescription.setText(activity.getResources().getString(R.string.MoreAvailableUpdateDialogDescription));
         availableUpdateDialogPositive = availableUpdateDialog.findViewById(R.id.dialog_action_positive_textView);
         availableUpdateDialogPositive.setText(activity.getResources().getString(R.string.MoreAvailableUpdateDialogPositive));
+        availableUpdateDialogPositive.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
         availableUpdateDialogNegative = availableUpdateDialog.findViewById(R.id.dialog_action_negative_textView);
         availableUpdateDialogNegative.setText(activity.getResources().getString(R.string.MoreAvailableUpdateDialogNegative));
     }
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            noUpdateDialogConfirm.setBackgroundResource(R.drawable.draw_12sdp_quartz_ripple);
+            noUpdateDialogConfirm.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
 
-            availableUpdateDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_quartz_ripple);
-            availableUpdateDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_quartz_ripple);
+            availableUpdateDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
+            availableUpdateDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
         }
     }
 

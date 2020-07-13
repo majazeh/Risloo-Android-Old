@@ -77,7 +77,7 @@ public class AuthActivity extends AppCompatActivity {
 
     private void listener() {
         titleToolbar.setNavigationOnClickListener(v -> {
-            startActivity(new Intent(this, MoreActivity.class));
+            startActivity(new Intent(this, SampleActivity.class));
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
     }

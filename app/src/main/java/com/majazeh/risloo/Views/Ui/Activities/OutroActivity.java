@@ -56,8 +56,8 @@ public class OutroActivity extends AppCompatActivity {
             downloadButton.setBackgroundResource(R.drawable.draw_18sdp_solitude_ripple);
             laterButton.setBackgroundResource(R.drawable.draw_18sdp_solitude_ripple);
 
-            outroDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_quartz_ripple);
-            outroDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_quartz_ripple);
+            outroDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
+            outroDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
         }
     }
 
@@ -84,6 +84,7 @@ public class OutroActivity extends AppCompatActivity {
         outroDialogTitle = outroDialog.findViewById(R.id.dialog_action_title_textView);
         outroDialogDescription = outroDialog.findViewById(R.id.dialog_action_description_textView);
         outroDialogPositive = outroDialog.findViewById(R.id.dialog_action_positive_textView);
+        outroDialogPositive.setTextColor(getResources().getColor(R.color.PrimaryDark));
         outroDialogNegative = outroDialog.findViewById(R.id.dialog_action_negative_textView);
     }
 

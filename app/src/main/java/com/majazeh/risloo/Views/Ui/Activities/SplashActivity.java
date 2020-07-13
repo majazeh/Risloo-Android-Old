@@ -84,13 +84,14 @@ public class SplashActivity extends AppCompatActivity {
         updateDialogTitle = updateDialog.findViewById(R.id.dialog_action_title_textView);
         updateDialogDescription = updateDialog.findViewById(R.id.dialog_action_description_textView);
         updateDialogPositive = updateDialog.findViewById(R.id.dialog_action_positive_textView);
+        updateDialogPositive.setTextColor(getResources().getColor(R.color.PrimaryDark));
         updateDialogNegative = updateDialog.findViewById(R.id.dialog_action_negative_textView);
     }
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            updateDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_quartz_ripple);
-            updateDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_quartz_ripple);
+            updateDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
+            updateDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
         }
     }
 

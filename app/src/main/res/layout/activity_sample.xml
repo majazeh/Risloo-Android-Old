@@ -11,14 +11,112 @@
     tools:context=".Views.Ui.Activities.SampleActivity"
     tools:ignore="UnusedAttribute">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <FrameLayout
+            android:id="@+id/activity_sample_frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/activity_sample_linearLayout"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+        <RelativeLayout
+            android:id="@+id/activity_sample_linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="@dimen/_32sdp"
+            android:paddingLeft="@dimen/_24sdp"
+            android:paddingRight="@dimen/_24sdp"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <ProgressBar
+                android:id="@+id/activity_sample_flow_progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_9sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:layout_alignParentTop="true"
+                android:progress="0"
+                android:progressDrawable="@drawable/draw_8sdp_solitude_progress"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
+            <ImageView
+                android:id="@+id/activity_sample_forward_imageView"
+                android:layout_width="@dimen/_42sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_below="@id/activity_sample_flow_progressBar"
+                android:layout_alignParentLeft="true"
+                android:layout_marginRight="@dimen/_4sdp"
+                android:padding="@dimen/_7sdp"
+                android:tint="@color/Grey"
+                android:src="@drawable/ic_chevron_left"
+                android:background="@drawable/draw_8sdp_snow"/>
+
+            <ImageView
+                android:id="@+id/activity_sample_backward_imageView"
+                android:layout_width="@dimen/_42sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_below="@id/activity_sample_flow_progressBar"
+                android:layout_toRightOf="@id/activity_sample_forward_imageView"
+                android:layout_marginLeft="@dimen/_4sdp"
+                android:padding="@dimen/_7sdp"
+                android:tint="@color/Grey"
+                android:src="@drawable/ic_chevron_right"
+                android:background="@drawable/draw_8sdp_snow"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_below="@id/activity_sample_flow_progressBar"
+                android:layout_alignParentRight="true"
+                android:layoutDirection="rtl"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:background="@drawable/draw_8sdp_solitude_border">
+
+                <ImageView
+                    android:id="@+id/activity_sample_navigate_imageView"
+                    android:layout_width="@dimen/_38sdp"
+                    android:layout_height="@dimen/_28sdp"
+                    android:layout_marginRight="@dimen/_1sdp"
+                    android:padding="@dimen/_6sdp"
+                    android:tint="@color/Grey"
+                    android:src="@drawable/ic_compass"
+                    android:background="@drawable/draw_8sdp_snow_oneside"/>
+
+                <TextView
+                    android:id="@+id/activity_sample_index_imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingTop="@dimen/_2sdp"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:paddingRight="@dimen/_6sdp"
+                    android:gravity="center"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Mischka"
+                    android:textAlignment="gravity"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/activity_sample_cancel_imageView"
+        android:layout_width="@dimen/_32sdp"
+        android:layout_height="@dimen/_32sdp"
+        android:layout_gravity="top|left"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginLeft="@dimen/_18sdp"
+        android:padding="@dimen/_7sdp"
+        android:tint="@color/Grey"
+        android:src="@drawable/ic_times"
+        android:background="@drawable/draw_oval_snow"/>
 
     <FrameLayout
         android:layout_width="match_parent"

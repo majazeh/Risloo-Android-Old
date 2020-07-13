@@ -9,7 +9,7 @@
     android:layout_marginRight="@dimen/_16sdp"
     android:layout_gravity="center"
     android:layoutDirection="rtl"
-    android:background="@drawable/draw_16sdp_solitude"
+    android:background="@drawable/draw_16sdp_snow"
     tools:ignore="UnusedAttribute">
 
     <LinearLayout

@@ -87,9 +87,16 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // test strings
+    // sample strings
     ////////////////////////////////////////////////////////////////////////////////
 
+    <string name="SampleNavigateDialogTitle">کدام سؤال می خوای ببینی؟</string>
+    <string name="SampleNavigateDialogClose">بستن</string>
+
+    <string name="SampleCancelDialogTitle">لغو نمونه؟</string>
+    <string name="SampleCancelDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="SampleCancelDialogPositive">لغو</string>
+    <string name="SampleCancelDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
