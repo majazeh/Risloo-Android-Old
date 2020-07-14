@@ -50,7 +50,7 @@
                     android:padding="@dimen/_18sdp"
                     android:tint="@color/White"
                     android:src="@drawable/ic_brain"
-                    android:background="@drawable/draw_16sdp_primary_ripple" />
+                    android:background="@drawable/draw_16sdp_primary" />
 
                 <TextView
                     android:id="@+id/activity_about_us_name_textView"

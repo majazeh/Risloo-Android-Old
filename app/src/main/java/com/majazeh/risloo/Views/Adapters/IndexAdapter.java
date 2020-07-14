@@ -1,6 +1,7 @@
 package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,11 @@ import java.util.ArrayList;
 public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder> {
 
     // Vars
-    private ArrayList<Index> Indexes;
+    private ArrayList<Index> indexes;
 
     // Objects
     private Activity activity;
+    private Handler handler;
 
     public IndexAdapter(Activity activity) {
         this.activity = activity;
@@ -29,6 +31,9 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
     @Override
     public IndexHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(activity).inflate(R.layout.dialog_navigate_single_item, viewGroup, false);
+
+        initializer(view);
+
         return new IndexHolder(view);
     }
 
@@ -41,11 +46,15 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
 
     @Override
     public int getItemCount() {
-        return Indexes.size();
+        return indexes.size();
+    }
+
+    private void initializer(View view) {
+        handler = new Handler();
     }
 
     public void setIndex(ArrayList<Index> Indexes) {
-        this.Indexes = Indexes;
+        this.indexes = Indexes;
         notifyDataSetChanged();
     }
 

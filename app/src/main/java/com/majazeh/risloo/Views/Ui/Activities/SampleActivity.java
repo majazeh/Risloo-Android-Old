@@ -24,6 +24,12 @@ import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.Sample.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.IndexAdapter;
+import com.majazeh.risloo.Views.Ui.Fragments.PFPFragment;
+import com.majazeh.risloo.Views.Ui.Fragments.PFTFragment;
+import com.majazeh.risloo.Views.Ui.Fragments.PPFragment;
+import com.majazeh.risloo.Views.Ui.Fragments.TFPFragment;
+import com.majazeh.risloo.Views.Ui.Fragments.TFTFragment;
+import com.majazeh.risloo.Views.Ui.Fragments.TPFragment;
 
 public class SampleActivity extends AppCompatActivity {
 
@@ -212,8 +218,27 @@ public class SampleActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    public void showFragment() {
-
+    public void showFragment(String type) {
+        switch (type) {
+            case "TP":
+                loadFragment(new TPFragment(this), 0, 0);
+                break;
+            case "TFT":
+                loadFragment(new TFTFragment(this), 0, 0);
+                break;
+            case "TFP":
+                loadFragment(new TFPFragment(this), 0, 0);
+                break;
+            case "PP":
+                loadFragment(new PPFragment(this), 0, 0);
+                break;
+            case "PFT":
+                loadFragment(new PFTFragment(this), 0, 0);
+                break;
+            case "PFP":
+                loadFragment(new PFPFragment(this), 0, 0);
+                break;
+        }
     }
 
     @Override

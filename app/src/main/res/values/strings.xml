@@ -90,6 +90,8 @@
     // sample strings
     ////////////////////////////////////////////////////////////////////////////////
 
+    <string name="SamplePrintHint">اینجا وارد نمایید</string>
+
     <string name="SampleNavigateDialogTitle">کدام سؤال می خوای ببینی؟</string>
     <string name="SampleNavigateDialogClose">بستن</string>
 

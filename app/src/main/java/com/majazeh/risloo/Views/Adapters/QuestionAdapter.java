@@ -31,6 +31,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
     // Objects
     private Activity activity;
+    private Handler handler;
 
     public QuestionAdapter(Activity activity) {
         this.activity = activity;
@@ -40,6 +41,9 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
     @Override
     public QuestionHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(activity).inflate(R.layout.activity_question_single_item, viewGroup, false);
+
+        initializer(view);
+
         return new QuestionHolder(view);
     }
 
@@ -100,8 +104,6 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
-
-            Handler handler = new Handler();
             handler.postDelayed(() -> holder.itemView.setClickable(true), 1000);
 
             position = i;
@@ -114,6 +116,10 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
     @Override
     public int getItemCount() {
         return questions.size();
+    }
+
+    private void initializer(View view) {
+        handler = new Handler();
     }
 
     public void setQuestion(ArrayList<Question> questions) {

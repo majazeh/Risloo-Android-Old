@@ -62,7 +62,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
     public MoreHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(activity).inflate(R.layout.activity_more_single_item, viewGroup, false);
 
-        initializer();
+        initializer(view);
 
         return new MoreHolder(view);
     }
@@ -105,7 +105,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
         return mores.size();
     }
 
-    private void initializer() {
+    private void initializer(View view) {
         intentCaller = new IntentCaller();
         socialDialog = new SocialDialog(activity);
 
