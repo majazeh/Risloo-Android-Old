@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_about_us_facility_single_item"
+    android:id="@+id/activity_list_single_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
@@ -14,18 +14,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layoutDirection="rtl"
-        android:gravity="center"
+        android:gravity="top"
         android:orientation="horizontal"
         tools:ignore="UnusedAttribute">
 
         <ImageView
             android:layout_width="@dimen/_8sdp"
             android:layout_height="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_6sdp"
             android:layout_marginLeft="@dimen/_8sdp"
             android:background="@drawable/draw_oval_mischka" />
 
         <TextView
-            android:id="@+id/activity_about_us_facility_single_item_textView"
+            android:id="@+id/activity_list_single_item_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right"

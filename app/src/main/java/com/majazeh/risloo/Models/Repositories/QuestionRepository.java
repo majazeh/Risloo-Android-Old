@@ -28,14 +28,14 @@ public class QuestionRepository extends MainRepository {
     }
 
     public ArrayList<Question> getAll() {
-        ArrayList<Question> questions = new ArrayList<>();
+        ArrayList<Question> items = new ArrayList<>();
         for (int i = 0; i < questionItems.length(); i++) {
             try {
-                questions.add(new Question(questionItems.getJSONObject(i)));
+                items.add(new Question(questionItems.getJSONObject(i)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        } return questions;
+        } return items;
     }
 
 }

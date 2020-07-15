@@ -27,25 +27,25 @@ public class AboutUsRepository extends MainRepository {
     }
 
     public ArrayList<AboutUs> getAll() {
-        ArrayList<AboutUs> aboutUs = new ArrayList<>();
+        ArrayList<AboutUs> items = new ArrayList<>();
         for (int i = 0; i < aboutUsItems.length(); i++) {
             try {
-                aboutUs.add(new AboutUs(aboutUsItems.getJSONObject(i)));
+                items.add(new AboutUs(aboutUsItems.getJSONObject(i)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        } return aboutUs;
+        } return items;
     }
 
-    public ArrayList<String> getFacility() {
-        ArrayList<String> facilities = new ArrayList<>();
+    public ArrayList<String> getFacilities() {
+        ArrayList<String> items = new ArrayList<>();
         for (int i = 0; i < facilityItems.length(); i++) {
             try {
-                facilities.add(facilityItems.getJSONObject(i).getString("facility"));
+                items.add(facilityItems.getJSONObject(i).getString("title"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        } return facilities;
+        } return items;
     }
 
 }

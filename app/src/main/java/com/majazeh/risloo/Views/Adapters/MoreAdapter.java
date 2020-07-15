@@ -30,7 +30,7 @@ import com.majazeh.risloo.Views.Ui.Activities.CallUsActivity;
 import com.majazeh.risloo.Views.Ui.Activities.MoreActivity;
 import com.majazeh.risloo.Views.Ui.Activities.QuestionActivity;
 import com.majazeh.risloo.Views.Ui.Dialogs.SocialDialog;
-import com.majazeh.risloo.Views.Ui.Activities.TermsConditionsActivity;
+import com.majazeh.risloo.Views.Ui.Activities.TermConditionActivity;
 
 import org.json.JSONException;
 
@@ -132,7 +132,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
                 activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 break;
             case 3:
-                activity.startActivity(new Intent(activity, TermsConditionsActivity.class));
+                activity.startActivity(new Intent(activity, TermConditionActivity.class));
                 activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 break;
             case 4:

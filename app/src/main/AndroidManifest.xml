@@ -36,7 +36,7 @@
         <activity android:name=".Views.Ui.Activities.AboutUsActivity" android:screenOrientation="portrait" />
         <activity android:name=".Views.Ui.Activities.QuestionActivity" android:screenOrientation="portrait" />
         <activity android:name=".Views.Ui.Activities.CallUsActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Ui.Activities.TermsConditionsActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Views.Ui.Activities.TermConditionActivity" android:screenOrientation="portrait" />
     </application>
 
 </manifest>

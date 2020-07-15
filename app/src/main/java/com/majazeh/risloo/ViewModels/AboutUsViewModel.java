@@ -27,7 +27,7 @@ public class AboutUsViewModel extends AndroidViewModel {
     }
 
     public ArrayList<String> getFacilities() {
-        return repository.getFacility();
+        return repository.getFacilities();
     }
 
 }

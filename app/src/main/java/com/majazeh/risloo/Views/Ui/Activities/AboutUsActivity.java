@@ -13,7 +13,7 @@ import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AboutUsViewModel;
-import com.majazeh.risloo.Views.Adapters.FacilityAdapter;
+import com.majazeh.risloo.Views.Adapters.ListAdapter;
 
 import org.json.JSONException;
 
@@ -23,7 +23,7 @@ public class AboutUsActivity extends AppCompatActivity {
     private AboutUsViewModel viewModel;
 
     // Adapters
-    private FacilityAdapter adapter;
+    private ListAdapter adapter;
 
     // Widgets
     private Toolbar toolbar;
@@ -51,8 +51,8 @@ public class AboutUsActivity extends AppCompatActivity {
     private void initializer() {
         viewModel = ViewModelProviders.of(this).get(AboutUsViewModel.class);
 
-        adapter = new FacilityAdapter(this);
-        adapter.setFacility(viewModel.getFacilities());
+        adapter = new ListAdapter(this);
+        adapter.setList(viewModel.getFacilities());
 
         toolbar = findViewById(R.id.activity_about_us_toolbar);
 
@@ -64,9 +64,9 @@ public class AboutUsActivity extends AppCompatActivity {
         description3TextView = findViewById(R.id.activity_about_us_description3_textView);
 
         try {
-            subTitle1TextView.setText(viewModel.getAll().get(0).get("subtitle").toString());
-            subTitle2TextView.setText(viewModel.getAll().get(1).get("subtitle").toString());
-            subTitle3TextView.setText(viewModel.getAll().get(2).get("subtitle").toString());
+            subTitle1TextView.setText(viewModel.getAll().get(0).get("title").toString());
+            subTitle2TextView.setText(viewModel.getAll().get(1).get("title").toString());
+            subTitle3TextView.setText(viewModel.getAll().get(2).get("title").toString());
             description1TextView.setText(viewModel.getAll().get(0).get("description").toString());
             description2TextView.setText(viewModel.getAll().get(1).get("description").toString());
             description3TextView.setText(viewModel.getAll().get(2).get("description").toString());
@@ -74,7 +74,7 @@ public class AboutUsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        facilitiesRecyclerView = findViewById(R.id.activity_about_us_facility_recyclerView);
+        facilitiesRecyclerView = findViewById(R.id.activity_about_us_facilities_recyclerView);
         facilitiesRecyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout",(int) getResources().getDimension(R.dimen._12sdp)));
         facilitiesRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         facilitiesRecyclerView.setHasFixedSize(true);
