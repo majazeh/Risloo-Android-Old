@@ -40,7 +40,7 @@
             android:id="@+id/list_single_item_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_12sdp"
             android:overScrollMode="never"
             android:visibility="gone"/>
 
