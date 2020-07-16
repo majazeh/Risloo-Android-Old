@@ -25,11 +25,12 @@ import java.util.ArrayList;
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
     // ViewModel
-    private AboutUsViewModel viewModel1;
-    private TermConditionViewModel viewModel2;
+    private AboutUsViewModel aboutUsViewModel;
+    private TermConditionViewModel termConditionViewModel;
 
     // Adapters
-    private SubListAdapter adapter;
+    private SubListBigAdapter subListBigAdapter;
+    private SubListSmallAdapter subListSmallAdapter;
 
     // Vars
     private String asset;
@@ -59,20 +60,31 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
             holder.titleTextView.setText(list.get(i).get("title").toString());
             holder.descriptionTextView.setText(list.get(i).get("description").toString());
 
-            if (list.get(i).get("subset").equals(true)) {
-
+            if (list.get(i).get("subset").equals("big")) {
                 if (asset.equals("AboutUs")) {
-                    adapter.setSubList(viewModel1.getAllSubset(i));
+                    subListBigAdapter.setSubListBig(aboutUsViewModel.getAllSubset(i));
                 } else if (asset.equals("TermCondition")){
-                    adapter.setSubList(viewModel2.getAllSubset(i));
+                    subListBigAdapter.setSubListBig(termConditionViewModel.getAllSubset(i));
                 }
 
                 holder.recyclerView.setVisibility(View.VISIBLE);
                 holder.recyclerView.addItemDecoration(new ItemDecorator("subListLayout",(int) activity.getResources().getDimension(R.dimen._12sdp)));
                 holder.recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
                 holder.recyclerView.setHasFixedSize(true);
-                holder.recyclerView.setAdapter(adapter);
-            } else {
+                holder.recyclerView.setAdapter(subListBigAdapter);
+            } else if (list.get(i).get("subset").equals("small")){
+                if (asset.equals("AboutUs")) {
+                    subListSmallAdapter.setSubListSmall(aboutUsViewModel.getAllSubset(i));
+                } else if (asset.equals("TermCondition")){
+                    subListSmallAdapter.setSubListSmall(termConditionViewModel.getAllSubset(i));
+                }
+
+                holder.recyclerView.setVisibility(View.VISIBLE);
+                holder.recyclerView.addItemDecoration(new ItemDecorator("subListLayout",(int) activity.getResources().getDimension(R.dimen._12sdp)));
+                holder.recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+                holder.recyclerView.setHasFixedSize(true);
+                holder.recyclerView.setAdapter(subListSmallAdapter);
+            } else if (list.get(i).get("subset").equals("none")){
                 holder.recyclerView.setVisibility(View.GONE);
             }
         } catch (JSONException e) {
@@ -87,10 +99,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
     }
 
     private void initializer(View view) {
-        viewModel1 = ViewModelProviders.of((FragmentActivity) activity).get(AboutUsViewModel.class);
-        viewModel2 = ViewModelProviders.of((FragmentActivity) activity).get(TermConditionViewModel.class);
+        aboutUsViewModel = ViewModelProviders.of((FragmentActivity) activity).get(AboutUsViewModel.class);
+        termConditionViewModel = ViewModelProviders.of((FragmentActivity) activity).get(TermConditionViewModel.class);
 
-        adapter = new SubListAdapter(activity);
+        subListBigAdapter = new SubListBigAdapter(activity);
+        subListSmallAdapter = new SubListSmallAdapter(activity);
     }
 
     public void setList(ArrayList<List> list, String asset) {
