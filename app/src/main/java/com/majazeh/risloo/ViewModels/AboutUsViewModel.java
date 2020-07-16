@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.majazeh.risloo.Entities.AboutUs;
+import com.majazeh.risloo.Entities.List;
 import com.majazeh.risloo.Models.Repositories.AboutUsRepository;
 
 import org.json.JSONException;
@@ -22,12 +22,12 @@ public class AboutUsViewModel extends AndroidViewModel {
         repository = new AboutUsRepository(application);
     }
 
-    public ArrayList<AboutUs> getAll() {
+    public ArrayList<List> getAll() {
         return repository.getAll();
     }
 
-    public ArrayList<String> getFacilities() {
-        return repository.getFacilities();
+    public ArrayList<List> getAllSubset(int index) throws JSONException {
+        return repository.getAllSubset(index);
     }
 
 }

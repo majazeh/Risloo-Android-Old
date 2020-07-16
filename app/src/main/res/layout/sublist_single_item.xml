@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_list_single_item"
+    android:id="@+id/sublist_single_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
@@ -26,7 +26,7 @@
             android:background="@drawable/draw_oval_mischka" />
 
         <TextView
-            android:id="@+id/activity_list_single_item_textView"
+            android:id="@+id/sublist_single_item_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
