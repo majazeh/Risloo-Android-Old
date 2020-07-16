@@ -67,10 +67,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
                     adapter.setSubList(viewModel2.getAllSubset(i));
                 }
 
-                holder.recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout",(int) activity.getResources().getDimension(R.dimen._12sdp)));
+                holder.recyclerView.setVisibility(View.VISIBLE);
+                holder.recyclerView.addItemDecoration(new ItemDecorator("subListLayout",(int) activity.getResources().getDimension(R.dimen._12sdp)));
                 holder.recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
                 holder.recyclerView.setHasFixedSize(true);
                 holder.recyclerView.setAdapter(adapter);
+            } else {
+                holder.recyclerView.setVisibility(View.GONE);
             }
         } catch (JSONException e) {
             e.printStackTrace();
