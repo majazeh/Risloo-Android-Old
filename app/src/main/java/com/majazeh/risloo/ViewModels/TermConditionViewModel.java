@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.majazeh.risloo.Entities.TermCondition;
+import com.majazeh.risloo.Entities.List;
 import com.majazeh.risloo.Models.Repositories.TermConditionRepository;
 
 import org.json.JSONException;
@@ -22,16 +22,12 @@ public class TermConditionViewModel extends AndroidViewModel {
         repository = new TermConditionRepository(application);
     }
 
-    public ArrayList<TermCondition> getAll() {
+    public ArrayList<List> getAll() {
         return repository.getAll();
     }
 
-    public ArrayList<String> getAccounts() {
-        return repository.getAccounts();
-    }
-
-    public ArrayList<String> getTerms() {
-        return repository.getTerms();
+    public ArrayList<List> getAllSubset(int index) throws JSONException {
+        return repository.getAllSubset(index);
     }
 
 }

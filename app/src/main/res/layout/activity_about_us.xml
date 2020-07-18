@@ -36,91 +36,23 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_16sdp"
-                android:layout_marginBottom="@dimen/_4sdp"
-                android:layout_marginLeft="@dimen/_24sdp"
-                android:layout_marginRight="@dimen/_24sdp"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="@dimen/_94sdp"
                     android:layout_height="@dimen/_94sdp"
-                    android:layout_marginBottom="@dimen/_32sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:layout_marginBottom="@dimen/_4sdp"
                     android:padding="@dimen/_18sdp"
                     android:tint="@color/White"
                     android:src="@drawable/ic_brain"
                     android:background="@drawable/draw_16sdp_primary" />
 
-                <TextView
-                    android:id="@+id/activity_about_us_subTitle1_textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_8sdp"
-                    android:gravity="right"
-                    android:textSize="@dimen/_16ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Nero"
-                    android:textAlignment="gravity" />
-
-                <TextView
-                    android:id="@+id/activity_about_us_description1_textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_32sdp"
-                    android:gravity="right"
-                    android:textSize="@dimen/_13ssp"
-                    android:textStyle="normal"
-                    android:textColor="@color/Grey"
-                    android:textAlignment="gravity" />
-
-                <TextView
-                    android:id="@+id/activity_about_us_subTitle2_textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_8sdp"
-                    android:gravity="right"
-                    android:textSize="@dimen/_16ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Nero"
-                    android:textAlignment="gravity" />
-
-                <TextView
-                    android:id="@+id/activity_about_us_description2_textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_32sdp"
-                    android:gravity="right"
-                    android:textSize="@dimen/_13ssp"
-                    android:textStyle="normal"
-                    android:textColor="@color/Grey"
-                    android:textAlignment="gravity" />
-
-                <TextView
-                    android:id="@+id/activity_about_us_subTitle3_textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_8sdp"
-                    android:gravity="right"
-                    android:textSize="@dimen/_16ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Nero"
-                    android:textAlignment="gravity" />
-
-                <TextView
-                    android:id="@+id/activity_about_us_description3_textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:textSize="@dimen/_13ssp"
-                    android:textStyle="normal"
-                    android:textColor="@color/Grey"
-                    android:textAlignment="gravity" />
-
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/activity_about_us_facilities_recyclerView"
+                    android:id="@+id/activity_about_us_recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:overScrollMode="never" />
 
             </LinearLayout>
@@ -133,6 +65,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
         android:layout_gravity="bottom"
-        android:background="@color/Solitude" />
+        android:background="@color/Quartz" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

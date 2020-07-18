@@ -99,11 +99,34 @@ public class ItemDecorator extends RecyclerView.ItemDecoration {
                 }
 
                 break;
-            default:
+            case "listLayout":
 
-                // Top and Bottom Margins
-                rect.top = margin;
-                rect.bottom = margin;
+                // Top Margin
+                rect.top = margin / 2;
+
+                // Bottom Margin
+                rect.bottom = margin / 2;
+
+                // Right And Left Margins
+                rect.right = margin;
+                rect.left = margin;
+
+                break;
+            case "subListLayout":
+
+                // Top Margin
+                if (position == 0) {
+
+                } else {
+                    rect.top = margin / 2;
+                }
+
+                // Bottom Margin
+                if (count > 0 && position == count - 1) {
+
+                } else {
+                    rect.bottom = margin / 2;
+                }
 
                 // Right And Left Margins
                 rect.right = margin;

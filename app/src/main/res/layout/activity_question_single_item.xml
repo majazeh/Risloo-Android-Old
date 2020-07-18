@@ -33,7 +33,7 @@
                 android:id="@+id/activity_question_single_item_expand_imageView"
                 android:layout_width="@dimen/_16sdp"
                 android:layout_height="@dimen/_16sdp"
-                android:layout_marginLeft="@dimen/_6sdp"
+                android:layout_marginLeft="@dimen/_8sdp"
                 android:src="@drawable/ic_plus" />
 
             <TextView
@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:textSize="@dimen/_11ssp"
+                android:textSize="@dimen/_12ssp"
                 android:textStyle="bold"
                 android:textAlignment="gravity"/>
 
@@ -55,10 +55,10 @@
             android:paddingTop="@dimen/_6sdp"
             android:paddingBottom="@dimen/_6sdp"
             android:paddingLeft="@dimen/_6sdp"
-            android:paddingRight="@dimen/_8sdp"
+            android:paddingRight="@dimen/_10sdp"
             android:visibility="gone"
             android:gravity="right"
-            android:textSize="@dimen/_11ssp"
+            android:textSize="@dimen/_12ssp"
             android:textStyle="normal"
             android:textColor="@color/Mischka"
             android:textAlignment="gravity"
