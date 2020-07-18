@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -130,21 +131,31 @@ public class AuthActivity extends AppCompatActivity {
                             AuthController.theory = "mobile";
                             showFragment();
                         }
+                        AuthController.workState.removeObservers((LifecycleOwner) this);
                     } else {
                         if (AuthController.theory.equals("auth")) {
                             try {
                                 viewModel.authTheory("", "");
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+                        } else if (AuthController.theory.equals("sample")) {
+                            AuthController.sampleId = AuthController.key;
+                            startActivity(new Intent(this, SampleActivity.class));
+                            AuthController.workState.removeObservers((LifecycleOwner) this);
                         } else {
+                            Log.e("test", AuthController.theory + AuthController.key + "lol");
                             showFragment();
+                            AuthController.workState.removeObservers((LifecycleOwner) this);
                         }
                     }
                 }
-                AuthController.workState.removeObservers((LifecycleOwner) this);
                 progressDialog.dismiss();
             } else if (AuthController.workState.getValue() == 0) {
+                Log.e("token", AuthController.token);
+                Log.e("theory", AuthController.theory);
+                Log.e("key", AuthController.key);
                 AuthController.workState.removeObservers((LifecycleOwner) this);
                 progressDialog.dismiss();
                 Toast.makeText(this, "" + AuthController.exception, Toast.LENGTH_SHORT).show();

@@ -6,11 +6,13 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.majazeh.risloo.Entities.Index;
 import com.majazeh.risloo.Entities.Sample;
 import com.majazeh.risloo.Models.Repositories.Sample.SampleRepository;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,11 +40,11 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
     public void writeToCache(JSONArray jsonArray, String fileName) {
-        repository.writeToCache(jsonArray, fileName);
+        repository.writeAnswersToCache(jsonArray, fileName);
     }
 
     public JSONArray readFromCache(String fileName) {
-        return repository.readFromCache(fileName);
+        return repository.readAnswersFromCache(fileName);
     }
 
     public boolean saveToCSV(JSONArray jsonArray, String fileName) {
@@ -52,14 +54,6 @@ public class SampleViewModel extends AndroidViewModel {
     public File loadFromCSV(String fileName) {
         return repository.loadFromCSV(fileName);
     }
-
-//    public ArrayList getLocalData(){
-//        return repository.items().localData();
-//    }
-
-   // public ArrayList getRemoteData(){
-//        return repository.items().remoteData();
-//    }
 
     public String getTitle() throws JSONException {
         return repository.json().getString("title");
@@ -89,11 +83,23 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.items().item(index);
     }
 
-    public Sample getNext() {
+    public JSONObject getAnswer(int index) throws JSONException {
+        return (JSONObject) repository.items().item(index).get("answer");
+    }
+
+    public ArrayList<String> getOptions(int index) throws JSONException {
+        ArrayList<String> arrayList = new ArrayList<>();
+        for (int i = 0; i < getAnswer(index).getJSONArray("options").length(); i++) {
+            arrayList.add((String) getAnswer(index).getJSONArray("options").get(i));
+        }
+        return arrayList;
+    }
+
+    public Sample next() {
         return repository.items().next();
     }
 
-    public Sample getPrev() {
+    public Sample prev() {
         return repository.items().prev();
     }
 
@@ -120,8 +126,13 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.inProgress;
     }
 
-    public void sendAnswers() throws JSONException {
-        repository.sendAnswers();
+    public void sendAnswers(String UniqueId) throws JSONException {
+        repository.sendAnswers(UniqueId);
     }
+    public ArrayList getItems(){
+    return repository.items().getAll();
+    }
+
+
 
 }

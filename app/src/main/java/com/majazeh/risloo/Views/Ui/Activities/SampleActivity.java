@@ -3,26 +3,34 @@ package com.majazeh.risloo.Views.Ui.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.majazeh.risloo.Models.Controller.AuthController;
+import com.majazeh.risloo.Models.Repositories.Sample.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.Sample.SampleViewModel;
+import com.majazeh.risloo.ViewModels.Sample.SampleViewModelFactory;
 import com.majazeh.risloo.Views.Adapters.IndexAdapter;
 import com.majazeh.risloo.Views.Ui.Fragments.PFPFragment;
 import com.majazeh.risloo.Views.Ui.Fragments.PFTFragment;
@@ -30,6 +38,8 @@ import com.majazeh.risloo.Views.Ui.Fragments.PPFragment;
 import com.majazeh.risloo.Views.Ui.Fragments.TFPFragment;
 import com.majazeh.risloo.Views.Ui.Fragments.TFTFragment;
 import com.majazeh.risloo.Views.Ui.Fragments.TPFragment;
+
+import org.json.JSONException;
 
 public class SampleActivity extends AppCompatActivity {
 
@@ -48,6 +58,9 @@ public class SampleActivity extends AppCompatActivity {
     private ProgressBar flowProgressBar;
     private RecyclerView dialogNavigateRecyclerView;
     private Dialog navigateDialog, cancelDialog;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +83,31 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void initializer() {
+        sharedPreferences = getSharedPreferences("STORE", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        editor.putString("token", AuthController.token);
+        editor.apply();
+        viewModel = ViewModelProviders.of(this, new SampleViewModelFactory(getApplication(), AuthController.sampleId)).get(SampleViewModel.class);
+        SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
+            Log.e("eee", String.valueOf(integer));
+            if (integer == 1) {
+                adapter.setIndex(viewModel.getItems());
+                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                try {
+                    showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+            } else if (integer == 0) {
+                // TODO: get exception
+            } else {
+
+            }
+        });
         handler = new Handler();
 
         adapter = new IndexAdapter(this);
-//        adapter.setIndexes(viewModel.getAll());
 
         cancelImageView = findViewById(R.id.activity_sample_cancel_imageView);
         forwardImageView = findViewById(R.id.activity_sample_forward_imageView);
@@ -110,10 +144,10 @@ public class SampleActivity extends AppCompatActivity {
         navigateDialogBackwardImageView = navigateDialog.findViewById(R.id.dialog_navigate_backward_textView);
 
         dialogNavigateRecyclerView = navigateDialog.findViewById(R.id.dialog_navigate_recyclerView);
-        dialogNavigateRecyclerView.addItemDecoration(new ItemDecorator("gridLayout",(int) getResources().getDimension(R.dimen._16sdp)));
+        dialogNavigateRecyclerView.addItemDecoration(new ItemDecorator("gridLayout", (int) getResources().getDimension(R.dimen._16sdp)));
         dialogNavigateRecyclerView.setLayoutManager(new GridLayoutManager(this, 3, LinearLayoutManager.HORIZONTAL, false));
         dialogNavigateRecyclerView.setHasFixedSize(true);
-//        dialogNavigateRecyclerView.setAdapter(adapter);
+        dialogNavigateRecyclerView.setAdapter(adapter);
 
         navigateDialogConfirm = navigateDialog.findViewById(R.id.dialog_navigate_close_textView);
 
@@ -158,19 +192,28 @@ public class SampleActivity extends AppCompatActivity {
         forwardImageView.setOnClickListener(v -> {
             forwardImageView.setClickable(false);
             handler.postDelayed(() -> forwardImageView.setClickable(true), 100);
-
+            viewModel.next();
+            try {
+                showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         });
 
         backwardImageView.setOnClickListener(v -> {
             backwardImageView.setClickable(false);
             handler.postDelayed(() -> backwardImageView.setClickable(true), 100);
-
+            viewModel.prev();
+            try {
+                showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         });
 
         navigateImageView.setOnClickListener(v -> {
             navigateImageView.setClickable(false);
             handler.postDelayed(() -> navigateImageView.setClickable(true), 1000);
-
             navigateDialog.show();
         });
 
@@ -218,12 +261,13 @@ public class SampleActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    public void showFragment(String type) {
+    public void showFragment(String type) throws JSONException {
+        Log.e("index", viewModel.getItem(viewModel.getCurrentIndex()).get("answer") + "///" + viewModel.getItem(viewModel.getCurrentIndex()).get("text"));
         switch (type) {
             case "TP":
                 loadFragment(new TPFragment(this), 0, 0);
                 break;
-            case "TFT":
+            case "optional":
                 loadFragment(new TFTFragment(this), 0, 0);
                 break;
             case "TFP":

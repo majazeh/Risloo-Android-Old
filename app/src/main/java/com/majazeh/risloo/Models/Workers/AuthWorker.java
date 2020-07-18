@@ -1,6 +1,7 @@
 package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -49,6 +50,7 @@ public class AuthWorker extends Worker {
                     } catch (JSONException | IOException e) {
                         e.printStackTrace();
                     }
+                    break;
                 case "register":
                     try {
                         register();
@@ -111,8 +113,6 @@ public class AuthWorker extends Worker {
                 AuthController.callback = "";
             if (object.has("token"))
                 AuthController.token = object.getString("token");
-            else
-                AuthController.token = "";
             AuthController.exception = "";
             AuthController.workState.postValue(1);
         } else {
@@ -128,11 +128,9 @@ public class AuthWorker extends Worker {
         String token = "";
 
         if (!AuthController.token.isEmpty()) {
-            token = "Bearer" + AuthController.token;
+            token = "Bearer " + AuthController.token;
         }
-
         Call<ResponseBody> call = authApi.authTheory(token, AuthController.key, AuthController.callback, AuthController.password, AuthController.code);
-
         Response<ResponseBody> bodyResponse = call.execute();
         if (bodyResponse.isSuccessful()) {
             JSONObject object = new JSONObject(bodyResponse.body().string());
@@ -149,10 +147,11 @@ public class AuthWorker extends Worker {
                 AuthController.callback = object.getString("callback");
             else
                 AuthController.callback = "";
+
             if (object.has("token")) {
                 AuthController.token = object.getString("token");
-            } else
-                AuthController.token = "";
+
+            }
             AuthController.exception = "";
             AuthController.workState.postValue(1);
         } else {
@@ -184,8 +183,6 @@ public class AuthWorker extends Worker {
                 AuthController.callback = "";
             if (object.has("token"))
                 AuthController.token = object.getString("token");
-            else
-                AuthController.token = "";
             AuthController.exception = "";
             AuthController.workState.postValue(1);
         } else {
@@ -218,8 +215,6 @@ public class AuthWorker extends Worker {
                 AuthController.callback = "";
             if (object.has("token"))
                 AuthController.token = object.getString("token");
-            else
-                AuthController.token = "";
             AuthController.exception = "";
             AuthController.workState.postValue(1);
         } else {
@@ -252,8 +247,6 @@ public class AuthWorker extends Worker {
                 AuthController.callback = "";
             if (object.has("token"))
                 AuthController.token = object.getString("token");
-            else
-                AuthController.token = "";
             AuthController.exception = "";
             AuthController.workState.postValue(1);
         } else {

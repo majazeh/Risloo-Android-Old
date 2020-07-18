@@ -34,9 +34,11 @@ public class SampleItems {
     }
 
     public Sample prev() {
-        index--;
-        currentItem = items.get(index);
-        return currentItem;
+        if (index>0) {
+            index--;
+            currentItem = items.get(index);
+        }
+            return currentItem;
     }
 
     public Sample goToIndex(int i) {
@@ -51,6 +53,10 @@ public class SampleItems {
 
     public int size() {
         return items.size();
+    }
+
+    public ArrayList getAll(){
+        return items;
     }
 
 }

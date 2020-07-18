@@ -30,6 +30,7 @@ public class AuthController {
     public static String mobile = "";
     public static String gender = "";
     public static String password = "";
+    public static String sampleId = "";
 
     public AuthController(Application application) {
         this.application = application;
@@ -52,8 +53,5 @@ public class AuthController {
                 .build();
     }
 
-    public LiveData<Integer> workState() {
-        return workState;
-    }
 
 }

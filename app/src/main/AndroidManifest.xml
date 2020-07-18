@@ -9,7 +9,6 @@
 
     <application
         android:name=".Utils.CustomApp"
-        android:allowBackup="false"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/AppName"

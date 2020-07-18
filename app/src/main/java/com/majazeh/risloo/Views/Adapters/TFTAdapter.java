@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
 
     // Vars
-    private ArrayList<Sample> answers;
+    private ArrayList<String> answers;
 
     // Objects
     private Activity activity;
@@ -45,15 +45,11 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
     @Override
     public void onBindViewHolder(@NonNull TFTHolder holder, int i) {
 
-//        try {
-//            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-//                holder.rootLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_quartz_border_ripple);
-//            }
-//
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            holder.rootLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_quartz_border_ripple);
+        }
+        holder.answerTextView.setText(answers.get(i).toString());
+
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
@@ -73,7 +69,7 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
         handler = new Handler();
     }
 
-    public void setAnswer(ArrayList<Sample> answers) {
+    public void setAnswer(ArrayList<String> answers) {
         this.answers = answers;
         notifyDataSetChanged();
     }

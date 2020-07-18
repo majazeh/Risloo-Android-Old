@@ -2,13 +2,16 @@ package com.majazeh.risloo.Models.Repositories.Sample;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
+import com.majazeh.risloo.Models.Controller.AuthController;
 import com.majazeh.risloo.Models.Remotes.Generators.JsonGenerator;
 import com.majazeh.risloo.Models.Repositories.MainRepository;
 import com.majazeh.risloo.Models.Workers.AuthWorker;
@@ -33,6 +36,9 @@ public class SampleRepository extends MainRepository {
     private SampleItems sampleItems;
     private SampleController sampleController;
     public static boolean inProgress = false;
+    public static String exception = "";
+    public static MutableLiveData<Integer> workStateSample = new MediatorLiveData<>();
+    //public static MutableLiveData<Integer> workStateAnswer = new MediatorLiveData<>();
     public static MutableLiveData<ArrayList<ArrayList<Integer>>> localData = new MutableLiveData<>();
     public static ArrayList<ArrayList<Integer>> remoteData = new ArrayList<>();
 
@@ -41,10 +47,42 @@ public class SampleRepository extends MainRepository {
 
         jsonGenerator = new JsonGenerator();
         sampleController = new SampleController(application, jsonGenerator, testUniqueId);
-        sampleJson = sampleController.getSample();
-        sampleItems = new SampleItems(sampleJson.getJSONArray("items"));
-    }
 
+        sampleController.getSampleFromAPI("getSample", AuthController.sampleId);
+        workStateSample.observeForever(integer -> {
+            Log.e("ooo", String.valueOf(integer));
+
+            if (integer == 1) {
+                try {
+                    JSONObject jsonObject = sampleController.readJsonFromCache(application.getApplicationContext(), AuthController.sampleId);
+                    JSONObject data = jsonObject.getJSONObject("data");
+                    sampleItems = new SampleItems(data.getJSONArray("items"));
+                    workStateSample.removeObserver(integer1 -> {
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            } else if (integer == 0) {
+                try {
+                    if (sampleController.getSample() != null) {
+                        try {
+                            sampleJson = sampleController.getSample();
+                            JSONObject data = sampleJson.getJSONObject("data");
+                            sampleItems = new SampleItems(data.getJSONArray("items"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        // you are offline
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+            }
+        });
+    }
 
 
     public void insertToLocalData(int item, int answer) {
@@ -92,7 +130,7 @@ public class SampleRepository extends MainRepository {
     }
 
 
-    public void writeToCache(JSONArray jsonArray, String fileName) {
+    public void writeAnswersToCache(JSONArray jsonArray, String fileName) {
         try {
             File file = new File(application.getApplicationContext().getCacheDir(), fileName);
             FileOutputStream fos = new FileOutputStream(file);
@@ -106,7 +144,7 @@ public class SampleRepository extends MainRepository {
         }
     }
 
-    public JSONArray readFromCache(String fileName) {
+    public JSONArray readAnswersFromCache(String fileName) {
         JSONArray jsonArray;
         try {
             File file = new File(application.getApplicationContext().getCacheDir(), fileName);
@@ -163,20 +201,22 @@ public class SampleRepository extends MainRepository {
         return sampleItems;
     }
 
-    public void sendAnswers() throws JSONException {
-        if (remoteData().size() == 0){
+    public void sendAnswers(String UniqueId) throws JSONException {
+        if (remoteData().size() == 0) {
             insertLocalDataToRemoteData();
             inProgress = true;
             OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(AuthWorker.class)
-                    .setInputData(data("sendAnswers"))
+                    .setInputData(data("sendAnswers",UniqueId))
                     .build();
             WorkManager.getInstance(application).enqueue(workRequest);
             localData().getValue().clear();
         }
     }
-    private Data data(String work) throws JSONException {
+
+    private Data data(String work,String UniqueId) throws JSONException {
         return new Data.Builder()
                 .putString("work", work)
+                .putString("UniqueId", UniqueId)
                 .build();
     }
 

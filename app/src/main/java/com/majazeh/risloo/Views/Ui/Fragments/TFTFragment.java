@@ -10,13 +10,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.majazeh.risloo.Entities.Sample;
+import com.majazeh.risloo.Models.Controller.AuthController;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.ViewModels.Sample.SampleViewModel;
+import com.majazeh.risloo.ViewModels.Sample.SampleViewModelFactory;
 import com.majazeh.risloo.Views.Adapters.TFTAdapter;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class TFTFragment extends Fragment {
 
@@ -48,20 +57,25 @@ public class TFTFragment extends Fragment {
     }
 
     private void initializer(View view) {
+        viewModel = ViewModelProviders.of(this, new SampleViewModelFactory(getActivity().getApplication(), AuthController.sampleId)).get(SampleViewModel.class);
         adapter = new TFTAdapter(activity);
-//        try {
-//            adapter.setAnswer(viewModel.getItem(viewModel.getCurrentIndex()).get("answers"));
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            adapter.setAnswer(viewModel.getOptions(viewModel.getCurrentIndex()));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         questionTextView = view.findViewById(R.id.fragment_tft_question_textView);
-
+        try {
+            questionTextView.setText(viewModel.getItem(viewModel.getCurrentIndex()).get("text").toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         answerRecyclerView = view.findViewById(R.id.fragment_tft_answer_recyclerView);
         answerRecyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout",(int) getResources().getDimension(R.dimen._16sdp)));
         answerRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         answerRecyclerView.setHasFixedSize(true);
-//        answerRecyclerView.setAdapter(adapter);
+        answerRecyclerView.setAdapter(adapter);
     }
 
 }
