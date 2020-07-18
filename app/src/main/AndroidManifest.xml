@@ -28,9 +28,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Views.Ui.Activities.IntroActivity" android:theme="@style/TransparentTheme" android:screenOrientation="portrait" />
+        <activity android:name=".Views.Ui.Activities.IntroActivity" android:theme="@style/WindowTheme" android:screenOrientation="portrait" />
         <activity android:name=".Views.Ui.Activities.AuthActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Ui.Activities.SampleActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Views.Ui.Activities.SampleActivity" android:theme="@style/TransparentTheme" android:screenOrientation="portrait" />
         <activity android:name=".Views.Ui.Activities.OutroActivity" android:screenOrientation="portrait" />
         <activity android:name=".Views.Ui.Activities.MoreActivity" android:screenOrientation="portrait" />
         <activity android:name=".Views.Ui.Activities.AboutUsActivity" android:screenOrientation="portrait" />
