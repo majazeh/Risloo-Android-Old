@@ -9,7 +9,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -44,21 +46,31 @@ public class AuthActivity extends AppCompatActivity {
     // Widgets
     private Toolbar titleToolbar;
     public Dialog progressDialog;
+    private SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        decorator();
+        // defining SharedPreferences
+        sharedPreferences = getSharedPreferences("STORE", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
-        setContentView(R.layout.activity_auth);
+        if (sharedPreferences.getString("token", "").equals("")) {
+            decorator();
 
-        initializer();
+            setContentView(R.layout.activity_auth);
 
-        listener();
+            initializer();
 
-        titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
-        loadFragment(new SerialFragment(this), 0, 0);
+            listener();
+
+            titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
+            loadFragment(new SerialFragment(this), 0, 0);
+        }else{
+            launchSample();
+        }
     }
 
     private void decorator() {
@@ -141,11 +153,15 @@ public class AuthActivity extends AppCompatActivity {
                         if (AuthController.theory.equals("auth")) {
                             try {
                                 viewModel.authTheory("", "");
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         } else if (AuthController.theory.equals("sample")) {
                             AuthController.sampleId = AuthController.key;
+                            editor.putString("sampleId", AuthController.key);
+                            editor.apply();
+
                             startActivity(new Intent(this, SampleActivity.class));
                             AuthController.workState.removeObservers((LifecycleOwner) this);
                         } else {
@@ -163,6 +179,11 @@ public class AuthActivity extends AppCompatActivity {
                 // DO Nothing
             }
         });
+    }
+
+    private void launchSample() {
+        startActivity(new Intent(this, SampleActivity.class));
+        finish();
     }
 
     @Override
