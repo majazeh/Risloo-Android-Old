@@ -24,12 +24,14 @@ import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.ViewModels.Sample.SampleViewModel;
 import com.majazeh.risloo.ViewModels.Sample.SampleViewModelFactory;
 import com.majazeh.risloo.Views.Adapters.TFTAdapter;
+import com.majazeh.risloo.Views.Ui.Activities.AuthActivity;
 import com.majazeh.risloo.Views.Ui.Activities.SampleActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class TFTFragment extends Fragment {
 

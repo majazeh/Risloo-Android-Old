@@ -142,9 +142,13 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
             jsonArray.getJSONObject(viewModel.getCurrentIndex()).put("answer", position);
             viewModel.writeToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
             //////////////////////////////////////////////////////////////////////////////////////////////////
-           if (viewModel.next() == null){
-               activity.finish();
-           }
+            if (viewModel.next() == null) {
+                if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
+                    activity.finish();
+                    return;
+                }
+                viewModel.setIndex(viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")));
+            }
             ((SampleActivity) Objects.requireNonNull(activity)).showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
             viewModel.insertToLocalData(viewModel.getCurrentIndex(), position);
             viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));

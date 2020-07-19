@@ -115,32 +115,43 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.items().size();
     }
 
-    public ArrayList<ArrayList<Integer>> getLocalData(){
+    public ArrayList<ArrayList<Integer>> getLocalData() {
         return repository.localData;
     }
-    public ArrayList<ArrayList<Integer>> getRemoteData(){
+
+    public ArrayList<ArrayList<Integer>> getRemoteData() {
         return repository.remoteData;
     }
 
-    public boolean inProgress(){
+    public boolean inProgress() {
         return repository.inProgress;
     }
 
     public void sendAnswers(String UniqueId) throws JSONException {
         repository.sendAnswers(UniqueId);
     }
-    public ArrayList getItems(){
-    return repository.items().getAll();
+
+    public ArrayList getItems() {
+        return repository.items().getAll();
     }
 
-    public boolean hasStorage(String fileName){
+    public boolean hasStorage(String fileName) {
         return repository.hasStorage(fileName + "Answers");
     }
 
-    public int answerSize(String fileName){
+    public int answerSize(String fileName) {
         return repository.answerSize(fileName + "Answers");
     }
-    public int answerPosition(String fileName,int index){
-        return repository.answerPosition(fileName+"Answers",index);
+
+    public int answerPosition(String fileName, int index) {
+        return repository.answerPosition(fileName + "Answers", index);
+    }
+
+    public void setIndex(int index){
+        repository.items().setCurrentIndex(index);
+    }
+
+    public int getLastUnAnswer(String fileName) {
+        return repository.getLastUnAnswer(fileName + "Answers");
     }
 }

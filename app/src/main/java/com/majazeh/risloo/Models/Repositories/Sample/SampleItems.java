@@ -66,4 +66,7 @@ public class SampleItems {
         return items;
     }
 
+    public void setCurrentIndex(int i){
+        index = i;
+    }
 }

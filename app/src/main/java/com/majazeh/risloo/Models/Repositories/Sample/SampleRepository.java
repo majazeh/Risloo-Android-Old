@@ -154,13 +154,15 @@ public class SampleRepository extends MainRepository {
     }
 
     public JSONArray readAnswersFromCache(String fileName) {
-        JSONArray jsonArray;
+        JSONArray jsonArray = null;
         try {
             File file = new File(application.getApplicationContext().getCacheDir(), fileName);
-            FileInputStream fis = new FileInputStream(file);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            jsonArray = new JSONArray((String) ois.readObject());
-            ois.close();
+            if (file.exists()) {
+                FileInputStream fis = new FileInputStream(file);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                jsonArray = new JSONArray((String) ois.readObject());
+                ois.close();
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;
@@ -261,7 +263,7 @@ public class SampleRepository extends MainRepository {
         int size = 0;
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
-                if (!jsonArray.getJSONObject(i).getString("index").equals("")) {
+                if (!jsonArray.getJSONObject(i).getString("answer").equals("")) {
                     size++;
                 }
             } catch (JSONException e) {
@@ -284,4 +286,19 @@ public class SampleRepository extends MainRepository {
             return -1;
         }
     }
-}
+
+    public int getLastUnAnswer(String fileName){
+
+        JSONArray jsonArray = readAnswersFromCache(fileName);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                if (jsonArray.getJSONObject(i).getString("answer").equals("")) {
+                return i;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+            return -1;
+        }
+    }

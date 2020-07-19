@@ -18,13 +18,14 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.majazeh.risloo.Models.Controller.AuthController;
 import com.majazeh.risloo.Models.Repositories.Sample.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
@@ -43,8 +44,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 public class SampleActivity extends AppCompatActivity {
 
     // ViewModels
@@ -60,10 +59,10 @@ public class SampleActivity extends AppCompatActivity {
 
     // Widgets
     private TextView indexTextView, navigateDialogConfirm, cancelDialogTitle, cancelDialogDescription, cancelDialogPositive, cancelDialogNegative;
-    private ImageView cancelImageView, forwardImageView, backwardImageView, navigateImageView, navigateDialogForwardImageView, navigateDialogBackwardImageView;
+    private ImageView cancelImageView, forwardImageView, backwardImageView, navigateImageView;
     private ProgressBar flowProgressBar;
     private RecyclerView dialogNavigateRecyclerView;
-    private Dialog navigateDialog, cancelDialog;
+    public Dialog progressDialog, navigateDialog, cancelDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +91,6 @@ public class SampleActivity extends AppCompatActivity {
 
         viewModel = ViewModelProviders.of(this, new SampleViewModelFactory(getApplication(), sharedPreferences.getString("sampleId", ""))).get(SampleViewModel.class);
 
-        adapter = new IndexAdapter(this);
-
         handler = new Handler();
 
         cancelImageView = findViewById(R.id.activity_sample_cancel_imageView);
@@ -105,6 +102,11 @@ public class SampleActivity extends AppCompatActivity {
 
         indexTextView = findViewById(R.id.activity_sample_index_imageView);
 
+        progressDialog = new Dialog(this, R.style.DialogTheme);
+        progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        progressDialog.setContentView(R.layout.dialog_progress);
+        progressDialog.setCancelable(false);
         navigateDialog = new Dialog(this, R.style.DialogTheme);
         navigateDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         navigateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -115,6 +117,8 @@ public class SampleActivity extends AppCompatActivity {
         cancelDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         cancelDialog.setContentView(R.layout.dialog_action);
         cancelDialog.setCancelable(true);
+
+        adapter = new IndexAdapter(this, viewModel, navigateDialog);
 
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(navigateDialog.getWindow().getAttributes());
@@ -127,14 +131,11 @@ public class SampleActivity extends AppCompatActivity {
         layoutParams2.height = WindowManager.LayoutParams.WRAP_CONTENT;
         cancelDialog.getWindow().setAttributes(layoutParams2);
 
-        navigateDialogForwardImageView = navigateDialog.findViewById(R.id.dialog_navigate_forward_textView);
-        navigateDialogBackwardImageView = navigateDialog.findViewById(R.id.dialog_navigate_backward_textView);
-
         dialogNavigateRecyclerView = navigateDialog.findViewById(R.id.dialog_navigate_recyclerView);
-        dialogNavigateRecyclerView.addItemDecoration(new ItemDecorator("gridLayout", (int) getResources().getDimension(R.dimen._16sdp)));
+        dialogNavigateRecyclerView.addItemDecoration(new ItemDecorator("listLayout", (int) getResources().getDimension(R.dimen._16sdp)));
         dialogNavigateRecyclerView.setLayoutManager(new GridLayoutManager(this, 3, LinearLayoutManager.HORIZONTAL, false));
         dialogNavigateRecyclerView.setHasFixedSize(true);
-//        dialogNavigateRecyclerView.setAdapter(adapter);
+        dialogNavigateRecyclerView.setAdapter(adapter);
 
         navigateDialogConfirm = navigateDialog.findViewById(R.id.dialog_navigate_close_textView);
 
@@ -151,15 +152,12 @@ public class SampleActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            cancelImageView.setBackgroundResource(R.drawable.draw_oval_snow_ripple);
+            cancelImageView.setBackgroundResource(R.drawable.draw_oval_snow_ripple_violetred);
 
             forwardImageView.setBackgroundResource(R.drawable.draw_8sdp_snow_ripple);
             backwardImageView.setBackgroundResource(R.drawable.draw_8sdp_snow_ripple);
 
             navigateImageView.setBackgroundResource(R.drawable.draw_8sdp_snow_oneside_ripple);
-
-            navigateDialogForwardImageView.setBackgroundResource(R.drawable.draw_oval_white_ripple);
-            navigateDialogBackwardImageView.setBackgroundResource(R.drawable.draw_oval_white_ripple);
 
             navigateDialogConfirm.setBackgroundResource(R.drawable.draw_12sdp_white_ripple);
 
@@ -180,8 +178,12 @@ public class SampleActivity extends AppCompatActivity {
             forwardImageView.setClickable(false);
             handler.postDelayed(() -> forwardImageView.setClickable(true), 100);
 
-            if (viewModel.next() == null){
-                finish();
+            if (viewModel.next() == null) {
+                if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
+                    finish();
+                    return;
+                }
+                viewModel.setIndex(viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")));
             }
             try {
                 showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
@@ -205,18 +207,8 @@ public class SampleActivity extends AppCompatActivity {
         navigateImageView.setOnClickListener(v -> {
             navigateImageView.setClickable(false);
             handler.postDelayed(() -> navigateImageView.setClickable(true), 1000);
+            dialogNavigateRecyclerView.scrollToPosition(viewModel.getCurrentIndex());
             navigateDialog.show();
-        });
-
-        navigateDialogForwardImageView.setOnClickListener(v -> {
-            navigateDialogForwardImageView.setClickable(false);
-            handler.postDelayed(() -> navigateDialogForwardImageView.setClickable(true), 100);
-
-        });
-
-        navigateDialogBackwardImageView.setOnClickListener(v -> {
-            navigateDialogBackwardImageView.setClickable(false);
-            handler.postDelayed(() -> navigateDialogBackwardImageView.setClickable(true), 100);
 
         });
 
@@ -253,8 +245,10 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     public void showFragment(String type) {
-        indexTextView.setText(viewModel.getCurrentIndex() + 1 +" " + "از" + " " + viewModel.getSize());
-
+        indexTextView.setText(viewModel.getCurrentIndex() + 1 + " " + "از" + " " + viewModel.getSize());
+        flowProgressBar.setProgress(viewModel.answerSize(sharedPreferences.getString("sampleId", "")));
+        adapter.setIndex(viewModel.readFromCache(sharedPreferences.getString("sampleId", "")));
+        adapter.notifyDataSetChanged();
         switch (type) {
             case "TP":
                 loadFragment(new TPFragment(this), 0, 0);
@@ -277,13 +271,22 @@ public class SampleActivity extends AppCompatActivity {
         }
     }
 
+    // TODO : Check This Piece of Code
     public void observeWork() {
+        checkStorage();
+//        viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", ""));
+        if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
+            finish();
+            return;
+        }
         if (isNetworkConnected()) {
+            progressDialog.show();
             SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
                 if (integer == 1) {
-                    adapter.setIndex(viewModel.getItems());
                     try {
-                        createStorage();
+                        progressDialog.dismiss();
+                        adapter.setIndex(viewModel.readFromCache(sharedPreferences.getString("sampleId", "")));
+                        viewModel.setIndex(viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")));
                         showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -294,12 +297,15 @@ public class SampleActivity extends AppCompatActivity {
                 } else {
 
                 }
+
             });
         } else {
             if (viewModel.getItems() != null) {
-                adapter.setIndex(viewModel.getItems());
                 try {
-                    createStorage();
+                    adapter.setIndex(viewModel.readFromCache(sharedPreferences.getString("sampleId", "")));
+                    viewModel.setIndex(viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")));
+                    Log.e("get current index", String.valueOf(viewModel.getCurrentIndex()));
+
                     showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -316,13 +322,13 @@ public class SampleActivity extends AppCompatActivity {
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
-    private void createStorage(){
+    private void checkStorage() {
         if (!viewModel.hasStorage(sharedPreferences.getString("sampleId", ""))) {
             JSONArray jsonArray = new JSONArray();
             for (int i = 0; i < viewModel.getSize(); i++) {
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put("index", "");
+                    jsonObject.put("index", i);
                     jsonObject.put("answer", "");
                     jsonArray.put(jsonObject);
                 } catch (JSONException e) {

@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -180,14 +181,19 @@ public class AuthActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
         editor = sharedPreferences.edit();
-        editor.apply();
-
-        return sharedPreferences.getString("token", "").equals("");
+        if (!sharedPreferences.getString("token", "").equals("") && !sharedPreferences.getString("sampleId", "").equals("")) {
+            return false;
+        } else {
+            editor.remove("token");
+            editor.remove("sampleId");
+            editor.apply();
+            return true;
+        }
     }
 
     private void launchSample() {
-        startActivity(new Intent(this, SampleActivity.class));
-        finish();
+            startActivity(new Intent(this, SampleActivity.class));
+            finish();
     }
 
     @Override
@@ -208,8 +214,6 @@ public class AuthActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
-        loadFragment(new SerialFragment(this), 0, 0);
     }
 
     @Override
