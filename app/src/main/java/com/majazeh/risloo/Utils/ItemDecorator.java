@@ -133,6 +133,27 @@ public class ItemDecorator extends RecyclerView.ItemDecoration {
                 rect.left = margin;
 
                 break;
+            case "customLayout":
+
+                // Top Margin
+                if (position == 0) {
+                    rect.top = margin;
+                } else {
+                    rect.top = margin / 2;
+                }
+
+                // Bottom Margin
+                if (count > 0 && position == count - 1) {
+                    rect.bottom = margin;
+                } else {
+                    rect.bottom = margin / 2;
+                }
+
+                // Right And Left Margins
+                rect.right = margin / 2;
+                rect.left = margin / 2;
+
+                break;
         }
 
     }

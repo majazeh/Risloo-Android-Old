@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_account"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:fitsSystemWindows="false"
+    android:background="@color/White"
+    tools:context=".Views.Ui.Activities.AccountActivity"
+    tools:ignore="UnusedAttribute">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/Solitude"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/activity_account_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:paddingLeft="@dimen/_4sdp"
+                android:theme="@style/ToolbarTheme"
+                android:background="@null"
+                app:title="@null"
+                app:titleTextAppearance="@style/ToolbarTextAppearance"
+                app:navigationIcon="@drawable/tool_chevron_right"
+                app:contentInsetStartWithNavigation="0dp" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/activity_account_avatar_circleImageView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_96sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                app:civ_border_width="@dimen/_6sdp"
+                app:civ_border_color="@color/White"/>
+
+            <TextView
+                android:id="@+id/activity_account_name_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_24sdp"
+                android:paddingLeft="@dimen/_24sdp"
+                android:paddingRight="@dimen/_24sdp"
+                android:gravity="center"
+                android:textSize="@dimen/_16ssp"
+                android:textStyle="bold"
+                android:textColor="@color/Grey"
+                android:textAlignment="gravity" />
+
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarSize="0dp"
+            android:overScrollMode="always">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="@dimen/_20sdp"
+                android:paddingLeft="@dimen/_24sdp"
+                android:paddingRight="@dimen/_24sdp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="@string/AccountTitle"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Nero"
+                    android:textAlignment="gravity" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activity_account_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_gravity="bottom"
+        android:background="@color/Quartz" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

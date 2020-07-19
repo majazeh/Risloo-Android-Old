@@ -13,7 +13,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -36,6 +37,9 @@ public class AuthActivity extends AppCompatActivity {
 
     // Vars
     public MutableLiveData<Boolean> callTimer;
+
+    // Objects
+    private MenuItem toolUser;
 
     // Widgets
     private Toolbar titleToolbar;
@@ -68,6 +72,7 @@ public class AuthActivity extends AppCompatActivity {
         callTimer = new MutableLiveData<>();
 
         titleToolbar = findViewById(R.id.activity_auth_toolbar);
+        setSupportActionBar(titleToolbar);
 
         progressDialog = new Dialog(this, R.style.DialogTheme);
         progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -136,7 +141,6 @@ public class AuthActivity extends AppCompatActivity {
                         if (AuthController.theory.equals("auth")) {
                             try {
                                 viewModel.authTheory("", "");
-
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -145,7 +149,6 @@ public class AuthActivity extends AppCompatActivity {
                             startActivity(new Intent(this, SampleActivity.class));
                             AuthController.workState.removeObservers((LifecycleOwner) this);
                         } else {
-                            Log.e("test", AuthController.theory + AuthController.key + "lol");
                             showFragment();
                             AuthController.workState.removeObservers((LifecycleOwner) this);
                         }
@@ -153,9 +156,6 @@ public class AuthActivity extends AppCompatActivity {
                 }
                 progressDialog.dismiss();
             } else if (AuthController.workState.getValue() == 0) {
-                Log.e("token", AuthController.token);
-                Log.e("theory", AuthController.theory);
-                Log.e("key", AuthController.key);
                 AuthController.workState.removeObservers((LifecycleOwner) this);
                 progressDialog.dismiss();
                 Toast.makeText(this, "" + AuthController.exception, Toast.LENGTH_SHORT).show();
@@ -163,6 +163,20 @@ public class AuthActivity extends AppCompatActivity {
                 // DO Nothing
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_auth, menu);
+
+        toolUser = menu.findItem(R.id.tool_user);
+        toolUser.setOnMenuItemClickListener(item -> {
+            startActivity(new Intent(this, AccountActivity.class));
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
+            return false;
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
