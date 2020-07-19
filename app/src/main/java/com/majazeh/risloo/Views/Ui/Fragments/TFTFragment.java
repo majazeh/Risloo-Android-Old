@@ -2,6 +2,7 @@ package com.majazeh.risloo.Views.Ui.Fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.ViewModels.Sample.SampleViewModel;
 import com.majazeh.risloo.ViewModels.Sample.SampleViewModelFactory;
 import com.majazeh.risloo.Views.Adapters.TFTAdapter;
+import com.majazeh.risloo.Views.Ui.Activities.SampleActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,8 +44,9 @@ public class TFTFragment extends Fragment {
     private TextView questionTextView;
     private RecyclerView answerRecyclerView;
 
-    public TFTFragment(Activity activity) {
+    public TFTFragment(Activity activity,SampleViewModel viewModel) {
         this.activity = activity;
+        this.viewModel = viewModel;
     }
 
     @Nullable
@@ -57,8 +60,8 @@ public class TFTFragment extends Fragment {
     }
 
     private void initializer(View view) {
-        viewModel = ViewModelProviders.of(this, new SampleViewModelFactory(getActivity().getApplication(), AuthController.sampleId)).get(SampleViewModel.class);
-        adapter = new TFTAdapter(activity);
+
+        adapter = new TFTAdapter(activity,viewModel);
         try {
             adapter.setAnswer(viewModel.getOptions(viewModel.getCurrentIndex()));
         } catch (JSONException e) {

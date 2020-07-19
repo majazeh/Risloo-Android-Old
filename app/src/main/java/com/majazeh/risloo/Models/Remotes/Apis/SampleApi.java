@@ -18,8 +18,7 @@ public interface SampleApi {
     Call<ResponseBody> getSample(@Header("Authorization") String authorization, @Path("sample_id") String sampleID);
 
     @Headers({"content-type: application/x-www-form-urlencoded"})
-    @FormUrlEncoded
-    @POST("$/samples/{Sample_id}/{items}")
-    Call<ResponseBody> send(@Header("Authorization") String authorization, @Path("Sample_id") String sampleId, @Path("items") ArrayList<ArrayList<Integer>> items);
+    @POST("$/samples/{sample_id}/items")
+    Call<ResponseBody> send(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Header("items") ArrayList<ArrayList<Integer>> items);
 
 }

@@ -1,6 +1,7 @@
 package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -23,10 +24,12 @@ import retrofit2.Response;
 public class AuthWorker extends Worker {
 
     private AuthApi authApi;
-
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
     public AuthWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
-
+        sharedPreferences = context.getSharedPreferences("STORE", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         authApi = RetroGenerator.getRetrofit().create(AuthApi.class);
     }
 
@@ -111,8 +114,11 @@ public class AuthWorker extends Worker {
                 AuthController.callback = object.getString("callback");
             else
                 AuthController.callback = "";
-            if (object.has("token"))
+            if (object.has("token")) {
                 AuthController.token = object.getString("token");
+                editor.putString("token", AuthController.token);
+                editor.apply();
+            }
             AuthController.exception = "";
             AuthController.workState.postValue(1);
         } else {
@@ -150,7 +156,8 @@ public class AuthWorker extends Worker {
 
             if (object.has("token")) {
                 AuthController.token = object.getString("token");
-
+                editor.putString("token", AuthController.token);
+                editor.apply();
             }
             AuthController.exception = "";
             AuthController.workState.postValue(1);
@@ -181,8 +188,11 @@ public class AuthWorker extends Worker {
                 AuthController.callback = object.getString("callback");
             else
                 AuthController.callback = "";
-            if (object.has("token"))
+            if (object.has("token")) {
                 AuthController.token = object.getString("token");
+                editor.putString("token", AuthController.token);
+                editor.apply();
+            }
             AuthController.exception = "";
             AuthController.workState.postValue(1);
         } else {
@@ -213,8 +223,11 @@ public class AuthWorker extends Worker {
                 AuthController.callback = object.getString("callback");
             else
                 AuthController.callback = "";
-            if (object.has("token"))
+            if (object.has("token")) {
                 AuthController.token = object.getString("token");
+                editor.putString("token", AuthController.token);
+                editor.apply();
+            }
             AuthController.exception = "";
             AuthController.workState.postValue(1);
         } else {
@@ -245,8 +258,11 @@ public class AuthWorker extends Worker {
                 AuthController.callback = object.getString("callback");
             else
                 AuthController.callback = "";
-            if (object.has("token"))
+            if (object.has("token")) {
                 AuthController.token = object.getString("token");
+                editor.putString("token", AuthController.token);
+                editor.apply();
+            }
             AuthController.exception = "";
             AuthController.workState.postValue(1);
         } else {

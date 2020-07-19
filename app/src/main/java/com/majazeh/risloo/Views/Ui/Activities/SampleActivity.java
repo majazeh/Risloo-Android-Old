@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,12 +40,16 @@ import com.majazeh.risloo.Views.Ui.Fragments.TFPFragment;
 import com.majazeh.risloo.Views.Ui.Fragments.TFTFragment;
 import com.majazeh.risloo.Views.Ui.Fragments.TPFragment;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class SampleActivity extends AppCompatActivity {
 
     // ViewModels
-    private SampleViewModel viewModel;
+    public static SampleViewModel viewModel;
 
     // Adapters
     private IndexAdapter adapter;
@@ -84,30 +89,10 @@ public class SampleActivity extends AppCompatActivity {
 
     private void initializer() {
         sharedPreferences = getSharedPreferences("STORE", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        editor.putString("token", AuthController.token);
-        editor.apply();
-        viewModel = ViewModelProviders.of(this, new SampleViewModelFactory(getApplication(), AuthController.sampleId)).get(SampleViewModel.class);
-        SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
-            Log.e("eee", String.valueOf(integer));
-            if (integer == 1) {
-                adapter.setIndex(viewModel.getItems());
-                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                try {
-                    showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-            } else if (integer == 0) {
-                // TODO: get exception
-            } else {
-
-            }
-        });
+        adapter = new IndexAdapter(this);
+        viewModel = ViewModelProviders.of(this, new SampleViewModelFactory(getApplication(), sharedPreferences.getString("sampleId", ""))).get(SampleViewModel.class);
         handler = new Handler();
 
-        adapter = new IndexAdapter(this);
 
         cancelImageView = findViewById(R.id.activity_sample_cancel_imageView);
         forwardImageView = findViewById(R.id.activity_sample_forward_imageView);
@@ -160,6 +145,37 @@ public class SampleActivity extends AppCompatActivity {
         cancelDialogPositive.setTextColor(getResources().getColor(R.color.VioletRed));
         cancelDialogNegative = cancelDialog.findViewById(R.id.dialog_action_negative_textView);
         cancelDialogNegative.setText(getResources().getString(R.string.SampleCancelDialogNegative));
+
+        if (isNetworkConnected()) {
+            SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
+                if (integer == 1) {
+                    adapter.setIndex(viewModel.getItems());
+                    try {
+                        createStorage();
+                        showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                } else if (integer == 0) {
+                    // TODO: get exception
+                } else {
+
+                }
+            });
+        } else {
+            if (viewModel.getItems() != null) {
+                adapter.setIndex(viewModel.getItems());
+                try {
+                    createStorage();
+                    showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                // you are offline
+            }
+        }
     }
 
     private void detector() {
@@ -192,7 +208,9 @@ public class SampleActivity extends AppCompatActivity {
         forwardImageView.setOnClickListener(v -> {
             forwardImageView.setClickable(false);
             handler.postDelayed(() -> forwardImageView.setClickable(true), 100);
-            viewModel.next();
+            if (viewModel.next() == null){
+                finish();
+            }
             try {
                 showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
             } catch (JSONException e) {
@@ -262,13 +280,15 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     public void showFragment(String type) throws JSONException {
-        Log.e("index", viewModel.getItem(viewModel.getCurrentIndex()).get("answer") + "///" + viewModel.getItem(viewModel.getCurrentIndex()).get("text"));
+//        Log.e("local", String.valueOf(SampleRepository.localData));
+//        Log.e("local", String.valueOf(viewModel.readFromCache(sharedPreferences.getString("sampleId", ""))));
+        indexTextView.setText(viewModel.getCurrentIndex() + 1 + " از " + viewModel.getSize());
         switch (type) {
             case "TP":
                 loadFragment(new TPFragment(this), 0, 0);
                 break;
             case "optional":
-                loadFragment(new TFTFragment(this), 0, 0);
+                loadFragment(new TFTFragment(this, viewModel), 0, 0);
                 break;
             case "TFP":
                 loadFragment(new TFPFragment(this), 0, 0);
@@ -290,4 +310,25 @@ public class SampleActivity extends AppCompatActivity {
         cancelDialog.show();
     }
 
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+    }
+    private void createStorage(){
+        if (!viewModel.hasStorage(sharedPreferences.getString("sampleId", ""))) {
+            JSONArray jsonArray = new JSONArray();
+            for (int i = 0; i < viewModel.getSize(); i++) {
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("index", "");
+                    jsonObject.put("answer", "");
+                    jsonArray.put(jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            viewModel.writeToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package com.majazeh.risloo.Models.Repositories.Sample;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.majazeh.risloo.Entities.Sample;
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 
 public class SampleItems {
 
-    private int index = 0;
+    private int index = 242;
     private Sample currentItem;
     private ArrayList<Sample> items = new ArrayList<>();
 
@@ -28,9 +30,14 @@ public class SampleItems {
     }
 
     public Sample next() {
+
+        if (index+1==size()){
+
+            return null;
+        }
         index++;
-        currentItem = items.get(index);
-        return currentItem;
+            currentItem = items.get(index);
+            return currentItem;
     }
 
     public Sample prev() {

@@ -40,11 +40,11 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
     public void writeToCache(JSONArray jsonArray, String fileName) {
-        repository.writeAnswersToCache(jsonArray, fileName);
+        repository.writeAnswersToCache(jsonArray, fileName + "Answers");
     }
 
     public JSONArray readFromCache(String fileName) {
-        return repository.readAnswersFromCache(fileName);
+        return repository.readAnswersFromCache(fileName + "Answers");
     }
 
     public boolean saveToCSV(JSONArray jsonArray, String fileName) {
@@ -115,11 +115,11 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.items().size();
     }
 
-    public MutableLiveData<ArrayList<ArrayList<Integer>>> getLocalData(){
-        return repository.localData();
+    public ArrayList<ArrayList<Integer>> getLocalData(){
+        return repository.localData;
     }
     public ArrayList<ArrayList<Integer>> getRemoteData(){
-        return repository.remoteData();
+        return repository.remoteData;
     }
 
     public boolean inProgress(){
@@ -133,6 +133,11 @@ public class SampleViewModel extends AndroidViewModel {
     return repository.items().getAll();
     }
 
+    public boolean hasStorage(String fileName){
+        return repository.hasStorage(fileName + "Answers");
+    }
 
-
+    public int answerSize(String fileName){
+        return repository.answerSize(fileName + "Answers");
+    }
 }

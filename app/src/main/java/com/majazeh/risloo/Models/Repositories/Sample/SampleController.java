@@ -3,7 +3,9 @@ package com.majazeh.risloo.Models.Repositories.Sample;
 import android.app.Application;
 import android.content.Context;
 
+import androidx.work.Constraints;
 import androidx.work.Data;
+import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 

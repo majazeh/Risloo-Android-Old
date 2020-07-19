@@ -2,6 +2,8 @@ package com.majazeh.risloo.Models.Repositories.Sample;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,7 @@ import com.majazeh.risloo.Models.Controller.AuthController;
 import com.majazeh.risloo.Models.Remotes.Generators.JsonGenerator;
 import com.majazeh.risloo.Models.Repositories.MainRepository;
 import com.majazeh.risloo.Models.Workers.AuthWorker;
+import com.majazeh.risloo.Models.Workers.SampleWorker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,97 +41,103 @@ public class SampleRepository extends MainRepository {
     public static boolean inProgress = false;
     public static String exception = "";
     public static MutableLiveData<Integer> workStateSample = new MediatorLiveData<>();
-    //public static MutableLiveData<Integer> workStateAnswer = new MediatorLiveData<>();
-    public static MutableLiveData<ArrayList<ArrayList<Integer>>> localData = new MutableLiveData<>();
+    public static MutableLiveData<Integer> workStateAnswer = new MediatorLiveData<>();
+    public static ArrayList<ArrayList<Integer>> localData = new ArrayList<>();
     public static ArrayList<ArrayList<Integer>> remoteData = new ArrayList<>();
+    public static boolean cache = false;
+    private SharedPreferences sharedPreferences;
 
     public SampleRepository(@NonNull Application application, String testUniqueId) throws JSONException {
         super(application);
 
+        sharedPreferences = application.getSharedPreferences("STORE", Context.MODE_PRIVATE);
+
+
         jsonGenerator = new JsonGenerator();
         sampleController = new SampleController(application, jsonGenerator, testUniqueId);
 
-        sampleController.getSampleFromAPI("getSample", AuthController.sampleId);
-        workStateSample.observeForever(integer -> {
-            Log.e("ooo", String.valueOf(integer));
+        if (isNetworkConnected()) {
+            sampleController.getSampleFromAPI("getSample", AuthController.sampleId);
 
-            if (integer == 1) {
-                try {
-                    JSONObject jsonObject = sampleController.readJsonFromCache(application.getApplicationContext(), AuthController.sampleId);
-                    JSONObject data = jsonObject.getJSONObject("data");
-                    sampleItems = new SampleItems(data.getJSONArray("items"));
-                    workStateSample.removeObserver(integer1 -> {
-                    });
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            workStateSample.observeForever(integer -> {
 
-            } else if (integer == 0) {
-                try {
-                    if (sampleController.getSample() != null) {
-                        try {
-                            sampleJson = sampleController.getSample();
-                            JSONObject data = sampleJson.getJSONObject("data");
-                            sampleItems = new SampleItems(data.getJSONArray("items"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        // you are offline
+                if (integer == 1) {
+                    try {
+                        JSONObject jsonObject = sampleController.readJsonFromCache(application.getApplicationContext(), sharedPreferences.getString("sampleId", ""));
+                        JSONObject data = jsonObject.getJSONObject("data");
+                        sampleItems = new SampleItems(data.getJSONArray("items"));
+                        workStateSample.removeObserver(integer1 -> {
+                        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
+
+                } else if (integer == 0) {
+                    try {
+                        if (sampleController.getSample() != null) {
+                            try {
+                                sampleJson = sampleController.getSample();
+                                JSONObject data = sampleJson.getJSONObject("data");
+                                sampleItems = new SampleItems(data.getJSONArray("items"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            // you are offline
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                }
+            });
+        } else {
+            if (sampleController.getSample() != null) {
+                try {
+                    sampleJson = sampleController.getSample();
+                    JSONObject data = sampleJson.getJSONObject("data");
+                    sampleItems = new SampleItems(data.getJSONArray("items"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            } else {
             }
-        });
+        }
     }
 
 
     public void insertToLocalData(int item, int answer) {
-        ArrayList arrayList = new ArrayList();
+        ArrayList arrayList = new ArrayList<Integer>();
         arrayList.add(item);
         arrayList.add(answer);
-
-        localData.setValue(arrayList);
+        localData.add(arrayList);
     }
 
-    public void insertToRemoteData(int item, int answer) {
-        ArrayList arrayList = new ArrayList();
-        arrayList.add(item);
-        arrayList.add(answer);
-
-        remoteData.add(arrayList);
-    }
+//    public void insertToRemoteData(int item, int answer) {
+//        ArrayList arrayList = new ArrayList();
+//        arrayList.add(item);
+//        arrayList.add(answer);
+//
+//        remoteData.add(arrayList);
+//    }
 
     public void insertRemoteDataToLocalData() {
         for (int i = 0; i < remoteData.size(); i++) {
             ArrayList arrayList = new ArrayList();
             arrayList.add(remoteData.get(i));
 
-            localData.setValue(arrayList);
+            localData.add(arrayList);
         }
         remoteData.clear();
     }
 
     public void insertLocalDataToRemoteData() {
-        for (int i = 0; i < localData.getValue().size(); i++) {
-            ArrayList arrayList = new ArrayList();
-            arrayList.add(localData.getValue().get(i));
-
-            remoteData.add(arrayList);
+        for (int i = 0; i < localData.size(); i++) {
+            remoteData.add(localData.get(i));
         }
-        localData.getValue().clear();
-    }
+        localData.clear();
 
-    public MutableLiveData<ArrayList<ArrayList<Integer>>> localData() {
-        return localData;
-    }
 
-    public ArrayList remoteData() {
-        return remoteData;
     }
-
 
     public void writeAnswersToCache(JSONArray jsonArray, String fileName) {
         try {
@@ -193,6 +202,12 @@ public class SampleRepository extends MainRepository {
         return new File(application.getApplicationContext().getCacheDir(), fileName);
     }
 
+    public boolean hasStorage(String fileName) {
+        String path = application.getApplicationContext().getCacheDir() + "/" + fileName;
+        File file = new File(path);
+        return file.exists();
+    }
+
     public JSONObject json() {
         return sampleJson;
     }
@@ -202,22 +217,57 @@ public class SampleRepository extends MainRepository {
     }
 
     public void sendAnswers(String UniqueId) throws JSONException {
-        if (remoteData().size() == 0) {
-            insertLocalDataToRemoteData();
-            inProgress = true;
-            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(AuthWorker.class)
-                    .setInputData(data("sendAnswers",UniqueId))
-                    .build();
-            WorkManager.getInstance(application).enqueue(workRequest);
-            localData().getValue().clear();
+        if (isNetworkConnected()) {
+            if (cache == true) {
+                localData.clear();
+                JSONArray jsonArray = readAnswersFromCache(sharedPreferences.getString("sampleId", "") + "Answers");
+                for (int i = 0; i < readAnswersFromCache(sharedPreferences.getString("sampleId", "") + "Answers").length(); i++) {
+                    if (!jsonArray.getJSONObject(i).getString("index").equals("")) {
+                        ArrayList arrayList = new ArrayList<Integer>();
+                        arrayList.add(jsonArray.getJSONObject(i).getString("index"));
+                        arrayList.add(jsonArray.getJSONObject(i).getString("answer"));
+                        localData.add(arrayList);
+                    }
+                }
+            }
+            if (remoteData.size() == 0) {
+                insertLocalDataToRemoteData();
+                inProgress = true;
+                OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SampleWorker.class)
+                        .setInputData(data("sendAnswers", UniqueId))
+                        .build();
+                WorkManager.getInstance(application).enqueue(workRequest);
+            }
+        } else {
+            cache = true;
         }
     }
 
-    private Data data(String work,String UniqueId) throws JSONException {
+    private Data data(String work, String UniqueId) throws JSONException {
         return new Data.Builder()
                 .putString("work", work)
                 .putString("UniqueId", UniqueId)
                 .build();
     }
 
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) application.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+    }
+
+    public int answerSize(String fileName){
+        JSONArray jsonArray = readAnswersFromCache(fileName);
+        int size = 0;
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                if (!jsonArray.getJSONObject(i).getString("index").equals("")){
+                    size++;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return size;
+    }
 }

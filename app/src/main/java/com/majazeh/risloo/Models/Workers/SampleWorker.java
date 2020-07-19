@@ -2,6 +2,7 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -22,6 +23,9 @@ import java.io.IOException;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static com.majazeh.risloo.Models.Repositories.Sample.SampleRepository.localData;
+import static com.majazeh.risloo.Models.Repositories.Sample.SampleRepository.remoteData;
 
 public class SampleWorker extends Worker {
 
@@ -67,12 +71,14 @@ public class SampleWorker extends Worker {
     }
 
     private void getSample() throws IOException, JSONException {
-        Call<ResponseBody> call = sampleApi.getSample("Bearer " + sharedpreferences.getString("token", ""), getInputData().getString("UniqueId"));
+        Call<ResponseBody> call = sampleApi.getSample("Bearer " + sharedpreferences.getString("token", ""), sharedpreferences.getString("sampleId", ""));
+
         Response<ResponseBody> bodyResponse = call.execute();
+        Log.e("token",sharedpreferences.getString("token", "") + "aa");
         if (bodyResponse.isSuccessful()) {
 
             JSONObject jsonObject = new JSONObject(bodyResponse.body().string());
-            sampleController.saveJsonToCache(context, jsonObject, getInputData().getString("UniqueId"));
+            sampleController.saveJsonToCache(context, jsonObject, sharedpreferences.getString("sampleId", ""));
             SampleRepository.workStateSample.postValue(1);
         } else {
             SampleRepository.workStateSample.postValue(0);
@@ -82,18 +88,22 @@ public class SampleWorker extends Worker {
 
     private void sendAnswers() {
         try {
-            Call<ResponseBody> call = sampleApi.send("Bearer " + sharedpreferences.getString("token", ""), AuthController.sampleId, SampleRepository.remoteData);
+            Log.e("remote", String.valueOf(remoteData));
 
+            Call<ResponseBody> call = sampleApi.send("Bearer " + sharedpreferences.getString("token", ""), sharedpreferences.getString("sampleId", ""), SampleRepository.remoteData);
+
+           // Log.e("remove", String.valueOf(SampleRepository.remoteData) + "aaa");
             Response<ResponseBody> bodyResponse = call.execute();
+                SampleRepository.cache = false;
             if (bodyResponse.isSuccessful()) {
                 SampleRepository.remoteData.clear();
-                //SampleRepository.workStateAnswer.postValue(1);
+                SampleRepository.workStateAnswer.postValue(1);
             } else {
                 for (int i = 0; i < SampleRepository.remoteData.size(); i++) {
-                    SampleRepository.localData.getValue().add(SampleRepository.remoteData.get(i));
-                    SampleRepository.remoteData.clear();
-                    //SampleRepository.workStateAnswer.postValue(-1);
+                    localData.add(SampleRepository.remoteData.get(i));
                 }
+                    SampleRepository.remoteData.clear();
+                    SampleRepository.workStateAnswer.postValue(-1);
             }
             SampleRepository.inProgress = false;
         } catch (IOException e) {

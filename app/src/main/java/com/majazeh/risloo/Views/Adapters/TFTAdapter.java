@@ -1,8 +1,11 @@
 package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,22 +17,32 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Sample;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.ViewModels.Sample.SampleViewModel;
+import com.majazeh.risloo.Views.Ui.Activities.AuthActivity;
+import com.majazeh.risloo.Views.Ui.Activities.SampleActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
 
     // Vars
     private ArrayList<String> answers;
 
+    private SampleViewModel viewModel;
     // Objects
     private Activity activity;
     private Handler handler;
 
-    public TFTAdapter(Activity activity) {
+    private SharedPreferences sharedPreferences;
+
+    public TFTAdapter(Activity activity, SampleViewModel viewModel) {
         this.activity = activity;
+        this.viewModel = viewModel;
     }
 
     @NonNull
@@ -55,7 +68,7 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
             holder.itemView.setClickable(false);
             handler.postDelayed(() -> holder.itemView.setClickable(true), 1000);
 
-            doWork();
+            doWork(i);
         });
 
     }
@@ -67,6 +80,7 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
 
     private void initializer(View view) {
         handler = new Handler();
+        sharedPreferences = activity.getSharedPreferences("STORE", Context.MODE_PRIVATE);
     }
 
     public void setAnswer(ArrayList<String> answers) {
@@ -74,7 +88,23 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
         notifyDataSetChanged();
     }
 
-    private void doWork() {
+    private void doWork(int position) {
+        try {
+
+            JSONArray jsonArray = viewModel.readFromCache(sharedPreferences.getString("sampleId", ""));
+            jsonArray.getJSONObject(viewModel.getCurrentIndex()).put("index", viewModel.getCurrentIndex());
+            jsonArray.getJSONObject(viewModel.getCurrentIndex()).put("answer", position);
+            viewModel.writeToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
+            //////////////////////////////////////////////////////////////////////////////////////////////////
+           if (viewModel.next() == null){
+               activity.finish();
+           }
+            ((SampleActivity) Objects.requireNonNull(activity)).showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
+            viewModel.insertToLocalData(viewModel.getCurrentIndex(), position);
+            viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
