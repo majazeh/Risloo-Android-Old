@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class SampleItems {
 
-    private int index = 242;
+    private int index = 0;
     private Sample currentItem;
     private ArrayList<Sample> items = new ArrayList<>();
 

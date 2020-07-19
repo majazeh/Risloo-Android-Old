@@ -38,7 +38,7 @@ public class SampleWorker extends Worker {
     public SampleWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         sampleApi = RetroGenerator.getRetrofit().create(SampleApi.class);
-        sharedpreferences = context.getSharedPreferences("STORE", Context.MODE_PRIVATE);
+        sharedpreferences = context.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
         sampleController = new SampleController();
         this.context = context;
     }

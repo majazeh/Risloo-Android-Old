@@ -9,8 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,14 +33,17 @@ import java.util.Objects;
 
 public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
 
+    // ViewModels
+    private SampleViewModel viewModel;
+
     // Vars
+    private int position = -1;
+    private boolean clickedItem;
     private ArrayList<String> answers;
 
-    private SampleViewModel viewModel;
     // Objects
     private Activity activity;
     private Handler handler;
-
     private SharedPreferences sharedPreferences;
 
     public TFTAdapter(Activity activity, SampleViewModel viewModel) {
@@ -61,16 +67,55 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             holder.rootLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_quartz_border_ripple);
         }
-        holder.answerTextView.setText(answers.get(i).toString());
 
+        holder.answerTextView.setText(answers.get(i));
+
+        if (position == -1) {
+            holder.numberTextView.setText("");
+            holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow);
+
+            holder.itemView.setEnabled(true);
+            holder.itemView.setClickable(true);
+        } else {
+            if (position == i) {
+                holder.numberTextView.setText(String.valueOf(i + 1));
+                holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow_border_primary);
+
+                if (clickedItem) {
+                    holder.itemView.setEnabled(false);
+                    holder.itemView.setClickable(false);
+                } else {
+                    holder.itemView.setEnabled(true);
+                    holder.itemView.setClickable(true);
+                }
+            } else {
+                if (clickedItem) {
+                    holder.numberTextView.setText("");
+                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow);
+
+                    holder.itemView.setAlpha((float) 0.4);
+                    holder.itemView.setEnabled(false);
+                    holder.itemView.setClickable(false);
+                } else {
+                    holder.numberTextView.setText("");
+                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow);
+
+                    holder.itemView.setAlpha(1);
+                    holder.itemView.setEnabled(true);
+                    holder.itemView.setClickable(true);
+                }
+            }
+        }
 
         holder.itemView.setOnClickListener(v -> {
-            holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 1000);
+            handler.postDelayed(() -> doWork(i), 500);
 
-            doWork(i);
+            position = i;
+
+            clickedItem = true;
+
+            notifyDataSetChanged();
         });
-
     }
 
     @Override
@@ -80,11 +125,12 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
 
     private void initializer(View view) {
         handler = new Handler();
-        sharedPreferences = activity.getSharedPreferences("STORE", Context.MODE_PRIVATE);
-    }
 
-    public void setAnswer(ArrayList<String> answers) {
+        sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+    }
+    public void setAnswer(ArrayList<String> answers, int position) {
         this.answers = answers;
+        this.position = position;
         notifyDataSetChanged();
     }
 

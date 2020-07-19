@@ -42,22 +42,18 @@ public class AuthActivity extends AppCompatActivity {
 
     // Objects
     private MenuItem toolUser;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     // Widgets
     private Toolbar titleToolbar;
     public Dialog progressDialog;
-    private SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // defining SharedPreferences
-        sharedPreferences = getSharedPreferences("STORE", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-
-        if (sharedPreferences.getString("token", "").equals("")) {
+        if (emptyToken()) {
             decorator();
 
             setContentView(R.layout.activity_auth);
@@ -68,7 +64,7 @@ public class AuthActivity extends AppCompatActivity {
 
             titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
             loadFragment(new SerialFragment(this), 0, 0);
-        }else{
+        } else {
             launchSample();
         }
     }
@@ -153,7 +149,6 @@ public class AuthActivity extends AppCompatActivity {
                         if (AuthController.theory.equals("auth")) {
                             try {
                                 viewModel.authTheory("", "");
-
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -179,6 +174,15 @@ public class AuthActivity extends AppCompatActivity {
                 // DO Nothing
             }
         });
+    }
+
+    private boolean emptyToken() {
+        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
+        editor = sharedPreferences.edit();
+        editor.apply();
+
+        return sharedPreferences.getString("token", "").equals("");
     }
 
     private void launchSample() {

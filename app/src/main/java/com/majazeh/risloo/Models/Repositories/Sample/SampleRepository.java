@@ -50,7 +50,7 @@ public class SampleRepository extends MainRepository {
     public SampleRepository(@NonNull Application application, String testUniqueId) throws JSONException {
         super(application);
 
-        sharedPreferences = application.getSharedPreferences("STORE", Context.MODE_PRIVATE);
+        sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
 
         jsonGenerator = new JsonGenerator();
@@ -256,12 +256,12 @@ public class SampleRepository extends MainRepository {
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
-    public int answerSize(String fileName){
+    public int answerSize(String fileName) {
         JSONArray jsonArray = readAnswersFromCache(fileName);
         int size = 0;
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
-                if (!jsonArray.getJSONObject(i).getString("index").equals("")){
+                if (!jsonArray.getJSONObject(i).getString("index").equals("")) {
                     size++;
                 }
             } catch (JSONException e) {
@@ -269,5 +269,19 @@ public class SampleRepository extends MainRepository {
             }
         }
         return size;
+    }
+
+    public int answerPosition(String fileName, int index) {
+        JSONArray jsonArray = readAnswersFromCache(fileName);
+        try {
+            if (!jsonArray.getJSONObject(index).getString("answer").equals("")){
+                return jsonArray.getJSONObject(index).getInt("answer");
+            }else{
+                return -1;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 }

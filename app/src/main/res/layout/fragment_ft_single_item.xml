@@ -14,11 +14,10 @@
         android:id="@+id/fragment_ft_single_item_root_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_6sdp"
-        android:paddingTop="@dimen/_8sdp"
-        android:paddingBottom="@dimen/_8sdp"
-        android:paddingLeft="@dimen/_10sdp"
-        android:paddingRight="@dimen/_12sdp"
+        android:paddingTop="@dimen/_6sdp"
+        android:paddingBottom="@dimen/_6sdp"
+        android:paddingLeft="@dimen/_6sdp"
+        android:paddingRight="@dimen/_7sdp"
         android:layoutDirection="rtl"
         android:gravity="center"
         android:orientation="horizontal"
@@ -27,14 +26,14 @@
 
         <TextView
             android:id="@+id/fragment_ft_single_item_number_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_6sdp"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
             android:gravity="center"
-            android:textSize="@dimen/_11ssp"
+            android:textSize="@dimen/_13ssp"
             android:textColor="@color/Nero"
             android:textStyle="normal"
-            android:textAlignment="gravity"/>
+            android:textAlignment="gravity" />
 
         <TextView
             android:id="@+id/fragment_ft_single_item_answer_textView"

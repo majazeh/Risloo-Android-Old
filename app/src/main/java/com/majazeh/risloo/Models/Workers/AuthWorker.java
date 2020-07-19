@@ -28,7 +28,7 @@ public class AuthWorker extends Worker {
     private SharedPreferences.Editor editor;
     public AuthWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
-        sharedPreferences = context.getSharedPreferences("STORE", Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         authApi = RetroGenerator.getRetrofit().create(AuthApi.class);
     }

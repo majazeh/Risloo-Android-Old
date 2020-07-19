@@ -18,7 +18,6 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -56,6 +55,8 @@ public class SampleActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     // Widgets
     private TextView indexTextView, navigateDialogConfirm, cancelDialogTitle, cancelDialogDescription, cancelDialogPositive, cancelDialogNegative;
@@ -63,9 +64,6 @@ public class SampleActivity extends AppCompatActivity {
     private ProgressBar flowProgressBar;
     private RecyclerView dialogNavigateRecyclerView;
     private Dialog navigateDialog, cancelDialog;
-
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +78,8 @@ public class SampleActivity extends AppCompatActivity {
         detector();
 
         listener();
+
+        observeWork();
     }
 
     private void decorator() {
@@ -88,11 +88,13 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        sharedPreferences = getSharedPreferences("STORE", Context.MODE_PRIVATE);
-        adapter = new IndexAdapter(this);
-        viewModel = ViewModelProviders.of(this, new SampleViewModelFactory(getApplication(), sharedPreferences.getString("sampleId", ""))).get(SampleViewModel.class);
-        handler = new Handler();
+        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
+        viewModel = ViewModelProviders.of(this, new SampleViewModelFactory(getApplication(), sharedPreferences.getString("sampleId", ""))).get(SampleViewModel.class);
+
+        adapter = new IndexAdapter(this);
+
+        handler = new Handler();
 
         cancelImageView = findViewById(R.id.activity_sample_cancel_imageView);
         forwardImageView = findViewById(R.id.activity_sample_forward_imageView);
@@ -132,7 +134,7 @@ public class SampleActivity extends AppCompatActivity {
         dialogNavigateRecyclerView.addItemDecoration(new ItemDecorator("gridLayout", (int) getResources().getDimension(R.dimen._16sdp)));
         dialogNavigateRecyclerView.setLayoutManager(new GridLayoutManager(this, 3, LinearLayoutManager.HORIZONTAL, false));
         dialogNavigateRecyclerView.setHasFixedSize(true);
-        dialogNavigateRecyclerView.setAdapter(adapter);
+//        dialogNavigateRecyclerView.setAdapter(adapter);
 
         navigateDialogConfirm = navigateDialog.findViewById(R.id.dialog_navigate_close_textView);
 
@@ -145,37 +147,6 @@ public class SampleActivity extends AppCompatActivity {
         cancelDialogPositive.setTextColor(getResources().getColor(R.color.VioletRed));
         cancelDialogNegative = cancelDialog.findViewById(R.id.dialog_action_negative_textView);
         cancelDialogNegative.setText(getResources().getString(R.string.SampleCancelDialogNegative));
-
-        if (isNetworkConnected()) {
-            SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
-                if (integer == 1) {
-                    adapter.setIndex(viewModel.getItems());
-                    try {
-                        createStorage();
-                        showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                } else if (integer == 0) {
-                    // TODO: get exception
-                } else {
-
-                }
-            });
-        } else {
-            if (viewModel.getItems() != null) {
-                adapter.setIndex(viewModel.getItems());
-                try {
-                    createStorage();
-                    showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                // you are offline
-            }
-        }
     }
 
     private void detector() {
@@ -208,6 +179,7 @@ public class SampleActivity extends AppCompatActivity {
         forwardImageView.setOnClickListener(v -> {
             forwardImageView.setClickable(false);
             handler.postDelayed(() -> forwardImageView.setClickable(true), 100);
+
             if (viewModel.next() == null){
                 finish();
             }
@@ -221,6 +193,7 @@ public class SampleActivity extends AppCompatActivity {
         backwardImageView.setOnClickListener(v -> {
             backwardImageView.setClickable(false);
             handler.postDelayed(() -> backwardImageView.setClickable(true), 100);
+
             viewModel.prev();
             try {
                 showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
@@ -279,16 +252,15 @@ public class SampleActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    public void showFragment(String type) throws JSONException {
-//        Log.e("local", String.valueOf(SampleRepository.localData));
-//        Log.e("local", String.valueOf(viewModel.readFromCache(sharedPreferences.getString("sampleId", ""))));
-        indexTextView.setText(viewModel.getCurrentIndex() + 1 + " از " + viewModel.getSize());
+    public void showFragment(String type) {
+        indexTextView.setText(viewModel.getCurrentIndex() + 1 +" " + "از" + " " + viewModel.getSize());
+
         switch (type) {
             case "TP":
                 loadFragment(new TPFragment(this), 0, 0);
                 break;
             case "optional":
-                loadFragment(new TFTFragment(this, viewModel), 0, 0);
+                loadFragment(new TFTFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
                 break;
             case "TFP":
                 loadFragment(new TFPFragment(this), 0, 0);
@@ -305,9 +277,37 @@ public class SampleActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        cancelDialog.show();
+    public void observeWork() {
+        if (isNetworkConnected()) {
+            SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
+                if (integer == 1) {
+                    adapter.setIndex(viewModel.getItems());
+                    try {
+                        createStorage();
+                        showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                } else if (integer == 0) {
+                    // TODO: get exception
+                } else {
+
+                }
+            });
+        } else {
+            if (viewModel.getItems() != null) {
+                adapter.setIndex(viewModel.getItems());
+                try {
+                    createStorage();
+                    showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                // you are offline
+            }
+        }
     }
 
     private boolean isNetworkConnected() {
@@ -315,6 +315,7 @@ public class SampleActivity extends AppCompatActivity {
 
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
+
     private void createStorage(){
         if (!viewModel.hasStorage(sharedPreferences.getString("sampleId", ""))) {
             JSONArray jsonArray = new JSONArray();
@@ -331,4 +332,10 @@ public class SampleActivity extends AppCompatActivity {
             viewModel.writeToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        cancelDialog.show();
+    }
+
 }
