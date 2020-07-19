@@ -83,7 +83,7 @@
     <string name="RegisterPasswordHint">رمز عبور</string>
     <string name="RegisterButton">ثبت نام</string>
 
-    <string name="AuthProfile">حساب کاربری</string>
+    <string name="AuthAccount">حساب کاربری</string>
     <string name="AuthProgressDialogTitle">لطفا منتظر بمانید …</string>
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -132,17 +132,17 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // profile strings
+    // account strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="ProfileTitle">اطلاعات حساب</string>
+    <string name="AccountTitle">اطلاعات حساب</string>
 
-    <string name="ProfileSignOut">خروج از حساب</string>
+    <string name="AccountSignOut">خروج از حساب</string>
 
-    <string name="ProfileSignOutDialogTitle">خروج از حساب؟</string>
-    <string name="ProfileSignOutDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
-    <string name="ProfileSignOutDialogPositive">خروج</string>
-    <string name="ProfileSignOutDialogNegative">بستن</string>
+    <string name="AccountSignOutDialogTitle">خروج از حساب؟</string>
+    <string name="AccountSignOutDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="AccountSignOutDialogPositive">خروج</string>
+    <string name="AccountSignOutDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

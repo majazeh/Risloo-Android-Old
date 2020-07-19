@@ -20,18 +20,18 @@ import android.widget.TextView;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
-import com.majazeh.risloo.Views.Adapters.ProfileAdapter;
+import com.majazeh.risloo.Views.Adapters.AccountAdapter;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfileActivity extends AppCompatActivity {
+public class AccountActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
     private MenuItem toolSignOut;
 
     // Adapters
-    private ProfileAdapter adapter;
+    private AccountAdapter adapter;
 
     // Widgets
     private Toolbar toolbar;
@@ -46,7 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         decorator();
 
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_account);
 
         initializer();
 
@@ -61,20 +61,20 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        adapter = new ProfileAdapter(this);
-//        adapter.setProfile(viewModel.getAll());
+        adapter = new AccountAdapter(this);
+//        adapter.setAccount(viewModel.getAll());
 
         handler = new Handler();
 
-        toolbar = findViewById(R.id.activity_profile_toolbar);
+        toolbar = findViewById(R.id.activity_account_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        avatarImageView = findViewById(R.id.activity_profile_avatar_circleImageView);
+        avatarImageView = findViewById(R.id.activity_account_avatar_circleImageView);
 
-        nameTextView = findViewById(R.id.activity_profile_name_textView);
+        nameTextView = findViewById(R.id.activity_account_name_textView);
 
-        recyclerView = findViewById(R.id.activity_profile_recyclerView);
+        recyclerView = findViewById(R.id.activity_account_recyclerView);
         recyclerView.addItemDecoration(new ItemDecorator("customLayout",(int) getResources().getDimension(R.dimen._16sdp)));
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
@@ -93,14 +93,14 @@ public class ProfileActivity extends AppCompatActivity {
         signOutDialog.getWindow().setAttributes(layoutParams);
 
         signOutDialogTitle = signOutDialog.findViewById(R.id.dialog_action_title_textView);
-        signOutDialogTitle.setText(getResources().getString(R.string.ProfileSignOutDialogTitle));
+        signOutDialogTitle.setText(getResources().getString(R.string.AccountSignOutDialogTitle));
         signOutDialogDescription = signOutDialog.findViewById(R.id.dialog_action_description_textView);
-        signOutDialogDescription.setText(getResources().getString(R.string.ProfileSignOutDialogDescription));
+        signOutDialogDescription.setText(getResources().getString(R.string.AccountSignOutDialogDescription));
         signOutDialogPositive = signOutDialog.findViewById(R.id.dialog_action_positive_textView);
-        signOutDialogPositive.setText(getResources().getString(R.string.ProfileSignOutDialogPositive));
+        signOutDialogPositive.setText(getResources().getString(R.string.AccountSignOutDialogPositive));
         signOutDialogPositive.setTextColor(getResources().getColor(R.color.VioletRed));
         signOutDialogNegative = signOutDialog.findViewById(R.id.dialog_action_negative_textView);
-        signOutDialogNegative.setText(getResources().getString(R.string.ProfileSignOutDialogNegative));
+        signOutDialogNegative.setText(getResources().getString(R.string.AccountSignOutDialogNegative));
     }
 
     private void detector() {
@@ -139,7 +139,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_profile, menu);
+        getMenuInflater().inflate(R.menu.menu_account, menu);
 
         toolSignOut = menu.findItem(R.id.tool_sign_out);
         toolSignOut.setOnMenuItemClickListener(menuItem -> {

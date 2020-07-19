@@ -2,13 +2,13 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_profile"
+    android:id="@+id/activity_account"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:fitsSystemWindows="false"
     android:background="@color/White"
-    tools:context=".Views.Ui.Activities.ProfileActivity"
+    tools:context=".Views.Ui.Activities.AccountActivity"
     tools:ignore="UnusedAttribute">
 
     <LinearLayout
@@ -23,7 +23,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/activity_profile_toolbar"
+                android:id="@+id/activity_account_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_marginTop="@dimen/_18sdp"
@@ -36,7 +36,7 @@
                 app:contentInsetStartWithNavigation="0dp" />
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/activity_profile_avatar_circleImageView"
+                android:id="@+id/activity_account_avatar_circleImageView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_96sdp"
                 android:layout_marginTop="@dimen/_16sdp"
@@ -44,7 +44,7 @@
                 app:civ_border_color="@color/White"/>
 
             <TextView
-                android:id="@+id/activity_profile_name_textView"
+                android:id="@+id/activity_account_name_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_12sdp"
@@ -77,14 +77,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:text="@string/ProfileTitle"
+                    android:text="@string/AccountTitle"
                     android:textSize="@dimen/_16ssp"
                     android:textStyle="bold"
                     android:textColor="@color/Nero"
                     android:textAlignment="gravity" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/activity_profile_recyclerView"
+                    android:id="@+id/activity_account_recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:overScrollMode="never" />

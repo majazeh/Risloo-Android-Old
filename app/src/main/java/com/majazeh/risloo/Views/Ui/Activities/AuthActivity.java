@@ -171,7 +171,7 @@ public class AuthActivity extends AppCompatActivity {
 
         toolUser = menu.findItem(R.id.tool_user);
         toolUser.setOnMenuItemClickListener(item -> {
-            startActivity(new Intent(this, ProfileActivity.class));
+            startActivity(new Intent(this, AccountActivity.class));
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
             return false;
         });
