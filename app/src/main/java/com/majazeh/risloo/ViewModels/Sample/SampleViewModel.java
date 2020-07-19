@@ -140,4 +140,7 @@ public class SampleViewModel extends AndroidViewModel {
     public int answerSize(String fileName){
         return repository.answerSize(fileName + "Answers");
     }
+    public int answerPosition(String fileName,int index){
+        return repository.answerPosition(fileName+"Answers",index);
+    }
 }

@@ -1,6 +1,8 @@
 package com.majazeh.risloo.Views.Ui.Fragments;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +41,7 @@ public class TFTFragment extends Fragment {
 
     // Objects
     private Activity activity;
+    private SharedPreferences sharedPreferences;
 
     // Widgets
     private TextView questionTextView;
@@ -61,9 +64,11 @@ public class TFTFragment extends Fragment {
 
     private void initializer(View view) {
 
+        sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
         adapter = new TFTAdapter(activity,viewModel);
         try {
-            adapter.setAnswer(viewModel.getOptions(viewModel.getCurrentIndex()));
+            adapter.setAnswer(viewModel.getOptions(viewModel.getCurrentIndex()),viewModel.answerPosition(sharedPreferences.getString("sampleId",""),viewModel.getCurrentIndex()));;
         } catch (JSONException e) {
             e.printStackTrace();
         }
