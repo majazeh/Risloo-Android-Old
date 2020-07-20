@@ -1,10 +1,16 @@
 package com.majazeh.risloo.Views.Ui.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.ViewModelProviders;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -15,23 +21,33 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.WindowDecorator;
+import com.majazeh.risloo.ViewModels.SampleViewModel;
 
-public class OutroActivity extends AppCompatActivity {
+import org.json.JSONArray;
+import org.json.JSONException;
+
+public class OutroActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     // Vars
     private String work = "";
+    private boolean exit = false;
 
     // Objects
     private Handler handler;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     // Widgets
     private Button internetButton, smsButton, downloadButton, laterButton;
     private TextView outroDialogTitle, outroDialogDescription, outroDialogPositive, outroDialogNegative;
-    private Dialog outroDialog;
+    private Dialog outroDialog, progressDialog;
+
+    private SampleViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +62,6 @@ public class OutroActivity extends AppCompatActivity {
         detector();
 
         listener();
-        SampleActivity sampleActivity = new SampleActivity();
-
-        sampleActivity.viewModel.saveToCSV(sampleActivity.viewModel.readFromCache(sharedPreferences.getString("sampleId", "")), sharedPreferences.getString("sampleId", ""));
-        Log.e("oops", String.valueOf(sampleActivity.viewModel.loadFromCSV(sharedPreferences.getString("sampleId", "")).getName()));
 
     }
 
@@ -74,6 +86,9 @@ public class OutroActivity extends AppCompatActivity {
     private void initializer() {
         handler = new Handler();
         sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
 
         internetButton = findViewById(R.id.activity_outro_internet_button);
         smsButton = findViewById(R.id.activity_outro_sms_button);
@@ -85,6 +100,12 @@ public class OutroActivity extends AppCompatActivity {
         outroDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         outroDialog.setContentView(R.layout.dialog_action);
         outroDialog.setCancelable(true);
+
+        progressDialog = new Dialog(this, R.style.DialogTheme);
+        progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        progressDialog.setContentView(R.layout.dialog_progress);
+        progressDialog.setCancelable(false);
 
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(outroDialog.getWindow().getAttributes());
@@ -152,7 +173,6 @@ public class OutroActivity extends AppCompatActivity {
         outroDialogPositive.setOnClickListener(v -> {
             outroDialogPositive.setClickable(false);
             handler.postDelayed(() -> outroDialogPositive.setClickable(true), 1000);
-            outroDialog.dismiss();
 
             if (work == "internet") {
                 sendViaInternet();
@@ -166,6 +186,10 @@ public class OutroActivity extends AppCompatActivity {
         outroDialogNegative.setOnClickListener(v -> {
             outroDialogNegative.setClickable(false);
             handler.postDelayed(() -> outroDialogNegative.setClickable(true), 1000);
+            if (work == "download") {
+                exit = false;
+                isStoragePermissionGranted();
+            }
             outroDialog.dismiss();
         });
 
@@ -175,7 +199,27 @@ public class OutroActivity extends AppCompatActivity {
     }
 
     private void sendViaInternet() {
-        // TODO : Send The Sample Via Internet Call
+                outroDialog.dismiss();
+                progressDialog.show();
+        Log.e("token", sharedPreferences.getString("token", ""));
+        SampleRepository.cache = true;
+        try {
+            viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
+            SampleRepository.workStateAnswer.observe(this, integer -> {
+                if (integer == 1) {
+                    Toast.makeText(this, "جواب ها به درستی ارسال شد", Toast.LENGTH_SHORT).show();
+                    viewModel.deleteStorage(sharedPreferences.getString("sampleId", ""));
+                    editor.remove("sampleId");
+                    editor.apply();
+                    startActivity(new Intent(this, AuthActivity.class));
+                    finish();
+                } else {
+                    Toast.makeText(this, "ارسال اطلاعات با مشکل مواجه شد!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void sendViaSMS() {
@@ -183,7 +227,51 @@ public class OutroActivity extends AppCompatActivity {
     }
 
     private void downloadFile() {
+        exit = true;
+        isStoragePermissionGranted();
         // TODO : Download Sample Answer File
     }
 
+    public boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                viewModel.saveToExternal(viewModel.readFromCache(sharedPreferences.getString("sampleId", "")), sharedPreferences.getString("sampleId", ""));
+                outroDialog.dismiss();
+                Toast.makeText(this, "جواب ها در پوشه Download ذخیره شد", Toast.LENGTH_SHORT).show();
+                if (exit) {
+                    viewModel.deleteStorage(sharedPreferences.getString("sampleId", ""));
+                    editor.remove("sampleId");
+                    editor.apply();
+                    startActivity(new Intent(this, AuthActivity.class));
+                    finish();
+                }
+                return true;
+            } else {
+
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        } else { //permission is automatically granted on sdk<23 upon installation
+            viewModel.saveToExternal(viewModel.readFromCache(sharedPreferences.getString("sampleId", "")), sharedPreferences.getString("sampleId", ""));
+            outroDialog.dismiss();
+            Toast.makeText(this, "جواب ها در پوشه Download ذخیره شد", Toast.LENGTH_SHORT).show();
+            if (exit)
+                viewModel.deleteStorage(sharedPreferences.getString("sampleId", ""));
+            editor.remove("sampleId");
+            editor.apply();
+            startActivity(new Intent(this, AuthActivity.class));
+            finish();
+        }
+        return true;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            isStoragePermissionGranted();
+        }
+    }
 }

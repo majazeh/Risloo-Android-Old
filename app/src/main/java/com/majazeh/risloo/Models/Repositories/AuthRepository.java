@@ -55,4 +55,20 @@ public class AuthRepository extends MainRepository {
         controller.workManager("recovery");
     }
 
+    public void me() throws JSONException {
+        controller.workState.setValue(-1);
+        controller.work = "me";
+        controller.workManager("me");
+    }
+
+    public void logout(){
+        try {
+            controller.workState.setValue(-1);
+            controller.work = "signOut";
+            controller.workManager("signOut");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

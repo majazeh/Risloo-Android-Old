@@ -1,7 +1,9 @@
 package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountHolder> {
 
@@ -41,9 +47,14 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountH
 
     @Override
     public void onBindViewHolder(@NonNull AccountHolder holder, int i) {
+        try {
+            holder.titleTextView.setText(accounts.get(i).get("title").toString());
+            holder.subTitleTextView.setText(accounts.get(i).get("subTitle").toString());
+            holder.avatarImageView.setImageDrawable((Drawable) accounts.get(i).get("image"));
 
-        // TODO : Fill Here
-
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

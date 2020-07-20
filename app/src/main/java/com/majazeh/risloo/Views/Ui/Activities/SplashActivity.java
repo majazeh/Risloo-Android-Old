@@ -1,6 +1,8 @@
 package com.majazeh.risloo.Views.Ui.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -20,11 +22,14 @@ import android.widget.TextView;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.WindowDecorator;
+import com.majazeh.risloo.ViewModels.AboutUsViewModel;
+import com.majazeh.risloo.ViewModels.ExplodeViewModel;
 
 public class SplashActivity extends AppCompatActivity {
 
     // Class
     private IntentCaller intentCaller;
+    private ExplodeViewModel viewModel;
 
     // Vars
     private String update = "";
@@ -60,6 +65,8 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void initializer() {
+        viewModel = ViewModelProviders.of(this).get(ExplodeViewModel.class);
+
         intentCaller = new IntentCaller();
 
         handler = new Handler();

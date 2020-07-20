@@ -4,6 +4,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -33,4 +34,11 @@ public interface AuthApi {
     @POST("auth/recovery")
     Call<ResponseBody> recovery(@Query("username") String username);
 
+    @Headers({"content-type: application/x-www-form-urlencoded"})
+    @GET("me")
+    Call<ResponseBody> me(@Header("Authorization") String authorization);
+
+    @Headers({"content-type: application/x-www-form-urlencoded"})
+    @POST("logout")
+    Call<ResponseBody> logout(@Header("Authorization") String authorization);
 }

@@ -2,6 +2,7 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -64,6 +65,12 @@ public class AuthWorker extends Worker {
                     break;
                 case "recovery":
                     recovery();
+                    break;
+                case "me":
+                    me();
+                    break;
+                case "signOut":
+                    signOut();
                     break;
             }
         }
@@ -317,4 +324,50 @@ public class AuthWorker extends Worker {
         }
     }
 
+    private void me() {
+        try {
+            Call<ResponseBody> call = authApi.me("Bearer " + sharedPreferences.getString("token", ""));
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject jsonObject = new JSONObject(bodyResponse.body().string());
+                JSONObject data = jsonObject.getJSONObject("data");
+                editor.putString("name", data.getString("name"));
+                editor.putString("email", data.getString("email"));
+                editor.putString("mobile", data.getString("mobile"));
+                editor.putString("gender", data.getString("gender"));
+                editor.apply();
+                AuthController.workState.postValue(1);
+
+            } else {
+                AuthController.workState.postValue(0);
+                editor.putString("name", "");
+                editor.putString("email", "");
+                editor.putString("mobile", "");
+                editor.putString("gender", "");
+                editor.apply();
+            }
+
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void signOut() {
+        Log.e("hee", "hoo");
+        try {
+            Call<ResponseBody> call = authApi.logout("Bearer " + sharedPreferences.getString("token", ""));
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                AuthController.workState.postValue(1);
+
+            } else {
+                AuthController.workState.postValue(0);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

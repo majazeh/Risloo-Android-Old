@@ -25,6 +25,14 @@ public class SampleViewModel extends AndroidViewModel {
 
         repository = new SampleRepository(application, testUniqueId);
     }
+    public SampleViewModel(@NonNull Application application) {
+        super(application);
+        repository = new SampleRepository(application);
+    }
+
+    public void saveToExternal(JSONArray jsonArray,String fileName){
+        repository.saveToExternal(jsonArray,fileName + "Answers");
+    }
 
     public void insertToLocalData(int item, int answer) {
         repository.insertToLocalData(item, answer);
@@ -133,6 +141,11 @@ public class SampleViewModel extends AndroidViewModel {
     public boolean hasStorage(String fileName) {
         return repository.hasStorage(fileName + "Answers");
     }
+
+    public void deleteStorage(String fileName){
+        repository.deleteStorage(fileName + "Answers");
+    }
+
 
     public int answerSize(String fileName) {
         return repository.answerSize(fileName + "Answers");

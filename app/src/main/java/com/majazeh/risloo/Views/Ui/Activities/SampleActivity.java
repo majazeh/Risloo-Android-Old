@@ -83,10 +83,10 @@ public class SampleActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 finish();
             }else{
-            observeWork();
+                observeWork();
             }
         }else{
-          observeWork();
+            observeWork();
         }
     }
 
@@ -189,6 +189,8 @@ public class SampleActivity extends AppCompatActivity {
 
             if (viewModel.next() == null) {
                 if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
+                    Intent intent = new Intent(this,OutroActivity.class);
+
                     startActivity(new Intent(this, OutroActivity.class));
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                     finish();

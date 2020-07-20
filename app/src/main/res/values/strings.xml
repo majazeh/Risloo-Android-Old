@@ -127,8 +127,8 @@
 
     <string name="OutroDownloadDialogTitle">دریافت فایل</string>
     <string name="OutroDownloadDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
-    <string name="OutroDownloadDialogPositive">دریافت</string>
-    <string name="OutroDownloadDialogNegative">بستن</string>
+    <string name="OutroDownloadDialogPositive">دریافت و خروج</string>
+    <string name="OutroDownloadDialogNegative">دریافت</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

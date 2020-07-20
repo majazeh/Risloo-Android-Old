@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.os.Environment;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MediatorLiveData;
@@ -103,6 +104,12 @@ public class SampleRepository extends MainRepository {
             }
         }
     }
+    public SampleRepository(Application application) {
+        super(application);
+        sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
+    }
+
 
     public void sendAnswers(String UniqueId) throws JSONException {
         if (isNetworkConnected()) {
@@ -111,10 +118,12 @@ public class SampleRepository extends MainRepository {
                 JSONArray jsonArray = readFromCache(sharedPreferences.getString("sampleId", "") + "Answers");
                 for (int i = 0; i < readFromCache(sharedPreferences.getString("sampleId", "") + "Answers").length(); i++) {
                     if (!jsonArray.getJSONObject(i).getString("index").equals("")) {
-                        ArrayList arrayList = new ArrayList<Integer>();
-                        arrayList.add(jsonArray.getJSONObject(i).getString("index"));
-                        arrayList.add(jsonArray.getJSONObject(i).getString("answer"));
-                        localData.add(arrayList);
+                        if (!jsonArray.getJSONObject(i).getString("answer").equals("")) {
+                            ArrayList arrayList = new ArrayList<Integer>();
+                            arrayList.add(jsonArray.getJSONObject(i).getString("index"));
+                            arrayList.add(jsonArray.getJSONObject(i).getString("answer"));
+                            localData.add(arrayList);
+                        }
                     }
                 }
             }
@@ -203,6 +212,20 @@ public class SampleRepository extends MainRepository {
         return jsonArray;
     }
 
+    public void saveToExternal(JSONArray jsonArray, String fileName) {
+        try {
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName);
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(jsonArray.toString());
+            oos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean saveToCSV(JSONArray jsonArray, String fileName) {
         try {
             FileOutputStream fos = application.getApplicationContext().openFileOutput(fileName + ".CSV", Context.MODE_PRIVATE);
@@ -232,6 +255,12 @@ public class SampleRepository extends MainRepository {
         String path = application.getApplicationContext().getCacheDir() + "/" + fileName;
         return new File(path).exists();
     }
+    public void deleteStorage(String fileName){
+        String path = application.getApplicationContext().getCacheDir() + "/" + fileName;
+        File file = new File(path);
+        file.delete();
+    }
+
 
     public JSONObject json() {
         return sampleJson;

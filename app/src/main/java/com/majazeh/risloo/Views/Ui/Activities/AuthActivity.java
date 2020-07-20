@@ -54,7 +54,6 @@ public class AuthActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (emptyToken()) {
             decorator();
 
             setContentView(R.layout.activity_auth);
@@ -65,9 +64,7 @@ public class AuthActivity extends AppCompatActivity {
 
             titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
             loadFragment(new SerialFragment(this), 0, 0);
-        } else {
-            launchSample();
-        }
+
     }
 
     private void decorator() {
@@ -76,6 +73,9 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void initializer() {
+        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
         viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
 
         callTimer = new MutableLiveData<>();
@@ -141,6 +141,11 @@ public class AuthActivity extends AppCompatActivity {
                     if (AuthController.key.equals("")) {
                         if (AuthController.callback.equals("")) {
                             startActivity(new Intent(this, SampleActivity.class));
+                            try {
+                                viewModel.me();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         } else {
                             AuthController.theory = "mobile";
                             showFragment();
@@ -158,7 +163,12 @@ public class AuthActivity extends AppCompatActivity {
                             editor.putString("sampleId", AuthController.key);
                             editor.apply();
 
-                            startActivity(new Intent(this, SampleActivity.class));
+                            startActivity(new Intent(this, OutroActivity.class));
+                            try {
+                                viewModel.me();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                             AuthController.workState.removeObservers((LifecycleOwner) this);
                         } else {
                             showFragment();
@@ -178,13 +188,12 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private boolean emptyToken() {
-        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
-        editor = sharedPreferences.edit();
         if (!sharedPreferences.getString("token", "").equals("") && !sharedPreferences.getString("sampleId", "").equals("")) {
             return false;
         } else {
-            editor.remove("token");
+            Log.e("token", sharedPreferences.getString("token", "")+"bbb");
+            //editor.remove("token");
             editor.remove("sampleId");
             editor.apply();
             return true;
@@ -201,6 +210,11 @@ public class AuthActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_auth, menu);
 
         toolUser = menu.findItem(R.id.tool_user);
+        if (sharedPreferences.getString("token", "").equals("")){
+            toolUser.setVisible(false);
+        }else{
+            toolUser.setVisible(true);
+        }
         toolUser.setOnMenuItemClickListener(item -> {
             startActivity(new Intent(this, AccountActivity.class));
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
@@ -213,6 +227,8 @@ public class AuthActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
+        loadFragment(new SerialFragment(this), 0, 0);
 
     }
 
