@@ -20,6 +20,7 @@ import retrofit2.Response;
 
 public class ExplodeWorker extends Worker {
 
+    // Apis
     private ExplodeApi explodeApi;
 
     public ExplodeWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
@@ -50,19 +51,22 @@ public class ExplodeWorker extends Worker {
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
-                JSONObject object = new JSONObject(bodyResponse.body().string());
-                JSONObject android = object.getJSONObject("android");
-                if (Integer.parseInt(android.getString("current")) < Integer.parseInt(android.getString("force"))) {
-                    // TODO: force update
-                } else {
-                    // TODO: not force update
-                }
-            } else {
 
+                JSONObject jsonObject = new JSONObject(bodyResponse.body().string());
+                JSONObject android = jsonObject.getJSONObject("android");
+
+                if (Integer.parseInt(android.getString("current")) < Integer.parseInt(android.getString("force"))) {
+                    // TODO: Force Update
+                } else {
+                    // TODO: Normal Update
+                }
+
+            } else {
+                // TODO : Response Failed
             }
+
         } catch (IOException | JSONException e) {
             e.printStackTrace();
-
         }
     }
 

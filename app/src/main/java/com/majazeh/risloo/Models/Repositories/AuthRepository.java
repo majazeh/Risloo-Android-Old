@@ -8,6 +8,7 @@ import org.json.JSONException;
 
 public class AuthRepository extends MainRepository {
 
+    // Controllers
     private AuthController controller;
 
     public AuthRepository(Application application) {
@@ -47,11 +48,11 @@ public class AuthRepository extends MainRepository {
         controller.workManager("verification");
     }
 
-    public void forgetPassword(String mobile) throws JSONException {
+    public void recovery(String mobile) throws JSONException {
         controller.mobile = mobile;
-        controller.work = "forgetPassword";
+        controller.work = "recovery";
         controller.workState.setValue(-1);
-        controller.workManager("forgetPassword");
+        controller.workManager("recovery");
     }
 
 }

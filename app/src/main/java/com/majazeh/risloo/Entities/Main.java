@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 public class Main {
 
+    // Objects
     public ArrayList arrayMap = new ArrayList();
     public JSONObject attributes = new JSONObject();
 

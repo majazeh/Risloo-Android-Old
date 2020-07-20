@@ -20,7 +20,7 @@ public interface AuthApi {
     @Headers({"content-type: application/x-www-form-urlencoded"})
     @FormUrlEncoded
     @POST("auth/theory/{LoginKey}")
-    Call<ResponseBody> authTheory(@Header("Authorization") String authorization, @Path("LoginKey") String LoginKey, @Field("callback") String callback, @Query("password") String password, @Query("code") String code);
+    Call<ResponseBody> authTheory(@Header("Authorization") String authorization, @Path("LoginKey") String loginKey, @Field("callback") String callback, @Query("password") String password, @Query("code") String code);
 
     @POST("register")
     Call<ResponseBody> register(@Query("name") String name, @Query("mobile") String mobile, @Query("gender") String gender, @Query("password") String password);
@@ -31,6 +31,6 @@ public interface AuthApi {
 
     @Headers({"content-type: application/x-www-form-urlencoded"})
     @POST("auth/recovery")
-    Call<ResponseBody> forgetPassword(@Query("username") String username);
+    Call<ResponseBody> recovery(@Query("username") String username);
 
 }

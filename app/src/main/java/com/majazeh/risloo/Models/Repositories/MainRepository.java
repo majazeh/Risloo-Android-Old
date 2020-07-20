@@ -4,6 +4,7 @@ import android.app.Application;
 
 public class MainRepository {
 
+    // Objects
     public Application application;
 
     public MainRepository(Application application) {

@@ -2,7 +2,6 @@ package com.majazeh.risloo.Models.Controller;
 
 import android.app.Application;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
@@ -52,6 +51,5 @@ public class AuthController {
                 .putString("work", work)
                 .build();
     }
-
 
 }

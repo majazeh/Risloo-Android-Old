@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -15,7 +14,7 @@ public interface SampleApi {
 
     @Headers({"content-type: application/x-www-form-urlencoded"})
     @GET("$/samples/{sample_id}")
-    Call<ResponseBody> getSample(@Header("Authorization") String authorization, @Path("sample_id") String sampleID);
+    Call<ResponseBody> get(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
 
     @Headers({"content-type: application/x-www-form-urlencoded"})
     @POST("$/samples/{sample_id}/items")

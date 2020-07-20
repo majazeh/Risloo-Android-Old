@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.majazeh.risloo.Entities.Sample;
+import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class TFPAdapter extends RecyclerView.Adapter<TFPAdapter.TFPHolder> {
 
     // Vars
-    private ArrayList<Sample> answers;
+    private ArrayList<Model> answers;
 
     // Objects
     private Activity activity;
@@ -69,7 +69,7 @@ public class TFPAdapter extends RecyclerView.Adapter<TFPAdapter.TFPHolder> {
         handler = new Handler();
     }
 
-    public void setAnswer(ArrayList<Sample> answers) {
+    public void setAnswer(ArrayList<Model> answers) {
         this.answers = answers;
         notifyDataSetChanged();
     }

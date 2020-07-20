@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.majazeh.risloo.Entities.Account;
+import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountHolder> {
 
     // Vars
-    private ArrayList<Account> accounts;
+    private ArrayList<Model> accounts;
 
     // Objects
     private Activity activity;
@@ -55,7 +55,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountH
         handler = new Handler();
     }
 
-    public void setAccount(ArrayList<Account> accounts) {
+    public void setAccount(ArrayList<Model> accounts) {
         this.accounts = accounts;
         notifyDataSetChanged();
     }

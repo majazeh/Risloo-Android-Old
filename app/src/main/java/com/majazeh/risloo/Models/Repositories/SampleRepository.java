@@ -1,10 +1,9 @@
-package com.majazeh.risloo.Models.Repositories.Sample;
+package com.majazeh.risloo.Models.Repositories;
 
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MediatorLiveData;
@@ -14,9 +13,9 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
 import com.majazeh.risloo.Models.Controller.AuthController;
-import com.majazeh.risloo.Models.Remotes.Generators.JsonGenerator;
-import com.majazeh.risloo.Models.Repositories.MainRepository;
-import com.majazeh.risloo.Models.Workers.AuthWorker;
+import com.majazeh.risloo.Models.Controller.SampleController;
+import com.majazeh.risloo.Models.Controller.SampleItems;
+import com.majazeh.risloo.Models.Remotes.Generators.JSONGenerator;
 import com.majazeh.risloo.Models.Workers.SampleWorker;
 
 import org.json.JSONArray;
@@ -34,33 +33,38 @@ import java.util.ArrayList;
 
 public class SampleRepository extends MainRepository {
 
-    private JsonGenerator jsonGenerator;
+    // Generators
+    private JSONGenerator jsonGenerator;
+
+    // Controllers
+    private SampleController sampleController;
+
+    // Objects
     private JSONObject sampleJson;
     private SampleItems sampleItems;
-    private SampleController sampleController;
-    public static boolean inProgress = false;
+    private SharedPreferences sharedPreferences;
+
+    // Vars
     public static String exception = "";
     public static MutableLiveData<Integer> workStateSample = new MediatorLiveData<>();
     public static MutableLiveData<Integer> workStateAnswer = new MediatorLiveData<>();
     public static ArrayList<ArrayList<Integer>> localData = new ArrayList<>();
     public static ArrayList<ArrayList<Integer>> remoteData = new ArrayList<>();
-    public static boolean cache = false;
-    private SharedPreferences sharedPreferences;
+    public static boolean inProgress = false, cache = false;
 
     public SampleRepository(@NonNull Application application, String testUniqueId) throws JSONException {
         super(application);
 
-        sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+        jsonGenerator = new JSONGenerator();
 
-
-        jsonGenerator = new JsonGenerator();
         sampleController = new SampleController(application, jsonGenerator, testUniqueId);
+
+        sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
         if (isNetworkConnected()) {
             sampleController.getSampleFromAPI("getSample", AuthController.sampleId);
 
             workStateSample.observeForever(integer -> {
-
                 if (integer == 1) {
                     try {
                         JSONObject jsonObject = sampleController.readJsonFromCache(application.getApplicationContext(), sharedPreferences.getString("sampleId", ""));
@@ -73,20 +77,16 @@ public class SampleRepository extends MainRepository {
                     }
 
                 } else if (integer == 0) {
-                    try {
-                        if (sampleController.getSample() != null) {
-                            try {
-                                sampleJson = sampleController.getSample();
-                                JSONObject data = sampleJson.getJSONObject("data");
-                                sampleItems = new SampleItems(data.getJSONArray("items"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            // you are offline
+                    if (sampleController.getSample() != null) {
+                        try {
+                            sampleJson = sampleController.getSample();
+                            JSONObject data = sampleJson.getJSONObject("data");
+                            sampleItems = new SampleItems(data.getJSONArray("items"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    } else {
+                        // you are offline
                     }
                 } else {
                 }
@@ -104,6 +104,41 @@ public class SampleRepository extends MainRepository {
         }
     }
 
+    public void sendAnswers(String UniqueId) throws JSONException {
+        if (isNetworkConnected()) {
+            if (cache == true) {
+                localData.clear();
+                JSONArray jsonArray = readFromCache(sharedPreferences.getString("sampleId", "") + "Answers");
+                for (int i = 0; i < readFromCache(sharedPreferences.getString("sampleId", "") + "Answers").length(); i++) {
+                    if (!jsonArray.getJSONObject(i).getString("index").equals("")) {
+                        ArrayList arrayList = new ArrayList<Integer>();
+                        arrayList.add(jsonArray.getJSONObject(i).getString("index"));
+                        arrayList.add(jsonArray.getJSONObject(i).getString("answer"));
+                        localData.add(arrayList);
+                    }
+                }
+            }
+            if (remoteData.size() == 0) {
+                insertLocalDataToRemoteData();
+                inProgress = true;
+
+                OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SampleWorker.class)
+                        .setInputData(data("sendAnswers", UniqueId))
+                        .build();
+
+                WorkManager.getInstance(application).enqueue(workRequest);
+            }
+        } else {
+            cache = true;
+        }
+    }
+
+    private Data data(String work, String UniqueId) throws JSONException {
+        return new Data.Builder()
+                .putString("work", work)
+                .putString("UniqueId", UniqueId)
+                .build();
+    }
 
     public void insertToLocalData(int item, int answer) {
         ArrayList arrayList = new ArrayList<Integer>();
@@ -112,19 +147,10 @@ public class SampleRepository extends MainRepository {
         localData.add(arrayList);
     }
 
-//    public void insertToRemoteData(int item, int answer) {
-//        ArrayList arrayList = new ArrayList();
-//        arrayList.add(item);
-//        arrayList.add(answer);
-//
-//        remoteData.add(arrayList);
-//    }
-
     public void insertRemoteDataToLocalData() {
         for (int i = 0; i < remoteData.size(); i++) {
             ArrayList arrayList = new ArrayList();
             arrayList.add(remoteData.get(i));
-
             localData.add(arrayList);
         }
         remoteData.clear();
@@ -135,11 +161,9 @@ public class SampleRepository extends MainRepository {
             remoteData.add(localData.get(i));
         }
         localData.clear();
-
-
     }
 
-    public void writeAnswersToCache(JSONArray jsonArray, String fileName) {
+    public void writeToCache(JSONArray jsonArray, String fileName) {
         try {
             File file = new File(application.getApplicationContext().getCacheDir(), fileName);
             FileOutputStream fos = new FileOutputStream(file);
@@ -153,7 +177,7 @@ public class SampleRepository extends MainRepository {
         }
     }
 
-    public JSONArray readAnswersFromCache(String fileName) {
+    public JSONArray readFromCache(String fileName) {
         JSONArray jsonArray = null;
         try {
             File file = new File(application.getApplicationContext().getCacheDir(), fileName);
@@ -180,7 +204,6 @@ public class SampleRepository extends MainRepository {
     }
 
     public boolean saveToCSV(JSONArray jsonArray, String fileName) {
-        Log.d("jsonarray", String.valueOf(jsonArray));
         try {
             FileOutputStream fos = application.getApplicationContext().openFileOutput(fileName + ".CSV", Context.MODE_PRIVATE);
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -207,8 +230,7 @@ public class SampleRepository extends MainRepository {
 
     public boolean hasStorage(String fileName) {
         String path = application.getApplicationContext().getCacheDir() + "/" + fileName;
-        File file = new File(path);
-        return file.exists();
+        return new File(path).exists();
     }
 
     public JSONObject json() {
@@ -219,52 +241,17 @@ public class SampleRepository extends MainRepository {
         return sampleItems;
     }
 
-    public void sendAnswers(String UniqueId) throws JSONException {
-        if (isNetworkConnected()) {
-            if (cache == true) {
-                localData.clear();
-                JSONArray jsonArray = readAnswersFromCache(sharedPreferences.getString("sampleId", "") + "Answers");
-                for (int i = 0; i < readAnswersFromCache(sharedPreferences.getString("sampleId", "") + "Answers").length(); i++) {
-                    if (!jsonArray.getJSONObject(i).getString("index").equals("")) {
-                        ArrayList arrayList = new ArrayList<Integer>();
-                        arrayList.add(jsonArray.getJSONObject(i).getString("index"));
-                        arrayList.add(jsonArray.getJSONObject(i).getString("answer"));
-                        localData.add(arrayList);
-                    }
-                }
-            }
-            if (remoteData.size() == 0) {
-                insertLocalDataToRemoteData();
-                inProgress = true;
-                OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SampleWorker.class)
-                        .setInputData(data("sendAnswers", UniqueId))
-                        .build();
-                WorkManager.getInstance(application).enqueue(workRequest);
-            }
-        } else {
-            cache = true;
-        }
-    }
-
-    private Data data(String work, String UniqueId) throws JSONException {
-        return new Data.Builder()
-                .putString("work", work)
-                .putString("UniqueId", UniqueId)
-                .build();
-    }
-
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) application.getSystemService(Context.CONNECTIVITY_SERVICE);
-
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
     public int answerSize(String fileName) {
-        JSONArray jsonArray = readAnswersFromCache(fileName);
+        JSONArray items = readFromCache(fileName);
         int size = 0;
-        for (int i = 0; i < jsonArray.length(); i++) {
+        for (int i = 0; i < items.length(); i++) {
             try {
-                if (!jsonArray.getJSONObject(i).getString("answer").equals("")) {
+                if (!items.getJSONObject(i).getString("answer").equals("")) {
                     size++;
                 }
             } catch (JSONException e) {
@@ -275,10 +262,10 @@ public class SampleRepository extends MainRepository {
     }
 
     public int answerPosition(String fileName, int index) {
-        JSONArray jsonArray = readAnswersFromCache(fileName);
+        JSONArray items = readFromCache(fileName);
         try {
-            if (!jsonArray.getJSONObject(index).getString("answer").equals("")){
-                return jsonArray.getJSONObject(index).getInt("answer");
+            if (!items.getJSONObject(index).getString("answer").equals("")){
+                return items.getJSONObject(index).getInt("answer");
             }else{
                 return -1;
             }
@@ -288,18 +275,18 @@ public class SampleRepository extends MainRepository {
         }
     }
 
-    public int getLastUnAnswer(String fileName){
-
-        JSONArray jsonArray = readAnswersFromCache(fileName);
-        for (int i = 0; i < jsonArray.length(); i++) {
+    public int lastUnAnswer(String fileName) {
+        JSONArray items = readFromCache(fileName);
+        for (int i = 0; i < items.length(); i++) {
             try {
-                if (jsonArray.getJSONObject(i).getString("answer").equals("")) {
-                return i;
+                if (items.getJSONObject(i).getString("answer").equals("")) {
+                    return i;
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-            return -1;
-        }
+        return -1;
     }
+
+}

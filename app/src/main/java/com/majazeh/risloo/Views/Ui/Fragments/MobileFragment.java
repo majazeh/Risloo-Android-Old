@@ -150,7 +150,7 @@ public class MobileFragment extends Fragment {
             if (AuthController.theory.equals("mobile"))
                 viewModel.auth(mobile);
             else
-                viewModel.forgetPassword(mobile);
+                viewModel.recovery(mobile);
             ((AuthActivity) Objects.requireNonNull(getActivity())).observeWork();
         } catch (JSONException e) {
             e.printStackTrace();

@@ -1,15 +1,14 @@
-package com.majazeh.risloo.Models.Repositories.Sample;
+package com.majazeh.risloo.Models.Controller;
 
 import android.app.Application;
 import android.content.Context;
 
-import androidx.work.Constraints;
 import androidx.work.Data;
-import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
-import com.majazeh.risloo.Models.Remotes.Generators.JsonGenerator;
+import com.majazeh.risloo.Models.Remotes.Generators.JSONGenerator;
+import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.Models.Workers.SampleWorker;
 
 import org.json.JSONException;
@@ -25,32 +24,31 @@ import java.io.ObjectOutputStream;
 
 public class SampleController {
 
-    Application application;
-    JsonGenerator jsonGenerator;
+    private Application application;
+    JSONGenerator jsonGenerator;
     String testUniqueId;
 
-    public SampleController(Application application, JsonGenerator jsonGenerator, String testUniqueId) {
+    public SampleController(Application application, JSONGenerator jsonGenerator, String testUniqueId) {
         this.application = application;
+
         this.jsonGenerator = jsonGenerator;
         this.testUniqueId = testUniqueId;
     }
 
     public SampleController() {
+
     }
 
-    public JSONObject getSample() throws JSONException {
+    public JSONObject getSample() {
         if (readJsonFromCache(application, testUniqueId) != null) {
             return readJsonFromCache(application, testUniqueId);
         }
-//        else if (jsonGenerator.getJson(application, testUniqueId) != null) {
-//            return new JSONObject(jsonGenerator.getJson(application, testUniqueId));
-//        }
         return null;
     }
 
-
     public void getSampleFromAPI(String work, String UniqueId) throws JSONException {
         SampleRepository.workStateSample.postValue(-1);
+
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SampleWorker.class)
                 .setInputData(data(work, UniqueId))
                 .build();

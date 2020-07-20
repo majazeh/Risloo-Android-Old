@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.majazeh.risloo.Entities.List;
+import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 
 import org.json.JSONException;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class SubListSmallAdapter extends RecyclerView.Adapter<SubListSmallAdapter.SubListSmallHolder> {
 
     // Vars
-    private ArrayList<List> subListSmall;
+    private ArrayList<Model> subListSmall;
 
     // Objects
     private Activity activity;
@@ -51,7 +51,7 @@ public class SubListSmallAdapter extends RecyclerView.Adapter<SubListSmallAdapte
         return subListSmall.size();
     }
 
-    public void setSubListSmall(ArrayList<List> subListSmall) {
+    public void setSubListSmall(ArrayList<Model> subListSmall) {
         this.subListSmall = subListSmall;
         notifyDataSetChanged();
     }

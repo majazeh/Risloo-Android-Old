@@ -1,4 +1,4 @@
-package com.majazeh.risloo.ViewModels.Sample;
+package com.majazeh.risloo.ViewModels;
 
 import android.app.Application;
 
@@ -10,7 +10,10 @@ import org.json.JSONException;
 
 public class SampleViewModelFactory implements ViewModelProvider.Factory {
 
+    // Objects
     private Application application;
+
+    // Vars
     private String testUniqueId;
 
     public SampleViewModelFactory(Application application, String testUniqueId) {

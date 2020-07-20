@@ -15,7 +15,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.majazeh.risloo.Entities.Question;
+import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 
 import org.json.JSONException;
@@ -26,7 +26,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
     // Vars
     private int position = -1;
-    private ArrayList<Question> questions;
+    private ArrayList<Model> questions;
     private ArrayList<Boolean> expandedQuestions = new ArrayList<>();
 
     // Objects
@@ -122,7 +122,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
         handler = new Handler();
     }
 
-    public void setQuestion(ArrayList<Question> questions) {
+    public void setQuestion(ArrayList<Model> questions) {
         this.questions = questions;
         notifyDataSetChanged();
     }

@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.ViewModels.Sample.SampleViewModel;
+import com.majazeh.risloo.ViewModels.SampleViewModel;
 
 public class TPFragment extends Fragment {
 

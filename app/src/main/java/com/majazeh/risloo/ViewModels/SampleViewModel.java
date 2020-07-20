@@ -1,14 +1,12 @@
-package com.majazeh.risloo.ViewModels.Sample;
+package com.majazeh.risloo.ViewModels;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.MutableLiveData;
 
-import com.majazeh.risloo.Entities.Index;
-import com.majazeh.risloo.Entities.Sample;
-import com.majazeh.risloo.Models.Repositories.Sample.SampleRepository;
+import com.majazeh.risloo.Entities.Model;
+import com.majazeh.risloo.Models.Repositories.SampleRepository;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,6 +17,7 @@ import java.util.ArrayList;
 
 public class SampleViewModel extends AndroidViewModel {
 
+    // Repositories
     private SampleRepository repository;
 
     public SampleViewModel(@NonNull Application application, String testUniqueId) throws JSONException {
@@ -31,20 +30,16 @@ public class SampleViewModel extends AndroidViewModel {
         repository.insertToLocalData(item, answer);
     }
 
-//    public void insertToRemoteData(int item, int answer) {
-//        repository.insertToRemoteData(item, answer);
-//    }
-
     public void insertRemoteDataToLocalData() {
         repository.insertRemoteDataToLocalData();
     }
 
     public void writeToCache(JSONArray jsonArray, String fileName) {
-        repository.writeAnswersToCache(jsonArray, fileName + "Answers");
+        repository.writeToCache(jsonArray, fileName + "Answers");
     }
 
     public JSONArray readFromCache(String fileName) {
-        return repository.readAnswersFromCache(fileName + "Answers");
+        return repository.readFromCache(fileName + "Answers");
     }
 
     public boolean saveToCSV(JSONArray jsonArray, String fileName) {
@@ -79,7 +74,7 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.json().getString("filler");
     }
 
-    public Sample getItem(int index) {
+    public Model getItem(int index) {
         return repository.items().item(index);
     }
 
@@ -95,15 +90,15 @@ public class SampleViewModel extends AndroidViewModel {
         return arrayList;
     }
 
-    public Sample next() {
+    public Model next() {
         return repository.items().next();
     }
 
-    public Sample prev() {
+    public Model prev() {
         return repository.items().prev();
     }
 
-    public Sample goToIndex(int index) {
+    public Model goToIndex(int index) {
         return repository.items().goToIndex(index);
     }
 
@@ -152,6 +147,7 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
     public int getLastUnAnswer(String fileName) {
-        return repository.getLastUnAnswer(fileName + "Answers");
+        return repository.lastUnAnswer(fileName + "Answers");
     }
+
 }

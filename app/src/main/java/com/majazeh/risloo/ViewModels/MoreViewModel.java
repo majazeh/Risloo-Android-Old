@@ -5,13 +5,14 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.majazeh.risloo.Entities.More;
+import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Repositories.MoreRepository;
 
 import java.util.ArrayList;
 
 public class MoreViewModel extends AndroidViewModel {
 
+    // Repositories
     private MoreRepository repository;
 
     public MoreViewModel(@NonNull Application application) {
@@ -20,7 +21,7 @@ public class MoreViewModel extends AndroidViewModel {
         repository = new MoreRepository(application);
     }
 
-    public ArrayList<More> getAll() {
+    public ArrayList<Model> getAll() {
         return repository.getAll();
     }
 

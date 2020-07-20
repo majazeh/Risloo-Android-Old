@@ -2,7 +2,7 @@ package com.majazeh.risloo.Models.Repositories;
 
 import android.app.Application;
 
-import com.majazeh.risloo.Entities.More;
+import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 
 import org.json.JSONArray;
@@ -17,15 +17,15 @@ public class MoreRepository extends MainRepository {
         super(application);
     }
 
-    public ArrayList<More> getAll() {
-        ArrayList<More> mores = new ArrayList<>();
+    public ArrayList<Model> getAll() {
+        ArrayList<Model> items = new ArrayList<>();
         for (int i = 0; i < moreItems().length(); i++) {
             try {
-                mores.add(new More(moreItems().getJSONObject(i)));
+                items.add(new Model(moreItems().getJSONObject(i)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        } return mores;
+        } return items;
     }
 
     private JSONArray moreItems() {

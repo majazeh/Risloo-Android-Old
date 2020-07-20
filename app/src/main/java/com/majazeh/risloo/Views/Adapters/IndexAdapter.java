@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.ViewModels.Sample.SampleViewModel;
+import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Ui.Activities.SampleActivity;
 
 import org.json.JSONArray;

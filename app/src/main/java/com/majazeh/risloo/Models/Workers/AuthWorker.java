@@ -2,7 +2,6 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -23,14 +22,25 @@ import retrofit2.Response;
 
 public class AuthWorker extends Worker {
 
+    // Apis
     private AuthApi authApi;
+
+    // Objects
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+
+    // Vars
+    private String token;
+
     public AuthWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
-        sharedPreferences = context.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+
         authApi = RetroGenerator.getRetrofit().create(AuthApi.class);
+
+        sharedPreferences = context.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
+        editor = sharedPreferences.edit();
+        editor.apply();
     }
 
     @NonNull
@@ -41,238 +51,270 @@ public class AuthWorker extends Worker {
         if (work != null) {
             switch (work) {
                 case "auth":
-                    try {
-                        auth();
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
+                    auth();
                     break;
                 case "authTheory":
-                    try {
-                        authTheory();
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
+                    authTheory();
                     break;
                 case "register":
-                    try {
-                        register();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    register();
                     break;
                 case "verification":
-                    try {
-                        verification();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    verification();
                     break;
-                case "forgetPassword":
-                    try {
-                        forgetPassword();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                case "recovery":
+                    recovery();
                     break;
             }
         }
 
         return Result.success();
-
     }
 
-    public void auth() throws JSONException, IOException {
-        String token = "";
+    public void auth() {
+        try {
 
-        if (!AuthController.token.isEmpty()) {
-            token = "Bearer " + AuthController.token;
-        }
-
-        Call<ResponseBody> call = authApi.auth(token, AuthController.callback, AuthController.authorizedKey);
-
-        Response<ResponseBody> bodyResponse = call.execute();
-
-        if (bodyResponse.isSuccessful()) {
-            JSONObject object = new JSONObject(bodyResponse.body().string());
-            if (object.has("key"))
-                AuthController.key = object.getString("key");
-            else
-                AuthController.key = "";
-            AuthController.preTheory = AuthController.theory;
-            if (object.has("theory")) {
-                AuthController.theory = object.getString("theory");
-            } else
-                AuthController.theory = "";
-            if (object.has("callback"))
-                AuthController.callback = object.getString("callback");
-            else
-                AuthController.callback = "";
-            if (object.has("token")) {
-                AuthController.token = object.getString("token");
-                editor.putString("token", AuthController.token);
-                editor.apply();
+            if (!AuthController.token.isEmpty()) {
+                token = "Bearer " + AuthController.token;
+            } else {
+                token = "";
             }
-            AuthController.exception = "";
-            AuthController.workState.postValue(1);
-        } else {
-            AuthController.exception = "";
-            AuthController.workState.postValue(0);
-            JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-            AuthController.exception = errorBody.getString("message_text");
-        }
 
-    }
+            Call<ResponseBody> call = authApi.auth(token, AuthController.callback, AuthController.authorizedKey);
 
-    public void authTheory() throws JSONException, IOException {
-        String token = "";
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
 
-        if (!AuthController.token.isEmpty()) {
-            token = "Bearer " + AuthController.token;
-        }
-        Call<ResponseBody> call = authApi.authTheory(token, AuthController.key, AuthController.callback, AuthController.password, AuthController.code);
-        Response<ResponseBody> bodyResponse = call.execute();
-        if (bodyResponse.isSuccessful()) {
-            JSONObject object = new JSONObject(bodyResponse.body().string());
-            if (object.has("key"))
-                AuthController.key = object.getString("key");
-            else
-                AuthController.key = "";
-            AuthController.preTheory = AuthController.theory;
-            if (object.has("theory")) {
-                AuthController.theory = object.getString("theory");
-            } else
-                AuthController.theory = "";
-            if (object.has("callback"))
-                AuthController.callback = object.getString("callback");
-            else
-                AuthController.callback = "";
+                JSONObject jsonObject = new JSONObject(bodyResponse.body().string());
 
-            if (object.has("token")) {
-                AuthController.token = object.getString("token");
-                editor.putString("token", AuthController.token);
-                editor.apply();
+                if (jsonObject.has("key")) {
+                    AuthController.key = jsonObject.getString("key");
+                } else {
+                    AuthController.key = "";
+                }
+                AuthController.preTheory = AuthController.theory;
+                if (jsonObject.has("theory")) {
+                    AuthController.theory = jsonObject.getString("theory");
+                } else {
+                    AuthController.theory = "";
+                }
+                if (jsonObject.has("callback")) {
+                    AuthController.callback = jsonObject.getString("callback");
+                } else {
+                    AuthController.callback = "";
+                }
+                if (jsonObject.has("token")) {
+                    AuthController.token = jsonObject.getString("token");
+                    editor.putString("token", AuthController.token);
+                    editor.apply();
+                }
+                AuthController.exception = "";
+                AuthController.workState.postValue(1);
+
+            } else {
+                AuthController.exception = "";
+                AuthController.workState.postValue(0);
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                AuthController.exception = errorBody.getString("message_text");
             }
-            AuthController.exception = "";
-            AuthController.workState.postValue(1);
-        } else {
-            AuthController.exception = "";
-            AuthController.workState.postValue(0);
-            JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-            AuthController.exception = errorBody.getString("message_text");
+
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public void register() throws IOException, JSONException {
-        Call<ResponseBody> call = authApi.register(AuthController.name, AuthController.mobile, AuthController.gender, AuthController.password);
+    public void authTheory() {
+        try {
 
-        Response<ResponseBody> bodyResponse = call.execute();
-        if (bodyResponse.isSuccessful()) {
-            JSONObject object = new JSONObject(bodyResponse.body().string());
-            if (object.has("key"))
-                AuthController.key = object.getString("key");
-            else
-                AuthController.key = "";
-            AuthController.preTheory = AuthController.theory;
-            if (object.has("theory")) {
-                AuthController.theory = object.getString("theory");
-            } else
-                AuthController.theory = "";
-            if (object.has("callback"))
-                AuthController.callback = object.getString("callback");
-            else
-                AuthController.callback = "";
-            if (object.has("token")) {
-                AuthController.token = object.getString("token");
-                editor.putString("token", AuthController.token);
-                editor.apply();
+            if (!AuthController.token.isEmpty()) {
+                token = "Bearer " + AuthController.token;
+            } else {
+                token = "";
             }
-            AuthController.exception = "";
-            AuthController.workState.postValue(1);
-        } else {
-            AuthController.exception = "";
-            AuthController.workState.postValue(0);
-            JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-            AuthController.exception = errorBody.getString("message_text");
-        }
 
-    }
+            Call<ResponseBody> call = authApi.authTheory(token, AuthController.key, AuthController.callback, AuthController.password, AuthController.code);
 
-    private void verification() throws IOException, JSONException {
-        Call<ResponseBody> call = authApi.verification(AuthController.mobile);
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
 
-        Response<ResponseBody> bodyResponse = call.execute();
-        if (bodyResponse.isSuccessful()) {
-            JSONObject object = new JSONObject(bodyResponse.body().string());
-            if (object.has("key"))
-                AuthController.key = object.getString("key");
-            else
-                AuthController.key = "";
-            AuthController.preTheory = AuthController.theory;
-            if (object.has("theory")) {
-                AuthController.theory = object.getString("theory");
-            } else
-                AuthController.theory = "";
-            if (object.has("callback"))
-                AuthController.callback = object.getString("callback");
-            else
-                AuthController.callback = "";
-            if (object.has("token")) {
-                AuthController.token = object.getString("token");
-                editor.putString("token", AuthController.token);
-                editor.apply();
+                JSONObject jsonObject = new JSONObject(bodyResponse.body().string());
+
+                if (jsonObject.has("key")) {
+                    AuthController.key = jsonObject.getString("key");
+                } else {
+                    AuthController.key = "";
+                }
+                AuthController.preTheory = AuthController.theory;
+                if (jsonObject.has("theory")) {
+                    AuthController.theory = jsonObject.getString("theory");
+                } else {
+                    AuthController.theory = "";
+                }
+                if (jsonObject.has("callback")) {
+                    AuthController.callback = jsonObject.getString("callback");
+                } else {
+                    AuthController.callback = "";
+                }
+                if (jsonObject.has("token")) {
+                    AuthController.token = jsonObject.getString("token");
+                    editor.putString("token", AuthController.token);
+                    editor.apply();
+                }
+                AuthController.exception = "";
+                AuthController.workState.postValue(1);
+
+            } else {
+                AuthController.exception = "";
+                AuthController.workState.postValue(0);
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                AuthController.exception = errorBody.getString("message_text");
             }
-            AuthController.exception = "";
-            AuthController.workState.postValue(1);
-        } else {
-            AuthController.exception = "";
-            AuthController.workState.postValue(0);
-            JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-            AuthController.exception = errorBody.getString("message_text");
-        }
 
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void forgetPassword() throws IOException, JSONException {
-        Call<ResponseBody> call = authApi.forgetPassword(AuthController.mobile);
+    public void register() {
+        try {
 
-        Response<ResponseBody> bodyResponse = call.execute();
-        if (bodyResponse.isSuccessful()) {
-            JSONObject object = new JSONObject(bodyResponse.body().string());
-            if (object.has("key"))
-                AuthController.key = object.getString("key");
-            else
-                AuthController.key = "";
-            AuthController.preTheory = AuthController.theory;
-            if (object.has("theory")) {
-                AuthController.theory = object.getString("theory");
-            } else
-                AuthController.theory = "";
-            if (object.has("callback"))
-                AuthController.callback = object.getString("callback");
-            else
-                AuthController.callback = "";
-            if (object.has("token")) {
-                AuthController.token = object.getString("token");
-                editor.putString("token", AuthController.token);
-                editor.apply();
+            Call<ResponseBody> call = authApi.register(AuthController.name, AuthController.mobile, AuthController.gender, AuthController.password);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+
+                JSONObject jsonObject = new JSONObject(bodyResponse.body().string());
+
+                if (jsonObject.has("key")) {
+                    AuthController.key = jsonObject.getString("key");
+                } else {
+                    AuthController.key = "";
+                }
+                AuthController.preTheory = AuthController.theory;
+                if (jsonObject.has("theory")) {
+                    AuthController.theory = jsonObject.getString("theory");
+                } else {
+                    AuthController.theory = "";
+                }
+                if (jsonObject.has("callback")) {
+                    AuthController.callback = jsonObject.getString("callback");
+                } else {
+                    AuthController.callback = "";
+                }
+                if (jsonObject.has("token")) {
+                    AuthController.token = jsonObject.getString("token");
+                    editor.putString("token", AuthController.token);
+                    editor.apply();
+                }
+                AuthController.exception = "";
+                AuthController.workState.postValue(1);
+
+            } else {
+                AuthController.exception = "";
+                AuthController.workState.postValue(0);
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                AuthController.exception = errorBody.getString("message_text");
             }
-            AuthController.exception = "";
-            AuthController.workState.postValue(1);
-        } else {
-            AuthController.exception = "";
-            AuthController.workState.postValue(0);
-            JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-            AuthController.exception = errorBody.getString("message_text");
-        }
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
+    private void verification() {
+        try {
+            Call<ResponseBody> call = authApi.verification(AuthController.mobile);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+
+                JSONObject jsonObject = new JSONObject(bodyResponse.body().string());
+
+                if (jsonObject.has("key")) {
+                    AuthController.key = jsonObject.getString("key");
+                } else {
+                    AuthController.key = "";
+                }
+                AuthController.preTheory = AuthController.theory;
+                if (jsonObject.has("theory")) {
+                    AuthController.theory = jsonObject.getString("theory");
+                } else {
+                    AuthController.theory = "";
+                }
+                if (jsonObject.has("callback")) {
+                    AuthController.callback = jsonObject.getString("callback");
+                } else {
+                    AuthController.callback = "";
+                }
+                if (jsonObject.has("token")) {
+                    AuthController.token = jsonObject.getString("token");
+                    editor.putString("token", AuthController.token);
+                    editor.apply();
+                }
+                AuthController.exception = "";
+                AuthController.workState.postValue(1);
+
+            } else {
+                AuthController.exception = "";
+                AuthController.workState.postValue(0);
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                AuthController.exception = errorBody.getString("message_text");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void recovery() {
+        try {
+            Call<ResponseBody> call = authApi.recovery(AuthController.mobile);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+
+                JSONObject jsonObject = new JSONObject(bodyResponse.body().string());
+
+                if (jsonObject.has("key")) {
+                    AuthController.key = jsonObject.getString("key");
+                } else {
+                    AuthController.key = "";
+                }
+                AuthController.preTheory = AuthController.theory;
+                if (jsonObject.has("theory")) {
+                    AuthController.theory = jsonObject.getString("theory");
+                } else {
+                    AuthController.theory = "";
+                }
+                if (jsonObject.has("callback")) {
+                    AuthController.callback = jsonObject.getString("callback");
+                } else {
+                    AuthController.callback = "";
+                }
+                if (jsonObject.has("token")) {
+                    AuthController.token = jsonObject.getString("token");
+                    editor.putString("token", AuthController.token);
+                    editor.apply();
+                }
+                AuthController.exception = "";
+                AuthController.workState.postValue(1);
+
+            } else {
+                AuthController.exception = "";
+                AuthController.workState.postValue(0);
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                AuthController.exception = errorBody.getString("message_text");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

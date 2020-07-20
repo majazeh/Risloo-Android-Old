@@ -3,9 +3,9 @@ package com.majazeh.risloo.Entities;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Sample extends Main {
+public class Model extends Main {
 
-    public Sample(JSONObject attributes) throws JSONException {
+    public Model(JSONObject attributes) throws JSONException {
         super(attributes);
     }
 

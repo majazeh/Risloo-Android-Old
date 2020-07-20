@@ -11,6 +11,7 @@ import org.json.JSONException;
 
 public class AuthViewModel extends AndroidViewModel {
 
+    // Repositories
     private AuthRepository repository;
 
     public AuthViewModel(@NonNull Application application) {
@@ -35,8 +36,8 @@ public class AuthViewModel extends AndroidViewModel {
         repository.verification();
     }
 
-    public void forgetPassword(String mobile) throws JSONException {
-        repository.forgetPassword(mobile);
+    public void recovery(String mobile) throws JSONException {
+        repository.recovery(mobile);
     }
 
 }

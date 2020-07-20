@@ -8,6 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetroGenerator {
 
+    // Objects
     private static Retrofit retrofit;
 
     public static Retrofit getRetrofit() {

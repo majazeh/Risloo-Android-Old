@@ -22,7 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.majazeh.risloo.Entities.More;
+import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Views.Ui.Activities.AboutUsActivity;
@@ -43,7 +43,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
     private SocialDialog socialDialog;
 
     // Vars
-    private ArrayList<More> mores;
+    private ArrayList<Model> mores;
 
     // Objects
     private Activity activity;
@@ -112,7 +112,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
         handler = new Handler();
     }
 
-    public void setMore(ArrayList<More> mores) {
+    public void setMore(ArrayList<Model> mores) {
         this.mores = mores;
         notifyDataSetChanged();
     }

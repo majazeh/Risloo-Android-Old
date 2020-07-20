@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.majazeh.risloo.Entities.List;
+import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.ViewModels.AboutUsViewModel;
@@ -34,7 +34,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
     // Vars
     private String asset;
-    private ArrayList<List> list;
+    private ArrayList<Model> list;
 
     // Objects
     private Activity activity;
@@ -106,7 +106,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
         subListSmallAdapter = new SubListSmallAdapter(activity);
     }
 
-    public void setList(ArrayList<List> list, String asset) {
+    public void setList(ArrayList<Model> list, String asset) {
         this.list = list;
         this.asset = asset;
         notifyDataSetChanged();

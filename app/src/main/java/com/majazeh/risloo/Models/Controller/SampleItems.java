@@ -1,10 +1,6 @@
-package com.majazeh.risloo.Models.Repositories.Sample;
+package com.majazeh.risloo.Models.Controller;
 
-import android.util.Log;
-
-import androidx.lifecycle.MutableLiveData;
-
-import com.majazeh.risloo.Entities.Sample;
+import com.majazeh.risloo.Entities.Model;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,40 +11,38 @@ import java.util.ArrayList;
 public class SampleItems {
 
     private int index = 0;
-    private Sample currentItem;
-    private ArrayList<Sample> items = new ArrayList<>();
+    private Model currentItem;
+    private ArrayList<Model> items = new ArrayList<>();
 
     public SampleItems(JSONArray items) throws JSONException {
         for (int i = 0; i < items.length(); i++) {
-            this.items.add(new Sample((JSONObject) items.get(i)));
+            this.items.add(new Model((JSONObject) items.get(i)));
         }
         currentItem = this.items.get(index);
     }
 
-    public Sample item(int i) {
+    public Model item(int i) {
         return items.get(i);
     }
 
-    public Sample next() {
-
+    public Model next() {
         if (index+1==size()){
-
             return null;
         }
         index++;
-            currentItem = items.get(index);
-            return currentItem;
+        currentItem = items.get(index);
+        return currentItem;
     }
 
-    public Sample prev() {
+    public Model prev() {
         if (index>0) {
             index--;
             currentItem = items.get(index);
         }
-            return currentItem;
+        return currentItem;
     }
 
-    public Sample goToIndex(int i) {
+    public Model goToIndex(int i) {
         index = i;
         currentItem = items.get(index);
         return currentItem;
@@ -69,4 +63,5 @@ public class SampleItems {
     public void setCurrentIndex(int i){
         index = i;
     }
+
 }
