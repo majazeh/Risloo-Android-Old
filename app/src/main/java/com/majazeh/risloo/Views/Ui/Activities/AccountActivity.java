@@ -24,7 +24,6 @@ import android.widget.Toast;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Controller.AuthController;
-import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -94,8 +93,7 @@ public class AccountActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         avatarImageView = findViewById(R.id.activity_account_avatar_circleImageView);
-        avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user));
-
+        avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_solid));
 
         nameTextView = findViewById(R.id.activity_account_name_textView);
         nameTextView.setText(sharedPreferences.getString("name", ""));
@@ -206,23 +204,28 @@ public class AccountActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
     }
 
-    private JSONArray profile() {
-        JSONArray profile = new JSONArray();
+    private JSONArray account() {
+        JSONArray items = new JSONArray();
         try {
-            profile.put(new JSONObject().put("subTitle", sharedPreferences.getString("name", "")).put("title", "نام").put("image", getResources().getDrawable(R.drawable.ic_brain )));
-            profile.put(new JSONObject().put("subTitle", sharedPreferences.getString("mobile", "")).put("title", "شماره همراه").put("image", getResources().getDrawable(R.drawable.ic_brain )));
-            profile.put(new JSONObject().put("subTitle", sharedPreferences.getString("email", "")).put("title", "ایمیل").put("image", getResources().getDrawable(R.drawable.ic_brain )));
-            profile.put(new JSONObject().put("subTitle", sharedPreferences.getString("gender", "")).put("title", "جنسیت").put("image", getResources().getDrawable(R.drawable.ic_brain )));
+            items.put(new JSONObject().put("subTitle", sharedPreferences.getString("name", "")).put("title", "نام").put("image", getResources().getDrawable(R.drawable.ic_user_light )));
+            items.put(new JSONObject().put("subTitle", sharedPreferences.getString("mobile", "")).put("title", "شماره همراه").put("image", getResources().getDrawable(R.drawable.ic_mobile )));
+            items.put(new JSONObject().put("subTitle", sharedPreferences.getString("email", "")).put("title", "ایمیل").put("image", getResources().getDrawable(R.drawable.ic_envelope )));
+            if (sharedPreferences.getString("gender", "").equals("male")) {
+                items.put(new JSONObject().put("subTitle", "مرد").put("title", "جنسیت").put("image", getResources().getDrawable(R.drawable.ic_gender )));
+            } else if (sharedPreferences.getString("gender", "").equals("female")) {
+                items.put(new JSONObject().put("subTitle", "زن").put("title", "جنسیت").put("image", getResources().getDrawable(R.drawable.ic_gender )));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return profile;
+        return items;
     }
+
     public ArrayList<Model> getAll() {
         ArrayList<Model> items = new ArrayList<>();
-        for (int i = 0; i < profile().length(); i++) {
+        for (int i = 0; i < account().length(); i++) {
             try {
-                items.add(new Model(profile().getJSONObject(i)));
+                items.add(new Model(account().getJSONObject(i)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

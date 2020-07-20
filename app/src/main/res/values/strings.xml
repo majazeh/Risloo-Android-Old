@@ -55,6 +55,7 @@
     <string name="SerialHint">سریال</string>
     <string name="SerialButton">بررسی</string>
     <string name="SerialLink">کاربر جدید هستید؟ ثبت نام</string>
+    <string name="SerialArchive">قبلا نمونه انجام دادی؟ مشاهده بایگانی</string>
 
     <string name="PasswordTitle">بررسی رمز عبور</string>
     <string name="PasswordDescription">رمز عبور خود را وارد نمایید</string>
@@ -153,8 +154,8 @@
 
     <string name="ArchiveCount">عدد</string>
 
-    <string name="ArchiveTestSerial">سریال نمونه</string>
-    <string name="ArchiveAnswerDate">زمان پاسخ</string>
+    <string name="ArchiveSerial">سریال نمونه</string>
+    <string name="ArchiveDate">زمان پاسخ</string>
     <string name="ArchiveStatus">وضعیت</string>
     <string name="ArchiveNotCompleted">تکمیل نشد</string>
     <string name="ArchiveNotSend">ارسال نشد</string>
@@ -181,9 +182,9 @@
     <string name="MoreShareLink">ApplicationLink</string>
     <string name="MoreShareChooser">اشتراک گذاری برنامه</string>
 
-    <string name="MoreFollowTelegram">risloo</string>
+    <string name="MoreFollowTelegram">risloo_ir</string>
     <string name="MoreFollowInstagram">risloo_ir</string>
-    <string name="MoreFollowFacebook">80829078894</string>
+    <string name="MoreFollowFacebook">100053471781226</string>
     <string name="MoreFollowTwitter">risloo_ir</string>
 
     <string name="MoreFollowDialogTitle">ما را در شبکه های اجتماعی دنبال کنید</string>

@@ -2,6 +2,7 @@ package com.majazeh.risloo.Views.Ui.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -26,7 +27,9 @@ import com.majazeh.risloo.Models.Controller.AuthController;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
+import com.majazeh.risloo.Views.Ui.Activities.ArchiveActivity;
 import com.majazeh.risloo.Views.Ui.Activities.AuthActivity;
+import com.majazeh.risloo.Views.Ui.Activities.IntroActivity;
 
 import org.json.JSONException;
 
@@ -43,12 +46,12 @@ public class SerialFragment extends Fragment {
 
     // Objects
     private Activity activity;
-    private ClickableSpan serialLinkSpan;
+    private ClickableSpan serialLinkSpan, serialArchiveSpan;
 
     // Widgets
     private EditText serialEditText;
     private Button serialButton;
-    private TextView serialLinkTextView;
+    private TextView serialLinkTextView, serialArchiveTextView;
 
     public SerialFragment(Activity activity) {
         this.activity = activity;
@@ -79,7 +82,9 @@ public class SerialFragment extends Fragment {
         serialButton = view.findViewById(R.id.fragment_serial_button);
 
         serialLinkTextView = view.findViewById(R.id.fragment_serial_link_textView);
+        serialArchiveTextView = view.findViewById(R.id.fragment_serial_archive_textView);
         serialLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        serialArchiveTextView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     private void detector() {
@@ -125,10 +130,25 @@ public class SerialFragment extends Fragment {
                 textPaint.setUnderlineText(false);
             }
         };
+
+        serialArchiveSpan = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View view) {
+                startActivity(new Intent(activity, ArchiveActivity.class));
+                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
+            }
+
+            @Override
+            public void updateDrawState(@NonNull TextPaint textPaint) {
+                textPaint.setColor(getResources().getColor(R.color.PrimaryDark));
+                textPaint.setUnderlineText(false);
+            }
+        };
     }
 
     private void setText() {
         serialLinkTextView.setText(StringCustomizer.clickable(activity.getResources().getString(R.string.SerialLink), 18, 25, serialLinkSpan));
+        serialArchiveTextView.setText(StringCustomizer.clickable(activity.getResources().getString(R.string.SerialArchive), 23, 37, serialArchiveSpan));
     }
 
     private void checkInput() {

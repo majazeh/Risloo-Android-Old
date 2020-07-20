@@ -227,9 +227,17 @@ public class AuthActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (toolUser != null){
+            if (sharedPreferences.getString("token", "").equals("")){
+                toolUser.setVisible(false);
+            }else{
+                toolUser.setVisible(true);
+            }
+        }
+
         titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
         loadFragment(new SerialFragment(this), 0, 0);
-
     }
 
     @Override
