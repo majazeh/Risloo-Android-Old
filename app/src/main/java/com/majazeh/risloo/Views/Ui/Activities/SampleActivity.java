@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -78,7 +79,17 @@ public class SampleActivity extends AppCompatActivity {
 
         listener();
 
-        observeWork();
+        if (viewModel.hasStorage(sharedPreferences.getString("sampleId", ""))) {
+            if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
+                startActivity(new Intent(this, OutroActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                finish();
+            }else{
+            observeWork();
+            }
+        }else{
+          observeWork();
+        }
     }
 
     private void decorator() {
@@ -180,6 +191,8 @@ public class SampleActivity extends AppCompatActivity {
 
             if (viewModel.next() == null) {
                 if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
+                    startActivity(new Intent(this, OutroActivity.class));
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                     finish();
                     return;
                 }
@@ -246,6 +259,7 @@ public class SampleActivity extends AppCompatActivity {
 
     public void showFragment(String type) {
         indexTextView.setText(viewModel.getCurrentIndex() + 1 + " " + "از" + " " + viewModel.getSize());
+        flowProgressBar.setMax(viewModel.getSize());
         flowProgressBar.setProgress(viewModel.answerSize(sharedPreferences.getString("sampleId", "")));
         adapter.setIndex(viewModel.readFromCache(sharedPreferences.getString("sampleId", "")));
         adapter.notifyDataSetChanged();
@@ -271,22 +285,21 @@ public class SampleActivity extends AppCompatActivity {
         }
     }
 
-    // TODO : Check This Piece of Code
     public void observeWork() {
-        checkStorage();
-//        viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", ""));
-        if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
-            finish();
-            return;
-        }
         if (isNetworkConnected()) {
             progressDialog.show();
             SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
                 if (integer == 1) {
                     try {
-                        progressDialog.dismiss();
+                        checkStorage();
+                        viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", ""));
+                        if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
+                            finish();
+                            return;
+                        }
                         adapter.setIndex(viewModel.readFromCache(sharedPreferences.getString("sampleId", "")));
                         viewModel.setIndex(viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")));
+                        progressDialog.dismiss();
                         showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -302,9 +315,16 @@ public class SampleActivity extends AppCompatActivity {
         } else {
             if (viewModel.getItems() != null) {
                 try {
+                    checkStorage();
+                    viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", ""));
+                    if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
+                        startActivity(new Intent(this, OutroActivity.class));
+                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                        finish();
+                        return;
+                    }
                     adapter.setIndex(viewModel.readFromCache(sharedPreferences.getString("sampleId", "")));
                     viewModel.setIndex(viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")));
-                    Log.e("get current index", String.valueOf(viewModel.getCurrentIndex()));
 
                     showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
                 } catch (JSONException e) {

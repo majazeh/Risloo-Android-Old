@@ -74,7 +74,6 @@ public class SampleWorker extends Worker {
         Call<ResponseBody> call = sampleApi.getSample("Bearer " + sharedpreferences.getString("token", ""), sharedpreferences.getString("sampleId", ""));
 
         Response<ResponseBody> bodyResponse = call.execute();
-        Log.e("token",sharedpreferences.getString("token", "") + "aa");
         if (bodyResponse.isSuccessful()) {
 
             JSONObject jsonObject = new JSONObject(bodyResponse.body().string());
@@ -88,11 +87,8 @@ public class SampleWorker extends Worker {
 
     private void sendAnswers() {
         try {
-            Log.e("remote", String.valueOf(remoteData));
 
             Call<ResponseBody> call = sampleApi.send("Bearer " + sharedpreferences.getString("token", ""), sharedpreferences.getString("sampleId", ""), SampleRepository.remoteData);
-
-           // Log.e("remove", String.valueOf(SampleRepository.remoteData) + "aaa");
             Response<ResponseBody> bodyResponse = call.execute();
                 SampleRepository.cache = false;
             if (bodyResponse.isSuccessful()) {

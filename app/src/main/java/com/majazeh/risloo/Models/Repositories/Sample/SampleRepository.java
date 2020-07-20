@@ -180,10 +180,11 @@ public class SampleRepository extends MainRepository {
     }
 
     public boolean saveToCSV(JSONArray jsonArray, String fileName) {
+        Log.d("jsonarray", String.valueOf(jsonArray));
         try {
-            FileOutputStream fos = application.getApplicationContext().openFileOutput(fileName, Context.MODE_PRIVATE);
+            FileOutputStream fos = application.getApplicationContext().openFileOutput(fileName + ".CSV", Context.MODE_PRIVATE);
             for (int i = 0; i < jsonArray.length(); i++) {
-                fos.write(String.valueOf(i).getBytes("UTF-8"));
+                fos.write(jsonArray.getJSONObject(i).getString("index").getBytes("UTF-8"));
                 fos.write(",".getBytes("UTF-8"));
                 fos.write(jsonArray.getJSONObject(i).getString("answer").getBytes("UTF-8"));
                 fos.write("\n".getBytes("UTF-8"));
@@ -201,7 +202,7 @@ public class SampleRepository extends MainRepository {
     }
 
     public File loadFromCSV(String fileName) {
-        return new File(application.getApplicationContext().getCacheDir(), fileName);
+        return new File(application.getApplicationContext().getCacheDir(), fileName + ".CSV");
     }
 
     public boolean hasStorage(String fileName) {

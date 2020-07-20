@@ -2,6 +2,7 @@ package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
@@ -22,6 +23,7 @@ import com.majazeh.risloo.Entities.Sample;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.ViewModels.Sample.SampleViewModel;
 import com.majazeh.risloo.Views.Ui.Activities.AuthActivity;
+import com.majazeh.risloo.Views.Ui.Activities.OutroActivity;
 import com.majazeh.risloo.Views.Ui.Activities.SampleActivity;
 
 import org.json.JSONArray;
@@ -144,6 +146,8 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
             //////////////////////////////////////////////////////////////////////////////////////////////////
             if (viewModel.next() == null) {
                 if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
+                    activity.startActivity(new Intent(activity, OutroActivity.class));
+                    activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                     activity.finish();
                     return;
                 }

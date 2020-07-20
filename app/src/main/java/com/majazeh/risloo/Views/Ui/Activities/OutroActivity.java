@@ -3,11 +3,14 @@ package com.majazeh.risloo.Views.Ui.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -23,6 +26,7 @@ public class OutroActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
+    private SharedPreferences sharedPreferences;
 
     // Widgets
     private Button internetButton, smsButton, downloadButton, laterButton;
@@ -42,7 +46,13 @@ public class OutroActivity extends AppCompatActivity {
         detector();
 
         listener();
+        SampleActivity sampleActivity = new SampleActivity();
+
+        sampleActivity.viewModel.saveToCSV(sampleActivity.viewModel.readFromCache(sharedPreferences.getString("sampleId", "")), sharedPreferences.getString("sampleId", ""));
+        Log.e("oops", String.valueOf(sampleActivity.viewModel.loadFromCSV(sharedPreferences.getString("sampleId", "")).getName()));
+
     }
+
 
     private void decorator() {
         WindowDecorator windowDecorator = new WindowDecorator();
@@ -63,6 +73,7 @@ public class OutroActivity extends AppCompatActivity {
 
     private void initializer() {
         handler = new Handler();
+        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
         internetButton = findViewById(R.id.activity_outro_internet_button);
         smsButton = findViewById(R.id.activity_outro_sms_button);
