@@ -190,7 +190,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
         noUpdateDialogDescription = noUpdateDialog.findViewById(R.id.dialog_note_description_textView);
         noUpdateDialogDescription.setText(activity.getResources().getString(R.string.MoreNoUpdateDialogDescription));
         noUpdateDialogConfirm = noUpdateDialog.findViewById(R.id.dialog_note_confirm_textView);
-        noUpdateDialogConfirm.setText(activity.getResources().getString(R.string.MoreNoUpdateDialogClose));
+        noUpdateDialogConfirm.setText(activity.getResources().getString(R.string.MoreNoUpdateDialogConfirm));
 
         availableUpdateDialogTitle = availableUpdateDialog.findViewById(R.id.dialog_action_title_textView);
         availableUpdateDialogDescription = availableUpdateDialog.findViewById(R.id.dialog_action_description_textView);

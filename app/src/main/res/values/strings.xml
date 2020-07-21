@@ -6,7 +6,9 @@
 
     <string name="AppName">ریسلو</string>
 
-    <string name="ApiKey">Api Key</string>
+    <string name="ApiKey">ای پی آی کی</string>
+
+    <string name="AppLoading">لطفا منتظر بمانید …</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -16,13 +18,13 @@
     <string name="SplashVersion">نسخه</string>
     <string name="SplashArrived">رسید</string>
 
-    <string name="SplashIsUpdating">در حال بارگذاری نمونه های جدید</string>
+    <string name="SplashLoading">در حال بارگذاری نمونه های جدید</string>
 
-    <string name="SplashUpdateDialogForceDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="SplashUpdateDialogForceDescription">این یک به روز رسانی اجباری است و برای استفاده از برنامه لطفا هم اکنون به روز رسانی کنید.</string>
     <string name="SplashUpdateDialogForcePositive">به روز رسانی</string>
     <string name="SplashUpdateDialogForceNegative">خروج از برنامه</string>
 
-    <string name="SplashUpdateDialogNotForceDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="SplashUpdateDialogNotForceDescription">این یک به روز رسانی اجباری نیست و شما می توانید اکنون یا بعدن به روز رسانی کنید.</string>
     <string name="SplashUpdateDialogNotForcePositive">به روز رسانی</string>
     <string name="SplashUpdateDialogNotForceNegative">کار با این نسخه</string>
 
@@ -50,12 +52,14 @@
     // auth strings
     ////////////////////////////////////////////////////////////////////////////////
 
+    <string name="AuthAccount">حساب کاربری</string>
+
     <string name="SerialTitle">بررسی سریال</string>
     <string name="SerialDescription">برای شروع انجام نمونه سریال خود را وارد نمایید</string>
     <string name="SerialHint">سریال</string>
     <string name="SerialButton">بررسی</string>
     <string name="SerialLink">کاربر جدید هستید؟ ثبت نام</string>
-    <string name="SerialArchive">شما نمونه اتمام نشده دارید! مشاهده بایگانی</string>
+    <string name="SerialArchive">شما نمونه اتمام ناقص دارید! مشاهده بایگانی</string>
 
     <string name="PasswordTitle">بررسی رمز عبور</string>
     <string name="PasswordDescription">رمز عبور خود را وارد نمایید</string>
@@ -84,16 +88,14 @@
     <string name="RegisterPasswordHint">رمز عبور</string>
     <string name="RegisterButton">ثبت نام</string>
 
-    <string name="AuthAccount">حساب کاربری</string>
-    <string name="AuthProgressDialogTitle">لطفا منتظر بمانید …</string>
-
     ////////////////////////////////////////////////////////////////////////////////
 
     // prerequisite strings
     ////////////////////////////////////////////////////////////////////////////////
 
     <string name="PrerequisiteTitle">تکمیل پیشنیاز</string>
-    <string name="PrerequisiteDescription">کاربر گرامی، لطفا پیشنیاز های نمونه خواسته شده در زیر تکمیل نمایید</string>
+
+    <string name="PrerequisiteDescription">کاربر گرامی، قبل از شروع لطفا پیشنیاز های نمونه خواسته شده در زیر را تکمیل نمایید</string>
     <string name="PrerequisiteButton">شروع نمونه</string>
 
     <string name="PrerequisiteInfoDialogTitle">توجه</string>
@@ -107,11 +109,11 @@
     <string name="SamplePrintHint">اینجا وارد نمایید</string>
 
     <string name="SampleNavigateDialogTitle">کدام سؤال می خوای ببینی؟</string>
-    <string name="SampleNavigateDialogClose">بستن</string>
+    <string name="SampleNavigateDialogConfirm">بستن</string>
 
-    <string name="SampleCancelDialogTitle">لغو نمونه؟</string>
-    <string name="SampleCancelDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
-    <string name="SampleCancelDialogPositive">لغو</string>
+    <string name="SampleCancelDialogTitle">خروج از نمونه؟</string>
+    <string name="SampleCancelDialogDescription">نمونه شما از بین نمی رود و بعدا می توانید از بایگانی خود به آن دسترسی پیدا کنید و ان را تکمیل نمایید.</string>
+    <string name="SampleCancelDialogPositive">خروج</string>
     <string name="SampleCancelDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -119,9 +121,9 @@
     // outro strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="OutroTitle">نمونه شما با موفقیت انجام شد!</string>
+    <string name="OutroTitle">نمونه شما با موفقیت تکمیل شد!</string>
 
-    <string name="OutroDescription">برای اطلاع دادن ریسلو از وضعیت نمونه شما لازم است که فایل نمونه را بصورت انترنتی یا پیامکی ارسال نمایید.</string>
+    <string name="OutroDescription">برای اطلاع دادن ریسلو از وضعیت و نتایج نمونه شما لازم است که فایل نمونه را بصورت انترنتی یا پیامکی ارسال نمایید.</string>
 
     <string name="OutroInternet">ارسال إینترنتی نمونه به ریسلو</string>
     <string name="OutroSMS">ارسال پیامکی نمونه به ریسلو</string>
@@ -129,17 +131,17 @@
     <string name="OutroLater">بعدن ارسال کنم</string>
 
     <string name="OutroInternetDialogTitle">ارسال إینترنتی</string>
-    <string name="OutroInternetDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="OutroInternetDialogDescription">نتایج نمونه شما از طریق اینترنت به ریسلو ارسال می شود و سپس می توانید نمونه جدیدی را شروع کنید.</string>
     <string name="OutroInternetDialogPositive">ارسال</string>
     <string name="OutroInternetDialogNegative">بستن</string>
 
     <string name="OutroSMSDialogTitle">ارسال پیامکی</string>
-    <string name="OutroSMSDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="OutroSMSDialogDescription">نتایج نمونه شما از طریق پیامک به ریسلو ارسال می شود در نظر داشته باشید که تعداد پیامک های ارسالی شما به حجم فایل نمونه بستگی دارد.</string>
     <string name="OutroSMSDialogPositive">ارسال</string>
     <string name="OutroSMSDialogNegative">بستن</string>
 
     <string name="OutroDownloadDialogTitle">دریافت فایل</string>
-    <string name="OutroDownloadDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="OutroDownloadDialogDescription">با دریافت فایل نمونه شما می توانید بعدن بصورت دستی در اختیار ریسلو از راه آپلود دادن قرار دهید.</string>
     <string name="OutroDownloadDialogPositive">دریافت و خروج</string>
     <string name="OutroDownloadDialogNegative">دریافت</string>
 
@@ -153,7 +155,7 @@
     <string name="AccountSignOut">خروج از حساب</string>
 
     <string name="AccountSignOutDialogTitle">خروج از حساب؟</string>
-    <string name="AccountSignOutDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="AccountSignOutDialogDescription">ایا تمایل به خروج از حساب کاربری خود دارید، در نظر داشته باشید که تمام اطلاعات شما محفوظ می ماند.</string>
     <string name="AccountSignOutDialogPositive">خروج</string>
     <string name="AccountSignOutDialogNegative">بستن</string>
 
@@ -172,7 +174,7 @@
     <string name="ArchiveContinue">تکمیل نمونه</string>
 
     <string name="ArchiveContinueDialogTitle">تکمیل نمونه؟</string>
-    <string name="ArchiveContinueDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="ArchiveContinueDialogDescription">شما می توانید روند کار را از نمونه خود ادامه دهید و آن را به اتمام برسانید و به ریسلو تحویل دهید.</string>
     <string name="ArchiveContinueDialogPositive">تکمیل نمونه</string>
     <string name="ArchiveContinueDialogNegative">بستن</string>
 
@@ -211,7 +213,7 @@
     <string name="MoreFollowDialogClose">بستن</string>
 
     <string name="MoreNoUpdateDialogDescription">شما آخرین نسخه ریسلو را دارید. در صورت وجود نسخه جدید به شما اطلاع داده خواهد شد.</string>
-    <string name="MoreNoUpdateDialogClose">بستن</string>
+    <string name="MoreNoUpdateDialogConfirm">بستن</string>
 
     <string name="MoreAvailableUpdateDialogDescription">برای استفاده بهتر از ریسلو لطفا بروز رسانی کنید. همیشه در تلاشیم که بهترین خدمات به شما إرائه دهیم.</string>
     <string name="MoreAvailableUpdateDialogPositive">به روز رسانی</string>
@@ -245,7 +247,7 @@
     <string name="CallUsSend">ارسال پیام</string>
 
     <string name="CallUsInfoDialogTitle">کاربر گرامی</string>
-    <string name="CallUsInfoDialogDescription">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</string>
+    <string name="CallUsInfoDialogDescription">شما می توانید نظرات و انتقادات خود را نسبت به خدمات و سرویس به ما اطلاع دعید. هدف ما جلب رضایت و اعتماد متقابل شما می باشد.</string>
     <string name="CallUsInfoDialogConfirm">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////

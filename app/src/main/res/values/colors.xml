@@ -13,8 +13,6 @@
     // customize colors
     ////////////////////////////////////////////////////////////////////////////////
 
-    <color name="Primary20P">#335867DD</color>
-
     <color name="MoonYellow">#FFB822</color>
     <color name="VioletRed">#FD397A</color>
 
@@ -23,9 +21,17 @@
     <color name="Solitude">#F4F5F8</color>
     <color name="Quartz">#E1E1EF</color>
     <color name="Mischka">#A0A9B8</color>
-    <color name="Mischka20P">#34A0A9B8</color>
     <color name="Grey">#757575</color>
     <color name="Nero">#222222</color>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // percent colors
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <color name="Primary20P">#335867DD</color>
+
+    <color name="Mischka20P">#34A0A9B8</color>
 
     ////////////////////////////////////////////////////////////////////////////////
 

@@ -88,16 +88,16 @@
     ////////////////////////////////////////////////////////////////////////////////
 
     <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/BottomSheetDialogModal</item>
+        <item name="bottomSheetStyle">@style/BottomSheetModal</item>
     </style>
 
-    <style name="BottomSheetDialogModal" parent="Widget.Design.BottomSheet.Modal">
+    <style name="BottomSheetModal" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/draw_16sdp_top_white</item>
     </style>
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // activity theme
+    // activity animation
     ////////////////////////////////////////////////////////////////////////////////
 
     <style name="ActivityAnimation" parent="@android:style/Animation.Activity">

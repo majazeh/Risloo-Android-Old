@@ -1,7 +1,6 @@
 package com.majazeh.risloo.Views.Ui.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Dialog;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.WindowDecorator;
-import com.majazeh.risloo.ViewModels.AboutUsViewModel;
 import com.majazeh.risloo.ViewModels.ExplodeViewModel;
 
 public class SplashActivity extends AppCompatActivity {
@@ -150,7 +148,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void loadContent() {
         updatingProgressBar.setVisibility(View.VISIBLE);
-        versionTextView.setText(getResources().getString(R.string.SplashIsUpdating));
+        versionTextView.setText(getResources().getString(R.string.SplashLoading));
         // TODO : Load Our Samples Content Or Add New Samples And Then Call checkUpdate();
         updatingProgressBar.setVisibility(View.INVISIBLE);
         versionTextView.setText(appVersion());

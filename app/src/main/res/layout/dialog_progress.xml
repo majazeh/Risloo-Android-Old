@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:gravity="right"
-            android:text="@string/AuthProgressDialogTitle"
+            android:text="@string/AppLoading"
             android:textSize="@dimen/_14ssp"
             android:textStyle="bold"
             android:textColor="@color/Grey"
