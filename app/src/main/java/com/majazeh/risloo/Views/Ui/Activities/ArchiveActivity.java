@@ -2,6 +2,7 @@ package com.majazeh.risloo.Views.Ui.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
+import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.ArchiveAdapter;
 
 public class ArchiveActivity extends AppCompatActivity {
@@ -22,6 +24,9 @@ public class ArchiveActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView countTextView;
     private RecyclerView recyclerView;
+
+    // Objects
+    SampleViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +47,11 @@ public class ArchiveActivity extends AppCompatActivity {
     }
 
     private void initializer() {
+        viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
 
         adapter = new ArchiveAdapter(this);
-//        adapter.setArchive(viewModel.getAll());
+
+
 
         toolbar = findViewById(R.id.activity_archive_toolbar);
 
@@ -54,7 +61,10 @@ public class ArchiveActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout",(int) getResources().getDimension(R.dimen._16sdp)));
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
-//        recyclerView.setAdapter(adapter);
+        if (viewModel.files() != null) {
+            adapter.setArchive(viewModel.files());
+            recyclerView.setAdapter(adapter);
+        }
     }
 
     private void listener() {

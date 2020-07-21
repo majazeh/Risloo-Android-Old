@@ -58,7 +58,13 @@ public class SampleController {
 
     public void saveJsonToCache(Context context, JSONObject jsonObject, String fileName) {
         try {
-            FileOutputStream fos = new FileOutputStream(new File(context.getCacheDir(), "") + File.separator + fileName);
+            File file = new File(context.getCacheDir(), "Samples/" + fileName);
+            if (!file.getParentFile().exists())
+                file.getParentFile().mkdirs();
+            if (!file.exists()){
+                file.createNewFile();
+            }
+            FileOutputStream fos = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(jsonObject.toString());
             oos.close();
@@ -69,10 +75,10 @@ public class SampleController {
         }
     }
 
-    public JSONObject readJsonFromCache(Context context, String answer_file) {
+    public JSONObject readJsonFromCache(Context context, String fileName) {
         JSONObject jsonArray;
         try {
-            FileInputStream fis = new FileInputStream(new File(context.getCacheDir() + File.separator + answer_file));
+            FileInputStream fis = new FileInputStream(new File(context.getCacheDir(), "Samples/" + fileName));
             ObjectInputStream ois = new ObjectInputStream(fis);
             jsonArray = new JSONObject((String) ois.readObject());
             ois.close();

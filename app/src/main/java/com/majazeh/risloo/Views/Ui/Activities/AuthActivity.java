@@ -163,7 +163,7 @@ public class AuthActivity extends AppCompatActivity {
                             editor.putString("sampleId", AuthController.key);
                             editor.apply();
 
-                            startActivity(new Intent(this, OutroActivity.class));
+                            startActivity(new Intent(this, SampleActivity.class));
                             try {
                                 viewModel.me();
                             } catch (JSONException e) {

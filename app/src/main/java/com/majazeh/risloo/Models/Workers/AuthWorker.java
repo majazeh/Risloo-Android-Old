@@ -354,7 +354,6 @@ public class AuthWorker extends Worker {
     }
 
     private void signOut() {
-        Log.e("hee", "hoo");
         try {
             Call<ResponseBody> call = authApi.logout("Bearer " + sharedPreferences.getString("token", ""));
 

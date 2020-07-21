@@ -12,7 +12,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class SampleViewModel extends AndroidViewModel {
@@ -25,37 +24,14 @@ public class SampleViewModel extends AndroidViewModel {
 
         repository = new SampleRepository(application, testUniqueId);
     }
+
     public SampleViewModel(@NonNull Application application) {
         super(application);
         repository = new SampleRepository(application);
     }
 
-    public void saveToExternal(JSONArray jsonArray,String fileName){
-        repository.saveToExternal(jsonArray,fileName + "Answers");
-    }
-
     public void insertToLocalData(int item, int answer) {
         repository.insertToLocalData(item, answer);
-    }
-
-    public void insertRemoteDataToLocalData() {
-        repository.insertRemoteDataToLocalData();
-    }
-
-    public void writeToCache(JSONArray jsonArray, String fileName) {
-        repository.writeToCache(jsonArray, fileName + "Answers");
-    }
-
-    public JSONArray readFromCache(String fileName) {
-        return repository.readFromCache(fileName + "Answers");
-    }
-
-    public boolean saveToCSV(JSONArray jsonArray, String fileName) {
-        return repository.saveToCSV(jsonArray, fileName);
-    }
-
-    public File loadFromCSV(String fileName) {
-        return repository.loadFromCSV(fileName);
     }
 
     public String getTitle() throws JSONException {
@@ -86,18 +62,6 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.items().item(index);
     }
 
-    public JSONObject getAnswer(int index) throws JSONException {
-        return (JSONObject) repository.items().item(index).get("answer");
-    }
-
-    public ArrayList<String> getOptions(int index) throws JSONException {
-        ArrayList<String> arrayList = new ArrayList<>();
-        for (int i = 0; i < getAnswer(index).getJSONArray("options").length(); i++) {
-            arrayList.add((String) getAnswer(index).getJSONArray("options").get(i));
-        }
-        return arrayList;
-    }
-
     public Model next() {
         return repository.items().next();
     }
@@ -118,49 +82,66 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.items().size();
     }
 
-    public ArrayList<ArrayList<Integer>> getLocalData() {
-        return repository.localData;
+    public ArrayList getItems() {
+        return repository.items().getAll();
     }
 
-    public ArrayList<ArrayList<Integer>> getRemoteData() {
-        return repository.remoteData;
+    public void setIndex(int index) {
+        repository.items().setCurrentIndex(index);
     }
 
-    public boolean inProgress() {
-        return repository.inProgress;
+    public ArrayList files() {
+        return repository.files();
+    }
+
+    //Answers
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public JSONObject getAnswer(int index) throws JSONException {
+        return (JSONObject) repository.items().item(index).get("answer");
+    }
+
+    public ArrayList<String> getOptions(int index) throws JSONException {
+        ArrayList<String> arrayList = new ArrayList<>();
+        for (int i = 0; i < getAnswer(index).getJSONArray("options").length(); i++) {
+            arrayList.add((String) getAnswer(index).getJSONArray("options").get(i));
+        }
+        return arrayList;
     }
 
     public void sendAnswers(String UniqueId) throws JSONException {
         repository.sendAnswers(UniqueId);
     }
 
-    public ArrayList getItems() {
-        return repository.items().getAll();
-    }
-
     public boolean hasStorage(String fileName) {
-        return repository.hasStorage(fileName + "Answers");
+        return repository.hasStorage( fileName);
     }
 
-    public void deleteStorage(String fileName){
-        repository.deleteStorage(fileName + "Answers");
+    public void deleteStorage(String fileName) {
+        repository.deleteStorage(fileName);
     }
-
 
     public int answerSize(String fileName) {
-        return repository.answerSize(fileName + "Answers");
+        return repository.answerSize(fileName);
     }
 
     public int answerPosition(String fileName, int index) {
-        return repository.answerPosition(fileName + "Answers", index);
-    }
-
-    public void setIndex(int index){
-        repository.items().setCurrentIndex(index);
+        return repository.answerPosition(fileName, index);
     }
 
     public int getLastUnAnswer(String fileName) {
-        return repository.lastUnAnswer(fileName + "Answers");
+        return repository.lastUnAnswer( fileName);
+    }
+
+    public void writeAnswerToCache(JSONArray jsonArray, String fileName) {
+        repository.writeToCache(jsonArray,  fileName);
+    }
+
+    public JSONArray readAnswerFromCache(String fileName) {
+        return repository.readAnswerFromCache( fileName);
+    }
+
+    public void saveAnswerToExternal(JSONArray jsonArray, String fileName) {
+        repository.saveToExternal(jsonArray, fileName);
     }
 
 }

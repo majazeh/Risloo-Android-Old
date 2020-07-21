@@ -19,6 +19,7 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -261,7 +262,7 @@ public class SampleActivity extends AppCompatActivity {
         indexTextView.setText(viewModel.getCurrentIndex() + 1 + " " + "از" + " " + viewModel.getSize());
         flowProgressBar.setMax(viewModel.getSize());
         flowProgressBar.setProgress(viewModel.answerSize(sharedPreferences.getString("sampleId", "")));
-        adapter.setIndex(viewModel.readFromCache(sharedPreferences.getString("sampleId", "")));
+        adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
         adapter.notifyDataSetChanged();
         switch (type) {
             case "TP":
@@ -292,13 +293,13 @@ public class SampleActivity extends AppCompatActivity {
                 if (integer == 1) {
                     try {
                         checkStorage();
-                        viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", ""));
+                        adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
                         if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
                             finish();
                             return;
                         }
-                        adapter.setIndex(viewModel.readFromCache(sharedPreferences.getString("sampleId", "")));
                         viewModel.setIndex(viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")));
+
                         progressDialog.dismiss();
                         showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
                     } catch (JSONException e) {
@@ -323,7 +324,7 @@ public class SampleActivity extends AppCompatActivity {
                         finish();
                         return;
                     }
-                    adapter.setIndex(viewModel.readFromCache(sharedPreferences.getString("sampleId", "")));
+                    adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
                     viewModel.setIndex(viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")));
 
                     showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
@@ -355,7 +356,7 @@ public class SampleActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-            viewModel.writeToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
+            viewModel.writeAnswerToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
         }
     }
 

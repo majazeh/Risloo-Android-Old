@@ -28,7 +28,6 @@ import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 
 public class OutroActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
@@ -236,7 +235,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
-                viewModel.saveToExternal(viewModel.readFromCache(sharedPreferences.getString("sampleId", "")), sharedPreferences.getString("sampleId", ""));
+                viewModel.saveAnswerToExternal(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")), sharedPreferences.getString("sampleId", ""));
                 outroDialog.dismiss();
                 Toast.makeText(this, "جواب ها در پوشه Download ذخیره شد", Toast.LENGTH_SHORT).show();
                 if (exit) {
@@ -253,7 +252,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
                 return false;
             }
         } else { //permission is automatically granted on sdk<23 upon installation
-            viewModel.saveToExternal(viewModel.readFromCache(sharedPreferences.getString("sampleId", "")), sharedPreferences.getString("sampleId", ""));
+            viewModel.saveAnswerToExternal(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")), sharedPreferences.getString("sampleId", ""));
             outroDialog.dismiss();
             Toast.makeText(this, "جواب ها در پوشه Download ذخیره شد", Toast.LENGTH_SHORT).show();
             if (exit)

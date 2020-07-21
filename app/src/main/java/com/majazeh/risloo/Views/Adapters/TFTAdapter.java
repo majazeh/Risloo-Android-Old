@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,21 +132,20 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
 
     private void doWork(int position) {
         try {
-
-            JSONArray jsonArray = viewModel.readFromCache(sharedPreferences.getString("sampleId", ""));
+            JSONArray jsonArray = viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", ""));
             jsonArray.getJSONObject(viewModel.getCurrentIndex()).put("index", viewModel.getCurrentIndex());
             jsonArray.getJSONObject(viewModel.getCurrentIndex()).put("answer", position);
-            viewModel.writeToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
+            viewModel.writeAnswerToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
             //////////////////////////////////////////////////////////////////////////////////////////////////
-            if (viewModel.next() == null) {
                 if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
                     activity.startActivity(new Intent(activity, OutroActivity.class));
                     activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                     activity.finish();
                     return;
                 }
-                viewModel.setIndex(viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")));
-            }
+
+
+            viewModel.setIndex(viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")));
             ((SampleActivity) Objects.requireNonNull(activity)).showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
             viewModel.insertToLocalData(viewModel.getCurrentIndex(), position);
             viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));

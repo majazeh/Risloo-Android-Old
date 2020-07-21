@@ -52,6 +52,12 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
             holder.rootLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_snow_ripple);
         }
 
+        try {
+            holder.serialTextView.setText(archives.get(i).get("serial").toString());
+            holder.statusTextView.setText(archives.get(i).get("status").toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

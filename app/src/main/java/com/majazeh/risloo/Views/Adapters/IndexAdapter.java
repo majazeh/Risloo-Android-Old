@@ -125,7 +125,6 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
 
         this.indexes = indexes;
         this.answers = answers;
-        Log.e("index", String.valueOf(this.indexes));
         notifyDataSetChanged();
     }
 
