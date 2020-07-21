@@ -50,7 +50,7 @@
     // auth strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="SerialTitle">ورود به سیستم</string>
+    <string name="SerialTitle">بررسی سریال</string>
     <string name="SerialDescription">برای شروع انجام نمونه سریال خود را وارد نمایید</string>
     <string name="SerialHint">سریال</string>
     <string name="SerialButton">بررسی</string>
@@ -68,10 +68,10 @@
     <string name="MobileHint">شماره همراه</string>
     <string name="MobileButton">بررسی</string>
 
-    <string name="PinTitle">شروع نمونه</string>
+    <string name="PinTitle">بررسی کد پیامکی</string>
     <string name="PinDescription">کد پیامکی ارسال شده به شما را وارد نمایید</string>
     <string name="PinHint">کد 6 رقمی</string>
-    <string name="PinButton">شروع</string>
+    <string name="PinButton">بررسی</string>
     <string name="PinLink">کد پیامکی دریافت نکردی؟ ارسال مجدد</string>
     <string name="PinTimer">کد پیامکی مجددا به شما ارسال شد :</string>
 
@@ -86,6 +86,18 @@
 
     <string name="AuthAccount">حساب کاربری</string>
     <string name="AuthProgressDialogTitle">لطفا منتظر بمانید …</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // prerequisite strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="PrerequisiteTitle">تکمیل پیشنیاز</string>
+    <string name="PrerequisiteDescription">کاربر گرامی، لطفا پیشنیاز های نمونه خواسته شده در زیر تکمیل نمایید</string>
+    <string name="PrerequisiteButton">شروع نمونه</string>
+
+    <string name="PrerequisiteInfoDialogTitle">توجه</string>
+    <string name="PrerequisiteInfoDialogConfirm">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

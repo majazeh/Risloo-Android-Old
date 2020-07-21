@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_prerequisite"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:fitsSystemWindows="true"
+    android:background="@color/White"
+    tools:context=".Views.Ui.Activities.PrerequisiteActivity"
+    tools:ignore="UnusedAttribute">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/activity_prerequisite_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/ToolbarTheme"
+            android:background="@null"
+            app:title="@string/PrerequisiteTitle"
+            app:titleTextAppearance="@style/ToolbarTextAppearance"
+            app:navigationIcon="@drawable/tool_chevron_right"
+            app:contentInsetStartWithNavigation="0dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/_24sdp"
+            android:paddingRight="@dimen/_24sdp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_28sdp"
+                android:gravity="center"
+                android:text="@string/PrerequisiteDescription"
+                android:textSize="@dimen/_13ssp"
+                android:textStyle="bold"
+                android:textColor="@color/Grey"
+                android:textAlignment="gravity" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_prerequisite_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:overScrollMode="never" />
+
+            <Button
+                android:id="@+id/activity_prerequisite_start_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_4sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:gravity="center"
+                android:text="@string/PrerequisiteButton"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                android:textColor="@color/White"
+                android:textAlignment="gravity"
+                android:background="@drawable/draw_18sdp_primary"
+                style="?android:attr/borderlessButtonStyle"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_gravity="bottom"
+        android:background="@color/Quartz" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
