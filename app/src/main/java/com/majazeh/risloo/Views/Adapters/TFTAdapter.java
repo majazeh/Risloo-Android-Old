@@ -89,7 +89,7 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
                     holder.numberTextView.setText("");
                     holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow);
 
-                    holder.itemView.setAlpha((float) 0.4);
+                    holder.itemView.setAlpha((float) 0.3);
                     holder.itemView.setEnabled(false);
                     holder.itemView.setClickable(false);
                 } else {

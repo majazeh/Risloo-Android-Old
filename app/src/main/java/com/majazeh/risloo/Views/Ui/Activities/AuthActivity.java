@@ -236,6 +236,8 @@ public class AuthActivity extends AppCompatActivity {
             }
         }
 
+        AuthController.theory = "auth";
+
         titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
         loadFragment(new SerialFragment(this), 0, 0);
     }

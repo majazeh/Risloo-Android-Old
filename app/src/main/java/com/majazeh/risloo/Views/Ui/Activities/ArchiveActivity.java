@@ -17,6 +17,9 @@ import com.majazeh.risloo.Views.Adapters.ArchiveAdapter;
 
 public class ArchiveActivity extends AppCompatActivity {
 
+    // ViewModels
+    private SampleViewModel viewModel;
+
     // Adapters
     private ArchiveAdapter adapter;
 
@@ -24,9 +27,6 @@ public class ArchiveActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView countTextView;
     private RecyclerView recyclerView;
-
-    // Objects
-    SampleViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,21 +50,18 @@ public class ArchiveActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
 
         adapter = new ArchiveAdapter(this);
-
-
+        adapter.setArchive(viewModel.files());
 
         toolbar = findViewById(R.id.activity_archive_toolbar);
 
         countTextView = findViewById(R.id.activity_archive_count_textView);
+        countTextView.setText(viewModel.files().size() + " " + getResources().getString(R.string.ArchiveCount));
 
         recyclerView = findViewById(R.id.activity_archive_recyclerView);
         recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout",(int) getResources().getDimension(R.dimen._16sdp)));
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
-        if (viewModel.files() != null) {
-            adapter.setArchive(viewModel.files());
-            recyclerView.setAdapter(adapter);
-        }
+        recyclerView.setAdapter(adapter);
     }
 
     private void listener() {

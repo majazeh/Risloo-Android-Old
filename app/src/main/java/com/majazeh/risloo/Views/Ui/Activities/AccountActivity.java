@@ -109,7 +109,6 @@ public class AccountActivity extends AppCompatActivity {
         signOutDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         signOutDialog.setContentView(R.layout.dialog_action);
         signOutDialog.setCancelable(true);
-
         progressDialog = new Dialog(this, R.style.DialogTheme);
         progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

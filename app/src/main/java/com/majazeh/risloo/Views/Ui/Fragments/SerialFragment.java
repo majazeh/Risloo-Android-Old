@@ -27,6 +27,7 @@ import com.majazeh.risloo.Models.Controller.AuthController;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
+import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Ui.Activities.ArchiveActivity;
 import com.majazeh.risloo.Views.Ui.Activities.AuthActivity;
 import com.majazeh.risloo.Views.Ui.Activities.IntroActivity;
@@ -39,6 +40,7 @@ public class SerialFragment extends Fragment {
 
     // ViewModels
     private AuthViewModel viewModel;
+    private SampleViewModel viewModel2;
 
     // Vars
     private String serial = "";
@@ -75,6 +77,7 @@ public class SerialFragment extends Fragment {
 
     private void initializer(View view) {
         viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
+        viewModel2 = ViewModelProviders.of(this).get(SampleViewModel.class);
 
         serialEditText = view.findViewById(R.id.fragment_serial_editText);
         serialEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -148,7 +151,12 @@ public class SerialFragment extends Fragment {
 
     private void setText() {
         serialLinkTextView.setText(StringCustomizer.clickable(activity.getResources().getString(R.string.SerialLink), 18, 25, serialLinkSpan));
-        serialArchiveTextView.setText(StringCustomizer.clickable(activity.getResources().getString(R.string.SerialArchive), 23, 37, serialArchiveSpan));
+        serialArchiveTextView.setText(StringCustomizer.clickable(activity.getResources().getString(R.string.SerialArchive), 28, 42, serialArchiveSpan));
+        if (viewModel2.files() != null) {
+            serialArchiveTextView.setVisibility(View.VISIBLE);
+        } else {
+            serialArchiveTextView.setVisibility(View.GONE);
+        }
     }
 
     private void checkInput() {

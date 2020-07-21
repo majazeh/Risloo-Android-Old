@@ -7,16 +7,18 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:clipToPadding="true"
-    app:cardCornerRadius="@dimen/_16sdp"
+    app:cardCornerRadius="@dimen/_24sdp"
     app:cardElevation="0dp">
 
     <LinearLayout
         android:id="@+id/activity_archive_single_item_root_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_6sdp"
+        android:paddingTop="@dimen/_8sdp"
+        android:paddingBottom="@dimen/_8sdp"
+        android:paddingLeft="@dimen/_6sdp"
+        android:paddingRight="@dimen/_12sdp"
         android:layoutDirection="rtl"
-        android:gravity="center"
         android:orientation="horizontal"
         android:background="@color/Snow"
         tools:ignore="UnusedAttribute">
@@ -31,9 +33,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/_minus1sdp"
                 android:gravity="center"
                 android:text="@string/ArchiveSerial"
-                android:textSize="@dimen/_11ssp"
+                android:textSize="@dimen/_8ssp"
                 android:textStyle="normal"
                 android:textColor="@color/Mischka"
                 android:textAlignment="gravity" />
@@ -42,37 +45,9 @@
                 android:id="@+id/activity_archive_single_item_serial_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_minus1sdp"
                 android:gravity="center"
-                android:textSize="@dimen/_11ssp"
-                android:textStyle="bold"
-                android:textColor="@color/PrimaryDark"
-                android:textAlignment="gravity" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/ArchiveDate"
-                android:textSize="@dimen/_11ssp"
-                android:textStyle="normal"
-                android:textColor="@color/Mischka"
-                android:textAlignment="gravity" />
-
-            <TextView
-                android:id="@+id/activity_archive_single_item_date_textView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:textSize="@dimen/_11ssp"
+                android:textSize="@dimen/_10ssp"
                 android:textStyle="bold"
                 android:textColor="@color/Grey"
                 android:textAlignment="gravity" />
@@ -89,9 +64,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/_minus1sdp"
                 android:gravity="center"
                 android:text="@string/ArchiveStatus"
-                android:textSize="@dimen/_11ssp"
+                android:textSize="@dimen/_8ssp"
                 android:textStyle="normal"
                 android:textColor="@color/Mischka"
                 android:textAlignment="gravity" />
@@ -100,20 +76,33 @@
                 android:id="@+id/activity_archive_single_item_status_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_minus1sdp"
                 android:gravity="center"
-                android:textSize="@dimen/_11ssp"
+                android:textSize="@dimen/_10ssp"
                 android:textStyle="bold"
+                android:textColor="@color/MoonYellow"
                 android:textAlignment="gravity" />
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/activity_archive_single_item_avatar_imageView"
+        <FrameLayout
+            android:layout_width="@dimen/_1sdp"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/_6sdp"
+            android:paddingBottom="@dimen/_6sdp"
+            android:background="@color/Solitude" />
+
+        <TextView
+            android:id="@+id/activity_archive_single_item_continue_textView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="@dimen/_6sdp"
-            android:tint="@color/Grey" />
+            android:gravity="center"
+            android:text="@string/ArchiveContinue"
+            android:textSize="@dimen/_10ssp"
+            android:textStyle="bold"
+            android:textColor="@color/PrimaryDark"
+            android:textAlignment="gravity" />
 
     </LinearLayout>
 

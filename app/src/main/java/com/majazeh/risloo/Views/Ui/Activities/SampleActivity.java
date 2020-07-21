@@ -190,8 +190,6 @@ public class SampleActivity extends AppCompatActivity {
 
             if (viewModel.next() == null) {
                 if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
-                    Intent intent = new Intent(this,OutroActivity.class);
-
                     startActivity(new Intent(this, OutroActivity.class));
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                     finish();
@@ -223,7 +221,6 @@ public class SampleActivity extends AppCompatActivity {
             handler.postDelayed(() -> navigateImageView.setClickable(true), 1000);
             dialogNavigateRecyclerView.scrollToPosition(viewModel.getCurrentIndex());
             navigateDialog.show();
-
         });
 
         navigateDialogConfirm.setOnClickListener(v -> {
@@ -260,6 +257,7 @@ public class SampleActivity extends AppCompatActivity {
 
     public void showFragment(String type) {
         indexTextView.setText(viewModel.getCurrentIndex() + 1 + " " + "از" + " " + viewModel.getSize());
+        dialogNavigateRecyclerView.scrollToPosition(viewModel.getCurrentIndex());
         flowProgressBar.setMax(viewModel.getSize());
         flowProgressBar.setProgress(viewModel.answerSize(sharedPreferences.getString("sampleId", "")));
         adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
