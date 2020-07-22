@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_intro"
@@ -8,8 +9,7 @@
     android:layoutDirection="rtl"
     android:fitsSystemWindows="false"
     android:background="@color/White"
-    tools:context=".Views.Ui.Activities.IntroActivity"
-    tools:ignore="UnusedAttribute">
+    tools:context=".Views.Ui.Activities.IntroActivity">
 
     <com.duolingo.open.rtlviewpager.RtlViewPager
         android:id="@+id/activity_intro_rtlViewPager"
@@ -52,7 +52,7 @@
         android:layout_marginBottom="@dimen/_80sdp"
         android:orientation="horizontal" />
 
-    <FrameLayout
+    <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
         android:layout_gravity="bottom"

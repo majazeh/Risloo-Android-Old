@@ -6,14 +6,15 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.majazeh.risloo.Models.Controller.ExplodeController;
 import com.majazeh.risloo.Models.Remotes.Apis.ExplodeApi;
 import com.majazeh.risloo.Models.Remotes.Generators.RetroGenerator;
-import com.majazeh.risloo.Models.Repositories.ExplodeRepository;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -52,11 +53,8 @@ public class ExplodeWorker extends Worker {
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
-
-                ExplodeRepository.workState.postValue(1);
-
-                JSONObject jsonObject = new JSONObject(bodyResponse.body().string());
-                JSONObject android = jsonObject.getJSONObject("android");
+                JSONObject succesBody = new JSONObject(bodyResponse.body().string());
+                JSONObject android = succesBody.getJSONObject("android");
 
                 if (Integer.parseInt(android.getString("current")) < Integer.parseInt(android.getString("force"))) {
                     // TODO: Force Update
@@ -64,12 +62,30 @@ public class ExplodeWorker extends Worker {
                     // TODO: Normal Update
                 }
 
+                ExplodeController.exception = "موفقیت آمیز";
+                ExplodeController.workState.postValue(1);
             } else {
-                ExplodeRepository.workState.postValue(0);
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExplodeController.exception = errorBody.getString("message_text");
+                ExplodeController.workState.postValue(0);
             }
 
-        } catch (IOException | JSONException e) {
+        } catch (SocketTimeoutException e) {
             e.printStackTrace();
+
+            ExplodeController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
+            ExplodeController.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExplodeController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
+            ExplodeController.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExplodeController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
+            ExplodeController.workState.postValue(0);
         }
     }
 

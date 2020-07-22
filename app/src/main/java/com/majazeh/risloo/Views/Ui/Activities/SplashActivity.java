@@ -25,9 +25,11 @@ import com.majazeh.risloo.ViewModels.ExplodeViewModel;
 
 public class SplashActivity extends AppCompatActivity {
 
+    // ViewModels
+    private ExplodeViewModel viewModel;
+
     // Class
     private IntentCaller intentCaller;
-    private ExplodeViewModel viewModel;
 
     // Vars
     private String update = "";
@@ -156,7 +158,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void checkUpdate() {
-        if (newUpdate()) {
+        if (hasUpdate()) {
             if (forceUpdate()) {
                 updateDialogTitle.setText(newVersion());
                 updateDialogDescription.setText(getResources().getString(R.string.SplashUpdateDialogForceDescription));
@@ -181,9 +183,8 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
-    private boolean newUpdate() {
-        // TODO : Check The Server For New Version For Our App
-        return false;
+    private boolean hasUpdate() {
+        return viewModel.hasUpdate();
     }
 
     private boolean forceUpdate() {
@@ -201,8 +202,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private String newVersion() {
-        // TODO : Get The New Version From Server And Return It
-        return getResources().getString(R.string.SplashVersion) + " " + "1.1.0" + " " + getResources().getString(R.string.SplashArrived);
+        return getResources().getString(R.string.SplashVersion) + " " + viewModel.getVersion() + " " + getResources().getString(R.string.SplashArrived);
     }
 
     private void launchIntro() {
@@ -215,7 +215,6 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-
         handler.removeCallbacksAndMessages(null);
     }
 

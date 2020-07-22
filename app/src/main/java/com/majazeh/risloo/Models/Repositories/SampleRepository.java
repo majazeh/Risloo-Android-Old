@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Environment;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MediatorLiveData;
@@ -52,7 +51,7 @@ public class SampleRepository extends MainRepository {
     public static MutableLiveData<Integer> workStateAnswer = new MediatorLiveData<>();
     public static ArrayList<ArrayList<Integer>> localData = new ArrayList<>();
     public static ArrayList<ArrayList<Integer>> remoteData = new ArrayList<>();
-    public static boolean inProgress = false, cache = false;
+    public static boolean cache = false;
 
     public SampleRepository(@NonNull Application application, String testUniqueId) throws JSONException {
         super(application);
@@ -261,7 +260,6 @@ public class SampleRepository extends MainRepository {
             }
             if (remoteData.size() == 0) {
                 insertLocalDataToRemoteData();
-                inProgress = true;
 
                 OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SampleWorker.class)
                         .setInputData(data("sendAnswers", UniqueId))

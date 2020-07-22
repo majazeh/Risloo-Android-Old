@@ -21,9 +21,7 @@ public class ExplodeViewModel extends AndroidViewModel {
     }
 
     public void explode() throws JSONException {
-        repository.work = "explode";
-        repository.workState.setValue(-1);
-        repository.workManager("explode");
+        repository.explode();
     }
 
     public boolean hasUpdate(){

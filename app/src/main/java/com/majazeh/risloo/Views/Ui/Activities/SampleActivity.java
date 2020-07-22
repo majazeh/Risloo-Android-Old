@@ -40,11 +40,7 @@ import com.majazeh.risloo.Views.Ui.Fragments.TFPFragment;
 import com.majazeh.risloo.Views.Ui.Fragments.TFTFragment;
 import com.majazeh.risloo.Views.Ui.Fragments.TPFragment;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.logging.Logger;
 
 public class SampleActivity extends AppCompatActivity {
 
