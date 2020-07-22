@@ -102,10 +102,18 @@ public class ItemDecorator extends RecyclerView.ItemDecoration {
             case "listLayout":
 
                 // Top Margin
-                rect.top = margin / 2;
+                if (position == 0) {
+                    rect.top = margin;
+                } else {
+                    rect.top = (int) (margin / 1.5);
+                }
 
                 // Bottom Margin
-                rect.bottom = margin / 2;
+                if (count > 0 && position == count - 1) {
+                    rect.bottom = margin;
+                } else {
+                    rect.bottom = (int) (margin / 1.5);
+                }
 
                 // Right And Left Margins
                 rect.right = margin;
@@ -118,14 +126,14 @@ public class ItemDecorator extends RecyclerView.ItemDecoration {
                 if (position == 0) {
 
                 } else {
-                    rect.top = margin / 2;
+                    rect.top = (int) (margin / 1.5);
                 }
 
                 // Bottom Margin
                 if (count > 0 && position == count - 1) {
 
                 } else {
-                    rect.bottom = margin / 2;
+                    rect.bottom = (int) (margin / 1.5);
                 }
 
                 // Right And Left Margins

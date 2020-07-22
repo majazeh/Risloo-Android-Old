@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -53,18 +52,20 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
         try {
             if (questions.get(i).get("important").equals(true)) {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    holder.rootLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_primary_ripple);
+                    holder.itemView.setBackgroundResource(R.drawable.draw_18sdp_quartz_border_ripple);
                 } else {
-                    holder.rootLinearLayout.setBackgroundResource(R.color.Primary);
+                    holder.itemView.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
                 }
-                holder.subjectTextView.setTextColor(activity.getResources().getColor(R.color.White));
-                ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.White));
+
+                holder.subjectTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
             } else {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    holder.rootLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solitude_ripple);
+                    holder.itemView.setBackgroundResource(R.drawable.draw_18sdp_quartz_border_ripple);
                 } else {
-                    holder.rootLinearLayout.setBackgroundResource(R.color.Solitude);
+                    holder.itemView.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
                 }
+
                 holder.subjectTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
                 ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Grey));
             }
@@ -83,19 +84,19 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
             if (position == i) {
                 if (!expandedQuestions.get(i)){
                     holder.answerTextView.setVisibility(View.VISIBLE);
-                    holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_minus));
+                    holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_up));
 
                     expandedQuestions.set(i, true);
                 } else {
                     holder.answerTextView.setVisibility(View.GONE);
-                    holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_plus));
+                    holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_down));
 
                     expandedQuestions.set(i, false);
                 }
             } else {
                 if (!expandedQuestions.get(i)){
                     holder.answerTextView.setVisibility(View.GONE);
-                    holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_plus));
+                    holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_down));
 
                     expandedQuestions.set(i, false);
                 }
@@ -129,13 +130,11 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
     public class QuestionHolder extends RecyclerView.ViewHolder {
 
-        public LinearLayout rootLinearLayout;
         public TextView subjectTextView, answerTextView;
         public ImageView expandImageView;
 
         public QuestionHolder(View view) {
             super(view);
-            rootLinearLayout = view.findViewById(R.id.activity_question_single_item_root_linearLayout);
             subjectTextView = view.findViewById(R.id.activity_question_single_item_subject_textView);
             answerTextView = view.findViewById(R.id.activity_question_single_item_answer_textView);
             expandImageView = view.findViewById(R.id.activity_question_single_item_expand_imageView);

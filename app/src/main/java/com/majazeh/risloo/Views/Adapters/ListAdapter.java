@@ -24,6 +24,10 @@ import java.util.ArrayList;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
+    // Vars
+    private String asset;
+    private ArrayList<Model> list;
+
     // ViewModel
     private AboutUsViewModel aboutUsViewModel;
     private TermConditionViewModel termConditionViewModel;
@@ -31,10 +35,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
     // Adapters
     private SubListBigAdapter subListBigAdapter;
     private SubListSmallAdapter subListSmallAdapter;
-
-    // Vars
-    private String asset;
-    private ArrayList<Model> list;
 
     // Objects
     private Activity activity;
@@ -68,10 +68,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
                 }
 
                 holder.recyclerView.setVisibility(View.VISIBLE);
+
                 holder.recyclerView.addItemDecoration(new ItemDecorator("subListLayout",(int) activity.getResources().getDimension(R.dimen._12sdp)));
                 holder.recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
                 holder.recyclerView.setHasFixedSize(true);
                 holder.recyclerView.setAdapter(subListBigAdapter);
+
             } else if (list.get(i).get("subset").equals("small")){
                 if (asset.equals("AboutUs")) {
                     subListSmallAdapter.setSubListSmall(aboutUsViewModel.getAllSubset(i));
@@ -80,13 +82,16 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
                 }
 
                 holder.recyclerView.setVisibility(View.VISIBLE);
-                holder.recyclerView.addItemDecoration(new ItemDecorator("subListLayout",(int) activity.getResources().getDimension(R.dimen._12sdp)));
+
+                holder.recyclerView.addItemDecoration(new ItemDecorator("subListLayout",(int) activity.getResources().getDimension(R.dimen._8sdp)));
                 holder.recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
                 holder.recyclerView.setHasFixedSize(true);
                 holder.recyclerView.setAdapter(subListSmallAdapter);
+
             } else if (list.get(i).get("subset").equals("none")){
                 holder.recyclerView.setVisibility(View.GONE);
             }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

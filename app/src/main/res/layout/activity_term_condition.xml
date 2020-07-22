@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_term_condition"
@@ -8,8 +9,7 @@
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
     android:background="@color/White"
-    tools:context=".Views.Ui.Activities.TermConditionActivity"
-    tools:ignore="UnusedAttribute">
+    tools:context=".Views.Ui.Activities.TermConditionActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,11 +21,16 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/ToolbarTheme"
-            android:background="@null"
+            android:background="@color/Snow"
             app:title="@string/TermConditionTitle"
             app:titleTextAppearance="@style/ToolbarTextAppearance"
             app:navigationIcon="@drawable/tool_chevron_right"
             app:contentInsetStartWithNavigation="0dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/Quartz" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/activity_term_condition_recyclerView"
@@ -35,7 +40,7 @@
 
     </LinearLayout>
 
-    <FrameLayout
+    <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
         android:layout_gravity="bottom"
