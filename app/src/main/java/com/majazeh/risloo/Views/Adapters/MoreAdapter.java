@@ -19,12 +19,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.IntentCaller;
+import com.majazeh.risloo.ViewModels.ExplodeViewModel;
 import com.majazeh.risloo.Views.Ui.Activities.AboutUsActivity;
 import com.majazeh.risloo.Views.Ui.Activities.CallUsActivity;
 import com.majazeh.risloo.Views.Ui.Activities.MoreActivity;
@@ -37,6 +39,9 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
+
+    // ViewModels
+    private ExplodeViewModel viewModel;
 
     // Class
     private IntentCaller intentCaller;
@@ -72,13 +77,13 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
 
         try {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                holder.rootCoordinatorLayout.setBackgroundResource(R.drawable.draw_16sdp_snow_ripple);
+                holder.itemView.setBackgroundResource(R.drawable.draw_18sdp_quartz_border_ripple);
             }
 
             if (i != mores.size() - 1) {
                 holder.titleTextView.setText(mores.get(i).get("title").toString());
             } else {
-                if (newUpdate()) {
+                if (hasUpdate()) {
                     holder.titleTextView.setText(activity.getResources().getString(R.string.MoreUpdate));
                     holder.updateTextView.setVisibility(View.VISIBLE);
                 } else {
@@ -106,6 +111,8 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
     }
 
     private void initializer(View view) {
+        viewModel = ViewModelProviders.of((FragmentActivity) activity).get(ExplodeViewModel.class);
+
         intentCaller = new IntentCaller();
         socialDialog = new SocialDialog(activity);
 
@@ -151,7 +158,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
 
                 listener();
 
-                if (newUpdate()) {
+                if (hasUpdate()) {
                     availableUpdateDialogTitle.setText(newVersion());
                     availableUpdateDialog.show();
                 } else {
@@ -237,9 +244,8 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
         availableUpdateDialog.setOnCancelListener(dialog -> availableUpdateDialog.dismiss());
     }
 
-    private boolean newUpdate() {
-        // TODO : Check The Server For New Version For Our App
-        return false;
+    private boolean hasUpdate() {
+        return viewModel.hasUpdate();
     }
 
     private String appVersion() {
@@ -252,19 +258,16 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
     }
 
     private String newVersion() {
-        // TODO : Get The New Version From Server And Return It
-        return activity.getResources().getString(R.string.MoreVersion) + " " + "1.1.0" + " " + activity.getResources().getString(R.string.MoreArrived);
+        return activity.getResources().getString(R.string.MoreVersion) + " " + viewModel.version() + " " + activity.getResources().getString(R.string.MoreArrived);
     }
 
     public class MoreHolder extends RecyclerView.ViewHolder {
 
-        public CoordinatorLayout rootCoordinatorLayout;
         public TextView titleTextView, updateTextView;
         public ImageView avatarImageView;
 
         public MoreHolder(View view) {
             super(view);
-            rootCoordinatorLayout = view.findViewById(R.id.activity_more_single_item_root_coordinatorLayout);
             titleTextView = view.findViewById(R.id.activity_more_single_item_title_textView);
             updateTextView = view.findViewById(R.id.activity_more_single_item_update_textView);
             avatarImageView = view.findViewById(R.id.activity_more_single_item_avatar_imageView);

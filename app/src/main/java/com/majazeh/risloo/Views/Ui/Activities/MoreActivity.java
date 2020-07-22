@@ -42,7 +42,7 @@ public class MoreActivity extends AppCompatActivity {
 
     private void decorator() {
         WindowDecorator windowDecorator = new WindowDecorator();
-        windowDecorator.lightWindow(this, R.color.White, R.color.Snow);
+        windowDecorator.lightWindow(this, R.color.Snow, R.color.Snow);
     }
 
     private void initializer() {
