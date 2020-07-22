@@ -133,7 +133,7 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
     public void writeAnswerToCache(JSONArray jsonArray, String fileName) {
-        repository.writeToCache(jsonArray,  fileName);
+        repository.writeAnswerToCache(jsonArray,  fileName);
     }
 
     public JSONArray readAnswerFromCache(String fileName) {
@@ -143,5 +143,7 @@ public class SampleViewModel extends AndroidViewModel {
     public void saveAnswerToExternal(JSONArray jsonArray, String fileName) {
         repository.saveToExternal(jsonArray, fileName);
     }
-
-}
+    public void checkStorage() {
+        repository.checkStorage();
+    }
+    }

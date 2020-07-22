@@ -15,7 +15,6 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Controller.AuthController;
 import com.majazeh.risloo.Models.Controller.SampleController;
 import com.majazeh.risloo.Models.Controller.SampleItems;
 import com.majazeh.risloo.Models.Remotes.Generators.JSONGenerator;
@@ -33,7 +32,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 public class SampleRepository extends MainRepository {
 
@@ -66,14 +64,25 @@ public class SampleRepository extends MainRepository {
         sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
         if (isNetworkConnected()) {
-            sampleController.getSampleFromAPI("getSample", AuthController.sampleId);
-
+            workStateSample = new MutableLiveData<>();
+            sampleController.getSampleFromAPI("getSample", sharedPreferences.getString("sampleId", ""));
             workStateSample.observeForever(integer -> {
                 if (integer == 1) {
                     try {
                         JSONObject jsonObject = sampleController.readJsonFromCache(application.getApplicationContext(), sharedPreferences.getString("sampleId", ""));
                         JSONObject data = jsonObject.getJSONObject("data");
                         sampleItems = new SampleItems(data.getJSONArray("items"));
+                        checkStorage();
+                        JSONArray jsonArray = readAnswerFromCache(sharedPreferences.getString("sampleId", ""));
+                        for (int i = 0; i < sampleItems.size(); i++) {
+                            if (sampleItems.userAnswer(i) != -1) {
+                                jsonArray.getJSONObject(i).put("index", i);
+                                jsonArray.getJSONObject(i).put("answer", sampleItems.userAnswer(i));
+                                writeAnswerToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
+                            }
+                        }
+                        if (readAnswerFromCache(sharedPreferences.getString("sampleId", "")) != null)
+                            sampleItems.setCurrentIndex(lastUnAnswer(sharedPreferences.getString("sampleId", "")));
                         workStateSample.removeObserver(integer1 -> {
                         });
                     } catch (JSONException e) {
@@ -193,7 +202,7 @@ public class SampleRepository extends MainRepository {
         ArrayList<Model> arrayList = new ArrayList<Model>();
         File file = new File(application.getCacheDir(), "Samples");
         File[] list = file.listFiles();
-        if (list != null){
+        if (list != null) {
             for (int i = 0; i < list.length; i++) {
                 JSONObject jsonObject = new JSONObject();
                 try {
@@ -213,8 +222,8 @@ public class SampleRepository extends MainRepository {
                     e.printStackTrace();
                 }
             }
-        return arrayList;
-    }else{
+            return arrayList;
+        } else {
             return null;
         }
     }
@@ -264,12 +273,13 @@ public class SampleRepository extends MainRepository {
             cache = true;
         }
     }
-    public void writeToCache(JSONArray jsonArray, String fileName) {
+
+    public void writeAnswerToCache(JSONArray jsonArray, String fileName) {
         try {
-            File file = new File(application.getApplicationContext().getCacheDir(),"Answers/" +  fileName);
+            File file = new File(application.getApplicationContext().getCacheDir(), "Answers/" + fileName);
             if (!file.getParentFile().exists())
                 file.getParentFile().mkdirs();
-            if (!file.exists()){
+            if (!file.exists()) {
                 file.createNewFile();
             }
             FileOutputStream fos = new FileOutputStream(file);
@@ -312,7 +322,7 @@ public class SampleRepository extends MainRepository {
 
 
     public boolean hasStorage(String fileName) {
-       return new File(application.getApplicationContext().getCacheDir(), "Answers/" + fileName).exists();
+        return new File(application.getApplicationContext().getCacheDir(), "Answers/" + fileName).exists();
     }
 
     public void deleteStorage(String fileName) {
@@ -361,6 +371,23 @@ public class SampleRepository extends MainRepository {
             }
         }
         return -1;
+    }
+
+    public void checkStorage() {
+        if (!hasStorage(sharedPreferences.getString("sampleId", ""))) {
+            JSONArray jsonArray = new JSONArray();
+            for (int i = 0; i < items().size(); i++) {
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("index", i);
+                    jsonObject.put("answer", "");
+                    jsonArray.put(jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            writeAnswerToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
+        }
     }
 
 }

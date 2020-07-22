@@ -2,6 +2,7 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -34,19 +36,21 @@ public class AuthWorker extends Worker {
     private String token;
 
     public AuthWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
-        super(context, workerParams);
+            super(context, workerParams);
 
-        authApi = RetroGenerator.getRetrofit().create(AuthApi.class);
+            authApi = RetroGenerator.getRetrofit().create(AuthApi.class);
 
-        sharedPreferences = context.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+            sharedPreferences = context.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
-        editor = sharedPreferences.edit();
-        editor.apply();
+            editor = sharedPreferences.edit();
+            editor.apply();
+
     }
 
     @NonNull
     @Override
     public Result doWork() {
+
         String work = getInputData().getString("work");
 
         if (work != null) {
@@ -81,8 +85,8 @@ public class AuthWorker extends Worker {
     public void auth() {
         try {
 
-            if (!AuthController.token.isEmpty()) {
-                token = "Bearer " + AuthController.token;
+            if (!sharedPreferences.getString("token", "").equals("")) {
+                token = "Bearer " + sharedPreferences.getString("token", "");
             } else {
                 token = "";
             }
@@ -114,26 +118,33 @@ public class AuthWorker extends Worker {
                     AuthController.token = jsonObject.getString("token");
                     editor.putString("token", AuthController.token);
                     editor.apply();
+                    me();
                 }
                 AuthController.exception = "";
                 AuthController.workState.postValue(1);
 
             } else {
-                AuthController.exception = "";
-                AuthController.workState.postValue(0);
+                //AuthController.exception = "";
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
                 AuthController.exception = errorBody.getString("message_text");
+                AuthController.workState.postValue(0);
             }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+            AuthController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
+            AuthController.workState.postValue(0);
 
         } catch (JSONException | IOException e) {
             e.printStackTrace();
+            AuthController.workState.postValue(0);
         }
     }
 
     public void authTheory() {
         try {
 
-            if (!AuthController.token.isEmpty()) {
+            if (!sharedPreferences.getString("token", "").equals("")) {
                 token = "Bearer " + AuthController.token;
             } else {
                 token = "";
@@ -166,19 +177,27 @@ public class AuthWorker extends Worker {
                     AuthController.token = jsonObject.getString("token");
                     editor.putString("token", AuthController.token);
                     editor.apply();
+                    me();
                 }
                 AuthController.exception = "";
                 AuthController.workState.postValue(1);
 
             } else {
-                AuthController.exception = "";
-                AuthController.workState.postValue(0);
+                //AuthController.exception = "";
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
                 AuthController.exception = errorBody.getString("message_text");
+                AuthController.workState.postValue(0);
             }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+            AuthController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
+            AuthController.workState.postValue(0);
+
 
         } catch (JSONException | IOException e) {
             e.printStackTrace();
+            AuthController.workState.postValue(0);
         }
     }
 
@@ -212,21 +231,27 @@ public class AuthWorker extends Worker {
                     AuthController.token = jsonObject.getString("token");
                     editor.putString("token", AuthController.token);
                     editor.apply();
+                    me();
                 }
                 AuthController.exception = "";
                 AuthController.workState.postValue(1);
 
             } else {
-                AuthController.exception = "";
-                AuthController.workState.postValue(0);
+                //AuthController.exception = "";
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
                 AuthController.exception = errorBody.getString("message_text");
+                AuthController.workState.postValue(0);
             }
 
-        } catch (IOException e) {
+        } catch (SocketTimeoutException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
+            AuthController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
+            AuthController.workState.postValue(0);
+
+
+        } catch (JSONException | IOException e) {
             e.printStackTrace();
+            AuthController.workState.postValue(0);
         }
     }
 
@@ -259,21 +284,27 @@ public class AuthWorker extends Worker {
                     AuthController.token = jsonObject.getString("token");
                     editor.putString("token", AuthController.token);
                     editor.apply();
+                    me();
                 }
                 AuthController.exception = "";
                 AuthController.workState.postValue(1);
 
             } else {
-                AuthController.exception = "";
-                AuthController.workState.postValue(0);
+                //AuthController.exception = "";
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
                 AuthController.exception = errorBody.getString("message_text");
+                AuthController.workState.postValue(0);
             }
 
-        } catch (IOException e) {
+        } catch (SocketTimeoutException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
+            AuthController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
+            AuthController.workState.postValue(0);
+
+
+        } catch (JSONException | IOException e) {
             e.printStackTrace();
+            AuthController.workState.postValue(0);
         }
     }
 
@@ -306,21 +337,27 @@ public class AuthWorker extends Worker {
                     AuthController.token = jsonObject.getString("token");
                     editor.putString("token", AuthController.token);
                     editor.apply();
+                    me();
                 }
                 AuthController.exception = "";
                 AuthController.workState.postValue(1);
 
             } else {
-                AuthController.exception = "";
-                AuthController.workState.postValue(0);
+                //AuthController.exception = "";
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
                 AuthController.exception = errorBody.getString("message_text");
+                AuthController.workState.postValue(0);
             }
 
-        } catch (IOException e) {
+        } catch (SocketTimeoutException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
+            AuthController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
+            AuthController.workState.postValue(0);
+
+
+        } catch (JSONException | IOException e) {
             e.printStackTrace();
+            AuthController.workState.postValue(0);
         }
     }
 
@@ -369,4 +406,11 @@ public class AuthWorker extends Worker {
             e.printStackTrace();
         }
     }
+
+    private boolean isNetworkConnected(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+    }
+
 }

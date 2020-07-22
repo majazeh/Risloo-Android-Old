@@ -2,20 +2,29 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.majazeh.risloo.Models.Remotes.Apis.SampleApi;
 import com.majazeh.risloo.Models.Remotes.Generators.RetroGenerator;
 import com.majazeh.risloo.Models.Controller.SampleController;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Logger;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -48,6 +57,7 @@ public class SampleWorker extends Worker {
 
         editor = sharedPreferences.edit();
         editor.apply();
+
     }
 
     @NonNull
@@ -56,6 +66,7 @@ public class SampleWorker extends Worker {
         String work = getInputData().getString("work");
 
         if (work != null) {
+
             switch (work) {
                 case "getSample":
                     getSample();
@@ -70,6 +81,7 @@ public class SampleWorker extends Worker {
     }
 
     private void getSample() {
+
         try {
             Call<ResponseBody> call = sampleApi.get("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""));
 
@@ -79,7 +91,6 @@ public class SampleWorker extends Worker {
                 JSONObject jsonObject = new JSONObject(bodyResponse.body().string());
                 sampleController.saveJsonToCache(context, jsonObject, sharedPreferences.getString("sampleId", ""));
                 SampleRepository.workStateSample.postValue(1);
-
             } else {
                 SampleRepository.workStateSample.postValue(0);
                 SampleRepository.exception = bodyResponse.message();
@@ -94,7 +105,12 @@ public class SampleWorker extends Worker {
 
     private void sendAnswers() {
         try {
-            Call<ResponseBody> call = sampleApi.send("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""), SampleRepository.remoteData);
+           JSONObject jsonObject = new JSONObject();
+            JSONArray array = new JSONArray(SampleRepository.remoteData);
+            jsonObject.put("items", SampleRepository.remoteData);
+            JsonElement root = new JsonParser().parse(String.valueOf(jsonObject));
+
+            Call<ResponseBody> call = sampleApi.send("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""), jsonObject);
 
             Response<ResponseBody> bodyResponse = call.execute();
             SampleRepository.cache = false;
@@ -113,6 +129,8 @@ public class SampleWorker extends Worker {
             SampleRepository.inProgress = false;
 
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }

@@ -44,6 +44,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.logging.Logger;
+
 public class SampleActivity extends AppCompatActivity {
 
     // ViewModels
@@ -83,10 +85,10 @@ public class SampleActivity extends AppCompatActivity {
                 startActivity(new Intent(this, OutroActivity.class));
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 finish();
-            }else{
+            } else {
                 observeWork();
             }
-        }else{
+        } else {
             observeWork();
         }
     }
@@ -290,19 +292,20 @@ public class SampleActivity extends AppCompatActivity {
             SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
                 if (integer == 1) {
                     try {
-                        checkStorage();
+                        viewModel.checkStorage();
+                        Log.e("observeWork: ", String.valueOf(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", ""))));
                         adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
                         if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
                             finish();
                             return;
                         }
                         viewModel.setIndex(viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")));
-
                         progressDialog.dismiss();
                         showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
                     SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     // TODO: get exception
@@ -314,7 +317,7 @@ public class SampleActivity extends AppCompatActivity {
         } else {
             if (viewModel.getItems() != null) {
                 try {
-                    checkStorage();
+                    viewModel.checkStorage();
                     viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", ""));
                     if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
                         startActivity(new Intent(this, OutroActivity.class));
@@ -341,22 +344,7 @@ public class SampleActivity extends AppCompatActivity {
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
-    private void checkStorage() {
-        if (!viewModel.hasStorage(sharedPreferences.getString("sampleId", ""))) {
-            JSONArray jsonArray = new JSONArray();
-            for (int i = 0; i < viewModel.getSize(); i++) {
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("index", i);
-                    jsonObject.put("answer", "");
-                    jsonArray.put(jsonObject);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            viewModel.writeAnswerToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
-        }
-    }
+
 
     @Override
     public void onBackPressed() {

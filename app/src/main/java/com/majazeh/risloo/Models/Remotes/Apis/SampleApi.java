@@ -1,9 +1,19 @@
 package com.majazeh.risloo.Models.Remotes.Apis;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -12,12 +22,13 @@ import retrofit2.http.Path;
 
 public interface SampleApi {
 
-    @Headers({"content-type: application/x-www-form-urlencoded"})
+    @Headers({"content-type: application/json"})
     @GET("$/samples/{sample_id}")
     Call<ResponseBody> get(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
 
     @Headers({"content-type: application/x-www-form-urlencoded"})
+    @FormUrlEncoded
     @POST("$/samples/{sample_id}/items")
-    Call<ResponseBody> send(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Header("items") ArrayList<ArrayList<Integer>> items);
+    Call<ResponseBody> send(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Field("items") JSONObject items);
 
 }

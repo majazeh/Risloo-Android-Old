@@ -59,7 +59,6 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull TFTHolder holder, int i) {
-
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             holder.rootLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_quartz_border_ripple);
         }
@@ -102,8 +101,9 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
                 }
             }
         }
-
+        Log.e("test1", String.valueOf(viewModel.getCurrentIndex()));
         holder.itemView.setOnClickListener(v -> {
+
             handler.postDelayed(() -> doWork(i), 500);
 
             position = i;
@@ -121,7 +121,6 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
 
     private void initializer(View view) {
         handler = new Handler();
-
         sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
     }
     public void setAnswer(ArrayList<String> answers, int position) {
@@ -137,16 +136,20 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
             jsonArray.getJSONObject(viewModel.getCurrentIndex()).put("answer", position);
             viewModel.writeAnswerToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
             //////////////////////////////////////////////////////////////////////////////////////////////////
+            if (viewModel.next() == null) {
                 if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
                     activity.startActivity(new Intent(activity, OutroActivity.class));
                     activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                     activity.finish();
                     return;
                 }
-
-
-            viewModel.setIndex(viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")));
+                viewModel.setIndex(viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")));
+            }
+            try {
             ((SampleActivity) Objects.requireNonNull(activity)).showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             viewModel.insertToLocalData(viewModel.getCurrentIndex(), position);
             viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
         } catch (JSONException e) {

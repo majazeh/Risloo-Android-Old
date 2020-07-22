@@ -140,12 +140,10 @@ public class AuthActivity extends AppCompatActivity {
                     callTimer.removeObservers((LifecycleOwner) this);
                     if (AuthController.key.equals("")) {
                         if (AuthController.callback.equals("")) {
-                            startActivity(new Intent(this, SampleActivity.class));
-                            try {
-                                viewModel.me();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                            AuthController.theory = "auth";
+                            showFragment();
+                            //startActivity(new Intent(this, SampleActivity.class));
+                            //viewModel.me();
                         } else {
                             AuthController.theory = "mobile";
                             showFragment();
@@ -164,11 +162,6 @@ public class AuthActivity extends AppCompatActivity {
                             editor.apply();
 
                             startActivity(new Intent(this, SampleActivity.class));
-                            try {
-                                viewModel.me();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
                             AuthController.workState.removeObservers((LifecycleOwner) this);
                         } else {
                             showFragment();
@@ -176,12 +169,22 @@ public class AuthActivity extends AppCompatActivity {
                         }
                     }
                 }
+                if (toolUser != null){
+                    if (sharedPreferences.getString("token", "").equals("")){
+                        toolUser.setVisible(false);
+                    }else{
+                        toolUser.setVisible(true);
+                    }
+                }
                 progressDialog.dismiss();
             } else if (AuthController.workState.getValue() == 0) {
                 AuthController.workState.removeObservers((LifecycleOwner) this);
                 progressDialog.dismiss();
                 Toast.makeText(this, "" + AuthController.exception, Toast.LENGTH_SHORT).show();
-            } else {
+            } else if (AuthController.workState.getValue() == -2){
+                progressDialog.dismiss();
+                Toast.makeText(this, "شما به اینترنت متصل نیستید!", Toast.LENGTH_SHORT).show();
+            }else{
                 // DO Nothing
             }
         });
@@ -227,7 +230,6 @@ public class AuthActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         if (toolUser != null){
             if (sharedPreferences.getString("token", "").equals("")){
                 toolUser.setVisible(false);

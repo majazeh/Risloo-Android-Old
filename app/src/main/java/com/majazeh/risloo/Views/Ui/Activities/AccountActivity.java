@@ -206,13 +206,18 @@ public class AccountActivity extends AppCompatActivity {
     private JSONArray account() {
         JSONArray items = new JSONArray();
         try {
+            if (!sharedPreferences.getString("name", "").equals("null"))
             items.put(new JSONObject().put("subTitle", sharedPreferences.getString("name", "")).put("title", "نام").put("image", getResources().getDrawable(R.drawable.ic_user_light )));
-            items.put(new JSONObject().put("subTitle", sharedPreferences.getString("mobile", "")).put("title", "شماره همراه").put("image", getResources().getDrawable(R.drawable.ic_mobile )));
-            items.put(new JSONObject().put("subTitle", sharedPreferences.getString("email", "")).put("title", "ایمیل").put("image", getResources().getDrawable(R.drawable.ic_envelope )));
-            if (sharedPreferences.getString("gender", "").equals("male")) {
-                items.put(new JSONObject().put("subTitle", "مرد").put("title", "جنسیت").put("image", getResources().getDrawable(R.drawable.ic_gender )));
-            } else if (sharedPreferences.getString("gender", "").equals("female")) {
-                items.put(new JSONObject().put("subTitle", "زن").put("title", "جنسیت").put("image", getResources().getDrawable(R.drawable.ic_gender )));
+            if (!sharedPreferences.getString("mobile", "").equals("null"))
+                items.put(new JSONObject().put("subTitle", sharedPreferences.getString("mobile", "")).put("title", "شماره همراه").put("image", getResources().getDrawable(R.drawable.ic_mobile )));
+            if (!sharedPreferences.getString("email", "").equals("null"))
+                items.put(new JSONObject().put("subTitle", sharedPreferences.getString("email", "")).put("title", "ایمیل").put("image", getResources().getDrawable(R.drawable.ic_envelope )));
+            if (!sharedPreferences.getString("gender", "").equals("null")) {
+                if (sharedPreferences.getString("gender", "").equals("male")) {
+                    items.put(new JSONObject().put("subTitle", "مرد").put("title", "جنسیت").put("image", getResources().getDrawable(R.drawable.ic_gender)));
+                } else if (sharedPreferences.getString("gender", "").equals("female")) {
+                    items.put(new JSONObject().put("subTitle", "زن").put("title", "جنسیت").put("image", getResources().getDrawable(R.drawable.ic_gender)));
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();

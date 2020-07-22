@@ -2,6 +2,9 @@ package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -19,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Views.Ui.Activities.SampleActivity;
 
 import org.json.JSONException;
 
@@ -28,10 +32,13 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
 
     // Vars
     private ArrayList<Model> archives;
+    String select = "";
 
     // Objects
     private Activity activity;
     private Handler handler;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     // Widgets
     private TextView continueDialogTitle, continueDialogDescription, continueDialogPositive, continueDialogNegative;
@@ -70,6 +77,11 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
         }
 
         holder.itemView.setOnClickListener(v -> {
+            try {
+                select = archives.get(i).get("serial").toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             holder.itemView.setClickable(false);
             handler.postDelayed(() -> holder.itemView.setClickable(true), 1000);
             continueDialog.show();
@@ -83,6 +95,9 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
     }
 
     private void initializer(View view) {
+        sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
         handler = new Handler();
 
         continueDialog = new Dialog(activity, R.style.DialogTheme);
@@ -121,7 +136,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
             handler.postDelayed(() -> continueDialogPositive.setClickable(true), 1000);
             continueDialog.dismiss();
 
-            doWork();
+            doWork(select);
         });
 
         continueDialogNegative.setOnClickListener(v -> {
@@ -138,8 +153,10 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
         notifyDataSetChanged();
     }
 
-    private void doWork() {
-
+    private void doWork(String fileName) {
+        editor.putString("sampleId", fileName);
+        editor.apply();
+        activity.startActivity(new Intent(activity, SampleActivity.class));
     }
 
     public class ArchiveHolder extends RecyclerView.ViewHolder {

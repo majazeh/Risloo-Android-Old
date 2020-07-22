@@ -2,6 +2,7 @@ package com.majazeh.risloo.Models.Controller;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
@@ -47,7 +48,7 @@ public class SampleController {
     }
 
     public void getSampleFromAPI(String work, String UniqueId) throws JSONException {
-        SampleRepository.workStateSample.postValue(-1);
+
 
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SampleWorker.class)
                 .setInputData(data(work, UniqueId))

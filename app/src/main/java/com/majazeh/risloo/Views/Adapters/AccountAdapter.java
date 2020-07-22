@@ -48,9 +48,9 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountH
     @Override
     public void onBindViewHolder(@NonNull AccountHolder holder, int i) {
         try {
-            holder.titleTextView.setText(accounts.get(i).get("title").toString());
-            holder.subTitleTextView.setText(accounts.get(i).get("subTitle").toString());
-            holder.avatarImageView.setImageDrawable((Drawable) accounts.get(i).get("image"));
+                holder.titleTextView.setText(accounts.get(i).get("title").toString());
+                holder.subTitleTextView.setText(accounts.get(i).get("subTitle").toString());
+                holder.avatarImageView.setImageDrawable((Drawable) accounts.get(i).get("image"));
 
         } catch (JSONException e) {
             e.printStackTrace();

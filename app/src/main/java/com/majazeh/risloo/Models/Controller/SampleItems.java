@@ -1,5 +1,7 @@
 package com.majazeh.risloo.Models.Controller;
 
+import android.util.Log;
+
 import com.majazeh.risloo.Entities.Model;
 
 import org.json.JSONArray;
@@ -19,6 +21,7 @@ public class SampleItems {
             this.items.add(new Model((JSONObject) items.get(i)));
         }
         currentItem = this.items.get(index);
+
     }
 
     public Model item(int i) {
@@ -64,4 +67,15 @@ public class SampleItems {
         index = i;
     }
 
+    public int userAnswer(int i){
+        try {
+            if (items.get(i).get("user_answered") != null)
+           return Integer.parseInt(String.valueOf(items.get(i).get("user_answered")));
+            else
+                return -1;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return  -1;
+        }
+    }
 }
