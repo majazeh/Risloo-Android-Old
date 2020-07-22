@@ -54,12 +54,12 @@
 
     <string name="AuthAccount">حساب کاربری</string>
 
-    <string name="SerialTitle">بررسی سریال</string>
-    <string name="SerialDescription">برای شروع انجام نمونه سریال خود را وارد نمایید</string>
-    <string name="SerialHint">سریال</string>
-    <string name="SerialButton">بررسی</string>
+    <string name="SerialTitle">ورود</string>
+    <string name="SerialDescription">برای شروع سریال نمونه یا شماره همراه خود را وارد کنید</string>
+    <string name="SerialHint">سریال نمونه / شماره همراه</string>
+    <string name="SerialButton">ورود</string>
     <string name="SerialLink">کاربر جدید هستید؟ ثبت نام</string>
-    <string name="SerialArchive">شما نمونه اتمام ناقص دارید! مشاهده بایگانی</string>
+    <string name="SerialArchive">شما نمونه ناقص دارید! مشاهده بایگانی</string>
 
     <string name="PasswordTitle">بررسی رمز عبور</string>
     <string name="PasswordDescription">رمز عبور خود را وارد نمایید</string>
@@ -154,10 +154,12 @@
 
     <string name="AccountSignOut">خروج از حساب</string>
 
-    <string name="AccountSignOutDialogTitle">خروج از حساب؟</string>
-    <string name="AccountSignOutDialogDescription">ایا تمایل به خروج از حساب کاربری خود دارید، در نظر داشته باشید که تمام اطلاعات شما محفوظ می ماند.</string>
-    <string name="AccountSignOutDialogPositive">خروج</string>
-    <string name="AccountSignOutDialogNegative">بستن</string>
+    <string name="AccountName">کاربر تجربی</string>
+
+    <string name="AccountLogOutDialogTitle">خروج از حساب؟</string>
+    <string name="AccountLogOutDialogDescription">ایا تمایل به خروج از حساب کاربری خود دارید، در نظر داشته باشید که تمام اطلاعات شما محفوظ می ماند.</string>
+    <string name="AccountLogOutDialogPositive">خروج</string>
+    <string name="AccountLogOutDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

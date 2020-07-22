@@ -17,9 +17,11 @@ import org.json.JSONException;
 
 public class AuthController {
 
+    // Objects
     private Application application;
-    public static MutableLiveData<Integer> workState;
 
+    // Vars
+    public static MutableLiveData<Integer> workState;
     public static String callback = "";
     public static String key = "";
     public static String theory = "auth";
@@ -47,27 +49,27 @@ public class AuthController {
             Constraints constraints = new Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build();
+
             OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(AuthWorker.class)
                     .setConstraints(constraints)
                     .setInputData(data(work))
                     .build();
 
             WorkManager.getInstance(application).enqueue(workRequest);
-        }else{
+        } else {
             workState.setValue(-2);
         }
+    }
 
+    private boolean isNetworkConnected(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
     private Data data(String work) throws JSONException {
         return new Data.Builder()
                 .putString("work", work)
                 .build();
-    }
-    private boolean isNetworkConnected(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
 }

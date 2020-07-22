@@ -40,5 +40,6 @@ public interface AuthApi {
 
     @Headers({"content-type: application/x-www-form-urlencoded"})
     @POST("logout")
-    Call<ResponseBody> logout(@Header("Authorization") String authorization);
+    Call<ResponseBody> logOut(@Header("Authorization") String authorization);
+
 }

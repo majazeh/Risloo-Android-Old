@@ -2,8 +2,6 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -36,21 +34,19 @@ public class AuthWorker extends Worker {
     private String token;
 
     public AuthWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
-            super(context, workerParams);
+        super(context, workerParams);
 
-            authApi = RetroGenerator.getRetrofit().create(AuthApi.class);
+        authApi = RetroGenerator.getRetrofit().create(AuthApi.class);
 
-            sharedPreferences = context.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
-            editor = sharedPreferences.edit();
-            editor.apply();
-
+        editor = sharedPreferences.edit();
+        editor.apply();
     }
 
     @NonNull
     @Override
     public Result doWork() {
-
         String work = getInputData().getString("work");
 
         if (work != null) {
@@ -73,8 +69,8 @@ public class AuthWorker extends Worker {
                 case "me":
                     me();
                     break;
-                case "signOut":
-                    signOut();
+                case "logOut":
+                    logOut();
                     break;
             }
         }
@@ -116,15 +112,16 @@ public class AuthWorker extends Worker {
                 }
                 if (jsonObject.has("token")) {
                     AuthController.token = jsonObject.getString("token");
+
                     editor.putString("token", AuthController.token);
                     editor.apply();
+
                     me();
                 }
                 AuthController.exception = "";
                 AuthController.workState.postValue(1);
 
             } else {
-                //AuthController.exception = "";
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
                 AuthController.exception = errorBody.getString("message_text");
                 AuthController.workState.postValue(0);
@@ -175,15 +172,16 @@ public class AuthWorker extends Worker {
                 }
                 if (jsonObject.has("token")) {
                     AuthController.token = jsonObject.getString("token");
+
                     editor.putString("token", AuthController.token);
                     editor.apply();
+
                     me();
                 }
                 AuthController.exception = "";
                 AuthController.workState.postValue(1);
 
             } else {
-                //AuthController.exception = "";
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
                 AuthController.exception = errorBody.getString("message_text");
                 AuthController.workState.postValue(0);
@@ -229,15 +227,16 @@ public class AuthWorker extends Worker {
                 }
                 if (jsonObject.has("token")) {
                     AuthController.token = jsonObject.getString("token");
+
                     editor.putString("token", AuthController.token);
                     editor.apply();
+
                     me();
                 }
                 AuthController.exception = "";
                 AuthController.workState.postValue(1);
 
             } else {
-                //AuthController.exception = "";
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
                 AuthController.exception = errorBody.getString("message_text");
                 AuthController.workState.postValue(0);
@@ -247,7 +246,6 @@ public class AuthWorker extends Worker {
             e.printStackTrace();
             AuthController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
-
 
         } catch (JSONException | IOException e) {
             e.printStackTrace();
@@ -282,15 +280,16 @@ public class AuthWorker extends Worker {
                 }
                 if (jsonObject.has("token")) {
                     AuthController.token = jsonObject.getString("token");
+
                     editor.putString("token", AuthController.token);
                     editor.apply();
+
                     me();
                 }
                 AuthController.exception = "";
                 AuthController.workState.postValue(1);
 
             } else {
-                //AuthController.exception = "";
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
                 AuthController.exception = errorBody.getString("message_text");
                 AuthController.workState.postValue(0);
@@ -300,7 +299,6 @@ public class AuthWorker extends Worker {
             e.printStackTrace();
             AuthController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
-
 
         } catch (JSONException | IOException e) {
             e.printStackTrace();
@@ -335,15 +333,16 @@ public class AuthWorker extends Worker {
                 }
                 if (jsonObject.has("token")) {
                     AuthController.token = jsonObject.getString("token");
+
                     editor.putString("token", AuthController.token);
                     editor.apply();
+
                     me();
                 }
                 AuthController.exception = "";
                 AuthController.workState.postValue(1);
 
             } else {
-                //AuthController.exception = "";
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
                 AuthController.exception = errorBody.getString("message_text");
                 AuthController.workState.postValue(0);
@@ -361,23 +360,26 @@ public class AuthWorker extends Worker {
         }
     }
 
-    private void me() {
+    public void me() {
         try {
             Call<ResponseBody> call = authApi.me("Bearer " + sharedPreferences.getString("token", ""));
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
+
                 JSONObject jsonObject = new JSONObject(bodyResponse.body().string());
                 JSONObject data = jsonObject.getJSONObject("data");
+
+                AuthController.workState.postValue(1);
+
                 editor.putString("name", data.getString("name"));
                 editor.putString("email", data.getString("email"));
                 editor.putString("mobile", data.getString("mobile"));
                 editor.putString("gender", data.getString("gender"));
                 editor.apply();
-                AuthController.workState.postValue(1);
-
             } else {
                 AuthController.workState.postValue(0);
+
                 editor.putString("name", "");
                 editor.putString("email", "");
                 editor.putString("mobile", "");
@@ -390,14 +392,20 @@ public class AuthWorker extends Worker {
         }
     }
 
-    private void signOut() {
+    private void logOut() {
         try {
-            Call<ResponseBody> call = authApi.logout("Bearer " + sharedPreferences.getString("token", ""));
+            Call<ResponseBody> call = authApi.logOut("Bearer " + sharedPreferences.getString("token", ""));
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 AuthController.workState.postValue(1);
 
+                editor.remove("token");
+                editor.remove("name");
+                editor.remove("mobile");
+                editor.remove("gender");
+                editor.remove("email");
+                editor.apply();
             } else {
                 AuthController.workState.postValue(0);
             }
@@ -405,12 +413,6 @@ public class AuthWorker extends Worker {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private boolean isNetworkConnected(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
 }

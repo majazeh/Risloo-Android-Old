@@ -258,7 +258,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
     }
 
     private String newVersion() {
-        return activity.getResources().getString(R.string.MoreVersion) + " " + viewModel.version() + " " + activity.getResources().getString(R.string.MoreArrived);
+        return activity.getResources().getString(R.string.MoreVersion) + " " + viewModel.getVersion() + " " + activity.getResources().getString(R.string.MoreArrived);
     }
 
     public class MoreHolder extends RecyclerView.ViewHolder {

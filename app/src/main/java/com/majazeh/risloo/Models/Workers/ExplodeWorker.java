@@ -8,6 +8,7 @@ import androidx.work.WorkerParameters;
 
 import com.majazeh.risloo.Models.Remotes.Apis.ExplodeApi;
 import com.majazeh.risloo.Models.Remotes.Generators.RetroGenerator;
+import com.majazeh.risloo.Models.Repositories.ExplodeRepository;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,6 +53,8 @@ public class ExplodeWorker extends Worker {
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
 
+                ExplodeRepository.workState.postValue(1);
+
                 JSONObject jsonObject = new JSONObject(bodyResponse.body().string());
                 JSONObject android = jsonObject.getJSONObject("android");
 
@@ -62,7 +65,7 @@ public class ExplodeWorker extends Worker {
                 }
 
             } else {
-                // TODO : Response Failed
+                ExplodeRepository.workState.postValue(0);
             }
 
         } catch (IOException | JSONException e) {

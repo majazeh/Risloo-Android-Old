@@ -4,7 +4,6 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.MutableLiveData;
 
 import com.majazeh.risloo.Models.Repositories.ExplodeRepository;
 
@@ -22,6 +21,8 @@ public class ExplodeViewModel extends AndroidViewModel {
     }
 
     public void explode() throws JSONException {
+        repository.work = "explode";
+        repository.workState.setValue(-1);
         repository.workManager("explode");
     }
 
@@ -29,8 +30,8 @@ public class ExplodeViewModel extends AndroidViewModel {
         return repository.hasUpdate();
     }
 
-    public String version(){
-        return repository.version();
+    public String getVersion(){
+        return repository.getVersion();
     }
 
 }

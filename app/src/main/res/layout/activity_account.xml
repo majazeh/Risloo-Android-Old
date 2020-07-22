@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_account"
@@ -8,8 +9,7 @@
     android:layoutDirection="rtl"
     android:fitsSystemWindows="false"
     android:background="@color/White"
-    tools:context=".Views.Ui.Activities.AccountActivity"
-    tools:ignore="UnusedAttribute">
+    tools:context=".Views.Ui.Activities.AccountActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/Solitude"
+            android:background="@color/Snow"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.Toolbar
@@ -58,6 +58,11 @@
                 android:textAlignment="gravity" />
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/Quartz" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"

@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 
 import org.json.JSONException;
@@ -46,7 +47,16 @@ public class AuthViewModel extends AndroidViewModel {
         repository.me();
     }
 
-    public void logout() {
-        repository.logout();
+    public void logOut() throws JSONException {
+        repository.logOut();
     }
+
+    public ArrayList<Model> getAll() {
+        return repository.getAll();
+    }
+
+    public String getName() {
+        return repository.getName();
+    }
+    
 }
