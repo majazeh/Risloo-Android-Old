@@ -188,7 +188,7 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private boolean token() {
-        return sharedPreferences.getString("token", "").equals("");
+        return !sharedPreferences.getString("token", "").equals("");
     }
 
     @Override
