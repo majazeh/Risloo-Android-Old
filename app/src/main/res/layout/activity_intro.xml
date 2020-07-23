@@ -9,7 +9,7 @@
     android:layoutDirection="rtl"
     android:fitsSystemWindows="false"
     android:background="@color/White"
-    tools:context=".Views.Ui.Activities.IntroActivity">
+    tools:context=".Views.Activities.IntroActivity">
 
     <com.duolingo.open.rtlviewpager.RtlViewPager
         android:id="@+id/activity_intro_rtlViewPager"

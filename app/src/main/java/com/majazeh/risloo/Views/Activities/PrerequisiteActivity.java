@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Views.Ui.Activities;
+package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -20,18 +20,14 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.gson.JsonObject;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.ViewModels.SampleViewModelFactory;
 import com.majazeh.risloo.Views.Adapters.PrerequisiteAdapter;
-import com.majazeh.risloo.Views.Adapters.QuestionAdapter;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 public class PrerequisiteActivity extends AppCompatActivity {
 

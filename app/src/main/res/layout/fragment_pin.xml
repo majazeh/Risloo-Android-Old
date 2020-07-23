@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:background="@null"
-    tools:context=".Views.Ui.Fragments.PinFragment"
+    tools:context=".Views.Fragments.PinFragment"
     tools:ignore="UnusedAttribute">
 
     <LinearLayout

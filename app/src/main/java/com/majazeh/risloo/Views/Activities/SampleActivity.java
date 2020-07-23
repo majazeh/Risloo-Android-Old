@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Views.Ui.Activities;
+package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -33,12 +33,12 @@ import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.ViewModels.SampleViewModelFactory;
 import com.majazeh.risloo.Views.Adapters.IndexAdapter;
-import com.majazeh.risloo.Views.Ui.Fragments.PFPFragment;
-import com.majazeh.risloo.Views.Ui.Fragments.PFTFragment;
-import com.majazeh.risloo.Views.Ui.Fragments.PPFragment;
-import com.majazeh.risloo.Views.Ui.Fragments.TFPFragment;
-import com.majazeh.risloo.Views.Ui.Fragments.TFTFragment;
-import com.majazeh.risloo.Views.Ui.Fragments.TPFragment;
+import com.majazeh.risloo.Views.Fragments.PFPFragment;
+import com.majazeh.risloo.Views.Fragments.PFTFragment;
+import com.majazeh.risloo.Views.Fragments.PPFragment;
+import com.majazeh.risloo.Views.Fragments.TFPFragment;
+import com.majazeh.risloo.Views.Fragments.TFTFragment;
+import com.majazeh.risloo.Views.Fragments.TPFragment;
 
 import org.json.JSONException;
 

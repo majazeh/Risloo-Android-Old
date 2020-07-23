@@ -57,7 +57,8 @@ public class AuthController {
 
             WorkManager.getInstance(application).enqueue(workRequest);
         } else {
-            workState.setValue(-2);
+            exception = "انترنت شما وصل نیست! لطفا متصل شوید.";
+            workState.postValue(-2);
         }
     }
 

@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Views.Ui.Activities;
+package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -15,7 +15,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -25,11 +24,11 @@ import com.majazeh.risloo.Models.Controller.AuthController;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
-import com.majazeh.risloo.Views.Ui.Fragments.MobileFragment;
-import com.majazeh.risloo.Views.Ui.Fragments.PasswordFragment;
-import com.majazeh.risloo.Views.Ui.Fragments.PinFragment;
-import com.majazeh.risloo.Views.Ui.Fragments.RegisterFragment;
-import com.majazeh.risloo.Views.Ui.Fragments.SerialFragment;
+import com.majazeh.risloo.Views.Fragments.MobileFragment;
+import com.majazeh.risloo.Views.Fragments.PasswordFragment;
+import com.majazeh.risloo.Views.Fragments.PinFragment;
+import com.majazeh.risloo.Views.Fragments.RegisterFragment;
+import com.majazeh.risloo.Views.Fragments.SerialFragment;
 
 import org.json.JSONException;
 
@@ -54,17 +53,16 @@ public class AuthActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-            decorator();
+        decorator();
 
-            setContentView(R.layout.activity_auth);
+        setContentView(R.layout.activity_auth);
 
-            initializer();
+        initializer();
 
-            listener();
+        listener();
 
-            titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
-            loadFragment(new SerialFragment(this), 0, 0);
-
+        titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
+        loadFragment(new SerialFragment(this), 0, 0);
     }
 
     private void decorator() {
@@ -73,10 +71,12 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-
         viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
+
+        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
+        editor = sharedPreferences.edit();
+        editor.apply();
 
         callTimer = new MutableLiveData<>();
 
@@ -132,7 +132,7 @@ public class AuthActivity extends AppCompatActivity {
 
     public void observeWork() {
         AuthController.workState.observe((LifecycleOwner) this, integer -> {
-            if (AuthController.workState.getValue() == 1) {
+            if (integer == 1) {
                 if (AuthController.preTheory.equals("mobileCode") && AuthController.theory.equals("mobileCode")) {
                     callTimer.setValue(true);
                 } else {
@@ -141,13 +141,10 @@ public class AuthActivity extends AppCompatActivity {
                     if (AuthController.key.equals("")) {
                         if (AuthController.callback.equals("")) {
                             AuthController.theory = "auth";
-                            showFragment();
-                            //startActivity(new Intent(this, SampleActivity.class));
-                            //viewModel.me();
                         } else {
                             AuthController.theory = "mobile";
-                            showFragment();
                         }
+                        showFragment();
                         AuthController.workState.removeObservers((LifecycleOwner) this);
                     } else {
                         if (AuthController.theory.equals("auth")) {
@@ -158,6 +155,7 @@ public class AuthActivity extends AppCompatActivity {
                             }
                         } else if (AuthController.theory.equals("sample")) {
                             AuthController.sampleId = AuthController.key;
+
                             editor.putString("sampleId", AuthController.key);
                             editor.apply();
 
@@ -170,42 +168,27 @@ public class AuthActivity extends AppCompatActivity {
                     }
                 }
                 if (toolUser != null){
-                    if (sharedPreferences.getString("token", "").equals("")){
+                    if (token()){
                         toolUser.setVisible(false);
                     }else{
                         toolUser.setVisible(true);
                     }
                 }
                 progressDialog.dismiss();
-            } else if (AuthController.workState.getValue() == 0) {
-                AuthController.workState.removeObservers((LifecycleOwner) this);
+            } else if (integer == 0) {
                 progressDialog.dismiss();
                 Toast.makeText(this, "" + AuthController.exception, Toast.LENGTH_SHORT).show();
-            } else if (AuthController.workState.getValue() == -2){
+                AuthController.workState.removeObservers((LifecycleOwner) this);
+            } else if (integer == -2){
                 progressDialog.dismiss();
-                Toast.makeText(this, "شما به اینترنت متصل نیستید!", Toast.LENGTH_SHORT).show();
-            }else{
-                // DO Nothing
+                Toast.makeText(this, "" + AuthController.exception, Toast.LENGTH_SHORT).show();
+                AuthController.workState.removeObservers((LifecycleOwner) this);
             }
         });
     }
 
-    private boolean emptyToken() {
-
-        if (!sharedPreferences.getString("token", "").equals("") && !sharedPreferences.getString("sampleId", "").equals("")) {
-            return false;
-        } else {
-            Log.e("token", sharedPreferences.getString("token", "")+"bbb");
-            //editor.remove("token");
-            editor.remove("sampleId");
-            editor.apply();
-            return true;
-        }
-    }
-
-    private void launchSample() {
-            startActivity(new Intent(this, SampleActivity.class));
-            finish();
+    private boolean token() {
+        return sharedPreferences.getString("token", "").equals("");
     }
 
     @Override
@@ -213,11 +196,13 @@ public class AuthActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_auth, menu);
 
         toolUser = menu.findItem(R.id.tool_user);
-        if (sharedPreferences.getString("token", "").equals("")){
+
+        if (token()){
             toolUser.setVisible(false);
-        }else{
+        } else {
             toolUser.setVisible(true);
         }
+
         toolUser.setOnMenuItemClickListener(item -> {
             startActivity(new Intent(this, AccountActivity.class));
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
@@ -230,8 +215,9 @@ public class AuthActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         if (toolUser != null){
-            if (sharedPreferences.getString("token", "").equals("")){
+            if (token()){
                 toolUser.setVisible(false);
             }else{
                 toolUser.setVisible(true);

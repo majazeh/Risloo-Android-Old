@@ -9,7 +9,7 @@
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
     android:background="@color/Primary"
-    tools:context=".Views.Ui.Activities.SplashActivity">
+    tools:context=".Views.Activities.SplashActivity">
 
     <ImageView
         android:layout_width="@dimen/_110sdp"

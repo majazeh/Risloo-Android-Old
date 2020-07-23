@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Views.Ui.Dialogs;
+package com.majazeh.risloo.Views.Dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;

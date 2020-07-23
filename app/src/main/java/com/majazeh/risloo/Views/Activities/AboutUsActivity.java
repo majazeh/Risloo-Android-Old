@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Views.Ui.Activities;
+package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -11,13 +11,13 @@ import android.os.Bundle;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
-import com.majazeh.risloo.ViewModels.TermConditionViewModel;
+import com.majazeh.risloo.ViewModels.AboutUsViewModel;
 import com.majazeh.risloo.Views.Adapters.ListAdapter;
 
-public class TermConditionActivity extends AppCompatActivity {
+public class AboutUsActivity extends AppCompatActivity {
 
     // ViewModel
-    private TermConditionViewModel viewModel;
+    private AboutUsViewModel viewModel;
 
     // Adapters
     private ListAdapter adapter;
@@ -32,7 +32,7 @@ public class TermConditionActivity extends AppCompatActivity {
 
         decorator();
 
-        setContentView(R.layout.activity_term_condition);
+        setContentView(R.layout.activity_about_us);
 
         initializer();
 
@@ -45,14 +45,14 @@ public class TermConditionActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = ViewModelProviders.of(this).get(TermConditionViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(AboutUsViewModel.class);
 
         adapter = new ListAdapter(this);
-        adapter.setList(viewModel.getAll(), "TermCondition");
+        adapter.setList(viewModel.getAll(), "AboutUs");
 
-        toolbar = findViewById(R.id.activity_term_condition_toolbar);
+        toolbar = findViewById(R.id.activity_about_us_toolbar);
 
-        recyclerView = findViewById(R.id.activity_term_condition_recyclerView);
+        recyclerView = findViewById(R.id.activity_about_us_recyclerView);
         recyclerView.addItemDecoration(new ItemDecorator("listLayout",(int) getResources().getDimension(R.dimen._24sdp)));
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);

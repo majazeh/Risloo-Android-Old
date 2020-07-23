@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Views.Ui.Activities.SampleActivity;
+import com.majazeh.risloo.Views.Activities.SampleActivity;
 
 import org.json.JSONException;
 

@@ -1,8 +1,9 @@
-package com.majazeh.risloo.Views.Ui.Activities;
+package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,16 +12,16 @@ import android.os.Bundle;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
-import com.majazeh.risloo.ViewModels.AboutUsViewModel;
-import com.majazeh.risloo.Views.Adapters.ListAdapter;
+import com.majazeh.risloo.ViewModels.MoreViewModel;
+import com.majazeh.risloo.Views.Adapters.MoreAdapter;
 
-public class AboutUsActivity extends AppCompatActivity {
+public class MoreActivity extends AppCompatActivity {
 
-    // ViewModel
-    private AboutUsViewModel viewModel;
+    // ViewModels
+    private MoreViewModel viewModel;
 
     // Adapters
-    private ListAdapter adapter;
+    private MoreAdapter adapter;
 
     // Widgets
     private Toolbar toolbar;
@@ -32,7 +33,7 @@ public class AboutUsActivity extends AppCompatActivity {
 
         decorator();
 
-        setContentView(R.layout.activity_about_us);
+        setContentView(R.layout.activity_more);
 
         initializer();
 
@@ -45,16 +46,16 @@ public class AboutUsActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = ViewModelProviders.of(this).get(AboutUsViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(MoreViewModel.class);
 
-        adapter = new ListAdapter(this);
-        adapter.setList(viewModel.getAll(), "AboutUs");
+        adapter = new MoreAdapter(this);
+        adapter.setMore(viewModel.getAll());
 
-        toolbar = findViewById(R.id.activity_about_us_toolbar);
+        toolbar = findViewById(R.id.activity_more_toolbar);
 
-        recyclerView = findViewById(R.id.activity_about_us_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("listLayout",(int) getResources().getDimension(R.dimen._24sdp)));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView = findViewById(R.id.activity_more_recyclerView);
+        recyclerView.addItemDecoration(new ItemDecorator("gridLayout",(int) getResources().getDimension(R.dimen._32sdp)));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
     }
@@ -62,14 +63,14 @@ public class AboutUsActivity extends AppCompatActivity {
     private void listener() {
         toolbar.setNavigationOnClickListener(v -> {
             finish();
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
         });
     }
 
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
     }
 
 }

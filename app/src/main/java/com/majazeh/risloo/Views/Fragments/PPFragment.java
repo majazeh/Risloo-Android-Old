@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Views.Ui.Fragments;
+package com.majazeh.risloo.Views.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

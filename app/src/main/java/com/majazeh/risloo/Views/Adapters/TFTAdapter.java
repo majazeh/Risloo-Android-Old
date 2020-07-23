@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
-import com.majazeh.risloo.Views.Ui.Activities.OutroActivity;
-import com.majazeh.risloo.Views.Ui.Activities.SampleActivity;
+import com.majazeh.risloo.Views.Activities.OutroActivity;
+import com.majazeh.risloo.Views.Activities.SampleActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;

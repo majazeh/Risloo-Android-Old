@@ -27,12 +27,12 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.ViewModels.ExplodeViewModel;
-import com.majazeh.risloo.Views.Ui.Activities.AboutUsActivity;
-import com.majazeh.risloo.Views.Ui.Activities.CallUsActivity;
-import com.majazeh.risloo.Views.Ui.Activities.MoreActivity;
-import com.majazeh.risloo.Views.Ui.Activities.QuestionActivity;
-import com.majazeh.risloo.Views.Ui.Dialogs.SocialDialog;
-import com.majazeh.risloo.Views.Ui.Activities.TermConditionActivity;
+import com.majazeh.risloo.Views.Activities.AboutUsActivity;
+import com.majazeh.risloo.Views.Activities.CallUsActivity;
+import com.majazeh.risloo.Views.Activities.MoreActivity;
+import com.majazeh.risloo.Views.Activities.QuestionActivity;
+import com.majazeh.risloo.Views.Dialogs.SocialDialog;
+import com.majazeh.risloo.Views.Activities.TermConditionActivity;
 
 import org.json.JSONException;
 

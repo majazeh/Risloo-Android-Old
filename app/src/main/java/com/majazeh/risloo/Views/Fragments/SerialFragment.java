@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Views.Ui.Fragments;
+package com.majazeh.risloo.Views.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProviders;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,9 +28,8 @@ import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
-import com.majazeh.risloo.Views.Ui.Activities.ArchiveActivity;
-import com.majazeh.risloo.Views.Ui.Activities.AuthActivity;
-import com.majazeh.risloo.Views.Ui.Activities.IntroActivity;
+import com.majazeh.risloo.Views.Activities.ArchiveActivity;
+import com.majazeh.risloo.Views.Activities.AuthActivity;
 
 import org.json.JSONException;
 

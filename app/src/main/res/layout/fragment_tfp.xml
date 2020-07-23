@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:background="@null"
-    tools:context=".Views.Ui.Fragments.TFPFragment"
+    tools:context=".Views.Fragments.TFPFragment"
     tools:ignore="UnusedAttribute">
 
     <LinearLayout

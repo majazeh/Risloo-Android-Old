@@ -9,7 +9,7 @@
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
     android:background="@color/White"
-    tools:context=".Views.Ui.Activities.AboutUsActivity">
+    tools:context=".Views.Activities.AboutUsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

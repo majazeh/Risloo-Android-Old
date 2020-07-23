@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Views.Ui.Fragments;
+package com.majazeh.risloo.Views.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -29,7 +29,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
-import com.majazeh.risloo.Views.Ui.Activities.AuthActivity;
+import com.majazeh.risloo.Views.Activities.AuthActivity;
 
 import org.json.JSONException;
 

@@ -8,7 +8,7 @@
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
     android:background="@color/White"
-    tools:context=".Views.Ui.Activities.ArchiveActivity"
+    tools:context=".Views.Activities.ArchiveActivity"
     tools:ignore="UnusedAttribute">
 
     <LinearLayout

@@ -1,7 +1,8 @@
-package com.majazeh.risloo.Views.Ui.Activities;
+package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -159,14 +160,20 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     private void observeWork() {
-        AuthController.workState.observe(this, integer -> {
+        AuthController.workState.observe((LifecycleOwner) this, integer -> {
             if (AuthController.work == "logOut"){
                 if (integer == 1) {
                     progressDialog.dismiss();
                     finish();
+                    AuthController.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, "با مشکل مواجه شد!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "" + AuthController.exception, Toast.LENGTH_SHORT).show();
+                    AuthController.workState.removeObservers((LifecycleOwner) this);
+                } else if (integer == -2) {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "" + AuthController.exception, Toast.LENGTH_SHORT).show();
+                    AuthController.workState.removeObservers((LifecycleOwner) this);
                 }
             }
         });
