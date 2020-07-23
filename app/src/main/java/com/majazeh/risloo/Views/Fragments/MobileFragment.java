@@ -35,7 +35,6 @@ public class MobileFragment extends Fragment {
 
     // Vars
     private String mobile = "";
-    private boolean mobileTouch, mobileError;
 
     // Objects
     private Activity activity;
@@ -83,9 +82,6 @@ public class MobileFragment extends Fragment {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
                 mobileEditText.setCursorVisible(true);
-
-                mobileTouch = true;
-                mobileError = false;
             }
             return false;
         });
@@ -127,11 +123,8 @@ public class MobileFragment extends Fragment {
     private void checkInput() {
         mobileEditText.setCursorVisible(false);
 
-        mobileTouch = false;
-
         if (mobileEditText.length() == 0) {
             mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
-            mobileError = true;
         }
     }
 
@@ -139,18 +132,16 @@ public class MobileFragment extends Fragment {
         mobileEditText.setCursorVisible(false);
 
         mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-
-        mobileTouch = false;
-        mobileError = false;
     }
 
     private void doWork() {
         try {
             ((AuthActivity) Objects.requireNonNull(getActivity())).progressDialog.show();
-            if (AuthController.theory.equals("mobile"))
+            if (AuthController.theory.equals("mobile")) {
                 viewModel.auth(mobile);
-            else
+            } else {
                 viewModel.recovery(mobile);
+            }
             ((AuthActivity) Objects.requireNonNull(getActivity())).observeWork();
         } catch (JSONException e) {
             e.printStackTrace();

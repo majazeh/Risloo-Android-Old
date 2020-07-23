@@ -21,16 +21,11 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/ToolbarTheme"
-            android:background="@color/Snow"
+            android:background="@null"
             app:title="@string/MoreTitle"
             app:titleTextAppearance="@style/ToolbarTextAppearance"
             app:navigationIcon="@drawable/tool_chevron_right"
             app:contentInsetStartWithNavigation="0dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_1sdp"
-            android:background="@color/Quartz" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/activity_more_recyclerView"

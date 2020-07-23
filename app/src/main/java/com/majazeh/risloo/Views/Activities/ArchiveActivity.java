@@ -50,15 +50,19 @@ public class ArchiveActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
 
         adapter = new ArchiveAdapter(this);
-        adapter.setArchive(viewModel.files());
+        if (hasArchive()) {
+            adapter.setArchive(viewModel.files());
+        }
 
         toolbar = findViewById(R.id.activity_archive_toolbar);
 
         countTextView = findViewById(R.id.activity_archive_count_textView);
-        countTextView.setText(viewModel.files().size() + " " + getResources().getString(R.string.ArchiveCount));
+        if (hasArchive()) {
+            countTextView.setText(viewModel.files().size() + " " + getResources().getString(R.string.ArchiveCount));
+        }
 
         recyclerView = findViewById(R.id.activity_archive_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout",(int) getResources().getDimension(R.dimen._16sdp)));
+        recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout",(int) getResources().getDimension(R.dimen._18sdp)));
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
@@ -69,6 +73,19 @@ public class ArchiveActivity extends AppCompatActivity {
             finish();
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
         });
+    }
+
+    private boolean hasArchive() {
+        return viewModel.files() != null;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (!hasArchive()) {
+            finish();
+        }
     }
 
     @Override

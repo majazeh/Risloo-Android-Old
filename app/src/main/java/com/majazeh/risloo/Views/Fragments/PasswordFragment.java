@@ -44,7 +44,6 @@ public class PasswordFragment extends Fragment {
 
     // Vars
     private String password = "";
-    private boolean passwordTouch, passwordError;
     private boolean passwordVisibility;
 
     // Objects
@@ -103,9 +102,6 @@ public class PasswordFragment extends Fragment {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 passwordEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
                 passwordEditText.setCursorVisible(true);
-
-                passwordTouch = true;
-                passwordError = false;
             }
             return false;
         });
@@ -182,11 +178,8 @@ public class PasswordFragment extends Fragment {
     private void checkInput() {
         passwordEditText.setCursorVisible(false);
 
-        passwordTouch = false;
-
         if (passwordEditText.length() == 0) {
             passwordEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
-            passwordError = true;
         }
     }
 
@@ -194,9 +187,6 @@ public class PasswordFragment extends Fragment {
         passwordEditText.setCursorVisible(false);
 
         passwordEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-
-        passwordTouch = false;
-        passwordError = false;
     }
 
     private void doWork() {

@@ -48,7 +48,7 @@ public class AccountActivity extends AppCompatActivity {
     private CircleImageView avatarImageView;
     private TextView nameTextView, logOutDialogTitle, logOutDialogDescription, logOutDialogPositive, logOutDialogNegative;
     private RecyclerView recyclerView;
-    private Dialog logOutDialog,progressDialog;
+    private Dialog logOutDialog, progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +63,6 @@ public class AccountActivity extends AppCompatActivity {
         detector();
 
         listener();
-
-        observeWork();
     }
 
     private void decorator() {
@@ -141,10 +139,11 @@ public class AccountActivity extends AppCompatActivity {
             logOutDialogPositive.setClickable(false);
             handler.postDelayed(() -> logOutDialogPositive.setClickable(true), 1000);
             logOutDialog.dismiss();
-            progressDialog.show();
 
             try {
+                progressDialog.show();
                 viewModel.logOut();
+                observeWork();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -165,6 +164,7 @@ public class AccountActivity extends AppCompatActivity {
                 if (integer == 1) {
                     progressDialog.dismiss();
                     finish();
+                    Toast.makeText(this, "" + AuthController.exception, Toast.LENGTH_SHORT).show();
                     AuthController.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     progressDialog.dismiss();

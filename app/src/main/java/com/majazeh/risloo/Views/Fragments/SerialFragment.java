@@ -38,12 +38,11 @@ import java.util.Objects;
 public class SerialFragment extends Fragment {
 
     // ViewModels
-    private AuthViewModel viewModel;
-    private SampleViewModel viewModel2;
+    private AuthViewModel authViewModel;
+    private SampleViewModel sampleViewModel;
 
     // Vars
     private String serial = "";
-    private boolean serialTouch, serialError;
 
     // Objects
     private Activity activity;
@@ -52,7 +51,7 @@ public class SerialFragment extends Fragment {
     // Widgets
     private EditText serialEditText;
     private Button serialButton;
-    private TextView serialLinkTextView, serialArchiveTextView;
+    public TextView serialLinkTextView, serialArchiveTextView;
 
     public SerialFragment(Activity activity) {
         this.activity = activity;
@@ -75,8 +74,8 @@ public class SerialFragment extends Fragment {
     }
 
     private void initializer(View view) {
-        viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
-        viewModel2 = ViewModelProviders.of(this).get(SampleViewModel.class);
+        authViewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
+        sampleViewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
 
         serialEditText = view.findViewById(R.id.fragment_serial_editText);
         serialEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -101,9 +100,6 @@ public class SerialFragment extends Fragment {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 serialEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
                 serialEditText.setCursorVisible(true);
-
-                serialTouch = true;
-                serialError = false;
             }
             return false;
         });
@@ -149,23 +145,26 @@ public class SerialFragment extends Fragment {
     }
 
     private void setText() {
-        serialLinkTextView.setText(StringCustomizer.clickable(activity.getResources().getString(R.string.SerialLink), 18, 25, serialLinkSpan));
-        serialArchiveTextView.setText(StringCustomizer.clickable(activity.getResources().getString(R.string.SerialArchive), 22, 36, serialArchiveSpan));
-        if (viewModel2.files() != null) {
-            serialArchiveTextView.setVisibility(View.VISIBLE);
+        if (((AuthActivity) Objects.requireNonNull(getActivity())).token()) {
+            serialLinkTextView.setVisibility(View.VISIBLE);
+            serialLinkTextView.setText(StringCustomizer.clickable(activity.getResources().getString(R.string.SerialLink), 18, 25, serialLinkSpan));
         } else {
-            serialArchiveTextView.setVisibility(View.GONE);
+            serialLinkTextView.setVisibility(View.INVISIBLE);
+        }
+
+        if (sampleViewModel.files() != null) {
+            serialArchiveTextView.setVisibility(View.VISIBLE);
+            serialArchiveTextView.setText(StringCustomizer.clickable(activity.getResources().getString(R.string.SerialArchive), 22, 36, serialArchiveSpan));
+        } else {
+            serialArchiveTextView.setVisibility(View.INVISIBLE);
         }
     }
 
     private void checkInput() {
         serialEditText.setCursorVisible(false);
 
-        serialTouch = false;
-
         if (serialEditText.length() == 0) {
             serialEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
-            serialError = true;
         }
     }
 
@@ -173,15 +172,12 @@ public class SerialFragment extends Fragment {
         serialEditText.setCursorVisible(false);
 
         serialEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-
-        serialTouch = false;
-        serialError = false;
     }
 
     private void doWork() {
         try {
             ((AuthActivity) Objects.requireNonNull(getActivity())).progressDialog.show();
-            viewModel.auth(serial);
+            authViewModel.auth(serial);
             ((AuthActivity) Objects.requireNonNull(getActivity())).observeWork();
         } catch (JSONException e) {
             e.printStackTrace();

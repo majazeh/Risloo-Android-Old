@@ -465,7 +465,7 @@ public class AuthWorker extends Worker {
                 editor.remove("email");
                 editor.apply();
 
-                AuthController.exception = "موفقیت آمیز";
+                AuthController.exception = "خروج شما انجام شد.";
                 AuthController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());

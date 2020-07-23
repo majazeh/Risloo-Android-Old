@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_register"
@@ -7,8 +8,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:background="@null"
-    tools:context=".Views.Fragments.RegisterFragment"
-    tools:ignore="UnusedAttribute">
+    tools:context=".Views.Fragments.RegisterFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_28sdp"
+            android:layout_marginBottom="@dimen/_24sdp"
             android:gravity="center"
             android:text="@string/RegisterDescription"
             android:textSize="@dimen/_13ssp"
@@ -117,8 +117,8 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/_8sdp"
                 android:paddingBottom="@dimen/_8sdp"
-                android:paddingLeft="@dimen/_32sdp"
-                android:paddingRight="@dimen/_32sdp"
+                android:paddingLeft="@dimen/_30sdp"
+                android:paddingRight="@dimen/_30sdp"
                 android:inputType="textPassword"
                 android:gravity="center"
                 android:hint="@string/RegisterPasswordHint"
@@ -131,8 +131,8 @@
 
             <ImageView
                 android:id="@+id/fragment_register_imageView"
-                android:layout_width="@dimen/_32sdp"
-                android:layout_height="@dimen/_32sdp"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
                 android:layout_gravity="left|center"
                 android:layout_marginLeft="@dimen/_8sdp"
                 android:padding="@dimen/_6sdp"

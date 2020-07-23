@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_call_us"
@@ -8,8 +9,7 @@
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
     android:background="@color/White"
-    tools:context=".Views.Activities.CallUsActivity"
-    tools:ignore="UnusedAttribute">
+    tools:context=".Views.Activities.CallUsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,11 +21,16 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/ToolbarTheme"
-            android:background="@null"
+            android:background="@color/Snow"
             app:title="@string/CallUsTitle"
             app:titleTextAppearance="@style/ToolbarTextAppearance"
             app:navigationIcon="@drawable/tool_chevron_right"
             app:contentInsetStartWithNavigation="0dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/Quartz" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -36,10 +41,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:layout_marginBottom="@dimen/_16sdp"
-                android:layout_marginLeft="@dimen/_24sdp"
-                android:layout_marginRight="@dimen/_24sdp"
+                android:padding="@dimen/_24sdp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -47,7 +49,7 @@
                     android:id="@+id/activity_call_us_name_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
                     android:paddingTop="@dimen/_8sdp"
                     android:paddingBottom="@dimen/_8sdp"
                     android:paddingLeft="@dimen/_16sdp"
@@ -66,7 +68,7 @@
                     android:id="@+id/activity_call_us_mobile_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
                     android:paddingTop="@dimen/_8sdp"
                     android:paddingBottom="@dimen/_8sdp"
                     android:paddingLeft="@dimen/_16sdp"
@@ -123,7 +125,7 @@
 
     </LinearLayout>
 
-    <FrameLayout
+    <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
         android:layout_gravity="bottom"

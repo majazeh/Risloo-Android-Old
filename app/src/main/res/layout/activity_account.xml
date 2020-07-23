@@ -19,7 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/Snow"
+            android:background="@color/Solitude"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.Toolbar
@@ -58,11 +58,6 @@
                 android:textAlignment="gravity" />
 
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_1sdp"
-            android:background="@color/Quartz" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"

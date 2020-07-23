@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,8 +30,8 @@ import java.util.ArrayList;
 public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveHolder> {
 
     // Vars
+    private int position = -1;
     private ArrayList<Model> archives;
-    String select = "";
 
     // Objects
     private Activity activity;
@@ -66,7 +65,9 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
     public void onBindViewHolder(@NonNull ArchiveHolder holder, int i) {
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            holder.rootLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_snow_ripple);
+            holder.itemView.setBackgroundResource(R.drawable.draw_24sdp_quartz_border_ripple);
+
+            holder.continueTextView.setBackgroundResource(R.drawable.draw_18sdp_primary20p_ripple);
         }
 
         try {
@@ -77,14 +78,16 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
         }
 
         holder.itemView.setOnClickListener(v -> {
-            try {
-                select = archives.get(i).get("serial").toString();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            holder.itemView.setClickable(false);
+            handler.postDelayed(() -> holder.itemView.setClickable(true), 1000);
+        });
+
+        holder.continueTextView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
             handler.postDelayed(() -> holder.itemView.setClickable(true), 1000);
             continueDialog.show();
+
+            position = i;
         });
 
     }
@@ -136,7 +139,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
             handler.postDelayed(() -> continueDialogPositive.setClickable(true), 1000);
             continueDialog.dismiss();
 
-            doWork(select);
+            doWork(position);
         });
 
         continueDialogNegative.setOnClickListener(v -> {
@@ -153,20 +156,23 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
         notifyDataSetChanged();
     }
 
-    private void doWork(String fileName) {
-        editor.putString("sampleId", fileName);
-        editor.apply();
-        activity.startActivity(new Intent(activity, SampleActivity.class));
+    private void doWork(int position) {
+        try {
+            editor.putString("sampleId", archives.get(position).get("serial").toString());
+            editor.apply();
+
+            activity.startActivity(new Intent(activity, SampleActivity.class));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public class ArchiveHolder extends RecyclerView.ViewHolder {
 
-        public LinearLayout rootLinearLayout;
         public TextView serialTextView, statusTextView, continueTextView;
 
         public ArchiveHolder(View view) {
             super(view);
-            rootLinearLayout = view.findViewById(R.id.activity_archive_single_item_root_linearLayout);
             serialTextView = view.findViewById(R.id.activity_archive_single_item_serial_textView);
             statusTextView = view.findViewById(R.id.activity_archive_single_item_status_textView);
             continueTextView = view.findViewById(R.id.activity_archive_single_item_continue_textView);

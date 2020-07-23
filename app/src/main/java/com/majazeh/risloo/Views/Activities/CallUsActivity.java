@@ -23,11 +23,13 @@ import android.widget.TextView;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.WindowDecorator;
 
+import org.json.JSONException;
+
 public class CallUsActivity extends AppCompatActivity {
 
     // Vars
     private String name, mobile, message;
-    private boolean nameTouch, nameError, mobileTouch, mobileError, messageTouch, messageError;
+    private boolean nameError, mobileError, messageError;
 
     // Objects
     private Handler handler;
@@ -39,7 +41,7 @@ public class CallUsActivity extends AppCompatActivity {
     private TextView infoDialogTitle, infoDialogDescription, infoDialogConfirm;
     private EditText nameEditText, mobileEditText, messageEditText;
     private Button sendButton;
-    private Dialog infoDialog;
+    private Dialog infoDialog, progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ public class CallUsActivity extends AppCompatActivity {
 
     private void decorator() {
         WindowDecorator windowDecorator = new WindowDecorator();
-        windowDecorator.lightWindow(this, R.color.White, R.color.Snow);
+        windowDecorator.lightWindow(this, R.color.Snow, R.color.Snow);
     }
 
     private void initializer() {
@@ -89,6 +91,11 @@ public class CallUsActivity extends AppCompatActivity {
         infoDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         infoDialog.setContentView(R.layout.dialog_note);
         infoDialog.setCancelable(true);
+        progressDialog = new Dialog(this, R.style.DialogTheme);
+        progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        progressDialog.setContentView(R.layout.dialog_progress);
+        progressDialog.setCancelable(false);
 
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(infoDialog.getWindow().getAttributes());
@@ -132,20 +139,19 @@ public class CallUsActivity extends AppCompatActivity {
                 nameEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
                 nameEditText.setCursorVisible(true);
 
-                nameTouch = true;
                 nameError = false;
 
                 if (mobileError) {
                     mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
                 } else {
                     mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-                } mobileTouch = false;
+                }
 
                 if (messageError) {
                     messageEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
                 } else {
                     messageEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-                } messageTouch = false;
+                }
             }
             return false;
         });
@@ -155,20 +161,19 @@ public class CallUsActivity extends AppCompatActivity {
                 mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
                 mobileEditText.setCursorVisible(true);
 
-                mobileTouch = true;
                 mobileError = false;
 
                 if (messageError) {
                     messageEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
                 } else {
                     messageEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-                } messageTouch = false;
+                }
 
                 if (nameError) {
                     nameEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
                 } else {
                     nameEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-                } nameTouch = false;
+                }
             }
             return false;
         });
@@ -178,20 +183,19 @@ public class CallUsActivity extends AppCompatActivity {
                 messageEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
                 messageEditText.setCursorVisible(true);
 
-                messageTouch = true;
                 messageError = false;
 
                 if (nameError) {
                     nameEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
                 } else {
                     nameEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-                } nameTouch = false;
+                }
 
                 if (mobileError) {
                     mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
                 } else {
                     mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-                } mobileTouch = false;
+                }
             }
             return false;
         });
@@ -205,7 +209,14 @@ public class CallUsActivity extends AppCompatActivity {
                 checkInput();
             } else {
                 clearData();
-                sendMessage();
+
+//                try {
+//                    progressDialog.show();
+//                    viewModel.send(name, mobile, message);
+//                    observeWork();
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
             }
         });
     }
@@ -230,10 +241,6 @@ public class CallUsActivity extends AppCompatActivity {
         nameEditText.setCursorVisible(false);
         mobileEditText.setCursorVisible(false);
         messageEditText.setCursorVisible(false);
-
-        nameTouch = false;
-        mobileTouch = false;
-        messageTouch = false;
 
         if (nameEditText.length() == 0 && mobileEditText.length() == 0 && messageEditText.length() == 0) {
             nameEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
@@ -303,17 +310,13 @@ public class CallUsActivity extends AppCompatActivity {
         mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
         messageEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
 
-        nameTouch = false;
-        mobileTouch = false;
-        messageTouch = false;
-
         nameError = false;
         mobileError = false;
         messageError = false;
     }
 
-    private void sendMessage() {
-        // TODO : Send The Message To The Server
+    private void observeWork() {
+
     }
 
     @Override

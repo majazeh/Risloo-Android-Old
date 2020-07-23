@@ -43,7 +43,6 @@ public class PinFragment extends Fragment {
 
     // Vars
     private String pin = "";
-    private boolean pinTouch, pinError;
 
     // Objects
     private Activity activity;
@@ -106,9 +105,6 @@ public class PinFragment extends Fragment {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 pinEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
                 pinEditText.setCursorVisible(true);
-
-                pinTouch = true;
-                pinError = false;
             }
             return false;
         });
@@ -206,11 +202,8 @@ public class PinFragment extends Fragment {
     private void checkInput() {
         pinEditText.setCursorVisible(false);
 
-        pinTouch = false;
-
         if (pinEditText.length() == 0) {
             pinEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
-            pinError = true;
         }
     }
 
@@ -218,9 +211,6 @@ public class PinFragment extends Fragment {
         pinEditText.setCursorVisible(false);
 
         pinEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-
-        pinTouch = false;
-        pinError = false;
     }
 
     private void doWork(String value) {

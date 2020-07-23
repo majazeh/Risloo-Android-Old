@@ -39,7 +39,7 @@ public class RegisterFragment extends Fragment {
 
     // Vars
     private String name = "", mobile = "", gender = "male", password = "";
-    private boolean nameTouch, nameError, mobileTouch, mobileError, passwordTouch, passwordError;
+    private boolean nameError, mobileError, passwordError;
     private boolean passwordVisibility;
 
     // Objects
@@ -99,7 +99,6 @@ public class RegisterFragment extends Fragment {
                 nameEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
                 nameEditText.setCursorVisible(true);
 
-                nameTouch = true;
                 nameError = false;
 
                 passwordImageView.setVisibility(View.INVISIBLE);
@@ -109,14 +108,12 @@ public class RegisterFragment extends Fragment {
                 } else {
                     mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
                 }
-                mobileTouch = false;
 
                 if (passwordError) {
                     passwordEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
                 } else {
                     passwordEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
                 }
-                passwordTouch = false;
             }
             return false;
         });
@@ -126,7 +123,6 @@ public class RegisterFragment extends Fragment {
                 mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
                 mobileEditText.setCursorVisible(true);
 
-                mobileTouch = true;
                 mobileError = false;
 
                 passwordImageView.setVisibility(View.INVISIBLE);
@@ -136,14 +132,12 @@ public class RegisterFragment extends Fragment {
                 } else {
                     passwordEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
                 }
-                passwordTouch = false;
 
                 if (nameError) {
                     nameEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
                 } else {
                     nameEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
                 }
-                nameTouch = false;
             }
             return false;
         });
@@ -153,7 +147,6 @@ public class RegisterFragment extends Fragment {
                 passwordEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
                 passwordEditText.setCursorVisible(true);
 
-                passwordTouch = true;
                 passwordError = false;
 
                 if (passwordEditText.length() != 0) {
@@ -165,14 +158,12 @@ public class RegisterFragment extends Fragment {
                 } else {
                     nameEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
                 }
-                nameTouch = false;
 
                 if (mobileError) {
                     mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
                 } else {
                     mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
                 }
-                mobileTouch = false;
             }
             return false;
         });
@@ -259,10 +250,6 @@ public class RegisterFragment extends Fragment {
         mobileEditText.setCursorVisible(false);
         passwordEditText.setCursorVisible(false);
 
-        nameTouch = false;
-        mobileTouch = false;
-        passwordTouch = false;
-
         if (nameEditText.length() == 0 && mobileEditText.length() == 0 && passwordEditText.length() == 0) {
             nameEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
             mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
@@ -330,10 +317,6 @@ public class RegisterFragment extends Fragment {
         nameEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
         mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
         passwordEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-
-        nameTouch = false;
-        mobileTouch = false;
-        passwordTouch = false;
 
         nameError = false;
         mobileError = false;
