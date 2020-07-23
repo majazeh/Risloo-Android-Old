@@ -140,7 +140,7 @@ public class SampleWorker extends Worker {
                 SampleRepository.remoteData.clear();
 
                 SampleRepository.exception = errorBody.getString("message_text");
-                SampleRepository.workStateAnswer.postValue(-1);
+                SampleRepository.workStateAnswer.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {

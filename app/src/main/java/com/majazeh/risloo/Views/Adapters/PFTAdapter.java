@@ -44,7 +44,7 @@ public class PFTAdapter extends RecyclerView.Adapter<PFTAdapter.PFTHolder> {
 
 //        try {
 //            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-//                holder.rootLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_quartz_border_ripple);
+//                holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_quartz_border_ripple);
 //            }
 //
 //
@@ -81,12 +81,10 @@ public class PFTAdapter extends RecyclerView.Adapter<PFTAdapter.PFTHolder> {
 
     public class PFTHolder extends RecyclerView.ViewHolder {
 
-        public LinearLayout rootLinearLayout;
         public TextView numberTextView, answerTextView;
 
         public PFTHolder(View view) {
             super(view);
-            rootLinearLayout = view.findViewById(R.id.fragment_ft_single_item_root_linearLayout);
             numberTextView = view.findViewById(R.id.fragment_ft_single_item_number_textView);
             answerTextView = view.findViewById(R.id.fragment_ft_single_item_answer_textView);
         }

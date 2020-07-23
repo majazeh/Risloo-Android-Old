@@ -162,6 +162,17 @@ public class ItemDecorator extends RecyclerView.ItemDecoration {
                 rect.left = margin;
 
                 break;
+            case "normalLayout":
+
+                // Top And Bottom Margin
+                rect.top = margin;
+                rect.bottom = margin;
+
+                // Right And Left Margins
+                rect.right = margin;
+                rect.left = margin;
+
+                break;
         }
 
     }

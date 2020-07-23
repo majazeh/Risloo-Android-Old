@@ -108,9 +108,16 @@
 
     <string name="SamplePrintHint">اینجا وارد نمایید</string>
 
+    <string name="SampleCancel">خروج</string>
+    <string name="SampleFinish">اتمام</string>
+
     <string name="SampleNavigateDialogTitle">کدام سؤال می خوای ببینی؟</string>
     <string name="SampleNavigateDialogConfirm">بستن</string>
 
+    <string name="SampleFinishDialogTitle">اتمام نمونه؟</string>
+    <string name="SampleFinishDialogDescription">آیا تمایل به اتمام این نمونه صرفا با پاسخ های حال حاضر؟</string>
+    <string name="SampleFinishDialogPositive">اتمام</string>
+    <string name="SampleFinishDialogNegative">بستن</string>
     <string name="SampleCancelDialogTitle">خروج از نمونه؟</string>
     <string name="SampleCancelDialogDescription">نمونه شما از بین نمی رود و بعدا می توانید از بایگانی خود به آن دسترسی پیدا کنید و ان را تکمیل نمایید.</string>
     <string name="SampleCancelDialogPositive">خروج</string>

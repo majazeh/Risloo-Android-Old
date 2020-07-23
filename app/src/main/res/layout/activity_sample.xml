@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_sample"
@@ -8,8 +9,7 @@
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
     android:background="@color/White"
-    tools:context=".Views.Activities.SampleActivity"
-    tools:ignore="UnusedAttribute">
+    tools:context=".Views.Activities.SampleActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,102 +23,129 @@
             android:layout_above="@id/activity_sample_linearLayout"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/activity_sample_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:paddingBottom="@dimen/_32sdp"
-            android:paddingLeft="@dimen/_24sdp"
-            android:paddingRight="@dimen/_24sdp"
+            android:paddingBottom="@dimen/_18sdp"
+            android:paddingLeft="@dimen/_18sdp"
+            android:paddingRight="@dimen/_18sdp"
             android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp">
+
+                <ImageView
+                    android:id="@+id/activity_sample_forward_imageView"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="@dimen/_4sdp"
+                    android:padding="@dimen/_8sdp"
+                    android:tint="@color/Grey"
+                    android:src="@drawable/ic_chevron_left"
+                    android:background="@drawable/draw_8sdp_snow"/>
+
+                <ImageView
+                    android:id="@+id/activity_sample_backward_imageView"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/activity_sample_forward_imageView"
+                    android:layout_marginLeft="@dimen/_4sdp"
+                    android:padding="@dimen/_8sdp"
+                    android:tint="@color/Grey"
+                    android:src="@drawable/ic_chevron_right"
+                    android:background="@drawable/draw_8sdp_snow"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:layoutDirection="rtl"
+                    android:orientation="horizontal"
+                    android:background="@drawable/draw_8sdp_solitude_border">
+
+                    <ImageView
+                        android:id="@+id/activity_sample_navigate_imageView"
+                        android:layout_width="@dimen/_38sdp"
+                        android:layout_height="@dimen/_28sdp"
+                        android:layout_marginRight="@dimen/_1sdp"
+                        android:padding="@dimen/_6sdp"
+                        android:tint="@color/Grey"
+                        android:src="@drawable/ic_compass"
+                        android:background="@drawable/draw_8sdp_snow_oneside"/>
+
+                    <TextView
+                        android:id="@+id/activity_sample_flow_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingTop="@dimen/_3sdp"
+                        android:paddingLeft="@dimen/_8sdp"
+                        android:paddingRight="@dimen/_6sdp"
+                        android:gravity="center"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold"
+                        android:textColor="@color/Mischka"
+                        android:textAlignment="gravity"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
             <ProgressBar
                 android:id="@+id/activity_sample_flow_progressBar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_9sdp"
-                android:layout_marginBottom="@dimen/_8sdp"
-                android:layout_alignParentTop="true"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_18sdp"
                 android:progress="0"
                 android:progressDrawable="@drawable/draw_8sdp_solitude_progress"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
 
-            <ImageView
-                android:id="@+id/activity_sample_forward_imageView"
-                android:layout_width="@dimen/_42sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_below="@id/activity_sample_flow_progressBar"
-                android:layout_alignParentLeft="true"
-                android:layout_marginRight="@dimen/_4sdp"
-                android:padding="@dimen/_7sdp"
-                android:tint="@color/Grey"
-                android:src="@drawable/ic_chevron_left"
-                android:background="@drawable/draw_8sdp_snow"/>
-
-            <ImageView
-                android:id="@+id/activity_sample_backward_imageView"
-                android:layout_width="@dimen/_42sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_below="@id/activity_sample_flow_progressBar"
-                android:layout_toRightOf="@id/activity_sample_forward_imageView"
-                android:layout_marginLeft="@dimen/_4sdp"
-                android:padding="@dimen/_7sdp"
-                android:tint="@color/Grey"
-                android:src="@drawable/ic_chevron_right"
-                android:background="@drawable/draw_8sdp_snow"/>
-
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_below="@id/activity_sample_flow_progressBar"
-                android:layout_alignParentRight="true"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_32sdp"
                 android:layoutDirection="rtl"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:background="@drawable/draw_8sdp_solitude_border">
-
-                <ImageView
-                    android:id="@+id/activity_sample_navigate_imageView"
-                    android:layout_width="@dimen/_38sdp"
-                    android:layout_height="@dimen/_28sdp"
-                    android:layout_marginRight="@dimen/_1sdp"
-                    android:padding="@dimen/_6sdp"
-                    android:tint="@color/Grey"
-                    android:src="@drawable/ic_compass"
-                    android:background="@drawable/draw_8sdp_snow_oneside"/>
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/activity_sample_index_imageView"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/activity_sample_finish_textView"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingTop="@dimen/_2sdp"
-                    android:paddingLeft="@dimen/_10sdp"
-                    android:paddingRight="@dimen/_6sdp"
+                    android:layout_weight="0.5"
+                    android:layout_marginLeft="@dimen/_4sdp"
                     android:gravity="center"
-                    android:textSize="@dimen/_15ssp"
+                    android:text="@string/SampleFinish"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/White"
+                    android:textAlignment="gravity"
+                    android:background="@drawable/draw_8sdp_primary"/>
+
+                <TextView
+                    android:id="@+id/activity_sample_cancel_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:layout_marginRight="@dimen/_4sdp"
+                    android:gravity="center"
+                    android:text="@string/SampleCancel"
+                    android:textSize="@dimen/_12ssp"
                     android:textStyle="bold"
                     android:textColor="@color/Mischka"
-                    android:textAlignment="gravity"/>
+                    android:textAlignment="gravity"
+                    android:background="@drawable/draw_8sdp_solitude"/>
 
             </LinearLayout>
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/activity_sample_cancel_imageView"
-        android:layout_width="@dimen/_32sdp"
-        android:layout_height="@dimen/_32sdp"
-        android:layout_gravity="top|left"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:layout_marginLeft="@dimen/_18sdp"
-        android:padding="@dimen/_7sdp"
-        android:tint="@color/Grey"
-        android:src="@drawable/ic_times"
-        android:background="@drawable/draw_oval_snow"/>
-
-    <FrameLayout
+    <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
         android:layout_gravity="bottom"

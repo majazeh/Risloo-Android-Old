@@ -6,11 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -59,15 +57,16 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull TFTHolder holder, int i) {
+
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            holder.rootLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_quartz_border_ripple);
+            holder.itemView.setBackgroundResource(R.drawable.draw_18sdp_quartz_border_ripple);
         }
 
         holder.answerTextView.setText(answers.get(i));
 
         if (position == -1) {
             holder.numberTextView.setText("");
-            holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow);
+            holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solitude);
 
             holder.itemView.setEnabled(true);
             holder.itemView.setClickable(true);
@@ -86,7 +85,7 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
             } else {
                 if (clickedItem) {
                     holder.numberTextView.setText("");
-                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow);
+                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solitude);
 
                     holder.itemView.setAlpha((float) 0.3);
                     holder.itemView.setEnabled(false);
@@ -101,9 +100,8 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
                 }
             }
         }
-        Log.e("test1", String.valueOf(viewModel.getCurrentIndex()));
-        holder.itemView.setOnClickListener(v -> {
 
+        holder.itemView.setOnClickListener(v -> {
             handler.postDelayed(() -> doWork(i), 500);
 
             position = i;
@@ -120,9 +118,11 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
     }
 
     private void initializer(View view) {
-        handler = new Handler();
         sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
+        handler = new Handler();
     }
+
     public void setAnswer(ArrayList<String> answers, int position) {
         this.answers = answers;
         this.position = position;
@@ -135,18 +135,17 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
             jsonArray.getJSONObject(viewModel.getCurrentIndex()).put("index", viewModel.getCurrentIndex());
             jsonArray.getJSONObject(viewModel.getCurrentIndex()).put("answer", position);
             viewModel.writeAnswerToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
-            //////////////////////////////////////////////////////////////////////////////////////////////////
+
             if (viewModel.next() == null) {
                 if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
                     activity.startActivity(new Intent(activity, OutroActivity.class));
-                    activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                     activity.finish();
                     return;
                 }
                 viewModel.setIndex(viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")));
             }
             try {
-            ((SampleActivity) Objects.requireNonNull(activity)).showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
+                ((SampleActivity) Objects.requireNonNull(activity)).showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -155,17 +154,14 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     public class TFTHolder extends RecyclerView.ViewHolder {
 
-        public LinearLayout rootLinearLayout;
         public TextView numberTextView, answerTextView;
 
         public TFTHolder(View view) {
             super(view);
-            rootLinearLayout = view.findViewById(R.id.fragment_ft_single_item_root_linearLayout);
             numberTextView = view.findViewById(R.id.fragment_ft_single_item_number_textView);
             answerTextView = view.findViewById(R.id.fragment_ft_single_item_answer_textView);
         }

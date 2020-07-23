@@ -38,7 +38,7 @@ public class TFTFragment extends Fragment {
     private TextView questionTextView;
     private RecyclerView answerRecyclerView;
 
-    public TFTFragment(Activity activity,SampleViewModel viewModel) {
+    public TFTFragment(Activity activity, SampleViewModel viewModel) {
         this.activity = activity;
         this.viewModel = viewModel;
     }
@@ -54,11 +54,10 @@ public class TFTFragment extends Fragment {
     }
 
     private void initializer(View view) {
-
         sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-        adapter = new TFTAdapter(activity,viewModel);
-        try {
 
+        adapter = new TFTAdapter(activity, viewModel);
+        try {
             adapter.setAnswer(viewModel.getOptions(viewModel.getCurrentIndex()),viewModel.answerPosition(sharedPreferences.getString("sampleId",""),viewModel.getCurrentIndex()));;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -70,6 +69,7 @@ public class TFTFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         answerRecyclerView = view.findViewById(R.id.fragment_tft_answer_recyclerView);
         answerRecyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout",(int) getResources().getDimension(R.dimen._16sdp)));
         answerRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));

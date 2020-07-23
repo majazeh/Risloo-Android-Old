@@ -78,7 +78,7 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
                 holder.numberTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
             } else {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow_ripple_quartz);
+                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow_ripple);
                 } else {
                     holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow);
                 }
