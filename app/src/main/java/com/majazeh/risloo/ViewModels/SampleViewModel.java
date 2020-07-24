@@ -19,19 +19,14 @@ public class SampleViewModel extends AndroidViewModel {
     // Repositories
     private SampleRepository repository;
 
-    public SampleViewModel(@NonNull Application application, String testUniqueId) throws JSONException {
-        super(application);
-
-        repository = new SampleRepository(application, testUniqueId);
-    }
-
     public SampleViewModel(@NonNull Application application) {
         super(application);
+
         repository = new SampleRepository(application);
     }
 
-    public void insertToLocalData(int item, int answer) {
-        repository.insertToLocalData(item, answer);
+    public void sendAnswers(String sampleId) throws JSONException {
+        repository.sendAnswers(sampleId);
     }
 
     public String getTitle() throws JSONException {
@@ -42,31 +37,19 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.json().getString("description");
     }
 
-    public int getVersion() throws JSONException {
-        return repository.json().getInt("version");
-    }
-
-    public String getEdition() throws JSONException {
-        return repository.json().getString("edition");
-    }
-
-    public String getEditionVersion() throws JSONException {
-        return repository.json().getString("edition_version");
-    }
-
-    public String getFiller() throws JSONException {
-        return repository.json().getString("filler");
+    public ArrayList getItems() {
+        return repository.items().items();
     }
 
     public Model getItem(int index) {
         return repository.items().item(index);
     }
 
-    public Model next() {
+    public Model getNext() {
         return repository.items().next();
     }
 
-    public Model prev() {
+    public Model getPrev() {
         return repository.items().prev();
     }
 
@@ -74,30 +57,16 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.items().goToIndex(index);
     }
 
-    public int getCurrentIndex() {
-        return repository.items().currentIndex();
+    public void setIndex(int index) {
+        repository.items().setIndex(index);
+    }
+
+    public int getIndex() {
+        return repository.items().getIndex();
     }
 
     public int getSize() {
         return repository.items().size();
-    }
-
-    public ArrayList getItems() {
-        return repository.items().getAll();
-    }
-
-    public void setIndex(int index) {
-        repository.items().setCurrentIndex(index);
-    }
-
-    public ArrayList files() {
-        return repository.files();
-    }
-
-    //Answers
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public JSONObject getAnswer(int index) throws JSONException {
-        return (JSONObject) repository.items().item(index).get("answer");
     }
 
     public ArrayList<String> getOptions(int index) throws JSONException {
@@ -108,42 +77,72 @@ public class SampleViewModel extends AndroidViewModel {
         return arrayList;
     }
 
-    public void sendAnswers(String UniqueId) throws JSONException {
-        repository.sendAnswers(UniqueId);
+    public JSONObject getAnswer(int index) throws JSONException {
+        return (JSONObject) repository.items().item(index).get("answer");
     }
+
+    /*
+         ---------- Insert ----------
+    */
+
+    public void insertToLocal(int index, int answer) {
+        repository.insertToLocal(index, answer);
+    }
+
+    /*
+         ---------- Save ----------
+    */
+
+    public void saveToExternal(JSONArray jsonArray, String fileName) {
+        repository.saveToExternal(jsonArray, fileName);
+    }
+
+    public void saveAnswerToCache(JSONArray jsonArray, String fileName) {
+        repository.saveAnswerToCache(jsonArray,  fileName);
+    }
+
+    /*
+         ---------- Read ----------
+    */
+
+    public JSONArray readAnswerFromCache(String fileName) {
+        return repository.readAnswerFromCache( fileName);
+    }
+
+    /*
+         ---------- Storage ----------
+    */
 
     public boolean hasStorage(String fileName) {
         return repository.hasStorage( fileName);
+    }
+
+    public void checkStorage(String fileName) {
+        repository.checkStorage(fileName);
     }
 
     public void deleteStorage(String fileName) {
         repository.deleteStorage(fileName);
     }
 
-    public int answerSize(String fileName) {
-        return repository.answerSize(fileName);
+    public ArrayList<Model> getStorageFiles() {
+        return repository.storageFiles();
     }
 
-    public int answerPosition(String fileName, int index) {
-        return repository.answerPosition(fileName, index);
+    /*
+         ---------- Answer ----------
+    */
+
+    public int answeredPosition(String fileName, int index) {
+        return repository.answeredPosition(fileName, index);
     }
 
-    public int getLastUnAnswer(String fileName) {
-        return repository.lastUnAnswer( fileName);
+    public int answeredSize(String fileName) {
+        return repository.answeredSize(fileName);
     }
 
-    public void writeAnswerToCache(JSONArray jsonArray, String fileName) {
-        repository.writeAnswerToCache(jsonArray,  fileName);
+    public int firstUnanswered(String fileName) {
+        return repository.firstUnanswered( fileName);
     }
 
-    public JSONArray readAnswerFromCache(String fileName) {
-        return repository.readAnswerFromCache( fileName);
-    }
-
-    public void saveAnswerToExternal(JSONArray jsonArray, String fileName) {
-        repository.saveToExternal(jsonArray, fileName);
-    }
-    public void checkStorage() {
-        repository.checkStorage();
-    }
-    }
+}

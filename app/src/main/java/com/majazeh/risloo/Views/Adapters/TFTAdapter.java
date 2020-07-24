@@ -132,24 +132,24 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
     private void doWork(int position) {
         try {
             JSONArray jsonArray = viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", ""));
-            jsonArray.getJSONObject(viewModel.getCurrentIndex()).put("index", viewModel.getCurrentIndex());
-            jsonArray.getJSONObject(viewModel.getCurrentIndex()).put("answer", position);
-            viewModel.writeAnswerToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
+            jsonArray.getJSONObject(viewModel.getIndex()).put("index", viewModel.getIndex());
+            jsonArray.getJSONObject(viewModel.getIndex()).put("answer", position);
+            viewModel.saveAnswerToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
 
-            if (viewModel.next() == null) {
-                if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
+            if (viewModel.getNext() == null) {
+                if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
                     activity.startActivity(new Intent(activity, OutroActivity.class));
                     activity.finish();
                     return;
                 }
-                viewModel.setIndex(viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")));
+                viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
             }
             try {
-                ((SampleActivity) Objects.requireNonNull(activity)).showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
+                ((SampleActivity) Objects.requireNonNull(activity)).showFragment((String) viewModel.getAnswer(viewModel.getIndex()).get("type"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            viewModel.insertToLocalData(viewModel.getCurrentIndex(), position);
+            viewModel.insertToLocal(viewModel.getIndex(), position);
             viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
         } catch (JSONException e) {
             e.printStackTrace();

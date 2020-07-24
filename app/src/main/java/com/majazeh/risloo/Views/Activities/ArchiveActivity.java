@@ -51,14 +51,14 @@ public class ArchiveActivity extends AppCompatActivity {
 
         adapter = new ArchiveAdapter(this);
         if (hasArchive()) {
-            adapter.setArchive(viewModel.files());
+            adapter.setArchive(viewModel.getStorageFiles());
         }
 
         toolbar = findViewById(R.id.activity_archive_toolbar);
 
         countTextView = findViewById(R.id.activity_archive_count_textView);
         if (hasArchive()) {
-            countTextView.setText(viewModel.files().size() + " " + getResources().getString(R.string.ArchiveCount));
+            countTextView.setText(viewModel.getStorageFiles().size() + " " + getResources().getString(R.string.ArchiveCount));
         }
 
         recyclerView = findViewById(R.id.activity_archive_recyclerView);
@@ -76,7 +76,7 @@ public class ArchiveActivity extends AppCompatActivity {
     }
 
     private boolean hasArchive() {
-        return viewModel.files() != null;
+        return viewModel.getStorageFiles() != null;
     }
 
     @Override

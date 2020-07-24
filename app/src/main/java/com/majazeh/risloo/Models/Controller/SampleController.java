@@ -2,107 +2,67 @@ package com.majazeh.risloo.Models.Controller;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
+import android.net.ConnectivityManager;
 
+import androidx.lifecycle.MutableLiveData;
+import androidx.work.Constraints;
 import androidx.work.Data;
+import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
-import com.majazeh.risloo.Models.Remotes.Generators.JSONGenerator;
-import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.Models.Workers.SampleWorker;
 
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 public class SampleController {
 
+    // Objects
     private Application application;
-    JSONGenerator jsonGenerator;
-    String testUniqueId;
 
-    public SampleController(Application application, JSONGenerator jsonGenerator, String testUniqueId) {
+    // Vars
+    public static MutableLiveData<Integer> workStateSample;
+    public static MutableLiveData<Integer> workStateAnswer;
+    public static String work = "";
+    public static String exception = "";
+    public static boolean cache = false;
+
+    public SampleController(Application application) {
         this.application = application;
 
-        this.jsonGenerator = jsonGenerator;
-        this.testUniqueId = testUniqueId;
+        workStateSample = new MutableLiveData<>();
+        workStateAnswer = new MutableLiveData<>();
+        workStateSample.setValue(-1);
+        workStateAnswer.setValue(-1);
     }
 
-    public SampleController() {
+    public void workManager(String work) throws JSONException {
+        if (isNetworkConnected(application.getApplicationContext())) {
+            Constraints constraints = new Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build();
 
-    }
+            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SampleWorker.class)
+                    .setConstraints(constraints)
+                    .setInputData(data(work))
+                    .build();
 
-    public JSONObject getSample() {
-        if (readJsonFromCache(application, testUniqueId) != null) {
-            return readJsonFromCache(application, testUniqueId);
-        }
-        return null;
-    }
-
-    public void getSampleFromAPI(String work, String UniqueId) throws JSONException {
-
-
-        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SampleWorker.class)
-                .setInputData(data(work, UniqueId))
-                .build();
-
-        WorkManager.getInstance(application).enqueue(workRequest);
-    }
-
-    public void saveJsonToCache(Context context, JSONObject jsonObject, String fileName) {
-        try {
-            File file = new File(context.getCacheDir(), "Samples/" + fileName);
-            if (!file.getParentFile().exists())
-                file.getParentFile().mkdirs();
-            if (!file.exists()){
-                file.createNewFile();
-            }
-            FileOutputStream fos = new FileOutputStream(file);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(jsonObject.toString());
-            oos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            WorkManager.getInstance(application).enqueue(workRequest);
+        } else {
+            exception = "انترنت شما وصل نیست! لطفا متصل شوید.";
+            workStateSample.setValue(-2);
+            workStateAnswer.setValue(-2);
         }
     }
 
-    public JSONObject readJsonFromCache(Context context, String fileName) {
-        JSONObject jsonArray;
-        try {
-            FileInputStream fis = new FileInputStream(new File(context.getCacheDir(), "Samples/" + fileName));
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            jsonArray = new JSONObject((String) ois.readObject());
-            ois.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return jsonArray;
+    private boolean isNetworkConnected(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
-    private Data data(String work, String UniqueId) throws JSONException {
+    private Data data(String work) throws JSONException {
         return new Data.Builder()
                 .putString("work", work)
-                .putString("UniqueId", UniqueId)
                 .build();
     }
 

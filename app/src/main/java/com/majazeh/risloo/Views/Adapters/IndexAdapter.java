@@ -59,7 +59,7 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
 
         holder.numberTextView.setText(String.valueOf(Integer.parseInt(indexes.get(i))+1));
 
-        if (viewModel.getCurrentIndex() == i){
+        if (viewModel.getIndex() == i){
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                 holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow_border_primary_ripple);
             } else {
@@ -94,7 +94,7 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
 
             viewModel.goToIndex(i);
             try {
-                ((SampleActivity) Objects.requireNonNull(activity)).showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
+                ((SampleActivity) Objects.requireNonNull(activity)).showFragment((String) viewModel.getAnswer(viewModel.getIndex()).get("type"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

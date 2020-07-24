@@ -152,7 +152,7 @@ public class SerialFragment extends Fragment {
             serialLinkTextView.setVisibility(View.INVISIBLE);
         }
 
-        if (sampleViewModel.files() != null) {
+        if (sampleViewModel.getStorageFiles() != null) {
             serialArchiveTextView.setVisibility(View.VISIBLE);
             serialArchiveTextView.setText(StringCustomizer.clickable(activity.getResources().getString(R.string.SerialArchive), 22, 36, serialArchiveSpan));
         } else {

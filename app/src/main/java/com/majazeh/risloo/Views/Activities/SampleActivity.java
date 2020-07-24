@@ -25,12 +25,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.majazeh.risloo.Models.Repositories.SampleRepository;
+import com.majazeh.risloo.Models.Controller.SampleController;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
-import com.majazeh.risloo.ViewModels.SampleViewModelFactory;
 import com.majazeh.risloo.Views.Adapters.IndexAdapter;
 import com.majazeh.risloo.Views.Fragments.PFPFragment;
 import com.majazeh.risloo.Views.Fragments.PFTFragment;
@@ -84,12 +83,12 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void initializer() {
+        viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
+
         sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
         editor = sharedPreferences.edit();
         editor.apply();
-
-        viewModel = ViewModelProviders.of(this, new SampleViewModelFactory(getApplication(), sharedPreferences.getString("sampleId", ""))).get(SampleViewModel.class);
 
         handler = new Handler();
 
@@ -206,16 +205,16 @@ public class SampleActivity extends AppCompatActivity {
             forwardImageView.setClickable(false);
             handler.postDelayed(() -> forwardImageView.setClickable(true), 100);
 
-            if (viewModel.next() == null) {
-                if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
+            if (viewModel.getNext() == null) {
+                if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
                     startActivity(new Intent(this, OutroActivity.class));
                     finish();
                     return;
                 }
-                viewModel.setIndex(viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")));
+                viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
             }
             try {
-                showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
+                showFragment((String) viewModel.getAnswer(viewModel.getIndex()).get("type"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -225,9 +224,9 @@ public class SampleActivity extends AppCompatActivity {
             backwardImageView.setClickable(false);
             handler.postDelayed(() -> backwardImageView.setClickable(true), 100);
 
-            viewModel.prev();
+            viewModel.getPrev();
             try {
-                showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
+                showFragment((String) viewModel.getAnswer(viewModel.getIndex()).get("type"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -236,7 +235,7 @@ public class SampleActivity extends AppCompatActivity {
         navigateImageView.setOnClickListener(v -> {
             navigateImageView.setClickable(false);
             handler.postDelayed(() -> navigateImageView.setClickable(true), 1000);
-            dialogNavigateRecyclerView.scrollToPosition(viewModel.getCurrentIndex());
+            dialogNavigateRecyclerView.scrollToPosition(viewModel.getIndex());
             navigateDialog.show();
         });
 
@@ -283,7 +282,7 @@ public class SampleActivity extends AppCompatActivity {
 
     private void checkStorage() {
         if (viewModel.hasStorage(sharedPreferences.getString("sampleId", ""))) {
-            if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
+            if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
                 startActivity(new Intent(this, OutroActivity.class));
                 finish();
             } else {
@@ -302,12 +301,12 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     public void showFragment(String type) {
-        indexTextView.setText(viewModel.getCurrentIndex() + 1 + " " + "از" + " " + viewModel.getSize());
+        indexTextView.setText(viewModel.getIndex() + 1 + " " + "از" + " " + viewModel.getSize());
 
         flowProgressBar.setMax(viewModel.getSize());
-        flowProgressBar.setProgress(viewModel.answerSize(sharedPreferences.getString("sampleId", "")));
+        flowProgressBar.setProgress(viewModel.answeredSize(sharedPreferences.getString("sampleId", "")));
 
-        dialogNavigateRecyclerView.scrollToPosition(viewModel.getCurrentIndex());
+        dialogNavigateRecyclerView.scrollToPosition(viewModel.getIndex());
 
         adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
         adapter.notifyDataSetChanged();
@@ -337,23 +336,23 @@ public class SampleActivity extends AppCompatActivity {
     public void observeWork() {
         if (isNetworkConnected()) {
             progressDialog.show();
-            SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
+            SampleController.workStateSample.observe((LifecycleOwner) this, integer -> {
                 if (integer == 1) {
                     try {
-                        viewModel.checkStorage();
+                        viewModel.checkStorage(sharedPreferences.getString("sampleId", ""));
                         adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
-                        if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
+                        if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
                             finish();
                             return;
                         }
-                        viewModel.setIndex(viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")));
+                        viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
                         progressDialog.dismiss();
-                        showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
+                        showFragment((String) viewModel.getAnswer(viewModel.getIndex()).get("type"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
-                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    SampleController.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     // TODO: get exception
                 }
@@ -361,17 +360,17 @@ public class SampleActivity extends AppCompatActivity {
         } else {
             if (viewModel.getItems() != null) {
                 try {
-                    viewModel.checkStorage();
-                    viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", ""));
-                    if (viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")) == -1) {
+                    viewModel.checkStorage(sharedPreferences.getString("sampleId", ""));
+                    viewModel.firstUnanswered(sharedPreferences.getString("sampleId", ""));
+                    if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
                         startActivity(new Intent(this, OutroActivity.class));
                         finish();
                         return;
                     }
                     adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
-                    viewModel.setIndex(viewModel.getLastUnAnswer(sharedPreferences.getString("sampleId", "")));
+                    viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
 
-                    showFragment((String) viewModel.getAnswer(viewModel.getCurrentIndex()).get("type"));
+                    showFragment((String) viewModel.getAnswer(viewModel.getIndex()).get("type"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

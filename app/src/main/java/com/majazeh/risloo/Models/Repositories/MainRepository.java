@@ -11,4 +11,8 @@ public class MainRepository {
         this.application = application;
     }
 
+    public MainRepository() {
+
+    }
+
 }

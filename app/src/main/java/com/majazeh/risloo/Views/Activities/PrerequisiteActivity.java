@@ -24,7 +24,6 @@ import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
-import com.majazeh.risloo.ViewModels.SampleViewModelFactory;
 import com.majazeh.risloo.Views.Adapters.PrerequisiteAdapter;
 
 import org.json.JSONException;
@@ -76,7 +75,7 @@ public class PrerequisiteActivity extends AppCompatActivity {
     private void initializer() {
         sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
-        viewModel = ViewModelProviders.of(this, new SampleViewModelFactory(getApplication(), sharedPreferences.getString("sampleId", ""))).get(SampleViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
 
         adapter = new PrerequisiteAdapter(this);
 //        adapter.setPrerequisite(viewModel.getAll());

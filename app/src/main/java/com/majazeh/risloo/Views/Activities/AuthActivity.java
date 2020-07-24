@@ -35,7 +35,7 @@ import org.json.JSONException;
 public class AuthActivity extends AppCompatActivity {
 
     // ViewModels
-    private AuthViewModel authViewModel;
+    private AuthViewModel viewModel;
 
     // Vars
     public MutableLiveData<Boolean> callTimer;
@@ -71,7 +71,7 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        authViewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
 
         sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
@@ -149,7 +149,7 @@ public class AuthActivity extends AppCompatActivity {
                     } else {
                         if (AuthController.theory.equals("auth")) {
                             try {
-                                authViewModel.authTheory("", "");
+                                viewModel.authTheory("", "");
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

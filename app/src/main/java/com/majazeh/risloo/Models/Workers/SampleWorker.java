@@ -22,15 +22,13 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static com.majazeh.risloo.Models.Repositories.SampleRepository.localData;
-
 public class SampleWorker extends Worker {
 
     // Apis
     private SampleApi sampleApi;
 
-    // Controllers
-    private SampleController sampleController;
+    // Repository
+    private SampleRepository repository;
 
     // Objects
     private Context context;
@@ -43,7 +41,7 @@ public class SampleWorker extends Worker {
 
         sampleApi = RetroGenerator.getRetrofit().create(SampleApi.class);
 
-        sampleController = new SampleController();
+        repository = new SampleRepository();
 
         sharedPreferences = context.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
@@ -86,32 +84,32 @@ public class SampleWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject succesBody = new JSONObject(bodyResponse.body().string());
 
-                sampleController.saveJsonToCache(context, succesBody, sharedPreferences.getString("sampleId", ""));
+                repository.saveSampleToCache(context, succesBody, sharedPreferences.getString("sampleId", ""));
 
-                SampleRepository.exception = "موفقیت آمیز";
-                SampleRepository.workStateSample.postValue(1);
+                SampleController.exception = "موفقیت آمیز";
+                SampleController.workStateSample.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                SampleRepository.exception = errorBody.getString("message_text");
-                SampleRepository.workStateSample.postValue(0);
+                SampleController.exception = errorBody.getString("message_text");
+                SampleController.workStateSample.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            SampleRepository.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
-            SampleRepository.workStateSample.postValue(0);
+            SampleController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
+            SampleController.workStateSample.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            SampleRepository.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
-            SampleRepository.workStateSample.postValue(0);
+            SampleController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
+            SampleController.workStateSample.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            SampleRepository.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
-            SampleRepository.workStateSample.postValue(0);
+            SampleController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
+            SampleController.workStateSample.postValue(0);
         }
     }
 
@@ -120,44 +118,42 @@ public class SampleWorker extends Worker {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("items", SampleRepository.remoteData);
 
+            SampleController.cache = false;
+
             Call<ResponseBody> call = sampleApi.send("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""), jsonObject);
 
             Response<ResponseBody> bodyResponse = call.execute();
-            SampleRepository.cache = false;
             if (bodyResponse.isSuccessful()) {
                 JSONObject succesBody = new JSONObject(bodyResponse.body().string());
 
                 SampleRepository.remoteData.clear();
 
-                SampleRepository.exception = "موفقیت آمیز";
-                SampleRepository.workStateAnswer.postValue(1);
+                SampleController.exception = "موفقیت آمیز";
+                SampleController.workStateAnswer.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                for (int i = 0; i < SampleRepository.remoteData.size(); i++) {
-                    localData.add(SampleRepository.remoteData.get(i));
-                }
-                SampleRepository.remoteData.clear();
+                repository.insertRemoteToLocal();
 
-                SampleRepository.exception = errorBody.getString("message_text");
-                SampleRepository.workStateAnswer.postValue(0);
+                SampleController.exception = errorBody.getString("message_text");
+                SampleController.workStateAnswer.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            SampleRepository.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
-            SampleRepository.workStateAnswer.postValue(0);
+            SampleController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
+            SampleController.workStateAnswer.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            SampleRepository.exception = "مشکل ادریافت JSON! دوباره تلاش کنید.";
-            SampleRepository.workStateAnswer.postValue(0);
+            SampleController.exception = "مشکل ادریافت JSON! دوباره تلاش کنید.";
+            SampleController.workStateAnswer.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            SampleRepository.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
-            SampleRepository.workStateAnswer.postValue(0);
+            SampleController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
+            SampleController.workStateAnswer.postValue(0);
         }
     }
 

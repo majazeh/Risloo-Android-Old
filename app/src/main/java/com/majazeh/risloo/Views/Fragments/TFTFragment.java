@@ -58,14 +58,14 @@ public class TFTFragment extends Fragment {
 
         adapter = new TFTAdapter(activity, viewModel);
         try {
-            adapter.setAnswer(viewModel.getOptions(viewModel.getCurrentIndex()),viewModel.answerPosition(sharedPreferences.getString("sampleId",""),viewModel.getCurrentIndex()));;
+            adapter.setAnswer(viewModel.getOptions(viewModel.getIndex()),viewModel.answeredPosition(sharedPreferences.getString("sampleId",""),viewModel.getIndex()));;
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         questionTextView = view.findViewById(R.id.fragment_tft_question_textView);
         try {
-            questionTextView.setText(viewModel.getItem(viewModel.getCurrentIndex()).get("text").toString());
+            questionTextView.setText(viewModel.getItem(viewModel.getIndex()).get("text").toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

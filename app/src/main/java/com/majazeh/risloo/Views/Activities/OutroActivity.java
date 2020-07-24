@@ -23,7 +23,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.majazeh.risloo.Models.Repositories.SampleRepository;
+import com.majazeh.risloo.Models.Controller.SampleController;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
@@ -204,10 +204,10 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
     private void sendViaInternet() {
         progressDialog.show();
 
-        SampleRepository.cache = true;
+        SampleController.cache = true;
         try {
             viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
-            SampleRepository.workStateAnswer.observe(this, integer -> {
+            SampleController.workStateAnswer.observe(this, integer -> {
                 if (integer == 1) {
                     viewModel.deleteStorage(sharedPreferences.getString("sampleId", ""));
 
@@ -240,7 +240,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
     }
 
     private void saveFile() {
-        viewModel.saveAnswerToExternal(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")), sharedPreferences.getString("sampleId", ""));
+        viewModel.saveToExternal(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")), sharedPreferences.getString("sampleId", ""));
 
         if (exit) {
             viewModel.deleteStorage(sharedPreferences.getString("sampleId", ""));
