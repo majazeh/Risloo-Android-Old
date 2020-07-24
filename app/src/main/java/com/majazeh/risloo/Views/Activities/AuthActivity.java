@@ -38,7 +38,7 @@ public class AuthActivity extends AppCompatActivity {
     private AuthViewModel viewModel;
 
     // Vars
-    public MutableLiveData<Boolean> callTimer;
+    public MutableLiveData<Integer> callTimer;
 
     // Objects
     private MenuItem toolUser;
@@ -79,6 +79,7 @@ public class AuthActivity extends AppCompatActivity {
         editor.apply();
 
         callTimer = new MutableLiveData<>();
+        callTimer.setValue(-1);
 
         titleToolbar = findViewById(R.id.activity_auth_toolbar);
         setSupportActionBar(titleToolbar);
@@ -93,7 +94,7 @@ public class AuthActivity extends AppCompatActivity {
     private void listener() {
         titleToolbar.setNavigationOnClickListener(v -> {
             startActivity(new Intent(this, MoreActivity.class));
-            overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
     }
 
@@ -134,10 +135,9 @@ public class AuthActivity extends AppCompatActivity {
         AuthController.workState.observe((LifecycleOwner) this, integer -> {
             if (integer == 1) {
                 if (AuthController.preTheory.equals("mobileCode") && AuthController.theory.equals("mobileCode")) {
-                    callTimer.setValue(true);
+                    callTimer.postValue(1);
                 } else {
-                    callTimer.postValue(false);
-                    callTimer.removeObservers((LifecycleOwner) this);
+                    callTimer.postValue(0);
                     if (AuthController.key.equals("")) {
                         if (AuthController.callback.equals("")) {
                             AuthController.theory = "auth";
@@ -205,7 +205,7 @@ public class AuthActivity extends AppCompatActivity {
 
         toolUser.setOnMenuItemClickListener(item -> {
             startActivity(new Intent(this, AccountActivity.class));
-            overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             return false;
         });
 

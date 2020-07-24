@@ -80,12 +80,12 @@ public class PinFragment extends Fragment {
     private void initializer(View view) {
         viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
 
-        pinViewFlipper = view.findViewById(R.id.fragment_pin_viewFlipper);
-
         pinEditText = view.findViewById(R.id.fragment_pin_editText);
         pinEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         pinButton = view.findViewById(R.id.fragment_pin_button);
+
+        pinViewFlipper = view.findViewById(R.id.fragment_pin_viewFlipper);
 
         pinLinkTextView = view.findViewById(R.id.fragment_pin_link_textView);
         pinLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -145,6 +145,7 @@ public class PinFragment extends Fragment {
         pinLinkSpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
+                ((AuthActivity) Objects.requireNonNull(getActivity())).callTimer.setValue(-1);
                 doWork("verification");
             }
 
@@ -173,12 +174,16 @@ public class PinFragment extends Fragment {
 
     private void setText() {
         pinLinkTextView.setText(StringCustomizer.clickable(activity.getResources().getString(R.string.PinLink), 24, 34, pinLinkSpan));
+        pinCountDownTimer.start();
     }
 
     private void observeTimer() {
-        ((AuthActivity) Objects.requireNonNull(getActivity())).callTimer.observe((LifecycleOwner) activity, aBoolean -> {
-            if (aBoolean) {
+        ((AuthActivity) Objects.requireNonNull(getActivity())).callTimer.observe((LifecycleOwner) activity, integer -> {
+            if (integer == 1) {
                 showTimer(true);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).callTimer.removeObservers((LifecycleOwner) activity);
+            } else if (integer == 0){
+                ((AuthActivity) Objects.requireNonNull(getActivity())).callTimer.removeObservers((LifecycleOwner) activity);
             }
         });
     }
@@ -187,15 +192,15 @@ public class PinFragment extends Fragment {
         if (value) {
             pinCountDownTimer.start();
 
-            pinViewFlipper.setInAnimation(activity, R.anim.slide_in_left_with_fade);
-            pinViewFlipper.setOutAnimation(activity, R.anim.slide_out_right_with_fade);
-            pinViewFlipper.showNext();
-        } else {
-            pinCountDownTimer.cancel();
-
             pinViewFlipper.setInAnimation(activity, R.anim.slide_in_right_with_fade);
             pinViewFlipper.setOutAnimation(activity, R.anim.slide_out_left_with_fade);
             pinViewFlipper.showPrevious();
+        } else {
+            pinCountDownTimer.cancel();
+
+            pinViewFlipper.setInAnimation(activity, R.anim.slide_in_left_with_fade);
+            pinViewFlipper.setOutAnimation(activity, R.anim.slide_out_right_with_fade);
+            pinViewFlipper.showNext();
         }
     }
 
@@ -220,6 +225,7 @@ public class PinFragment extends Fragment {
                 viewModel.authTheory("", pin);
             } else if (value == "verification") {
                 viewModel.verification();
+                observeTimer();
             }
             ((AuthActivity) Objects.requireNonNull(getActivity())).observeWork();
         } catch (JSONException e) {

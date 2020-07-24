@@ -38,6 +38,7 @@
             android:paddingBottom="@dimen/_8sdp"
             android:paddingLeft="@dimen/_16sdp"
             android:paddingRight="@dimen/_16sdp"
+            android:cursorVisible="false"
             android:inputType="text"
             android:gravity="center"
             android:hint="@string/SerialHint"

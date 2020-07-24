@@ -133,7 +133,7 @@ public class SerialFragment extends Fragment {
             @Override
             public void onClick(@NonNull View view) {
                 startActivity(new Intent(activity, ArchiveActivity.class));
-                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
+                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             }
 
             @Override

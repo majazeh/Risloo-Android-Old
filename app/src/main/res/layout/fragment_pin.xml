@@ -38,6 +38,7 @@
             android:paddingBottom="@dimen/_8sdp"
             android:paddingLeft="@dimen/_16sdp"
             android:paddingRight="@dimen/_16sdp"
+            android:cursorVisible="true"
             android:inputType="number"
             android:maxLength="6"
             android:gravity="center"
@@ -70,16 +71,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/fragment_pin_link_textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="@dimen/_11ssp"
-                android:textStyle="bold"
-                android:textColor="@color/Mischka"
-                android:textAlignment="gravity" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -109,6 +100,16 @@
                     android:textAlignment="gravity" />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/fragment_pin_link_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/_11ssp"
+                android:textStyle="bold"
+                android:textColor="@color/Mischka"
+                android:textAlignment="gravity" />
 
         </ViewFlipper>
 
