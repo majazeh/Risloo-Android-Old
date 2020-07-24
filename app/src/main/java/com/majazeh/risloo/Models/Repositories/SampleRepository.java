@@ -45,7 +45,7 @@ public class SampleRepository extends MainRepository {
         sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
         try {
-            getSample();
+            getSample(sharedPreferences.getString("sampleId", ""));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -63,7 +63,7 @@ public class SampleRepository extends MainRepository {
         return sampleItems;
     }
 
-    private void getSample() throws JSONException {
+    private void getSample(String sampleId) throws JSONException {
         if (isNetworkConnected()) {
 
             controller.work = "getSample";
@@ -73,20 +73,20 @@ public class SampleRepository extends MainRepository {
             SampleController.workStateSample.observeForever(integer -> {
                 if (integer == 1) {
                     try {
-                        JSONObject jsonObject = readSampleFromCache(sharedPreferences.getString("sampleId", ""));
+                        JSONObject jsonObject = readSampleFromCache(sampleId);
                         JSONObject data = jsonObject.getJSONObject("data");
                         sampleItems = new SampleItems(data.getJSONArray("items"));
-                        checkStorage(sharedPreferences.getString("sampleId", ""));
-                        JSONArray jsonArray = readAnswerFromCache(sharedPreferences.getString("sampleId", ""));
+                        checkStorage(sampleId);
+                        JSONArray jsonArray = readAnswerFromCache(sampleId);
                         for (int i = 0; i < sampleItems.size(); i++) {
                             if (answered(i) != -1) {
                                 jsonArray.getJSONObject(i).put("index", i);
                                 jsonArray.getJSONObject(i).put("answer", answered(i));
-                                saveAnswerToCache( jsonArray, sharedPreferences.getString("sampleId", ""));
+                                saveAnswerToCache( jsonArray, sampleId);
                             }
                         }
-                        if (readAnswerFromCache(sharedPreferences.getString("sampleId", "")) != null) {
-                            sampleItems.setIndex(firstUnanswered(sharedPreferences.getString("sampleId", "")));
+                        if (readAnswerFromCache(sampleId) != null) {
+                            sampleItems.setIndex(firstUnanswered(sampleId));
                         }
                         SampleController.workStateSample.removeObserver(integer1 -> { });
                     } catch (JSONException e) {
@@ -94,9 +94,9 @@ public class SampleRepository extends MainRepository {
                     }
 
                 } else if (integer == 0) {
-                    if (readSampleFromCache(sharedPreferences.getString("sampleId", "")) != null) {
+                    if (readSampleFromCache(sampleId) != null) {
                         try {
-                            sampleJson = readSampleFromCache(sharedPreferences.getString("sampleId", ""));
+                            sampleJson = readSampleFromCache(sampleId);
                             JSONObject data = sampleJson.getJSONObject("data");
                             sampleItems = new SampleItems(data.getJSONArray("items"));
                         } catch (JSONException e) {
@@ -110,9 +110,9 @@ public class SampleRepository extends MainRepository {
                 }
             });
         } else {
-            if (readSampleFromCache(sharedPreferences.getString("sampleId", "")) != null) {
+            if (readSampleFromCache(sampleId) != null) {
                 try {
-                    sampleJson = readSampleFromCache(sharedPreferences.getString("sampleId", ""));
+                    sampleJson = readSampleFromCache(sampleId);
                     JSONObject data = sampleJson.getJSONObject("data");
                     sampleItems = new SampleItems(data.getJSONArray("items"));
                 } catch (JSONException e) {
