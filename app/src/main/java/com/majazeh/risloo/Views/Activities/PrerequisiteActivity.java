@@ -2,6 +2,7 @@ package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,14 +13,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.majazeh.risloo.Models.Controller.SampleController;
+import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -65,6 +70,7 @@ public class PrerequisiteActivity extends AppCompatActivity {
         if (firstTimeLoad()) {
             infoDialog.show();
         }
+        observeWork();
     }
 
     private void decorator() {
@@ -78,17 +84,15 @@ public class PrerequisiteActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
 
         adapter = new PrerequisiteAdapter(this);
-//        adapter.setPrerequisite(viewModel.getAll());
 
         handler = new Handler();
 
         toolbar = findViewById(R.id.activity_prerequisite_toolbar);
 
         recyclerView = findViewById(R.id.activity_prerequisite_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("subListLayout",(int) getResources().getDimension(R.dimen._16sdp)));
+        recyclerView.addItemDecoration(new ItemDecorator("subListLayout", (int) getResources().getDimension(R.dimen._16sdp)));
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
-//        recyclerView.setAdapter(adapter);
 
         startButton = findViewById(R.id.activity_prerequisite_start_button);
 
@@ -107,11 +111,7 @@ public class PrerequisiteActivity extends AppCompatActivity {
         infoDialogTitle = infoDialog.findViewById(R.id.dialog_note_title_textView);
         infoDialogTitle.setText(getResources().getString(R.string.PrerequisiteInfoDialogTitle));
         infoDialogDescription = infoDialog.findViewById(R.id.dialog_note_description_textView);
-        try {
-            infoDialogDescription.setText(viewModel.getDescription());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
         infoDialogConfirm = infoDialog.findViewById(R.id.dialog_note_confirm_textView);
         infoDialogConfirm.setText(getResources().getString(R.string.PrerequisiteInfoDialogConfirm));
     }
@@ -156,6 +156,56 @@ public class PrerequisiteActivity extends AppCompatActivity {
     private void launchSample() {
         startActivity(new Intent(this, SampleActivity.class));
         finish();
+    }
+
+    public void observeWork() {
+        if (isNetworkConnected()) {
+            SampleController.workStateSample.observe((LifecycleOwner) this, integer -> {
+                if (integer == 1) {
+                    try {
+                        infoDialogDescription.setText(viewModel.getDescription());
+                        adapter.setPrerequisite(viewModel.getPrerequisite());
+                        recyclerView.setAdapter(adapter);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                } else if (integer == 0) {
+                    Log.e("log", SampleController.exception);
+                    if (SampleController.exception.equals("Unauthenticated.")){
+                        if (viewModel.getItems() != null) {
+                            try {
+                                infoDialogDescription.setText(viewModel.getDescription());
+                                adapter.setPrerequisite(viewModel.getPrerequisite());
+                                recyclerView.setAdapter(adapter);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            // you are offline
+                        }
+                    }
+                    // TODO: get exception
+                }
+            });
+        } else {
+            if (viewModel.getItems() != null) {
+                try {
+                    infoDialogDescription.setText(viewModel.getDescription());
+                    adapter.setPrerequisite(viewModel.getPrerequisite());
+                    recyclerView.setAdapter(adapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                // you are offline
+            }
+        }
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
 }

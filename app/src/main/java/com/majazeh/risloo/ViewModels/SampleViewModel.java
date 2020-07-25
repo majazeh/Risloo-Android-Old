@@ -1,6 +1,7 @@
 package com.majazeh.risloo.ViewModels;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -34,7 +35,7 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
     public String getDescription() throws JSONException {
-        return repository.json().getString("description");
+        return repository.json().getJSONObject("data").getString("description");
     }
 
     public ArrayList getItems() {
@@ -143,6 +144,23 @@ public class SampleViewModel extends AndroidViewModel {
 
     public int firstUnanswered(String fileName) {
         return repository.firstUnanswered( fileName);
+    }
+
+    /*
+         ---------- Prerequisite ----------
+    */
+
+    public ArrayList getPrerequisite() {
+        ArrayList arrayList = new ArrayList<>();
+        try {
+            JSONArray jsonArray = repository.json().getJSONObject("data").getJSONArray("prerequisite");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                arrayList.add(jsonArray.get(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return arrayList;
     }
 
 }

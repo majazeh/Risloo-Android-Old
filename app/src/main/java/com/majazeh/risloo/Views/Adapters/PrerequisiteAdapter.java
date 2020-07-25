@@ -2,6 +2,7 @@ package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -50,7 +51,6 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
     @Override
     public void onBindViewHolder(@NonNull PrerequisiteHolder holder, int i) {
-
 //        if () {
 //            holder.typeEditText.setVisibility(View.VISIBLE);
 //            holder.optionSpinner.setVisibility(View.GONE);

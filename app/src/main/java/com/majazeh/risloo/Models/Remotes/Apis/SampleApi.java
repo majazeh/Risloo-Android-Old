@@ -1,5 +1,6 @@
 package com.majazeh.risloo.Models.Remotes.Apis;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import okhttp3.ResponseBody;
@@ -21,6 +22,6 @@ public interface SampleApi {
     @Headers({"content-type: application/x-www-form-urlencoded"})
     @FormUrlEncoded
     @POST("$/samples/{sample_id}/items")
-    Call<ResponseBody> send(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Field("items") JSONObject items);
+    Call<ResponseBody> send(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Field("items") JSONArray items);
 
 }

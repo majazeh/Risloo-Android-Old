@@ -12,6 +12,7 @@ import com.majazeh.risloo.Models.Remotes.Generators.RetroGenerator;
 import com.majazeh.risloo.Models.Controller.SampleController;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -115,12 +116,11 @@ public class SampleWorker extends Worker {
 
     private void sendAnswers() {
         try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("items", SampleRepository.remoteData);
+
 
             SampleController.cache = false;
-
-            Call<ResponseBody> call = sampleApi.send("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""), jsonObject);
+            JSONArray jsonArray = new JSONArray(SampleRepository.remoteData);
+            Call<ResponseBody> call = sampleApi.send("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""), jsonArray);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {

@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Views.Activities.PrerequisiteActivity;
 import com.majazeh.risloo.Views.Activities.SampleActivity;
 
 import org.json.JSONException;
@@ -161,7 +162,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
             editor.putString("sampleId", archives.get(position).get("serial").toString());
             editor.apply();
 
-            activity.startActivity(new Intent(activity, SampleActivity.class));
+            activity.startActivity(new Intent(activity, PrerequisiteActivity.class));
         } catch (JSONException e) {
             e.printStackTrace();
         }

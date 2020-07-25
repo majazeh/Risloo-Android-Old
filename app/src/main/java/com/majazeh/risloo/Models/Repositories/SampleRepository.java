@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Environment;
+import android.util.Log;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Controller.SampleController;
@@ -88,11 +89,11 @@ public class SampleRepository extends MainRepository {
                         if (readAnswerFromCache(sampleId) != null) {
                             sampleItems.setIndex(firstUnanswered(sampleId));
                         }
+                        sampleJson = readSampleFromCache(sampleId);
                         SampleController.workStateSample.removeObserver(integer1 -> { });
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 } else if (integer == 0) {
                     if (readSampleFromCache(sampleId) != null) {
                         try {

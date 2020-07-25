@@ -243,11 +243,11 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         viewModel.saveToExternal(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")), sharedPreferences.getString("sampleId", ""));
 
         if (exit) {
-            viewModel.deleteStorage(sharedPreferences.getString("sampleId", ""));
+            //viewModel.deleteStorage(sharedPreferences.getString("sampleId", ""));
         }
 
-        editor.remove("sampleId");
-        editor.apply();
+//        editor.remove("sampleId");
+//        editor.apply();
 
         startActivity(new Intent(this, AuthActivity.class));
         finish();
