@@ -29,6 +29,7 @@
     // percent colors
     ////////////////////////////////////////////////////////////////////////////////
 
+    <color name="Primary5P">#0D5867DD</color>
     <color name="Primary20P">#335867DD</color>
 
     <color name="Mischka20P">#34A0A9B8</color>

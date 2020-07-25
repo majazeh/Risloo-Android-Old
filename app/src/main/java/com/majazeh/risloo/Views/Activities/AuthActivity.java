@@ -61,8 +61,7 @@ public class AuthActivity extends AppCompatActivity {
 
         listener();
 
-        titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
-        loadFragment(new SerialFragment(this), 0, 0);
+        launchAuth(0, 0);
     }
 
     private void decorator() {
@@ -103,6 +102,12 @@ public class AuthActivity extends AppCompatActivity {
         transaction.setCustomAnimations(enterAnim, exitAnim);
         transaction.replace(R.id.activity_auth_frameLayout, fragment);
         transaction.commit();
+    }
+
+    private void launchAuth(int enterAnim, int exitAnim) {
+        AuthController.theory = "auth";
+        titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
+        loadFragment(new SerialFragment(this), enterAnim, exitAnim);
     }
 
     public void showFragment() {
@@ -159,7 +164,8 @@ public class AuthActivity extends AppCompatActivity {
                             editor.putString("sampleId", AuthController.key);
                             editor.apply();
 
-                            startActivity(new Intent(this, SampleActivity.class));
+                            AuthController.theory = "sample";
+                            startActivity(new Intent(this, PrerequisiteActivity.class));
                             AuthController.workState.removeObservers((LifecycleOwner) this);
                         } else {
                             showFragment();
@@ -224,19 +230,15 @@ public class AuthActivity extends AppCompatActivity {
             }
         }
 
-        AuthController.theory = "auth";
-
-        titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
-        loadFragment(new SerialFragment(this), 0, 0);
+        if (AuthController.theory == "sample") {
+            launchAuth(0, 0);
+        }
     }
 
     @Override
     public void onBackPressed() {
         if (!AuthController.theory.equals("auth")) {
-            AuthController.theory = "auth";
-
-            titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
-            loadFragment(new SerialFragment(this), R.anim.slide_in_right_with_fade, R.anim.slide_out_left_with_fade);
+            launchAuth(R.anim.slide_in_right_with_fade, R.anim.slide_out_left_with_fade);
         } else {
             finish();
         }

@@ -58,8 +58,10 @@
     <string name="SerialDescription">برای شروع سریال نمونه یا شماره همراه خود را وارد کنید</string>
     <string name="SerialHint">سریال نمونه / شماره همراه</string>
     <string name="SerialButton">ورود</string>
-    <string name="SerialLink">کاربر جدید هستید؟ ثبت نام</string>
-    <string name="SerialArchive">شما نمونه ناقص دارید! مشاهده بایگانی</string>
+    <string name="SerialNew">کاربر جدید هستید؟</string>
+    <string name="SerialRegister">ثبت نام</string>
+    <string name="SerialRecovery">بازیابی</string>
+    <string name="SerialArchive">بایگانی</string>
 
     <string name="PasswordTitle">بررسی رمز عبور</string>
     <string name="PasswordDescription">رمز عبور خود را وارد نمایید</string>
@@ -77,7 +79,7 @@
     <string name="PinHint">کد 6 رقمی</string>
     <string name="PinButton">بررسی</string>
     <string name="PinLink">کد پیامکی دریافت نکردی؟ ارسال مجدد</string>
-    <string name="PinTimer">کد پیامکی مجددا به شما ارسال شد :</string>
+    <string name="PinTimer">کد پیامکی به شما ارسال شد :</string>
 
     <string name="RegisterTitle">ثبت نام جدید</string>
     <string name="RegisterDescription">لطفا اطلاعات و مشخصات خود را وارد نمایید</string>

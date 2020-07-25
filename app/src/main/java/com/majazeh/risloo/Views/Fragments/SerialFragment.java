@@ -11,16 +11,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.text.TextPaint;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.majazeh.risloo.Models.Controller.AuthController;
@@ -46,12 +46,13 @@ public class SerialFragment extends Fragment {
 
     // Objects
     private Activity activity;
-    private ClickableSpan serialLinkSpan, serialArchiveSpan;
+    private Animation animSlideIn;
 
     // Widgets
     private EditText serialEditText;
     private Button serialButton;
-    public TextView serialLinkTextView, serialArchiveTextView;
+    private LinearLayout serialLinkLinearLayout, serialArchiveLinearLayout;
+    private TextView serialRegisterTextView, serialRecoveryTextView, serialIncompleteTextView, serialArchiveTextView;
 
     public SerialFragment(Activity activity) {
         this.activity = activity;
@@ -77,15 +78,20 @@ public class SerialFragment extends Fragment {
         authViewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
         sampleViewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
 
+        animSlideIn = AnimationUtils.loadAnimation(activity, R.anim.slide_in_bottom);
+
         serialEditText = view.findViewById(R.id.fragment_serial_editText);
         serialEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         serialButton = view.findViewById(R.id.fragment_serial_button);
 
-        serialLinkTextView = view.findViewById(R.id.fragment_serial_link_textView);
+        serialLinkLinearLayout = view.findViewById(R.id.fragment_serial_link_linearLayout);
+        serialArchiveLinearLayout = view.findViewById(R.id.fragment_serial_archive_linearLayout);
+
+        serialRegisterTextView = view.findViewById(R.id.fragment_serial_register_textView);
+        serialRecoveryTextView = view.findViewById(R.id.fragment_serial_recovery_textView);
+        serialIncompleteTextView = view.findViewById(R.id.fragment_serial_incomplete_textView);
         serialArchiveTextView = view.findViewById(R.id.fragment_serial_archive_textView);
-        serialLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
-        serialArchiveTextView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     private void detector() {
@@ -115,48 +121,35 @@ public class SerialFragment extends Fragment {
             }
         });
 
-        serialLinkSpan = new ClickableSpan() {
-            @Override
-            public void onClick(@NonNull View view) {
-                AuthController.theory = "register";
-                ((AuthActivity) Objects.requireNonNull(getActivity())).showFragment();
-            }
+        serialRegisterTextView.setOnClickListener(v -> {
+            AuthController.theory = "register";
+            ((AuthActivity) Objects.requireNonNull(getActivity())).showFragment();
+        });
 
-            @Override
-            public void updateDrawState(@NonNull TextPaint textPaint) {
-                textPaint.setColor(getResources().getColor(R.color.PrimaryDark));
-                textPaint.setUnderlineText(false);
-            }
-        };
+        serialRecoveryTextView.setOnClickListener(v -> {
+            AuthController.theory = "recover";
+            ((AuthActivity) Objects.requireNonNull(getActivity())).showFragment();
+        });
 
-        serialArchiveSpan = new ClickableSpan() {
-            @Override
-            public void onClick(@NonNull View view) {
-                startActivity(new Intent(activity, ArchiveActivity.class));
-                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
-            }
-
-            @Override
-            public void updateDrawState(@NonNull TextPaint textPaint) {
-                textPaint.setColor(getResources().getColor(R.color.PrimaryDark));
-                textPaint.setUnderlineText(false);
-            }
-        };
+        serialArchiveTextView.setOnClickListener(v -> {
+            startActivity(new Intent(activity, ArchiveActivity.class));
+            activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+        });
     }
 
     private void setText() {
         if (((AuthActivity) Objects.requireNonNull(getActivity())).token()) {
-            serialLinkTextView.setVisibility(View.VISIBLE);
-            serialLinkTextView.setText(StringCustomizer.clickable(activity.getResources().getString(R.string.SerialLink), 18, 25, serialLinkSpan));
+            serialLinkLinearLayout.setVisibility(View.VISIBLE);
         } else {
-            serialLinkTextView.setVisibility(View.INVISIBLE);
+            serialLinkLinearLayout.setVisibility(View.INVISIBLE);
         }
 
         if (sampleViewModel.getStorageFiles() != null) {
-            serialArchiveTextView.setVisibility(View.VISIBLE);
-            serialArchiveTextView.setText(StringCustomizer.clickable(activity.getResources().getString(R.string.SerialArchive), 22, 36, serialArchiveSpan));
+            serialIncompleteTextView.setText(StringCustomizer.foregroundSize("شما" + " " + sampleViewModel.getStorageFiles().size() + " " + "نمونه ناقص دارید!", 4, 6, getResources().getColor(R.color.MoonYellow), (int) getResources().getDimension(R.dimen._15ssp)));
+            serialArchiveLinearLayout.setVisibility(View.VISIBLE);
+            serialArchiveLinearLayout.setAnimation(animSlideIn);
         } else {
-            serialArchiveTextView.setVisibility(View.INVISIBLE);
+            serialArchiveLinearLayout.setVisibility(View.GONE);
         }
     }
 

@@ -2,6 +2,7 @@ package com.majazeh.risloo.Utils;
 
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
@@ -29,6 +30,13 @@ public class StringCustomizer {
         return spannableString;
     }
 
+    public static SpannableString size(String value, int startIndex, int endIndex, int size) {
+        SpannableString spannableString = new SpannableString(value);
+        AbsoluteSizeSpan sizeSpan = new AbsoluteSizeSpan(size);
+        spannableString.setSpan(sizeSpan, startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannableString;
+    }
+
     public static SpannableString style(String value, int startIndex, int endIndex, int typeface) {
         SpannableString spannableString = new SpannableString(value);
         StyleSpan styleSpan = new StyleSpan(typeface);
@@ -42,6 +50,15 @@ public class StringCustomizer {
         BackgroundColorSpan backgroundColorSpan = new BackgroundColorSpan(backgroundColor);
         spannableString.setSpan(foregroundColorSpan, startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannableString.setSpan(backgroundColorSpan, startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannableString;
+    }
+
+    public static SpannableString foregroundSize(String value, int startIndex, int endIndex, int foregroundColor, int size) {
+        SpannableString spannableString = new SpannableString(value);
+        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(foregroundColor);
+        AbsoluteSizeSpan sizeSpan = new AbsoluteSizeSpan(size);
+        spannableString.setSpan(foregroundColorSpan, startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(sizeSpan, startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannableString;
     }
 

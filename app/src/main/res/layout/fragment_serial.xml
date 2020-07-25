@@ -65,30 +65,104 @@
             android:background="@drawable/draw_18sdp_primary"
             style="?android:attr/borderlessButtonStyle"/>
 
-        <TextView
-            android:id="@+id/fragment_serial_link_textView"
+        <LinearLayout
+            android:id="@+id/fragment_serial_link_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
             android:gravity="center"
-            android:textSize="@dimen/_11ssp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/SerialNew"
+                android:textSize="@dimen/_11ssp"
+                android:textStyle="bold"
+                android:textColor="@color/Mischka"
+                android:textAlignment="gravity" />
+
+            <TextView
+                android:id="@+id/fragment_serial_register_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_2sdp"
+                android:paddingRight="@dimen/_2sdp"
+                android:gravity="center"
+                android:text="@string/SerialRegister"
+                android:textSize="@dimen/_11ssp"
+                android:textStyle="bold"
+                android:textColor="@color/PrimaryDark"
+                android:textAlignment="gravity" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="/"
+                android:textSize="@dimen/_11ssp"
+                android:textStyle="bold"
+                android:textColor="@color/PrimaryDark"
+                android:textAlignment="gravity" />
+
+            <TextView
+                android:id="@+id/fragment_serial_recovery_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_2sdp"
+                android:paddingRight="@dimen/_2sdp"
+                android:gravity="center"
+                android:text="@string/SerialRecovery"
+                android:textSize="@dimen/_11ssp"
+                android:textStyle="bold"
+                android:textColor="@color/PrimaryDark"
+                android:textAlignment="gravity" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fragment_serial_archive_linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/_1sdp"
+        android:layoutDirection="ltr"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:background="@color/Primary5P">
+
+        <TextView
+            android:id="@+id/fragment_serial_archive_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/_9sdp"
+            android:paddingBottom="@dimen/_9sdp"
+            android:paddingLeft="@dimen/_18sdp"
+            android:paddingRight="@dimen/_18sdp"
+            android:gravity="center"
+            android:text="@string/SerialArchive"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            android:textColor="@color/PrimaryDark"
+            android:textAlignment="gravity" />
+
+        <TextView
+            android:id="@+id/fragment_serial_incomplete_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/_9sdp"
+            android:paddingBottom="@dimen/_9sdp"
+            android:paddingRight="@dimen/_18sdp"
+            android:gravity="right"
+            android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
             android:textColor="@color/Mischka"
             android:textAlignment="gravity" />
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/fragment_serial_archive_textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_18sdp"
-        android:layout_marginLeft="@dimen/_24sdp"
-        android:layout_marginRight="@dimen/_24sdp"
-        android:layout_gravity="bottom"
-        android:gravity="center"
-        android:textSize="@dimen/_11ssp"
-        android:textStyle="bold"
-        android:textColor="@color/Mischka"
-        android:textAlignment="gravity" />
 
 </FrameLayout>
