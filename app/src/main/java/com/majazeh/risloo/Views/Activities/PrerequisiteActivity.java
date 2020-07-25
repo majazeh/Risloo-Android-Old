@@ -31,6 +31,7 @@ import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.PrerequisiteAdapter;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 
 public class PrerequisiteActivity extends AppCompatActivity {
@@ -56,21 +57,25 @@ public class PrerequisiteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+        if (!viewModel.havePrerequisite(sharedPreferences.getString("sampleId", ""))) {
+            decorator();
 
-        decorator();
+            setContentView(R.layout.activity_prerequisite);
 
-        setContentView(R.layout.activity_prerequisite);
+            initializer();
 
-        initializer();
+            detector();
 
-        detector();
+            listener();
 
-        listener();
-
-        if (firstTimeLoad()) {
-            infoDialog.show();
+            if (firstTimeLoad()) {
+                infoDialog.show();
+            }
+            observeWork();
+        }else{
+            launchSample();
         }
-        observeWork();
     }
 
     private void decorator() {
@@ -79,7 +84,6 @@ public class PrerequisiteActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
         viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
 
@@ -136,6 +140,9 @@ public class PrerequisiteActivity extends AppCompatActivity {
         infoDialog.setOnCancelListener(dialog -> infoDialog.dismiss());
 
         startButton.setOnClickListener(v -> {
+            JSONArray jsonArray = new JSONArray();
+            // TODO : put items to json array like this jsonArray.put(the position of question, answer of that position);
+            viewModel.savePrerequisiteToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
 //            name = nameEditText.getText().toString().trim();
 //            mobile = mobileEditText.getText().toString().trim();
 //            message = messageEditText.getText().toString().trim();

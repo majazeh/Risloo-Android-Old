@@ -99,7 +99,7 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
     public void saveAnswerToCache(JSONArray jsonArray, String fileName) {
-        repository.saveAnswerToCache(jsonArray,  fileName);
+        repository.saveAnswerToCache(jsonArray, fileName);
     }
 
     /*
@@ -107,7 +107,7 @@ public class SampleViewModel extends AndroidViewModel {
     */
 
     public JSONArray readAnswerFromCache(String fileName) {
-        return repository.readAnswerFromCache( fileName);
+        return repository.readAnswerFromCache(fileName);
     }
 
     /*
@@ -115,7 +115,7 @@ public class SampleViewModel extends AndroidViewModel {
     */
 
     public boolean hasStorage(String fileName) {
-        return repository.hasStorage( fileName);
+        return repository.hasStorage(fileName);
     }
 
     public void checkStorage(String fileName) {
@@ -143,7 +143,7 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
     public int firstUnanswered(String fileName) {
-        return repository.firstUnanswered( fileName);
+        return repository.firstUnanswered(fileName);
     }
 
     /*
@@ -161,6 +161,22 @@ public class SampleViewModel extends AndroidViewModel {
             e.printStackTrace();
         }
         return arrayList;
+    }
+
+    public boolean havePrerequisite(String fileName) {
+        return repository.havePrerequisite(fileName);
+    }
+
+    public JSONArray readPrerequisiteFromCache(String fileName) {
+        return repository.readPrerequisiteFromCache(fileName);
+    }
+
+    public void savePrerequisiteToCache(JSONArray jsonArray, String fileName) {
+        repository.savePrerequisiteToCache(jsonArray, fileName);
+    }
+
+    public void checkPrerequisiteStorage(String fileName) {
+        repository.checkPrerequisiteStorage(fileName);
     }
 
 }

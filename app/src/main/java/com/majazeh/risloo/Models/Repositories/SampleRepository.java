@@ -37,6 +37,7 @@ public class SampleRepository extends MainRepository {
     private JSONObject sampleJson;
     private SampleItems sampleItems;
     private SharedPreferences sharedPreferences;
+    private JSONArray prerequisiteItems;
 
     public SampleRepository(Application application) {
         super(application);
@@ -64,6 +65,10 @@ public class SampleRepository extends MainRepository {
         return sampleItems;
     }
 
+    public JSONArray prerequisiteItems() {
+        return prerequisiteItems;
+    }
+
     private void getSample(String sampleId) throws JSONException {
         if (isNetworkConnected()) {
 
@@ -77,20 +82,22 @@ public class SampleRepository extends MainRepository {
                         JSONObject jsonObject = readSampleFromCache(sampleId);
                         JSONObject data = jsonObject.getJSONObject("data");
                         sampleItems = new SampleItems(data.getJSONArray("items"));
+                        prerequisiteItems = data.getJSONArray("prerequisite");
                         checkStorage(sampleId);
                         JSONArray jsonArray = readAnswerFromCache(sampleId);
                         for (int i = 0; i < sampleItems.size(); i++) {
                             if (answered(i) != -1) {
                                 jsonArray.getJSONObject(i).put("index", i);
                                 jsonArray.getJSONObject(i).put("answer", answered(i));
-                                saveAnswerToCache( jsonArray, sampleId);
+                                saveAnswerToCache(jsonArray, sampleId);
                             }
                         }
                         if (readAnswerFromCache(sampleId) != null) {
                             sampleItems.setIndex(firstUnanswered(sampleId));
                         }
                         sampleJson = readSampleFromCache(sampleId);
-                        SampleController.workStateSample.removeObserver(integer1 -> { });
+                        SampleController.workStateSample.removeObserver(integer1 -> {
+                        });
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -100,6 +107,8 @@ public class SampleRepository extends MainRepository {
                             sampleJson = readSampleFromCache(sampleId);
                             JSONObject data = sampleJson.getJSONObject("data");
                             sampleItems = new SampleItems(data.getJSONArray("items"));
+                            prerequisiteItems = data.getJSONArray("prerequisite");
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -116,6 +125,7 @@ public class SampleRepository extends MainRepository {
                     sampleJson = readSampleFromCache(sampleId);
                     JSONObject data = sampleJson.getJSONObject("data");
                     sampleItems = new SampleItems(data.getJSONArray("items"));
+                    prerequisiteItems = data.getJSONArray("prerequisite");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -202,7 +212,7 @@ public class SampleRepository extends MainRepository {
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }
-            if (!file.exists()){
+            if (!file.exists()) {
                 file.createNewFile();
             }
             FileOutputStream fos = new FileOutputStream(file);
@@ -386,7 +396,7 @@ public class SampleRepository extends MainRepository {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            return  -1;
+            return -1;
         }
     }
 
@@ -440,6 +450,76 @@ public class SampleRepository extends MainRepository {
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) application.getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+    }
+
+    public void savePrerequisiteToCache(JSONArray jsonArray, String fileName) {
+        try {
+            File file = new File(application.getApplicationContext().getCacheDir(), "Prerequisite/" + fileName);
+            if (!file.getParentFile().exists())
+                file.getParentFile().mkdirs();
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(jsonArray.toString());
+            oos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public JSONArray readPrerequisiteFromCache(String fileName) {
+        JSONArray jsonArray = null;
+        try {
+            File file = new File(application.getApplicationContext().getCacheDir(), "Prerequisite/" + fileName);
+            if (file.exists()) {
+                FileInputStream fis = new FileInputStream(file);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                jsonArray = new JSONArray((String) ois.readObject());
+                ois.close();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return jsonArray;
+    }
+
+    public void checkPrerequisiteStorage(String fileName) {
+        if (!hasStorage(fileName)) {
+            JSONArray jsonArray = new JSONArray();
+            for (int i = 0; i < prerequisiteItems.length(); i++) {
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("index", i);
+                    jsonObject.put("answer", "");
+                    jsonArray.put(jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            savePrerequisiteToCache(jsonArray, fileName);
+        }
+    }
+
+    public boolean havePrerequisite( String fileName) {
+        File file = new File(application.getCacheDir(), "Prerequisite/" + fileName);
+        if (file.exists())
+            return true;
+        else
+            return false;
     }
 
 }

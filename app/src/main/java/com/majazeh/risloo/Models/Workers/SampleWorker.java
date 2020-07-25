@@ -119,8 +119,8 @@ public class SampleWorker extends Worker {
 
 
             SampleController.cache = false;
-            JSONArray jsonArray = new JSONArray(SampleRepository.remoteData);
-            Call<ResponseBody> call = sampleApi.send("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""), jsonArray);
+
+            Call<ResponseBody> call = sampleApi.send("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""), SampleRepository.remoteData);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
