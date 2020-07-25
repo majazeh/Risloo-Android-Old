@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Views.Activities.PrerequisiteActivity;
-import com.majazeh.risloo.Views.Activities.SampleActivity;
 
 import org.json.JSONException;
 
@@ -66,7 +66,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
     public void onBindViewHolder(@NonNull ArchiveHolder holder, int i) {
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            holder.itemView.setBackgroundResource(R.drawable.draw_24sdp_quartz_border_ripple);
+            holder.foreGroundView.setBackgroundResource(R.drawable.draw_24sdp_quartz_border_ripple);
 
             holder.continueTextView.setBackgroundResource(R.drawable.draw_18sdp_primary20p_ripple);
         }
@@ -90,7 +90,6 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
 
             position = i;
         });
-
     }
 
     @Override
@@ -157,6 +156,20 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
         notifyDataSetChanged();
     }
 
+    public Model getArchive(int position) {
+        return archives.get(position);
+    }
+
+    public void removeArchive(int position) {
+        archives.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void restoreArchive(Model archive, int position) {
+        archives.add(position, archive);
+        notifyItemInserted(position);
+    }
+
     private void doWork(int position) {
         try {
             editor.putString("sampleId", archives.get(position).get("serial").toString());
@@ -170,10 +183,13 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
 
     public class ArchiveHolder extends RecyclerView.ViewHolder {
 
+        public LinearLayout foreGroundView, backGroundView;
         public TextView serialTextView, statusTextView, continueTextView;
 
         public ArchiveHolder(View view) {
             super(view);
+            foreGroundView = view.findViewById(R.id.activity_archive_single_item_foreGroundView);
+            backGroundView = view.findViewById(R.id.activity_archive_single_item_backGroundView);
             serialTextView = view.findViewById(R.id.activity_archive_single_item_serial_textView);
             statusTextView = view.findViewById(R.id.activity_archive_single_item_status_textView);
             continueTextView = view.findViewById(R.id.activity_archive_single_item_continue_textView);
