@@ -283,7 +283,7 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void checkStorage() {
-        if (viewModel.hasStorage(sharedPreferences.getString("sampleId", ""))) {
+        if (viewModel.hasAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
             if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
                 startActivity(new Intent(this, OutroActivity.class));
                 finish();
@@ -341,7 +341,7 @@ public class SampleActivity extends AppCompatActivity {
             SampleController.workStateSample.observe((LifecycleOwner) this, integer -> {
                 if (integer == 1) {
                     try {
-                        viewModel.checkStorage(sharedPreferences.getString("sampleId", ""));
+                        viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
                         adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
                         if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
                             finish();
@@ -366,7 +366,7 @@ public class SampleActivity extends AppCompatActivity {
         } else {
             if (viewModel.getItems() != null) {
                 try {
-                    viewModel.checkStorage(sharedPreferences.getString("sampleId", ""));
+                    viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
                     viewModel.firstUnanswered(sharedPreferences.getString("sampleId", ""));
                     if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
                         startActivity(new Intent(this, OutroActivity.class));

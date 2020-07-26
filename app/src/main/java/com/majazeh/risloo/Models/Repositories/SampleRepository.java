@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Environment;
-import android.util.Log;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Controller.SampleController;
@@ -36,10 +35,10 @@ public class SampleRepository extends MainRepository {
     // Objects
     private JSONObject sampleJson;
     private SampleItems sampleItems;
-    private SharedPreferences sharedPreferences;
     private JSONArray prerequisiteItems;
+    private SharedPreferences sharedPreferences;
 
-    public SampleRepository(Application application, String testUniqueId) {
+    public SampleRepository(Application application, String sampleId) {
         super(application);
 
         controller = new SampleController(application);
@@ -51,11 +50,12 @@ public class SampleRepository extends MainRepository {
             e.printStackTrace();
         }
     }
+
     public SampleRepository(Application application) {
         super(application);
-        sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-        controller = new SampleController(application);
 
+        controller = new SampleController(application);
+        sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
     }
 
     public SampleRepository() {
@@ -88,7 +88,7 @@ public class SampleRepository extends MainRepository {
                         JSONObject data = jsonObject.getJSONObject("data");
                         sampleItems = new SampleItems(data.getJSONArray("items"));
                         prerequisiteItems = data.getJSONArray("prerequisite");
-                        checkStorage(sampleId);
+                        checkAnswerStorage(sampleId);
                         JSONArray jsonArray = readAnswerFromCache(sampleId);
                         for (int i = 0; i < sampleItems.size(); i++) {
                             if (answered(i) != -1) {
@@ -252,6 +252,26 @@ public class SampleRepository extends MainRepository {
         }
     }
 
+    public void savePrerequisiteToCache(JSONArray jsonArray, String fileName) {
+        try {
+            File file = new File(application.getApplicationContext().getCacheDir(), "Prerequisite/" + fileName);
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(jsonArray.toString());
+            oos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void saveToCSV(JSONArray jsonArray, String fileName) {
         try {
             FileOutputStream fos = application.getApplicationContext().openFileOutput(fileName + ".CSV", Context.MODE_PRIVATE);
@@ -327,20 +347,50 @@ public class SampleRepository extends MainRepository {
         return jsonArray;
     }
 
+    public JSONArray readPrerequisiteFromCache(String fileName) {
+        JSONArray jsonArray = null;
+        try {
+            File file = new File(application.getApplicationContext().getCacheDir(), "Prerequisite/" + fileName);
+            if (file.exists()) {
+                FileInputStream fis = new FileInputStream(file);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                jsonArray = new JSONArray((String) ois.readObject());
+                ois.close();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return jsonArray;
+    }
+
     public File readFromCSV(String fileName) {
         return new File(application.getApplicationContext().getCacheDir(), fileName + ".CSV");
     }
 
     /*
-         ---------- Storage ----------
+         ---------- Check ----------
     */
 
-    public boolean hasStorage(String fileName) {
+    public boolean hasAnswerStorage(String fileName) {
         return new File(application.getApplicationContext().getCacheDir(), "Answers/" + fileName).exists();
     }
 
-    public void checkStorage(String fileName) {
-        if (!hasStorage(fileName)) {
+    public boolean havePrerequisiteStorage(String fileName) {
+        return new File(application.getApplicationContext().getCacheDir(), "Prerequisite/" + fileName).exists();
+    }
+
+    public void checkAnswerStorage(String fileName) {
+        if (!hasAnswerStorage(fileName)) {
             JSONArray jsonArray = new JSONArray();
             for (int i = 0; i < items().size(); i++) {
                 JSONObject jsonObject = new JSONObject();
@@ -356,10 +406,31 @@ public class SampleRepository extends MainRepository {
         }
     }
 
-    public void deleteStorage(String fileName) {
+    public void checkPrerequisiteStorage(String fileName) {
+        if (!hasAnswerStorage(fileName)) {
+            JSONArray jsonArray = new JSONArray();
+            for (int i = 0; i < prerequisiteItems.length(); i++) {
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("index", i);
+                    jsonObject.put("answer", "");
+                    jsonArray.put(jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            savePrerequisiteToCache(jsonArray, fileName);
+        }
+    }
+
+    public void deleteAnswerStorage(String fileName) {
         File file = new File(application.getApplicationContext().getCacheDir(), "Answers/" + fileName);
         file.delete();
     }
+
+    /*
+         ---------- Storage ----------
+    */
 
     public ArrayList<Model> storageFiles() {
         ArrayList<Model> arrayList = new ArrayList<Model>();
@@ -448,7 +519,7 @@ public class SampleRepository extends MainRepository {
                     e.printStackTrace();
                 }
             }
-    }
+        }
         return -1;
     }
 
@@ -459,76 +530,6 @@ public class SampleRepository extends MainRepository {
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) application.getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
-    }
-
-    public void savePrerequisiteToCache(JSONArray jsonArray, String fileName) {
-        try {
-            File file = new File(application.getApplicationContext().getCacheDir(), "Prerequisite/" + fileName);
-            if (!file.getParentFile().exists())
-                file.getParentFile().mkdirs();
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            FileOutputStream fos = new FileOutputStream(file);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(jsonArray.toString());
-            oos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public JSONArray readPrerequisiteFromCache(String fileName) {
-        JSONArray jsonArray = null;
-        try {
-            File file = new File(application.getApplicationContext().getCacheDir(), "Prerequisite/" + fileName);
-            if (file.exists()) {
-                FileInputStream fis = new FileInputStream(file);
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                jsonArray = new JSONArray((String) ois.readObject());
-                ois.close();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return jsonArray;
-    }
-
-    public void checkPrerequisiteStorage(String fileName) {
-        if (!hasStorage(fileName)) {
-            JSONArray jsonArray = new JSONArray();
-            for (int i = 0; i < prerequisiteItems.length(); i++) {
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("index", i);
-                    jsonObject.put("answer", "");
-                    jsonArray.put(jsonObject);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-            savePrerequisiteToCache(jsonArray, fileName);
-        }
-    }
-
-    public boolean havePrerequisite( String fileName) {
-        File file = new File(application.getCacheDir(), "Prerequisite/" + fileName);
-        if (file.exists())
-            return true;
-        else
-            return false;
     }
 
 }

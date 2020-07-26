@@ -2,7 +2,6 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -13,13 +12,11 @@ import com.majazeh.risloo.Models.Remotes.Generators.RetroGenerator;
 import com.majazeh.risloo.Models.Controller.SampleController;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
-import java.util.logging.Logger;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -93,10 +90,12 @@ public class SampleWorker extends Worker {
                 SampleController.workStateSample.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-                if (errorBody.getString("message_text").equals("This action is unauthorized."))
+
+                if (errorBody.getString("message_text").equals("This action is unauthorized.")) {
                     SampleController.exception = "این نمونه برای شما بسته شده است.";
-                else
-                SampleController.exception = errorBody.getString("اشکال در باز کردن نمونه شما.");
+                } else {
+                    SampleController.exception = errorBody.getString("اشکال در باز کردن نمونه شما.");
+                }
                 SampleController.workStateSample.postValue(0);
             }
 
@@ -149,7 +148,7 @@ public class SampleWorker extends Worker {
         } catch (JSONException e) {
             e.printStackTrace();
 
-            SampleController.exception = "مشکل ادریافت JSON! دوباره تلاش کنید.";
+            SampleController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
             SampleController.workStateAnswer.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
@@ -158,15 +157,20 @@ public class SampleWorker extends Worker {
             SampleController.workStateAnswer.postValue(0);
         }
     }
+
     private void closeSample() {
         try {
-            Call<ResponseBody> call = sampleApi.closeSample("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""));
+            Call<ResponseBody> call = sampleApi.close("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""));
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
+                JSONObject succesBody = new JSONObject(bodyResponse.body().string());
+
+                SampleController.exception = "موفقیت آمیز";
                 SampleController.workStateAnswer.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
                 SampleController.exception = errorBody.getString("message_text");
                 SampleController.workStateAnswer.postValue(0);
             }
@@ -179,7 +183,7 @@ public class SampleWorker extends Worker {
         } catch (JSONException e) {
             e.printStackTrace();
 
-            SampleController.exception = "مشکل ادریافت JSON! دوباره تلاش کنید.";
+            SampleController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
             SampleController.workStateAnswer.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();

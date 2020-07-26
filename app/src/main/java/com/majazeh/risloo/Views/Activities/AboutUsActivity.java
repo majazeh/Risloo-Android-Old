@@ -55,7 +55,7 @@ public class AboutUsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.activity_about_us_recyclerView);
         recyclerView.addItemDecoration(new ItemDecorator("listLayout",(int) getResources().getDimension(R.dimen._24sdp)));
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setHasFixedSize(false);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
     }
 

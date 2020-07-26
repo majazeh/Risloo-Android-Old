@@ -1,7 +1,6 @@
 package com.majazeh.risloo.Models.Remotes.Apis;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -28,12 +27,12 @@ public interface SampleApi {
 
     @Headers({"content-type: application/x-www-form-urlencoded"})
     @FormUrlEncoded
-    @POST("$/samples/{sample_id}/items")
-    Call<ResponseBody> prerequisite(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Field("prerequisite") JSONArray items);
+    @POST("$/samples/{sample_id}/close")
+    Call<ResponseBody> close(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
 
     @Headers({"content-type: application/x-www-form-urlencoded"})
     @FormUrlEncoded
-    @POST("$/samples/{sample_id}/close")
-    Call<ResponseBody> closeSample(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
+    @POST("$/samples/{sample_id}/items")
+    Call<ResponseBody> prerequisite(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Field("prerequisite") JSONArray items);
 
 }

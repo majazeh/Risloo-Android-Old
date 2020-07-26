@@ -3,7 +3,6 @@ package com.majazeh.risloo.Views.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +17,6 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -26,7 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.majazeh.risloo.Models.Controller.SampleController;
-import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -62,7 +59,7 @@ public class PrerequisiteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
         viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
-        if (!viewModel.havePrerequisite(sharedPreferences.getString("sampleId", ""))) {
+        if (!viewModel.havePrerequisiteStorage(sharedPreferences.getString("sampleId", ""))) {
 
             decorator();
 

@@ -14,18 +14,18 @@ public class SampleViewModelFactory implements ViewModelProvider.Factory {
     private Application application;
 
     // Vars
-    private String testUniqueId;
+    private String sampleId;
 
-    public SampleViewModelFactory(Application application, String testUniqueId) {
+    public SampleViewModelFactory(Application application, String sampleId) {
         this.application = application;
-        this.testUniqueId = testUniqueId;
+        this.sampleId = sampleId;
     }
 
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         try {
-            return (T) new SampleViewModel(application, testUniqueId);
+            return (T) new SampleViewModel(application, sampleId);
         } catch (JSONException e) {
             e.printStackTrace();
         }

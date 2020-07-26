@@ -1,7 +1,6 @@
 package com.majazeh.risloo.ViewModels;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -20,16 +19,22 @@ public class SampleViewModel extends AndroidViewModel {
     // Repositories
     private SampleRepository repository;
 
-    public SampleViewModel(@NonNull Application application, String testUniqueId) throws JSONException {
+    public SampleViewModel(@NonNull Application application, String sampleId) throws JSONException {
         super(application);
 
-        repository = new SampleRepository(application, testUniqueId);
+        repository = new SampleRepository(application, sampleId);
     }
 
     public SampleViewModel(@NonNull Application application) {
         super(application);
+
         repository = new SampleRepository(application);
     }
+
+    public void getSample(String sampleId) throws JSONException {
+        repository.getSample(sampleId);
+    }
+
     public void sendAnswers(String sampleId) throws JSONException {
         repository.sendAnswers(sampleId);
     }
@@ -39,8 +44,32 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
     public String getDescription() throws JSONException {
-        Log.e("json", String.valueOf(repository.json()));
         return repository.json().getJSONObject("data").getString("description");
+    }
+
+    public ArrayList getPrerequisite() {
+        ArrayList arrayList = new ArrayList<>();
+        try {
+            JSONArray jsonArray = repository.json().getJSONObject("data").getJSONArray("prerequisite");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                arrayList.add(jsonArray.get(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return arrayList;
+    }
+
+    public ArrayList<String> getOptions(int index) throws JSONException {
+        ArrayList<String> arrayList = new ArrayList<>();
+        for (int i = 0; i < getAnswer(index).getJSONArray("options").length(); i++) {
+            arrayList.add((String) getAnswer(index).getJSONArray("options").get(i));
+        }
+        return arrayList;
+    }
+
+    public JSONObject getAnswer(int index) throws JSONException {
+        return (JSONObject) repository.items().item(index).get("answer");
     }
 
     public ArrayList getItems() {
@@ -75,18 +104,6 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.items().size();
     }
 
-    public ArrayList<String> getOptions(int index) throws JSONException {
-        ArrayList<String> arrayList = new ArrayList<>();
-        for (int i = 0; i < getAnswer(index).getJSONArray("options").length(); i++) {
-            arrayList.add((String) getAnswer(index).getJSONArray("options").get(i));
-        }
-        return arrayList;
-    }
-
-    public JSONObject getAnswer(int index) throws JSONException {
-        return (JSONObject) repository.items().item(index).get("answer");
-    }
-
     /*
          ---------- Insert ----------
     */
@@ -107,6 +124,10 @@ public class SampleViewModel extends AndroidViewModel {
         repository.saveAnswerToCache(jsonArray, fileName);
     }
 
+    public void savePrerequisiteToCache(JSONArray jsonArray, String fileName) {
+        repository.savePrerequisiteToCache(jsonArray, fileName);
+    }
+
     /*
          ---------- Read ----------
     */
@@ -115,21 +136,37 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.readAnswerFromCache(fileName);
     }
 
-    /*
-         ---------- Storage ----------
-    */
-
-    public boolean hasStorage(String fileName) {
-        return repository.hasStorage(fileName);
+    public JSONArray readPrerequisiteFromCache(String fileName) {
+        return repository.readPrerequisiteFromCache(fileName);
     }
 
-    public void checkStorage(String fileName) {
-        repository.checkStorage(fileName);
+    /*
+         ---------- Check ----------
+    */
+
+    public boolean hasAnswerStorage(String fileName) {
+        return repository.hasAnswerStorage(fileName);
+    }
+
+    public boolean havePrerequisiteStorage(String fileName) {
+        return repository.havePrerequisiteStorage(fileName);
+    }
+
+    public void checkAnswerStorage(String fileName) {
+        repository.checkAnswerStorage(fileName);
+    }
+
+    public void checkPrerequisiteStorage(String fileName) {
+        repository.checkPrerequisiteStorage(fileName);
     }
 
     public void deleteStorage(String fileName) {
-        repository.deleteStorage(fileName);
+        repository.deleteAnswerStorage(fileName);
     }
+
+    /*
+         ---------- Check ----------
+    */
 
     public ArrayList<Model> getStorageFiles() {
         return repository.storageFiles();
@@ -149,47 +186,6 @@ public class SampleViewModel extends AndroidViewModel {
 
     public int firstUnanswered(String fileName) {
         return repository.firstUnanswered(fileName);
-    }
-
-    /*
-         ---------- Prerequisite ----------
-    */
-
-    public ArrayList getPrerequisite() {
-        ArrayList arrayList = new ArrayList<>();
-        try {
-            JSONArray jsonArray = repository.json().getJSONObject("data").getJSONArray("prerequisite");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                arrayList.add(jsonArray.get(i));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return arrayList;
-    }
-
-    public boolean havePrerequisite(String fileName) {
-        return repository.havePrerequisite(fileName);
-    }
-
-    public JSONArray readPrerequisiteFromCache(String fileName) {
-        return repository.readPrerequisiteFromCache(fileName);
-    }
-
-    public void savePrerequisiteToCache(JSONArray jsonArray, String fileName) {
-        repository.savePrerequisiteToCache(jsonArray, fileName);
-    }
-
-    public void checkPrerequisiteStorage(String fileName) {
-        repository.checkPrerequisiteStorage(fileName);
-    }
-
-    public void getSample(String fileName){
-        try {
-            repository.getSample(fileName);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
 }
