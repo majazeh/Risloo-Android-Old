@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,6 +40,7 @@ public class MobileFragment extends Fragment {
     private Activity activity;
 
     // Widgets
+    private TextView mobileDescriptionTextView;
     private EditText mobileEditText;
     private Button mobileButton;
 
@@ -63,6 +64,8 @@ public class MobileFragment extends Fragment {
 
     private void initializer(View view) {
         viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
+
+        mobileDescriptionTextView = view.findViewById(R.id.fragment_mobile_description_textView);
 
         mobileEditText = view.findViewById(R.id.fragment_mobile_editText);
 

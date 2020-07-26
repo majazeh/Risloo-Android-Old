@@ -15,15 +15,12 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.WindowDecorator;
-
-import org.json.JSONException;
 
 public class CallUsActivity extends AppCompatActivity {
 

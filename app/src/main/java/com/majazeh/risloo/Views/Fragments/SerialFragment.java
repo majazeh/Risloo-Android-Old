@@ -49,6 +49,7 @@ public class SerialFragment extends Fragment {
     private Animation animSlideIn;
 
     // Widgets
+    private TextView serialDescriptionTextView;
     private EditText serialEditText;
     private Button serialButton;
     private LinearLayout serialLinkLinearLayout, serialArchiveLinearLayout;
@@ -79,6 +80,8 @@ public class SerialFragment extends Fragment {
         sampleViewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
 
         animSlideIn = AnimationUtils.loadAnimation(activity, R.anim.slide_in_bottom);
+
+        serialDescriptionTextView = view.findViewById(R.id.fragment_serial_description_textView);
 
         serialEditText = view.findViewById(R.id.fragment_serial_editText);
 
@@ -140,6 +143,10 @@ public class SerialFragment extends Fragment {
         if (((AuthActivity) Objects.requireNonNull(getActivity())).token()) {
             serialLinkLinearLayout.setVisibility(View.VISIBLE);
         } else {
+            serialDescriptionTextView.setText(activity.getResources().getString(R.string.SerialDescriptionToken));
+            serialEditText.setHint(activity.getResources().getString(R.string.SerialHintToken));
+            serialButton.setText(activity.getResources().getString(R.string.SerialButtonToken));
+
             serialLinkLinearLayout.setVisibility(View.INVISIBLE);
         }
 

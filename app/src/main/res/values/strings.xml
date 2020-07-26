@@ -55,9 +55,13 @@
     <string name="AuthAccount">حساب کاربری</string>
 
     <string name="SerialTitle">ورود</string>
+    <string name="SerialTitleToken">شروع</string>
     <string name="SerialDescription">برای شروع سریال نمونه یا شماره همراه خود را وارد کنید</string>
+    <string name="SerialDescriptionToken">سریال نمونه خود را وارد کنید</string>
     <string name="SerialHint">سریال نمونه / شماره همراه</string>
+    <string name="SerialHintToken">سریال نمونه</string>
     <string name="SerialButton">ورود</string>
+    <string name="SerialButtonToken">بررسی</string>
     <string name="SerialNew">کاربر جدید هستید؟</string>
     <string name="SerialRegister">ثبت نام</string>
     <string name="SerialRecovery">بازیابی</string>

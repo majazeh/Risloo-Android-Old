@@ -82,6 +82,7 @@ public class AuthActivity extends AppCompatActivity {
 
         titleToolbar = findViewById(R.id.activity_auth_toolbar);
         setSupportActionBar(titleToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         progressDialog = new Dialog(this, R.style.DialogTheme);
         progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -106,14 +107,22 @@ public class AuthActivity extends AppCompatActivity {
 
     private void launchAuth(int enterAnim, int exitAnim) {
         AuthController.theory = "auth";
-        titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
+        if (token()) {
+            titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
+        } else {
+            titleToolbar.setTitle(getResources().getString(R.string.SerialTitleToken));
+        }
         loadFragment(new SerialFragment(this), enterAnim, exitAnim);
     }
 
     public void showFragment() {
         switch (AuthController.theory) {
             case "auth":
-                titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
+                if (token()) {
+                    titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
+                } else {
+                    titleToolbar.setTitle(getResources().getString(R.string.SerialTitleToken));
+                }
                 loadFragment(new SerialFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
                 break;
             case "password":

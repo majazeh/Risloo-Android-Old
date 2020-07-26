@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -51,6 +50,7 @@ public class PasswordFragment extends Fragment {
     private ClickableSpan passwordLinkSpan;
 
     // Widgets
+    private TextView passwordDescriptionTextView;
     private EditText passwordEditText;
     private Button passwordButton;
     private ImageView passwordImageView;
@@ -78,6 +78,8 @@ public class PasswordFragment extends Fragment {
 
     private void initializer(View view) {
         viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
+
+        passwordDescriptionTextView = view.findViewById(R.id.fragment_password_description_textView);
 
         passwordEditText = view.findViewById(R.id.fragment_password_editText);
 

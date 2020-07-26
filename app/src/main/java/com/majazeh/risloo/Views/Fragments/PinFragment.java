@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -50,10 +49,10 @@ public class PinFragment extends Fragment {
     private CountDownTimer pinCountDownTimer;
 
     // Widgets
+    private TextView pinDescriptionTextView, pinLinkTextView, pinTimerTextView;
     private EditText pinEditText;
     private Button pinButton;
     private ViewFlipper pinViewFlipper;
-    private TextView pinLinkTextView, pinTimerTextView;
 
     public PinFragment(Activity activity) {
         this.activity = activity;
@@ -80,16 +79,16 @@ public class PinFragment extends Fragment {
     private void initializer(View view) {
         viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
 
+        pinDescriptionTextView = view.findViewById(R.id.fragment_pin_description_textView);
+        pinTimerTextView = view.findViewById(R.id.fragment_pin_timer_textView);
+        pinLinkTextView = view.findViewById(R.id.fragment_pin_link_textView);
+        pinLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
         pinEditText = view.findViewById(R.id.fragment_pin_editText);
 
         pinButton = view.findViewById(R.id.fragment_pin_button);
 
         pinViewFlipper = view.findViewById(R.id.fragment_pin_viewFlipper);
-
-        pinLinkTextView = view.findViewById(R.id.fragment_pin_link_textView);
-        pinLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
-
-        pinTimerTextView = view.findViewById(R.id.fragment_pin_timer_textView);
     }
 
     private void detector() {

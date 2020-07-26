@@ -11,10 +11,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,6 +46,7 @@ public class RegisterFragment extends Fragment {
     private Activity activity;
 
     // Widgets
+    private TextView registerDescriptionTextView;
     private EditText nameEditText, mobileEditText, passwordEditText;
     private TabLayout genderTabLayout;
     private Button registerButton;
@@ -71,6 +72,8 @@ public class RegisterFragment extends Fragment {
 
     private void initializer(View view) {
         viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
+
+        registerDescriptionTextView = view.findViewById(R.id.fragment_register_description_textView);
 
         nameEditText = view.findViewById(R.id.fragment_register_name_editText);
         mobileEditText = view.findViewById(R.id.fragment_register_mobile_editText);
