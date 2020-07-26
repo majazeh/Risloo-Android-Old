@@ -80,7 +80,6 @@ public class PasswordFragment extends Fragment {
         viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
 
         passwordEditText = view.findViewById(R.id.fragment_password_editText);
-        passwordEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         passwordImageView = view.findViewById(R.id.fragment_password_imageView);
 

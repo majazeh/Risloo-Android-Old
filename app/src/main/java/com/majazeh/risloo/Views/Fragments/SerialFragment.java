@@ -81,7 +81,6 @@ public class SerialFragment extends Fragment {
         animSlideIn = AnimationUtils.loadAnimation(activity, R.anim.slide_in_bottom);
 
         serialEditText = view.findViewById(R.id.fragment_serial_editText);
-        serialEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         serialButton = view.findViewById(R.id.fragment_serial_button);
 

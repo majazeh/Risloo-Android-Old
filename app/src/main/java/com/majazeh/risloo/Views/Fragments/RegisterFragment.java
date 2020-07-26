@@ -73,11 +73,8 @@ public class RegisterFragment extends Fragment {
         viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
 
         nameEditText = view.findViewById(R.id.fragment_register_name_editText);
-        nameEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         mobileEditText = view.findViewById(R.id.fragment_register_mobile_editText);
-        mobileEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         passwordEditText = view.findViewById(R.id.fragment_register_password_editText);
-        passwordEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         genderTabLayout = view.findViewById(R.id.fragment_register_gender_tabLayout);
 

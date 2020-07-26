@@ -81,7 +81,6 @@ public class PinFragment extends Fragment {
         viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
 
         pinEditText = view.findViewById(R.id.fragment_pin_editText);
-        pinEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         pinButton = view.findViewById(R.id.fragment_pin_button);
 

@@ -65,7 +65,6 @@ public class MobileFragment extends Fragment {
         viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
 
         mobileEditText = view.findViewById(R.id.fragment_mobile_editText);
-        mobileEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         mobileButton = view.findViewById(R.id.fragment_mobile_button);
     }

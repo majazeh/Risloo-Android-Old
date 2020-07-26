@@ -78,11 +78,8 @@ public class CallUsActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.activity_call_us_toolbar);
 
         nameEditText = findViewById(R.id.activity_call_us_name_editText);
-        nameEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         mobileEditText = findViewById(R.id.activity_call_us_mobile_editText);
-        mobileEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         messageEditText = findViewById(R.id.activity_call_us_message_editText);
-        messageEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         sendButton = findViewById(R.id.activity_call_us_send_button);
 
