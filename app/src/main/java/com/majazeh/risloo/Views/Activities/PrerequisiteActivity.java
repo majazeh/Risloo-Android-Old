@@ -170,7 +170,11 @@ public class PrerequisiteActivity extends AppCompatActivity {
     }
 
     public void observeWork() {
-        viewModel.getSample(sharedPreferences.getString("sampleId", ""));
+        try {
+            viewModel.getSample(sharedPreferences.getString("sampleId", ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         if (isNetworkConnected()) {
         progressDialog.show();
             SampleController.workStateSample.observe((LifecycleOwner) this, integer -> {
