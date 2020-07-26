@@ -17,6 +17,17 @@
         android:padding="@dimen/_6sdp"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/activity_prerequisite_single_item_title"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="normal"
+            android:textColor="@color/Grey"
+            android:textColorHint="@color/Mischka"
+            android:textAlignment="gravity"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_height="wrap_content"/>
+
         <EditText
             android:id="@+id/activity_prerequisite_single_item_type_editText"
             android:layout_width="match_parent"
@@ -37,7 +48,7 @@
         <Spinner
             android:id="@+id/activity_prerequisite_single_item_option_spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_35sdp"
             android:singleLine="true"
             android:spinnerMode="dropdown"
             android:background="@drawable/draw_18sdp_quartz_border"/>

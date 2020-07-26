@@ -71,7 +71,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
                 holder.recyclerView.addItemDecoration(new ItemDecorator("subListLayout",(int) activity.getResources().getDimension(R.dimen._12sdp)));
                 holder.recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-                holder.recyclerView.setHasFixedSize(true);
+                holder.recyclerView.setHasFixedSize(false);
                 holder.recyclerView.setAdapter(subListBigAdapter);
 
             } else if (list.get(i).get("subset").equals("small")){
@@ -85,7 +85,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
                 holder.recyclerView.addItemDecoration(new ItemDecorator("subListLayout",(int) activity.getResources().getDimension(R.dimen._8sdp)));
                 holder.recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-                holder.recyclerView.setHasFixedSize(true);
+                holder.recyclerView.setHasFixedSize(false);
                 holder.recyclerView.setAdapter(subListSmallAdapter);
 
             } else if (list.get(i).get("subset").equals("none")){

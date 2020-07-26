@@ -20,12 +20,16 @@ public class SampleViewModel extends AndroidViewModel {
     // Repositories
     private SampleRepository repository;
 
-    public SampleViewModel(@NonNull Application application) {
+    public SampleViewModel(@NonNull Application application, String testUniqueId) throws JSONException {
         super(application);
 
-        repository = new SampleRepository(application);
+        repository = new SampleRepository(application, testUniqueId);
     }
 
+    public SampleViewModel(@NonNull Application application) {
+        super(application);
+        repository = new SampleRepository(application);
+    }
     public void sendAnswers(String sampleId) throws JSONException {
         repository.sendAnswers(sampleId);
     }
@@ -35,6 +39,7 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
     public String getDescription() throws JSONException {
+        Log.e("json", String.valueOf(repository.json()));
         return repository.json().getJSONObject("data").getString("description");
     }
 
@@ -177,6 +182,14 @@ public class SampleViewModel extends AndroidViewModel {
 
     public void checkPrerequisiteStorage(String fileName) {
         repository.checkPrerequisiteStorage(fileName);
+    }
+
+    public void getSample(String fileName){
+        try {
+            repository.getSample(fileName);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

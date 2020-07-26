@@ -30,4 +30,10 @@ public interface SampleApi {
     @FormUrlEncoded
     @POST("$/samples/{sample_id}/items")
     Call<ResponseBody> prerequisite(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Field("prerequisite") JSONArray items);
+
+    @Headers({"content-type: application/x-www-form-urlencoded"})
+    @FormUrlEncoded
+    @POST("$/samples/{sample_id}/close")
+    Call<ResponseBody> closeSample(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
+
 }

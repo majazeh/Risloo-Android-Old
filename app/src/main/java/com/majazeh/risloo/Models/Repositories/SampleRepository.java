@@ -39,11 +39,10 @@ public class SampleRepository extends MainRepository {
     private SharedPreferences sharedPreferences;
     private JSONArray prerequisiteItems;
 
-    public SampleRepository(Application application) {
+    public SampleRepository(Application application, String testUniqueId) {
         super(application);
 
         controller = new SampleController(application);
-
         sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
         try {
@@ -51,6 +50,12 @@ public class SampleRepository extends MainRepository {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    public SampleRepository(Application application) {
+        super(application);
+        sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+        controller = new SampleController(application);
+
     }
 
     public SampleRepository() {
@@ -69,7 +74,7 @@ public class SampleRepository extends MainRepository {
         return prerequisiteItems;
     }
 
-    private void getSample(String sampleId) throws JSONException {
+    public void getSample(String sampleId) throws JSONException {
         if (isNetworkConnected()) {
 
             controller.work = "getSample";
@@ -206,7 +211,7 @@ public class SampleRepository extends MainRepository {
         }
     }
 
-    public void saveSampleToCache(Context context, JSONObject jsonObject, String fileName) {
+    public boolean saveSampleToCache(Context context, JSONObject jsonObject, String fileName) {
         try {
             File file = new File(context.getCacheDir(), "Samples/" + fileName);
             if (!file.getParentFile().exists()) {
@@ -219,11 +224,13 @@ public class SampleRepository extends MainRepository {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(jsonObject.toString());
             oos.close();
+            return true;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public void saveAnswerToCache(JSONArray jsonArray, String fileName) {
@@ -431,15 +438,17 @@ public class SampleRepository extends MainRepository {
 
     public int firstUnanswered(String fileName) {
         JSONArray items = readAnswerFromCache(fileName);
-        for (int i = 0; i < items.length(); i++) {
-            try {
-                if (items.getJSONObject(i).getString("answer").equals("")) {
-                    return i;
+        if (items != null){
+            for (int i = 0; i < items.length(); i++) {
+                try {
+                    if (items.getJSONObject(i).getString("answer").equals("")) {
+                        return i;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-        }
+    }
         return -1;
     }
 

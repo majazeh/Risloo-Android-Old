@@ -2,6 +2,7 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -18,6 +19,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.util.logging.Logger;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -91,8 +93,10 @@ public class SampleWorker extends Worker {
                 SampleController.workStateSample.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-
-                SampleController.exception = errorBody.getString("message_text");
+                if (errorBody.getString("message_text").equals("This action is unauthorized."))
+                    SampleController.exception = "این نمونه برای شما بسته شده است.";
+                else
+                SampleController.exception = errorBody.getString("اشکال در باز کردن نمونه شما.");
                 SampleController.workStateSample.postValue(0);
             }
 
@@ -116,8 +120,6 @@ public class SampleWorker extends Worker {
 
     private void sendAnswers() {
         try {
-
-
             SampleController.cache = false;
 
             Call<ResponseBody> call = sampleApi.send("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""), SampleRepository.remoteData);
@@ -135,6 +137,36 @@ public class SampleWorker extends Worker {
 
                 repository.insertRemoteToLocal();
 
+                SampleController.exception = errorBody.getString("message_text");
+                SampleController.workStateAnswer.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            SampleController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
+            SampleController.workStateAnswer.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            SampleController.exception = "مشکل ادریافت JSON! دوباره تلاش کنید.";
+            SampleController.workStateAnswer.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            SampleController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
+            SampleController.workStateAnswer.postValue(0);
+        }
+    }
+    private void closeSample() {
+        try {
+            Call<ResponseBody> call = sampleApi.closeSample("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""));
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                SampleController.workStateAnswer.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
                 SampleController.exception = errorBody.getString("message_text");
                 SampleController.workStateAnswer.postValue(0);
             }

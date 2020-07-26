@@ -3,6 +3,7 @@ package com.majazeh.risloo.Views.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +23,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.majazeh.risloo.Models.Controller.SampleController;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
@@ -53,12 +55,15 @@ public class PrerequisiteActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Button startButton;
     private Dialog infoDialog;
+    public Dialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+        viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
         if (!viewModel.havePrerequisite(sharedPreferences.getString("sampleId", ""))) {
+
             decorator();
 
             setContentView(R.layout.activity_prerequisite);
@@ -69,11 +74,8 @@ public class PrerequisiteActivity extends AppCompatActivity {
 
             listener();
 
-            if (firstTimeLoad()) {
-                infoDialog.show();
-            }
             observeWork();
-        }else{
+        } else {
             launchSample();
         }
     }
@@ -84,8 +86,6 @@ public class PrerequisiteActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-
-        viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
 
         adapter = new PrerequisiteAdapter(this);
 
@@ -105,6 +105,12 @@ public class PrerequisiteActivity extends AppCompatActivity {
         infoDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         infoDialog.setContentView(R.layout.dialog_note);
         infoDialog.setCancelable(true);
+
+        progressDialog = new Dialog(this, R.style.DialogTheme);
+        progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        progressDialog.setContentView(R.layout.dialog_progress);
+        progressDialog.setCancelable(false);
 
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(infoDialog.getWindow().getAttributes());
@@ -143,6 +149,7 @@ public class PrerequisiteActivity extends AppCompatActivity {
             JSONArray jsonArray = new JSONArray();
             // TODO : put items to json array like this jsonArray.put(the position of question, answer of that position);
             viewModel.savePrerequisiteToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
+            launchSample();
 //            name = nameEditText.getText().toString().trim();
 //            mobile = mobileEditText.getText().toString().trim();
 //            message = messageEditText.getText().toString().trim();
@@ -166,10 +173,14 @@ public class PrerequisiteActivity extends AppCompatActivity {
     }
 
     public void observeWork() {
+        viewModel.getSample(sharedPreferences.getString("sampleId", ""));
         if (isNetworkConnected()) {
+        progressDialog.show();
             SampleController.workStateSample.observe((LifecycleOwner) this, integer -> {
                 if (integer == 1) {
                     try {
+                        progressDialog.dismiss();
+                        infoDialog.show();
                         infoDialogDescription.setText(viewModel.getDescription());
                         adapter.setPrerequisite(viewModel.getPrerequisite());
                         recyclerView.setAdapter(adapter);
@@ -178,20 +189,10 @@ public class PrerequisiteActivity extends AppCompatActivity {
                     }
                     SampleController.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
-                    Log.e("log", SampleController.exception);
-                    if (SampleController.exception.equals("Unauthenticated.")){
-                        if (viewModel.getItems() != null) {
-                            try {
-                                infoDialogDescription.setText(viewModel.getDescription());
-                                adapter.setPrerequisite(viewModel.getPrerequisite());
-                                recyclerView.setAdapter(adapter);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            // you are offline
-                        }
-                    }
+                    progressDialog.dismiss();
+                    Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(this, AuthActivity.class));
+                    finish();
                     // TODO: get exception
                 }
             });

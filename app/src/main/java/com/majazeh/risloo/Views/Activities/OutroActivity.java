@@ -206,20 +206,23 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
         SampleController.cache = true;
         try {
+            SampleController.workStateAnswer.postValue(-1);
             viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
             SampleController.workStateAnswer.observe(this, integer -> {
                 if (integer == 1) {
-                    viewModel.deleteStorage(sharedPreferences.getString("sampleId", ""));
-
-                    editor.remove("sampleId");
-                    editor.apply();
+//                    viewModel.deleteStorage(sharedPreferences.getString("sampleId", ""));
+//
+//                    editor.remove("sampleId");
+//                    editor.apply();
 
                     startActivity(new Intent(this, AuthActivity.class));
                     finish();
 
                     Toast.makeText(this, "جواب ها به درستی ارسال شد", Toast.LENGTH_SHORT).show();
-                } else {
+                } else if (integer == 0){
                     Toast.makeText(this, "ارسال اطلاعات با مشکل مواجه شد!", Toast.LENGTH_SHORT).show();
+                }else{
+
                 }
             });
         } catch (JSONException e) {
