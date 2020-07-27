@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -149,14 +148,6 @@ public class SerialFragment extends Fragment {
 
             serialLinkLinearLayout.setVisibility(View.INVISIBLE);
         }
-
-        if (sampleViewModel.getStorageFiles() != null) {
-            serialIncompleteTextView.setText(StringCustomizer.foregroundSize("شما" + " " + sampleViewModel.getStorageFiles().size() + " " + "نمونه ناقص دارید!", 4, 6, getResources().getColor(R.color.MoonYellow), (int) getResources().getDimension(R.dimen._15ssp)));
-            serialArchiveLinearLayout.setVisibility(View.VISIBLE);
-            serialArchiveLinearLayout.setAnimation(animSlideIn);
-        } else {
-            serialArchiveLinearLayout.setVisibility(View.GONE);
-        }
     }
 
     private void checkInput() {
@@ -180,6 +171,19 @@ public class SerialFragment extends Fragment {
             ((AuthActivity) Objects.requireNonNull(getActivity())).observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (sampleViewModel.getStorageFiles() != null ) {
+            serialIncompleteTextView.setText(StringCustomizer.foregroundSize("شما" + " " + sampleViewModel.getStorageFiles().size() + " " + "نمونه ناقص دارید!", 4, 6, getResources().getColor(R.color.MoonYellow), (int) getResources().getDimension(R.dimen._14ssp)));
+            serialArchiveLinearLayout.setVisibility(View.VISIBLE);
+            serialArchiveLinearLayout.setAnimation(animSlideIn);
+        } else {
+            serialArchiveLinearLayout.setVisibility(View.GONE);
         }
     }
 

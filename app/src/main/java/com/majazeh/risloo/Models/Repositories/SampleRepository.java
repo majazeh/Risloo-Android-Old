@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Environment;
-import android.util.Log;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Controller.SampleController;
@@ -32,7 +31,7 @@ public class SampleRepository extends MainRepository {
     // Vars
     public static ArrayList<ArrayList<Integer>> localData = new ArrayList<>();
     public static ArrayList<ArrayList<Integer>> remoteData = new ArrayList<>();
-    public static ArrayList<ArrayList> preData = new ArrayList<ArrayList>();
+    public static ArrayList<ArrayList> preData = new ArrayList<>();
 
     // Objects
     private JSONObject sampleJson;
@@ -140,6 +139,12 @@ public class SampleRepository extends MainRepository {
         }
     }
 
+    public void closeSample() throws JSONException {
+        controller.work = "closeSample";
+        controller.workStateSample.setValue(-1);
+        controller.workManager("closeSample");
+    }
+
     public void sendAnswers(String sampleId) throws JSONException {
         if (isNetworkConnected()) {
             if (SampleController.cache == true) {
@@ -166,6 +171,13 @@ public class SampleRepository extends MainRepository {
         } else {
             SampleController.cache = true;
         }
+    }
+
+    public void sendPre(ArrayList arrayList) throws JSONException {
+        preData = arrayList;
+        controller.work = "sendPre";
+        controller.workStateAnswer.setValue(-1);
+        controller.workManager("sendPre");
     }
 
     /*
@@ -440,22 +452,27 @@ public class SampleRepository extends MainRepository {
         File[] list = file.listFiles();
         if (list != null) {
             for (int i = 0; i < list.length; i++) {
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("serial", list[i].getName());
-                    if (answeredSize(list[i].getName()) < readAnswerFromCache(list[i].getName()).length()) {
-                        jsonObject.put("status", "ناقص");
-                    } else {
-                        jsonObject.put("status", "کامل");
+                if (readAnswerFromCache(list[i].getName()) != null){
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("serial", list[i].getName());
+                        if (answeredSize(list[i].getName()) < readAnswerFromCache(list[i].getName()).length()) {
+                            jsonObject.put("status", "ناقص");
+                        } else {
+                            jsonObject.put("status", "کامل");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    try {
+                        arrayList.add(new Model(jsonObject));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-                try {
-                    arrayList.add(new Model(jsonObject));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            }
+            if (arrayList.size() == 0){
+                return null;
             }
             return arrayList;
         } else {
@@ -497,13 +514,15 @@ public class SampleRepository extends MainRepository {
     public int answeredSize(String fileName) {
         JSONArray items = readAnswerFromCache(fileName);
         int size = 0;
-        for (int i = 0; i < items.length(); i++) {
-            try {
-                if (!items.getJSONObject(i).getString("answer").equals("")) {
-                    size++;
+        if (items != null) {
+            for (int i = 0; i < items.length(); i++) {
+                try {
+                    if (!items.getJSONObject(i).getString("answer").equals("")) {
+                        size++;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
         }
         return size;
@@ -511,7 +530,7 @@ public class SampleRepository extends MainRepository {
 
     public int firstUnanswered(String fileName) {
         JSONArray items = readAnswerFromCache(fileName);
-        if (items != null) {
+        if (items != null){
             for (int i = 0; i < items.length(); i++) {
                 try {
                     if (items.getJSONObject(i).getString("answer").equals("")) {
@@ -534,25 +553,4 @@ public class SampleRepository extends MainRepository {
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
-    public void closeSample() {
-        try {
-        controller.work = "closeSample";
-        controller.workStateSample.setValue(-1);
-            controller.workManager("closeSample");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void sendPre(ArrayList arrayList) {
-        try {
-            Log.e("sendPre: ", String.valueOf(arrayList));
-            preData = arrayList;
-            controller.work = "sendPre";
-            controller.workStateAnswer.setValue(-1);
-            controller.workManager("sendPre");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 }
