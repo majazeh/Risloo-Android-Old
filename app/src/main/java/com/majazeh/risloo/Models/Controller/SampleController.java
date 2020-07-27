@@ -15,6 +15,8 @@ import com.majazeh.risloo.Models.Workers.SampleWorker;
 
 import org.json.JSONException;
 
+import java.util.HashMap;
+
 public class SampleController {
 
     // Objects

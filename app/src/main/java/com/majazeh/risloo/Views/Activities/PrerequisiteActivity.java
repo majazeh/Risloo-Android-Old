@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.majazeh.risloo.Models.Controller.SampleController;
+import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -33,7 +34,10 @@ import com.majazeh.risloo.Views.Adapters.PrerequisiteAdapter;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.HashMap;
+
 public class PrerequisiteActivity extends AppCompatActivity {
+
 
     // ViewModels
     public static SampleViewModel viewModel;
@@ -59,7 +63,7 @@ public class PrerequisiteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
         viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
-        if (!viewModel.havePrerequisiteStorage(sharedPreferences.getString("sampleId", ""))) {
+        if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) <= 0) {
 
             decorator();
 
@@ -146,11 +150,23 @@ public class PrerequisiteActivity extends AppCompatActivity {
             JSONArray jsonArray = new JSONArray();
             // TODO : put items to json array like this jsonArray.put(the position of question, answer of that position);
             viewModel.savePrerequisiteToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
-            launchSample();
-//            name = nameEditText.getText().toString().trim();
-//            mobile = mobileEditText.getText().toString().trim();
-//            message = messageEditText.getText().toString().trim();
-//
+            //adapter.answers();
+
+            viewModel.sendPre(adapter.answers());
+            SampleController.workStateAnswer.observe((LifecycleOwner) this, integer -> {
+                if (integer == 1) {
+                    launchSample();
+                } else if (integer == 0) {
+                    // error
+                } else if (integer == -1) {
+                    // do nothing
+                } else if (integer == -2) {
+                    // offline
+                } else {
+                    // do nothing
+                }
+            });
+
 //            if (nameEditText.length() == 0 || mobileEditText.length() == 0 || messageEditText.length() == 0) {
 //                checkInput();
 //            } else {
@@ -176,7 +192,7 @@ public class PrerequisiteActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         if (isNetworkConnected()) {
-        progressDialog.show();
+            progressDialog.show();
             SampleController.workStateSample.observe((LifecycleOwner) this, integer -> {
                 if (integer == 1) {
                     try {

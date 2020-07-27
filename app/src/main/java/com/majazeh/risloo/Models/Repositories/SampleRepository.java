@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Environment;
+import android.util.Log;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Controller.SampleController;
@@ -31,6 +32,7 @@ public class SampleRepository extends MainRepository {
     // Vars
     public static ArrayList<ArrayList<Integer>> localData = new ArrayList<>();
     public static ArrayList<ArrayList<Integer>> remoteData = new ArrayList<>();
+    public static ArrayList<ArrayList> preData = new ArrayList<ArrayList>();
 
     // Objects
     private JSONObject sampleJson;
@@ -509,7 +511,7 @@ public class SampleRepository extends MainRepository {
 
     public int firstUnanswered(String fileName) {
         JSONArray items = readAnswerFromCache(fileName);
-        if (items != null){
+        if (items != null) {
             for (int i = 0; i < items.length(); i++) {
                 try {
                     if (items.getJSONObject(i).getString("answer").equals("")) {
@@ -532,4 +534,25 @@ public class SampleRepository extends MainRepository {
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
+    public void closeSample() {
+        try {
+        controller.work = "closeSample";
+        controller.workStateSample.setValue(-1);
+            controller.workManager("closeSample");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendPre(ArrayList arrayList) {
+        try {
+            Log.e("sendPre: ", String.valueOf(arrayList));
+            preData = arrayList;
+            controller.work = "sendPre";
+            controller.workStateAnswer.setValue(-1);
+            controller.workManager("sendPre");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }
