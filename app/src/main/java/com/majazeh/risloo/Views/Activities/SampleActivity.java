@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.majazeh.risloo.Models.Controller.SampleController;
+import com.majazeh.risloo.Models.Workers.SampleWorker;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -253,8 +254,20 @@ public class SampleActivity extends AppCompatActivity {
             finishDialogPositive.setClickable(false);
             handler.postDelayed(() -> finishDialogPositive.setClickable(true), 1000);
             finishDialog.dismiss();
-
-            // TODO : Put Here
+            viewModel.closeSample();
+            SampleController.workStateSample.observe(this, integer -> {
+                if (integer == 1){
+                    Toast.makeText(this, "نمونه بسته شد", Toast.LENGTH_SHORT).show();
+                }else if (integer == 0){
+                    // have error
+                }else if(integer == -1){
+                    // do nothing
+                }else if (integer == -2){
+                    // offline
+                }else{
+                    // nothing
+                }
+            });
         });
 
         finishDialogNegative.setOnClickListener(v -> {

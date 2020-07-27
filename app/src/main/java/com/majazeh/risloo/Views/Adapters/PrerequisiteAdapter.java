@@ -20,12 +20,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
+import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapter.PrerequisiteHolder> {
 
@@ -36,6 +38,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
     private Activity activity;
     private Handler handler;
     private JSONObject jsonObject;
+    ArrayList<ArrayList> arrayList;
 
     public PrerequisiteAdapter(Activity activity) {
         this.activity = activity;
@@ -45,7 +48,6 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
     @Override
     public PrerequisiteHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(activity).inflate(R.layout.activity_prerequisite_single_item, viewGroup, false);
-
         initializer(view);
 
         return new PrerequisiteHolder(view);
@@ -54,7 +56,6 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
     @Override
     public void onBindViewHolder(@NonNull PrerequisiteHolder holder, int i) {
         JSONObject item = (JSONObject) prerequisites.get(i);
-        Log.e("test", String.valueOf(item));
         try {
             holder.title.setText(((JSONObject) prerequisites.get(i)).getString("text"));
         } catch (JSONException e) {
@@ -69,6 +70,10 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                 holder.typeEditText.setOnKeyListener((v, keyCode, event) -> {
                     if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                         Toast.makeText(activity, holder.typeEditText.getText(), Toast.LENGTH_SHORT).show();
+                        ArrayList arrayList1 = new ArrayList<>();
+                        arrayList1.add(i+1);
+                        arrayList1.add(holder.typeEditText.getText().toString());
+                        arrayList.add(arrayList1);
                         return true;
                     }
                     return false;
@@ -81,6 +86,10 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                 holder.typeEditText.setOnKeyListener((v, keyCode, event) -> {
                     if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                         String text = holder.typeEditText.getText().toString();
+                        ArrayList arrayList1 = new ArrayList<>();
+                        arrayList1.add(i+1);
+                        arrayList1.add(text);
+                        arrayList.add(arrayList1);
                         return true;
                     }
                     return false;
@@ -103,6 +112,10 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         String text = parent.getItemAtPosition(position).toString();
+                        ArrayList arrayList1 = new ArrayList<>();
+                        arrayList1.add(i+1);
+                        arrayList1.add(text);
+                        arrayList.add(arrayList1);
                     }
 
                     @Override
@@ -125,6 +138,8 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
     }
 
     private void initializer(View view) {
+        arrayList = new ArrayList<>();
+
         handler = new Handler();
 
         jsonObject = new JSONObject();
@@ -147,6 +162,10 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
             optionSpinner = view.findViewById(R.id.activity_prerequisite_single_item_option_spinner);
             title = view.findViewById(R.id.activity_prerequisite_single_item_title);
         }
+    }
+
+    public ArrayList answers(){
+        return arrayList;
     }
 
 }

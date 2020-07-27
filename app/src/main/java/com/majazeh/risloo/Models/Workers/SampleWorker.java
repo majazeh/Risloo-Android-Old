@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.util.HashMap;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -63,6 +64,12 @@ public class SampleWorker extends Worker {
                 case "sendAnswers":
                     sendAnswers();
                     break;
+                case "closeSample":
+                    closeSample();
+                    break;
+                case "sendPre":
+                    sendPre();
+                    break;
             }
         }
 
@@ -71,7 +78,7 @@ public class SampleWorker extends Worker {
 
     private String token() {
         if (!sharedPreferences.getString("token", "").equals("")) {
-            return  "Bearer " + sharedPreferences.getString("token", "");
+            return "Bearer " + sharedPreferences.getString("token", "");
         }
         return "";
     }
@@ -120,8 +127,10 @@ public class SampleWorker extends Worker {
     private void sendAnswers() {
         try {
             SampleController.cache = false;
+            HashMap hashMap = new HashMap();
+            hashMap.put("items", SampleRepository.remoteData);
 
-            Call<ResponseBody> call = sampleApi.send("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""), SampleRepository.remoteData);
+            Call<ResponseBody> call = sampleApi.send("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""), hashMap);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -167,9 +176,51 @@ public class SampleWorker extends Worker {
                 JSONObject succesBody = new JSONObject(bodyResponse.body().string());
 
                 SampleController.exception = "موفقیت آمیز";
+                SampleController.workStateSample.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                SampleController.exception = errorBody.getString("message_text");
+                SampleController.workStateSample.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            SampleController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
+            SampleController.workStateSample.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            SampleController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
+            SampleController.workStateSample.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            SampleController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
+            SampleController.workStateSample.postValue(0);
+        }
+    }
+
+    private void sendPre() {
+        try {
+            HashMap hashMap = new HashMap();
+            hashMap.put("items", SampleRepository.preData);
+
+            Call<ResponseBody> call = sampleApi.prerequisite("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""), hashMap);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject succesBody = new JSONObject(bodyResponse.body().string());
+
+                SampleRepository.remoteData.clear();
+
+                SampleController.exception = "موفقیت آمیز";
                 SampleController.workStateAnswer.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                repository.insertRemoteToLocal();
 
                 SampleController.exception = errorBody.getString("message_text");
                 SampleController.workStateAnswer.postValue(0);
@@ -192,5 +243,4 @@ public class SampleWorker extends Worker {
             SampleController.workStateAnswer.postValue(0);
         }
     }
-
 }
