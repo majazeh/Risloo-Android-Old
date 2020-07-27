@@ -10,8 +10,12 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -32,7 +36,10 @@ public class ArchiveActivity extends AppCompatActivity implements ItemHelper.Rec
     private ArchiveAdapter adapter;
 
     // Objects
+    private Handler handler;
     private Typeface danaBold;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     // Widgets
     private CoordinatorLayout coordinatorLayout;
@@ -66,7 +73,14 @@ public class ArchiveActivity extends AppCompatActivity implements ItemHelper.Rec
             adapter.setArchive(viewModel.getStorageFiles());
         }
 
+        handler = new Handler();
+
         danaBold = ResourcesCompat.getFont(this, R.font.dana_bold);
+
+        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
+        editor = sharedPreferences.edit();
+        editor.apply();
 
         coordinatorLayout = findViewById(R.id.activity_archive);
 
@@ -122,9 +136,28 @@ public class ArchiveActivity extends AppCompatActivity implements ItemHelper.Rec
 
             adapter.removeArchive(index);
 
-            Snackbar snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.ArchiveDeleted), Snackbar.LENGTH_SHORT);
-            snackbar.setAction(getResources().getString(R.string.ArchiveRestore), view -> adapter.restoreArchive(archive, index));
+            if (hasArchive()) {
+                countTextView.setText(viewModel.getStorageFiles().size() - 1 + " " + getResources().getString(R.string.ArchiveCount));
+            }
+
+            handler.postDelayed(() -> {
+                viewModel.deleteStorage(sharedPreferences.getString("sampleId", ""));
+
+                if (!hasArchive()) {
+                    finish();
+                }
+            }, 2000);
+
+            Snackbar snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.ArchiveDeleted), 2000);
             snackbar.getView().setBackgroundColor(ContextCompat.getColor(this, R.color.Primary5P));
+            snackbar.setAction(getResources().getString(R.string.ArchiveRestore), view -> {
+                adapter.restoreArchive(archive, index);
+                handler.removeCallbacksAndMessages(null);
+
+                if (hasArchive()) {
+                    countTextView.setText(viewModel.getStorageFiles().size() + " " + getResources().getString(R.string.ArchiveCount));
+                }
+            });
 
             TextView messageTextView = snackbar.getView().findViewById(R.id.snackbar_text);
             TextView actionTextView = snackbar.getView().findViewById(R.id.snackbar_action);

@@ -147,7 +147,7 @@
             android:paddingRight="@dimen/_18sdp"
             android:gravity="center"
             android:text="@string/SerialArchive"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_11ssp"
             android:textStyle="bold"
             android:textColor="@color/PrimaryDark"
             android:textAlignment="gravity" />
@@ -160,7 +160,7 @@
             android:paddingBottom="@dimen/_9sdp"
             android:paddingRight="@dimen/_18sdp"
             android:gravity="right"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="@dimen/_11ssp"
             android:textStyle="bold"
             android:textColor="@color/Mischka"
             android:textAlignment="gravity" />
