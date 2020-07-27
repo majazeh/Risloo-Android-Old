@@ -152,7 +152,11 @@ public class PrerequisiteActivity extends AppCompatActivity {
             viewModel.savePrerequisiteToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
             //adapter.answers();
 
-            viewModel.sendPre(adapter.answers());
+            try {
+                viewModel.sendPre(adapter.answers());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             SampleController.workStateAnswer.observe((LifecycleOwner) this, integer -> {
                 if (integer == 1) {
                     launchSample();

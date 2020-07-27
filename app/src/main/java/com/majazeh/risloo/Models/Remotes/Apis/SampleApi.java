@@ -1,9 +1,5 @@
 package com.majazeh.risloo.Models.Remotes.Apis;
 
-import org.json.JSONArray;
-
-import java.util.ArrayList;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;

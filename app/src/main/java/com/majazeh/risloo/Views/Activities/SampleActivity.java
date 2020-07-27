@@ -254,7 +254,11 @@ public class SampleActivity extends AppCompatActivity {
             finishDialogPositive.setClickable(false);
             handler.postDelayed(() -> finishDialogPositive.setClickable(true), 1000);
             finishDialog.dismiss();
-            viewModel.closeSample();
+            try {
+                viewModel.closeSample();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             SampleController.workStateSample.observe(this, integer -> {
                 if (integer == 1){
                     Toast.makeText(this, "نمونه بسته شد", Toast.LENGTH_SHORT).show();

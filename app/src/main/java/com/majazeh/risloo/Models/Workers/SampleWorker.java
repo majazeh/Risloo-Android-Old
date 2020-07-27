@@ -127,6 +127,7 @@ public class SampleWorker extends Worker {
     private void sendAnswers() {
         try {
             SampleController.cache = false;
+
             HashMap hashMap = new HashMap();
             hashMap.put("items", SampleRepository.remoteData);
 
@@ -243,4 +244,5 @@ public class SampleWorker extends Worker {
             SampleController.workStateAnswer.postValue(0);
         }
     }
+
 }

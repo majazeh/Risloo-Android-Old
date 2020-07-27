@@ -39,6 +39,14 @@ public class SampleViewModel extends AndroidViewModel {
         repository.sendAnswers(sampleId);
     }
 
+    public void closeSample() throws JSONException {
+        repository.closeSample();
+    }
+
+    public void sendPre(ArrayList arrayList) throws JSONException {
+        repository.sendPre(arrayList);
+    }
+
     public String getTitle() throws JSONException {
         return repository.json().getString("title");
     }
@@ -188,11 +196,4 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.firstUnanswered(fileName);
     }
 
-    public void closeSample(){
-        repository.closeSample();
-    }
-
-    public void sendPre(ArrayList arrayList){
-        repository.sendPre(arrayList);
-    }
 }
