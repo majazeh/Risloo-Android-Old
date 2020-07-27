@@ -188,11 +188,4 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.firstUnanswered(fileName);
     }
 
-    public void closeSample(){
-        repository.closeSample();
-    }
-
-    public void sendPre(ArrayList arrayList){
-        repository.sendPre(arrayList);
-    }
 }

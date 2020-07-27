@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -21,9 +20,10 @@ public interface SampleApi {
     @GET("$/samples/{sample_id}")
     Call<ResponseBody> get(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
 
-    @Headers({"content-type: application/json"})
+    @Headers({"content-type: application/x-www-form-urlencoded"})
+    @FormUrlEncoded
     @POST("$/samples/{sample_id}/items")
-    Call<ResponseBody> send(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Body Object body);
+    Call<ResponseBody> send(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Field("items[]") ArrayList<ArrayList<Integer>> items);
 
     @Headers({"content-type: application/x-www-form-urlencoded"})
     @FormUrlEncoded
@@ -33,6 +33,6 @@ public interface SampleApi {
     @Headers({"content-type: application/x-www-form-urlencoded"})
     @FormUrlEncoded
     @POST("$/samples/{sample_id}/items")
-    Call<ResponseBody> prerequisite(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Field("prerequisite") Object items);
+    Call<ResponseBody> prerequisite(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Field("prerequisite") JSONArray items);
 
 }

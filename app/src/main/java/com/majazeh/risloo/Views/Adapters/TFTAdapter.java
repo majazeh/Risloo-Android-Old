@@ -149,7 +149,7 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            viewModel.insertToLocal(viewModel.getIndex(), position+1);
+            viewModel.insertToLocal(viewModel.getIndex(), position);
             viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
         } catch (JSONException e) {
             e.printStackTrace();
