@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:title="@string/AuthSampleTitle">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/tool_sample_start"
+                    android:icon="@drawable/tool_user"
+                    android:title="@string/AuthSampleStart"
+                    android:checked="true"/>
+                <item
+                    android:id="@+id/tool_sample_build"
+                    android:icon="@drawable/tool_user"
+                    android:title="@string/AuthSampleBuild"/>
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/AuthReserveTitle">
+        <menu>
+            <group android:checkableBehavior="none">
+                <item
+                    android:id="@+id/tool_reserve_make"
+                    android:icon="@drawable/tool_user"
+                    android:title="@string/AuthReserveMake"/>
+                <item
+                    android:id="@+id/tool_reserve_request"
+                    android:icon="@drawable/tool_user"
+                    android:title="@string/AuthReserveRequest"/>
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/AuthTreatmentTitle">
+        <menu>
+            <group android:checkableBehavior="none">
+                <item
+                    android:id="@+id/tool_treatment_adviser"
+                    android:icon="@drawable/tool_user"
+                    android:title="@string/AuthTreatmentAdviser"/>
+                <item
+                    android:id="@+id/tool_treatment_station"
+                    android:icon="@drawable/tool_user"
+                    android:title="@string/AuthTreatmentStation"/>
+            </group>
+        </menu>
+    </item>
+
+</menu>

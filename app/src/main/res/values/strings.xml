@@ -54,6 +54,20 @@
 
     <string name="AuthAccount">حساب کاربری</string>
 
+    <string name="AuthSampleTitle">نمونه</string>
+    <string name="AuthSampleStart">شروع نمونه</string>
+    <string name="AuthSampleBuild">ساخت نمونه</string>
+
+    <string name="AuthReserveTitle">رزرواسیون</string>
+    <string name="AuthReserveMake">ایجاد رزرواسیون</string>
+    <string name="AuthReserveRequest">درخواست رزرواسیون</string>
+
+    <string name="AuthTreatmentTitle">درمان</string>
+    <string name="AuthTreatmentAdviser">مشاوران</string>
+    <string name="AuthTreatmentStation">مراکز درمان</string>
+
+    <string name="AuthSettingTitle">تنظیمات</string>
+
     <string name="SerialTitle">ورود</string>
     <string name="SerialTitleToken">شروع</string>
     <string name="SerialDescription">برای شروع سریال نمونه یا شماره همراه خود را وارد کنید</string>

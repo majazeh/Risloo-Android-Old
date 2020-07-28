@@ -2,6 +2,8 @@ package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LifecycleOwner;
@@ -15,11 +17,14 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
 import com.majazeh.risloo.Models.Controller.AuthController;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -41,12 +46,16 @@ public class AuthActivity extends AppCompatActivity {
     public MutableLiveData<Integer> callTimer;
 
     // Objects
+    private Handler handler;
     private MenuItem toolUser;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
     // Widgets
+    private DrawerLayout drawerLayout;
     private Toolbar titleToolbar;
+    private NavigationView navigationView;
+    private FrameLayout navigationFooter;
     public Dialog progressDialog;
 
     @Override
@@ -66,7 +75,7 @@ public class AuthActivity extends AppCompatActivity {
 
     private void decorator() {
         WindowDecorator windowDecorator = new WindowDecorator();
-        windowDecorator.lightWindow(this, R.color.White, R.color.Snow);
+        windowDecorator.lightTransparentWindow(this, R.color.Snow);
     }
 
     private void initializer() {
@@ -77,12 +86,20 @@ public class AuthActivity extends AppCompatActivity {
         editor = sharedPreferences.edit();
         editor.apply();
 
+        handler = new Handler();
+
         callTimer = new MutableLiveData<>();
         callTimer.setValue(-1);
+
+        drawerLayout = findViewById(R.id.activity_auth);
 
         titleToolbar = findViewById(R.id.activity_auth_toolbar);
         setSupportActionBar(titleToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        navigationView = findViewById(R.id.activity_auth_navigationView);
+
+        navigationFooter = navigationView.findViewById(R.id.activity_auth_footer);
 
         progressDialog = new Dialog(this, R.style.DialogTheme);
         progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -92,9 +109,45 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void listener() {
-        titleToolbar.setNavigationOnClickListener(v -> {
-            startActivity(new Intent(this, MoreActivity.class));
-            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+        titleToolbar.setNavigationOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
+
+        navigationFooter.setOnClickListener(v -> {
+            drawerLayout.closeDrawer(GravityCompat.START);
+
+            handler.postDelayed(() -> {
+                startActivity(new Intent(this, MoreActivity.class));
+                overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+            }, 250);
+        });
+
+        navigationView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.tool_sample_start) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            } else if (id == R.id.tool_sample_build) {
+                handler.postDelayed(() -> {
+
+                }, 50);
+            } else if (id == R.id.tool_reserve_make) {
+                handler.postDelayed(() -> {
+
+                }, 50);
+            } else if (id == R.id.tool_reserve_request) {
+                handler.postDelayed(() -> {
+
+                }, 50);
+            } else if (id == R.id.tool_treatment_adviser) {
+                handler.postDelayed(() -> {
+
+                }, 50);
+
+            } else if (id == R.id.tool_treatment_station) {
+                handler.postDelayed(() -> {
+
+                }, 50);
+            }
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return false;
         });
     }
 
@@ -159,7 +212,6 @@ public class AuthActivity extends AppCompatActivity {
                             AuthController.theory = "mobile";
                         }
                         showFragment();
-                        AuthController.workState.removeObservers((LifecycleOwner) this);
                     } else {
                         if (AuthController.theory.equals("auth")) {
                             try {
@@ -175,10 +227,8 @@ public class AuthActivity extends AppCompatActivity {
 
                             AuthController.theory = "sample";
                             startActivity(new Intent(this, PrerequisiteActivity.class));
-                            AuthController.workState.removeObservers((LifecycleOwner) this);
                         } else {
                             showFragment();
-                            AuthController.workState.removeObservers((LifecycleOwner) this);
                         }
                     }
                 }
@@ -190,6 +240,7 @@ public class AuthActivity extends AppCompatActivity {
                     }
                 }
                 progressDialog.dismiss();
+                AuthController.workState.removeObservers((LifecycleOwner) this);
             } else if (integer == 0) {
                 progressDialog.dismiss();
                 Toast.makeText(this, "" + AuthController.exception, Toast.LENGTH_SHORT).show();
@@ -246,10 +297,14 @@ public class AuthActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (!AuthController.theory.equals("auth")) {
-            launchAuth(R.anim.slide_in_right_with_fade, R.anim.slide_out_left_with_fade);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            finish();
+            if (!AuthController.theory.equals("auth")) {
+                launchAuth(R.anim.slide_in_right_with_fade, R.anim.slide_out_left_with_fade);
+            } else {
+                finish();
+            }
         }
     }
 
