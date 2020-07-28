@@ -13,7 +13,7 @@ public class RetroGenerator {
 
     public static Retrofit getRetrofit() {
         if (retrofit == null) {
-            String baseUrl = "https://risloo.1ghalam.ir/api/";
+            String baseUrl = "https://devapi.risloo.ir/api/";
 
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
