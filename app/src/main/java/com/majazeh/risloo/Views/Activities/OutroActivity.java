@@ -4,12 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -37,7 +37,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
     // Vars
     private String work = "";
-    private boolean storagePermissionsGranted = false, exit = false;
+    private boolean storagePermissionsGranted = false;
 
     // Objects
     private Handler handler;
@@ -180,7 +180,6 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
             } else if (work == "sms") {
                 sendViaSMS();
             } else if (work == "download") {
-                exit = true;
                 downloadFile();
             }
         });
@@ -189,42 +188,18 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
             outroDialogNegative.setClickable(false);
             handler.postDelayed(() -> outroDialogNegative.setClickable(true), 1000);
             outroDialog.dismiss();
-
-            if (work == "download") {
-                exit = false;
-                downloadFile();
-            }
         });
 
-        outroDialog.setOnCancelListener(dialog -> {
-            outroDialog.dismiss();
-        });
+        outroDialog.setOnCancelListener(dialog -> outroDialog.dismiss());
     }
 
     private void sendViaInternet() {
-        progressDialog.show();
-
-        SampleController.cache = true;
         try {
-            SampleController.workStateAnswer.postValue(-1);
+            SampleController.cache = true;
+
+            progressDialog.show();
             viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
-            SampleController.workStateAnswer.observe(this, integer -> {
-                if (integer == 1) {
-//                    viewModel.deleteStorage(sharedPreferences.getString("sampleId", ""));
-//
-//                    editor.remove("sampleId");
-//                    editor.apply();
-
-                    startActivity(new Intent(this, AuthActivity.class));
-                    finish();
-
-                    Toast.makeText(this, "جواب ها به درستی ارسال شد", Toast.LENGTH_SHORT).show();
-                } else if (integer == 0){
-                    Toast.makeText(this, "ارسال اطلاعات با مشکل مواجه شد!", Toast.LENGTH_SHORT).show();
-                }else{
-
-                }
-            });
+            observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -245,17 +220,29 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
     private void saveFile() {
         viewModel.saveToExternal(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")), sharedPreferences.getString("sampleId", ""));
 
-        if (exit) {
-            //viewModel.deleteStorage(sharedPreferences.getString("sampleId", ""));
-        }
-
-//        editor.remove("sampleId");
-//        editor.apply();
-
-        startActivity(new Intent(this, AuthActivity.class));
         finish();
 
         Toast.makeText(this, "جواب ها در پوشه Download ذخیره شد.", Toast.LENGTH_SHORT).show();
+    }
+
+    private void observeWork() {
+        SampleController.workStateAnswer.observe(this, integer -> {
+            if (integer == 1) {
+                finish();
+
+                progressDialog.dismiss();
+                Toast.makeText(this, "" + SampleController.exception, Toast.LENGTH_SHORT).show();
+                SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
+            } else if (integer == 0){
+                progressDialog.dismiss();
+                Toast.makeText(this, "" + SampleController.exception, Toast.LENGTH_SHORT).show();
+                SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
+            } else if (integer == -2) {
+                progressDialog.dismiss();
+                Toast.makeText(this, "" + SampleController.exception, Toast.LENGTH_SHORT).show();
+                SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
+            }
+        });
     }
 
     private void checkStoragePermission() {

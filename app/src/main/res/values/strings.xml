@@ -136,7 +136,7 @@
 
     <string name="OutroTitle">نمونه شما با موفقیت تکمیل شد!</string>
 
-    <string name="OutroDescription">برای اطلاع دادن ریسلو از وضعیت و نتایج نمونه شما لازم است که فایل نمونه را بصورت انترنتی یا پیامکی ارسال نمایید.</string>
+    <string name="OutroDescription">برای اطلاع دادن ریسلو از نتایج نمونه شما لازم است که فایل نمونه را بصورت انترنتی یا پیامکی ارسال نمایید.</string>
 
     <string name="OutroInternet">ارسال إینترنتی نمونه به ریسلو</string>
     <string name="OutroSMS">ارسال پیامکی نمونه به ریسلو</string>
@@ -155,8 +155,8 @@
 
     <string name="OutroDownloadDialogTitle">دریافت فایل</string>
     <string name="OutroDownloadDialogDescription">با دریافت فایل نمونه شما می توانید بعدن بصورت دستی در اختیار ریسلو از راه آپلود دادن قرار دهید.</string>
-    <string name="OutroDownloadDialogPositive">دریافت و خروج</string>
-    <string name="OutroDownloadDialogNegative">دریافت</string>
+    <string name="OutroDownloadDialogPositive">دریافت</string>
+    <string name="OutroDownloadDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

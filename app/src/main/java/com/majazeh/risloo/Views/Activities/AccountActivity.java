@@ -162,8 +162,9 @@ public class AccountActivity extends AppCompatActivity {
         AuthController.workState.observe((LifecycleOwner) this, integer -> {
             if (AuthController.work == "logOut"){
                 if (integer == 1) {
-                    progressDialog.dismiss();
                     finish();
+
+                    progressDialog.dismiss();
                     Toast.makeText(this, "" + AuthController.exception, Toast.LENGTH_SHORT).show();
                     AuthController.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
