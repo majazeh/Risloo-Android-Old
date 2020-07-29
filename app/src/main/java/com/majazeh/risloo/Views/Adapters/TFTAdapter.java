@@ -40,9 +40,8 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
     private Handler handler;
     private SharedPreferences sharedPreferences;
 
-    public TFTAdapter(Activity activity, SampleViewModel viewModel) {
+    public TFTAdapter(Activity activity) {
         this.activity = activity;
-        this.viewModel = viewModel;
     }
 
     @NonNull
@@ -123,9 +122,10 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
         handler = new Handler();
     }
 
-    public void setAnswer(ArrayList<String> answers, int position) {
+    public void setAnswer(ArrayList<String> answers, int position, SampleViewModel viewModel) {
         this.answers = answers;
         this.position = position;
+        this.viewModel = viewModel;
         notifyDataSetChanged();
     }
 

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,9 +57,9 @@ public class TFTFragment extends Fragment {
     private void initializer(View view) {
         sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
-        adapter = new TFTAdapter(activity, viewModel);
+        adapter = new TFTAdapter(activity);
         try {
-            adapter.setAnswer(viewModel.getOptions(viewModel.getIndex()),viewModel.answeredPosition(sharedPreferences.getString("sampleId",""),viewModel.getIndex()));;
+            adapter.setAnswer(viewModel.getOptions(viewModel.getIndex()),viewModel.answeredPosition(sharedPreferences.getString("sampleId",""),viewModel.getIndex()), viewModel);;
         } catch (JSONException e) {
             e.printStackTrace();
         }

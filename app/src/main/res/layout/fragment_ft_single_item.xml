@@ -7,9 +7,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:orientation="horizontal"
-    android:layoutDirection="rtl"
     android:padding="@dimen/_7sdp"
+    android:layoutDirection="rtl"
+    android:gravity="center"
+    android:orientation="horizontal"
     android:background="@drawable/draw_18sdp_quartz_border">
 
     <TextView
