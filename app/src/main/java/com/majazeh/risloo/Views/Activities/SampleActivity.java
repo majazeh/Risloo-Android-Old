@@ -19,21 +19,23 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.majazeh.risloo.Models.Controller.SampleController;
-import com.majazeh.risloo.Models.Workers.SampleWorker;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.ViewModels.SampleViewModelFactory;
 import com.majazeh.risloo.Views.Adapters.IndexAdapter;
+import com.majazeh.risloo.Views.Fragments.DescriptionFragment;
 import com.majazeh.risloo.Views.Fragments.PFPFragment;
 import com.majazeh.risloo.Views.Fragments.PFTFragment;
 import com.majazeh.risloo.Views.Fragments.PPFragment;
@@ -57,11 +59,12 @@ public class SampleActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
 
     // Widgets
+    private LinearLayout sampleLinearLayout;
     private TextView indexTextView, cancelTextView, finishTextView, navigateDialogConfirm, finishDialogTitle, finishDialogDescription, finishDialogPositive, finishDialogNegative, cancelDialogTitle, cancelDialogDescription, cancelDialogPositive, cancelDialogNegative;
     private ImageView forwardImageView, backwardImageView, navigateImageView;
     private ProgressBar flowProgressBar;
     private RecyclerView dialogNavigateRecyclerView;
-    public Dialog progressDialog, navigateDialog, finishDialog, cancelDialog;
+    public Dialog loadingDialog, navigateDialog, finishDialog, cancelDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +80,12 @@ public class SampleActivity extends AppCompatActivity {
 
         listener();
 
-        checkStorage();
+        if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) <= 0) {
+            observeWorkpre();
+        } else {
+            checkStorage();
+        }
+
     }
 
     private void decorator() {
@@ -87,13 +95,15 @@ public class SampleActivity extends AppCompatActivity {
 
     private void initializer() {
         sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-        viewModel = ViewModelProviders.of(this, new SampleViewModelFactory(getApplication(), sharedPreferences.getString("sampleId", ""))).get(SampleViewModel.class);
-
 
         editor = sharedPreferences.edit();
         editor.apply();
 
+        viewModel = ViewModelProviders.of(this, new SampleViewModelFactory(getApplication(), sharedPreferences.getString("sampleId", ""))).get(SampleViewModel.class);
+
         handler = new Handler();
+
+        sampleLinearLayout = findViewById(R.id.activity_sample_linearLayout);
 
         indexTextView = findViewById(R.id.activity_sample_flow_textView);
         cancelTextView = findViewById(R.id.activity_sample_cancel_textView);
@@ -120,11 +130,12 @@ public class SampleActivity extends AppCompatActivity {
         cancelDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         cancelDialog.setContentView(R.layout.dialog_action);
         cancelDialog.setCancelable(true);
-        progressDialog = new Dialog(this, R.style.DialogTheme);
-        progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        progressDialog.setContentView(R.layout.dialog_progress);
-        progressDialog.setCancelable(false);
+        loadingDialog = new Dialog(this, R.style.DialogTheme);
+        loadingDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        loadingDialog.getWindow().setDimAmount(0);
+        loadingDialog.setContentView(R.layout.dialog_loading);
+        loadingDialog.setCancelable(false);
 
         adapter = new IndexAdapter(this, viewModel, navigateDialog);
 
@@ -259,19 +270,7 @@ public class SampleActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            SampleController.workStateSample.observe(this, integer -> {
-                if (integer == 1){
-                    Toast.makeText(this, "نمونه بسته شد", Toast.LENGTH_SHORT).show();
-                }else if (integer == 0){
-                    // have error
-                }else if(integer == -1){
-                    // do nothing
-                }else if (integer == -2){
-                    // offline
-                }else{
-                    // nothing
-                }
-            });
+            observeWork8();
         });
 
         finishDialogNegative.setOnClickListener(v -> {
@@ -299,7 +298,7 @@ public class SampleActivity extends AppCompatActivity {
         cancelDialog.setOnCancelListener(dialog -> cancelDialog.dismiss());
     }
 
-    private void checkStorage() {
+    public void checkStorage() {
         if (viewModel.hasAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
             if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
                 startActivity(new Intent(this, OutroActivity.class));
@@ -312,7 +311,7 @@ public class SampleActivity extends AppCompatActivity {
         }
     }
 
-    private void loadFragment(Fragment fragment, int enterAnim, int exitAnim) {
+    public void loadFragment(Fragment fragment, int enterAnim, int exitAnim) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(enterAnim, exitAnim);
         transaction.replace(R.id.activity_sample_frameLayout, fragment);
@@ -320,6 +319,8 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     public void showFragment(String type) {
+        sampleLinearLayout.setVisibility(View.VISIBLE);
+
         indexTextView.setText(viewModel.getIndex() + 1 + " " + "از" + " " + viewModel.getSize());
 
         flowProgressBar.setMax(viewModel.getSize());
@@ -354,7 +355,7 @@ public class SampleActivity extends AppCompatActivity {
 
     public void observeWork() {
         if (isNetworkConnected()) {
-            progressDialog.show();
+            loadingDialog.show();
             SampleController.workStateSample.observe((LifecycleOwner) this, integer -> {
                 if (integer == 1) {
                     try {
@@ -365,7 +366,7 @@ public class SampleActivity extends AppCompatActivity {
                             return;
                         }
                         viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
-                        progressDialog.dismiss();
+                        loadingDialog.dismiss();
                         showFragment((String) viewModel.getAnswer(viewModel.getIndex()).get("type"));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -373,7 +374,7 @@ public class SampleActivity extends AppCompatActivity {
 
                     SampleController.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
-                    progressDialog.dismiss();
+                    loadingDialog.dismiss();
                     Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(this, AuthActivity.class));
                     finish();
@@ -401,6 +402,63 @@ public class SampleActivity extends AppCompatActivity {
                 // you are offline
             }
         }
+    }
+
+    public void observeWorkpre() {
+        try {
+            viewModel.getSample(sharedPreferences.getString("sampleId", ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (isNetworkConnected()) {
+            loadingDialog.show();
+            SampleController.workStateSample.observe((LifecycleOwner) this, integer -> {
+                if (integer == 1) {
+                    loadingDialog.dismiss();
+
+                    loadFragment(new DescriptionFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+
+                    SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                } else if (integer == 0) {
+                    loadingDialog.dismiss();
+                    Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(this, AuthActivity.class));
+                    finish();
+                    // TODO: get exception
+                }
+            });
+        } else {
+            if (viewModel.getItems() != null) {
+                loadFragment(new DescriptionFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+
+            } else {
+                // you are offline
+            }
+        }
+    }
+
+    public void observeWork8() {
+        SampleController.workStateSample.observe(this, integer -> {
+            if (integer == 1){
+                Toast.makeText(this, "نمونه بسته شد", Toast.LENGTH_SHORT).show();
+            } else if (integer == 0){
+                // have error
+            } else if (integer == -2){
+                // offline
+            }
+        });
+    }
+
+    public void observeWorkAnswer() {
+        SampleController.workStateAnswer.observe((LifecycleOwner) this, integer -> {
+            if (integer == 1) {
+                checkStorage();
+            } else if (integer == 0) {
+                // error
+            } else if (integer == -2) {
+                // offline
+            }
+        });
     }
 
     private boolean isNetworkConnected() {

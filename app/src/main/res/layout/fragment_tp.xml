@@ -41,7 +41,7 @@
             android:padding="@dimen/_16sdp"
             android:inputType="textMultiLine"
             android:gravity="right"
-            android:hint="@string/SamplePrintHint"
+            android:hint="@string/SampleHint"
             android:textSize="@dimen/_12ssp"
             android:textStyle="normal"
             android:textColor="@color/Grey"

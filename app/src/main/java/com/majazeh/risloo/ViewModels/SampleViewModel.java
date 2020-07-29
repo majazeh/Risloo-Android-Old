@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SampleViewModel extends AndroidViewModel {
 
@@ -43,7 +44,7 @@ public class SampleViewModel extends AndroidViewModel {
         repository.closeSample();
     }
 
-    public void sendPre(ArrayList arrayList) throws JSONException {
+    public void sendPre(ArrayList<ArrayList> arrayList) throws JSONException {
         repository.sendPre(arrayList);
     }
 

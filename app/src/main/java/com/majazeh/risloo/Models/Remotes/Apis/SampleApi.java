@@ -27,8 +27,7 @@ public interface SampleApi {
     Call<ResponseBody> close(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
 
     @Headers({"content-type: application/x-www-form-urlencoded"})
-    @FormUrlEncoded
     @POST("$/samples/{sample_id}/items")
-    Call<ResponseBody> prerequisite(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Field("prerequisite") Object items);
+    Call<ResponseBody> prerequisite(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Body Object body);
 
 }

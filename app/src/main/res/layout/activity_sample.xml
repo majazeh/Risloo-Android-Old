@@ -31,7 +31,8 @@
             android:paddingBottom="@dimen/_18sdp"
             android:paddingLeft="@dimen/_18sdp"
             android:paddingRight="@dimen/_18sdp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <RelativeLayout
                 android:layout_width="match_parent"

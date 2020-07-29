@@ -1,44 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_prerequisite"
+    android:id="@+id/fragment_prerequisite"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
-    android:fitsSystemWindows="true"
-    android:background="@color/White"
-    tools:context=".Views.Activities.PrerequisiteActivity"
-    tools:ignore="UnusedAttribute">
+    android:background="@null"
+    tools:context=".Views.Fragments.PrerequisiteFragment">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/activity_prerequisite_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:theme="@style/ToolbarTheme"
-            android:background="@null"
-            app:title="@string/PrerequisiteTitle"
-            app:titleTextAppearance="@style/ToolbarTextAppearance"
-            app:navigationIcon="@drawable/tool_chevron_right"
-            app:contentInsetStartWithNavigation="0dp" />
+        android:scrollbarSize="0dp"
+        android:overScrollMode="always">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="@dimen/_24sdp"
-            android:paddingRight="@dimen/_24sdp"
-            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/fragment_prerequisite_description_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_28sdp"
+                android:layout_marginLeft="@dimen/_24sdp"
+                android:layout_marginRight="@dimen/_24sdp"
                 android:gravity="center"
                 android:text="@string/PrerequisiteDescription"
                 android:textSize="@dimen/_13ssp"
@@ -47,16 +36,18 @@
                 android:textAlignment="gravity" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/activity_prerequisite_recyclerView"
+                android:id="@+id/fragment_prerequisite_recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_10sdp"
                 android:overScrollMode="never" />
 
             <Button
-                android:id="@+id/activity_prerequisite_start_button"
+                android:id="@+id/fragment_prerequisite_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_24sdp"
+                android:layout_marginRight="@dimen/_24sdp"
+                android:layout_marginBottom="@dimen/_24sdp"
                 android:paddingTop="@dimen/_4sdp"
                 android:paddingBottom="@dimen/_4sdp"
                 android:gravity="center"
@@ -70,12 +61,6 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_1sdp"
-        android:layout_gravity="bottom"
-        android:background="@color/Quartz" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>

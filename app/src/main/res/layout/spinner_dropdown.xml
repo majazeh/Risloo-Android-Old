@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/_4sdp"
-    android:paddingBottom="@dimen/_4sdp"
-    android:paddingLeft="@dimen/_4sdp"
-    android:paddingRight="@dimen/_8sdp"
-    android:singleLine="true"
-    android:gravity="right|center"
-    android:textSize="@dimen/_13ssp"
-    android:textColor="@color/White"
+    android:paddingTop="@dimen/_6sdp"
+    android:paddingBottom="@dimen/_6sdp"
+    android:paddingLeft="@dimen/_8sdp"
+    android:paddingRight="@dimen/_16sdp"
+    android:gravity="right"
+    android:textSize="@dimen/_11ssp"
+    android:textStyle="bold"
+    android:textColor="@color/Grey"
     android:textAlignment="gravity"
-    android:background="@color/Primary"/>
+    android:background="@color/Solitude"/>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_prerequisite_single_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
+    android:background="@null"
+    tools:context=".Views.Fragments.PrerequisiteFragment">
+
+    <EditText
+        android:id="@+id/fragment_prerequisite_single_item_type_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/_8sdp"
+        android:paddingBottom="@dimen/_8sdp"
+        android:paddingLeft="@dimen/_16sdp"
+        android:paddingRight="@dimen/_16sdp"
+        android:imeOptions="actionDone"
+        android:cursorVisible="false"
+        android:inputType="text"
+        android:gravity="right"
+        android:textSize="@dimen/_12ssp"
+        android:textStyle="normal"
+        android:textColor="@color/Grey"
+        android:textColorHint="@color/Mischka"
+        android:textAlignment="gravity"
+        android:background="@drawable/draw_18sdp_quartz_border" />
+
+    <Spinner
+        android:id="@+id/fragment_prerequisite_single_item_option_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_36sdp"
+        android:singleLine="true"
+        android:spinnerMode="dropdown"
+        android:background="@drawable/draw_18sdp_quartz_border"/>
+
+</FrameLayout>

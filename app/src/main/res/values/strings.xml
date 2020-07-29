@@ -113,18 +113,13 @@
     // sample strings
     ////////////////////////////////////////////////////////////////////////////////
 
+    <string name="DescriptionButton">مرحله بعد</string>
+
     <string name="PrerequisiteTitle">تکمیل پیشنیاز</string>
+    <string name="PrerequisiteDescription">کاربر گرامی، قبل از شروع نمونه لطفا پیشنیاز های نمونه خواسته شده در زیر را تکمیل نمایید</string>
+    <string name="PrerequisiteButton">مرحله بعد</string>
 
-    <string name="PrerequisiteDescription">کاربر گرامی، قبل از شروع لطفا پیشنیاز های نمونه خواسته شده در زیر را تکمیل نمایید</string>
-    <string name="PrerequisiteButton">شروع نمونه</string>
-
-    <string name="PrerequisiteInfoDialogTitle">توجه</string>
-    <string name="PrerequisiteInfoDialogConfirm">بستن</string>
-
-
-
-    <string name="SamplePrintHint">اینجا وارد نمایید</string>
-
+    <string name="SampleHint">اینجا وارد نمایید</string>
     <string name="SampleCancel">خروج</string>
     <string name="SampleFinish">اتمام</string>
 

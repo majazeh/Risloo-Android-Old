@@ -226,7 +226,7 @@ public class AuthActivity extends AppCompatActivity {
                             editor.apply();
 
                             AuthController.theory = "sample";
-                            startActivity(new Intent(this, PrerequisiteActivity.class));
+                            startActivity(new Intent(this, SampleActivity.class));
                         } else {
                             showFragment();
                         }
