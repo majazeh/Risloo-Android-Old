@@ -23,13 +23,13 @@ public class AuthController {
     // Vars
     public static MutableLiveData<Integer> workState;
     public static String work = "";
+    public static String exception = "";
     public static String key = "";
     public static String authorizedKey = "";
     public static String theory = "auth";
     public static String preTheory = "";
     public static String callback = "";
     public static String token = "";
-    public static String exception = "";
     public static String name = "";
     public static String mobile = "";
     public static String gender = "";

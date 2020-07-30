@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_splash"
@@ -23,12 +22,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center|bottom"
-        android:layout_marginBottom="@dimen/_16sdp"
+        android:layout_marginBottom="@dimen/_18sdp"
         android:gravity="center"
         android:orientation="vertical">
 
         <ProgressBar
-            android:id="@+id/activity_splash_updating_progressBar"
+            android:id="@+id/activity_splash_update_progressBar"
             android:layout_width="@dimen/_150sdp"
             android:layout_height="@dimen/_7sdp"
             android:layout_marginBottom="@dimen/_8sdp"

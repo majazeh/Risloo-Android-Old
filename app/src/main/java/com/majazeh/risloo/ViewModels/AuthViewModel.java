@@ -17,7 +17,7 @@ public class AuthViewModel extends AndroidViewModel {
     // Repositories
     private AuthRepository repository;
 
-    public AuthViewModel(@NonNull Application application) {
+    public AuthViewModel(@NonNull Application application) throws JSONException {
         super(application);
 
         repository = new AuthRepository(application);

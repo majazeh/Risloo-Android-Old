@@ -27,8 +27,8 @@ public class TermConditionViewModel extends AndroidViewModel {
         return repository.getAll();
     }
 
-    public ArrayList<Model> getAllSubset(int index) throws JSONException {
-        return repository.getAllSubset(index);
+    public ArrayList<Model> getSubset(int index) throws JSONException {
+        return repository.getSubset(index);
     }
 
 }

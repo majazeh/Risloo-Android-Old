@@ -3,44 +3,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.majazeh.risloo">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".Utils.CustomApp"
-        android:fullBackupContent="false"
-        android:icon="@mipmap/ic_logo"
         android:label="@string/AppName"
+        android:icon="@mipmap/ic_logo"
+        android:roundIcon="@mipmap/ic_logo_round"
+        android:theme="@style/AppTheme"
+        android:supportsRtl="true"
         android:largeHeap="true"
         android:launchMode="singleTop"
-        android:networkSecurityConfig="@xml/network_security_config"
-        android:roundIcon="@mipmap/ic_logo_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
         android:requestLegacyExternalStorage="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         tools:ignore="UnusedAttribute">
 
-        <activity android:name=".Views.Activities.SplashActivity" android:theme="@style/LauncherTheme" android:screenOrientation="portrait" >
+        <activity android:name=".Views.Activities.SplashActivity" android:theme="@style/LauncherTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Views.Activities.IntroActivity" android:theme="@style/WindowTheme" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.AuthActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.SampleActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.OutroActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.AccountActivity" android:theme="@style/WindowTheme" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.ArchiveActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.MoreActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.AboutUsActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.QuestionActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.CallUsActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.TermConditionActivity" android:screenOrientation="portrait" />
+        <activity android:name=".Views.Activities.IntroActivity" android:theme="@style/WindowTheme"/>
+        <activity android:name=".Views.Activities.AuthActivity"/>
+        <activity android:name=".Views.Activities.SampleActivity"/>
+        <activity android:name=".Views.Activities.OutroActivity"/>
+        <activity android:name=".Views.Activities.AccountActivity" android:theme="@style/WindowTheme"/>
+        <activity android:name=".Views.Activities.ArchiveActivity"/>
+        <activity android:name=".Views.Activities.MoreActivity"/>
+        <activity android:name=".Views.Activities.AboutUsActivity"/>
+        <activity android:name=".Views.Activities.QuestionActivity"/>
+        <activity android:name=".Views.Activities.CallUsActivity"/>
+        <activity android:name=".Views.Activities.TermConditionActivity"/>
     </application>
 
 </manifest>

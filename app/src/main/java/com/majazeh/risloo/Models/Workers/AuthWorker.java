@@ -119,7 +119,7 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
-                AuthController.exception = "موفقیت آمیز";
+                AuthController.exception = "دریافت اطلاعات با موفقیت انجام شد.";
                 AuthController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
@@ -183,7 +183,7 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
-                AuthController.exception = "موفقیت آمیز";
+                AuthController.exception = "دریافت اطلاعات با موفقیت انجام شد.";
                 AuthController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
@@ -247,7 +247,7 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
-                AuthController.exception = "موفقیت آمیز";
+                AuthController.exception = "ثبت نام با موفقیت انجام شد.";
                 AuthController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
@@ -311,7 +311,7 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
-                AuthController.exception = "موفقیت آمیز";
+                AuthController.exception = "احراز هویت با موفقیت انجام شد.";
                 AuthController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
@@ -375,7 +375,7 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
-                AuthController.exception = "موفقیت آمیز";
+                AuthController.exception = "رمز عبور با موفقیت بازیابی شد.";
                 AuthController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
@@ -417,7 +417,7 @@ public class AuthWorker extends Worker {
                 editor.putString("gender", data.getString("gender"));
                 editor.apply();
 
-                AuthController.exception = "موفقیت آمیز";
+                AuthController.exception = "دریافت اطلاعات با موفقیت انجام شد.";
                 AuthController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
@@ -465,7 +465,7 @@ public class AuthWorker extends Worker {
                 editor.remove("email");
                 editor.apply();
 
-                AuthController.exception = "خروج شما انجام شد.";
+                AuthController.exception = "خروج با موفقیت انجام شد.";
                 AuthController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());

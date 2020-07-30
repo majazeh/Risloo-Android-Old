@@ -12,13 +12,13 @@ import android.os.Bundle;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
-import com.majazeh.risloo.ViewModels.MoreViewModel;
+import com.majazeh.risloo.ViewModels.SettingViewModel;
 import com.majazeh.risloo.Views.Adapters.MoreAdapter;
 
 public class MoreActivity extends AppCompatActivity {
 
     // ViewModels
-    private MoreViewModel viewModel;
+    private SettingViewModel viewModel;
 
     // Adapters
     private MoreAdapter adapter;
@@ -46,7 +46,7 @@ public class MoreActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = ViewModelProviders.of(this).get(MoreViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(SettingViewModel.class);
 
         adapter = new MoreAdapter(this);
         adapter.setMore(viewModel.getAll());

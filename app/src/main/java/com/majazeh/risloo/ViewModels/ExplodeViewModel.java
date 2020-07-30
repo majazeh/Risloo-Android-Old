@@ -14,7 +14,7 @@ public class ExplodeViewModel extends AndroidViewModel {
     // Repositories
     private ExplodeRepository repository;
 
-    public ExplodeViewModel(@NonNull Application application) {
+    public ExplodeViewModel(@NonNull Application application) throws JSONException {
         super(application);
 
         repository = new ExplodeRepository(application);
@@ -24,12 +24,24 @@ public class ExplodeViewModel extends AndroidViewModel {
         repository.explode();
     }
 
+    public boolean newContent(){
+        return repository.newContent();
+    }
+
     public boolean hasUpdate(){
         return repository.hasUpdate();
     }
 
-    public String getVersion(){
-        return repository.getVersion();
+    public boolean forceUpdate(){
+        return repository.forceUpdate();
+    }
+
+    public String currentVersion(){
+        return repository.currentVersion();
+    }
+
+    public String newVersion(){
+        return repository.newVersion();
     }
 
 }

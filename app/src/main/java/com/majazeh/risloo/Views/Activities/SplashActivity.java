@@ -5,8 +5,6 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -28,19 +26,18 @@ public class SplashActivity extends AppCompatActivity {
     // ViewModels
     private ExplodeViewModel viewModel;
 
-    // Class
-    private IntentCaller intentCaller;
-
     // Vars
     private String update = "";
 
     // Objects
+    private IntentCaller intentCaller;
     private Handler handler;
 
     // Widgets
-    private TextView versionTextView, updateDialogTitle, updateDialogDescription, updateDialogPositive, updateDialogNegative;
-    private ProgressBar updatingProgressBar;
+    private TextView versionTextView;
+    private ProgressBar updateProgressBar;
     private Dialog updateDialog;
+    private TextView updateDialogTitle, updateDialogDescription, updateDialogPositive, updateDialogNegative;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +69,9 @@ public class SplashActivity extends AppCompatActivity {
         handler = new Handler();
 
         versionTextView = findViewById(R.id.activity_splash_version_textView);
-        versionTextView.setText(appVersion());
+        versionTextView.setText(currentVersion());
 
-        updatingProgressBar = findViewById(R.id.activity_splash_updating_progressBar);
+        updateProgressBar = findViewById(R.id.activity_splash_update_progressBar);
 
         updateDialog = new Dialog(this, R.style.DialogTheme);
         updateDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -144,16 +141,15 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private boolean newContent() {
-        // TODO : Check The Server For New Content For Our Samples Or New Samples And Return The Answer
-        return false;
+        return viewModel.newContent();
     }
 
     private void loadContent() {
-        updatingProgressBar.setVisibility(View.VISIBLE);
+        updateProgressBar.setVisibility(View.VISIBLE);
         versionTextView.setText(getResources().getString(R.string.SplashLoading));
-        // TODO : Load Our Samples Content Or Add New Samples And Then Call checkUpdate();
-        updatingProgressBar.setVisibility(View.INVISIBLE);
-        versionTextView.setText(appVersion());
+        // TODO : Load Our Samples Content Or Add New Samples
+        updateProgressBar.setVisibility(View.INVISIBLE);
+        versionTextView.setText(currentVersion());
         checkUpdate();
     }
 
@@ -188,21 +184,15 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private boolean forceUpdate() {
-        // TODO : Check IF Our Update Is Force Or Not
-        return false;
+        return  viewModel.forceUpdate();
     }
 
-    private String appVersion() {
-        try {
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(this.getPackageName(), 0);
-            return getResources().getString(R.string.SplashVersion) + " " + packageInfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        } return null;
+    private String currentVersion() {
+        return getResources().getString(R.string.SplashVersion) + " " + viewModel.currentVersion();
     }
 
     private String newVersion() {
-        return getResources().getString(R.string.SplashVersion) + " " + viewModel.getVersion() + " " + getResources().getString(R.string.SplashArrived);
+        return getResources().getString(R.string.SplashVersion) + " " + viewModel.newVersion() + " " + getResources().getString(R.string.SplashArrived);
     }
 
     private void launchIntro() {

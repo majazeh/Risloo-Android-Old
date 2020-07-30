@@ -32,7 +32,7 @@
                 android:background="@null"
                 app:title="@null"
                 app:titleTextAppearance="@style/ToolbarTextAppearance"
-                app:navigationIcon="@drawable/tool_chevron_right"
+                app:navigationIcon="@drawable/tool_back"
                 app:contentInsetStartWithNavigation="0dp" />
 
             <de.hdodenhof.circleimageview.CircleImageView

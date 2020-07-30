@@ -62,7 +62,7 @@ public class ExplodeWorker extends Worker {
                     // TODO: Normal Update
                 }
 
-                ExplodeController.exception = "موفقیت آمیز";
+                ExplodeController.exception = "دریافت اطلاعات با موفقیت انجام شد.";
                 ExplodeController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());

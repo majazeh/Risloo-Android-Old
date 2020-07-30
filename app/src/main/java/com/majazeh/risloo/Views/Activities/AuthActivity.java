@@ -122,13 +122,13 @@ public class AuthActivity extends AppCompatActivity {
 
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == R.id.tool_sample_start) {
+            if (id == R.id.tool_sample_serial) {
                 drawerLayout.closeDrawer(GravityCompat.START);
             } else if (id == R.id.tool_sample_build) {
                 handler.postDelayed(() -> {
 
                 }, 50);
-            } else if (id == R.id.tool_reserve_make) {
+            } else if (id == R.id.tool_reserve_construct) {
                 handler.postDelayed(() -> {
 
                 }, 50);
@@ -136,12 +136,12 @@ public class AuthActivity extends AppCompatActivity {
                 handler.postDelayed(() -> {
 
                 }, 50);
-            } else if (id == R.id.tool_treatment_adviser) {
+            } else if (id == R.id.tool_treatment_psychologist) {
                 handler.postDelayed(() -> {
 
                 }, 50);
 
-            } else if (id == R.id.tool_treatment_station) {
+            } else if (id == R.id.tool_treatment_counseling_center) {
                 handler.postDelayed(() -> {
 
                 }, 50);
@@ -261,7 +261,7 @@ public class AuthActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_auth, menu);
 
-        toolUser = menu.findItem(R.id.tool_user);
+        toolUser = menu.findItem(R.id.tool_account);
 
         if (token()){
             toolUser.setVisible(false);

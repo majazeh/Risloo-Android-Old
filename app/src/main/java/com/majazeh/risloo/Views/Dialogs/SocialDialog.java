@@ -78,7 +78,7 @@ public class SocialDialog extends BottomSheetDialogFragment {
             handler.postDelayed(() -> telegramLinearLayout.setClickable(true), 1000);
             dismiss();
 
-            intentCaller.telegram(activity, activity.getResources().getString(R.string.MoreFollowTelegram));
+            intentCaller.telegram(activity, activity.getResources().getString(R.string.SettingFollowTelegram));
         });
 
         instagramLinearLayout.setOnClickListener(v -> {
@@ -86,7 +86,7 @@ public class SocialDialog extends BottomSheetDialogFragment {
             handler.postDelayed(() -> instagramLinearLayout.setClickable(true), 1000);
             dismiss();
 
-            intentCaller.instagram(activity, activity.getResources().getString(R.string.MoreFollowInstagram));
+            intentCaller.instagram(activity, activity.getResources().getString(R.string.SettingFollowInstagram));
         });
 
         facebookLinearLayout.setOnClickListener(v -> {
@@ -94,7 +94,7 @@ public class SocialDialog extends BottomSheetDialogFragment {
             handler.postDelayed(() -> facebookLinearLayout.setClickable(true), 1000);
             dismiss();
 
-            intentCaller.facebook(activity, activity.getResources().getString(R.string.MoreFollowFacebook));
+            intentCaller.facebook(activity, activity.getResources().getString(R.string.SettingFollowFacebook));
         });
 
         twitterLinearLayout.setOnClickListener(v -> {
@@ -102,7 +102,7 @@ public class SocialDialog extends BottomSheetDialogFragment {
             handler.postDelayed(() -> twitterLinearLayout.setClickable(true), 1000);
             dismiss();
 
-            intentCaller.twitter(activity, activity.getResources().getString(R.string.MoreFollowTwitter));
+            intentCaller.twitter(activity, activity.getResources().getString(R.string.SettingFollowTwitter));
         });
 
         closeTextView.setOnClickListener(v -> {

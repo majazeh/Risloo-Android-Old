@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dialog_navigate"
@@ -9,7 +8,6 @@
     android:layout_marginLeft="@dimen/_18sdp"
     android:layout_marginRight="@dimen/_18sdp"
     android:layout_gravity="center"
-    android:layoutDirection="rtl"
     android:background="@drawable/draw_16sdp_white">
 
     <LinearLayout
@@ -36,6 +34,7 @@
             android:id="@+id/dialog_navigate_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
             android:overScrollMode="never" />
 
         <TextView

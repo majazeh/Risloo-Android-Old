@@ -6,11 +6,9 @@ import android.content.SharedPreferences;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Controller.AuthController;
-import com.majazeh.risloo.R;
+import com.majazeh.risloo.Models.Items.AuthItems;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -19,15 +17,19 @@ public class AuthRepository extends MainRepository {
     // Controllers
     private AuthController controller;
 
+    // Items
+    private AuthItems authItems;
+
     // Objects
     private SharedPreferences sharedPreferences;
 
-    public AuthRepository(Application application) {
+    public AuthRepository(Application application) throws JSONException {
         super(application);
 
-        controller = new AuthController(application);
-
         sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
+        controller = new AuthController(application);
+        authItems = new AuthItems(application, sharedPreferences);
     }
 
     public void auth(String authorizedKey) throws JSONException {
@@ -81,43 +83,15 @@ public class AuthRepository extends MainRepository {
     }
 
     public ArrayList<Model> getAll() {
-        ArrayList<Model> items = new ArrayList<>();
-        for (int i = 0; i < accountItems().length(); i++) {
-            try {
-                items.add(new Model(accountItems().getJSONObject(i)));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } return items;
+        return authItems.items();
     }
 
     public String getName() {
-        if (!sharedPreferences.getString("name", "").equals("null")) {
-            return sharedPreferences.getString("name", "");
-        }
-        return application.getApplicationContext().getResources().getString(R.string.AccountName);
+        return authItems.name();
     }
 
-    private JSONArray accountItems() {
-        JSONArray accountItems = new JSONArray();
-        try {
-            if (!sharedPreferences.getString("name", "").equals("null"))
-                accountItems.put(new JSONObject().put("title", "نام").put("subTitle", sharedPreferences.getString("name", "")).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_user_light)));
-            if (!sharedPreferences.getString("mobile", "").equals("null"))
-                accountItems.put(new JSONObject().put("title", "شماره همراه").put("subTitle", sharedPreferences.getString("mobile", "")).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_mobile)));
-            if (!sharedPreferences.getString("email", "").equals("null"))
-                accountItems.put(new JSONObject().put("title", "ایمیل").put("subTitle", sharedPreferences.getString("email", "")).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_envelope)));
-            if (!sharedPreferences.getString("gender", "").equals("null")) {
-                if (sharedPreferences.getString("gender", "").equals("male")) {
-                    accountItems.put(new JSONObject().put("title", "جنسیت").put("subTitle", "مرد").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_male)));
-                } else if (sharedPreferences.getString("gender", "").equals("female")) {
-                    accountItems.put(new JSONObject().put("title", "جنسیت").put("subTitle", "زن").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_female)));
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return accountItems;
+    public String getType() {
+        return authItems.type();
     }
 
 }

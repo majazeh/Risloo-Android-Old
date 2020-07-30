@@ -24,7 +24,7 @@
             android:background="@color/Snow"
             app:title="@string/CallUsTitle"
             app:titleTextAppearance="@style/ToolbarTextAppearance"
-            app:navigationIcon="@drawable/tool_chevron_right"
+            app:navigationIcon="@drawable/tool_back"
             app:contentInsetStartWithNavigation="0dp" />
 
         <View

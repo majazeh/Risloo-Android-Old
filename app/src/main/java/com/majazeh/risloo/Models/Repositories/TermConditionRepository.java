@@ -40,7 +40,7 @@ public class TermConditionRepository extends MainRepository {
         } return items;
     }
 
-    public ArrayList<Model> getAllSubset(int index) throws JSONException {
+    public ArrayList<Model> getSubset(int index) throws JSONException {
         JSONArray subsets = termConditionItems.getJSONObject(index).getJSONArray("items");
         ArrayList<Model> items = new ArrayList<>();
         for (int i = 0; i < subsets.length(); i++) {

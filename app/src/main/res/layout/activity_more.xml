@@ -22,9 +22,9 @@
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/ToolbarTheme"
             android:background="@null"
-            app:title="@string/MoreTitle"
+            app:title="@string/SettingTitle"
             app:titleTextAppearance="@style/ToolbarTextAppearance"
-            app:navigationIcon="@drawable/tool_chevron_right"
+            app:navigationIcon="@drawable/tool_back"
             app:contentInsetStartWithNavigation="0dp" />
 
         <androidx.recyclerview.widget.RecyclerView

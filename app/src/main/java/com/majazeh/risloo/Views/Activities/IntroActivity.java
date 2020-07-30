@@ -20,12 +20,12 @@ import com.majazeh.risloo.Views.Adapters.IntroAdapter;
 
 public class IntroActivity extends AppCompatActivity {
 
+    // Adapters
+    private IntroAdapter adapter;
+
     // Vars
     private int[] layouts, activeColors, inActiveColors;
     private TextView[] dotsTextView;
-
-    // Adapters
-    private IntroAdapter adapter;
 
     // Objects
     private Handler handler;
@@ -114,18 +114,14 @@ public class IntroActivity extends AppCompatActivity {
                     nextTextView.setText(getString(R.string.IntroNext));
                     skipTextView.setVisibility(View.VISIBLE);
                 }
-
             }
 
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
-            public void onPageScrollStateChanged(int state) {
+            public void onPageScrollStateChanged(int state) {}
 
-            }
         });
     }
 

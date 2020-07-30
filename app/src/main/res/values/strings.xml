@@ -55,16 +55,16 @@
     <string name="AuthAccount">حساب کاربری</string>
 
     <string name="AuthSampleTitle">نمونه</string>
-    <string name="AuthSampleStart">شروع نمونه</string>
+    <string name="AuthSampleSerial">سریال نمونه</string>
     <string name="AuthSampleBuild">ساخت نمونه</string>
 
     <string name="AuthReserveTitle">رزرواسیون</string>
-    <string name="AuthReserveMake">ایجاد رزرواسیون</string>
+    <string name="AuthReserveConstruct">ایجاد رزرواسیون</string>
     <string name="AuthReserveRequest">درخواست رزرواسیون</string>
 
     <string name="AuthTreatmentTitle">درمان</string>
-    <string name="AuthTreatmentAdviser">مشاوران</string>
-    <string name="AuthTreatmentStation">مراکز درمان</string>
+    <string name="AuthTreatmentPsychologist">مشاوران</string>
+    <string name="AuthTreatmentCounselingCenter">مراکز درمان</string>
 
     <string name="AuthSettingTitle">تنظیمات</string>
 
@@ -113,11 +113,11 @@
     // sample strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="DescriptionButton">مرحله بعد</string>
+    <string name="DescriptionButton">مشاهده پیشنیاز</string>
 
     <string name="PrerequisiteTitle">تکمیل پیشنیاز</string>
     <string name="PrerequisiteDescription">کاربر گرامی، قبل از شروع نمونه لطفا پیشنیاز های نمونه خواسته شده در زیر را تکمیل نمایید</string>
-    <string name="PrerequisiteButton">مرحله بعد</string>
+    <string name="PrerequisiteButton">شروع نمونه</string>
 
     <string name="SampleHint">اینجا وارد نمایید</string>
     <string name="SampleCancel">خروج</string>
@@ -174,6 +174,7 @@
     <string name="AccountSignOut">خروج از حساب</string>
 
     <string name="AccountName">کاربر تجربی</string>
+    <string name="AccountType">مراجع</string>
 
     <string name="AccountLogOutDialogTitle">خروج از حساب؟</string>
     <string name="AccountLogOutDialogDescription">ایا تمایل به خروج از حساب کاربری خود دارید، در نظر داشته باشید که تمام اطلاعات شما محفوظ می ماند.</string>
@@ -204,44 +205,44 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // more strings
+    // setting strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="MoreTitle">امکانات دیگر</string>
+    <string name="SettingTitle">امکانات دیگر</string>
 
-    <string name="MoreAboutUs">درباره ما</string>
-    <string name="MoreQuestions">سؤالات متداول</string>
-    <string name="MoreCallUs">ارتباط با ما</string>
-    <string name="MoreTermsConditions">قوانین و مقررات</string>
-    <string name="MoreFollow">دنبال کردن</string>
-    <string name="MoreShare">اشتراک گذاری</string>
-    <string name="MoreRate">نظرسنجی</string>
+    <string name="SettingAboutUs">درباره ما</string>
+    <string name="SettingQuestions">سؤالات متداول</string>
+    <string name="SettingCallUs">ارتباط با ما</string>
+    <string name="SettingTermsConditions">قوانین و مقررات</string>
+    <string name="SettingFollow">دنبال کردن</string>
+    <string name="SettingShare">اشتراک گذاری</string>
+    <string name="SettingRate">نظرسنجی</string>
 
-    <string name="MoreVersion">نسخه</string>
-    <string name="MoreArrived">رسید</string>
-    <string name="MoreUpdate">به روز رسانی</string>
+    <string name="SettingVersion">نسخه</string>
+    <string name="SettingArrived">رسید</string>
+    <string name="SettingUpdate">به روز رسانی</string>
 
-    <string name="MoreShareLink">ApplicationLink</string>
-    <string name="MoreShareChooser">اشتراک گذاری برنامه</string>
+    <string name="SettingShareLink">ApplicationLink</string>
+    <string name="SettingShareChooser">اشتراک گذاری برنامه</string>
 
-    <string name="MoreFollowTelegram">risloo_ir</string>
-    <string name="MoreFollowInstagram">risloo_ir</string>
-    <string name="MoreFollowFacebook">100053471781226</string>
-    <string name="MoreFollowTwitter">risloo_ir</string>
+    <string name="SettingFollowTelegram">risloo_ir</string>
+    <string name="SettingFollowInstagram">risloo_ir</string>
+    <string name="SettingFollowFacebook">100053471781226</string>
+    <string name="SettingFollowTwitter">risloo_ir</string>
 
-    <string name="MoreFollowDialogTitle">ما را در شبکه های اجتماعی دنبال کنید</string>
-    <string name="MoreFollowDialogTelegram">تلگرام</string>
-    <string name="MoreFollowDialogInstagram">اینستگرام</string>
-    <string name="MoreFollowDialogFacebook">فیسبوک</string>
-    <string name="MoreFollowDialogTwitter">توییتر</string>
-    <string name="MoreFollowDialogClose">بستن</string>
+    <string name="SettingFollowDialogTitle">ما را در شبکه های اجتماعی دنبال کنید</string>
+    <string name="SettingFollowDialogTelegram">تلگرام</string>
+    <string name="SettingFollowDialogInstagram">اینستگرام</string>
+    <string name="SettingFollowDialogFacebook">فیسبوک</string>
+    <string name="SettingFollowDialogTwitter">توییتر</string>
+    <string name="SettingFollowDialogClose">بستن</string>
 
-    <string name="MoreNoUpdateDialogDescription">شما آخرین نسخه ریسلو را دارید. در صورت وجود نسخه جدید به شما اطلاع داده خواهد شد.</string>
-    <string name="MoreNoUpdateDialogConfirm">بستن</string>
+    <string name="SettingNoUpdateDialogDescription">شما آخرین نسخه ریسلو را دارید. در صورت وجود نسخه جدید به شما اطلاع داده خواهد شد.</string>
+    <string name="SettingNoUpdateDialogConfirm">بستن</string>
 
-    <string name="MoreAvailableUpdateDialogDescription">برای استفاده بهتر از ریسلو لطفا بروز رسانی کنید. همیشه در تلاشیم که بهترین خدمات به شما إرائه دهیم.</string>
-    <string name="MoreAvailableUpdateDialogPositive">به روز رسانی</string>
-    <string name="MoreAvailableUpdateDialogNegative">بستن</string>
+    <string name="SettingAvailableUpdateDialogDescription">برای استفاده بهتر از ریسلو لطفا بروز رسانی کنید. همیشه در تلاشیم که بهترین خدمات به شما إرائه دهیم.</string>
+    <string name="SettingAvailableUpdateDialogPositive">به روز رسانی</string>
+    <string name="SettingAvailableUpdateDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

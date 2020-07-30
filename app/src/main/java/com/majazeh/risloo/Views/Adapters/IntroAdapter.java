@@ -24,7 +24,9 @@ public class IntroAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(activity).inflate(layouts[i], viewGroup, false);
+
         viewGroup.addView(view);
+
         return view;
     }
 

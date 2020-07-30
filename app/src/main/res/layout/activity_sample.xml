@@ -76,7 +76,7 @@
                         android:layout_marginRight="@dimen/_1sdp"
                         android:padding="@dimen/_6sdp"
                         android:tint="@color/Grey"
-                        android:src="@drawable/ic_compass"
+                        android:src="@drawable/ic_navigate"
                         android:background="@drawable/draw_8sdp_snow_oneside"/>
 
                     <TextView

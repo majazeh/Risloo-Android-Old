@@ -83,7 +83,7 @@ public class AccountActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         avatarImageView = findViewById(R.id.activity_account_avatar_circleImageView);
-        avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_solid));
+        avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle));
 
         nameTextView = findViewById(R.id.activity_account_name_textView);
         nameTextView.setText(viewModel.getName());

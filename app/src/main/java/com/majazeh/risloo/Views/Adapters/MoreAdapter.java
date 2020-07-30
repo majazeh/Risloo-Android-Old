@@ -84,7 +84,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
                 holder.titleTextView.setText(mores.get(i).get("title").toString());
             } else {
                 if (hasUpdate()) {
-                    holder.titleTextView.setText(activity.getResources().getString(R.string.MoreUpdate));
+                    holder.titleTextView.setText(activity.getResources().getString(R.string.SettingUpdate));
                     holder.updateTextView.setVisibility(View.VISIBLE);
                 } else {
                     holder.titleTextView.setText(appVersion());
@@ -146,7 +146,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
                 socialDialog.show(((MoreActivity)activity).getSupportFragmentManager(), "socialBottomSheet");
                 break;
             case 5:
-                intentCaller.share(activity, activity.getResources().getString(R.string.MoreShareLink), activity.getResources().getString(R.string.MoreShareChooser));
+                intentCaller.share(activity, activity.getResources().getString(R.string.SettingShareLink), activity.getResources().getString(R.string.SettingShareChooser));
                 break;
             case 6:
                 intentCaller.googlePlay(activity);
@@ -195,18 +195,18 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
 
         noUpdateDialogTitle = noUpdateDialog.findViewById(R.id.dialog_note_title_textView);
         noUpdateDialogDescription = noUpdateDialog.findViewById(R.id.dialog_note_description_textView);
-        noUpdateDialogDescription.setText(activity.getResources().getString(R.string.MoreNoUpdateDialogDescription));
+        noUpdateDialogDescription.setText(activity.getResources().getString(R.string.SettingNoUpdateDialogDescription));
         noUpdateDialogConfirm = noUpdateDialog.findViewById(R.id.dialog_note_confirm_textView);
-        noUpdateDialogConfirm.setText(activity.getResources().getString(R.string.MoreNoUpdateDialogConfirm));
+        noUpdateDialogConfirm.setText(activity.getResources().getString(R.string.SettingNoUpdateDialogConfirm));
 
         availableUpdateDialogTitle = availableUpdateDialog.findViewById(R.id.dialog_action_title_textView);
         availableUpdateDialogDescription = availableUpdateDialog.findViewById(R.id.dialog_action_description_textView);
-        availableUpdateDialogDescription.setText(activity.getResources().getString(R.string.MoreAvailableUpdateDialogDescription));
+        availableUpdateDialogDescription.setText(activity.getResources().getString(R.string.SettingAvailableUpdateDialogDescription));
         availableUpdateDialogPositive = availableUpdateDialog.findViewById(R.id.dialog_action_positive_textView);
-        availableUpdateDialogPositive.setText(activity.getResources().getString(R.string.MoreAvailableUpdateDialogPositive));
+        availableUpdateDialogPositive.setText(activity.getResources().getString(R.string.SettingAvailableUpdateDialogPositive));
         availableUpdateDialogPositive.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
         availableUpdateDialogNegative = availableUpdateDialog.findViewById(R.id.dialog_action_negative_textView);
-        availableUpdateDialogNegative.setText(activity.getResources().getString(R.string.MoreAvailableUpdateDialogNegative));
+        availableUpdateDialogNegative.setText(activity.getResources().getString(R.string.SettingAvailableUpdateDialogNegative));
     }
 
     private void detector() {
@@ -251,14 +251,14 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
     private String appVersion() {
         try {
             PackageInfo packageInfo = activity.getPackageManager().getPackageInfo(activity.getPackageName(), 0);
-            return activity.getResources().getString(R.string.MoreVersion) + " " + packageInfo.versionName;
+            return activity.getResources().getString(R.string.SettingVersion) + " " + packageInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         } return null;
     }
 
     private String newVersion() {
-        return activity.getResources().getString(R.string.MoreVersion) + " " + viewModel.getVersion() + " " + activity.getResources().getString(R.string.MoreArrived);
+        return activity.getResources().getString(R.string.SettingVersion) + " " + viewModel.newVersion() + " " + activity.getResources().getString(R.string.SettingArrived);
     }
 
     public class MoreHolder extends RecyclerView.ViewHolder {

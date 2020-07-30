@@ -120,11 +120,11 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                         View view = super.getView(position, convertView, parent);
 
                         if (position == getCount()) {
-                            ((TextView)view.findViewById(R.id.spinner_textView)).setText("");
-                            ((TextView)view.findViewById(R.id.spinner_textView)).setHint(getItem(getCount()));
+                            ((TextView)view.findViewById(R.id.spinner_background_textView)).setText("");
+                            ((TextView)view.findViewById(R.id.spinner_background_textView)).setHint(getItem(getCount()));
                         } else {
-                            ((TextView)view.findViewById(R.id.spinner_textView)).setText(getItem(position));
-                            ((TextView)view.findViewById(R.id.spinner_textView)).setHint("");
+                            ((TextView)view.findViewById(R.id.spinner_background_textView)).setText(getItem(position));
+                            ((TextView)view.findViewById(R.id.spinner_background_textView)).setHint("");
                         }
 
                         return view;

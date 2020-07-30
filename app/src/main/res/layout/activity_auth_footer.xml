@@ -24,7 +24,7 @@
             android:layout_width="@dimen/_19sdp"
             android:layout_height="@dimen/_19sdp"
             android:layout_marginLeft="@dimen/_24sdp"
-            android:src="@drawable/tool_user"
+            android:src="@drawable/tool_account"
             android:tint="@color/Grey"/>
 
         <TextView

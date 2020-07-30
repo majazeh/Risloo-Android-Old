@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
+
+    // app domain
+    ////////////////////////////////////////////////////////////////////////////////
+
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">risloo.ir</domain>
     </domain-config>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
 </network-security-config>
