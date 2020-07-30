@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
+import com.majazeh.risloo.Views.Activities.AuthActivity;
 import com.majazeh.risloo.Views.Activities.SampleActivity;
 import com.majazeh.risloo.Views.Adapters.PrerequisiteAdapter;
 
@@ -97,6 +98,7 @@ public class PrerequisiteFragment extends Fragment {
 
     private void doWork() {
         try {
+            ((SampleActivity) Objects.requireNonNull(getActivity())).loadingDialog.show();
             viewModel.savePrerequisiteToCache( new JSONArray(), sharedPreferences.getString("sampleId", ""));
             viewModel.sendPre(adapter.answers());
             ((SampleActivity) Objects.requireNonNull(getActivity())).observeWorkAnswer();

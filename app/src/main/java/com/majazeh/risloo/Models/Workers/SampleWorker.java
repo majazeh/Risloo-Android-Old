@@ -176,7 +176,7 @@ public class SampleWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject succesBody = new JSONObject(bodyResponse.body().string());
 
-                SampleController.exception = "موفقیت آمیز";
+                SampleController.exception = "نمونه شما بسته شد";
                 SampleController.workStateSample.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());

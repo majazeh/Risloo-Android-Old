@@ -160,7 +160,7 @@ public class AccountActivity extends AppCompatActivity {
 
     private void observeWork() {
         AuthController.workState.observe((LifecycleOwner) this, integer -> {
-            if (AuthController.work == "logOut"){
+            if (AuthController.work == "logOut") {
                 if (integer == 1) {
                     finish();
 

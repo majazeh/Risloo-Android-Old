@@ -22,6 +22,8 @@ import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -55,6 +57,7 @@ public class SampleActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
+    private Animation animSlideIn;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -64,7 +67,8 @@ public class SampleActivity extends AppCompatActivity {
     private ImageView forwardImageView, backwardImageView, navigateImageView;
     private ProgressBar flowProgressBar;
     private RecyclerView dialogNavigateRecyclerView;
-    public Dialog loadingDialog, navigateDialog, finishDialog, cancelDialog;
+    private Dialog navigateDialog, finishDialog, cancelDialog;
+    public Dialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +85,13 @@ public class SampleActivity extends AppCompatActivity {
         listener();
 
         if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) <= 0) {
-            observeWorkpre();
+            try {
+                loadingDialog.show();
+                viewModel.getSample(sharedPreferences.getString("sampleId", ""));
+                observeWorkSample();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         } else {
             checkStorage();
         }
@@ -102,6 +112,8 @@ public class SampleActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this, new SampleViewModelFactory(getApplication(), sharedPreferences.getString("sampleId", ""))).get(SampleViewModel.class);
 
         handler = new Handler();
+
+        animSlideIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
 
         sampleLinearLayout = findViewById(R.id.activity_sample_linearLayout);
 
@@ -267,10 +279,10 @@ public class SampleActivity extends AppCompatActivity {
             finishDialog.dismiss();
             try {
                 viewModel.closeSample();
+                observeWorkSample();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            observeWork8();
         });
 
         finishDialogNegative.setOnClickListener(v -> {
@@ -320,6 +332,7 @@ public class SampleActivity extends AppCompatActivity {
 
     public void showFragment(String type) {
         sampleLinearLayout.setVisibility(View.VISIBLE);
+        sampleLinearLayout.setAnimation(animSlideIn);
 
         indexTextView.setText(viewModel.getIndex() + 1 + " " + "از" + " " + viewModel.getSize());
 
@@ -356,6 +369,7 @@ public class SampleActivity extends AppCompatActivity {
     public void observeWork() {
         if (isNetworkConnected()) {
             loadingDialog.show();
+
             SampleController.workStateSample.observe((LifecycleOwner) this, integer -> {
                 if (integer == 1) {
                     try {
@@ -398,65 +412,71 @@ public class SampleActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            } else {
-                // you are offline
             }
         }
     }
 
-    public void observeWorkpre() {
-        try {
-            viewModel.getSample(sharedPreferences.getString("sampleId", ""));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        if (isNetworkConnected()) {
-            loadingDialog.show();
-            SampleController.workStateSample.observe((LifecycleOwner) this, integer -> {
+    public void observeWorkSample() {
+        SampleController.workStateSample.observe(this, integer -> {
+            if (SampleController.work == "getSample") {
                 if (integer == 1) {
-                    loadingDialog.dismiss();
-
                     loadFragment(new DescriptionFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
 
+                    loadingDialog.dismiss();
                     SampleController.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
+                    finish();
+
                     loadingDialog.dismiss();
                     Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this, AuthActivity.class));
-                    finish();
-                    // TODO: get exception
+                    SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                } else if (integer == -2) {
+                    if (viewModel.getItems() != null) {
+                        loadFragment(new DescriptionFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                    } else {
+                        finish();
+                    }
+
+                    loadingDialog.dismiss();
+                    SampleController.workStateSample.removeObservers((LifecycleOwner) this);
                 }
-            });
-        } else {
-            if (viewModel.getItems() != null) {
-                loadFragment(new DescriptionFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+            } else if (SampleController.work == "closeSample") {
+                if (integer == 1) {
+                    finish();
 
-            } else {
-                // you are offline
-            }
-        }
-    }
-
-    public void observeWork8() {
-        SampleController.workStateSample.observe(this, integer -> {
-            if (integer == 1){
-                Toast.makeText(this, "نمونه بسته شد", Toast.LENGTH_SHORT).show();
-            } else if (integer == 0){
-                // have error
-            } else if (integer == -2){
-                // offline
+                    loadingDialog.dismiss();
+                    Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
+                    SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                } else if (integer == 0){
+                    loadingDialog.dismiss();
+                    Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
+                    SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                } else if (integer == -2){
+                    loadingDialog.dismiss();
+                    Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
+                    SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                }
             }
         });
     }
 
     public void observeWorkAnswer() {
         SampleController.workStateAnswer.observe((LifecycleOwner) this, integer -> {
-            if (integer == 1) {
-                checkStorage();
-            } else if (integer == 0) {
-                // error
-            } else if (integer == -2) {
-                // offline
+            if (SampleController.work == "sendPre") {
+                if (integer == 1) {
+                    checkStorage();
+
+                    loadingDialog.dismiss();
+                    SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
+                } else if (integer == 0) {
+                    loadingDialog.dismiss();
+                    Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
+                    SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
+                } else if (integer == -2) {
+                    loadingDialog.dismiss();
+                    Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
+                    SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
+                }
             }
         });
     }
