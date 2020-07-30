@@ -42,9 +42,9 @@ public class AuthItems {
     }
 
     public String type() {
-        if (!sharedPreferences.getString("type", "").equals("null")) {
-            return sharedPreferences.getString("type", "");
-        }
+//        if (!sharedPreferences.getString("type", "").equals("null")) {
+//            return sharedPreferences.getString("type", "");
+//        }
         return application.getApplicationContext().getResources().getString(R.string.AccountType);
     }
 

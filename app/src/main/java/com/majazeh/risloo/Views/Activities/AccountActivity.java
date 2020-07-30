@@ -46,9 +46,10 @@ public class AccountActivity extends AppCompatActivity {
     // Widgets
     private Toolbar toolbar;
     private CircleImageView avatarImageView;
-    private TextView nameTextView, logOutDialogTitle, logOutDialogDescription, logOutDialogPositive, logOutDialogNegative;
+    private TextView nameTextView, typeTextView;
     private RecyclerView recyclerView;
     private Dialog logOutDialog, progressDialog;
+    private TextView logOutDialogTitle, logOutDialogDescription, logOutDialogPositive, logOutDialogNegative;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +88,8 @@ public class AccountActivity extends AppCompatActivity {
 
         nameTextView = findViewById(R.id.activity_account_name_textView);
         nameTextView.setText(viewModel.getName());
+        typeTextView = findViewById(R.id.activity_account_type_textView);
+        typeTextView.setText(viewModel.getType());
 
         recyclerView = findViewById(R.id.activity_account_recyclerView);
         recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout2", (int) getResources().getDimension(R.dimen._18sdp)));

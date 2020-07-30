@@ -7,12 +7,12 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/tool_sample_serial"
-                    android:icon="@drawable/tool_menu"
+                    android:icon="@drawable/ic_code"
                     android:title="@string/AuthSampleSerial"
                     android:checked="true"/>
                 <item
                     android:id="@+id/tool_sample_build"
-                    android:icon="@drawable/tool_menu"
+                    android:icon="@drawable/ic_plus"
                     android:title="@string/AuthSampleBuild"/>
             </group>
         </menu>
@@ -23,11 +23,11 @@
             <group android:checkableBehavior="none">
                 <item
                     android:id="@+id/tool_reserve_construct"
-                    android:icon="@drawable/tool_menu"
+                    android:icon="@drawable/ic_wrench"
                     android:title="@string/AuthReserveConstruct"/>
                 <item
                     android:id="@+id/tool_reserve_request"
-                    android:icon="@drawable/tool_menu"
+                    android:icon="@drawable/ic_clock"
                     android:title="@string/AuthReserveRequest"/>
             </group>
         </menu>
@@ -38,11 +38,11 @@
             <group android:checkableBehavior="none">
                 <item
                     android:id="@+id/tool_treatment_psychologist"
-                    android:icon="@drawable/tool_menu"
+                    android:icon="@drawable/ic_stethoscope"
                     android:title="@string/AuthTreatmentPsychologist"/>
                 <item
                     android:id="@+id/tool_treatment_counseling_center"
-                    android:icon="@drawable/tool_menu"
+                    android:icon="@drawable/ic_hospital"
                     android:title="@string/AuthTreatmentCounselingCenter"/>
             </group>
         </menu>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_archive_single_item"
@@ -116,9 +115,9 @@
             android:text="@string/ArchiveContinue"
             android:textSize="@dimen/_10ssp"
             android:textStyle="bold"
-            android:textColor="@color/PrimaryDark"
+            android:textColor="@color/White"
             android:textAlignment="gravity"
-            android:background="@drawable/draw_18sdp_primary20p"/>
+            android:background="@drawable/draw_18sdp_primary"/>
 
     </LinearLayout>
 

@@ -208,7 +208,7 @@
     // setting strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="SettingTitle">امکانات دیگر</string>
+    <string name="SettingTitle">تنظمیات</string>
 
     <string name="SettingAboutUs">درباره ما</string>
     <string name="SettingQuestions">سؤالات متداول</string>
@@ -221,6 +221,7 @@
     <string name="SettingVersion">نسخه</string>
     <string name="SettingArrived">رسید</string>
     <string name="SettingUpdate">به روز رسانی</string>
+    <string name="SettingNew">نسخه جدید</string>
 
     <string name="SettingShareLink">ApplicationLink</string>
     <string name="SettingShareChooser">اشتراک گذاری برنامه</string>

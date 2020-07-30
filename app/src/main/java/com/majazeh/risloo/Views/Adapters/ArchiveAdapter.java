@@ -68,7 +68,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             holder.foreGroundView.setBackgroundResource(R.drawable.draw_24sdp_quartz_border_ripple);
 
-            holder.continueTextView.setBackgroundResource(R.drawable.draw_18sdp_primary20p_ripple);
+            holder.continueTextView.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
         }
 
         try {

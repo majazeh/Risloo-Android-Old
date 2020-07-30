@@ -3,8 +3,6 @@ package com.majazeh.risloo.Views.Adapters;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -29,7 +27,7 @@ import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.ViewModels.ExplodeViewModel;
 import com.majazeh.risloo.Views.Activities.AboutUsActivity;
 import com.majazeh.risloo.Views.Activities.CallUsActivity;
-import com.majazeh.risloo.Views.Activities.MoreActivity;
+import com.majazeh.risloo.Views.Activities.SettingActivity;
 import com.majazeh.risloo.Views.Activities.QuestionActivity;
 import com.majazeh.risloo.Views.Dialogs.SocialDialog;
 import com.majazeh.risloo.Views.Activities.TermConditionActivity;
@@ -38,14 +36,10 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
+public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHolder> {
 
     // ViewModels
     private ExplodeViewModel viewModel;
-
-    // Class
-    private IntentCaller intentCaller;
-    private SocialDialog socialDialog;
 
     // Vars
     private ArrayList<Model> mores;
@@ -53,19 +47,21 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
     // Objects
     private Activity activity;
     private Handler handler;
+    private IntentCaller intentCaller;
+    private SocialDialog socialDialog;
 
     // Widgets
     private TextView noUpdateDialogTitle, noUpdateDialogDescription, noUpdateDialogConfirm, availableUpdateDialogTitle, availableUpdateDialogDescription, availableUpdateDialogPositive, availableUpdateDialogNegative;
     private Dialog noUpdateDialog, availableUpdateDialog;
 
-    public MoreAdapter(Activity activity) {
+    public SettingAdapter(Activity activity) {
         this.activity = activity;
     }
 
     @NonNull
     @Override
     public MoreHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.activity_more_single_item, viewGroup, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.activity_setting_single_item, viewGroup, false);
 
         initializer(view);
 
@@ -77,7 +73,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
 
         try {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                holder.itemView.setBackgroundResource(R.drawable.draw_18sdp_quartz_border_ripple);
+                holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_white_ripple);
             }
 
             if (i != mores.size() - 1) {
@@ -87,9 +83,11 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
                     holder.titleTextView.setText(activity.getResources().getString(R.string.SettingUpdate));
                     holder.updateTextView.setVisibility(View.VISIBLE);
                 } else {
-                    holder.titleTextView.setText(appVersion());
+                    holder.titleTextView.setText(currentVersion());
                     holder.updateTextView.setVisibility(View.INVISIBLE);
                 }
+
+                holder.lineView.setVisibility(View.GONE);
             }
             holder.avatarImageView.setImageDrawable((Drawable) mores.get(i).get("image"));
         } catch (JSONException e) {
@@ -143,7 +141,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
                 activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 break;
             case 4:
-                socialDialog.show(((MoreActivity)activity).getSupportFragmentManager(), "socialBottomSheet");
+                socialDialog.show(((SettingActivity)activity).getSupportFragmentManager(), "socialBottomSheet");
                 break;
             case 5:
                 intentCaller.share(activity, activity.getResources().getString(R.string.SettingShareLink), activity.getResources().getString(R.string.SettingShareChooser));
@@ -162,7 +160,7 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
                     availableUpdateDialogTitle.setText(newVersion());
                     availableUpdateDialog.show();
                 } else {
-                    noUpdateDialogTitle.setText(appVersion());
+                    noUpdateDialogTitle.setText(currentVersion());
                     noUpdateDialog.show();
                 } break;
         }
@@ -248,13 +246,8 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
         return viewModel.hasUpdate();
     }
 
-    private String appVersion() {
-        try {
-            PackageInfo packageInfo = activity.getPackageManager().getPackageInfo(activity.getPackageName(), 0);
-            return activity.getResources().getString(R.string.SettingVersion) + " " + packageInfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        } return null;
+    private String currentVersion() {
+        return activity.getResources().getString(R.string.SettingVersion) + " " + viewModel.currentVersion();
     }
 
     private String newVersion() {
@@ -263,14 +256,16 @@ public class MoreAdapter extends RecyclerView.Adapter<MoreAdapter.MoreHolder> {
 
     public class MoreHolder extends RecyclerView.ViewHolder {
 
-        public TextView titleTextView, updateTextView;
         public ImageView avatarImageView;
+        public TextView titleTextView, updateTextView;
+        public View lineView;
 
         public MoreHolder(View view) {
             super(view);
-            titleTextView = view.findViewById(R.id.activity_more_single_item_title_textView);
-            updateTextView = view.findViewById(R.id.activity_more_single_item_update_textView);
-            avatarImageView = view.findViewById(R.id.activity_more_single_item_avatar_imageView);
+            avatarImageView = view.findViewById(R.id.activity_setting_single_item_avatar_imageView);
+            titleTextView = view.findViewById(R.id.activity_setting_single_item_title_textView);
+            updateTextView = view.findViewById(R.id.activity_setting_single_item_update_textView);
+            lineView = view.findViewById(R.id.activity_setting_single_item_line_view);
         }
     }
 

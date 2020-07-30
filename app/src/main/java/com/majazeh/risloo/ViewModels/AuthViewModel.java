@@ -58,5 +58,9 @@ public class AuthViewModel extends AndroidViewModel {
     public String getName() {
         return repository.getName();
     }
-    
+
+    public String getType() {
+        return repository.getType();
+    }
+
 }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_auth_header"
@@ -8,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
-    android:background="@color/Primary">
+    android:background="@color/Primary5P">
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,7 +19,7 @@
         android:text="@string/AppName"
         android:textSize="@dimen/_20ssp"
         android:textStyle="bold"
-        android:textColor="@color/White"
+        android:textColor="@color/PrimaryDark"
         android:textAlignment="gravity"/>
 
 </FrameLayout>

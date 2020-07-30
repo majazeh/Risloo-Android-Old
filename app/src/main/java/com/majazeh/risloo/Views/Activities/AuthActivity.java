@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -68,6 +69,8 @@ public class AuthActivity extends AppCompatActivity {
 
         initializer();
 
+        detector();
+
         listener();
 
         launchAuth(0, 0);
@@ -108,6 +111,12 @@ public class AuthActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
     }
 
+    private void detector() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            navigationFooter.setBackgroundResource(R.drawable.draw_rectangle_white_ripple);
+        }
+    }
+
     private void listener() {
         titleToolbar.setNavigationOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
 
@@ -115,8 +124,8 @@ public class AuthActivity extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.START);
 
             handler.postDelayed(() -> {
-                startActivity(new Intent(this, MoreActivity.class));
-                overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+                startActivity(new Intent(this, SettingActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }, 250);
         });
 
