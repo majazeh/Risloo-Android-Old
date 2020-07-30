@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class SampleRepository extends MainRepository {
 
@@ -32,7 +31,7 @@ public class SampleRepository extends MainRepository {
     // Vars
     public static ArrayList<ArrayList<Integer>> localData = new ArrayList<>();
     public static ArrayList<ArrayList<Integer>> remoteData = new ArrayList<>();
-    public static ArrayList<ArrayList<Object>> preData = new ArrayList<>();
+    public static ArrayList<ArrayList<Object>> prerequisiteData = new ArrayList<>();
 
     // Objects
     private JSONObject sampleJson;
@@ -40,40 +39,26 @@ public class SampleRepository extends MainRepository {
     private JSONArray prerequisiteItems;
     private SharedPreferences sharedPreferences;
 
-    public SampleRepository(Application application, String sampleId) {
+    public SampleRepository(Application application, String sampleId) throws JSONException {
         super(application);
 
-        controller = new SampleController(application);
         sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
-        try {
-            getSample(sharedPreferences.getString("sampleId", ""));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        controller = new SampleController(application);
+
+        getSample(sharedPreferences.getString("sampleId", ""));
     }
 
     public SampleRepository(Application application) {
         super(application);
 
-        controller = new SampleController(application);
         sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-    }
+
+        controller = new SampleController(application);
+   }
 
     public SampleRepository() {
 
-    }
-
-    public JSONObject json() {
-        return sampleJson;
-    }
-
-    public SampleItems items() {
-        return sampleItems;
-    }
-
-    public JSONArray prerequisiteItems() {
-        return prerequisiteItems;
     }
 
     public void getSample(String sampleId) throws JSONException {
@@ -174,11 +159,90 @@ public class SampleRepository extends MainRepository {
         }
     }
 
-    public void sendPre(ArrayList arrayList) throws JSONException {
-        preData = arrayList;
-        controller.work = "sendPre";
+    public void sendPrerequisite(ArrayList arrayList) throws JSONException {
+        prerequisiteData = arrayList;
+        controller.work = "sendPrerequisite";
         controller.workStateAnswer.setValue(-1);
-        controller.workManager("sendPre");
+        controller.workManager("sendPrerequisite");
+    }
+
+     /*
+         ---------- Get ----------
+    */
+
+    public String getDescription() {
+        try {
+            return sampleJson.getJSONObject("data").getString("description");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList getPrerequisite() {
+        ArrayList arrayList = new ArrayList<>();
+        try {
+            JSONArray jsonArray = sampleJson.getJSONObject("data").getJSONArray("prerequisite");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                arrayList.add(jsonArray.get(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return arrayList;
+    }
+
+    public ArrayList getItems() {
+        return sampleItems.items();
+    }
+
+    public Model getItem(int index) {
+        return sampleItems.item(index);
+    }
+
+    public Model getNext() {
+        return sampleItems.next();
+    }
+
+    public Model getPrev() {
+        return sampleItems.prev();
+    }
+
+    public Model goToIndex(int index) {
+        return sampleItems.goToIndex(index);
+    }
+
+    public void setIndex(int index) {
+        sampleItems.setIndex(index);
+    }
+
+    public int getIndex() {
+        return sampleItems.getIndex();
+    }
+
+    public int getSize() {
+        return sampleItems.size();
+    }
+
+    public ArrayList<String> getOptions(int index) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        try {
+            for (int i = 0; i < getAnswer(index).getJSONArray("options").length(); i++) {
+                arrayList.add((String) getAnswer(index).getJSONArray("options").get(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return arrayList;
+    }
+
+    public JSONObject getAnswer(int index) {
+        try {
+            return (JSONObject) sampleItems.item(index).get("answer");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /*
@@ -407,7 +471,7 @@ public class SampleRepository extends MainRepository {
     public void checkAnswerStorage(String fileName) {
         if (!hasAnswerStorage(fileName)) {
             JSONArray jsonArray = new JSONArray();
-            for (int i = 0; i < items().size(); i++) {
+            for (int i = 0; i < sampleItems.size(); i++) {
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("index", i);

@@ -58,11 +58,7 @@ public class TFTFragment extends Fragment {
         sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
         adapter = new TFTAdapter(activity);
-        try {
-            adapter.setAnswer(viewModel.getOptions(viewModel.getIndex()),viewModel.answeredPosition(sharedPreferences.getString("sampleId",""),viewModel.getIndex()), viewModel);;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        adapter.setAnswer(viewModel.getOptions(viewModel.getIndex()),viewModel.answeredPosition(sharedPreferences.getString("sampleId",""),viewModel.getIndex()), viewModel);;
 
         questionTextView = view.findViewById(R.id.fragment_tft_question_textView);
         try {

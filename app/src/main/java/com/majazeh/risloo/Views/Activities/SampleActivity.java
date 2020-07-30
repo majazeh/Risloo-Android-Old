@@ -462,7 +462,7 @@ public class SampleActivity extends AppCompatActivity {
 
     public void observeWorkAnswer() {
         SampleController.workStateAnswer.observe((LifecycleOwner) this, integer -> {
-            if (SampleController.work == "sendPre") {
+            if (SampleController.work == "sendPrerequisite") {
                 if (integer == 1) {
                     checkStorage();
 

@@ -13,7 +13,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class SampleViewModel extends AndroidViewModel {
 
@@ -45,72 +44,59 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
     public void sendPre(ArrayList<ArrayList> arrayList) throws JSONException {
-        repository.sendPre(arrayList);
+        repository.sendPrerequisite(arrayList);
     }
 
-    public String getTitle() throws JSONException {
-        return repository.json().getString("title");
-    }
+     /*
+         ---------- Get ----------
+    */
 
-    public String getDescription() throws JSONException {
-        return repository.json().getJSONObject("data").getString("description");
+    public String getDescription() {
+        return repository.getDescription();
     }
 
     public ArrayList getPrerequisite() {
-        ArrayList arrayList = new ArrayList<>();
-        try {
-            JSONArray jsonArray = repository.json().getJSONObject("data").getJSONArray("prerequisite");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                arrayList.add(jsonArray.get(i));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return arrayList;
-    }
-
-    public ArrayList<String> getOptions(int index) throws JSONException {
-        ArrayList<String> arrayList = new ArrayList<>();
-        for (int i = 0; i < getAnswer(index).getJSONArray("options").length(); i++) {
-            arrayList.add((String) getAnswer(index).getJSONArray("options").get(i));
-        }
-        return arrayList;
-    }
-
-    public JSONObject getAnswer(int index) throws JSONException {
-        return (JSONObject) repository.items().item(index).get("answer");
+        return repository.getPrerequisite();
     }
 
     public ArrayList getItems() {
-        return repository.items().items();
+        return repository.getItems();
     }
 
     public Model getItem(int index) {
-        return repository.items().item(index);
+        return repository.getItem(index);
     }
 
     public Model getNext() {
-        return repository.items().next();
+        return repository.getNext();
     }
 
     public Model getPrev() {
-        return repository.items().prev();
+        return repository.getPrev();
     }
 
     public Model goToIndex(int index) {
-        return repository.items().goToIndex(index);
+        return repository.goToIndex(index);
     }
 
     public void setIndex(int index) {
-        repository.items().setIndex(index);
+        repository.setIndex(index);
     }
 
     public int getIndex() {
-        return repository.items().getIndex();
+        return repository.getIndex();
     }
 
     public int getSize() {
-        return repository.items().size();
+        return repository.getSize();
+    }
+
+    public ArrayList<String> getOptions(int index) {
+        return repository.getOptions(index);
+    }
+
+    public JSONObject getAnswer(int index) {
+        return repository.getAnswer(index);
     }
 
     /*

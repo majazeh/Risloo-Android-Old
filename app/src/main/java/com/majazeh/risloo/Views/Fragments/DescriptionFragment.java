@@ -54,11 +54,7 @@ public class DescriptionFragment extends Fragment {
 
     private void initializer(View view) {
         markdownView = view.findViewById(R.id.fragment_description_markDownView);
-        try {
-            markdownView.setMarkDownText(viewModel.getDescription());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        markdownView.setMarkDownText(viewModel.getDescription());
 
         descriptionButton = view.findViewById(R.id.fragment_description_button);
     }

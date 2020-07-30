@@ -206,7 +206,7 @@ public class SampleWorker extends Worker {
     private void sendPrerequisite() {
         try {
             HashMap hashMap = new HashMap();
-            hashMap.put("items", SampleRepository.preData);
+            hashMap.put("items", SampleRepository.prerequisiteData);
 
             Call<ResponseBody> call = sampleApi.prerequisite("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""), hashMap);
 
