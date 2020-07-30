@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,7 +57,7 @@ public class TFTFragment extends Fragment {
         sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
         adapter = new TFTAdapter(activity);
-        adapter.setAnswer(viewModel.getOptions(viewModel.getIndex()),viewModel.answeredPosition(sharedPreferences.getString("sampleId",""),viewModel.getIndex()), viewModel);;
+        adapter.setAnswer(viewModel.getOptions(viewModel.getIndex()), viewModel.answeredPosition(sharedPreferences.getString("sampleId",""), viewModel.getIndex()), viewModel);
 
         questionTextView = view.findViewById(R.id.fragment_tft_question_textView);
         try {

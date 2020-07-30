@@ -92,8 +92,8 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
             handler.postDelayed(() -> holder.itemView.setClickable(true), 1000);
             dialog.dismiss();
 
-            viewModel.goToIndex(i);
             try {
+                viewModel.goToIndex(i);
                 ((SampleActivity) Objects.requireNonNull(activity)).showFragment((String) viewModel.getAnswer(viewModel.getIndex()).get("type"));
             } catch (JSONException e) {
                 e.printStackTrace();

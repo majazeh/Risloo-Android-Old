@@ -54,9 +54,9 @@ public class AuthActivity extends AppCompatActivity {
 
     // Widgets
     private DrawerLayout drawerLayout;
-    private Toolbar titleToolbar;
     private NavigationView navigationView;
     private FrameLayout navigationFooter;
+    private Toolbar titleToolbar;
     public Dialog progressDialog;
 
     @Override
@@ -96,13 +96,12 @@ public class AuthActivity extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.activity_auth);
 
+        navigationView = findViewById(R.id.activity_auth_navigationView);
+        navigationFooter = navigationView.findViewById(R.id.activity_auth_footer);
+
         titleToolbar = findViewById(R.id.activity_auth_toolbar);
         setSupportActionBar(titleToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        navigationView = findViewById(R.id.activity_auth_navigationView);
-
-        navigationFooter = navigationView.findViewById(R.id.activity_auth_footer);
 
         progressDialog = new Dialog(this, R.style.DialogTheme);
         progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -248,6 +247,7 @@ public class AuthActivity extends AppCompatActivity {
                         toolUser.setVisible(true);
                     }
                 }
+
                 progressDialog.dismiss();
                 AuthController.workState.removeObservers((LifecycleOwner) this);
             } else if (integer == 0) {

@@ -17,8 +17,6 @@ import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Activities.SampleActivity;
 import com.mukesh.MarkdownView;
 
-import org.json.JSONException;
-
 import java.util.Objects;
 
 public class DescriptionFragment extends Fragment {
@@ -66,11 +64,7 @@ public class DescriptionFragment extends Fragment {
     }
 
     private void listener() {
-        descriptionButton.setOnClickListener(v -> doWork());
-    }
-
-    private void doWork() {
-        ((SampleActivity) Objects.requireNonNull(getActivity())).loadFragment(new PrerequisiteFragment(activity, viewModel), R.anim.fade_in, R.anim.fade_out);
+        descriptionButton.setOnClickListener(v ->  ((SampleActivity) Objects.requireNonNull(getActivity())).loadFragment(new PrerequisiteFragment(activity, viewModel), R.anim.fade_in, R.anim.fade_out));
     }
 
 }
