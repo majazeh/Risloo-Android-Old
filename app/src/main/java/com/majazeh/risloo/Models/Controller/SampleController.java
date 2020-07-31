@@ -25,6 +25,7 @@ public class SampleController {
     public static MutableLiveData<Integer> workStateAnswer;
     public static String work = "";
     public static String exception = "";
+    public static String theory = "sample";
     public static boolean cache = false;
 
     public SampleController(Application application) {

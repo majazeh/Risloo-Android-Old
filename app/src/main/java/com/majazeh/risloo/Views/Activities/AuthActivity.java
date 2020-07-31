@@ -230,7 +230,7 @@ public class AuthActivity extends AppCompatActivity {
                         } else if (AuthController.theory.equals("sample")) {
                             AuthController.sampleId = AuthController.key;
 
-                            editor.putString("sampleId", AuthController.key);
+                            editor.putString("sampleId", AuthController.sampleId);
                             editor.apply();
 
                             AuthController.theory = "sample";

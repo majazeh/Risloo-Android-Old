@@ -41,6 +41,7 @@ import com.majazeh.risloo.Views.Fragments.DescriptionFragment;
 import com.majazeh.risloo.Views.Fragments.PFPFragment;
 import com.majazeh.risloo.Views.Fragments.PFTFragment;
 import com.majazeh.risloo.Views.Fragments.PPFragment;
+import com.majazeh.risloo.Views.Fragments.PrerequisiteFragment;
 import com.majazeh.risloo.Views.Fragments.TFPFragment;
 import com.majazeh.risloo.Views.Fragments.TFTFragment;
 import com.majazeh.risloo.Views.Fragments.TPFragment;
@@ -63,11 +64,12 @@ public class SampleActivity extends AppCompatActivity {
 
     // Widgets
     private LinearLayout sampleLinearLayout;
-    private TextView indexTextView, cancelTextView, finishTextView, navigateDialogConfirm, finishDialogTitle, finishDialogDescription, finishDialogPositive, finishDialogNegative, cancelDialogTitle, cancelDialogDescription, cancelDialogPositive, cancelDialogNegative;
+    private TextView indexTextView, cancelTextView, finishTextView;
     private ImageView forwardImageView, backwardImageView, navigateImageView;
     private ProgressBar flowProgressBar;
     private RecyclerView dialogNavigateRecyclerView;
     private Dialog navigateDialog, finishDialog, cancelDialog;
+    private TextView navigateDialogConfirm, finishDialogTitle, finishDialogDescription, finishDialogPositive, finishDialogNegative, cancelDialogTitle, cancelDialogDescription, cancelDialogPositive, cancelDialogNegative;
     public Dialog loadingDialog;
 
     @Override
@@ -84,18 +86,7 @@ public class SampleActivity extends AppCompatActivity {
 
         listener();
 
-        if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) <= 0) {
-            try {
-                loadingDialog.show();
-                viewModel.getSample(sharedPreferences.getString("sampleId", ""));
-                observeWorkSample();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else {
-            checkStorage();
-        }
-
+        launchProcess();
     }
 
     private void decorator() {
@@ -221,68 +212,12 @@ public class SampleActivity extends AppCompatActivity {
             finishDialog.show();
         });
 
-        cancelTextView.setOnClickListener(v -> {
-            cancelTextView.setClickable(false);
-            handler.postDelayed(() -> cancelTextView.setClickable(true), 1000);
-            cancelDialog.show();
-        });
-
-        forwardImageView.setOnClickListener(v -> {
-            forwardImageView.setClickable(false);
-            handler.postDelayed(() -> forwardImageView.setClickable(true), 100);
-
-            if (viewModel.getNext() == null) {
-                if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
-                    startActivity(new Intent(this, OutroActivity.class));
-                    finish();
-                    return;
-                }
-                viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
-            }
-            try {
-                showFragment((String) viewModel.getAnswer(viewModel.getIndex()).get("type"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        });
-
-        backwardImageView.setOnClickListener(v -> {
-            backwardImageView.setClickable(false);
-            handler.postDelayed(() -> backwardImageView.setClickable(true), 100);
-
-            viewModel.getPrev();
-            try {
-                showFragment((String) viewModel.getAnswer(viewModel.getIndex()).get("type"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        });
-
-        navigateImageView.setOnClickListener(v -> {
-            navigateImageView.setClickable(false);
-            handler.postDelayed(() -> navigateImageView.setClickable(true), 1000);
-            dialogNavigateRecyclerView.scrollToPosition(viewModel.getIndex());
-            navigateDialog.show();
-        });
-
-        navigateDialogConfirm.setOnClickListener(v -> {
-            navigateDialogConfirm.setClickable(false);
-            handler.postDelayed(() -> navigateDialogConfirm.setClickable(true), 1000);
-            navigateDialog.dismiss();
-        });
-
-        navigateDialog.setOnCancelListener(dialog -> navigateDialog.dismiss());
-
         finishDialogPositive.setOnClickListener(v -> {
             finishDialogPositive.setClickable(false);
             handler.postDelayed(() -> finishDialogPositive.setClickable(true), 1000);
             finishDialog.dismiss();
-            try {
-                viewModel.closeSample();
-                observeWorkSample();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+
+            closeSample();
         });
 
         finishDialogNegative.setOnClickListener(v -> {
@@ -292,6 +227,12 @@ public class SampleActivity extends AppCompatActivity {
         });
 
         finishDialog.setOnCancelListener(dialog -> finishDialog.dismiss());
+
+        cancelTextView.setOnClickListener(v -> {
+            cancelTextView.setClickable(false);
+            handler.postDelayed(() -> cancelTextView.setClickable(true), 1000);
+            cancelDialog.show();
+        });
 
         cancelDialogPositive.setOnClickListener(v -> {
             cancelDialogPositive.setClickable(false);
@@ -308,6 +249,151 @@ public class SampleActivity extends AppCompatActivity {
         });
 
         cancelDialog.setOnCancelListener(dialog -> cancelDialog.dismiss());
+
+        navigateImageView.setOnClickListener(v -> {
+            navigateImageView.setClickable(false);
+            handler.postDelayed(() -> navigateImageView.setClickable(true), 1000);
+            dialogNavigateRecyclerView.scrollToPosition(viewModel.getIndex());
+            navigateDialog.show();
+        });
+
+        navigateDialogConfirm.setOnClickListener(v -> {
+            navigateDialogConfirm.setClickable(false);
+            handler.postDelayed(() -> navigateDialogConfirm.setClickable(true), 1000);
+            navigateDialog.dismiss();
+        });
+
+        navigateDialog.setOnCancelListener(dialog -> navigateDialog.dismiss());
+
+        forwardImageView.setOnClickListener(v -> {
+            forwardImageView.setClickable(false);
+            handler.postDelayed(() -> forwardImageView.setClickable(true), 100);
+
+            nextSample();
+        });
+
+        backwardImageView.setOnClickListener(v -> {
+            backwardImageView.setClickable(false);
+            handler.postDelayed(() -> backwardImageView.setClickable(true), 100);
+
+            prevSample();
+        });
+    }
+
+    private void showProgress() {
+        sampleLinearLayout.setAnimation(animSlideIn);
+        sampleLinearLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgress() {
+        sampleLinearLayout.setVisibility(View.GONE);
+    }
+
+    private void sampleProgress() {
+        indexTextView.setText(viewModel.getIndex() + 1 + " " + "از" + " " + viewModel.getSize());
+
+        flowProgressBar.setMax(viewModel.getSize());
+        flowProgressBar.setProgress(viewModel.answeredSize(sharedPreferences.getString("sampleId", "")));
+
+        dialogNavigateRecyclerView.scrollToPosition(viewModel.getIndex());
+
+        adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
+        adapter.notifyDataSetChanged();
+    }
+
+    public void loadFragment(Fragment fragment, int enterAnim, int exitAnim) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(enterAnim, exitAnim);
+        transaction.replace(R.id.activity_sample_frameLayout, fragment);
+        transaction.commit();
+    }
+
+    public void showFragment() throws JSONException {
+        switch (SampleController.theory) {
+            case "description":
+                hideProgress();
+                loadFragment(new DescriptionFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                break;
+            case "prerequisite":
+                hideProgress();
+                loadFragment(new PrerequisiteFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                break;
+            case "sample":
+                showProgress();
+                sampleProgress();
+
+                switch ((String) viewModel.getAnswer(viewModel.getIndex()).get("type")) {
+                    case "TP":
+                        loadFragment(new TPFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                        break;
+                    case "optional":
+                        loadFragment(new TFTFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                        break;
+                    case "TFP":
+                        loadFragment(new TFPFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                        break;
+                    case "PP":
+                        loadFragment(new PPFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                        break;
+                    case "PFT":
+                        loadFragment(new PFTFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                        break;
+                    case "PFP":
+                        loadFragment(new PFPFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                        break;
+                }
+                break;
+        }
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    private void prevSample() {
+        try {
+            viewModel.getPrev();
+            showFragment();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void nextSample() {
+        try {
+            if (viewModel.getNext() == null) {
+                if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
+                    startActivity(new Intent(this, OutroActivity.class));
+                    finish();
+                    return;
+                }
+                viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
+            }
+            showFragment();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void closeSample() {
+        try {
+            viewModel.closeSample();
+            observeWorkSample();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void checkStorage() {
@@ -323,46 +409,17 @@ public class SampleActivity extends AppCompatActivity {
         }
     }
 
-    public void loadFragment(Fragment fragment, int enterAnim, int exitAnim) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(enterAnim, exitAnim);
-        transaction.replace(R.id.activity_sample_frameLayout, fragment);
-        transaction.commit();
-    }
-
-    public void showFragment(String type) {
-        sampleLinearLayout.setVisibility(View.VISIBLE);
-        sampleLinearLayout.setAnimation(animSlideIn);
-
-        indexTextView.setText(viewModel.getIndex() + 1 + " " + "از" + " " + viewModel.getSize());
-
-        flowProgressBar.setMax(viewModel.getSize());
-        flowProgressBar.setProgress(viewModel.answeredSize(sharedPreferences.getString("sampleId", "")));
-
-        dialogNavigateRecyclerView.scrollToPosition(viewModel.getIndex());
-
-        adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
-        adapter.notifyDataSetChanged();
-
-        switch (type) {
-            case "TP":
-                loadFragment(new TPFragment(this), R.anim.fade_in, R.anim.fade_out);
-                break;
-            case "optional":
-                loadFragment(new TFTFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
-                break;
-            case "TFP":
-                loadFragment(new TFPFragment(this), R.anim.fade_in, R.anim.fade_out);
-                break;
-            case "PP":
-                loadFragment(new PPFragment(this), R.anim.fade_in, R.anim.fade_out);
-                break;
-            case "PFT":
-                loadFragment(new PFTFragment(this), R.anim.fade_in, R.anim.fade_out);
-                break;
-            case "PFP":
-                loadFragment(new PFPFragment(this), R.anim.fade_in, R.anim.fade_out);
-                break;
+    private void launchProcess() {
+        if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) <= 0) {
+            try {
+                loadingDialog.show();
+                viewModel.getSample(sharedPreferences.getString("sampleId", ""));
+                observeWorkSample();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            checkStorage();
         }
     }
 
@@ -372,16 +429,16 @@ public class SampleActivity extends AppCompatActivity {
 
             SampleController.workStateSample.observe((LifecycleOwner) this, integer -> {
                 if (integer == 1) {
+                    viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
+                    adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
+                    if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
+                        finish();
+                        return;
+                    }
+                    viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
+                    loadingDialog.dismiss();
                     try {
-                        viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
-                        adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
-                        if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
-                            finish();
-                            return;
-                        }
-                        viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
-                        loadingDialog.dismiss();
-                        showFragment((String) viewModel.getAnswer(viewModel.getIndex()).get("type"));
+                        showFragment();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -397,18 +454,18 @@ public class SampleActivity extends AppCompatActivity {
             });
         } else {
             if (viewModel.getItems() != null) {
-                try {
-                    viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
-                    viewModel.firstUnanswered(sharedPreferences.getString("sampleId", ""));
-                    if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
-                        startActivity(new Intent(this, OutroActivity.class));
-                        finish();
-                        return;
-                    }
-                    adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
-                    viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
+                viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
+                viewModel.firstUnanswered(sharedPreferences.getString("sampleId", ""));
+                if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
+                    startActivity(new Intent(this, OutroActivity.class));
+                    finish();
+                    return;
+                }
+                adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
+                viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
 
-                    showFragment((String) viewModel.getAnswer(viewModel.getIndex()).get("type"));
+                try {
+                    showFragment();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -479,11 +536,6 @@ public class SampleActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
     @Override

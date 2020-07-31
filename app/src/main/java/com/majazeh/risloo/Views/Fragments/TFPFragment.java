@@ -34,8 +34,9 @@ public class TFPFragment extends Fragment {
     private TextView questionTextView;
     private RecyclerView answerRecyclerView;
 
-    public TFPFragment(Activity activity) {
+    public TFPFragment(Activity activity, SampleViewModel viewModel) {
         this.activity = activity;
+        this.viewModel = viewModel;
     }
 
     @Nullable

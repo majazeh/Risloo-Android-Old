@@ -27,7 +27,7 @@
         app:itemIconTint="@drawable/nav_icon"
         app:itemBackground="@drawable/nav_draw"
         app:headerLayout="@layout/activity_auth_header"
-        app:itemIconSize="@dimen/_19sdp"
+        app:itemIconSize="@dimen/_18sdp"
         app:itemIconPadding="@dimen/_20sdp"
         app:itemHorizontalPadding="@dimen/_16sdp"
         app:menu="@menu/menu_drawer">

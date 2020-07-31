@@ -145,7 +145,8 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
                 viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
             }
             try {
-                ((SampleActivity) Objects.requireNonNull(activity)).showFragment((String) viewModel.getAnswer(viewModel.getIndex()).get("type"));
+
+                ((SampleActivity) Objects.requireNonNull(activity)).showFragment();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

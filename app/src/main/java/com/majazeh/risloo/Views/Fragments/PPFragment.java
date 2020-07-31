@@ -36,8 +36,9 @@ public class PPFragment extends Fragment {
     private ImageView questionImageView;
     private EditText answerEditText;
 
-    public PPFragment(Activity activity) {
+    public PPFragment(Activity activity, SampleViewModel viewModel) {
         this.activity = activity;
+        this.viewModel = viewModel;
     }
 
     @Nullable

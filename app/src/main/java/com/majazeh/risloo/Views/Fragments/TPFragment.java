@@ -36,8 +36,9 @@ public class TPFragment extends Fragment {
     private TextView questionTextView;
     private EditText answerEditText;
 
-    public TPFragment(Activity activity) {
+    public TPFragment(Activity activity, SampleViewModel viewModel) {
         this.activity = activity;
+        this.viewModel = viewModel;
     }
 
     @Nullable

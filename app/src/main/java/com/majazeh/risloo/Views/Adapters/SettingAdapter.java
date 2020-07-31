@@ -90,6 +90,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
                 holder.lineView.setVisibility(View.GONE);
             }
             holder.avatarImageView.setImageDrawable((Drawable) mores.get(i).get("image"));
+            holder.avatarImageView.setBackground((Drawable) mores.get(i).get("drawable"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

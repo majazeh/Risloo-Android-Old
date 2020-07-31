@@ -36,8 +36,9 @@ public class PFPFragment extends Fragment {
     private ImageView questionImageView;
     private RecyclerView answerRecyclerView;
 
-    public PFPFragment(Activity activity) {
+    public PFPFragment(Activity activity, SampleViewModel viewModel) {
         this.activity = activity;
+        this.viewModel = viewModel;
     }
 
     @Nullable
