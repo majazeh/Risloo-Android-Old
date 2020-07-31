@@ -42,9 +42,17 @@ public class AuthItems {
     }
 
     public String type() {
-//        if (!sharedPreferences.getString("type", "").equals("null")) {
-//            return sharedPreferences.getString("type", "");
-//        }
+        if (!sharedPreferences.getString("type", "").equals("null")) {
+            if (sharedPreferences.getString("type", "").equals("psychologist")) {
+                return "مشاور";
+            } else if (sharedPreferences.getString("type", "").equals("counseling_center")) {
+                return "مرکز درمانی";
+            } else if (sharedPreferences.getString("type", "").equals("operator")) {
+                return "اپراتور";
+            } else if (sharedPreferences.getString("type", "").equals("client")) {
+                return "مراجع";
+            }
+        }
         return application.getApplicationContext().getResources().getString(R.string.AccountType);
     }
 
@@ -60,7 +68,7 @@ public class AuthItems {
                 data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "مرکز درمانی").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_hospital)));
             } else if (sharedPreferences.getString("type", "").equals("operator")) {
                 data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "اپراتور").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset)));
-            } else {
+            } else if (sharedPreferences.getString("type", "").equals("client")) {
                 data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "مراجع").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_pills)));
             }
         }

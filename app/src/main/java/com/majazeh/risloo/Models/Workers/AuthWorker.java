@@ -415,6 +415,7 @@ public class AuthWorker extends Worker {
                 editor.putString("email", data.getString("email"));
                 editor.putString("mobile", data.getString("mobile"));
                 editor.putString("gender", data.getString("gender"));
+                editor.putString("type", data.getString("type"));
                 editor.apply();
 
                 AuthController.exception = "دریافت اطلاعات با موفقیت انجام شد.";
@@ -426,6 +427,7 @@ public class AuthWorker extends Worker {
                 editor.putString("email", "");
                 editor.putString("mobile", "");
                 editor.putString("gender", "");
+                editor.putString("type", "");
                 editor.apply();
 
                 AuthController.exception = errorBody.getString("message_text");
@@ -460,9 +462,10 @@ public class AuthWorker extends Worker {
 
                 editor.remove("token");
                 editor.remove("name");
+                editor.remove("email");
                 editor.remove("mobile");
                 editor.remove("gender");
-                editor.remove("email");
+                editor.remove("type");
                 editor.apply();
 
                 AuthController.exception = "خروج با موفقیت انجام شد.";
