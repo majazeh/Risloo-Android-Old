@@ -70,7 +70,7 @@ public class SampleActivity extends AppCompatActivity {
     private RecyclerView dialogNavigateRecyclerView;
     private Dialog navigateDialog, finishDialog, cancelDialog;
     private TextView navigateDialogConfirm, finishDialogTitle, finishDialogDescription, finishDialogPositive, finishDialogNegative, cancelDialogTitle, cancelDialogDescription, cancelDialogPositive, cancelDialogNegative;
-    public Dialog loadingDialog;
+    public Dialog progressDialog, loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +133,11 @@ public class SampleActivity extends AppCompatActivity {
         cancelDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         cancelDialog.setContentView(R.layout.dialog_action);
         cancelDialog.setCancelable(true);
+        progressDialog = new Dialog(this, R.style.DialogTheme);
+        progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        progressDialog.setContentView(R.layout.dialog_progress);
+        progressDialog.setCancelable(false);
         loadingDialog = new Dialog(this, R.style.DialogTheme);
         loadingDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -346,10 +351,69 @@ public class SampleActivity extends AppCompatActivity {
         }
     }
 
+    private void closeSample() {
+        try {
+            progressDialog.show();
+            viewModel.closeSample();
+            observeWorkSample();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
+
+    @Override
+    public void onBackPressed() {
+        switch (SampleController.theory) {
+            case "sample":
+                SampleController.theory = "prerequisite";
+                try {
+                    showFragment();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "prerequisite":
+                SampleController.theory = "description";
+                try {
+                    showFragment();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "description":
+                cancelDialog.show();
+                break;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -382,15 +446,6 @@ public class SampleActivity extends AppCompatActivity {
                 viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
             }
             showFragment();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void closeSample() {
-        try {
-            viewModel.closeSample();
-            observeWorkSample();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -438,6 +493,7 @@ public class SampleActivity extends AppCompatActivity {
                     viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
                     loadingDialog.dismiss();
                     try {
+                        SampleController.theory = "sample";
                         showFragment();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -449,7 +505,6 @@ public class SampleActivity extends AppCompatActivity {
                     Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(this, AuthActivity.class));
                     finish();
-                    // TODO: get exception
                 }
             });
         } else {
@@ -465,6 +520,7 @@ public class SampleActivity extends AppCompatActivity {
                 viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
 
                 try {
+                    SampleController.theory = "sample";
                     showFragment();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -501,15 +557,15 @@ public class SampleActivity extends AppCompatActivity {
                 if (integer == 1) {
                     finish();
 
-                    loadingDialog.dismiss();
+                    progressDialog.dismiss();
                     Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
                     SampleController.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0){
-                    loadingDialog.dismiss();
+                    progressDialog.dismiss();
                     Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
                     SampleController.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2){
-                    loadingDialog.dismiss();
+                    progressDialog.dismiss();
                     Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
                     SampleController.workStateSample.removeObservers((LifecycleOwner) this);
                 }
@@ -536,11 +592,6 @@ public class SampleActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        cancelDialog.show();
     }
 
 }
