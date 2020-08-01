@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,9 +21,7 @@ import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -37,6 +34,7 @@ import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.ViewModels.SampleViewModelFactory;
 import com.majazeh.risloo.Views.Adapters.IndexAdapter;
+import com.majazeh.risloo.Views.Adapters.PrerequisiteAdapter;
 import com.majazeh.risloo.Views.Fragments.DescriptionFragment;
 import com.majazeh.risloo.Views.Fragments.PFPFragment;
 import com.majazeh.risloo.Views.Fragments.PFTFragment;
@@ -46,6 +44,7 @@ import com.majazeh.risloo.Views.Fragments.TFPFragment;
 import com.majazeh.risloo.Views.Fragments.TFTFragment;
 import com.majazeh.risloo.Views.Fragments.TPFragment;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 
 public class SampleActivity extends AppCompatActivity {
@@ -58,19 +57,17 @@ public class SampleActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
-    private Animation animSlideIn;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
     // Widgets
-    private LinearLayout sampleLinearLayout;
-    private TextView indexTextView, cancelTextView, finishTextView;
-    private ImageView forwardImageView, backwardImageView, navigateImageView;
-    private ProgressBar flowProgressBar;
-    private RecyclerView dialogNavigateRecyclerView;
-    private Dialog navigateDialog, finishDialog, cancelDialog;
-    private TextView navigateDialogConfirm, finishDialogTitle, finishDialogDescription, finishDialogPositive, finishDialogNegative, cancelDialogTitle, cancelDialogDescription, cancelDialogPositive, cancelDialogNegative;
+    private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    private Button finishButton, cancelButton;
+    private Dialog finishDialog, cancelDialog;
+    private TextView finishDialogTitle, finishDialogDescription, finishDialogPositive, finishDialogNegative, cancelDialogTitle, cancelDialogDescription, cancelDialogPositive, cancelDialogNegative;
     public Dialog progressDialog, loadingDialog;
+    public LinearLayout progressLinearLayout, buttonLinearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,27 +99,23 @@ public class SampleActivity extends AppCompatActivity {
 
         viewModel = ViewModelProviders.of(this, new SampleViewModelFactory(getApplication(), sharedPreferences.getString("sampleId", ""))).get(SampleViewModel.class);
 
+        adapter = new IndexAdapter(this, viewModel);
+
         handler = new Handler();
 
-        animSlideIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        progressLinearLayout = findViewById(R.id.activity_sample_progress_linearLayout);
+        buttonLinearLayout = findViewById(R.id.activity_sample_button_linearLayout);
 
-        sampleLinearLayout = findViewById(R.id.activity_sample_linearLayout);
+        recyclerView = findViewById(R.id.activity_sample_recyclerView);
+        recyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout2",(int) getResources().getDimension(R.dimen._18sdp)));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        recyclerView.setHasFixedSize(true);
 
-        indexTextView = findViewById(R.id.activity_sample_flow_textView);
-        cancelTextView = findViewById(R.id.activity_sample_cancel_textView);
-        finishTextView = findViewById(R.id.activity_sample_finish_textView);
+        progressBar = findViewById(R.id.activity_sample_progressBar);
 
-        forwardImageView = findViewById(R.id.activity_sample_forward_imageView);
-        backwardImageView = findViewById(R.id.activity_sample_backward_imageView);
-        navigateImageView = findViewById(R.id.activity_sample_navigate_imageView);
+        finishButton = findViewById(R.id.activity_sample_finish_button);
+        cancelButton = findViewById(R.id.activity_sample_cancel_button);
 
-        flowProgressBar = findViewById(R.id.activity_sample_flow_progressBar);
-
-        navigateDialog = new Dialog(this, R.style.DialogTheme);
-        navigateDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        navigateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        navigateDialog.setContentView(R.layout.dialog_navigate);
-        navigateDialog.setCancelable(true);
         finishDialog = new Dialog(this, R.style.DialogTheme);
         finishDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         finishDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -138,38 +131,23 @@ public class SampleActivity extends AppCompatActivity {
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
-        loadingDialog = new Dialog(this, R.style.DialogTheme);
+        loadingDialog = new Dialog(this, 0);
         loadingDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         loadingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         loadingDialog.getWindow().setDimAmount(0);
         loadingDialog.setContentView(R.layout.dialog_loading);
         loadingDialog.setCancelable(false);
 
-        adapter = new IndexAdapter(this, viewModel, navigateDialog);
-
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.copyFrom(navigateDialog.getWindow().getAttributes());
+        layoutParams.copyFrom(finishDialog.getWindow().getAttributes());
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        navigateDialog.getWindow().setAttributes(layoutParams);
+        finishDialog.getWindow().setAttributes(layoutParams);
         WindowManager.LayoutParams layoutParams2 = new WindowManager.LayoutParams();
-        layoutParams2.copyFrom(finishDialog.getWindow().getAttributes());
+        layoutParams2.copyFrom(cancelDialog.getWindow().getAttributes());
         layoutParams2.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParams2.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        finishDialog.getWindow().setAttributes(layoutParams2);
-        WindowManager.LayoutParams layoutParams3 = new WindowManager.LayoutParams();
-        layoutParams3.copyFrom(cancelDialog.getWindow().getAttributes());
-        layoutParams3.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams3.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        cancelDialog.getWindow().setAttributes(layoutParams3);
-
-        dialogNavigateRecyclerView = navigateDialog.findViewById(R.id.dialog_navigate_recyclerView);
-        dialogNavigateRecyclerView.addItemDecoration(new ItemDecorator("normalLayout", (int) getResources().getDimension(R.dimen._16sdp)));
-        dialogNavigateRecyclerView.setLayoutManager(new GridLayoutManager(this, 3, LinearLayoutManager.HORIZONTAL, false));
-        dialogNavigateRecyclerView.setHasFixedSize(true);
-        dialogNavigateRecyclerView.setAdapter(adapter);
-
-        navigateDialogConfirm = navigateDialog.findViewById(R.id.dialog_navigate_close_textView);
+        cancelDialog.getWindow().setAttributes(layoutParams2);
 
         finishDialogTitle = finishDialog.findViewById(R.id.dialog_action_title_textView);
         finishDialogTitle.setText(getResources().getString(R.string.SampleFinishDialogTitle));
@@ -193,15 +171,8 @@ public class SampleActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            forwardImageView.setBackgroundResource(R.drawable.draw_8sdp_snow_ripple);
-            backwardImageView.setBackgroundResource(R.drawable.draw_8sdp_snow_ripple);
-
-            navigateImageView.setBackgroundResource(R.drawable.draw_8sdp_snow_oneside_ripple);
-
-            finishTextView.setBackgroundResource(R.drawable.draw_8sdp_primary_ripple);
-            cancelTextView.setBackgroundResource(R.drawable.draw_8sdp_solitude_ripple);
-
-            navigateDialogConfirm.setBackgroundResource(R.drawable.draw_12sdp_white_ripple);
+            finishButton.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
+            cancelButton.setBackgroundResource(R.drawable.draw_18sdp_solitude_ripple);
 
             finishDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
             finishDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
@@ -211,10 +182,17 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void listener() {
-        finishTextView.setOnClickListener(v -> {
-            finishTextView.setClickable(false);
-            handler.postDelayed(() -> finishTextView.setClickable(true), 1000);
-            finishDialog.show();
+        finishButton.setOnClickListener(v -> {
+            finishButton.setClickable(false);
+            handler.postDelayed(() -> finishButton.setClickable(true), 1000);
+
+            setActions();
+        });
+
+        cancelButton.setOnClickListener(v -> {
+            cancelButton.setClickable(false);
+            handler.postDelayed(() -> cancelButton.setClickable(true), 1000);
+            cancelDialog.show();
         });
 
         finishDialogPositive.setOnClickListener(v -> {
@@ -225,20 +203,6 @@ public class SampleActivity extends AppCompatActivity {
             closeSample();
         });
 
-        finishDialogNegative.setOnClickListener(v -> {
-            finishDialogNegative.setClickable(false);
-            handler.postDelayed(() -> finishDialogNegative.setClickable(true), 1000);
-            finishDialog.dismiss();
-        });
-
-        finishDialog.setOnCancelListener(dialog -> finishDialog.dismiss());
-
-        cancelTextView.setOnClickListener(v -> {
-            cancelTextView.setClickable(false);
-            handler.postDelayed(() -> cancelTextView.setClickable(true), 1000);
-            cancelDialog.show();
-        });
-
         cancelDialogPositive.setOnClickListener(v -> {
             cancelDialogPositive.setClickable(false);
             handler.postDelayed(() -> cancelDialogPositive.setClickable(true), 1000);
@@ -247,63 +211,21 @@ public class SampleActivity extends AppCompatActivity {
             finish();
         });
 
+        finishDialogNegative.setOnClickListener(v -> {
+            finishDialogNegative.setClickable(false);
+            handler.postDelayed(() -> finishDialogNegative.setClickable(true), 1000);
+            finishDialog.dismiss();
+        });
+
         cancelDialogNegative.setOnClickListener(v -> {
             cancelDialogNegative.setClickable(false);
             handler.postDelayed(() -> cancelDialogNegative.setClickable(true), 1000);
             cancelDialog.dismiss();
         });
 
+        finishDialog.setOnCancelListener(dialog -> finishDialog.dismiss());
+
         cancelDialog.setOnCancelListener(dialog -> cancelDialog.dismiss());
-
-        navigateImageView.setOnClickListener(v -> {
-            navigateImageView.setClickable(false);
-            handler.postDelayed(() -> navigateImageView.setClickable(true), 1000);
-            dialogNavigateRecyclerView.scrollToPosition(viewModel.getIndex());
-            navigateDialog.show();
-        });
-
-        navigateDialogConfirm.setOnClickListener(v -> {
-            navigateDialogConfirm.setClickable(false);
-            handler.postDelayed(() -> navigateDialogConfirm.setClickable(true), 1000);
-            navigateDialog.dismiss();
-        });
-
-        navigateDialog.setOnCancelListener(dialog -> navigateDialog.dismiss());
-
-        forwardImageView.setOnClickListener(v -> {
-            forwardImageView.setClickable(false);
-            handler.postDelayed(() -> forwardImageView.setClickable(true), 100);
-
-            nextSample();
-        });
-
-        backwardImageView.setOnClickListener(v -> {
-            backwardImageView.setClickable(false);
-            handler.postDelayed(() -> backwardImageView.setClickable(true), 100);
-
-            prevSample();
-        });
-    }
-
-    private void showProgress() {
-        sampleLinearLayout.setAnimation(animSlideIn);
-        sampleLinearLayout.setVisibility(View.VISIBLE);
-    }
-
-    private void hideProgress() {
-        sampleLinearLayout.setVisibility(View.GONE);
-    }
-
-    private void sampleProgress() {
-        indexTextView.setText(viewModel.getIndex() + 1 + " " + "از" + " " + viewModel.getSize());
-
-        flowProgressBar.setMax(viewModel.getSize());
-        flowProgressBar.setProgress(viewModel.answeredSize(sharedPreferences.getString("sampleId", "")));
-
-        dialogNavigateRecyclerView.scrollToPosition(viewModel.getIndex());
-
-        adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
-        adapter.notifyDataSetChanged();
     }
 
     public void loadFragment(Fragment fragment, int enterAnim, int exitAnim) {
@@ -314,6 +236,8 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     public void showFragment() throws JSONException {
+        setText();
+
         switch (SampleController.theory) {
             case "description":
                 hideProgress();
@@ -325,7 +249,7 @@ public class SampleActivity extends AppCompatActivity {
                 break;
             case "sample":
                 showProgress();
-                sampleProgress();
+                setProgress();
 
                 switch ((String) viewModel.getAnswer(viewModel.getIndex()).get("type")) {
                     case "TP":
@@ -349,6 +273,22 @@ public class SampleActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    private void setText() {
+        if (SampleController.theory.equals("description") || SampleController.theory.equals("prerequisite")) {
+            finishButton.setText(getResources().getString(R.string.SampleNext));
+        } else if (SampleController.theory.equals("sample")) {
+            finishButton.setText(getResources().getString(R.string.SampleFinish));
+        }
+    }
+
+    private void showProgress() {
+        progressLinearLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgress() {
+        progressLinearLayout.setVisibility(View.GONE);
     }
 
     private void closeSample() {
@@ -426,29 +366,41 @@ public class SampleActivity extends AppCompatActivity {
 
 
 
-    private void prevSample() {
-        try {
-            viewModel.getPrev();
-            showFragment();
-        } catch (JSONException e) {
-            e.printStackTrace();
+    private void setActions() {
+        switch (SampleController.theory) {
+            case "description":
+                try {
+                    SampleController.theory = "prerequisite";
+                    showFragment();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "prerequisite":
+                try {
+                    PrerequisiteAdapter adapter = new PrerequisiteAdapter(this);
+
+                    viewModel.savePrerequisiteToCache(new JSONArray(), sharedPreferences.getString("sampleId", ""));
+                    viewModel.sendPrerequisite(adapter.answers());
+                    observeWorkAnswer();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "sample":
+                finishDialog.show();
+                break;
         }
     }
 
-    private void nextSample() {
-        try {
-            if (viewModel.getNext() == null) {
-                if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
-                    startActivity(new Intent(this, OutroActivity.class));
-                    finish();
-                    return;
-                }
-                viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
-            }
-            showFragment();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    private void setProgress() {
+        progressBar.setMax(viewModel.getSize());
+        progressBar.setProgress(viewModel.answeredSize(sharedPreferences.getString("sampleId", "")));
+
+        recyclerView.scrollToPosition(viewModel.getIndex());
+
+        adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
+        adapter.notifyDataSetChanged();
     }
 
     public void checkStorage() {
@@ -494,7 +446,9 @@ public class SampleActivity extends AppCompatActivity {
                     loadingDialog.dismiss();
                     try {
                         SampleController.theory = "sample";
+                        recyclerView.setAdapter(adapter);
                         showFragment();
+                        buttonLinearLayout.setVisibility(View.VISIBLE);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -521,7 +475,9 @@ public class SampleActivity extends AppCompatActivity {
 
                 try {
                     SampleController.theory = "sample";
+                    recyclerView.setAdapter(adapter);
                     showFragment();
+                    buttonLinearLayout.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

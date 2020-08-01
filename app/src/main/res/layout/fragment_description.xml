@@ -9,46 +9,13 @@
     android:background="@null"
     tools:context=".Views.Fragments.DescriptionFragment">
 
-    <androidx.core.widget.NestedScrollView
+    <com.mukesh.MarkdownView
+        android:id="@+id/fragment_description_markDownView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbarSize="0dp"
-        android:overScrollMode="always">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:orientation="vertical">
-
-            <com.mukesh.MarkdownView
-                android:id="@+id/fragment_description_markDownView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_24sdp"
-                android:layout_marginLeft="@dimen/_12sdp"
-                android:layout_marginRight="@dimen/_12sdp"/>
-
-            <Button
-                android:id="@+id/fragment_description_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_24sdp"
-                android:layout_marginRight="@dimen/_24sdp"
-                android:layout_marginBottom="@dimen/_24sdp"
-                android:paddingTop="@dimen/_4sdp"
-                android:paddingBottom="@dimen/_4sdp"
-                android:gravity="center"
-                android:text="@string/DescriptionButton"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="bold"
-                android:textColor="@color/White"
-                android:textAlignment="gravity"
-                android:background="@drawable/draw_18sdp_primary"
-                style="?android:attr/borderlessButtonStyle"/>
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp"
+        android:overScrollMode="never"/>
 
 </FrameLayout>

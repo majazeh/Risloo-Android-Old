@@ -1,26 +1,18 @@
 package com.majazeh.risloo.Views.Fragments;
 
 import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.majazeh.risloo.Models.Controller.SampleController;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
-import com.majazeh.risloo.Views.Activities.SampleActivity;
 import com.mukesh.MarkdownView;
-
-import org.json.JSONException;
-
-import java.util.Objects;
 
 public class DescriptionFragment extends Fragment {
 
@@ -32,7 +24,6 @@ public class DescriptionFragment extends Fragment {
 
     // Widgets
     private MarkdownView markdownView;
-    private Button descriptionButton;
 
     public DescriptionFragment(Activity activity, SampleViewModel viewModel) {
         this.activity = activity;
@@ -46,35 +37,12 @@ public class DescriptionFragment extends Fragment {
 
         initializer(view);
 
-        detector();
-
-        listener();
-
         return view;
     }
 
     private void initializer(View view) {
         markdownView = view.findViewById(R.id.fragment_description_markDownView);
         markdownView.setMarkDownText(viewModel.getDescription());
-
-        descriptionButton = view.findViewById(R.id.fragment_description_button);
-    }
-
-    private void detector() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            descriptionButton.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
-        }
-    }
-
-    private void listener() {
-        descriptionButton.setOnClickListener(v ->  {
-            try {
-                SampleController.theory = "prerequisite";
-                ((SampleActivity) Objects.requireNonNull(getActivity())).showFragment();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        });
     }
 
 }

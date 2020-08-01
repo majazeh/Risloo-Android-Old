@@ -2,7 +2,6 @@ package com.majazeh.risloo.Views.Adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.os.Build;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -34,19 +33,15 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
     private Activity activity;
     private Handler handler;
 
-    // Widgets
-    private Dialog dialog;
-
-    public IndexAdapter(Activity activity, SampleViewModel viewModel, Dialog dialog) {
+    public IndexAdapter(Activity activity, SampleViewModel viewModel) {
         this.activity = activity;
         this.viewModel = viewModel;
-        this.dialog = dialog;
     }
 
     @NonNull
     @Override
     public IndexHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.dialog_navigate_single_item, viewGroup, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.index_single_item, viewGroup, false);
 
         initializer(view);
 
@@ -59,7 +54,7 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
 
         holder.numberTextView.setText(String.valueOf(Integer.parseInt(indexes.get(i))+1));
 
-        if (viewModel.getIndex() == i){
+        if (viewModel.getIndex() == i) {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                 holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow_border_primary_ripple);
             } else {
@@ -67,7 +62,7 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
             }
 
             holder.numberTextView.setTextColor(activity.getResources().getColor(R.color.Nero));
-        }else {
+        } else {
             if (!answers.get(i).equals("")) {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                     holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_primary20p_ripple);
@@ -78,9 +73,9 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
                 holder.numberTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
             } else {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow_ripple);
+                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solitude_ripple);
                 } else {
-                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow);
+                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solitude);
                 }
 
                 holder.numberTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
@@ -90,7 +85,6 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
             handler.postDelayed(() -> holder.itemView.setClickable(true), 1000);
-            dialog.dismiss();
 
             try {
                 viewModel.goToIndex(i);
@@ -133,7 +127,7 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
 
         public IndexHolder(View view) {
             super(view);
-            numberTextView = view.findViewById(R.id.dialog_navigate_single_item_number_textView);
+            numberTextView = view.findViewById(R.id.index_single_item_textView);
         }
     }
 

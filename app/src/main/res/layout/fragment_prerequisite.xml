@@ -18,45 +18,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="top"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/fragment_prerequisite_description_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_24sdp"
-                android:layout_marginRight="@dimen/_24sdp"
-                android:gravity="center"
-                android:text="@string/PrerequisiteDescription"
-                android:textSize="@dimen/_13ssp"
+                android:paddingTop="@dimen/_24sdp"
+                android:paddingBottom="@dimen/_2sdp"
+                android:paddingLeft="@dimen/_18sdp"
+                android:paddingRight="@dimen/_18sdp"
+                android:gravity="right"
+                android:text="@string/SamplePrerequisite"
+                android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"
-                android:textColor="@color/Grey"
+                android:textColor="@color/Nero"
                 android:textAlignment="gravity" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/fragment_prerequisite_recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/_12sdp"
+                android:paddingRight="@dimen/_12sdp"
                 android:overScrollMode="never" />
-
-            <Button
-                android:id="@+id/fragment_prerequisite_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_24sdp"
-                android:layout_marginRight="@dimen/_24sdp"
-                android:layout_marginBottom="@dimen/_24sdp"
-                android:paddingTop="@dimen/_4sdp"
-                android:paddingBottom="@dimen/_4sdp"
-                android:gravity="center"
-                android:text="@string/PrerequisiteButton"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="bold"
-                android:textColor="@color/White"
-                android:textAlignment="gravity"
-                android:background="@drawable/draw_18sdp_primary"
-                style="?android:attr/borderlessButtonStyle"/>
 
         </LinearLayout>
 

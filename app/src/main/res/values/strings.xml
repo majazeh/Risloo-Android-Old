@@ -113,18 +113,11 @@
     // sample strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="DescriptionButton">مشاهده پیشنیاز</string>
-
-    <string name="PrerequisiteTitle">تکمیل پیشنیاز</string>
-    <string name="PrerequisiteDescription">کاربر گرامی، قبل از شروع نمونه لطفا پیشنیاز های نمونه خواسته شده در زیر را تکمیل نمایید</string>
-    <string name="PrerequisiteButton">شروع نمونه</string>
-
+    <string name="SamplePrerequisite">کاربر گرامی، قبل از شروع نمونه لطفا پیشنیاز های نمونه خواسته شده در زیر را تکمیل نمایید</string>
     <string name="SampleHint">اینجا وارد نمایید</string>
-    <string name="SampleCancel">خروج</string>
+    <string name="SampleNext">مرحله بعدی</string>
     <string name="SampleFinish">اتمام</string>
-
-    <string name="SampleNavigateDialogTitle">کدام سؤال می خوای ببینی؟</string>
-    <string name="SampleNavigateDialogConfirm">بستن</string>
+    <string name="SampleCancel">خروج</string>
 
     <string name="SampleFinishDialogTitle">اتمام نمونه؟</string>
     <string name="SampleFinishDialogDescription">آیا تمایل به اتمام این نمونه صرفا با پاسخ های حال حاضر؟</string>

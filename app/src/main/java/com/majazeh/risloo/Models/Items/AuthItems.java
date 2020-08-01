@@ -69,15 +69,15 @@ public class AuthItems {
             } else if (sharedPreferences.getString("type", "").equals("counseling_center")) {
                 data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "مرکز درمانی").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_hospital)));
             } else if (sharedPreferences.getString("type", "").equals("operator")) {
-                data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "اپراتور").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset)));
+                data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "اپراتور").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset_light)));
             } else if (sharedPreferences.getString("type", "").equals("admin")) {
-                data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "ادمین").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset)));
+                data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "ادمین").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset_light)));
             } else if (sharedPreferences.getString("type", "").equals("client")) {
                 data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "مراجع").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_pills)));
             }
         }
         if (!sharedPreferences.getString("mobile", "").equals("null")) {
-            data.put(new JSONObject().put("title", "شماره همراه").put("subTitle", sharedPreferences.getString("mobile", "")).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_mobile)));
+            data.put(new JSONObject().put("title", "شماره همراه").put("subTitle", sharedPreferences.getString("mobile", "")).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_mobile_light)));
         }
         if (!sharedPreferences.getString("email", "").equals("null")) {
             data.put(new JSONObject().put("title", "ایمیل").put("subTitle", sharedPreferences.getString("email", "")).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_message)));
