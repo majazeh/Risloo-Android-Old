@@ -21,6 +21,8 @@ import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -53,8 +55,12 @@ public class SampleActivity extends AppCompatActivity {
     // Adapters
     private IndexAdapter adapter;
 
+    // Vars
+    private String showProgress = "-1";
+
     // Objects
     private Handler handler;
+    private Animation animSlideIn, animSlideOut;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -100,6 +106,9 @@ public class SampleActivity extends AppCompatActivity {
         adapter = new IndexAdapter(this, viewModel);
 
         handler = new Handler();
+
+        animSlideIn = AnimationUtils.loadAnimation(this, R.anim.slide_in_top);
+        animSlideOut = AnimationUtils.loadAnimation(this, R.anim.slide_out_top);
 
         progressLinearLayout = findViewById(R.id.activity_sample_progress_linearLayout);
         buttonLinearLayout = findViewById(R.id.activity_sample_button_linearLayout);
@@ -278,11 +287,24 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void showProgress() {
-        progressLinearLayout.setVisibility(View.VISIBLE);
+        if (showProgress.equals("-1")) {
+            showProgress = "1";
+
+            progressLinearLayout.startAnimation(animSlideIn);
+            progressLinearLayout.setVisibility(View.VISIBLE);
+        } else if (showProgress.equals("0")) {
+            showProgress = "1";
+
+            progressLinearLayout.startAnimation(animSlideIn);
+            progressLinearLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     private void hideProgress() {
-        handler.postDelayed(() -> progressLinearLayout.setVisibility(View.GONE), 300);
+        showProgress = "0";
+
+        progressLinearLayout.startAnimation(animSlideOut);
+        handler.postDelayed(() -> progressLinearLayout.setVisibility(View.GONE), 200);
     }
 
     private void setText() {

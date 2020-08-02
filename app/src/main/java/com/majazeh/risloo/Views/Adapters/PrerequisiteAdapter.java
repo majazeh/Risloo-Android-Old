@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -57,6 +58,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
             if (item.getJSONObject("answer").getString("type").equals("number")) {
                 holder.typeEditText.setVisibility(View.VISIBLE);
                 holder.optionSpinner.setVisibility(View.GONE);
+                holder.arrowImageView.setVisibility(View.GONE);
 
                 holder.typeEditText.setHint(((JSONObject) prerequisites.get(i)).getString("text"));
                 holder.typeEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -84,6 +86,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
             } else if (item.getJSONObject("answer").getString("type").equals("text")) {
                 holder.typeEditText.setVisibility(View.VISIBLE);
                 holder.optionSpinner.setVisibility(View.GONE);
+                holder.arrowImageView.setVisibility(View.GONE);
 
                 holder.typeEditText.setHint(((JSONObject) prerequisites.get(i)).getString("text"));
                 holder.typeEditText.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -111,6 +114,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
             } else if (item.getJSONObject("answer").getString("type").equals("select")) {
                 holder.typeEditText.setVisibility(View.GONE);
                 holder.optionSpinner.setVisibility(View.VISIBLE);
+                holder.arrowImageView.setVisibility(View.VISIBLE);
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, R.layout.spinner_background) {
 
@@ -198,11 +202,13 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
         public EditText typeEditText;
         public Spinner optionSpinner;
+        public ImageView arrowImageView;
 
         public PrerequisiteHolder(View view) {
             super(view);
             typeEditText = view.findViewById(R.id.fragment_prerequisite_single_item_type_editText);
             optionSpinner = view.findViewById(R.id.fragment_prerequisite_single_item_option_spinner);
+            arrowImageView = view.findViewById(R.id.fragment_prerequisite_single_item_arrow_imageView);
         }
     }
 

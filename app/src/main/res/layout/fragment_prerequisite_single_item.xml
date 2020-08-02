@@ -34,4 +34,13 @@
         android:spinnerMode="dropdown"
         android:background="@drawable/draw_18sdp_quartz_border"/>
 
+    <ImageView
+        android:id="@+id/fragment_prerequisite_single_item_arrow_imageView"
+        android:layout_width="@dimen/_12sdp"
+        android:layout_height="@dimen/_12sdp"
+        android:layout_marginLeft="@dimen/_12sdp"
+        android:layout_gravity="left|center"
+        android:src="@drawable/ic_chevron_down"
+        android:tint="@color/Mischka"/>
+
 </FrameLayout>
