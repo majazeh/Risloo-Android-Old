@@ -31,7 +31,7 @@
             <ProgressBar
                 android:id="@+id/activity_sample_progressBar"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_5sdp"
+                android:layout_height="@dimen/_4sdp"
                 android:layout_marginLeft="@dimen/_18sdp"
                 android:layout_marginRight="@dimen/_18sdp"
                 android:progress="0"

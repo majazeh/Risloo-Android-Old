@@ -1,6 +1,8 @@
 package com.majazeh.risloo.Views.Fragments;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,9 @@ import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.PrerequisiteAdapter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 public class PrerequisiteFragment extends Fragment {
 
     // ViewModels
@@ -28,6 +33,7 @@ public class PrerequisiteFragment extends Fragment {
 
     // Objects
     private Activity activity;
+    private SharedPreferences sharedPreferences;
 
     // Widgets
     private TextView descriptionTextView;
@@ -49,6 +55,8 @@ public class PrerequisiteFragment extends Fragment {
     }
 
     private void initializer(View view) {
+        sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
         adapter = new PrerequisiteAdapter(activity);
         adapter.setPrerequisite(viewModel.getPrerequisite());
 
@@ -59,6 +67,15 @@ public class PrerequisiteFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
+    }
+
+    public void doWork() {
+        try {
+            viewModel.savePrerequisiteToCache(new JSONArray(), sharedPreferences.getString("sampleId", ""));
+            viewModel.sendPrerequisite(adapter.answers());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

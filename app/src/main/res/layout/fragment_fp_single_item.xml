@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:clipToPadding="true"
-    app:cardCornerRadius="@dimen/_16sdp"
+    app:cardCornerRadius="@dimen/_18sdp"
     app:cardElevation="0dp">
 
     <ImageView

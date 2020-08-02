@@ -5,9 +5,7 @@
     android:id="@+id/fragment_prerequisite_single_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layoutDirection="rtl"
-    android:background="@null"
-    tools:context=".Views.Fragments.PrerequisiteFragment">
+    android:layout_gravity="center">
 
     <EditText
         android:id="@+id/fragment_prerequisite_single_item_type_editText"

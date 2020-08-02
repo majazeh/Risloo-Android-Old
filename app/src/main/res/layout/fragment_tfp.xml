@@ -7,36 +7,44 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:background="@null"
-    tools:context=".Views.Fragments.TFPFragment"
-    tools:ignore="UnusedAttribute">
+    tools:context=".Views.Fragments.TFPFragment">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_18sdp"
-        android:layout_marginLeft="@dimen/_18sdp"
-        android:layout_marginRight="@dimen/_18sdp"
-        android:layout_gravity="top"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:scrollbarSize="0dp"
+        android:overScrollMode="never">
 
-        <TextView
-            android:id="@+id/fragment_tfp_question_textView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_24sdp"
-            android:paddingLeft="@dimen/_44sdp"
-            android:gravity="right"
-            android:textSize="@dimen/_16ssp"
-            android:textStyle="bold"
-            android:textColor="@color/Nero"
-            android:textAlignment="gravity" />
+            android:layout_gravity="top"
+            android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fragment_tfp_answer_recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:overScrollMode="never" />
+            <TextView
+                android:id="@+id/fragment_tfp_question_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_24sdp"
+                android:paddingBottom="@dimen/_2sdp"
+                android:paddingLeft="@dimen/_18sdp"
+                android:paddingRight="@dimen/_18sdp"
+                android:gravity="right"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                android:textColor="@color/Nero"
+                android:textAlignment="gravity" />
 
-    </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_tfp_answer_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/_12sdp"
+                android:paddingRight="@dimen/_12sdp"
+                android:overScrollMode="never" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>

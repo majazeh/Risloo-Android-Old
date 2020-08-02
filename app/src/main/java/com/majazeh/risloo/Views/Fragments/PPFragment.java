@@ -2,12 +2,13 @@ package com.majazeh.risloo.Views.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,10 +27,10 @@ public class PPFragment extends Fragment {
 
     // Vars
     private String answer = "";
-    private boolean answerTouch, answerError;
 
     // Objects
     private Activity activity;
+    private SharedPreferences sharedPreferences;
 
     // Widgets
     private TextView questionTextView;
@@ -54,12 +55,23 @@ public class PPFragment extends Fragment {
     }
 
     private void initializer(View view) {
+        sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
         questionTextView = view.findViewById(R.id.fragment_pp_question_textView);
+//        try {
+//            questionTextView.setText(viewModel.getItem(viewModel.getIndex()).get("text").toString());
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
 
         questionImageView = view.findViewById(R.id.fragment_pp_question_imageView);
+//        try {
+//            questionImageView.setImageResource();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
 
         answerEditText = view.findViewById(R.id.fragment_pp_answer_editText);
-        answerEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -68,8 +80,6 @@ public class PPFragment extends Fragment {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 answerEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
                 answerEditText.setCursorVisible(true);
-
-                answerTouch = true;
             }
             return false;
         });
@@ -79,9 +89,6 @@ public class PPFragment extends Fragment {
         answerEditText.setCursorVisible(false);
 
         answerEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-
-        answerTouch = false;
-        answerError = false;
     }
 
 }

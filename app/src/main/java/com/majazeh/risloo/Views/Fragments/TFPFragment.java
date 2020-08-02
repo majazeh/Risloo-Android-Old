@@ -1,6 +1,8 @@
 package com.majazeh.risloo.Views.Fragments;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,7 @@ public class TFPFragment extends Fragment {
 
     // Objects
     private Activity activity;
+    private SharedPreferences sharedPreferences;
 
     // Widgets
     private TextView questionTextView;
@@ -50,14 +53,17 @@ public class TFPFragment extends Fragment {
     }
 
     private void initializer(View view) {
+        sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
         adapter = new TFPAdapter(activity);
+//        adapter.setAnswer(viewModel.getOptions(viewModel.getIndex()), viewModel.answeredPosition(sharedPreferences.getString("sampleId",""), viewModel.getIndex()), viewModel);
+
+        questionTextView = view.findViewById(R.id.fragment_tfp_question_textView);
 //        try {
-//            adapter.setAnswer(viewModel.getItem(viewModel.getCurrentIndex()).get("answers"));
+//            questionTextView.setText(viewModel.getItem(viewModel.getIndex()).get("text").toString());
 //        } catch (JSONException e) {
 //            e.printStackTrace();
 //        }
-
-        questionTextView = view.findViewById(R.id.fragment_tfp_question_textView);
 
         answerRecyclerView = view.findViewById(R.id.fragment_tfp_answer_recyclerView);
         answerRecyclerView.addItemDecoration(new ItemDecorator("gridLayout",(int) getResources().getDimension(R.dimen._16sdp)));

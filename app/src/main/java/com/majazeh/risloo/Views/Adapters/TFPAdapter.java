@@ -1,6 +1,9 @@
 package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,19 +13,25 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.ViewModels.SampleViewModel;
 
 import java.util.ArrayList;
 
 public class TFPAdapter extends RecyclerView.Adapter<TFPAdapter.TFPHolder> {
 
+    // ViewModels
+    private SampleViewModel viewModel;
+
     // Vars
-    private ArrayList<Model> answers;
+    private int position = -1;
+    private boolean clickedItem;
+    private ArrayList<String> answers;
 
     // Objects
     private Activity activity;
     private Handler handler;
+    private SharedPreferences sharedPreferences;
 
     public TFPAdapter(Activity activity) {
         this.activity = activity;
@@ -41,21 +50,20 @@ public class TFPAdapter extends RecyclerView.Adapter<TFPAdapter.TFPHolder> {
     @Override
     public void onBindViewHolder(@NonNull TFPHolder holder, int i) {
 
-//        try {
-//            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-//                holder.rootLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_quartz_border_ripple);
-//            }
-//
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            holder.itemView.setBackgroundResource(R.drawable.draw_18sdp_quartz_border_ripple);
+        }
+
+        // TODO : Check State
 
         holder.itemView.setOnClickListener(v -> {
-            holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 1000);
+            handler.postDelayed(() -> doWork(i), 500);
 
-            doWork();
+            position = i;
+
+            clickedItem = true;
+
+            notifyDataSetChanged();
         });
 
     }
@@ -66,15 +74,19 @@ public class TFPAdapter extends RecyclerView.Adapter<TFPAdapter.TFPHolder> {
     }
 
     private void initializer(View view) {
+        sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
         handler = new Handler();
     }
 
-    public void setAnswer(ArrayList<Model> answers) {
+    public void setAnswer(ArrayList<String> answers, int position, SampleViewModel viewModel) {
         this.answers = answers;
+        this.position = position;
+        this.viewModel = viewModel;
         notifyDataSetChanged();
     }
 
-    private void doWork() {
+    private void doWork(int position) {
 
     }
 

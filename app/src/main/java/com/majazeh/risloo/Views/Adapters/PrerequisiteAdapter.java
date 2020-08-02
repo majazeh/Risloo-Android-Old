@@ -186,10 +186,10 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
     public ArrayList<ArrayList> answers() throws JSONException {
         ArrayList<ArrayList> arrayList = new ArrayList<>();
         for (int i = 1; i < jsonArray.length(); i++) {
-            ArrayList arrayList1= new ArrayList();
-            arrayList1.add(jsonArray.getJSONObject(i).get("index"));
-            arrayList1.add(jsonArray.getJSONObject(i).get("answer"));
-            arrayList.add(arrayList1);
+            ArrayList list= new ArrayList();
+            list.add(jsonArray.getJSONObject(i).get("index"));
+            list.add(jsonArray.getJSONObject(i).get("answer"));
+            arrayList.add(list);
         }
         return arrayList;
     }

@@ -34,7 +34,6 @@ import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.ViewModels.SampleViewModelFactory;
 import com.majazeh.risloo.Views.Adapters.IndexAdapter;
-import com.majazeh.risloo.Views.Adapters.PrerequisiteAdapter;
 import com.majazeh.risloo.Views.Fragments.DescriptionFragment;
 import com.majazeh.risloo.Views.Fragments.PFPFragment;
 import com.majazeh.risloo.Views.Fragments.PFTFragment;
@@ -44,7 +43,6 @@ import com.majazeh.risloo.Views.Fragments.TFPFragment;
 import com.majazeh.risloo.Views.Fragments.TFTFragment;
 import com.majazeh.risloo.Views.Fragments.TPFragment;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 
 public class SampleActivity extends AppCompatActivity {
@@ -186,7 +184,7 @@ public class SampleActivity extends AppCompatActivity {
             finishButton.setClickable(false);
             handler.postDelayed(() -> finishButton.setClickable(true), 1000);
 
-            setActions();
+            setAction();
         });
 
         cancelButton.setOnClickListener(v -> {
@@ -236,11 +234,11 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     public void showFragment() throws JSONException {
+        showButtons();
         setText();
 
         switch (SampleController.theory) {
             case "description":
-                hideProgress();
                 loadFragment(new DescriptionFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
                 break;
             case "prerequisite":
@@ -275,6 +273,18 @@ public class SampleActivity extends AppCompatActivity {
         }
     }
 
+    private void showButtons() {
+        buttonLinearLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void showProgress() {
+        progressLinearLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgress() {
+        handler.postDelayed(() -> progressLinearLayout.setVisibility(View.GONE), 300);
+    }
+
     private void setText() {
         if (SampleController.theory.equals("description") || SampleController.theory.equals("prerequisite")) {
             finishButton.setText(getResources().getString(R.string.SampleNext));
@@ -283,12 +293,42 @@ public class SampleActivity extends AppCompatActivity {
         }
     }
 
-    private void showProgress() {
-        progressLinearLayout.setVisibility(View.VISIBLE);
+    private void setAction() {
+        switch (SampleController.theory) {
+            case "description":
+                try {
+                    SampleController.theory = "prerequisite";
+                    showFragment();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "prerequisite":
+                PrerequisiteFragment fragment = ((PrerequisiteFragment) getSupportFragmentManager().findFragmentById(R.id.activity_sample_frameLayout));
+                if (fragment != null) {
+                    fragment.doWork();
+                    observeWorkAnswer();
+                }
+                break;
+            case "sample":
+                finishDialog.show();
+                break;
+        }
     }
 
-    private void hideProgress() {
-        progressLinearLayout.setVisibility(View.GONE);
+    private void setRecyclerView() {
+        adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void setProgress() {
+        progressBar.setMax(viewModel.getSize());
+        progressBar.setProgress(viewModel.answeredSize(sharedPreferences.getString("sampleId", "")));
+
+        recyclerView.scrollToPosition(viewModel.getIndex());
+
+        adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
+        adapter.notifyDataSetChanged();
     }
 
     private void closeSample() {
@@ -363,46 +403,6 @@ public class SampleActivity extends AppCompatActivity {
 
 
 
-
-
-
-    private void setActions() {
-        switch (SampleController.theory) {
-            case "description":
-                try {
-                    SampleController.theory = "prerequisite";
-                    showFragment();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case "prerequisite":
-                try {
-                    PrerequisiteAdapter adapter = new PrerequisiteAdapter(this);
-
-                    viewModel.savePrerequisiteToCache(new JSONArray(), sharedPreferences.getString("sampleId", ""));
-                    viewModel.sendPrerequisite(adapter.answers());
-                    observeWorkAnswer();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case "sample":
-                finishDialog.show();
-                break;
-        }
-    }
-
-    private void setProgress() {
-        progressBar.setMax(viewModel.getSize());
-        progressBar.setProgress(viewModel.answeredSize(sharedPreferences.getString("sampleId", "")));
-
-        recyclerView.scrollToPosition(viewModel.getIndex());
-
-        adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
-        adapter.notifyDataSetChanged();
-    }
-
     public void checkStorage() {
         if (viewModel.hasAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
             if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
@@ -437,7 +437,7 @@ public class SampleActivity extends AppCompatActivity {
             SampleController.workStateSample.observe((LifecycleOwner) this, integer -> {
                 if (integer == 1) {
                     viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
-                    adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
+                    setRecyclerView();
                     if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
                         finish();
                         return;
@@ -446,9 +446,7 @@ public class SampleActivity extends AppCompatActivity {
                     loadingDialog.dismiss();
                     try {
                         SampleController.theory = "sample";
-                        recyclerView.setAdapter(adapter);
                         showFragment();
-                        buttonLinearLayout.setVisibility(View.VISIBLE);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -470,14 +468,12 @@ public class SampleActivity extends AppCompatActivity {
                     finish();
                     return;
                 }
-                adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
+                setRecyclerView();
                 viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
 
                 try {
                     SampleController.theory = "sample";
-                    recyclerView.setAdapter(adapter);
                     showFragment();
-                    buttonLinearLayout.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
