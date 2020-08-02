@@ -191,7 +191,7 @@ public class SampleActivity extends AppCompatActivity {
     private void listener() {
         finishButton.setOnClickListener(v -> {
             finishButton.setClickable(false);
-            handler.postDelayed(() -> finishButton.setClickable(true), 1000);
+            handler.postDelayed(() -> finishButton.setClickable(true), 500);
 
             setAction();
         });
