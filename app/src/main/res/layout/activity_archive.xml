@@ -8,6 +8,7 @@
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
     android:background="@color/White"
+    android:descendantFocusability="blocksDescendants"
     tools:context=".Views.Activities.ArchiveActivity">
 
     <LinearLayout

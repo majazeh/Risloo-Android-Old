@@ -417,10 +417,10 @@ public class AuthWorker extends Worker {
                 editor.putString("mobile", data.getString("mobile"));
                 editor.putString("gender", data.getString("gender"));
                 editor.putString("type", data.getString("type"));
-                if (data.has("avatar")) {
-                    JSONArray avatar = data.getJSONArray("avatar");
-                    editor.putString("avatar", String.valueOf(avatar.getJSONObject(0)));
-                }
+//                if (data.has("avatar")) {
+//                    JSONArray avatar = data.getJSONArray("avatar");
+//                    editor.putString("avatar", String.valueOf(avatar.getJSONObject(0)));
+//                }
                 editor.apply();
 
                 AuthController.exception = "دریافت اطلاعات با موفقیت انجام شد.";
@@ -433,7 +433,7 @@ public class AuthWorker extends Worker {
                 editor.putString("mobile", "");
                 editor.putString("gender", "");
                 editor.putString("type", "");
-                editor.putString("avatar", "");
+//                editor.putString("avatar", "");
                 editor.apply();
 
                 AuthController.exception = errorBody.getString("message_text");
@@ -472,7 +472,7 @@ public class AuthWorker extends Worker {
                 editor.remove("mobile");
                 editor.remove("gender");
                 editor.remove("type");
-                editor.remove("avatar");
+//                editor.remove("avatar");
                 editor.apply();
 
                 AuthController.exception = "خروج با موفقیت انجام شد.";
