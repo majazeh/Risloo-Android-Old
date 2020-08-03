@@ -440,13 +440,9 @@ public class SampleActivity extends AppCompatActivity {
 
     private void launchProcess() {
         if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) <= 0) {
-            try {
-                loadingDialog.show();
-                viewModel.getSample(sharedPreferences.getString("sampleId", ""));
-                observeWorkSample();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            loadingDialog.show();
+            //viewModel.getSample(sharedPreferences.getString("sampleId", ""));
+            observeWorkSample();
         } else {
             checkStorage();
         }

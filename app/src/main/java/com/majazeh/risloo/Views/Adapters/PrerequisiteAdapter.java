@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapter.PrerequisiteHolder> {
 
     // Vars
-    private String type = "", option = "";
+    private String result = "";
     private ArrayList prerequisites;
 
     // Objects
@@ -69,10 +69,10 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        type = holder.typeEditText.getText().toString().trim();
+                        result = holder.typeEditText.getText().toString().trim();
 
                         try {
-                            jsonArray.put(i + 1, new JSONObject().put("index",i+1).put("answer", type));
+                            jsonArray.put(i + 1, new JSONObject().put("index",i+1).put("answer", result));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -97,10 +97,10 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        type = holder.typeEditText.getText().toString().trim();
+                        result = holder.typeEditText.getText().toString().trim();
 
                         try {
-                            jsonArray.put(i + 1, new JSONObject().put("index",i+1).put("answer", type));
+                            jsonArray.put(i + 1, new JSONObject().put("index",i+1).put("answer", result));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -152,10 +152,10 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         if (adapter.getCount() != position) {
-                            option = parent.getItemAtPosition(position).toString();
+                            result = parent.getItemAtPosition(position).toString();
 
                             try {
-                                jsonArray.put(i + 1, new JSONObject().put("index",i+1).put("answer", option));
+                                jsonArray.put(i + 1, new JSONObject().put("index",i+1).put("answer", result));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

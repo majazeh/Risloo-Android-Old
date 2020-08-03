@@ -211,6 +211,7 @@ public class AuthActivity extends AppCompatActivity {
             if (integer == 1) {
                 if (AuthController.preTheory.equals("mobileCode") && AuthController.theory.equals("mobileCode")) {
                     callTimer.postValue(1);
+                    AuthController.workState.removeObservers((LifecycleOwner) this);
                 } else {
                     callTimer.postValue(0);
                     if (AuthController.key.equals("")) {
@@ -220,6 +221,7 @@ public class AuthActivity extends AppCompatActivity {
                             AuthController.theory = "mobile";
                         }
                         showFragment();
+                        AuthController.workState.removeObservers((LifecycleOwner) this);
                     } else {
                         if (AuthController.theory.equals("auth")) {
                             try {
@@ -235,8 +237,10 @@ public class AuthActivity extends AppCompatActivity {
 
                             AuthController.theory = "sample";
                             startActivity(new Intent(this, SampleActivity.class));
+                            AuthController.workState.removeObservers((LifecycleOwner) this);
                         } else {
                             showFragment();
+                            AuthController.workState.removeObservers((LifecycleOwner) this);
                         }
                     }
                 }
@@ -249,7 +253,6 @@ public class AuthActivity extends AppCompatActivity {
                 }
 
                 progressDialog.dismiss();
-                AuthController.workState.removeObservers((LifecycleOwner) this);
             } else if (integer == 0) {
                 progressDialog.dismiss();
                 Toast.makeText(this, "" + AuthController.exception, Toast.LENGTH_SHORT).show();
