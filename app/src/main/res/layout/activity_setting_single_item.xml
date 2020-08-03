@@ -19,7 +19,7 @@
             android:layout_height="@dimen/_30sdp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:padding="@dimen/_7sdp"
+            android:padding="@dimen/_6sdp"
             android:tint="@color/White" />
 
         <TextView
