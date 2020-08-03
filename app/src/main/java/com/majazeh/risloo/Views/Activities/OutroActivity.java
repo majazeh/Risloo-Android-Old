@@ -199,7 +199,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
             progressDialog.show();
             viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
-            observeWork();
+            observeWorkAnswer();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -225,13 +225,16 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         Toast.makeText(this, "جواب ها در پوشه Download ذخیره شد.", Toast.LENGTH_SHORT).show();
     }
 
-    private void observeWork() {
+    private void observeWorkAnswer() {
         SampleController.workStateAnswer.observe(this, integer -> {
             if (integer == 1) {
-                finish();
+                try {
+                    viewModel.closeSample();
+                    observeWorkSample();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-                progressDialog.dismiss();
-                Toast.makeText(this, "" + SampleController.exception, Toast.LENGTH_SHORT).show();
                 SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
             } else if (integer == 0){
                 progressDialog.dismiss();
@@ -241,6 +244,26 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
                 progressDialog.dismiss();
                 Toast.makeText(this, "" + SampleController.exception, Toast.LENGTH_SHORT).show();
                 SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
+            }
+        });
+    }
+
+    private void observeWorkSample() {
+        SampleController.workStateSample.observe(this, integer -> {
+            if (integer == 1) {
+                finish();
+
+                progressDialog.dismiss();
+                Toast.makeText(this, "" + SampleController.exception, Toast.LENGTH_SHORT).show();
+                SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+            } else if (integer == 0){
+                progressDialog.dismiss();
+                Toast.makeText(this, "" + SampleController.exception, Toast.LENGTH_SHORT).show();
+                SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+            } else if (integer == -2) {
+                progressDialog.dismiss();
+                Toast.makeText(this, "" + SampleController.exception, Toast.LENGTH_SHORT).show();
+                SampleController.workStateSample.removeObservers((LifecycleOwner) this);
             }
         });
     }
