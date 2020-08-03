@@ -15,7 +15,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+import android.util.TypedValue;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -146,9 +146,9 @@ public class ArchiveActivity extends AppCompatActivity implements ItemHelper.Rec
                 if (!hasArchive()) {
                     finish();
                 }
-            }, 2000);
+            }, 4000);
 
-            Snackbar snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.ArchiveDeleted), 2000);
+            Snackbar snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.ArchiveDeleted), 4000);
             snackbar.getView().setBackgroundColor(ContextCompat.getColor(this, R.color.Primary5P));
             snackbar.setAction(getResources().getString(R.string.ArchiveRestore), view -> {
                 adapter.restoreArchive(archive, index);
@@ -165,8 +165,8 @@ public class ArchiveActivity extends AppCompatActivity implements ItemHelper.Rec
             messageTextView.setTypeface(danaBold);
             actionTextView.setTypeface(danaBold);
 
-            messageTextView.setTextSize(getResources().getDimension(R.dimen._4ssp));
-            actionTextView.setTextSize(getResources().getDimension(R.dimen._4ssp));
+            messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen._11ssp));
+            actionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen._11ssp));
 
             messageTextView.setTextColor(getResources().getColor(R.color.Mischka));
             actionTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
