@@ -1,5 +1,6 @@
 package com.majazeh.risloo.Views.Adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.text.Editable;
 import android.text.InputType;
@@ -20,11 +21,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapter.PrerequisiteHolder> {
 
@@ -34,7 +35,8 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
     // Objects
     private Activity activity;
-    private JSONArray jsonArray;
+    private HashMap answers = new HashMap<Integer, String>();
+
 
     public PrerequisiteAdapter(Activity activity) {
         this.activity = activity;
@@ -65,21 +67,19 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
                 holder.typeEditText.addTextChangedListener(new TextWatcher() {
                     @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         result = holder.typeEditText.getText().toString().trim();
 
-                        try {
-                            jsonArray.put(i + 1, new JSONObject().put("index",i+1).put("answer", result));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        getAnswers(i, result);
                     }
 
                     @Override
-                    public void afterTextChanged(Editable s) { }
+                    public void afterTextChanged(Editable s) {
+                    }
 
                 });
 
@@ -93,21 +93,19 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
                 holder.typeEditText.addTextChangedListener(new TextWatcher() {
                     @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         result = holder.typeEditText.getText().toString().trim();
 
-                        try {
-                            jsonArray.put(i + 1, new JSONObject().put("index",i+1).put("answer", result));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        getAnswers(i, result);
                     }
 
                     @Override
-                    public void afterTextChanged(Editable s) { }
+                    public void afterTextChanged(Editable s) {
+                    }
 
                 });
 
@@ -124,11 +122,11 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                         View view = super.getView(position, convertView, parent);
 
                         if (position == getCount()) {
-                            ((TextView)view.findViewById(R.id.spinner_background_textView)).setText("");
-                            ((TextView)view.findViewById(R.id.spinner_background_textView)).setHint(getItem(getCount()));
+                            ((TextView) view.findViewById(R.id.spinner_background_textView)).setText("");
+                            ((TextView) view.findViewById(R.id.spinner_background_textView)).setHint(getItem(getCount()));
                         } else {
-                            ((TextView)view.findViewById(R.id.spinner_background_textView)).setText(getItem(position));
-                            ((TextView)view.findViewById(R.id.spinner_background_textView)).setHint("");
+                            ((TextView) view.findViewById(R.id.spinner_background_textView)).setText(getItem(position));
+                            ((TextView) view.findViewById(R.id.spinner_background_textView)).setHint("");
                         }
 
                         return view;
@@ -154,16 +152,13 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                         if (adapter.getCount() != position) {
                             result = parent.getItemAtPosition(position).toString();
 
-                            try {
-                                jsonArray.put(i + 1, new JSONObject().put("index",i+1).put("answer", result));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                            getAnswers(i, result);
                         }
                     }
 
                     @Override
-                    public void onNothingSelected(AdapterView<?> parent) { }
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
 
                 });
             }
@@ -179,7 +174,9 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
     }
 
     private void initializer(View view) {
-        jsonArray = new JSONArray();
+        for (int i = 0; i < prerequisites.size(); i++) {
+            answers.put(i, "");
+        }
     }
 
     public void setPrerequisite(ArrayList prerequisites) {
@@ -187,15 +184,13 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
         notifyDataSetChanged();
     }
 
-    public ArrayList<ArrayList> answers() throws JSONException {
-        ArrayList<ArrayList> arrayList = new ArrayList<>();
-        for (int i = 1; i < jsonArray.length(); i++) {
-            ArrayList list= new ArrayList();
-            list.add(jsonArray.getJSONObject(i).get("index"));
-            list.add(jsonArray.getJSONObject(i).get("answer"));
-            arrayList.add(list);
-        }
-        return arrayList;
+    public ArrayList<ArrayList> sendAnswers() {
+        return new ArrayList<>();
+    }
+
+    @SuppressLint("NewApi")
+    public void getAnswers(int index, String result) {
+        answers.put(index,"male");
     }
 
     public class PrerequisiteHolder extends RecyclerView.ViewHolder {
