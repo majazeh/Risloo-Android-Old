@@ -68,6 +68,8 @@
 
     <string name="AuthSettingTitle">مطالب دیگر</string>
 
+    <string name="AuthHeader">ریسلو</string>
+
     <string name="SerialTitle">ورود</string>
     <string name="SerialTitleToken">شروع</string>
     <string name="SerialDescription">برای شروع سریال نمونه یا شماره همراه خود را وارد کنید</string>

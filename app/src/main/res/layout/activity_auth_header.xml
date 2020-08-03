@@ -16,7 +16,7 @@
         android:paddingBottom="@dimen/_16sdp"
         android:layout_gravity="center"
         android:gravity="right"
-        android:text="@string/AppName"
+        android:text="@string/AuthHeader"
         android:textSize="@dimen/_20ssp"
         android:textStyle="bold"
         android:textColor="@color/PrimaryDark"
