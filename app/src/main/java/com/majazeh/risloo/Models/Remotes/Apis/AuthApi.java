@@ -8,6 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -37,6 +38,10 @@ public interface AuthApi {
     @Headers({"content-type: application/x-www-form-urlencoded"})
     @GET("me")
     Call<ResponseBody> me(@Header("Authorization") String authorization);
+
+    @Headers({"content-type: application/x-www-form-urlencoded"})
+    @PUT("me")
+    Call<ResponseBody> edit(@Header("Authorization") String authorization);
 
     @Headers({"content-type: application/x-www-form-urlencoded"})
     @POST("logout")

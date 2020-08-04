@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +71,7 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
             holder.itemView.setEnabled(true);
             holder.itemView.setClickable(true);
         } else {
-            if (position == i) {
+            if (position == i + 1) {
                 holder.numberTextView.setText(String.valueOf(i + 1));
                 holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow_border_primary);
 
@@ -102,7 +103,7 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
 
         holder.itemView.setOnClickListener(v -> {
             handler.postDelayed(() -> doWork(i), 500);
-
+            Log.e("test", String.valueOf(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId",""))));
             position = i;
 
             clickedItem = true;
@@ -138,6 +139,9 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
 
             if (viewModel.getNext() == null) {
                 if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
+                    viewModel.insertToLocal(viewModel.getIndex()+1, position+1);
+                    viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
+                    Log.e("read", String.valueOf(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId",""))));
                     activity.startActivity(new Intent(activity, OutroActivity.class));
                     activity.finish();
                     return;

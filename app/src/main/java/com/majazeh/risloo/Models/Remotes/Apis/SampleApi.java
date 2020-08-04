@@ -3,7 +3,6 @@ package com.majazeh.risloo.Models.Remotes.Apis;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -26,7 +25,7 @@ public interface SampleApi {
     @POST("$/samples/{sample_id}/close")
     Call<ResponseBody> close(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
 
-    @Headers({"content-type: application/x-www-form-urlencoded"})
+    @Headers({"content-type: application/json"})
     @POST("$/samples/{sample_id}/items")
     Call<ResponseBody> prerequisite(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Body Object body);
 

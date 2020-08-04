@@ -164,17 +164,27 @@
     // account strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="AccountTitle">اطلاعات حساب</string>
+    <string name="AccountTitle">پروفایل</string>
 
+    <string name="AccountEdit">اصلاح پروفایل</string>
     <string name="AccountSignOut">خروج از حساب</string>
 
     <string name="AccountName">کاربر تجربی</string>
     <string name="AccountType">مراجع</string>
 
+    <string name="AccountInfo">اطلاعات حساب</string>
+
     <string name="AccountLogOutDialogTitle">خروج از حساب؟</string>
     <string name="AccountLogOutDialogDescription">ایا تمایل به خروج از حساب کاربری خود دارید، در نظر داشته باشید که تمام اطلاعات شما محفوظ می ماند.</string>
     <string name="AccountLogOutDialogPositive">خروج</string>
     <string name="AccountLogOutDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // edit account strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="EditAccountTitle">اصلاح پروفایل</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

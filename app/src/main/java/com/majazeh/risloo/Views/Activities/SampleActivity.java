@@ -18,6 +18,7 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -114,7 +115,7 @@ public class SampleActivity extends AppCompatActivity {
         buttonLinearLayout = findViewById(R.id.activity_sample_button_linearLayout);
 
         recyclerView = findViewById(R.id.activity_sample_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout2",(int) getResources().getDimension(R.dimen._18sdp)));
+        recyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout2", (int) getResources().getDimension(R.dimen._18sdp)));
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setHasFixedSize(true);
 
@@ -425,6 +426,58 @@ public class SampleActivity extends AppCompatActivity {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public void checkStorage() {
         if (viewModel.hasAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
             if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
@@ -439,7 +492,7 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void launchProcess() {
-        if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) <= 0) {
+        if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) >= 0) {
             loadingDialog.show();
             //viewModel.getSample(sharedPreferences.getString("sampleId", ""));
             observeWorkSample();
@@ -457,8 +510,20 @@ public class SampleActivity extends AppCompatActivity {
                     viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
                     setRecyclerView();
                     if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
-                        finish();
-                        return;
+                        if (viewModel.answeredSize(sharedPreferences.getString("sampleId", "")) == 0) {
+                            finish();
+                            return;
+                        } else {
+                            SampleController.theory = "sample";
+                            try {
+                                showFragment();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+//                            startActivity(new Intent(this, OutroActivity.class));
+//                            finish();
+//                            return;
+                        }
                     }
                     viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
                     loadingDialog.dismiss();
@@ -503,8 +568,23 @@ public class SampleActivity extends AppCompatActivity {
         SampleController.workStateSample.observe(this, integer -> {
             if (SampleController.work == "getSample") {
                 if (integer == 1) {
-                    loadFragment(new DescriptionFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
-
+                    if (viewModel.showPrerequisite(sharedPreferences.getString("sampleId", ""))) {
+                        SampleController.theory = "description";
+                        try {
+                            showFragment();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        setRecyclerView();
+                        SampleController.theory = "sample";
+                        try {
+                            Log.e("first", String.valueOf(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", ""))));
+                            showFragment();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     loadingDialog.dismiss();
                     SampleController.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
@@ -514,8 +594,18 @@ public class SampleActivity extends AppCompatActivity {
                     Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
                     SampleController.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
-                    if (viewModel.getItems() != null) {
-                        loadFragment(new DescriptionFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                    setRecyclerView();
+                    if (viewModel.havePrerequisiteStorage(sharedPreferences.getString("sampleId", ""))) {
+                        if (viewModel.showPrerequisite(sharedPreferences.getString("sampleId", ""))) {
+                            loadFragment(new DescriptionFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                        } else {
+                            SampleController.theory = "sample";
+                            try {
+                                showFragment();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     } else {
                         finish();
                     }
@@ -530,11 +620,11 @@ public class SampleActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                     Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
                     SampleController.workStateSample.removeObservers((LifecycleOwner) this);
-                } else if (integer == 0){
+                } else if (integer == 0) {
                     progressDialog.dismiss();
                     Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
                     SampleController.workStateSample.removeObservers((LifecycleOwner) this);
-                } else if (integer == -2){
+                } else if (integer == -2) {
                     progressDialog.dismiss();
                     Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
                     SampleController.workStateSample.removeObservers((LifecycleOwner) this);

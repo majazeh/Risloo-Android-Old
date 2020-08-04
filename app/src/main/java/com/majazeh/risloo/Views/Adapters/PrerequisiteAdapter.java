@@ -2,6 +2,7 @@ package com.majazeh.risloo.Views.Adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -19,13 +20,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapter.PrerequisiteHolder> {
 
@@ -35,8 +36,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
     // Objects
     private Activity activity;
-    private HashMap answers = new HashMap<Integer, String>();
-
+    private Handler handler;
 
     public PrerequisiteAdapter(Activity activity) {
         this.activity = activity;
@@ -174,9 +174,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
     }
 
     private void initializer(View view) {
-        for (int i = 0; i < prerequisites.size(); i++) {
-            answers.put(i, "");
-        }
+        handler = new Handler();
     }
 
     public void setPrerequisite(ArrayList prerequisites) {
@@ -184,13 +182,12 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
         notifyDataSetChanged();
     }
 
-    public ArrayList<ArrayList> sendAnswers() {
-        return new ArrayList<>();
-    }
-
     @SuppressLint("NewApi")
     public void getAnswers(int index, String result) {
-        answers.put(index,"male");
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add(String.valueOf(index+1));
+        arrayList.add(result);
+        SampleRepository.prerequisiteData.add(arrayList);
     }
 
     public class PrerequisiteHolder extends RecyclerView.ViewHolder {

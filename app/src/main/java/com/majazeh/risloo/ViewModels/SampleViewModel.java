@@ -1,6 +1,8 @@
 package com.majazeh.risloo.ViewModels;
 
 import android.app.Application;
+import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -43,8 +45,8 @@ public class SampleViewModel extends AndroidViewModel {
         repository.closeSample();
     }
 
-    public void sendPrerequisite(ArrayList<ArrayList> arrayList) throws JSONException {
-        repository.sendPrerequisite(arrayList);
+    public void sendPrerequisite() throws JSONException {
+        repository.sendPrerequisite();
     }
 
      /*
@@ -119,8 +121,8 @@ public class SampleViewModel extends AndroidViewModel {
         repository.saveAnswerToCache(jsonArray, fileName);
     }
 
-    public void savePrerequisiteToCache(JSONArray jsonArray, String fileName) {
-        repository.savePrerequisiteToCache(jsonArray, fileName);
+    public void savePrerequisiteToCache(Context context, JSONArray jsonArray, String fileName) {
+        repository.savePrerequisiteToCache(context, jsonArray, fileName);
     }
 
     /*
@@ -145,6 +147,16 @@ public class SampleViewModel extends AndroidViewModel {
 
     public boolean havePrerequisiteStorage(String fileName) {
         return repository.havePrerequisiteStorage(fileName);
+    }
+
+    public boolean showPrerequisite(String fileName){
+        int size = repository.prerequisiteAnswersSize(fileName);
+        Log.e("size", String.valueOf(size));
+        if (size == 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public void checkAnswerStorage(String fileName) {

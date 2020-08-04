@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -41,7 +42,7 @@ public class AccountActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
-    private MenuItem toolSignOut;
+    private MenuItem toolSignOut, toolEdit;
 
     // Widgets
     private Toolbar toolbar;
@@ -81,7 +82,6 @@ public class AccountActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.activity_account_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         avatarImageView = findViewById(R.id.activity_account_avatar_circleImageView);
         avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle));
@@ -190,6 +190,14 @@ public class AccountActivity extends AppCompatActivity {
         toolSignOut = menu.findItem(R.id.tool_sign_out);
         toolSignOut.setOnMenuItemClickListener(menuItem -> {
             logOutDialog.show();
+            return false;
+        });
+
+        toolEdit = menu.findItem(R.id.tool_edit);
+        toolEdit.setVisible(false);
+        toolEdit.setOnMenuItemClickListener(menuItem -> {
+            startActivity(new Intent(this, EditAccountActivity.class));
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             return false;
         });
 

@@ -71,8 +71,8 @@ public class PrerequisiteFragment extends Fragment {
 
     public void doWork() {
         try {
-            viewModel.savePrerequisiteToCache(new JSONArray(), sharedPreferences.getString("sampleId", ""));
-            viewModel.sendPrerequisite(adapter.sendAnswers());
+            viewModel.checkPrerequisiteStorage(sharedPreferences.getString("sampleId",""));
+            viewModel.sendPrerequisite();
         } catch (JSONException e) {
             e.printStackTrace();
         }

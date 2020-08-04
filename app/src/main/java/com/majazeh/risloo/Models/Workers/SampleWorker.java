@@ -2,6 +2,7 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -12,11 +13,13 @@ import com.majazeh.risloo.Models.Remotes.Generators.RetroGenerator;
 import com.majazeh.risloo.Models.Controller.SampleController;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import okhttp3.ResponseBody;
@@ -90,9 +93,9 @@ public class SampleWorker extends Worker {
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject succesBody = new JSONObject(bodyResponse.body().string());
-
+                JSONObject data = succesBody.getJSONObject("data");
                 repository.saveSampleToCache(context, succesBody, sharedPreferences.getString("sampleId", ""));
-
+                repository.savePrerequisiteToCache(context,data.getJSONArray("prerequisite"),sharedPreferences.getString("sampleId",""));
                 SampleController.exception = "نمونه با موفقیت دریافت شد.";
                 SampleController.workStateSample.postValue(1);
             } else {
@@ -206,12 +209,12 @@ public class SampleWorker extends Worker {
     private void sendPrerequisite() {
         try {
             HashMap hashMap = new HashMap();
-            hashMap.put("items", SampleRepository.prerequisiteData);
-
+            hashMap.put("prerequisite",SampleRepository.prerequisiteData);
             Call<ResponseBody> call = sampleApi.prerequisite("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""), hashMap);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
+            SampleRepository.prerequisiteData.clear();
                 JSONObject succesBody = new JSONObject(bodyResponse.body().string());
 
                 SampleRepository.remoteData.clear();
