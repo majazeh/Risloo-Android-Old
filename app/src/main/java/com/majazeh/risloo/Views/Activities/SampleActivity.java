@@ -394,225 +394,138 @@ public class SampleActivity extends AppCompatActivity {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public void checkStorage() {
-        if (viewModel.hasAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
-            if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
-                startActivity(new Intent(this, OutroActivity.class));
-                finish();
-            } else {
-                observeWork();
-            }
-        } else {
-            observeWork();
-        }
-    }
-
     private void launchProcess() {
+        SampleController.work = "getSample";
         if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) >= 0) {
             loadingDialog.show();
-            //viewModel.getSample(sharedPreferences.getString("sampleId", ""));
             observeWorkSample();
         } else {
-            checkStorage();
-        }
-    }
-
-    public void observeWork() {
-        if (isNetworkConnected()) {
-            loadingDialog.show();
-
-            SampleController.workStateSample.observe((LifecycleOwner) this, integer -> {
-                if (integer == 1) {
-                    viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
-                    setRecyclerView();
-                    if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
-                        if (viewModel.answeredSize(sharedPreferences.getString("sampleId", "")) == 0) {
-                            finish();
-                            return;
-                        } else {
-                            SampleController.theory = "sample";
-                            try {
-                                showFragment();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-//                            startActivity(new Intent(this, OutroActivity.class));
-//                            finish();
-//                            return;
-                        }
-                    }
-                    viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
-                    loadingDialog.dismiss();
-                    try {
-                        SampleController.theory = "sample";
-                        showFragment();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    SampleController.workStateSample.removeObservers((LifecycleOwner) this);
-                } else if (integer == 0) {
-                    loadingDialog.dismiss();
-                    Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this, AuthActivity.class));
-                    finish();
-                }
-            });
-        } else {
-            if (viewModel.getItems() != null) {
-                viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
-                viewModel.firstUnanswered(sharedPreferences.getString("sampleId", ""));
-                if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
-                    startActivity(new Intent(this, OutroActivity.class));
-                    finish();
-                    return;
-                }
-                setRecyclerView();
-                viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
-
-                try {
-                    SampleController.theory = "sample";
-                    showFragment();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
+            observeWorkSample();
         }
     }
 
     public void observeWorkSample() {
         SampleController.workStateSample.observe(this, integer -> {
-            if (SampleController.work == "getSample") {
-                if (integer == 1) {
-                    if (viewModel.showPrerequisite(sharedPreferences.getString("sampleId", ""))) {
-                        SampleController.theory = "description";
-                        try {
-                            showFragment();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        setRecyclerView();
-                        SampleController.theory = "sample";
-                        try {
-                            Log.e("first", String.valueOf(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", ""))));
-                            showFragment();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    loadingDialog.dismiss();
-                    SampleController.workStateSample.removeObservers((LifecycleOwner) this);
-                } else if (integer == 0) {
-                    finish();
 
-                    loadingDialog.dismiss();
-                    Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
-                    SampleController.workStateSample.removeObservers((LifecycleOwner) this);
-                } else if (integer == -2) {
-                    setRecyclerView();
-                    if (viewModel.havePrerequisiteStorage(sharedPreferences.getString("sampleId", ""))) {
+            if (SampleController.work == "getSample") {
+
+                if (isNetworkConnected()) {
+                    if (integer == 1) {
                         if (viewModel.showPrerequisite(sharedPreferences.getString("sampleId", ""))) {
-                            loadFragment(new DescriptionFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
-                        } else {
-                            SampleController.theory = "sample";
+                            SampleController.theory = "description";
                             try {
                                 showFragment();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                        }
-                    } else {
-                        finish();
-                    }
+                        } else {
+                            if (viewModel.hasAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
+                                if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
+                                    startActivity(new Intent(this, OutroActivity.class));
+                                    finish();
+                                    SampleController.workStateSample.removeObservers(this);
+                                }
+                            }
+                            viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
+                            setRecyclerView();
+                            if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
+                                if (viewModel.answeredSize(sharedPreferences.getString("sampleId", "")) == viewModel.getSize()) {
+                                    loadingDialog.dismiss();
+                                    startActivity(new Intent(this, OutroActivity.class));
+                                    finish();
+                                    return;
+                                } else {
+                                    SampleController.theory = "sample";
+                                    try {
+                                        showFragment();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+//
+                                }
+                            }
+                            viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
+                            loadingDialog.dismiss();
+                            try {
+                                SampleController.theory = "sample";
+                                showFragment();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
 
-                    loadingDialog.dismiss();
-                    SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                            SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                        }
+                        loadingDialog.dismiss();
+                        SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                    } else if (integer == 0) {
+
+                        if (viewModel.getItems() == null) {
+                            finish();
+                            loadingDialog.dismiss();
+                            Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
+                            SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                        }else {
+                            viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
+                            viewModel.firstUnanswered(sharedPreferences.getString("sampleId", ""));
+                            if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
+                                startActivity(new Intent(this, OutroActivity.class));
+                                finish();
+                                return;
+                            }
+
+                            setRecyclerView();
+                            viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
+                            try {
+                                SampleController.theory = "sample";
+                                showFragment();
+                                loadingDialog.dismiss();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } else if (integer == -2) {
+                        setRecyclerView();
+                        if (viewModel.havePrerequisiteStorage(sharedPreferences.getString("sampleId", ""))) {
+                            if (viewModel.showPrerequisite(sharedPreferences.getString("sampleId", ""))) {
+                                loadFragment(new DescriptionFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                            } else {
+                                SampleController.theory = "sample";
+                                try {
+                                    showFragment();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } else {
+                            finish();
+                        }
+
+                        loadingDialog.dismiss();
+                        SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                    }
+                } else {
+
+                    if (viewModel.getItems() != null) {
+                        viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
+                        viewModel.firstUnanswered(sharedPreferences.getString("sampleId", ""));
+                        if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
+                            startActivity(new Intent(this, OutroActivity.class));
+                            finish();
+                            return;
+                        }
+
+                        setRecyclerView();
+                        viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
+                        try {
+                            SampleController.theory = "sample";
+                            showFragment();
+                            loadingDialog.dismiss();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
+
             } else if (SampleController.work == "closeSample") {
                 if (integer == 1) {
                     finish();
@@ -631,13 +544,14 @@ public class SampleActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     public void observeWorkAnswer() {
         SampleController.workStateAnswer.observe((LifecycleOwner) this, integer -> {
             if (SampleController.work == "sendPrerequisite") {
                 if (integer == 1) {
-                    checkStorage();
+                    observeWorkSample();
 
                     loadingDialog.dismiss();
                     SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);

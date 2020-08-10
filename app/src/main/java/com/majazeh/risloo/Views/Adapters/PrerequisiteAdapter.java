@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapter.PrerequisiteHolder> {
 
@@ -37,6 +40,8 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
     // Objects
     private Activity activity;
     private Handler handler;
+
+    public HashMap answer = new HashMap();
 
     public PrerequisiteAdapter(Activity activity) {
         this.activity = activity;
@@ -150,7 +155,8 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         if (adapter.getCount() != position) {
-                            result = parent.getItemAtPosition(position).toString();
+                            int pos = position+1;
+                            result = String.valueOf(pos);
 
                             getAnswers(i, result);
                         }
@@ -182,12 +188,13 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
         notifyDataSetChanged();
     }
 
+
     @SuppressLint("NewApi")
     public void getAnswers(int index, String result) {
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add(String.valueOf(index+1));
-        arrayList.add(result);
-        SampleRepository.prerequisiteData.add(arrayList);
+        int i = index+1;
+        answer.put(String.valueOf(i),result);
+        Log.e("getAnswers: ", String.valueOf(answer));
+
     }
 
     public class PrerequisiteHolder extends RecyclerView.ViewHolder {

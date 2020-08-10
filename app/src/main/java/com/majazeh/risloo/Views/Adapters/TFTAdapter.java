@@ -57,7 +57,6 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull TFTHolder holder, int i) {
-
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             holder.itemView.setBackgroundResource(R.drawable.draw_18sdp_quartz_border_ripple);
         }
@@ -72,6 +71,7 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
             holder.itemView.setClickable(true);
         } else {
             if (position == i + 1) {
+
                 holder.numberTextView.setText(String.valueOf(i + 1));
                 holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow_border_primary);
 
@@ -103,8 +103,7 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
 
         holder.itemView.setOnClickListener(v -> {
             handler.postDelayed(() -> doWork(i), 500);
-            Log.e("test", String.valueOf(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId",""))));
-            position = i;
+            position = i + 1;
 
             clickedItem = true;
 
@@ -132,16 +131,16 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
 
     private void doWork(int position) {
         try {
+
             JSONArray jsonArray = viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", ""));
             jsonArray.getJSONObject(viewModel.getIndex()).put("index", viewModel.getIndex());
-            jsonArray.getJSONObject(viewModel.getIndex()).put("answer", position);
+            jsonArray.getJSONObject(viewModel.getIndex()).put("answer", position + 1);
             viewModel.saveAnswerToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
 
             if (viewModel.getNext() == null) {
                 if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
-                    viewModel.insertToLocal(viewModel.getIndex()+1, position+1);
+                    viewModel.insertToLocal(viewModel.getIndex() + 1, position + 1);
                     viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
-                    Log.e("read", String.valueOf(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId",""))));
                     activity.startActivity(new Intent(activity, OutroActivity.class));
                     activity.finish();
                     return;
@@ -154,7 +153,7 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            viewModel.insertToLocal(viewModel.getIndex(), position+1);
+            viewModel.insertToLocal(viewModel.getIndex(), position + 1);
             viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
         } catch (JSONException e) {
             e.printStackTrace();

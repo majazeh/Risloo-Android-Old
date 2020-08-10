@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -174,7 +175,6 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
         try {
             editor.putString("sampleId", archives.get(position).get("serial").toString());
             editor.apply();
-
             activity.startActivity(new Intent(activity, SampleActivity.class));
         } catch (JSONException e) {
             e.printStackTrace();

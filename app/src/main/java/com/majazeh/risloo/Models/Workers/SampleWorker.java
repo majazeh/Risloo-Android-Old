@@ -104,7 +104,7 @@ public class SampleWorker extends Worker {
                 if (errorBody.getString("message_text").equals("This action is unauthorized.")) {
                     SampleController.exception = "این نمونه برای شما بسته شده است.";
                 } else {
-                    SampleController.exception = errorBody.getString("وجود اشکال در باز کردن نمونه شما.");
+                    SampleController.exception = "وجود اشکال در باز کردن نمونه شما.";
                 }
                 SampleController.workStateSample.postValue(0);
             }
@@ -214,7 +214,7 @@ public class SampleWorker extends Worker {
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
-            SampleRepository.prerequisiteData.clear();
+            SampleRepository.prerequisiteData = new HashMap();
                 JSONObject succesBody = new JSONObject(bodyResponse.body().string());
 
                 SampleRepository.remoteData.clear();

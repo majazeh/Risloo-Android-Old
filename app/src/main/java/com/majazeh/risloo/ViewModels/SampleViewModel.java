@@ -15,6 +15,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SampleViewModel extends AndroidViewModel {
 
@@ -45,8 +46,8 @@ public class SampleViewModel extends AndroidViewModel {
         repository.closeSample();
     }
 
-    public void sendPrerequisite() throws JSONException {
-        repository.sendPrerequisite();
+    public void sendPrerequisite(HashMap hashMap) throws JSONException {
+        repository.sendPrerequisite(hashMap);
     }
 
      /*
@@ -121,9 +122,9 @@ public class SampleViewModel extends AndroidViewModel {
         repository.saveAnswerToCache(jsonArray, fileName);
     }
 
-    public void savePrerequisiteToCache(Context context, JSONArray jsonArray, String fileName) {
-        repository.savePrerequisiteToCache(context, jsonArray, fileName);
-    }
+//    public void savePrerequisiteToCache(Context context, JSONArray jsonArray, String fileName) {
+//        repository.savePrerequisiteToCache(context, jsonArray, fileName);
+//    }
 
     /*
          ---------- Read ----------
@@ -150,22 +151,16 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
     public boolean showPrerequisite(String fileName){
-        int size = repository.prerequisiteAnswersSize(fileName);
-        Log.e("size", String.valueOf(size));
-        if (size == 0){
-            return true;
-        }else{
-            return false;
-        }
+     return repository.showPrerequisite(fileName);
     }
 
     public void checkAnswerStorage(String fileName) {
         repository.checkAnswerStorage(fileName);
     }
 
-    public void checkPrerequisiteStorage(String fileName) {
-        repository.checkPrerequisiteStorage(fileName);
-    }
+//    public void checkPrerequisiteStorage(String fileName) {
+//        repository.checkPrerequisiteStorage(fileName);
+//    }
 
     public void deleteStorage(String fileName) {
         repository.deleteAnswerStorage(fileName);
