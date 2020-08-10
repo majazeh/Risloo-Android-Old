@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +56,7 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull TFTHolder holder, int i) {
+
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             holder.itemView.setBackgroundResource(R.drawable.draw_18sdp_quartz_border_ripple);
         }
@@ -71,7 +71,6 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
             holder.itemView.setClickable(true);
         } else {
             if (position == i + 1) {
-
                 holder.numberTextView.setText(String.valueOf(i + 1));
                 holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow_border_primary);
 
@@ -131,7 +130,6 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
 
     private void doWork(int position) {
         try {
-
             JSONArray jsonArray = viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", ""));
             jsonArray.getJSONObject(viewModel.getIndex()).put("index", viewModel.getIndex());
             jsonArray.getJSONObject(viewModel.getIndex()).put("answer", position + 1);
@@ -148,7 +146,6 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
                 viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
             }
             try {
-
                 ((SampleActivity) Objects.requireNonNull(activity)).showFragment();
             } catch (JSONException e) {
                 e.printStackTrace();

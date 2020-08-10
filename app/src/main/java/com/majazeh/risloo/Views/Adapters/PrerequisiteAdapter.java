@@ -1,12 +1,10 @@
 package com.majazeh.risloo.Views.Adapters;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -72,8 +68,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
                 holder.typeEditText.addTextChangedListener(new TextWatcher() {
                     @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -98,8 +93,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
                 holder.typeEditText.addTextChangedListener(new TextWatcher() {
                     @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    }
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -155,7 +149,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         if (adapter.getCount() != position) {
-                            int pos = position+1;
+                            int pos = position + 1;
                             result = String.valueOf(pos);
 
                             getAnswers(i, result);
@@ -188,13 +182,9 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
         notifyDataSetChanged();
     }
 
-
-    @SuppressLint("NewApi")
     public void getAnswers(int index, String result) {
-        int i = index+1;
-        answer.put(String.valueOf(i),result);
-        Log.e("getAnswers: ", String.valueOf(answer));
-
+        int i = index + 1;
+        answer.put(String.valueOf(i), result);
     }
 
     public class PrerequisiteHolder extends RecyclerView.ViewHolder {

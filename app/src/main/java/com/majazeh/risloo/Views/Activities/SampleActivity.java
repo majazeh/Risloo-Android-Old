@@ -18,7 +18,6 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -364,47 +363,17 @@ public class SampleActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
-    }
-
-    @Override
-    public void onBackPressed() {
-        switch (SampleController.theory) {
-            case "sample":
-                SampleController.theory = "prerequisite";
-                try {
-                    showFragment();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case "prerequisite":
-                SampleController.theory = "description";
-                try {
-                    showFragment();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case "description":
-                cancelDialog.show();
-                break;
-        }
-    }
-
     private void launchProcess() {
         SampleController.work = "getSample";
+
         if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) >= 0) {
             loadingDialog.show();
-            observeWorkSample();
-        } else {
-            observeWorkSample();
         }
+
+        observeWorkSample();
     }
 
-    public void observeWorkSample() {
+    private void observeWorkSample() {
         SampleController.workStateSample.observe(this, integer -> {
 
             if (SampleController.work == "getSample") {
@@ -441,7 +410,6 @@ public class SampleActivity extends AppCompatActivity {
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
-//
                                 }
                             }
                             viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
@@ -544,10 +512,9 @@ public class SampleActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
-    public void observeWorkAnswer() {
+    private void observeWorkAnswer() {
         SampleController.workStateAnswer.observe((LifecycleOwner) this, integer -> {
             if (SampleController.work == "sendPrerequisite") {
                 if (integer == 1) {
@@ -566,6 +533,36 @@ public class SampleActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+    }
+
+    @Override
+    public void onBackPressed() {
+        switch (SampleController.theory) {
+            case "sample":
+                SampleController.theory = "prerequisite";
+                try {
+                    showFragment();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "prerequisite":
+                SampleController.theory = "description";
+                try {
+                    showFragment();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "description":
+                cancelDialog.show();
+                break;
+        }
     }
 
 }

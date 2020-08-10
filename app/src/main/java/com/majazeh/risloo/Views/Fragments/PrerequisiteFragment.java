@@ -20,7 +20,6 @@ import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.PrerequisiteAdapter;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 
 public class PrerequisiteFragment extends Fragment {
@@ -71,7 +70,6 @@ public class PrerequisiteFragment extends Fragment {
 
     public void doWork() {
         try {
-//            viewModel.checkPrerequisiteStorage(sharedPreferences.getString("sampleId",""));
             viewModel.sendPrerequisite(adapter.answer);
         } catch (JSONException e) {
             e.printStackTrace();

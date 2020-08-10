@@ -10,12 +10,10 @@ import androidx.lifecycle.ViewModelProviders;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +25,7 @@ import android.widget.Toast;
 
 import com.majazeh.risloo.Models.Controller.SampleController;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 
@@ -43,6 +42,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
     private boolean storagePermissionsGranted = false;
 
     // Objects
+    private IntentCaller intentCaller;
     private Handler handler;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -86,6 +86,8 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
     private void initializer() {
         viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
+
+        intentCaller = new IntentCaller();
 
         handler = new Handler();
 
@@ -209,19 +211,20 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
     }
 
     private void sendViaSMS() {
-        Uri sms_uri = Uri.parse("smsto:+989195934528");
-        Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri);
+        String body = "sms_body";
         String result = "";
+        String number = "+989195934528";
+
         JSONArray jsonArray = viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", ""));
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
-            result += jsonArray.getJSONObject(i).getString("answer");
+                result += jsonArray.getJSONObject(i).getString("answer");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        sms_intent.putExtra("sms_body", result);
-        startActivity(sms_intent);
+
+        intentCaller.sendSMS(this, body, result, number);
     }
 
     private void downloadFile() {
