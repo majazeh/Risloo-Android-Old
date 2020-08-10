@@ -1,5 +1,6 @@
 package com.majazeh.risloo.Views.Activities;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.LifecycleOwner;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.majazeh.risloo.Models.Controller.AuthController;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.BitmapController;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
@@ -82,9 +84,14 @@ public class AccountActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.activity_account_toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         avatarImageView = findViewById(R.id.activity_account_avatar_circleImageView);
-        avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle));
+        if (viewModel.getAvatar().equals("")) {
+            avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle));
+        } else {
+            avatarImageView.setImageBitmap(BitmapController.decodeToBase64(viewModel.getAvatar()));
+        }
 
         nameTextView = findViewById(R.id.activity_account_name_textView);
         nameTextView.setText(viewModel.getName());
@@ -194,14 +201,33 @@ public class AccountActivity extends AppCompatActivity {
         });
 
         toolEdit = menu.findItem(R.id.tool_edit);
-        toolEdit.setVisible(false);
         toolEdit.setOnMenuItemClickListener(menuItem -> {
-            startActivity(new Intent(this, EditAccountActivity.class));
+            startActivityForResult(new Intent(this, EditAccountActivity.class), 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             return false;
         });
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 100) {
+                adapter.setAccount(viewModel.getAll());
+
+                if (viewModel.getAvatar().equals("")) {
+                    avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle));
+                } else {
+                    avatarImageView.setImageBitmap(BitmapController.decodeToBase64(viewModel.getAvatar()));
+                }
+
+                nameTextView.setText(viewModel.getName());
+                typeTextView.setText(viewModel.getType());
+            }
+        }
     }
 
     @Override

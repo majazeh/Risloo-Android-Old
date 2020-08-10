@@ -11,7 +11,6 @@ import com.majazeh.risloo.Models.Remotes.Apis.AuthApi;
 import com.majazeh.risloo.Models.Remotes.Generators.RetroGenerator;
 import com.majazeh.risloo.Models.Controller.AuthController;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -67,6 +66,9 @@ public class AuthWorker extends Worker {
                 case "me":
                     me();
                     break;
+                case "edit":
+                    edit();
+                    break;
                 case "logOut":
                     logOut();
                     break;
@@ -83,7 +85,7 @@ public class AuthWorker extends Worker {
         return "";
     }
 
-    public void auth() {
+    private void auth() {
         try {
             Call<ResponseBody> call = authApi.auth(token(), AuthController.callback, AuthController.authorizedKey);
 
@@ -147,7 +149,7 @@ public class AuthWorker extends Worker {
         }
     }
 
-    public void authTheory() {
+    private void authTheory() {
         try {
             Call<ResponseBody> call = authApi.authTheory(token(), AuthController.key, AuthController.callback, AuthController.password, AuthController.code);
 
@@ -211,7 +213,7 @@ public class AuthWorker extends Worker {
         }
     }
 
-    public void register() {
+    private void register() {
         try {
             Call<ResponseBody> call = authApi.register(AuthController.name, AuthController.mobile, AuthController.gender, AuthController.password);
 
@@ -403,7 +405,7 @@ public class AuthWorker extends Worker {
         }
     }
 
-    public void me() {
+    private void me() {
         try {
             Call<ResponseBody> call = authApi.me("Bearer " + sharedPreferences.getString("token", ""));
 
@@ -413,14 +415,15 @@ public class AuthWorker extends Worker {
                 JSONObject data = succesBody.getJSONObject("data");
 
                 editor.putString("name", data.getString("name"));
-                editor.putString("email", data.getString("email"));
-                editor.putString("mobile", data.getString("mobile"));
-                editor.putString("gender", data.getString("gender"));
                 editor.putString("type", data.getString("type"));
-//                if (data.has("avatar")) {
-//                    JSONArray avatar = data.getJSONArray("avatar");
-//                    editor.putString("avatar", String.valueOf(avatar.getJSONObject(0)));
-//                }
+                editor.putString("mobile", data.getString("mobile"));
+                editor.putString("email", data.getString("email"));
+                editor.putString("gender", data.getString("gender"));
+                editor.putString("birthday", data.getString("birthday"));
+
+//                JSONArray avatar = data.getJSONArray("avatar");
+//                editor.putString("avatar", String.valueOf(avatar.getJSONObject(0)));
+
                 editor.apply();
 
                 AuthController.exception = "دریافت اطلاعات با موفقیت انجام شد.";
@@ -428,13 +431,45 @@ public class AuthWorker extends Worker {
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                editor.putString("name", "");
-                editor.putString("email", "");
-                editor.putString("mobile", "");
-                editor.putString("gender", "");
-                editor.putString("type", "");
-//                editor.putString("avatar", "");
+                AuthController.exception = errorBody.getString("message_text");
+                AuthController.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            AuthController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
+            AuthController.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            AuthController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
+            AuthController.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            AuthController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
+            AuthController.workState.postValue(0);
+        }
+    }
+
+    private void edit() {
+        try {
+            Call<ResponseBody> call = authApi.edit("Bearer " + sharedPreferences.getString("token", ""), AuthController.name, AuthController.gender, AuthController.birthday);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject succesBody = new JSONObject(bodyResponse.body().string());
+
+                editor.putString("name", AuthController.name);
+                editor.putString("gender", AuthController.gender);
+                editor.putString("birthday", AuthController.birthday);
                 editor.apply();
+
+                AuthController.exception = "اصلاح پروفایل با موفقیت انجام شد.";
+                AuthController.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
                 AuthController.exception = errorBody.getString("message_text");
                 AuthController.workState.postValue(0);
@@ -468,11 +503,12 @@ public class AuthWorker extends Worker {
 
                 editor.remove("token");
                 editor.remove("name");
-                editor.remove("email");
-                editor.remove("mobile");
-                editor.remove("gender");
                 editor.remove("type");
-//                editor.remove("avatar");
+                editor.remove("mobile");
+                editor.remove("email");
+                editor.remove("gender");
+                editor.remove("birthday");
+                editor.remove("avatar");
                 editor.apply();
 
                 AuthController.exception = "خروج با موفقیت انجام شد.";

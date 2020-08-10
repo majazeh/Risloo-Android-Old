@@ -33,6 +33,7 @@ public class AuthController {
     public static String name = "";
     public static String mobile = "";
     public static String gender = "";
+    public static String birthday = "";
     public static String password = "";
     public static String code = "";
     public static String sampleId = "";

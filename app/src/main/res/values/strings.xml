@@ -164,15 +164,13 @@
     // account strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="AccountTitle">پروفایل</string>
+    <string name="AccountTitle">اطلاعات حساب</string>
 
-    <string name="AccountEdit">اصلاح پروفایل</string>
+    <string name="AccountEdit">ویرایش حساب</string>
     <string name="AccountSignOut">خروج از حساب</string>
 
     <string name="AccountName">کاربر تجربی</string>
     <string name="AccountType">مراجع</string>
-
-    <string name="AccountInfo">اطلاعات حساب</string>
 
     <string name="AccountLogOutDialogTitle">خروج از حساب؟</string>
     <string name="AccountLogOutDialogDescription">ایا تمایل به خروج از حساب کاربری خود دارید، در نظر داشته باشید که تمام اطلاعات شما محفوظ می ماند.</string>
@@ -184,7 +182,23 @@
     // edit account strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="EditAccountTitle">اصلاح پروفایل</string>
+    <string name="EditAccountTitle">ویرایش حساب</string>
+
+    <string name="EditAccountName">نام و نام خانوادگی</string>
+    <string name="EditAccountMan">مرد</string>
+    <string name="EditAccountWoman">زن</string>
+    <string name="EditAccountBirthday">تاریخ تولد</string>
+
+    <string name="EditAccountEdit">ویرایش</string>
+
+    <string name="EditAccountImageDialogTitle">از کجا می خوای عکس بیارید</string>
+    <string name="EditAccountImageDialogGallery">البوم</string>
+    <string name="EditAccountImageDialogCamera">دوربین</string>
+    <string name="EditAccountImageDialogClose">بستن</string>
+
+    <string name="EditAccountDateDialogTitle">تاریخ تولد مورد نظر انتخاب کنید</string>
+    <string name="EditAccountDateDialogPositive">ثبت</string>
+    <string name="EditAccountDateDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

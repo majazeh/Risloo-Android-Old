@@ -47,12 +47,20 @@ public class AuthViewModel extends AndroidViewModel {
         repository.me();
     }
 
+    public void edit(String name, String gender, String birthday) throws JSONException {
+        repository.edit(name, gender, birthday);
+    }
+
     public void logOut() throws JSONException {
         repository.logOut();
     }
 
     public ArrayList<Model> getAll() {
         return repository.getAll();
+    }
+
+    public String getAvatar() {
+        return repository.getAvatar();
     }
 
     public String getName() {

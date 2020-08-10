@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     // app theme
     ////////////////////////////////////////////////////////////////////////////////
@@ -73,6 +73,20 @@
 
     <style name="ProgressBarTheme" parent="ThemeOverlay.AppCompat.Light">
         <item name="colorAccent">@color/Primary</item>
+    </style>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // datePicker theme
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <style name="DatePickerTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorControlNormal">@color/Quartz</item>
+
+        <item name="android:dateTextAppearance">@font/dana</item>
+        <item name="android:textSize">@dimen/_12ssp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColorPrimary">@color/Grey</item>
     </style>
 
     ////////////////////////////////////////////////////////////////////////////////

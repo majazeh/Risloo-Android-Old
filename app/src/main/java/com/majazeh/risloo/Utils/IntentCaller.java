@@ -1,10 +1,17 @@
 package com.majazeh.risloo.Utils;
 
+import  android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.provider.Settings;
+
+import androidx.core.content.FileProvider;
+
+import java.io.File;
+import java.io.IOException;
 
 public class IntentCaller {
 
@@ -13,6 +20,42 @@ public class IntentCaller {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         context.startActivity(intent);
+    }
+
+    public void gallery(Activity activity) {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+
+        activity.startActivityForResult(intent, 100);
+    }
+
+    public void camera(Activity activity) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        File imageFile = null;
+        try {
+            imageFile = FileManager.createImageFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (imageFile != null) {
+            Uri imageURI = FileProvider.getUriForFile(activity, "com.majazeh.risloo.fileprovider", imageFile);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageURI);
+            activity.startActivityForResult(intent, 200);
+        }
+    }
+
+    public void mediaScan(Activity activity) {
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+
+        File imageFile = new File(FileManager.imagePath);
+
+        if (imageFile != null) {
+            Uri imageURI = Uri.fromFile(imageFile);
+            intent.setData(imageURI);
+            activity.sendBroadcast(intent);
+        }
     }
 
     public void phone(Context context, String number) {

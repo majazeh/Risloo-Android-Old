@@ -25,7 +25,7 @@ import com.majazeh.risloo.Utils.WindowDecorator;
 public class CallUsActivity extends AppCompatActivity {
 
     // Vars
-    private String name, mobile, message;
+    private String name = "", mobile = "", message = "";
     private boolean nameError, mobileError, messageError;
 
     // Objects

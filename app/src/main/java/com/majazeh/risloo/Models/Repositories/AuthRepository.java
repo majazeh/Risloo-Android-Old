@@ -76,6 +76,15 @@ public class AuthRepository extends MainRepository {
         controller.workManager("me");
     }
 
+    public void edit(String name, String gender, String birthday) throws JSONException {
+        controller.name = name;
+        controller.gender = gender;
+        controller.birthday = birthday;
+        controller.work = "edit";
+        controller.workState.setValue(-1);
+        controller.workManager("edit");
+    }
+
     public void logOut() throws JSONException {
         controller.work = "logOut";
         controller.workState.setValue(-1);
@@ -84,6 +93,10 @@ public class AuthRepository extends MainRepository {
 
     public ArrayList<Model> getAll() {
         return authItems.items();
+    }
+
+    public String getAvatar() {
+        return authItems.avatar();
     }
 
     public String getName() {

@@ -30,7 +30,7 @@
                 android:paddingLeft="@dimen/_4sdp"
                 android:theme="@style/ToolbarTheme"
                 android:background="@null"
-                app:title="@string/AccountTitle"
+                app:title=""
                 app:titleTextAppearance="@style/ToolbarTextAppearance"
                 app:navigationIcon="@drawable/tool_back"
                 app:contentInsetStartWithNavigation="0dp" />
@@ -90,7 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:text="@string/AccountInfo"
+                    android:text="@string/AccountTitle"
                     android:textSize="@dimen/_15ssp"
                     android:textStyle="bold"
                     android:textColor="@color/PrimaryDark"

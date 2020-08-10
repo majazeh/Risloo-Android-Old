@@ -73,7 +73,7 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_34sdp"
+            android:layout_height="@dimen/_36sdp"
             android:layout_marginBottom="@dimen/_8sdp"
             app:cardBackgroundColor="@color/White"
             app:cardCornerRadius="@dimen/_18sdp"
@@ -89,7 +89,7 @@
                 app:tabGravity="fill"
                 app:tabRippleColor="@color/Quartz"
                 app:tabIndicatorColor="@color/Solitude"
-                app:tabIndicatorHeight="@dimen/_34sdp"
+                app:tabIndicatorHeight="@dimen/_36sdp"
                 app:tabTextColor="@color/Mischka"
                 app:tabSelectedTextColor="@color/Grey"
                 app:tabBackground="@null"

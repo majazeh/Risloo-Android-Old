@@ -34,6 +34,13 @@ public class AuthItems {
         return items;
     }
 
+    public String avatar() {
+        if (!sharedPreferences.getString("avatar", "").equals("null")) {
+            return sharedPreferences.getString("avatar", "");
+        }
+        return "";
+    }
+
     public String name() {
         if (!sharedPreferences.getString("name", "").equals("null")) {
             return sharedPreferences.getString("name", "");
@@ -88,6 +95,9 @@ public class AuthItems {
             } else if (sharedPreferences.getString("gender", "").equals("female")) {
                 data.put(new JSONObject().put("title", "جنسیت").put("subTitle", "زن").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_female)));
             }
+        }
+        if (!sharedPreferences.getString("birthday", "").equals("null")) {
+            data.put(new JSONObject().put("title", "تاریخ تولد").put("subTitle", sharedPreferences.getString("birthday", "")).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_calendar)));
         }
         return data;
     }
