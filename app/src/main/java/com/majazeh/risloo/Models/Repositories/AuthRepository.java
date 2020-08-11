@@ -107,4 +107,20 @@ public class AuthRepository extends MainRepository {
         return authItems.type();
     }
 
+    public String getMobile() {
+        return authItems.mobile();
+    }
+
+    public String getEmail() {
+        return authItems.email();
+    }
+
+    public String getGender() {
+        return authItems.gender();
+    }
+
+    public String getBirthday() {
+        return authItems.birthday();
+    }
+
 }

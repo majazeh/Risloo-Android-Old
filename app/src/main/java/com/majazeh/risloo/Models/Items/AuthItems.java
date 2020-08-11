@@ -45,24 +45,56 @@ public class AuthItems {
         if (!sharedPreferences.getString("name", "").equals("null")) {
             return sharedPreferences.getString("name", "");
         }
-        return application.getApplicationContext().getResources().getString(R.string.AccountName);
+        return "کاربر تجربی";
     }
 
     public String type() {
         if (!sharedPreferences.getString("type", "").equals("null")) {
-            if (sharedPreferences.getString("type", "").equals("admin")) {
-                return "ادمین";
-            } else if (sharedPreferences.getString("type", "").equals("psychology")) {
+            if (sharedPreferences.getString("type", "").equals("psychology")) {
                 return "مشاور";
             } else if (sharedPreferences.getString("type", "").equals("clinic_center")) {
                 return "مرکز درمانی";
             } else if (sharedPreferences.getString("type", "").equals("operator")) {
                 return "اپراتور";
+            } else if (sharedPreferences.getString("type", "").equals("admin")) {
+                return "ادمین";
             } else if (sharedPreferences.getString("type", "").equals("client")) {
                 return "مراجع";
             }
         }
-        return application.getApplicationContext().getResources().getString(R.string.AccountType);
+        return "مراجع";
+    }
+
+    public String mobile() {
+        if (!sharedPreferences.getString("mobile", "").equals("null")) {
+            return sharedPreferences.getString("mobile", "");
+        }
+        return "+989000000000";
+    }
+
+    public String email() {
+        if (!sharedPreferences.getString("email", "").equals("null")) {
+            return sharedPreferences.getString("email", "");
+        }
+        return "نامشخص";
+    }
+
+    public String gender() {
+        if (!sharedPreferences.getString("gender", "").equals("null")) {
+            if (sharedPreferences.getString("gender", "").equals("male")) {
+                return "مرد";
+            } else if (sharedPreferences.getString("gender", "").equals("female")) {
+                return "زن";
+            }
+        }
+        return "نامشخص";
+    }
+
+    public String birthday() {
+        if (!sharedPreferences.getString("birthday", "").equals("null")) {
+            return sharedPreferences.getString("birthday", "");
+        }
+        return "نامشخص";
     }
 
     private JSONArray data() throws JSONException {
@@ -71,9 +103,9 @@ public class AuthItems {
             data.put(new JSONObject().put("title", "نام").put("subTitle", sharedPreferences.getString("name", "")).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_user)));
         }
         if (!sharedPreferences.getString("type", "").equals("null")) {
-            if (sharedPreferences.getString("type", "").equals("psychologist")) {
+            if (sharedPreferences.getString("type", "").equals("psychology")) {
                 data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "مشاور").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_stethoscope)));
-            } else if (sharedPreferences.getString("type", "").equals("counseling_center")) {
+            } else if (sharedPreferences.getString("type", "").equals("clinic_center")) {
                 data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "مرکز درمانی").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_hospital)));
             } else if (sharedPreferences.getString("type", "").equals("operator")) {
                 data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "اپراتور").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset_light)));

@@ -169,9 +169,6 @@
     <string name="AccountEdit">ویرایش حساب</string>
     <string name="AccountSignOut">خروج از حساب</string>
 
-    <string name="AccountName">کاربر تجربی</string>
-    <string name="AccountType">مراجع</string>
-
     <string name="AccountLogOutDialogTitle">خروج از حساب؟</string>
     <string name="AccountLogOutDialogDescription">ایا تمایل به خروج از حساب کاربری خود دارید، در نظر داشته باشید که تمام اطلاعات شما محفوظ می ماند.</string>
     <string name="AccountLogOutDialogPositive">خروج</string>

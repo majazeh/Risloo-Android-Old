@@ -71,4 +71,20 @@ public class AuthViewModel extends AndroidViewModel {
         return repository.getType();
     }
 
+    public String getMobile() {
+        return repository.getMobile();
+    }
+
+    public String getEmail() {
+        return repository.getEmail();
+    }
+
+    public String getGender() {
+        return repository.getGender();
+    }
+
+    public String getBirthday() {
+        return repository.getBirthday();
+    }
+
 }

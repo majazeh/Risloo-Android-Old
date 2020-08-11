@@ -42,8 +42,6 @@ import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Dialogs.ImageDialog;
 
-import org.json.JSONException;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -120,36 +118,24 @@ public class EditAccountActivity extends AppCompatActivity {
         }
 
         nameEditText = findViewById(R.id.activity_edit_account_name_editText);
-        try {
-            nameEditText.setText(viewModel.getAll().get(0).get("subTitle").toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        nameEditText.setText(viewModel.getName());
 
         genderTabLayout = findViewById(R.id.activity_edit_account_gender_tabLayout);
-        try {
-            if (viewModel.getAll().get(4).get("subTitle").toString().equals("مرد")) {
-                gender = "male";
-                genderTabLayout.getTabAt(0).select();
-            } else if (viewModel.getAll().get(4).get("subTitle").toString().equals("رن")) {
-                gender = "female";
-                genderTabLayout.getTabAt(1).select();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (viewModel.getGender().equals("مرد")) {
+            gender = "male";
+            genderTabLayout.getTabAt(0).select();
+        } else if (viewModel.getGender().equals("زن")) {
+            gender = "female";
+            genderTabLayout.getTabAt(1).select();
         }
 
         birthdayTextView = findViewById(R.id.activity_edit_account_birthday_textView);
-        try {
-            birthday = viewModel.getAll().get(5).get("subTitle").toString();
-            birthdayTextView.setText(birthday);
+        birthday = viewModel.getBirthday();
+        birthdayTextView.setText(birthday);
 
-            Year = Integer.parseInt(UnitConverter.dateToString("yyyy", UnitConverter.stringToDate("yyyy-MM-dd", birthday)));
-            Month = Integer.parseInt(UnitConverter.dateToString("MM", UnitConverter.stringToDate("yyyy-MM-dd", birthday))) - 1;
-            Day = Integer.parseInt(UnitConverter.dateToString("dd", UnitConverter.stringToDate("yyyy-MM-dd", birthday)));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        Year = Integer.parseInt(UnitConverter.dateToString("yyyy", UnitConverter.stringToDate("yyyy-MM-dd", birthday)));
+        Month = Integer.parseInt(UnitConverter.dateToString("MM", UnitConverter.stringToDate("yyyy-MM-dd", birthday))) - 1;
+        Day = Integer.parseInt(UnitConverter.dateToString("dd", UnitConverter.stringToDate("yyyy-MM-dd", birthday)));
 
         editButton = findViewById(R.id.activity_edit_account_edit_button);
 
