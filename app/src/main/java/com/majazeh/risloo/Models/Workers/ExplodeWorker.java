@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.majazeh.risloo.Models.Controller.ExplodeController;
+import com.majazeh.risloo.Models.Controllers.ExplodeController;
 import com.majazeh.risloo.Models.Remotes.Apis.ExplodeApi;
 import com.majazeh.risloo.Models.Remotes.Generators.RetroGenerator;
 

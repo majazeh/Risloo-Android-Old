@@ -9,7 +9,7 @@ import androidx.work.WorkerParameters;
 
 import com.majazeh.risloo.Models.Remotes.Apis.SampleApi;
 import com.majazeh.risloo.Models.Remotes.Generators.RetroGenerator;
-import com.majazeh.risloo.Models.Controller.SampleController;
+import com.majazeh.risloo.Models.Controllers.SampleController;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 
 import org.json.JSONException;

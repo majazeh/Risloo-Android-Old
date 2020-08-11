@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
-import com.majazeh.risloo.Models.Controller.ExplodeController;
+import com.majazeh.risloo.Models.Controllers.ExplodeController;
 
 import org.json.JSONException;
 

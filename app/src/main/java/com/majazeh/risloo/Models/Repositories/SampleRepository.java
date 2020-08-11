@@ -8,7 +8,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Controller.SampleController;
+import com.majazeh.risloo.Models.Controllers.SampleController;
 import com.majazeh.risloo.Models.Items.SampleItems;
 
 import org.json.JSONArray;

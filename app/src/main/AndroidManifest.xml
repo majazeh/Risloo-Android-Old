@@ -54,6 +54,7 @@
         <activity android:name=".Views.Activities.QuestionActivity" />
         <activity android:name=".Views.Activities.CallUsActivity" />
         <activity android:name=".Views.Activities.TermConditionActivity" />
+        <activity android:name=".Views.Activities.TestActivity" />
     </application>
 
 </manifest>

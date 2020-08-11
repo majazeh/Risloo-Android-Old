@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Controller.AuthController;
+import com.majazeh.risloo.Models.Controllers.AuthController;
 import com.majazeh.risloo.Models.Items.AuthItems;
 
 import org.json.JSONException;

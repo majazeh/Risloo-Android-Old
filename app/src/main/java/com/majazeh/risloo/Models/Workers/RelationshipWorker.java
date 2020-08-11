@@ -7,10 +7,10 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.majazeh.risloo.Models.Controller.RelationshipController;
+import com.majazeh.risloo.Models.Controllers.RelationshipController;
+import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Remotes.Apis.RelationshipApi;
 import com.majazeh.risloo.Models.Remotes.Generators.RetroGenerator;
-import com.majazeh.risloo.Models.Repositories.RelationshipRepository;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,8 +27,8 @@ public class RelationshipWorker extends Worker {
     // Apis
     private RelationshipApi relationshipApi;
 
-    // Repository
-    private RelationshipRepository repository;
+    // Managers
+    private FileManager manager;
 
     // Objects
     private Context context;
@@ -41,7 +41,7 @@ public class RelationshipWorker extends Worker {
 
         relationshipApi = RetroGenerator.getRetrofit().create(RelationshipApi.class);
 
-        repository = new RelationshipRepository();
+        manager = new FileManager();
 
         sharedPreferences = context.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
@@ -84,7 +84,7 @@ public class RelationshipWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
-                repository.writeReservationToCache(context, successBody, "relationships");
+                manager.writeToCache(context, successBody, "relationships", "all");
 
                 RelationshipController.exception = "دریافت اطلاعات با موفقیت انجام شد.";
                 RelationshipController.workState.postValue(1);
@@ -121,7 +121,7 @@ public class RelationshipWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
-                repository.writeReservationToCache(context, successBody, "myRelationships");
+                manager.writeToCache(context, successBody, "relationships", "my");
 
                 RelationshipController.exception = "دریافت اطلاعات با موفقیت انجام شد.";
                 RelationshipController.workState.postValue(1);

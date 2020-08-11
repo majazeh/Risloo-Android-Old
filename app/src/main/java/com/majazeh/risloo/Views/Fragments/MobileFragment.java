@@ -19,7 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.majazeh.risloo.Models.Controller.AuthController;
+import com.majazeh.risloo.Models.Controllers.AuthController;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Activities.AuthActivity;

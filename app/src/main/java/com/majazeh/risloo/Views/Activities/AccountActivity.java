@@ -22,7 +22,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.majazeh.risloo.Models.Controller.AuthController;
+import com.majazeh.risloo.Models.Controllers.AuthController;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.BitmapController;
 import com.majazeh.risloo.Utils.ItemDecorator;

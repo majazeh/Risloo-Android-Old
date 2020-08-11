@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Models.Controller;
+package com.majazeh.risloo.Models.Controllers;
 
 import android.app.Application;
 import android.content.Context;
@@ -11,11 +11,11 @@ import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
-import com.majazeh.risloo.Models.Workers.ExplodeWorker;
+import com.majazeh.risloo.Models.Workers.AuthWorker;
 
 import org.json.JSONException;
 
-public class ExplodeController {
+public class AuthController {
 
     // Objects
     private Application application;
@@ -24,8 +24,21 @@ public class ExplodeController {
     public static MutableLiveData<Integer> workState;
     public static String work = "";
     public static String exception = "";
+    public static String theory = "auth";
+    public static String preTheory = "";
+    public static String key = "";
+    public static String authorizedKey = "";
+    public static String callback = "";
+    public static String token = "";
+    public static String name = "";
+    public static String mobile = "";
+    public static String gender = "";
+    public static String birthday = "";
+    public static String password = "";
+    public static String code = "";
+    public static String sampleId = "";
 
-    public ExplodeController(Application application) {
+    public AuthController(Application application) {
         this.application = application;
 
         workState = new MutableLiveData<>();
@@ -38,7 +51,7 @@ public class ExplodeController {
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build();
 
-            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(ExplodeWorker.class)
+            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(AuthWorker.class)
                     .setConstraints(constraints)
                     .setInputData(data(work))
                     .build();

@@ -9,7 +9,7 @@ import androidx.work.WorkerParameters;
 
 import com.majazeh.risloo.Models.Remotes.Apis.AuthApi;
 import com.majazeh.risloo.Models.Remotes.Generators.RetroGenerator;
-import com.majazeh.risloo.Models.Controller.AuthController;
+import com.majazeh.risloo.Models.Controllers.AuthController;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Models.Controller;
+package com.majazeh.risloo.Models.Controllers;
 
 import android.app.Application;
 import android.content.Context;
@@ -11,30 +11,25 @@ import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
-import com.majazeh.risloo.Models.Workers.SampleWorker;
+import com.majazeh.risloo.Models.Workers.ExplodeWorker;
 
 import org.json.JSONException;
 
-public class SampleController {
+public class ExplodeController {
 
     // Objects
     private Application application;
 
     // Vars
-    public static MutableLiveData<Integer> workStateSample;
-    public static MutableLiveData<Integer> workStateAnswer;
+    public static MutableLiveData<Integer> workState;
     public static String work = "";
     public static String exception = "";
-    public static String theory = "sample";
-    public static boolean cache = false;
 
-    public SampleController(Application application) {
+    public ExplodeController(Application application) {
         this.application = application;
 
-        workStateSample = new MutableLiveData<>();
-        workStateAnswer = new MutableLiveData<>();
-        workStateSample.setValue(-1);
-        workStateAnswer.setValue(-1);
+        workState = new MutableLiveData<>();
+        workState.setValue(-1);
     }
 
     public void workManager(String work) throws JSONException {
@@ -43,7 +38,7 @@ public class SampleController {
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build();
 
-            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SampleWorker.class)
+            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(ExplodeWorker.class)
                     .setConstraints(constraints)
                     .setInputData(data(work))
                     .build();
@@ -51,8 +46,7 @@ public class SampleController {
             WorkManager.getInstance(application).enqueue(workRequest);
         } else {
             exception = "انترنت شما وصل نیست! لطفا متصل شوید.";
-            workStateSample.setValue(-2);
-            workStateAnswer.setValue(-2);
+            workState.postValue(-2);
         }
     }
 
