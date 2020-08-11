@@ -21,6 +21,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.Window;
@@ -35,7 +36,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.majazeh.risloo.Models.Controller.AuthController;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.BitmapController;
-import com.majazeh.risloo.Utils.FileManager;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.UnitConverter;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -44,8 +44,12 @@ import com.majazeh.risloo.Views.Dialogs.ImageDialog;
 
 import org.json.JSONException;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -56,6 +60,7 @@ public class EditAccountActivity extends AppCompatActivity {
 
     // Vars
     private String avatar = "", name = "", gender = "", birthday = "";
+    private String imageFilePath;
     private int Year, Month, Day;
     public boolean galleryPermissionsGranted = false, cameraPermissionsGranted = false;
 
@@ -322,6 +327,15 @@ public class EditAccountActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("SimpleDateFormat")
+    public File createImageFile() throws IOException {
+        String imageFileName = "JPEG_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + "_";
+        File imageStorageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File imageFile = File.createTempFile(imageFileName, ".jpg", imageStorageDir);
+        imageFilePath = imageFile.getAbsolutePath();
+        return imageFile;
+    }
+
     public void checkGalleryPermission() {
         String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
 
@@ -345,7 +359,11 @@ public class EditAccountActivity extends AppCompatActivity {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     cameraPermissionsGranted = true;
-                    intentCaller.camera(this);
+                    try {
+                        intentCaller.camera(this, createImageFile());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     ActivityCompat.requestPermissions(this, permissions, 200);
                 }
@@ -354,7 +372,11 @@ public class EditAccountActivity extends AppCompatActivity {
             }
         } else {
             cameraPermissionsGranted = true;
-            intentCaller.camera(this);
+            try {
+                intentCaller.camera(this, createImageFile());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -382,7 +404,11 @@ public class EditAccountActivity extends AppCompatActivity {
                     }
                 }
                 cameraPermissionsGranted = true;
-                intentCaller.camera(this);
+                try {
+                    intentCaller.camera(this, createImageFile());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -406,7 +432,11 @@ public class EditAccountActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             } else if (requestCode == 200) {
-                intentCaller.mediaScan(this);
+                File imageFile = new File(imageFilePath);
+
+                if (imageFile != null) {
+                    intentCaller.mediaScan(this, imageFile);
+                }
 
                 int targetWidth = avatarImageView.getWidth();
                 int targetHeight = avatarImageView.getHeight();
@@ -414,7 +444,7 @@ public class EditAccountActivity extends AppCompatActivity {
                 BitmapFactory.Options bmOptions = new BitmapFactory.Options();
                 bmOptions.inJustDecodeBounds = true;
 
-                BitmapFactory.decodeFile(FileManager.imagePath, bmOptions);
+                BitmapFactory.decodeFile(imageFilePath, bmOptions);
 
                 int photoWidth = bmOptions.outWidth;
                 int photoHeight = bmOptions.outHeight;
@@ -425,11 +455,11 @@ public class EditAccountActivity extends AppCompatActivity {
                 bmOptions.inSampleSize = scaleFactor;
                 bmOptions.inPurgeable = true;
 
-                selectedImage = BitmapFactory.decodeFile(FileManager.imagePath, bmOptions);
+                selectedImage = BitmapFactory.decodeFile(imageFilePath, bmOptions);
 
                 avatar = BitmapController.encodeToBase64(selectedImage);
 
-                avatarImageView.setImageBitmap(BitmapController.rotate(selectedImage, FileManager.imagePath));
+                avatarImageView.setImageBitmap(BitmapController.rotate(selectedImage, imageFilePath));
             }
         } else if (resultCode == RESULT_CANCELED){
             if (requestCode == 100) {

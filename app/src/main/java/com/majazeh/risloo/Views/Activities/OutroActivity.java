@@ -224,7 +224,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
             }
         }
 
-        intentCaller.sendSMS(this, body, result, number);
+        intentCaller.sendSMS(this, number, body, result);
     }
 
     private void downloadFile() {

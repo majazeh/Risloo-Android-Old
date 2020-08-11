@@ -23,6 +23,7 @@ import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Views.Activities.EditAccountActivity;
 
+import java.io.IOException;
 import java.util.Objects;
 
 public class ImageDialog extends BottomSheetDialogFragment {
@@ -92,7 +93,11 @@ public class ImageDialog extends BottomSheetDialogFragment {
             dismiss();
 
             if (((EditAccountActivity) Objects.requireNonNull(getActivity())).cameraPermissionsGranted) {
-                intentCaller.camera(activity);
+                try {
+                    intentCaller.camera(activity, ((EditAccountActivity) Objects.requireNonNull(activity)).createImageFile());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
                 ((EditAccountActivity) Objects.requireNonNull(getActivity())).checkCameraPermission();
             }

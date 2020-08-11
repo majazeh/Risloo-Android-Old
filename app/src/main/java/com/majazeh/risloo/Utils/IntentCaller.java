@@ -11,7 +11,6 @@ import android.provider.Settings;
 import androidx.core.content.FileProvider;
 
 import java.io.File;
-import java.io.IOException;
 
 public class IntentCaller {
 
@@ -29,33 +28,18 @@ public class IntentCaller {
         activity.startActivityForResult(intent, 100);
     }
 
-    public void camera(Activity activity) {
+    public void camera(Activity activity, File file) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(activity, "com.majazeh.risloo.fileprovider", file));
 
-        File imageFile = null;
-        try {
-            imageFile = FileManager.createImageFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (imageFile != null) {
-            Uri imageURI = FileProvider.getUriForFile(activity, "com.majazeh.risloo.fileprovider", imageFile);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageURI);
-            activity.startActivityForResult(intent, 200);
-        }
+        activity.startActivityForResult(intent, 200);
     }
 
-    public void mediaScan(Activity activity) {
+    public void mediaScan(Activity activity, File file) {
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        intent.setData(Uri.fromFile(file));
 
-        File imageFile = new File(FileManager.imagePath);
-
-        if (imageFile != null) {
-            Uri imageURI = Uri.fromFile(imageFile);
-            intent.setData(imageURI);
-            activity.sendBroadcast(intent);
-        }
+        activity.sendBroadcast(intent);
     }
 
     public void phone(Context context, String number) {
@@ -74,10 +58,10 @@ public class IntentCaller {
         context.startActivity(intent);
     }
 
-    public void sendSMS(Context context, String name, String value, String number) {
+    public void sendSMS(Context context, String number, String name, String value) {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.putExtra(name, value);
         intent.setData(Uri.parse("smsto:" + number));
+        intent.putExtra(name, value);
 
         context.startActivity(intent);
     }
