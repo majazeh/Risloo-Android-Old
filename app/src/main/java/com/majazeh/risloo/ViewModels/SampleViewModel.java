@@ -190,4 +190,8 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.firstUnanswered(fileName);
     }
 
+    public JSONObject readPrerequisiteAnswerFromCache(String fileName){
+        return repository.readPrerequisiteAnswerFromCache(fileName);
+    }
+
 }

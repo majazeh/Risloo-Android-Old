@@ -441,11 +441,12 @@ public class SampleRepository extends MainRepository {
             if (!file.exists()) {
                 file.createNewFile();
             }
-                    JSONObject jsonObject = new JSONObject();
+            JSONObject jsonObject = new JSONObject();
             for (int i = 0; i < jsonArray.length(); i++) {
-                    jsonObject.put(String.valueOf(i+1), "");
                 if (jsonArray.getJSONObject(i).has("user_answered")) {
-                    jsonObject.put(String.valueOf(i), jsonArray.getJSONObject(i).getString("user_answered"));
+                    jsonObject.put(String.valueOf(i+1), jsonArray.getJSONObject(i).getString("user_answered"));
+                } else {
+                    jsonObject.put(String.valueOf(i+1),"");
                 }
             }
             savePrerequisiteAnswerToCache(context, jsonObject, fileName);

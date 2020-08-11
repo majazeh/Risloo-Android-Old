@@ -36,8 +36,8 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
     // Objects
     private Activity activity;
     private Handler handler;
-
-    public HashMap answer = new HashMap();
+    private JSONObject answers;
+    public HashMap answer;
 
     public PrerequisiteAdapter(Activity activity) {
         this.activity = activity;
@@ -57,12 +57,15 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
     public void onBindViewHolder(@NonNull PrerequisiteHolder holder, int i) {
         JSONObject item = (JSONObject) prerequisites.get(i);
 
+        int position = i + 1;
+
         try {
             if (item.getJSONObject("answer").getString("type").equals("number")) {
                 holder.typeEditText.setVisibility(View.VISIBLE);
                 holder.optionSpinner.setVisibility(View.GONE);
                 holder.arrowImageView.setVisibility(View.GONE);
 
+                holder.typeEditText.setText(answers.getString(String.valueOf(position)));
                 holder.typeEditText.setHint(((JSONObject) prerequisites.get(i)).getString("text"));
                 holder.typeEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
@@ -88,6 +91,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                 holder.optionSpinner.setVisibility(View.GONE);
                 holder.arrowImageView.setVisibility(View.GONE);
 
+                holder.typeEditText.setText(answers.getString(String.valueOf(position)));
                 holder.typeEditText.setHint(((JSONObject) prerequisites.get(i)).getString("text"));
                 holder.typeEditText.setInputType(InputType.TYPE_CLASS_TEXT);
 
@@ -143,8 +147,11 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                 adapter.add(((JSONObject) prerequisites.get(i)).getString("text"));
                 adapter.setDropDownViewResource(R.layout.spinner_dropdown);
 
+                int k = Integer.parseInt(answers.getString(String.valueOf(position)));
+                k -= 1;
+
                 holder.optionSpinner.setAdapter(adapter);
-                holder.optionSpinner.setSelection(adapter.getCount());
+                holder.optionSpinner.setSelection(k);
                 holder.optionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -175,10 +182,13 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
     private void initializer(View view) {
         handler = new Handler();
+
+        answer = new HashMap();
     }
 
-    public void setPrerequisite(ArrayList prerequisites) {
+    public void setPrerequisite(ArrayList prerequisites, JSONObject answers) {
         this.prerequisites = prerequisites;
+        this.answers = answers;
         notifyDataSetChanged();
     }
 

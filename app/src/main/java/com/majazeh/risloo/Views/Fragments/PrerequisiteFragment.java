@@ -57,7 +57,7 @@ public class PrerequisiteFragment extends Fragment {
         sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
         adapter = new PrerequisiteAdapter(activity);
-        adapter.setPrerequisite(viewModel.getPrerequisite());
+        adapter.setPrerequisite(viewModel.getPrerequisite(), viewModel.readPrerequisiteAnswerFromCache(sharedPreferences.getString("sampleId", "")));
 
         descriptionTextView = view.findViewById(R.id.fragment_prerequisite_description_textView);
 
