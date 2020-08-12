@@ -151,7 +151,8 @@ public class AuthActivity extends AppCompatActivity {
 
             } else if (id == R.id.tool_treatment_counseling_center) {
                 handler.postDelayed(() -> {
-
+                    startActivity(new Intent(this, RelationshipActivity.class));
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }, 50);
             }
             drawerLayout.closeDrawer(GravityCompat.START);

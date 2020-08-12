@@ -231,7 +231,7 @@ public class SampleRepository extends MainRepository {
 
     public ArrayList getItems() {
         if (sampleItems != null)
-        return sampleItems.items();
+            return sampleItems.items();
         else
             return null;
     }
@@ -738,11 +738,11 @@ public class SampleRepository extends MainRepository {
                 if (!readPrerequisiteAnswerFromCache(fileName).getString(String.valueOf(i)).equals(""))
                     size++;
             }
-                    if (size != 0) {
-                        return false;
-                    } else {
-                        return true;
-                    }
+            if (size != 0) {
+                return false;
+            } else {
+                return true;
+            }
         } catch (JSONException e) {
             e.printStackTrace();
             return true;

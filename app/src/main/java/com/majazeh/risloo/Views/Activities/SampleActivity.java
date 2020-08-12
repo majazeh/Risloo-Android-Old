@@ -329,7 +329,6 @@ public class SampleActivity extends AppCompatActivity {
             case "prerequisite":
                 PrerequisiteFragment fragment = ((PrerequisiteFragment) getSupportFragmentManager().findFragmentById(R.id.activity_sample_frameLayout));
                 if (fragment != null) {
-
                     fragment.doWork();
                     observeWorkAnswer();
                 }
@@ -520,7 +519,6 @@ public class SampleActivity extends AppCompatActivity {
 
     private void observeWorkAnswer() {
         SampleController.workStateAnswer.observe((LifecycleOwner) this, integer -> {
-
             if (SampleController.work == "sendPrerequisite") {
                 if (integer == 1) {
 
@@ -534,8 +532,7 @@ public class SampleActivity extends AppCompatActivity {
                     loadingDialog.dismiss();
                     Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
                     SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
-                }
-                if (integer != -1) {
+                } else if (integer != -1) {
                     SampleController.work = "getSample";
                     observeWorkSample();
                 }

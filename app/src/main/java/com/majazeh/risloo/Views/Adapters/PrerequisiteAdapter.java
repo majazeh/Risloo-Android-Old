@@ -31,8 +31,12 @@ import java.util.HashMap;
 
 public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapter.PrerequisiteHolder> {
 
+    // ViewModels
+    private SampleViewModel viewModel;
+
     // Vars
     private String result = "";
+    private String fileName;
     private ArrayList prerequisites;
 
     // Objects
@@ -40,8 +44,6 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
     private Handler handler;
     private JSONObject answers;
     public HashMap answer;
-    private SampleViewModel viewModel;
-    String fileName;
 
     public PrerequisiteAdapter(Activity activity, SampleViewModel viewModel, String fileName) {
         this.activity = activity;
@@ -155,14 +157,12 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                 adapter.add(((JSONObject) prerequisites.get(i)).getString("text"));
                 adapter.setDropDownViewResource(R.layout.spinner_dropdown);
                 int k;
-                Log.e("onBindViewHolder: ", answers.getString(String.valueOf(position)) + "aa");
                 if (!answers.getString(String.valueOf(position)).isEmpty()) {
                     k = Integer.parseInt(answers.getString(String.valueOf(position)));
                     k -= 1;
                 } else {
                     k = adapter.getCount();
                 }
-
 
                 holder.optionSpinner.setAdapter(adapter);
                 holder.optionSpinner.setSelection(k);
