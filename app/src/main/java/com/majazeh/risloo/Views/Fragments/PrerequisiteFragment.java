@@ -21,6 +21,7 @@ import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.PrerequisiteAdapter;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class PrerequisiteFragment extends Fragment {
 
@@ -56,7 +57,7 @@ public class PrerequisiteFragment extends Fragment {
     private void initializer(View view) {
         sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
-        adapter = new PrerequisiteAdapter(activity);
+        adapter = new PrerequisiteAdapter(activity,viewModel,sharedPreferences.getString("sampleId", ""));
         adapter.setPrerequisite(viewModel.getPrerequisite(), viewModel.readPrerequisiteAnswerFromCache(sharedPreferences.getString("sampleId", "")));
 
         descriptionTextView = view.findViewById(R.id.fragment_prerequisite_description_textView);

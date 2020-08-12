@@ -1,5 +1,7 @@
 package com.majazeh.risloo.Models.Items;
 
+import android.util.Log;
+
 import com.majazeh.risloo.Entities.Model;
 
 import org.json.JSONArray;
@@ -7,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class SampleItems {
 

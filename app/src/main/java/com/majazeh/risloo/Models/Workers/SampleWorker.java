@@ -224,8 +224,6 @@ public class SampleWorker extends Worker {
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                repository.insertRemoteToLocal();
-
                 SampleController.exception = errorBody.getString("message_text");
                 SampleController.workStateAnswer.postValue(0);
             }

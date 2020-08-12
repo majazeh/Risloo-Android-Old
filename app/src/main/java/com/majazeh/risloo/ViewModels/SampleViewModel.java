@@ -122,6 +122,10 @@ public class SampleViewModel extends AndroidViewModel {
         repository.saveAnswerToCache(jsonArray, fileName);
     }
 
+    public void savePrerequisiteAnswerToCache(Context context, JSONObject jsonObject, String fileName) {
+    repository.savePrerequisiteAnswerToCache(context, jsonObject, fileName);
+    }
+
 //    public void savePrerequisiteToCache(Context context, JSONArray jsonArray, String fileName) {
 //        repository.savePrerequisiteToCache(context, jsonArray, fileName);
 //    }
@@ -158,9 +162,6 @@ public class SampleViewModel extends AndroidViewModel {
         repository.checkAnswerStorage(fileName);
     }
 
-//    public void checkPrerequisiteStorage(String fileName) {
-//        repository.checkPrerequisiteStorage(fileName);
-//    }
 
     public void deleteStorage(String fileName) {
         repository.deleteAnswerStorage(fileName);

@@ -18,6 +18,7 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -328,6 +329,7 @@ public class SampleActivity extends AppCompatActivity {
             case "prerequisite":
                 PrerequisiteFragment fragment = ((PrerequisiteFragment) getSupportFragmentManager().findFragmentById(R.id.activity_sample_frameLayout));
                 if (fragment != null) {
+
                     fragment.doWork();
                     observeWorkAnswer();
                 }
@@ -432,7 +434,7 @@ public class SampleActivity extends AppCompatActivity {
                             loadingDialog.dismiss();
                             Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
                             SampleController.workStateSample.removeObservers((LifecycleOwner) this);
-                        }else {
+                        } else {
                             viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
                             viewModel.firstUnanswered(sharedPreferences.getString("sampleId", ""));
                             if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
@@ -510,15 +512,17 @@ public class SampleActivity extends AppCompatActivity {
                     Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
                     SampleController.workStateSample.removeObservers((LifecycleOwner) this);
                 }
+            } else {
+
             }
         });
     }
 
     private void observeWorkAnswer() {
         SampleController.workStateAnswer.observe((LifecycleOwner) this, integer -> {
+
             if (SampleController.work == "sendPrerequisite") {
                 if (integer == 1) {
-                    observeWorkSample();
 
                     loadingDialog.dismiss();
                     SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
@@ -530,6 +534,10 @@ public class SampleActivity extends AppCompatActivity {
                     loadingDialog.dismiss();
                     Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
                     SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
+                }
+                if (integer != -1) {
+                    SampleController.work = "getSample";
+                    observeWorkSample();
                 }
             }
         });

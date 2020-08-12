@@ -244,10 +244,10 @@ public class AuthActivity extends AppCompatActivity {
                         }
                     }
                 }
-                if (toolUser != null){
-                    if (token()){
+                if (toolUser != null) {
+                    if (token()) {
                         toolUser.setVisible(false);
-                    }else{
+                    } else {
                         toolUser.setVisible(true);
                     }
                 }
@@ -257,7 +257,7 @@ public class AuthActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 Toast.makeText(this, "" + AuthController.exception, Toast.LENGTH_SHORT).show();
                 AuthController.workState.removeObservers((LifecycleOwner) this);
-            } else if (integer == -2){
+            } else if (integer == -2) {
                 progressDialog.dismiss();
                 Toast.makeText(this, "" + AuthController.exception, Toast.LENGTH_SHORT).show();
                 AuthController.workState.removeObservers((LifecycleOwner) this);
@@ -275,7 +275,7 @@ public class AuthActivity extends AppCompatActivity {
 
         toolUser = menu.findItem(R.id.tool_account);
 
-        if (token()){
+        if (token()) {
             toolUser.setVisible(false);
         } else {
             toolUser.setVisible(true);
@@ -294,10 +294,10 @@ public class AuthActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if (toolUser != null){
-            if (token()){
+        if (toolUser != null) {
+            if (token()) {
                 toolUser.setVisible(false);
-            }else{
+            } else {
                 toolUser.setVisible(true);
             }
         }

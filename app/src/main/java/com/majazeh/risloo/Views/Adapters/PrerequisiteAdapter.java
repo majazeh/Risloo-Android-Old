@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.ViewModels.SampleViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,9 +40,13 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
     private Handler handler;
     private JSONObject answers;
     public HashMap answer;
+    private SampleViewModel viewModel;
+    String fileName;
 
-    public PrerequisiteAdapter(Activity activity) {
+    public PrerequisiteAdapter(Activity activity, SampleViewModel viewModel, String fileName) {
         this.activity = activity;
+        this.viewModel = viewModel;
+        this.fileName = fileName;
     }
 
     @NonNull
@@ -71,7 +77,8 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
                 holder.typeEditText.addTextChangedListener(new TextWatcher() {
                     @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -97,7 +104,8 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
                 holder.typeEditText.addTextChangedListener(new TextWatcher() {
                     @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -146,9 +154,15 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                 }
                 adapter.add(((JSONObject) prerequisites.get(i)).getString("text"));
                 adapter.setDropDownViewResource(R.layout.spinner_dropdown);
+                int k;
+                Log.e("onBindViewHolder: ", answers.getString(String.valueOf(position)) + "aa");
+                if (!answers.getString(String.valueOf(position)).isEmpty()) {
+                    k = Integer.parseInt(answers.getString(String.valueOf(position)));
+                    k -= 1;
+                } else {
+                    k = adapter.getCount();
+                }
 
-                int k = Integer.parseInt(answers.getString(String.valueOf(position)));
-                k -= 1;
 
                 holder.optionSpinner.setAdapter(adapter);
                 holder.optionSpinner.setSelection(k);
@@ -193,8 +207,15 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
     }
 
     public void getAnswers(int index, String result) {
-        int i = index + 1;
-        answer.put(String.valueOf(i), result);
+        try {
+            int i = index + 1;
+            JSONObject jsonObject = viewModel.readPrerequisiteAnswerFromCache(fileName);
+            jsonObject.put(String.valueOf(i), result);
+            viewModel.savePrerequisiteAnswerToCache(activity.getApplicationContext(), jsonObject, fileName);
+            answer.put(String.valueOf(i), result);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public class PrerequisiteHolder extends RecyclerView.ViewHolder {

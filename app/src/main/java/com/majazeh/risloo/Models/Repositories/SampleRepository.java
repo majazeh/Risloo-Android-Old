@@ -171,8 +171,6 @@ public class SampleRepository extends MainRepository {
 
     public void sendPrerequisite(HashMap hashMap) throws JSONException {
         prerequisiteData = hashMap;
-        Log.e("getAnswers: ", String.valueOf(prerequisiteData));
-
         controller.work = "sendPrerequisite";
         controller.workStateAnswer.setValue(-1);
         controller.workManager("sendPrerequisite");
@@ -204,7 +202,7 @@ public class SampleRepository extends MainRepository {
         return arrayList;
     }
 
-    public JSONObject readPrerequisiteAnswerFromCache(String fileName){
+    public JSONObject readPrerequisiteAnswerFromCache(String fileName) {
         JSONObject jsonObject = null;
         try {
             File file = new File(context.getCacheDir(), "prerequisiteAnswers/" + fileName);
@@ -232,7 +230,10 @@ public class SampleRepository extends MainRepository {
     }
 
     public ArrayList getItems() {
+        if (sampleItems != null)
         return sampleItems.items();
+        else
+            return null;
     }
 
     public Model getItem(int index) {
@@ -444,9 +445,9 @@ public class SampleRepository extends MainRepository {
             JSONObject jsonObject = new JSONObject();
             for (int i = 0; i < jsonArray.length(); i++) {
                 if (jsonArray.getJSONObject(i).has("user_answered")) {
-                    jsonObject.put(String.valueOf(i+1), jsonArray.getJSONObject(i).getString("user_answered"));
+                    jsonObject.put(String.valueOf(i + 1), jsonArray.getJSONObject(i).getString("user_answered"));
                 } else {
-                    jsonObject.put(String.valueOf(i+1),"");
+                    jsonObject.put(String.valueOf(i + 1), "");
                 }
             }
             savePrerequisiteAnswerToCache(context, jsonObject, fileName);
@@ -731,9 +732,19 @@ public class SampleRepository extends MainRepository {
     }
 
     public boolean showPrerequisite(String fileName) {
-        if (readPrerequisiteAnswerFromCache(fileName).length() != 0) {
-            return false;
-        } else {
+        try {
+            int size = 0;
+            for (int i = 1; i <= readPrerequisiteAnswerFromCache(fileName).length(); i++) {
+                if (!readPrerequisiteAnswerFromCache(fileName).getString(String.valueOf(i)).equals(""))
+                    size++;
+            }
+                    if (size != 0) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+        } catch (JSONException e) {
+            e.printStackTrace();
             return true;
         }
     }
