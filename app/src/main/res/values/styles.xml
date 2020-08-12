@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     // app theme
     ////////////////////////////////////////////////////////////////////////////////
@@ -98,9 +98,14 @@
         <item name="fontFamily">@font/dana</item>
     </style>
 
-    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+    <style name="TabTextNormalAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">@dimen/_12ssp</item>
         <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TabTextBoldAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">@dimen/_12ssp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     ////////////////////////////////////////////////////////////////////////////////

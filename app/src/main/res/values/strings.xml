@@ -8,7 +8,9 @@
 
     <string name="ApiKey">ای پی آی کی</string>
 
-    <string name="AppLoading">لطفا منتظر بمانید …</string>
+    <string name="AppLoading">در حال بارگذاری …</string>
+    <string name="AppError">مشکل ارتباط با سرور! تلاش مجدد</string>
+    <string name="AppConnection">انترنت وصل نیست! تلاش مجدد</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -218,6 +220,21 @@
     <string name="ArchiveContinueDialogDescription">شما می توانید روند کار را از نمونه خود ادامه دهید و آن را به اتمام برسانید و به ریسلو تحویل دهید.</string>
     <string name="ArchiveContinueDialogPositive">تکمیل نمونه</string>
     <string name="ArchiveContinueDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // relationship strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="RelationshipTitle">مراکز درمانی</string>
+
+    <string name="RelationshipAll">همه</string>
+    <string name="RelationshipMy">من</string>
+
+    <string name="RelationshipRequest">درخواست پذیرش</string>
+
+    <string name="RelationshipPrincipal">مدیر</string>
+    <string name="RelationshipTreatmentRooms">اتاق های درمان</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

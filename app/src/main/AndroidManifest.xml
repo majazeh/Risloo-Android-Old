@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.majazeh.risloo">
 
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".Utils.CustomApp"
@@ -49,6 +49,7 @@
         <activity android:name=".Views.Activities.AccountActivity" android:theme="@style/WindowTheme" />
         <activity android:name=".Views.Activities.EditAccountActivity" android:theme="@style/WindowTheme" />
         <activity android:name=".Views.Activities.ArchiveActivity" />
+        <activity android:name=".Views.Activities.RelationshipActivity" />
         <activity android:name=".Views.Activities.SettingActivity" />
         <activity android:name=".Views.Activities.AboutUsActivity" />
         <activity android:name=".Views.Activities.QuestionActivity" />
