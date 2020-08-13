@@ -7,9 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.majazeh.risloo.Models.Controllers.RelationshipController;
+import com.majazeh.risloo.Models.Controllers.CenterController;
 import com.majazeh.risloo.Models.Managers.FileManager;
-import com.majazeh.risloo.Models.Remotes.Apis.RelationshipApi;
+import com.majazeh.risloo.Models.Remotes.Apis.CenterApi;
 import com.majazeh.risloo.Models.Remotes.Generators.RetroGenerator;
 
 import org.json.JSONException;
@@ -22,10 +22,10 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class RelationshipWorker extends Worker {
+public class CenterWorker extends Worker {
 
     // Apis
-    private RelationshipApi relationshipApi;
+    private CenterApi centerApi;
 
     // Managers
     private FileManager manager;
@@ -35,11 +35,11 @@ public class RelationshipWorker extends Worker {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
-    public RelationshipWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+    public CenterWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         this.context = context;
 
-        relationshipApi = RetroGenerator.getRetrofit().create(RelationshipApi.class);
+        centerApi = RetroGenerator.getRetrofit().create(CenterApi.class);
 
         manager = new FileManager();
 
@@ -78,110 +78,110 @@ public class RelationshipWorker extends Worker {
 
     public void getAll() {
         try {
-            Call<ResponseBody> call = relationshipApi.getAll(token());
+            Call<ResponseBody> call = centerApi.getAll(token());
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
-                manager.writeToCache(context, successBody, "relationships", "all");
+                manager.writeToCache(context, successBody, "centers", "all");
 
-                RelationshipController.exception = "دریافت اطلاعات با موفقیت انجام شد.";
-                RelationshipController.workState.postValue(1);
+                CenterController.exception = "دریافت اطلاعات با موفقیت انجام شد.";
+                CenterController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                RelationshipController.exception = errorBody.getString("message_text");
-                RelationshipController.workState.postValue(0);
+                CenterController.exception = errorBody.getString("message_text");
+                CenterController.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            RelationshipController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
-            RelationshipController.workState.postValue(0);
+            CenterController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
+            CenterController.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            RelationshipController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
-            RelationshipController.workState.postValue(0);
+            CenterController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
+            CenterController.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            RelationshipController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
-            RelationshipController.workState.postValue(0);
+            CenterController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
+            CenterController.workState.postValue(0);
         }
     }
 
     public void getMy() {
         try {
-            Call<ResponseBody> call = relationshipApi.getMy(token());
+            Call<ResponseBody> call = centerApi.getMy(token());
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
-                manager.writeToCache(context, successBody, "relationships", "my");
+                manager.writeToCache(context, successBody, "centers", "my");
 
-                RelationshipController.exception = "دریافت اطلاعات با موفقیت انجام شد.";
-                RelationshipController.workState.postValue(1);
+                CenterController.exception = "دریافت اطلاعات با موفقیت انجام شد.";
+                CenterController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                RelationshipController.exception = errorBody.getString("message_text");
-                RelationshipController.workState.postValue(0);
+                CenterController.exception = errorBody.getString("message_text");
+                CenterController.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            RelationshipController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
-            RelationshipController.workState.postValue(0);
+            CenterController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
+            CenterController.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            RelationshipController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
-            RelationshipController.workState.postValue(0);
+            CenterController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
+            CenterController.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            RelationshipController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
-            RelationshipController.workState.postValue(0);
+            CenterController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
+            CenterController.workState.postValue(0);
         }
     }
 
     private void request() {
         try {
-            Call<ResponseBody> call = relationshipApi.request(token(), RelationshipController.clinicId);
+            Call<ResponseBody> call = centerApi.request(token(), CenterController.clinicId);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject succesBody = new JSONObject(bodyResponse.body().string());
 
-                RelationshipController.exception = "درخواست شما با موفقیت ارسال شد";
-                RelationshipController.workState.postValue(1);
+                CenterController.exception = "درخواست شما با موفقیت ارسال شد";
+                CenterController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                RelationshipController.exception = errorBody.getString("message_text");
-                RelationshipController.workState.postValue(0);
+                CenterController.exception = errorBody.getString("message_text");
+                CenterController.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            RelationshipController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
-            RelationshipController.workState.postValue(0);
+            CenterController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
+            CenterController.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            RelationshipController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
-            RelationshipController.workState.postValue(0);
+            CenterController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
+            CenterController.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            RelationshipController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
-            RelationshipController.workState.postValue(0);
+            CenterController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
+            CenterController.workState.postValue(0);
         }
     }
 

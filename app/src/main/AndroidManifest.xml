@@ -49,7 +49,7 @@
         <activity android:name=".Views.Activities.AccountActivity" android:theme="@style/WindowTheme" />
         <activity android:name=".Views.Activities.EditAccountActivity" android:theme="@style/WindowTheme" />
         <activity android:name=".Views.Activities.ArchiveActivity" />
-        <activity android:name=".Views.Activities.RelationshipActivity" />
+        <activity android:name=".Views.Activities.CenterActivity" />
         <activity android:name=".Views.Activities.SettingActivity" />
         <activity android:name=".Views.Activities.AboutUsActivity" />
         <activity android:name=".Views.Activities.QuestionActivity" />

@@ -2,15 +2,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_my_relationship"
+    android:id="@+id/fragment_all_center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:background="@null"
-    tools:context=".Views.Fragments.AllRelationshipFragment">
+    tools:context=".Views.Fragments.AllCenterFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fragment_my_relationship_recyclerView"
+        android:id="@+id/fragment_all_center_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="always" />

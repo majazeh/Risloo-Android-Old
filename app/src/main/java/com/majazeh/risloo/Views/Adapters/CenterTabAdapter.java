@@ -7,10 +7,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.majazeh.risloo.Views.Fragments.AllRelationshipFragment;
-import com.majazeh.risloo.Views.Fragments.MyRelationshipFragment;
+import com.majazeh.risloo.Views.Fragments.AllCenterFragment;
+import com.majazeh.risloo.Views.Fragments.MyCenterFragment;
 
-public class RelationshipTabAdapter extends FragmentPagerAdapter {
+public class CenterTabAdapter extends FragmentPagerAdapter {
 
     // Vars
     private boolean token;
@@ -18,7 +18,7 @@ public class RelationshipTabAdapter extends FragmentPagerAdapter {
     // Object
     private Activity activity;
 
-    public RelationshipTabAdapter(@NonNull FragmentManager fragmentManager, int behavior, Activity activity, boolean token) {
+    public CenterTabAdapter(@NonNull FragmentManager fragmentManager, int behavior, Activity activity, boolean token) {
         super(fragmentManager, behavior);
         this.activity = activity;
         this.token = token;
@@ -28,9 +28,9 @@ public class RelationshipTabAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int i) {
         if (i == 0) {
-            return new AllRelationshipFragment(activity);
+            return new AllCenterFragment(activity);
         } else {
-            return new MyRelationshipFragment(activity);
+            return new MyCenterFragment(activity);
         }
     }
 

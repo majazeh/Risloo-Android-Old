@@ -20,22 +20,22 @@ import android.widget.TextView;
 
 import com.duolingo.open.rtlviewpager.RtlViewPager;
 import com.google.android.material.tabs.TabLayout;
-import com.majazeh.risloo.Models.Controllers.RelationshipController;
+import com.majazeh.risloo.Models.Controllers.CenterController;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.Utils.WindowDecorator;
-import com.majazeh.risloo.ViewModels.RelationshipViewModel;
-import com.majazeh.risloo.Views.Adapters.RelationshipTabAdapter;
+import com.majazeh.risloo.ViewModels.CenterViewModel;
+import com.majazeh.risloo.Views.Adapters.CenterTabAdapter;
 
 import org.json.JSONException;
 
-public class RelationshipActivity extends AppCompatActivity {
+public class CenterActivity extends AppCompatActivity {
 
     // ViewModels
-    private RelationshipViewModel viewModel;
+    private CenterViewModel viewModel;
 
     // Adapters
-    private RelationshipTabAdapter adapter;
+    private CenterTabAdapter adapter;
 
     // Objects
     private SharedPreferences sharedPreferences;
@@ -56,7 +56,7 @@ public class RelationshipActivity extends AppCompatActivity {
 
         decorator();
 
-        setContentView(R.layout.activity_relationship);
+        setContentView(R.layout.activity_center);
 
         initializer();
 
@@ -71,29 +71,29 @@ public class RelationshipActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = ViewModelProviders.of(this).get(RelationshipViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(CenterViewModel.class);
 
         sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
         editor = sharedPreferences.edit();
         editor.apply();
 
-        adapter = new RelationshipTabAdapter(getSupportFragmentManager(), 0, this, token());
+        adapter = new CenterTabAdapter(getSupportFragmentManager(), 0, this, token());
 
-        toolbar = findViewById(R.id.activity_relationship_toolbar);
+        toolbar = findViewById(R.id.activity_center_toolbar);
 
-        tabLayout = findViewById(R.id.activity_relationship_tabLayout);
+        tabLayout = findViewById(R.id.activity_center_tabLayout);
 
-        rtlViewPager = findViewById(R.id.activity_relationship_rtlViewPager);
+        rtlViewPager = findViewById(R.id.activity_center_rtlViewPager);
 
-        retryImageView = findViewById(R.id.activity_relationship_retry_imageView);
+        retryImageView = findViewById(R.id.activity_center_retry_imageView);
 
-        retryTextView = findViewById(R.id.activity_relationship_retry_textView);
+        retryTextView = findViewById(R.id.activity_center_retry_textView);
         retryTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
-        mainLayout = findViewById(R.id.activity_relationship_mainLayout);
-        retryLayout = findViewById(R.id.activity_relationship_retryLayout);
-        loadingLayout = findViewById(R.id.activity_relationship_loadingLayout);
+        mainLayout = findViewById(R.id.activity_center_mainLayout);
+        retryLayout = findViewById(R.id.activity_center_retryLayout);
+        loadingLayout = findViewById(R.id.activity_center_loadingLayout);
     }
 
     private void listener() {
@@ -163,9 +163,9 @@ public class RelationshipActivity extends AppCompatActivity {
     private void launchProcess(String method) {
         try {
             if (method.equals("getAll")) {
-                viewModel.relationships();
+                viewModel.centers();
             } else {
-                viewModel.myRelationships();
+                viewModel.myCenters();
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -173,15 +173,15 @@ public class RelationshipActivity extends AppCompatActivity {
     }
 
     private void observeWork() {
-        RelationshipController.workState.observe((LifecycleOwner) this, integer -> {
-            if (RelationshipController.work == "getAll") {
+        CenterController.workState.observe((LifecycleOwner) this, integer -> {
+            if (CenterController.work == "getAll") {
                 if (integer == 1) {
                     if (token()) {
-                        // Continue Get MyRelationship
+                        // Continue Get MyCenter
 
                         launchProcess("getMy");
                     } else {
-                        // Just Show AllRelationship
+                        // Just Show AllCenter
 
                         loadingLayout.setVisibility(View.GONE);
                         retryLayout.setVisibility(View.GONE);
@@ -190,12 +190,12 @@ public class RelationshipActivity extends AppCompatActivity {
                         tabLayout.setVisibility(View.GONE);
                         rtlViewPager.setAdapter(adapter);
 
-                        RelationshipController.workState.removeObservers((LifecycleOwner) this);
+                        CenterController.workState.removeObservers((LifecycleOwner) this);
                     }
                 } else  {
                     if (viewModel.getAll().isEmpty()) {
                         if (integer == 0) {
-                            // AllRelationship is Empty And Error
+                            // AllCenter is Empty And Error
 
                             loadingLayout.setVisibility(View.GONE);
                             retryLayout.setVisibility(View.VISIBLE);
@@ -203,9 +203,9 @@ public class RelationshipActivity extends AppCompatActivity {
 
                             setRetryLayout("error");
 
-                            RelationshipController.workState.removeObservers((LifecycleOwner) this);
+                            CenterController.workState.removeObservers((LifecycleOwner) this);
                         } else if (integer == -2) {
-                            // AllRelationship is Empty And Connection
+                            // AllCenter is Empty And Connection
 
                             loadingLayout.setVisibility(View.GONE);
                             retryLayout.setVisibility(View.VISIBLE);
@@ -213,11 +213,11 @@ public class RelationshipActivity extends AppCompatActivity {
 
                             setRetryLayout("connection");
 
-                            RelationshipController.workState.removeObservers((LifecycleOwner) this);
+                            CenterController.workState.removeObservers((LifecycleOwner) this);
                         }
                     } else {
                         if (token()) {
-                            // Show Both AllRelationship And MyRelationship
+                            // Show Both AllCenter And MyCenter
 
                             loadingLayout.setVisibility(View.GONE);
                             retryLayout.setVisibility(View.GONE);
@@ -226,9 +226,9 @@ public class RelationshipActivity extends AppCompatActivity {
                             tabLayout.setVisibility(View.VISIBLE);
                             rtlViewPager.setAdapter(adapter);
 
-                            RelationshipController.workState.removeObservers((LifecycleOwner) this);
+                            CenterController.workState.removeObservers((LifecycleOwner) this);
                         } else {
-                            // Just Show AllRelationship
+                            // Just Show AllCenter
 
                             loadingLayout.setVisibility(View.GONE);
                             retryLayout.setVisibility(View.GONE);
@@ -237,12 +237,12 @@ public class RelationshipActivity extends AppCompatActivity {
                             tabLayout.setVisibility(View.GONE);
                             rtlViewPager.setAdapter(adapter);
 
-                            RelationshipController.workState.removeObservers((LifecycleOwner) this);
+                            CenterController.workState.removeObservers((LifecycleOwner) this);
                         }
                     }
                 }
-            } else if (RelationshipController.work == "getMy") {
-                // Show Both AllRelationship And MyRelationship
+            } else if (CenterController.work == "getMy") {
+                // Show Both AllCenter And MyCenter
 
                 loadingLayout.setVisibility(View.GONE);
                 retryLayout.setVisibility(View.GONE);
@@ -251,7 +251,7 @@ public class RelationshipActivity extends AppCompatActivity {
                 tabLayout.setVisibility(View.VISIBLE);
                 rtlViewPager.setAdapter(adapter);
 
-                RelationshipController.workState.removeObservers((LifecycleOwner) this);
+                CenterController.workState.removeObservers((LifecycleOwner) this);
             }
         });
     }

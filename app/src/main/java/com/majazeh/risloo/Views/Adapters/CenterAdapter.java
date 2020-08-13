@@ -18,57 +18,57 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RelationshipAdapter extends RecyclerView.Adapter<RelationshipAdapter.RelationshipHolder> {
+public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHolder> {
 
     // Vars
-    private ArrayList<Model> relationships;
+    private ArrayList<Model> centers;
 
     // Objects
     private Activity activity;
     private Handler handler;
 
-    public RelationshipAdapter(Activity activity) {
+    public CenterAdapter(Activity activity) {
         this.activity = activity;
     }
 
     @NonNull
     @Override
-    public RelationshipHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.activity_relationship_single_item, viewGroup, false);
+    public CenterHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(activity).inflate(R.layout.activity_center_single_item, viewGroup, false);
 
         initializer(view);
 
-        return new RelationshipHolder(view);
+        return new CenterHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RelationshipHolder holder, int i) {
+    public void onBindViewHolder(@NonNull CenterHolder holder, int i) {
 
 
     }
 
     @Override
     public int getItemCount() {
-        return relationships.size();
+        return centers.size();
     }
 
     private void initializer(View view) {
         handler = new Handler();
     }
 
-    public void setRelationship(ArrayList<Model> relationships) {
-        this.relationships = relationships;
+    public void setCenter(ArrayList<Model> centers) {
+        this.centers = centers;
         notifyDataSetChanged();
     }
 
-    public class RelationshipHolder extends RecyclerView.ViewHolder {
+    public class CenterHolder extends RecyclerView.ViewHolder {
 
         public CircleImageView avatarImageView;
         public TextView titleTextView, requestTextView, descriptionTextView, principalTextView;
         public ImageView editImageView, peopleImageVIew, expandImageView;
         public RecyclerView addressRecyclerView, phoneRecyclerView;
 
-        public RelationshipHolder(View view) {
+        public CenterHolder(View view) {
             super(view);
 //            subjectTextView = view.findViewById(R.id.activity_question_single_item_subject_textView);
 //            answerTextView = view.findViewById(R.id.activity_question_single_item_answer_textView);

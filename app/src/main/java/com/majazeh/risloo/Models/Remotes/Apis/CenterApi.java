@@ -8,18 +8,18 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
-public interface RelationshipApi {
+public interface CenterApi {
 
     @Headers({"content-type: application/x-www-form-urlencoded"})
-    @GET("relationships")
+    @GET("centers")
     Call<ResponseBody> getAll(@Header("Authorization") String authorization);
 
     @Headers({"content-type: application/x-www-form-urlencoded"})
-    @GET("relationships?my=1")
+    @GET("centers?my=1")
     Call<ResponseBody> getMy(@Header("Authorization") String authorization);
 
     @Headers({"content-type: application/x-www-form-urlencoded"})
-    @POST("relationships/request")
+    @POST("centers/request")
     Call<ResponseBody> request(@Header("Authorization") String authorization, @Field("clinic_id") String clinicId);
 
 }

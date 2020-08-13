@@ -15,16 +15,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
-import com.majazeh.risloo.ViewModels.RelationshipViewModel;
-import com.majazeh.risloo.Views.Adapters.RelationshipAdapter;
+import com.majazeh.risloo.ViewModels.CenterViewModel;
+import com.majazeh.risloo.Views.Adapters.CenterAdapter;
 
-public class MyRelationshipFragment extends Fragment {
+public class MyCenterFragment extends Fragment {
 
     // ViewModels
-    private RelationshipViewModel viewModel;
+    private CenterViewModel viewModel;
 
     // Adapters
-    private RelationshipAdapter adapter;
+    private CenterAdapter adapter;
 
     // Objects
     private Activity activity;
@@ -32,14 +32,14 @@ public class MyRelationshipFragment extends Fragment {
     // Widgets
     private RecyclerView recyclerView;
 
-    public MyRelationshipFragment(Activity activity) {
+    public MyCenterFragment(Activity activity) {
         this.activity = activity;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.fragment_my_relationship, viewGroup, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.fragment_my_center, viewGroup, false);
 
         initializer(view);
 
@@ -47,12 +47,12 @@ public class MyRelationshipFragment extends Fragment {
     }
 
     private void initializer(View view) {
-        viewModel = ViewModelProviders.of(this).get(RelationshipViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(CenterViewModel.class);
 
-        adapter = new RelationshipAdapter(activity);
-//        adapter.setRelationship(viewModel.getMy());
+        adapter = new CenterAdapter(activity);
+//        adapter.setCenter(viewModel.getMy());
 
-        recyclerView = view.findViewById(R.id.fragment_my_relationship_recyclerView);
+        recyclerView = view.findViewById(R.id.fragment_my_center_recyclerView);
         recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout",(int) getResources().getDimension(R.dimen._18sdp)));
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);

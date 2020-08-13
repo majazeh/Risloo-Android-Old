@@ -11,11 +11,11 @@ import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
-import com.majazeh.risloo.Models.Workers.RelationshipWorker;
+import com.majazeh.risloo.Models.Workers.CenterWorker;
 
 import org.json.JSONException;
 
-public class RelationshipController {
+public class CenterController {
 
     // Objects
     private Application application;
@@ -26,7 +26,7 @@ public class RelationshipController {
     public static String exception = "";
     public static String clinicId = "";
 
-    public RelationshipController(Application application) {
+    public CenterController(Application application) {
         this.application = application;
 
         workState = new MutableLiveData<>();
@@ -39,7 +39,7 @@ public class RelationshipController {
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build();
 
-            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(RelationshipWorker.class)
+            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(CenterWorker.class)
                     .setConstraints(constraints)
                     .setInputData(data(work))
                     .build();

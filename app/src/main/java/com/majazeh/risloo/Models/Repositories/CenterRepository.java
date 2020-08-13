@@ -3,7 +3,7 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Controllers.RelationshipController;
+import com.majazeh.risloo.Models.Controllers.CenterController;
 import com.majazeh.risloo.Models.Managers.FileManager;
 
 import org.json.JSONArray;
@@ -12,29 +12,29 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class RelationshipRepository extends MainRepository {
+public class CenterRepository extends MainRepository {
 
     // Controllers
-    private RelationshipController controller;
+    private CenterController controller;
 
     // Managers
     private FileManager manager;
 
-    public RelationshipRepository(Application application) throws JSONException {
+    public CenterRepository(Application application) throws JSONException {
         super(application);
 
-        controller = new RelationshipController(application);
+        controller = new CenterController(application);
 
         manager = new FileManager();
     }
 
-    public void relationships() throws JSONException {
+    public void centers() throws JSONException {
         controller.work = "getAll";
         controller.workState.setValue(-1);
         controller.workManager("getAll");
     }
 
-    public void myRelationships() throws JSONException {
+    public void myCenters() throws JSONException {
         controller.work = "getMy";
         controller.workState.setValue(-1);
         controller.workManager("getMy");
@@ -49,7 +49,7 @@ public class RelationshipRepository extends MainRepository {
 
     public ArrayList<Model> getAll() {
         ArrayList<Model> arrayList = new ArrayList<>();
-        JSONObject jsonObject = manager.readFromCache(application.getApplicationContext(), "relationships", "all");
+        JSONObject jsonObject = manager.readFromCache(application.getApplicationContext(), "centers", "all");
         try {
             JSONArray data = jsonObject.getJSONArray("data");
             if (data.length() == 0) {
@@ -68,7 +68,7 @@ public class RelationshipRepository extends MainRepository {
 
     public ArrayList<Model> getMy() {
         ArrayList<Model> arrayList = new ArrayList<>();
-        JSONObject jsonObject = manager.readFromCache(application.getApplicationContext(), "relationships", "my");
+        JSONObject jsonObject = manager.readFromCache(application.getApplicationContext(), "centers", "my");
         try {
             JSONArray data = jsonObject.getJSONArray("data");
             if (data.length() == 0) {

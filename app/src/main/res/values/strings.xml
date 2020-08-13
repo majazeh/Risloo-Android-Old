@@ -223,18 +223,18 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // relationship strings
+    // center strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="RelationshipTitle">مراکز درمانی</string>
+    <string name="CenterTitle">مراکز درمانی</string>
 
-    <string name="RelationshipAll">همه</string>
-    <string name="RelationshipMy">من</string>
+    <string name="CenterAll">همه</string>
+    <string name="CenterMy">من</string>
 
-    <string name="RelationshipRequest">درخواست پذیرش</string>
+    <string name="CenterRequest">درخواست پذیرش</string>
 
-    <string name="RelationshipPrincipal">مدیر</string>
-    <string name="RelationshipTreatmentRooms">اتاق های درمان</string>
+    <string name="CenterPrincipal">مدیر</string>
+    <string name="CenterTreatmentRooms">اتاق های درمان</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
