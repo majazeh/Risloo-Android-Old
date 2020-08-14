@@ -11,6 +11,7 @@ import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
+import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Workers.SampleWorker;
 
 import org.json.JSONException;
@@ -24,7 +25,6 @@ public class SampleController {
     public static MutableLiveData<Integer> workStateSample;
     public static MutableLiveData<Integer> workStateAnswer;
     public static String work = "";
-    public static String exception = "";
     public static String theory = "sample";
     public static boolean cache = false;
 
@@ -50,7 +50,7 @@ public class SampleController {
 
             WorkManager.getInstance(application).enqueue(workRequest);
         } else {
-            exception = "انترنت شما وصل نیست! لطفا متصل شوید.";
+            ExceptionManager.getError(0, null, false, "offline","sample");
             workStateSample.setValue(-2);
             workStateAnswer.setValue(-2);
         }

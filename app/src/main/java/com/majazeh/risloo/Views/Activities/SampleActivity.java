@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.majazeh.risloo.Models.Controllers.SampleController;
+import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -47,6 +48,8 @@ import com.majazeh.risloo.Views.Fragments.TFTFragment;
 import com.majazeh.risloo.Views.Fragments.TPFragment;
 
 import org.json.JSONException;
+
+import java.util.logging.Logger;
 
 public class SampleActivity extends AppCompatActivity {
 
@@ -431,7 +434,7 @@ public class SampleActivity extends AppCompatActivity {
                         if (viewModel.getItems() == null) {
                             finish();
                             loadingDialog.dismiss();
-                            Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
                             SampleController.workStateSample.removeObservers((LifecycleOwner) this);
                         } else {
                             viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
@@ -500,15 +503,15 @@ public class SampleActivity extends AppCompatActivity {
                     finish();
 
                     progressDialog.dismiss();
-                    Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
                     SampleController.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
                     SampleController.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
                     SampleController.workStateSample.removeObservers((LifecycleOwner) this);
                 }
             } else {
@@ -526,13 +529,14 @@ public class SampleActivity extends AppCompatActivity {
                     SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     loadingDialog.dismiss();
-                    Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
                     SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     loadingDialog.dismiss();
-                    Toast.makeText(this, SampleController.exception, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
                     SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
-                } else if (integer != -1) {
+                }
+                if (integer != -1) {
                     SampleController.work = "getSample";
                     observeWorkSample();
                 }

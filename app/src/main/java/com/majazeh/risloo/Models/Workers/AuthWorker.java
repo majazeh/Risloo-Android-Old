@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Remotes.Apis.AuthApi;
 import com.majazeh.risloo.Models.Remotes.Generators.RetroGenerator;
 import com.majazeh.risloo.Models.Controllers.AuthController;
@@ -39,6 +40,7 @@ public class AuthWorker extends Worker {
 
         editor = sharedPreferences.edit();
         editor.apply();
+
     }
 
     @NonNull
@@ -80,7 +82,7 @@ public class AuthWorker extends Worker {
 
     private String token() {
         if (!sharedPreferences.getString("token", "").equals("")) {
-            return  "Bearer " + sharedPreferences.getString("token", "");
+            return "Bearer " + sharedPreferences.getString("token", "");
         }
         return "";
     }
@@ -122,29 +124,26 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
-                AuthController.exception = "دریافت اطلاعات با موفقیت انجام شد.";
                 AuthController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-
-                AuthController.exception = errorBody.getString("message_text");
+                ExceptionManager.getError(bodyResponse.code(), errorBody, true, "","auth");
                 AuthController.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
-
-            AuthController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
+            ExceptionManager.getError(0, null, false, "SocketTimeoutException","auth");
             AuthController.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "JSONException","auth");
 
-            AuthController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "IOException","auth");
 
-            AuthController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         }
     }
@@ -186,29 +185,28 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
-                AuthController.exception = "دریافت اطلاعات با موفقیت انجام شد.";
                 AuthController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                ExceptionManager.getError(bodyResponse.code(), errorBody, true, "","auth");
 
-                AuthController.exception = errorBody.getString("message_text");
                 AuthController.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "SocketTimeoutException","auth");
 
-            AuthController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "JSONException","auth");
 
-            AuthController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "IOException","auth");
 
-            AuthController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         }
     }
@@ -250,29 +248,28 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
-                AuthController.exception = "ثبت نام با موفقیت انجام شد.";
                 AuthController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                ExceptionManager.getError(bodyResponse.code(), errorBody, true, "","auth");
 
-                AuthController.exception = errorBody.getString("message_text");
                 AuthController.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "SocketTimeoutException","auth");
 
-            AuthController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "JSONException","auth");
 
-            AuthController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "IOException","auth");
 
-            AuthController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         }
     }
@@ -314,29 +311,28 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
-                AuthController.exception = "احراز هویت با موفقیت انجام شد.";
                 AuthController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                ExceptionManager.getError(bodyResponse.code(), errorBody, true, "","auth");
 
-                AuthController.exception = errorBody.getString("message_text");
                 AuthController.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "SocketTimeoutException","auth");
 
-            AuthController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "JSONException","auth");
 
-            AuthController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "IOException","auth");
 
-            AuthController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         }
     }
@@ -378,29 +374,28 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
-                AuthController.exception = "رمز عبور با موفقیت بازیابی شد.";
                 AuthController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                ExceptionManager.getError(bodyResponse.code(), errorBody, true, "","auth");
 
-                AuthController.exception = errorBody.getString("message_text");
                 AuthController.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "SocketTimeoutException","auth");
 
-            AuthController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "JSONException","auth");
 
-            AuthController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "IOException","auth");
 
-            AuthController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         }
     }
@@ -426,29 +421,28 @@ public class AuthWorker extends Worker {
 
                 editor.apply();
 
-                AuthController.exception = "دریافت اطلاعات با موفقیت انجام شد.";
                 AuthController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                ExceptionManager.getError(bodyResponse.code(), errorBody, true, "","auth");
 
-                AuthController.exception = errorBody.getString("message_text");
                 AuthController.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "SocketTimeoutException","auth");
 
-            AuthController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "JSONException","auth");
 
-            AuthController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "IOException","auth");
 
-            AuthController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         }
     }
@@ -466,29 +460,28 @@ public class AuthWorker extends Worker {
                 editor.putString("birthday", AuthController.birthday);
                 editor.apply();
 
-                AuthController.exception = "اصلاح پروفایل با موفقیت انجام شد.";
                 AuthController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                ExceptionManager.getError(bodyResponse.code(), errorBody, true, "","auth");
 
-                AuthController.exception = errorBody.getString("message_text");
                 AuthController.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "SocketTimeoutException","auth");
 
-            AuthController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "JSONException","auth");
 
-            AuthController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "IOException","auth");
 
-            AuthController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         }
     }
@@ -511,29 +504,28 @@ public class AuthWorker extends Worker {
                 editor.remove("avatar");
                 editor.apply();
 
-                AuthController.exception = "خروج با موفقیت انجام شد.";
                 AuthController.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                ExceptionManager.getError(bodyResponse.code(), errorBody, true, "","auth");
 
-                AuthController.exception = errorBody.getString("message_text");
                 AuthController.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "SocketTimeoutException","auth");
 
-            AuthController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "JSONException","auth");
 
-            AuthController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
+            ExceptionManager.getError(0, null, false, "IOException","auth");
 
-            AuthController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
             AuthController.workState.postValue(0);
         }
     }

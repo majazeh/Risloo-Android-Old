@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.majazeh.risloo.Models.Controllers.AuthController;
+import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
@@ -256,11 +257,11 @@ public class AuthActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             } else if (integer == 0) {
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + AuthController.exception, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
                 AuthController.workState.removeObservers((LifecycleOwner) this);
             } else if (integer == -2) {
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + AuthController.exception, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
                 AuthController.workState.removeObservers((LifecycleOwner) this);
             }
         });

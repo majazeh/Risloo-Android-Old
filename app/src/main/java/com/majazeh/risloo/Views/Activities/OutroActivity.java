@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.majazeh.risloo.Models.Controllers.SampleController;
+import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -256,11 +257,11 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
                 SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
             } else if (integer == 0){
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + SampleController.exception, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
                 SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
             } else if (integer == -2) {
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + SampleController.exception, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
                 SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
             }
         });
@@ -272,15 +273,15 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
                 finish();
 
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + SampleController.exception, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
                 SampleController.workStateSample.removeObservers((LifecycleOwner) this);
             } else if (integer == 0){
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + SampleController.exception, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
                 SampleController.workStateSample.removeObservers((LifecycleOwner) this);
             } else if (integer == -2) {
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + SampleController.exception, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
                 SampleController.workStateSample.removeObservers((LifecycleOwner) this);
             }
         });

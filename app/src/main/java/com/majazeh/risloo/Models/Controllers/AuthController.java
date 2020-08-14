@@ -11,6 +11,7 @@ import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
+import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Workers.AuthWorker;
 
 import org.json.JSONException;
@@ -23,7 +24,6 @@ public class AuthController {
     // Vars
     public static MutableLiveData<Integer> workState;
     public static String work = "";
-    public static String exception = "";
     public static String theory = "auth";
     public static String preTheory = "";
     public static String key = "";
@@ -58,7 +58,7 @@ public class AuthController {
 
             WorkManager.getInstance(application).enqueue(workRequest);
         } else {
-            exception = "انترنت شما وصل نیست! لطفا متصل شوید.";
+            ExceptionManager.getError(0, null, false, "offline","auth");
             workState.postValue(-2);
         }
     }
