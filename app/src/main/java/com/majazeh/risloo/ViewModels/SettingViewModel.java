@@ -23,6 +23,10 @@ public class SettingViewModel extends AndroidViewModel {
         repository = new SettingRepository(application);
     }
 
+    /*
+         ---------- Arrays ----------
+    */
+
     public ArrayList<Model> getAll() {
         return repository.getAll();
     }

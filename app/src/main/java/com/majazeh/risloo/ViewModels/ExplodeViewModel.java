@@ -20,9 +20,17 @@ public class ExplodeViewModel extends AndroidViewModel {
         repository = new ExplodeRepository(application);
     }
 
+    /*
+         ---------- Voids ----------
+    */
+
     public void explode() throws JSONException {
         repository.explode();
     }
+
+    /*
+         ---------- Booleans ----------
+    */
 
     public boolean newContent(){
         return repository.newContent();
@@ -35,6 +43,10 @@ public class ExplodeViewModel extends AndroidViewModel {
     public boolean forceUpdate(){
         return repository.forceUpdate();
     }
+
+    /*
+         ---------- Strings ----------
+    */
 
     public String currentVersion(){
         return repository.currentVersion();

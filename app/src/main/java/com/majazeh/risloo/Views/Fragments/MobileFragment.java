@@ -19,7 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.majazeh.risloo.Models.Controllers.AuthController;
+import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Activities.AuthActivity;
@@ -139,7 +139,7 @@ public class MobileFragment extends Fragment {
     private void doWork() {
         try {
             ((AuthActivity) Objects.requireNonNull(getActivity())).progressDialog.show();
-            if (AuthController.theory.equals("mobile")) {
+            if (AuthRepository.theory.equals("mobile")) {
                 viewModel.auth(mobile);
             } else {
                 viewModel.recovery(mobile);

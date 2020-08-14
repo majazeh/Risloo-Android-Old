@@ -2,6 +2,7 @@ package com.majazeh.risloo.Models.Managers;
 
 import android.content.Context;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,11 +16,7 @@ import java.io.ObjectOutputStream;
 
 public class FileManager {
 
-    public FileManager() {
-
-    }
-
-    public boolean writeToCache(Context context, JSONObject jsonObject, String fileName, String fileSubName) {
+    public static boolean writeToCache(Context context, JSONObject jsonObject, String fileName, String fileSubName) {
         try {
             File file = new File(context.getCacheDir(), fileName + "/" + fileSubName);
             if (!file.getParentFile().exists()) {
@@ -41,7 +38,7 @@ public class FileManager {
         return false;
     }
 
-    public JSONObject readFromCache(Context context, String fileName, String fileSubName) {
+    public static JSONObject readFromCache(Context context, String fileName, String fileSubName) {
         JSONObject jsonObject = null;
         try {
             File file = new File(context.getCacheDir(), fileName + "/" + fileSubName);
@@ -65,6 +62,29 @@ public class FileManager {
             return null;
         }
         return jsonObject;
+    }
+
+    public static void writeToCSV(Context context, JSONArray jsonArray, String fileName) {
+        try {
+            FileOutputStream fos = context.openFileOutput(fileName + ".csv", Context.MODE_PRIVATE);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                fos.write(jsonArray.getJSONObject(i).getString("index").getBytes("UTF-8"));
+                fos.write(",".getBytes("UTF-8"));
+                fos.write(jsonArray.getJSONObject(i).getString("answer").getBytes("UTF-8"));
+                fos.write("\n".getBytes("UTF-8"));
+            }
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static File readFromCSV(Context context, String fileName) {
+        return new File(context.getCacheDir(), fileName + ".csv");
     }
 
 }

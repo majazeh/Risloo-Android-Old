@@ -2,11 +2,19 @@ package com.majazeh.risloo.Models.Repositories;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+
+import androidx.lifecycle.MutableLiveData;
+import androidx.work.Constraints;
+import androidx.work.Data;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Controllers.AuthController;
 import com.majazeh.risloo.Models.Items.AuthItems;
+import com.majazeh.risloo.Models.Managers.ExceptionManager;
+import com.majazeh.risloo.Models.Workers.AuthWorker;
 
 import org.json.JSONException;
 
@@ -14,86 +22,113 @@ import java.util.ArrayList;
 
 public class AuthRepository extends MainRepository {
 
-    // Controllers
-    private AuthController controller;
-
     // Items
     private AuthItems authItems;
 
-    // Objects
-    private SharedPreferences sharedPreferences;
+    // Vars
+    public static MutableLiveData<Integer> workState;
+    public static String work = "";
+    public static String theory = "auth";
+    public static String preTheory = "";
+    public static String key = "";
+    public static String authorizedKey = "";
+    public static String callback = "";
+    public static String name = "";
+    public static String mobile = "";
+    public static String gender = "";
+    public static String birthday = "";
+    public static String password = "";
+    public static String code = "";
+    public static String sampleId = "";
 
     public AuthRepository(Application application) throws JSONException {
         super(application);
 
-        sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+        authItems = new AuthItems(application, application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE));
 
-        controller = new AuthController(application);
-        authItems = new AuthItems(application, sharedPreferences);
+        workState = new MutableLiveData<>();
+        workState.setValue(-1);
     }
 
+    /*
+         ---------- Voids ----------
+    */
+
     public void auth(String authorizedKey) throws JSONException {
-        controller.authorizedKey = authorizedKey;
-        controller.work = "auth";
-        controller.workState.setValue(-1);
-        controller.workManager("auth");
+        AuthRepository.authorizedKey = authorizedKey;
+
+        work = "auth";
+        workState.setValue(-1);
+        workManager("auth");
     }
 
     public void authTheory(String password, String code) throws JSONException {
-        controller.password = password;
-        controller.code = code;
-        controller.work = "authTheory";
-        controller.workState.setValue(-1);
-        controller.workManager("authTheory");
+        AuthRepository.password = password;
+        AuthRepository.code = code;
+
+        work = "authTheory";
+        workState.setValue(-1);
+        workManager("authTheory");
     }
 
     public void register(String name, String mobile, String gender, String password) throws JSONException {
-        controller.name = name;
-        controller.mobile = mobile;
-        controller.gender = gender;
-        controller.password = password;
-        controller.work = "register";
-        controller.workState.setValue(-1);
-        controller.workManager("register");
+        AuthRepository.name = name;
+        AuthRepository.mobile = mobile;
+        AuthRepository.gender = gender;
+        AuthRepository.password = password;
+
+        work = "register";
+        workState.setValue(-1);
+        workManager("register");
     }
 
     public void verification() throws JSONException {
-        controller.work = "verification";
-        controller.workState.setValue(-1);
-        controller.workManager("verification");
+        work = "verification";
+        workState.setValue(-1);
+        workManager("verification");
     }
 
     public void recovery(String mobile) throws JSONException {
-        controller.mobile = mobile;
-        controller.work = "recovery";
-        controller.workState.setValue(-1);
-        controller.workManager("recovery");
+        AuthRepository.mobile = mobile;
+
+        work = "recovery";
+        workState.setValue(-1);
+        workManager("recovery");
     }
 
     public void me() throws JSONException {
-        controller.work = "me";
-        controller.workState.setValue(-1);
-        controller.workManager("me");
+        work = "me";
+        workState.setValue(-1);
+        workManager("me");
     }
 
     public void edit(String name, String gender, String birthday) throws JSONException {
-        controller.name = name;
-        controller.gender = gender;
-        controller.birthday = birthday;
-        controller.work = "edit";
-        controller.workState.setValue(-1);
-        controller.workManager("edit");
+        AuthRepository.name = name;
+        AuthRepository.gender = gender;
+        AuthRepository.birthday = birthday;
+
+        work = "edit";
+        workState.setValue(-1);
+        workManager("edit");
     }
 
     public void logOut() throws JSONException {
-        controller.work = "logOut";
-        controller.workState.setValue(-1);
-        controller.workManager("logOut");
+        work = "logOut";
+        workState.setValue(-1);
+        workManager("logOut");
     }
+
+    /*
+         ---------- Arrays ----------
+    */
 
     public ArrayList<Model> getAll() {
         return authItems.items();
     }
+
+    /*
+         ---------- Strings ----------
+    */
 
     public String getAvatar() {
         return authItems.avatar();
@@ -121,6 +156,39 @@ public class AuthRepository extends MainRepository {
 
     public String getBirthday() {
         return authItems.birthday();
+    }
+
+    /*
+         ---------- Work ----------
+    */
+
+    public void workManager(String work) throws JSONException {
+        if (isNetworkConnected(application.getApplicationContext())) {
+            Constraints constraints = new Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build();
+
+            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(AuthWorker.class)
+                    .setConstraints(constraints)
+                    .setInputData(data(work))
+                    .build();
+
+            WorkManager.getInstance(application).enqueue(workRequest);
+        } else {
+            ExceptionManager.getException(0, null, false, "OffLine", "auth");
+            workState.postValue(-2);
+        }
+    }
+
+    private boolean isNetworkConnected(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+    }
+
+    private Data data(String work) throws JSONException {
+        return new Data.Builder()
+                .putString("work", work)
+                .build();
     }
 
 }

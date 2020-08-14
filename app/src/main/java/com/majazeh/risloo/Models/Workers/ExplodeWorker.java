@@ -6,9 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.majazeh.risloo.Models.Controllers.ExplodeController;
-import com.majazeh.risloo.Models.Remotes.Apis.ExplodeApi;
-import com.majazeh.risloo.Models.Remotes.Generators.RetroGenerator;
+import com.majazeh.risloo.Models.Apis.ExplodeApi;
+import com.majazeh.risloo.Models.Generators.RetroGenerator;
+import com.majazeh.risloo.Models.Managers.ExceptionManager;
+import com.majazeh.risloo.Models.Repositories.ExplodeRepository;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,8 +54,8 @@ public class ExplodeWorker extends Worker {
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
-                JSONObject succesBody = new JSONObject(bodyResponse.body().string());
-                JSONObject android = succesBody.getJSONObject("android");
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONObject android = successBody.getJSONObject("android");
 
                 if (Integer.parseInt(android.getString("current")) < Integer.parseInt(android.getString("force"))) {
                     // TODO: Force Update
@@ -62,30 +63,29 @@ public class ExplodeWorker extends Worker {
                     // TODO: Normal Update
                 }
 
-                ExplodeController.exception = "دریافت اطلاعات با موفقیت انجام شد.";
-                ExplodeController.workState.postValue(1);
+                ExplodeRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExplodeController.exception = errorBody.getString("message_text");
-                ExplodeController.workState.postValue(0);
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "explode");
+                ExplodeRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            ExplodeController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
-            ExplodeController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "explode");
+            ExplodeRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            ExplodeController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
-            ExplodeController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "JSONException", "explode");
+            ExplodeRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            ExplodeController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
-            ExplodeController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "IOException", "explode");
+            ExplodeRepository.workState.postValue(0);
         }
     }
 

@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.duolingo.open.rtlviewpager.RtlViewPager;
 import com.google.android.material.tabs.TabLayout;
-import com.majazeh.risloo.Models.Controllers.CenterController;
+import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -183,13 +183,13 @@ public class CenterActivity extends AppCompatActivity {
     }
 
     private void observeWork() {
-        CenterController.workState.observe((LifecycleOwner) this, integer -> {
-            if (CenterController.work.equals("getAll")) {
+        CenterRepository.workState.observe((LifecycleOwner) this, integer -> {
+            if (CenterRepository.work.equals("getAll")) {
                 if (integer == 1) {
                     if (token()) {
                         // Continue Get MyCenter
 
-                        CenterController.workState.removeObservers((LifecycleOwner) this);
+                        CenterRepository.workState.removeObservers((LifecycleOwner) this);
                         launchProcess("getMy");
                     } else {
                         // Just Show AllCenter
@@ -201,7 +201,7 @@ public class CenterActivity extends AppCompatActivity {
                         tabLayout.setVisibility(View.GONE);
                         rtlViewPager.setAdapter(adapter);
 
-                        CenterController.workState.removeObservers((LifecycleOwner) this);
+                        CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
                 } else  {
                     if (viewModel.getAll() == null) {
@@ -214,7 +214,7 @@ public class CenterActivity extends AppCompatActivity {
 
                             setRetryLayout("error");
 
-                            CenterController.workState.removeObservers((LifecycleOwner) this);
+                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
                         } else if (integer == -2) {
                             // AllCenter is Empty And Connection
 
@@ -224,7 +224,7 @@ public class CenterActivity extends AppCompatActivity {
 
                             setRetryLayout("connection");
 
-                            CenterController.workState.removeObservers((LifecycleOwner) this);
+                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
                         }
                     } else {
                         if (token()) {
@@ -237,7 +237,7 @@ public class CenterActivity extends AppCompatActivity {
                             tabLayout.setVisibility(View.VISIBLE);
                             rtlViewPager.setAdapter(adapter);
 
-                            CenterController.workState.removeObservers((LifecycleOwner) this);
+                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
                         } else {
                             // Just Show AllCenter
 
@@ -248,11 +248,11 @@ public class CenterActivity extends AppCompatActivity {
                             tabLayout.setVisibility(View.GONE);
                             rtlViewPager.setAdapter(adapter);
 
-                            CenterController.workState.removeObservers((LifecycleOwner) this);
+                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
                         }
                     }
                 }
-            } else if (CenterController.work.equals("getMy")) {
+            } else if (CenterRepository.work.equals("getMy")) {
                 // Show Both AllCenter And MyCenter
 
                 if (integer != -1) {
@@ -263,7 +263,7 @@ public class CenterActivity extends AppCompatActivity {
                     tabLayout.setVisibility(View.VISIBLE);
                     rtlViewPager.setAdapter(adapter);
 
-                    CenterController.workState.removeObservers((LifecycleOwner) this);
+                    CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 }
             }
         });

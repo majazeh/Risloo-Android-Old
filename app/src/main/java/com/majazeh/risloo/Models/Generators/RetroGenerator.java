@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Models.Remotes.Generators;
+package com.majazeh.risloo.Models.Generators;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

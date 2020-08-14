@@ -33,8 +33,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
-import com.majazeh.risloo.Models.Controllers.AuthController;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
+import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.BitmapController;
 import com.majazeh.risloo.Utils.IntentCaller;
@@ -292,23 +292,23 @@ public class EditAccountActivity extends AppCompatActivity {
     }
 
     private void observeWork() {
-        AuthController.workState.observe((LifecycleOwner) this, integer -> {
-            if (AuthController.work == "edit") {
+        AuthRepository.workState.observe((LifecycleOwner) this, integer -> {
+            if (AuthRepository.work == "edit") {
                 if (integer == 1) {
                     setResult(RESULT_OK, null);
                     finish();
 
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
-                    AuthController.workState.removeObservers((LifecycleOwner) this);
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
-                    AuthController.workState.removeObservers((LifecycleOwner) this);
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
-                    AuthController.workState.removeObservers((LifecycleOwner) this);
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 }
             }
         });

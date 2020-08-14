@@ -22,7 +22,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.majazeh.risloo.Models.Controllers.AuthController;
+import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
@@ -123,12 +123,12 @@ public class SerialFragment extends Fragment {
         });
 
         serialRegisterTextView.setOnClickListener(v -> {
-            AuthController.theory = "register";
+            AuthRepository.theory = "register";
             ((AuthActivity) Objects.requireNonNull(getActivity())).showFragment();
         });
 
         serialRecoveryTextView.setOnClickListener(v -> {
-            AuthController.theory = "recover";
+            AuthRepository.theory = "recover";
             ((AuthActivity) Objects.requireNonNull(getActivity())).showFragment();
         });
 

@@ -4,73 +4,83 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ExceptionManager {
+
+    // Vars
     public static String is_ok;
     public static String message;
     public static String message_text;
     public static String referer;
-    public static JSONObject errors;
-    public static String fa_message;
+    public static String farsi_message;
 
-    public static void getError(int errorCode, JSONObject errorBody, boolean serverSide, String exception, String module) {
+    // Objects
+    public static JSONObject errors;
+
+    public static void getException(int errorCode, JSONObject errorBody, boolean serverSide, String exception, String module) {
         if (serverSide) {
             try {
                 is_ok = errorBody.getString("is_ok");
                 message = errorBody.getString("message");
                 message_text = errorBody.getString("message_text");
+
                 if (errorBody.has("refer"))
                     referer = errorBody.getString("referer");
                 else
                     referer = "";
+
                 if (errorBody.has("error"))
                     errors = errorBody.getJSONObject("errors");
                 else
                     errors = new JSONObject();
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             switch (errorCode) {
                 case 200:
-                    fa_message = "درخواست با موفقیت انجام شد";
+                    farsi_message = "درخواست صحیح";
                     break;
                 case 400:
-                    fa_message = "درخواست ناصحیح";
+                    farsi_message = "درخواست ناصحیح";
                     break;
                 case 401:
-                    fa_message = "مجاز نیست";
+                    farsi_message = "مجاز نیست";
                     break;
                 case 403:
-                    fa_message = "این نمونه برای شما بسته شده است.";
+                    farsi_message = "نمونه بسته شد";
                     break;
                 case 404:
-                    fa_message = "پیدا نشد";
+                    farsi_message = "یافت نشد";
                     break;
                 case 408:
-                    fa_message = "وقفه درخواست";
+                    farsi_message = "وقفه درخواست";
                     break;
                 case 422:
-                    fa_message = "فیلد های مورد نظر درست پر نشده اند";
+                    farsi_message = "فیلد ها اشکال دارد";
                     break;
                 case 500:
-                    fa_message = "خطای داخلی سرور";
+                    farsi_message = "خطای داخلی سرور";
                     break;
                 default:
-                    fa_message = "مشکل در ارسال اطلاعات";
+                    farsi_message = "خطای ارسال اطلاعات";
             }
+
         } else {
             switch (exception) {
                 case "SocketTimeoutException":
-                    fa_message = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
+                    farsi_message = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
                     break;
                 case "JSONException":
-                    fa_message = "مشکل دریافت JSON! دوباره تلاش کنید.";
+                    farsi_message = "مشکل دریافت JSON! دوباره تلاش کنید.";
                     break;
                 case "IOException":
-                    fa_message = "مشکل دریافت IO! دوباره تلاش کنید.";
+                    farsi_message = "مشکل دریافت IO! دوباره تلاش کنید.";
                     break;
-                case "offline":
-                    fa_message = "انترنت شما وصل نیست! لطفا متصل شوید.";
+                case "OffLine":
+                    farsi_message = "انترنت وصل نیست! لطفا متصل شوید.";
                     break;
             }
         }
     }
+
 }

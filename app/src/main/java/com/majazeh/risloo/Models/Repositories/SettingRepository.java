@@ -20,6 +20,10 @@ public class SettingRepository extends MainRepository {
         settingItems = new SettingItems(application);
     }
 
+    /*
+         ---------- Arrays ----------
+    */
+
     public ArrayList<Model> getAll() {
         return settingItems.items();
     }

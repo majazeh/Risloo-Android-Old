@@ -2,14 +2,20 @@ package com.majazeh.risloo.Models.Repositories;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Environment;
-import android.util.Log;
+
+import androidx.lifecycle.MutableLiveData;
+import androidx.work.Constraints;
+import androidx.work.Data;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Controllers.SampleController;
 import com.majazeh.risloo.Models.Items.SampleItems;
+import com.majazeh.risloo.Models.Managers.ExceptionManager;
+import com.majazeh.risloo.Models.Workers.SampleWorker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,64 +33,74 @@ import java.util.HashMap;
 
 public class SampleRepository extends MainRepository {
 
-    // Controllers
-    private SampleController controller;
-
-    private Context context;
+    // Items
+    private SampleItems sampleItems;
 
     // Vars
-    public static ArrayList<ArrayList<Integer>> localData = new ArrayList<>();
-    public static ArrayList<ArrayList<Integer>> remoteData = new ArrayList<>();
-    public static HashMap prerequisiteData = new HashMap();
+    public static HashMap prerequisiteData;
+    public static ArrayList<ArrayList<Integer>> localData;
+    public static ArrayList<ArrayList<Integer>> remoteData;
+    public static MutableLiveData<Integer> workStateSample;
+    public static MutableLiveData<Integer> workStateAnswer;
+    public static String work = "";
+    public static String theory = "sample";
+    public static boolean cache = false;
 
     // Objects
     private JSONObject sampleJson;
-    private SampleItems sampleItems;
-    private JSONArray prerequisiteItems;
-    private SharedPreferences sharedPreferences;
 
     public SampleRepository(Application application, String sampleId) throws JSONException {
         super(application);
 
-        context = application.getApplicationContext();
+        getSample(sampleId);
 
-        sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-
-        controller = new SampleController(application);
-
-        getSample(sharedPreferences.getString("sampleId", ""));
-
-
+        prerequisiteData = new HashMap();
+        localData = new ArrayList<>();
+        remoteData = new ArrayList<>();
+        workStateSample = new MutableLiveData<>();
+        workStateAnswer = new MutableLiveData<>();
+        workStateSample.setValue(-1);
+        workStateAnswer.setValue(-1);
     }
 
     public SampleRepository(Application application) {
         super(application);
 
-        context = application.getApplicationContext();
-
-        sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-
-        controller = new SampleController(application);
+        prerequisiteData = new HashMap();
+        localData = new ArrayList<>();
+        remoteData = new ArrayList<>();
+        workStateSample = new MutableLiveData<>();
+        workStateAnswer = new MutableLiveData<>();
+        workStateSample.setValue(-1);
+        workStateAnswer.setValue(-1);
     }
 
     public SampleRepository() {
 
     }
 
+
+
+
+
+
+    /*
+         ---------- Voids ----------
+    */
+
     public void getSample(String sampleId) throws JSONException {
-        if (isNetworkConnected()) {
+        if (isNetworkConnected(application.getApplicationContext())) {
 
-            controller.work = "getSample";
-            controller.workStateSample.setValue(-1);
-            controller.workManager("getSample");
+            work = "getSample";
+            workStateSample.setValue(-1);
+            workManager("getSample");
 
-            SampleController.workStateSample.observeForever(integer -> {
+            SampleRepository.workStateSample.observeForever(integer -> {
                 if (integer == 1) {
                     try {
                         JSONObject jsonObject = readSampleFromCache(sampleId);
                         JSONObject data = jsonObject.getJSONObject("data");
                         sampleItems = new SampleItems(data.getJSONArray("items"));
-                        prerequisiteItems = data.getJSONArray("prerequisite");
                         checkAnswerStorage(sampleId);
                         JSONArray jsonArray = readAnswerFromCache(sampleId);
                         for (int i = 0; i < sampleItems.size(); i++) {
@@ -98,7 +114,7 @@ public class SampleRepository extends MainRepository {
                             sampleItems.setIndex(firstUnanswered(sampleId));
                         }
                         sampleJson = readSampleFromCache(sampleId);
-                        SampleController.workStateSample.removeObserver(integer1 -> {
+                        SampleRepository.workStateSample.removeObserver(integer1 -> {
                         });
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -109,7 +125,6 @@ public class SampleRepository extends MainRepository {
                             sampleJson = readSampleFromCache(sampleId);
                             JSONObject data = sampleJson.getJSONObject("data");
                             sampleItems = new SampleItems(data.getJSONArray("items"));
-                            prerequisiteItems = data.getJSONArray("prerequisite");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -127,7 +142,6 @@ public class SampleRepository extends MainRepository {
                     sampleJson = readSampleFromCache(sampleId);
                     JSONObject data = sampleJson.getJSONObject("data");
                     sampleItems = new SampleItems(data.getJSONArray("items"));
-                    prerequisiteItems = data.getJSONArray("prerequisite");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -136,14 +150,14 @@ public class SampleRepository extends MainRepository {
     }
 
     public void closeSample() throws JSONException {
-        controller.work = "closeSample";
-        controller.workStateSample.setValue(-1);
-        controller.workManager("closeSample");
+        work = "closeSample";
+        workStateSample.setValue(-1);
+        workManager("closeSample");
     }
 
     public void sendAnswers(String sampleId) throws JSONException {
-        if (isNetworkConnected()) {
-            if (SampleController.cache == true) {
+        if (isNetworkConnected(application.getApplicationContext())) {
+            if (SampleRepository.cache == true) {
                 localData.clear();
                 JSONArray jsonArray = readAnswerFromCache(sampleId);
                 for (int i = 0; i < readAnswerFromCache(sampleId).length(); i++) {
@@ -160,129 +174,21 @@ public class SampleRepository extends MainRepository {
             if (remoteData.size() == 0) {
                 insertLocalToRemote();
 
-                controller.work = "sendAnswers";
-                controller.workStateAnswer.setValue(-1);
-                controller.workManager("sendAnswers");
+                work = "sendAnswers";
+                workStateAnswer.setValue(-1);
+                workManager("sendAnswers");
             }
         } else {
-            SampleController.cache = true;
+            SampleRepository.cache = true;
         }
     }
 
     public void sendPrerequisite(HashMap hashMap) throws JSONException {
         prerequisiteData = hashMap;
-        controller.work = "sendPrerequisite";
-        controller.workStateAnswer.setValue(-1);
-        controller.workManager("sendPrerequisite");
-    }
 
-     /*
-         ---------- Get ----------
-    */
-
-    public String getDescription() {
-        try {
-            return sampleJson.getJSONObject("data").getString("description");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public ArrayList getPrerequisite() {
-        ArrayList arrayList = new ArrayList<>();
-        try {
-            JSONArray jsonArray = sampleJson.getJSONObject("data").getJSONArray("prerequisite");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                arrayList.add(jsonArray.get(i));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return arrayList;
-    }
-
-    public JSONObject readPrerequisiteAnswerFromCache(String fileName) {
-        JSONObject jsonObject = null;
-        try {
-            File file = new File(context.getCacheDir(), "prerequisiteAnswers/" + fileName);
-            if (file.exists()) {
-                FileInputStream fis = new FileInputStream(file);
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                jsonObject = new JSONObject((String) ois.readObject());
-                ois.close();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return jsonObject;
-
-    }
-
-    public ArrayList getItems() {
-        if (sampleItems != null)
-            return sampleItems.items();
-        else
-            return null;
-    }
-
-    public Model getItem(int index) {
-        return sampleItems.item(index);
-    }
-
-    public Model getNext() {
-        return sampleItems.next();
-    }
-
-    public Model getPrev() {
-        return sampleItems.prev();
-    }
-
-    public Model goToIndex(int index) {
-        return sampleItems.goToIndex(index);
-    }
-
-    public void setIndex(int index) {
-        sampleItems.setIndex(index);
-    }
-
-    public int getIndex() {
-        return sampleItems.getIndex();
-    }
-
-    public int getSize() {
-        return sampleItems.size();
-    }
-
-    public ArrayList<String> getOptions(int index) {
-        ArrayList<String> arrayList = new ArrayList<>();
-        try {
-            for (int i = 0; i < getAnswer(index).getJSONArray("options").length(); i++) {
-                arrayList.add((String) getAnswer(index).getJSONArray("options").get(i));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return arrayList;
-    }
-
-    public JSONObject getAnswer(int index) {
-        try {
-            return (JSONObject) sampleItems.item(index).get("answer");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
+        work = "sendPrerequisite";
+        workStateAnswer.setValue(-1);
+        workManager("sendPrerequisite");
     }
 
     /*
@@ -340,7 +246,6 @@ public class SampleRepository extends MainRepository {
                 file.createNewFile();
             }
             JSONArray jsonArray = new JSONArray();
-            Log.e("a", String.valueOf(jsonObject));
             JSONObject data = jsonObject.getJSONObject("data");
             JSONArray items = data.getJSONArray("items");
             for (int i = 0; i < items.length(); i++) {
@@ -406,33 +311,6 @@ public class SampleRepository extends MainRepository {
         }
     }
 
-    public int prerequisiteAnswersSize(String fileName) {
-        int size = 0;
-        File file = new File(application.getApplicationContext().getCacheDir(), "prerequisiteAnswers/" + fileName);
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(file);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            JSONArray jsonArray = new JSONArray((String) ois.readObject());
-            for (int i = 0; i < jsonArray.length(); i++) {
-                if (!jsonArray.get(1).equals("")) {
-                    size++;
-                }
-            }
-            ois.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return size;
-    }
-
-
     public void savePrerequisiteToCache(Context context, JSONArray jsonArray, String fileName) {
         try {
             File file = new File(context.getCacheDir(), "Prerequisite/" + fileName);
@@ -455,25 +333,6 @@ public class SampleRepository extends MainRepository {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(jsonArray.toString());
             oos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void saveToCSV(JSONArray jsonArray, String fileName) {
-        try {
-            FileOutputStream fos = application.getApplicationContext().openFileOutput(fileName + ".CSV", Context.MODE_PRIVATE);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                fos.write(jsonArray.getJSONObject(i).getString("index").getBytes("UTF-8"));
-                fos.write(",".getBytes("UTF-8"));
-                fos.write(jsonArray.getJSONObject(i).getString("answer").getBytes("UTF-8"));
-                fos.write("\n".getBytes("UTF-8"));
-            }
-            fos.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -565,8 +424,31 @@ public class SampleRepository extends MainRepository {
         return jsonArray;
     }
 
-    public File readFromCSV(String fileName) {
-        return new File(application.getApplicationContext().getCacheDir(), fileName + ".CSV");
+    public JSONObject readPrerequisiteAnswerFromCache(String fileName) {
+        JSONObject jsonObject = null;
+        try {
+            File file = new File(application.getApplicationContext().getCacheDir(), "prerequisiteAnswers/" + fileName);
+            if (file.exists()) {
+                FileInputStream fis = new FileInputStream(file);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                jsonObject = new JSONObject((String) ois.readObject());
+                ois.close();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return jsonObject;
+
     }
 
     /*
@@ -722,15 +604,6 @@ public class SampleRepository extends MainRepository {
         return -1;
     }
 
-    /*
-         ---------- Internet ----------
-    */
-
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) application.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
-    }
-
     public boolean showPrerequisite(String fileName) {
         try {
             int size = 0;
@@ -748,4 +621,162 @@ public class SampleRepository extends MainRepository {
             return true;
         }
     }
+
+    public int prerequisiteAnswersSize(String fileName) {
+        int size = 0;
+        File file = new File(application.getApplicationContext().getCacheDir(), "prerequisiteAnswers/" + fileName);
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            JSONArray jsonArray = new JSONArray((String) ois.readObject());
+            for (int i = 0; i < jsonArray.length(); i++) {
+                if (!jsonArray.get(1).equals("")) {
+                    size++;
+                }
+            }
+            ois.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return size;
+    }
+
+     /*
+         ---------- Get ----------
+    */
+
+    public String getDescription() {
+        try {
+            return sampleJson.getJSONObject("data").getString("description");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList getPrerequisite() {
+        ArrayList arrayList = new ArrayList<>();
+        try {
+            JSONArray jsonArray = sampleJson.getJSONObject("data").getJSONArray("prerequisite");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                arrayList.add(jsonArray.get(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return arrayList;
+    }
+
+    public ArrayList<String> getOptions(int index) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        try {
+            for (int i = 0; i < getAnswer(index).getJSONArray("options").length(); i++) {
+                arrayList.add((String) getAnswer(index).getJSONArray("options").get(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return arrayList;
+    }
+
+    public JSONObject getAnswer(int index) {
+        try {
+            return (JSONObject) sampleItems.item(index).get("answer");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList getItems() {
+        if (sampleItems != null)
+            return sampleItems.items();
+        else
+            return null;
+    }
+
+    public Model getItem(int index) {
+        return sampleItems.item(index);
+    }
+
+    public Model getNext() {
+        return sampleItems.next();
+    }
+
+    public Model getPrev() {
+        return sampleItems.prev();
+    }
+
+    public Model goToIndex(int index) {
+        return sampleItems.goToIndex(index);
+    }
+
+    public void setIndex(int index) {
+        sampleItems.setIndex(index);
+    }
+
+    public int getIndex() {
+        return sampleItems.getIndex();
+    }
+
+    public int getSize() {
+        return sampleItems.size();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+         ---------- Work ----------
+    */
+
+    public void workManager(String work) throws JSONException {
+        if (isNetworkConnected(application.getApplicationContext())) {
+            Constraints constraints = new Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build();
+
+            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(SampleWorker.class)
+                    .setConstraints(constraints)
+                    .setInputData(data(work))
+                    .build();
+
+            WorkManager.getInstance(application).enqueue(workRequest);
+        } else {
+            ExceptionManager.getException(0, null, false, "OffLine", "sample");
+            workStateSample.setValue(-2);
+            workStateAnswer.setValue(-2);
+        }
+    }
+
+    private boolean isNetworkConnected(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+    }
+
+    private Data data(String work) throws JSONException {
+        return new Data.Builder()
+                .putString("work", work)
+                .build();
+    }
+
 }

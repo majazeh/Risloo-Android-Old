@@ -23,7 +23,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.majazeh.risloo.Models.Controllers.SampleController;
+import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.IntentCaller;
@@ -201,7 +201,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
     private void sendViaInternet() {
         try {
-            SampleController.cache = true;
+            SampleRepository.cache = true;
 
             progressDialog.show();
             viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
@@ -245,7 +245,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
     }
 
     private void observeWorkAnswer() {
-        SampleController.workStateAnswer.observe(this, integer -> {
+        SampleRepository.workStateAnswer.observe(this, integer -> {
             if (integer == 1) {
                 try {
                     viewModel.closeSample();
@@ -254,35 +254,35 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
                     e.printStackTrace();
                 }
 
-                SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
+                SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
             } else if (integer == 0){
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
-                SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
+                Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
             } else if (integer == -2) {
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
-                SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
+                Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
             }
         });
     }
 
     private void observeWorkSample() {
-        SampleController.workStateSample.observe(this, integer -> {
+        SampleRepository.workStateSample.observe(this, integer -> {
             if (integer == 1) {
                 finish();
 
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
-                SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
             } else if (integer == 0){
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
-                SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
             } else if (integer == -2) {
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
-                SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
             }
         });
     }

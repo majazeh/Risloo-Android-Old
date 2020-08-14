@@ -23,6 +23,10 @@ public class TermConditionViewModel extends AndroidViewModel {
         repository = new TermConditionRepository(application);
     }
 
+    /*
+         ---------- Arrays ----------
+    */
+
     public ArrayList<Model> getAll() {
         return repository.getAll();
     }

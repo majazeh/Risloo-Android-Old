@@ -3,7 +3,7 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Remotes.Generators.JSONGenerator;
+import com.majazeh.risloo.Models.Generators.JSONGenerator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,9 +13,6 @@ import java.util.ArrayList;
 
 public class AboutUsRepository extends MainRepository {
 
-    // Generators
-    private JSONGenerator jsonGenerator;
-
     // Objects
     private JSONObject aboutUsJson;
     private JSONArray aboutUsItems;
@@ -23,11 +20,13 @@ public class AboutUsRepository extends MainRepository {
     public AboutUsRepository(Application application) throws JSONException {
         super(application);
 
-        jsonGenerator = new JSONGenerator();
-
-        aboutUsJson = new JSONObject(jsonGenerator.getJSON(application.getApplicationContext(), "AboutUS.json"));
+        aboutUsJson = new JSONObject(JSONGenerator.getJSON(application.getApplicationContext(), "AboutUS.json"));
         aboutUsItems = aboutUsJson.getJSONArray("items");
     }
+
+    /*
+         ---------- Arrays ----------
+    */
 
     public ArrayList<Model> getAll() {
         ArrayList<Model> items = new ArrayList<>();

@@ -26,8 +26,8 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
-import com.majazeh.risloo.Models.Controllers.AuthController;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
+import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
@@ -169,7 +169,7 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void launchAuth(int enterAnim, int exitAnim) {
-        AuthController.theory = "auth";
+        AuthRepository.theory = "auth";
         if (token()) {
             titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
         } else {
@@ -179,7 +179,7 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     public void showFragment() {
-        switch (AuthController.theory) {
+        switch (AuthRepository.theory) {
             case "auth":
                 if (token()) {
                     titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
@@ -209,40 +209,40 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     public void observeWork() {
-        AuthController.workState.observe((LifecycleOwner) this, integer -> {
+        AuthRepository.workState.observe((LifecycleOwner) this, integer -> {
             if (integer == 1) {
-                if (AuthController.preTheory.equals("mobileCode") && AuthController.theory.equals("mobileCode")) {
+                if (AuthRepository.preTheory.equals("mobileCode") && AuthRepository.theory.equals("mobileCode")) {
                     callTimer.postValue(1);
-                    AuthController.workState.removeObservers((LifecycleOwner) this);
+                    AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 } else {
                     callTimer.postValue(0);
-                    if (AuthController.key.equals("")) {
-                        if (AuthController.callback.equals("")) {
-                            AuthController.theory = "auth";
+                    if (AuthRepository.key.equals("")) {
+                        if (AuthRepository.callback.equals("")) {
+                            AuthRepository.theory = "auth";
                         } else {
-                            AuthController.theory = "mobile";
+                            AuthRepository.theory = "mobile";
                         }
                         showFragment();
-                        AuthController.workState.removeObservers((LifecycleOwner) this);
+                        AuthRepository.workState.removeObservers((LifecycleOwner) this);
                     } else {
-                        if (AuthController.theory.equals("auth")) {
+                        if (AuthRepository.theory.equals("auth")) {
                             try {
                                 viewModel.authTheory("", "");
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                        } else if (AuthController.theory.equals("sample")) {
-                            AuthController.sampleId = AuthController.key;
+                        } else if (AuthRepository.theory.equals("sample")) {
+                            AuthRepository.sampleId = AuthRepository.key;
 
-                            editor.putString("sampleId", AuthController.sampleId);
+                            editor.putString("sampleId", AuthRepository.sampleId);
                             editor.apply();
 
-                            AuthController.theory = "sample";
+                            AuthRepository.theory = "sample";
                             startActivity(new Intent(this, SampleActivity.class));
-                            AuthController.workState.removeObservers((LifecycleOwner) this);
+                            AuthRepository.workState.removeObservers((LifecycleOwner) this);
                         } else {
                             showFragment();
-                            AuthController.workState.removeObservers((LifecycleOwner) this);
+                            AuthRepository.workState.removeObservers((LifecycleOwner) this);
                         }
                     }
                 }
@@ -257,12 +257,12 @@ public class AuthActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             } else if (integer == 0) {
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
-                AuthController.workState.removeObservers((LifecycleOwner) this);
+                Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                AuthRepository.workState.removeObservers((LifecycleOwner) this);
             } else if (integer == -2) {
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
-                AuthController.workState.removeObservers((LifecycleOwner) this);
+                Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                AuthRepository.workState.removeObservers((LifecycleOwner) this);
             }
         });
     }
@@ -304,7 +304,7 @@ public class AuthActivity extends AppCompatActivity {
             }
         }
 
-        if (AuthController.theory == "sample") {
+        if (AuthRepository.theory == "sample") {
             launchAuth(0, 0);
         }
     }
@@ -314,7 +314,7 @@ public class AuthActivity extends AppCompatActivity {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            if (!AuthController.theory.equals("auth")) {
+            if (!AuthRepository.theory.equals("auth")) {
                 launchAuth(R.anim.slide_in_right_with_fade, R.anim.slide_out_left_with_fade);
             } else {
                 finish();

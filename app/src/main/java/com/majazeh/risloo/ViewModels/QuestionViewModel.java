@@ -23,6 +23,10 @@ public class QuestionViewModel extends AndroidViewModel {
         repository = new QuestionRepository(application);
     }
 
+    /*
+         ---------- Arrays ----------
+    */
+
     public ArrayList<Model> getAll() {
         return repository.getAll();
     }

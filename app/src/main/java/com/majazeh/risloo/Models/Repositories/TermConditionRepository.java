@@ -3,7 +3,7 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Remotes.Generators.JSONGenerator;
+import com.majazeh.risloo.Models.Generators.JSONGenerator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,9 +13,6 @@ import java.util.ArrayList;
 
 public class TermConditionRepository extends MainRepository {
 
-    // Generators
-    private JSONGenerator jsonGenerator;
-
     // Objects
     private JSONObject termConditionJson;
     private JSONArray termConditionItems;
@@ -23,11 +20,13 @@ public class TermConditionRepository extends MainRepository {
     public TermConditionRepository(Application application) throws JSONException {
         super(application);
 
-        jsonGenerator = new JSONGenerator();
-
-        termConditionJson = new JSONObject(jsonGenerator.getJSON(application.getApplicationContext(), "TermCondition.json"));
+        termConditionJson = new JSONObject(JSONGenerator.getJSON(application.getApplicationContext(), "TermCondition.json"));
         termConditionItems = termConditionJson.getJSONArray("items");
     }
+
+    /*
+         ---------- Arrays ----------
+    */
 
     public ArrayList<Model> getAll() {
         ArrayList<Model> items = new ArrayList<>();

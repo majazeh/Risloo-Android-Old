@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Models.Remotes.Apis;
+package com.majazeh.risloo.Models.Apis;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -24,6 +24,7 @@ public interface AuthApi {
     @POST("auth/theory/{LoginKey}")
     Call<ResponseBody> authTheory(@Header("Authorization") String authorization, @Path("LoginKey") String loginKey, @Field("callback") String callback, @Query("password") String password, @Query("code") String code);
 
+    @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language: fa"})
     @POST("register")
     Call<ResponseBody> register(@Query("name") String name, @Query("mobile") String mobile, @Query("gender") String gender, @Query("password") String password);
 

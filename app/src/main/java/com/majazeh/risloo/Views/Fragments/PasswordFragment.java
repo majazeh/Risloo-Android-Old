@@ -26,7 +26,7 @@ import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.majazeh.risloo.Models.Controllers.AuthController;
+import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
@@ -160,7 +160,7 @@ public class PasswordFragment extends Fragment {
         passwordLinkSpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                AuthController.theory = "recover";
+                AuthRepository.theory = "recover";
                 ((AuthActivity) Objects.requireNonNull(getActivity())).showFragment();
             }
 

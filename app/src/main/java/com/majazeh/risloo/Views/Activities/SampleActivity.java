@@ -18,7 +18,6 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -30,7 +29,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.majazeh.risloo.Models.Controllers.SampleController;
+import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
@@ -48,8 +47,6 @@ import com.majazeh.risloo.Views.Fragments.TFTFragment;
 import com.majazeh.risloo.Views.Fragments.TPFragment;
 
 import org.json.JSONException;
-
-import java.util.logging.Logger;
 
 public class SampleActivity extends AppCompatActivity {
 
@@ -250,7 +247,7 @@ public class SampleActivity extends AppCompatActivity {
         showButtons();
         setText();
 
-        switch (SampleController.theory) {
+        switch (SampleRepository.theory) {
             case "description":
                 loadFragment(new DescriptionFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
                 break;
@@ -312,18 +309,18 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void setText() {
-        if (SampleController.theory.equals("description") || SampleController.theory.equals("prerequisite")) {
+        if (SampleRepository.theory.equals("description") || SampleRepository.theory.equals("prerequisite")) {
             finishButton.setText(getResources().getString(R.string.SampleNext));
-        } else if (SampleController.theory.equals("sample")) {
+        } else if (SampleRepository.theory.equals("sample")) {
             finishButton.setText(getResources().getString(R.string.SampleFinish));
         }
     }
 
     private void setAction() {
-        switch (SampleController.theory) {
+        switch (SampleRepository.theory) {
             case "description":
                 try {
-                    SampleController.theory = "prerequisite";
+                    SampleRepository.theory = "prerequisite";
                     showFragment();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -368,7 +365,7 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void launchProcess() {
-        SampleController.work = "getSample";
+        SampleRepository.work = "getSample";
 
         if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) >= 0) {
             loadingDialog.show();
@@ -378,14 +375,14 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void observeWorkSample() {
-        SampleController.workStateSample.observe(this, integer -> {
+        SampleRepository.workStateSample.observe(this, integer -> {
 
-            if (SampleController.work == "getSample") {
+            if (SampleRepository.work == "getSample") {
 
                 if (isNetworkConnected()) {
                     if (integer == 1) {
                         if (viewModel.showPrerequisite(sharedPreferences.getString("sampleId", ""))) {
-                            SampleController.theory = "description";
+                            SampleRepository.theory = "description";
                             try {
                                 showFragment();
                             } catch (JSONException e) {
@@ -396,7 +393,7 @@ public class SampleActivity extends AppCompatActivity {
                                 if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
                                     startActivity(new Intent(this, OutroActivity.class));
                                     finish();
-                                    SampleController.workStateSample.removeObservers(this);
+                                    SampleRepository.workStateSample.removeObservers(this);
                                 }
                             }
                             viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
@@ -408,7 +405,7 @@ public class SampleActivity extends AppCompatActivity {
                                     finish();
                                     return;
                                 } else {
-                                    SampleController.theory = "sample";
+                                    SampleRepository.theory = "sample";
                                     try {
                                         showFragment();
                                     } catch (JSONException e) {
@@ -419,23 +416,23 @@ public class SampleActivity extends AppCompatActivity {
                             viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
                             loadingDialog.dismiss();
                             try {
-                                SampleController.theory = "sample";
+                                SampleRepository.theory = "sample";
                                 showFragment();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
-                            SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         }
                         loadingDialog.dismiss();
-                        SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer == 0) {
 
                         if (viewModel.getItems() == null) {
                             finish();
                             loadingDialog.dismiss();
-                            Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
-                            SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                            Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         } else {
                             viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
                             viewModel.firstUnanswered(sharedPreferences.getString("sampleId", ""));
@@ -448,7 +445,7 @@ public class SampleActivity extends AppCompatActivity {
                             setRecyclerView();
                             viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
                             try {
-                                SampleController.theory = "sample";
+                                SampleRepository.theory = "sample";
                                 showFragment();
                                 loadingDialog.dismiss();
                             } catch (JSONException e) {
@@ -461,7 +458,7 @@ public class SampleActivity extends AppCompatActivity {
                             if (viewModel.showPrerequisite(sharedPreferences.getString("sampleId", ""))) {
                                 loadFragment(new DescriptionFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
                             } else {
-                                SampleController.theory = "sample";
+                                SampleRepository.theory = "sample";
                                 try {
                                     showFragment();
                                 } catch (JSONException e) {
@@ -473,7 +470,7 @@ public class SampleActivity extends AppCompatActivity {
                         }
 
                         loadingDialog.dismiss();
-                        SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
                 } else {
 
@@ -489,7 +486,7 @@ public class SampleActivity extends AppCompatActivity {
                         setRecyclerView();
                         viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
                         try {
-                            SampleController.theory = "sample";
+                            SampleRepository.theory = "sample";
                             showFragment();
                             loadingDialog.dismiss();
                         } catch (JSONException e) {
@@ -498,21 +495,21 @@ public class SampleActivity extends AppCompatActivity {
                     }
                 }
 
-            } else if (SampleController.work == "closeSample") {
+            } else if (SampleRepository.work == "closeSample") {
                 if (integer == 1) {
                     finish();
 
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
-                    SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
-                    SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
-                    SampleController.workStateSample.removeObservers((LifecycleOwner) this);
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                 }
             } else {
 
@@ -521,23 +518,23 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void observeWorkAnswer() {
-        SampleController.workStateAnswer.observe((LifecycleOwner) this, integer -> {
-            if (SampleController.work == "sendPrerequisite") {
+        SampleRepository.workStateAnswer.observe((LifecycleOwner) this, integer -> {
+            if (SampleRepository.work == "sendPrerequisite") {
                 if (integer == 1) {
 
                     loadingDialog.dismiss();
-                    SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
+                    SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     loadingDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
-                    SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     loadingDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
-                    SampleController.workStateAnswer.removeObservers((LifecycleOwner) this);
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
                 }
                 if (integer != -1) {
-                    SampleController.work = "getSample";
+                    SampleRepository.work = "getSample";
                     observeWorkSample();
                 }
             }
@@ -551,9 +548,9 @@ public class SampleActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        switch (SampleController.theory) {
+        switch (SampleRepository.theory) {
             case "sample":
-                SampleController.theory = "prerequisite";
+                SampleRepository.theory = "prerequisite";
                 try {
                     showFragment();
                 } catch (JSONException e) {
@@ -561,7 +558,7 @@ public class SampleActivity extends AppCompatActivity {
                 }
                 break;
             case "prerequisite":
-                SampleController.theory = "description";
+                SampleRepository.theory = "description";
                 try {
                     showFragment();
                 } catch (JSONException e) {

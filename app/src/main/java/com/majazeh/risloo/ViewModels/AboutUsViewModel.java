@@ -23,6 +23,10 @@ public class AboutUsViewModel extends AndroidViewModel {
         repository = new AboutUsRepository(application);
     }
 
+    /*
+         ---------- Arrays ----------
+    */
+
     public ArrayList<Model> getAll() {
         return repository.getAll();
     }

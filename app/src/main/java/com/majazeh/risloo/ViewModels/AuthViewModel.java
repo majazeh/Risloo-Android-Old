@@ -23,6 +23,10 @@ public class AuthViewModel extends AndroidViewModel {
         repository = new AuthRepository(application);
     }
 
+    /*
+         ---------- Voids ----------
+    */
+
     public void auth(String authorizedKey) throws JSONException {
         repository.auth(authorizedKey);
     }
@@ -55,9 +59,17 @@ public class AuthViewModel extends AndroidViewModel {
         repository.logOut();
     }
 
+    /*
+         ---------- Arrays ----------
+    */
+
     public ArrayList<Model> getAll() {
         return repository.getAll();
     }
+
+    /*
+         ---------- Strings ----------
+    */
 
     public String getAvatar() {
         return repository.getAvatar();

@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application' // Android Build
+apply plugin: 'com.android.application' // Android Build Application
 
 android {
     compileSdkVersion 29
@@ -34,7 +34,7 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
-    implementation 'androidx.appcompat:appcompat:1.1.0' // AppCompat
+    implementation 'androidx.appcompat:appcompat:1.2.0' // AppCompat
     implementation 'androidx.multidex:multidex:2.0.1' // MultiDex
     implementation 'androidx.cardview:cardview:1.0.0' // CardView
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3' // ConstraintLayout
@@ -43,7 +43,7 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0" // ViewModel
     implementation "androidx.lifecycle:lifecycle-livedata:2.2.0" // LiveData
-    implementation "androidx.lifecycle:lifecycle-runtime:2.2.0" // Lifecycles Without ViewModel And LiveData
+    implementation "androidx.lifecycle:lifecycle-runtime:2.2.0" // LifeCycles Without ViewModel And LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0" // Extensions
     implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0" // Lifecycle Annotation processor
 
@@ -55,14 +55,14 @@ dependencies {
 
     implementation 'com.github.mukeshsolanki:MarkdownView-Android:1.0.8' // MarkDownView
 
-    implementation 'com.intuit.sdp:sdp-android:1.0.6' // Mobile Dimensions
-    implementation 'com.intuit.ssp:ssp-android:1.0.6' // Mobile Texts
+    implementation 'com.google.android.material:material:1.2.0' // Google Material
+
+    implementation 'com.intuit.sdp:sdp-android:1.0.6' // Responsive dp
+    implementation 'com.intuit.ssp:ssp-android:1.0.6' // Responsive sp
 
     implementation 'com.squareup.picasso:picasso:2.71828' // Picasso
     implementation 'com.squareup.okhttp3:logging-interceptor:4.7.2' // OKHttp3
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0' // Retrofit2
-
-    implementation 'com.google.android.material:material:1.1.0' // Google Material
 
     testImplementation 'junit:junit:4.13' // Unit Framework
 

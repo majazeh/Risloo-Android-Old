@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Models.Remotes.Apis;
+package com.majazeh.risloo.Models.Apis;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

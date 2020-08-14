@@ -23,6 +23,10 @@ public class CenterViewModel extends AndroidViewModel {
         repository = new CenterRepository(application);
     }
 
+    /*
+         ---------- Voids ----------
+    */
+
     public void centers() throws JSONException {
         repository.centers();
     }
@@ -34,6 +38,10 @@ public class CenterViewModel extends AndroidViewModel {
     public void request(String clinicId) throws JSONException {
         repository.request(clinicId);
     }
+
+    /*
+         ---------- Arrays ----------
+    */
 
     public ArrayList<Model> getAll() {
         return repository.getAll();

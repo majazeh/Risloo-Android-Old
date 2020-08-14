@@ -7,10 +7,11 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.majazeh.risloo.Models.Controllers.CenterController;
+import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Managers.FileManager;
-import com.majazeh.risloo.Models.Remotes.Apis.CenterApi;
-import com.majazeh.risloo.Models.Remotes.Generators.RetroGenerator;
+import com.majazeh.risloo.Models.Apis.CenterApi;
+import com.majazeh.risloo.Models.Generators.RetroGenerator;
+import com.majazeh.risloo.Models.Repositories.CenterRepository;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,9 +28,6 @@ public class CenterWorker extends Worker {
     // Apis
     private CenterApi centerApi;
 
-    // Managers
-    private FileManager manager;
-
     // Objects
     private Context context;
     private SharedPreferences sharedPreferences;
@@ -40,8 +38,6 @@ public class CenterWorker extends Worker {
         this.context = context;
 
         centerApi = RetroGenerator.getRetrofit().create(CenterApi.class);
-
-        manager = new FileManager();
 
         sharedPreferences = context.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
@@ -66,6 +62,7 @@ public class CenterWorker extends Worker {
                     request();
             }
         }
+
         return Result.success();
     }
 
@@ -84,32 +81,31 @@ public class CenterWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
-                manager.writeToCache(context, successBody, "centers", "all");
+                FileManager.writeToCache(context, successBody, "centers", "all");
 
-                CenterController.exception = "دریافت اطلاعات با موفقیت انجام شد.";
-                CenterController.workState.postValue(1);
+                CenterRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                CenterController.exception = errorBody.getString("message_text");
-                CenterController.workState.postValue(0);
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "center");
+                CenterRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            CenterController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
-            CenterController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "center");
+            CenterRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            CenterController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
-            CenterController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "JSONException", "center");
+            CenterRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            CenterController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
-            CenterController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "IOException", "center");
+            CenterRepository.workState.postValue(0);
         }
     }
 
@@ -121,67 +117,65 @@ public class CenterWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
-                manager.writeToCache(context, successBody, "centers", "my");
+                FileManager.writeToCache(context, successBody, "centers", "my");
 
-                CenterController.exception = "دریافت اطلاعات با موفقیت انجام شد.";
-                CenterController.workState.postValue(1);
+                CenterRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                CenterController.exception = errorBody.getString("message_text");
-                CenterController.workState.postValue(0);
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "center");
+                CenterRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            CenterController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
-            CenterController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "center");
+            CenterRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            CenterController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
-            CenterController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "JSONException", "center");
+            CenterRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            CenterController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
-            CenterController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "IOException", "center");
+            CenterRepository.workState.postValue(0);
         }
     }
 
     private void request() {
         try {
-            Call<ResponseBody> call = centerApi.request(token(), CenterController.clinicId);
+            Call<ResponseBody> call = centerApi.request(token(), CenterRepository.clinicId);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
-                JSONObject succesBody = new JSONObject(bodyResponse.body().string());
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
-                CenterController.exception = "درخواست شما با موفقیت ارسال شد";
-                CenterController.workState.postValue(1);
+                CenterRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                CenterController.exception = errorBody.getString("message_text");
-                CenterController.workState.postValue(0);
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "center");
+                CenterRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            CenterController.exception = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
-            CenterController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "center");
+            CenterRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            CenterController.exception = "مشکل دریافت JSON! دوباره تلاش کنید.";
-            CenterController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "JSONException", "center");
+            CenterRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            CenterController.exception = "مشکل دریافت IO! دوباره تلاش کنید.";
-            CenterController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "IOException", "center");
+            CenterRepository.workState.postValue(0);
         }
     }
 

@@ -7,11 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.majazeh.risloo.Models.Controllers.AuthController;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
-import com.majazeh.risloo.Models.Remotes.Apis.SampleApi;
-import com.majazeh.risloo.Models.Remotes.Generators.RetroGenerator;
-import com.majazeh.risloo.Models.Controllers.SampleController;
+import com.majazeh.risloo.Models.Apis.SampleApi;
+import com.majazeh.risloo.Models.Generators.RetroGenerator;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 
 import org.json.JSONException;
@@ -91,38 +89,35 @@ public class SampleWorker extends Worker {
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
-                JSONObject succesBody = new JSONObject(bodyResponse.body().string());
-                JSONObject data = succesBody.getJSONObject("data");
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONObject data = successBody.getJSONObject("data");
 
-                repository.saveSampleToCache(context, succesBody, sharedPreferences.getString("sampleId", ""));
+                repository.saveSampleToCache(context, successBody, sharedPreferences.getString("sampleId", ""));
                 repository.savePrerequisiteToCache(context,data.getJSONArray("prerequisite"),sharedPreferences.getString("sampleId",""));
 
-                SampleController.workStateSample.postValue(1);
+                SampleRepository.workStateSample.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-                ExceptionManager.getError(bodyResponse.code(), errorBody, true, "","sample");
 
-                if (errorBody.getString("message_text").equals("This action is unauthorized.")) {
-                } else {
-                }
-                SampleController.workStateSample.postValue(0);
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "sample");
+                SampleRepository.workStateSample.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
-            ExceptionManager.getError(0, null, false, "SocketTimeoutException","sample");
 
-            AuthController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "sample");
+            SampleRepository.workStateSample.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
-            ExceptionManager.getError(0, null, false, "JSONException","sample");
 
-            AuthController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "JSONException", "sample");
+            SampleRepository.workStateSample.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
-            ExceptionManager.getError(0, null, false, "IOException","sample");
 
-            AuthController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "IOException", "sample");
+            SampleRepository.workStateSample.postValue(0);
         }
     }
 
@@ -132,37 +127,37 @@ public class SampleWorker extends Worker {
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
-                JSONObject succesBody = new JSONObject(bodyResponse.body().string());
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
-                SampleController.workStateSample.postValue(1);
+                SampleRepository.workStateSample.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-                ExceptionManager.getError(bodyResponse.code(), errorBody, true, "","sample");
 
-                SampleController.workStateSample.postValue(0);
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "sample");
+                SampleRepository.workStateSample.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
-            ExceptionManager.getError(0, null, false, "SocketTimeoutException","sample");
 
-            AuthController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "sample");
+            SampleRepository.workStateSample.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
-            ExceptionManager.getError(0, null, false, "JSONException","sample");
 
-            AuthController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "JSONException", "sample");
+            SampleRepository.workStateSample.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
-            ExceptionManager.getError(0, null, false, "IOException","sample");
 
-            AuthController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "IOException", "sample");
+            SampleRepository.workStateSample.postValue(0);
         }
     }
 
     private void sendAnswers() {
         try {
-            SampleController.cache = false;
+            SampleRepository.cache = false;
 
             HashMap hashMap = new HashMap();
             hashMap.put("items", SampleRepository.remoteData);
@@ -171,35 +166,35 @@ public class SampleWorker extends Worker {
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
-                JSONObject succesBody = new JSONObject(bodyResponse.body().string());
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
                 SampleRepository.remoteData.clear();
 
-                SampleController.workStateAnswer.postValue(1);
+                SampleRepository.workStateAnswer.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-                ExceptionManager.getError(bodyResponse.code(), errorBody, true, "","sample");
 
                 repository.insertRemoteToLocal();
 
-                SampleController.workStateAnswer.postValue(0);
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "sample");
+                SampleRepository.workStateAnswer.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
-            ExceptionManager.getError(0, null, false, "SocketTimeoutException","sample");
 
-            AuthController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "sample");
+            SampleRepository.workStateAnswer.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
-            ExceptionManager.getError(0, null, false, "JSONException","sample");
 
-            AuthController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "JSONException", "sample");
+            SampleRepository.workStateAnswer.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
-            ExceptionManager.getError(0, null, false, "IOException","sample");
 
-            AuthController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "IOException", "sample");
+            SampleRepository.workStateAnswer.postValue(0);
         }
     }
 
@@ -212,34 +207,34 @@ public class SampleWorker extends Worker {
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
-            SampleRepository.prerequisiteData = new HashMap();
-                JSONObject succesBody = new JSONObject(bodyResponse.body().string());
+                SampleRepository.prerequisiteData = new HashMap();
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
                 SampleRepository.remoteData.clear();
 
-                SampleController.workStateAnswer.postValue(1);
+                SampleRepository.workStateAnswer.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-                ExceptionManager.getError(bodyResponse.code(), errorBody, true, "","sample");
 
-                SampleController.workStateAnswer.postValue(0);
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "sample");
+                SampleRepository.workStateAnswer.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
-            ExceptionManager.getError(0, null, false, "SocketTimeoutException","sample");
 
-            AuthController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "sample");
+            SampleRepository.workStateAnswer.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
-            ExceptionManager.getError(0, null, false, "JSONException","sample");
 
-            AuthController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "JSONException", "sample");
+            SampleRepository.workStateAnswer.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
-            ExceptionManager.getError(0, null, false, "IOException","sample");
 
-            AuthController.workState.postValue(0);
+            ExceptionManager.getException(0, null, false, "IOException", "sample");
+            SampleRepository.workStateAnswer.postValue(0);
         }
     }
 

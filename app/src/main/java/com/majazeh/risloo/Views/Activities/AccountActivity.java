@@ -22,8 +22,8 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.majazeh.risloo.Models.Controllers.AuthController;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
+import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.BitmapController;
 import com.majazeh.risloo.Utils.ItemDecorator;
@@ -170,22 +170,22 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     private void observeWork() {
-        AuthController.workState.observe((LifecycleOwner) this, integer -> {
-            if (AuthController.work == "logOut") {
+        AuthRepository.workState.observe((LifecycleOwner) this, integer -> {
+            if (AuthRepository.work == "logOut") {
                 if (integer == 1) {
                     finish();
 
                     progressDialog.dismiss();
                     Toast.makeText(this, "" + "درخواست شما با موفقیت انجام شد.", Toast.LENGTH_SHORT).show();
-                    AuthController.workState.removeObservers((LifecycleOwner) this);
+                    AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
-                    AuthController.workState.removeObservers((LifecycleOwner) this);
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.fa_message, Toast.LENGTH_SHORT).show();
-                    AuthController.workState.removeObservers((LifecycleOwner) this);
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 }
             }
         });
