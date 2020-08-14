@@ -1,11 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_center_single_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:orientation="vertical">
+    app:cardCornerRadius="@dimen/_18sdp">
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            android:paddingLeft="@dimen/_8sdp"
+            android:paddingRight="@dimen/_12sdp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/activity_center_single_item_avatar_imageView"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:src="@color/Primary5P" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/activity_center_single_item_avatar_imageView"
+                android:layout_toRightOf="@id/activity_center_single_item_expand_imageView"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:layout_marginRight="@dimen/_12sdp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/activity_center_single_item_title_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_4sdp"
+                    android:gravity="right"
+                    android:text="مرکز درمانی محمد رضا امامیان"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Grey"
+                    android:textAlignment="gravity"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="right|center"
+                    android:layoutDirection="rtl">
+
+                    <TextView
+                        android:id="@+id/activity_center_single_item_request_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/_3sdp"
+                        android:paddingBottom="@dimen/_3sdp"
+                        android:paddingLeft="@dimen/_8sdp"
+                        android:paddingRight="@dimen/_8sdp"
+                        android:gravity="right"
+                        android:text="درخواست پذیرش"
+                        android:textSize="@dimen/_9ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/White"
+                        android:textAlignment="gravity"
+                        android:background="@drawable/draw_4sdp_primary"/>
+
+                    <ImageView
+                        android:id="@+id/activity_center_single_item_edit_imageView"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/_6sdp"
+                        android:padding="@dimen/_5sdp"
+                        android:src="@drawable/ic_edit"
+                        android:tint="@color/Mischka"
+                        android:background="@drawable/draw_4sdp_solitude"/>
+
+                    <ImageView
+                        android:id="@+id/activity_center_single_item_people_imageView"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/_6sdp"
+                        android:padding="@dimen/_5sdp"
+                        android:src="@drawable/ic_user"
+                        android:tint="@color/Mischka"
+                        android:background="@drawable/draw_4sdp_solitude"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/activity_center_single_item_expand_imageView"
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_6sdp"
+                android:src="@drawable/ic_chevron_down"
+                android:tint="@color/Mischka"
+                android:background="@drawable/draw_oval_solitude"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/activity_center_single_item_expand_linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp"
+            android:paddingLeft="@dimen/_8sdp"
+            android:paddingRight="@dimen/_12sdp"
+            android:visibility="visible"
+            android:background="@color/Primary5P"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_4sdp"
+                android:orientation="horizontal"
+                android:gravity="right|top"
+                android:layoutDirection="rtl">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_4sdp"
+                    android:gravity="center"
+                    android:text="@string/CenterDescription"
+                    android:textSize="@dimen/_9ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Mischka"
+                    android:textAlignment="gravity" />
+
+                <TextView
+                    android:id="@+id/activity_center_single_item_description_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_4sdp"
+                    android:gravity="right"
+                    android:text="هم به خانه ای می روهند و را برای اداره ای."
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
+                    android:textColor="@color/Grey"
+                    android:textAlignment="gravity" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="right|top"
+                android:layoutDirection="rtl">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_4sdp"
+                    android:gravity="center"
+                    android:text="@string/CenterAddress"
+                    android:textSize="@dimen/_9ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Mischka"
+                    android:textAlignment="gravity" />
+
+                <TextView
+                    android:id="@+id/activity_center_single_item_address_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_4sdp"
+                    android:gravity="right"
+                    android:text="قم / خیابان صفاییه / کوچه 20 / پلاک 20"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="normal"
+                    android:textColor="@color/Grey"
+                    android:textAlignment="gravity" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

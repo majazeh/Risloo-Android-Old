@@ -13,6 +13,33 @@
         android:id="@+id/fragment_my_center_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="visible"
         android:overScrollMode="always" />
+
+    <LinearLayout
+        android:id="@+id/fragment_my_center_emptyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_150sdp"
+            android:src="@drawable/illu_empty"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_32sdp"
+            android:gravity="center"
+            android:text="@string/CenterEmpty"
+            android:textSize="@dimen/_11ssp"
+            android:textStyle="bold"
+            android:textColor="@color/Mischka"
+            android:textAlignment="gravity" />
+
+    </LinearLayout>
 
 </FrameLayout>

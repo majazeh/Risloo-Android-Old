@@ -8,11 +8,14 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,6 +43,7 @@ public class CenterActivity extends AppCompatActivity {
     // Objects
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private MenuItem toolCreate;
     private ClickableSpan retrySpan;
 
     // Widgets
@@ -81,6 +85,7 @@ public class CenterActivity extends AppCompatActivity {
         adapter = new CenterTabAdapter(getSupportFragmentManager(), 0, this, token());
 
         toolbar = findViewById(R.id.activity_center_toolbar);
+        setSupportActionBar(toolbar);
 
         tabLayout = findViewById(R.id.activity_center_tabLayout);
 
@@ -139,6 +144,10 @@ public class CenterActivity extends AppCompatActivity {
         retrySpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
+                loadingLayout.setVisibility(View.VISIBLE);
+                retryLayout.setVisibility(View.GONE);
+                mainLayout.setVisibility(View.GONE);
+
                 launchProcess("getAll");
             }
 
@@ -167,6 +176,7 @@ public class CenterActivity extends AppCompatActivity {
             } else {
                 viewModel.myCenters();
             }
+            observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -174,11 +184,12 @@ public class CenterActivity extends AppCompatActivity {
 
     private void observeWork() {
         CenterController.workState.observe((LifecycleOwner) this, integer -> {
-            if (CenterController.work == "getAll") {
+            if (CenterController.work.equals("getAll")) {
                 if (integer == 1) {
                     if (token()) {
                         // Continue Get MyCenter
 
+                        CenterController.workState.removeObservers((LifecycleOwner) this);
                         launchProcess("getMy");
                     } else {
                         // Just Show AllCenter
@@ -193,7 +204,7 @@ public class CenterActivity extends AppCompatActivity {
                         CenterController.workState.removeObservers((LifecycleOwner) this);
                     }
                 } else  {
-                    if (viewModel.getAll().isEmpty()) {
+                    if (viewModel.getAll() == null) {
                         if (integer == 0) {
                             // AllCenter is Empty And Error
 
@@ -241,23 +252,39 @@ public class CenterActivity extends AppCompatActivity {
                         }
                     }
                 }
-            } else if (CenterController.work == "getMy") {
+            } else if (CenterController.work.equals("getMy")) {
                 // Show Both AllCenter And MyCenter
 
-                loadingLayout.setVisibility(View.GONE);
-                retryLayout.setVisibility(View.GONE);
-                mainLayout.setVisibility(View.VISIBLE);
+                if (integer != -1) {
+                    loadingLayout.setVisibility(View.GONE);
+                    retryLayout.setVisibility(View.GONE);
+                    mainLayout.setVisibility(View.VISIBLE);
 
-                tabLayout.setVisibility(View.VISIBLE);
-                rtlViewPager.setAdapter(adapter);
+                    tabLayout.setVisibility(View.VISIBLE);
+                    rtlViewPager.setAdapter(adapter);
 
-                CenterController.workState.removeObservers((LifecycleOwner) this);
+                    CenterController.workState.removeObservers((LifecycleOwner) this);
+                }
             }
         });
     }
 
     public boolean token() {
         return !sharedPreferences.getString("token", "").equals("");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_center, menu);
+
+        toolCreate = menu.findItem(R.id.tool_create);
+        toolCreate.setOnMenuItemClickListener(menuItem -> {
+            startActivityForResult(new Intent(this, CreateCenterActivity.class), 100);
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+            return false;
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

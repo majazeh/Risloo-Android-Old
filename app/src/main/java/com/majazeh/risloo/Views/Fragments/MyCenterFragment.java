@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +32,7 @@ public class MyCenterFragment extends Fragment {
 
     // Widgets
     private RecyclerView recyclerView;
+    private LinearLayout emptyLayout;
 
     public MyCenterFragment(Activity activity) {
         this.activity = activity;
@@ -43,6 +45,8 @@ public class MyCenterFragment extends Fragment {
 
         initializer(view);
 
+        setRecyclerView();
+
         return view;
     }
 
@@ -50,13 +54,26 @@ public class MyCenterFragment extends Fragment {
         viewModel = ViewModelProviders.of(this).get(CenterViewModel.class);
 
         adapter = new CenterAdapter(activity);
-//        adapter.setCenter(viewModel.getMy());
+        adapter.setCenter(viewModel.getMy());
 
         recyclerView = view.findViewById(R.id.fragment_my_center_recyclerView);
         recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout",(int) getResources().getDimension(R.dimen._18sdp)));
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
-//        recyclerView.setAdapter(adapter);
+
+        emptyLayout = view.findViewById(R.id.fragment_my_center_emptyLayout);
+    }
+
+    private void setRecyclerView() {
+        if (viewModel.getMy() != null) {
+            recyclerView.setAdapter(adapter);
+
+            recyclerView.setVisibility(View.VISIBLE);
+            emptyLayout.setVisibility(View.GONE);
+        } else {
+            recyclerView.setVisibility(View.GONE);
+            emptyLayout.setVisibility(View.VISIBLE);
+        }
     }
 
 }

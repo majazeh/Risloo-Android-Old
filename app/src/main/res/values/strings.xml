@@ -231,10 +231,30 @@
     <string name="CenterAll">همه</string>
     <string name="CenterMy">من</string>
 
+    <string name="CenterCreate">ساخت جدید</string>
+
+    <string name="CenterEmpty">فعلا مرکز درمانی برای شما نیست</string>
     <string name="CenterRequest">درخواست پذیرش</string>
 
-    <string name="CenterPrincipal">مدیر</string>
+    <string name="CenterDescription">توضیحات:</string>
+    <string name="CenterAddress">آدرس:</string>
+    <string name="CenterPrincipal">مدیر:</string>
     <string name="CenterTreatmentRooms">اتاق های درمان</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // edit center strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="EditCenterTitle">ویرایش مرکز مشاوره</string>
+    <string name="EditClinicTitle">ویرایش کلینیک شخصی</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // create center strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="CreateCenterTitle">ساخت جدید</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

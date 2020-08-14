@@ -49,38 +49,46 @@ public class CenterRepository extends MainRepository {
 
     public ArrayList<Model> getAll() {
         ArrayList<Model> arrayList = new ArrayList<>();
-        JSONObject jsonObject = manager.readFromCache(application.getApplicationContext(), "centers", "all");
-        try {
-            JSONArray data = jsonObject.getJSONArray("data");
-            if (data.length() == 0) {
+        if (manager.readFromCache(application.getApplicationContext(), "centers", "all") != null) {
+            JSONObject jsonObject = manager.readFromCache(application.getApplicationContext(), "centers", "all");
+            try {
+                JSONArray data = jsonObject.getJSONArray("data");
+                if (data.length() == 0) {
+                    return null;
+                }
+                for (int i = 0; i < data.length(); i++) {
+                    Model model = new Model(data.getJSONObject(i));
+                    arrayList.add(model);
+                }
+                return arrayList;
+            } catch (JSONException e) {
+                e.printStackTrace();
                 return null;
             }
-            for (int i = 0; i < data.length(); i++) {
-                Model model = new Model(data.getJSONObject(i));
-                arrayList.add(model);
-            }
-            return arrayList;
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } else {
             return null;
         }
     }
 
     public ArrayList<Model> getMy() {
         ArrayList<Model> arrayList = new ArrayList<>();
-        JSONObject jsonObject = manager.readFromCache(application.getApplicationContext(), "centers", "my");
-        try {
-            JSONArray data = jsonObject.getJSONArray("data");
-            if (data.length() == 0) {
+        if (manager.readFromCache(application.getApplicationContext(), "centers", "my") != null) {
+            JSONObject jsonObject = manager.readFromCache(application.getApplicationContext(), "centers", "my");
+            try {
+                JSONArray data = jsonObject.getJSONArray("data");
+                if (data.length() == 0) {
+                    return null;
+                }
+                for (int i = 0; i < data.length(); i++) {
+                    Model model = new Model(data.getJSONObject(i));
+                    arrayList.add(model);
+                }
+                return arrayList;
+            } catch (JSONException e) {
+                e.printStackTrace();
                 return null;
             }
-            for (int i = 0; i < data.length(); i++) {
-                Model model = new Model(data.getJSONObject(i));
-                arrayList.add(model);
-            }
-            return arrayList;
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } else {
             return null;
         }
     }

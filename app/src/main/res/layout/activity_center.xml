@@ -20,17 +20,13 @@
             android:id="@+id/activity_center_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:paddingLeft="@dimen/_4sdp"
             android:theme="@style/ToolbarTheme"
             android:background="@color/Snow"
             app:title="@string/CenterTitle"
             app:titleTextAppearance="@style/ToolbarTextAppearance"
             app:navigationIcon="@drawable/tool_back"
             app:contentInsetStartWithNavigation="0dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_1sdp"
-            android:background="@color/Quartz" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -46,14 +42,15 @@
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/activity_center_tabLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_36sdp"
                     android:theme="@style/TabTheme"
-                    android:background="@color/Primary5P"
+                    android:background="@color/Snow"
                     app:tabMode="fixed"
                     app:tabGravity="fill"
                     app:tabBackground="@null"
                     app:tabRippleColor="@color/Quartz"
-                    app:tabIndicatorHeight="0dp"
+                    app:tabIndicatorColor="@color/Primary5P"
+                    app:tabIndicatorHeight="@dimen/_36sdp"
                     app:tabTextColor="@color/Mischka"
                     app:tabSelectedTextColor="@color/PrimaryDark"
                     app:tabTextAppearance="@style/TabTextBoldAppearance">
@@ -88,8 +85,7 @@
                 <ImageView
                     android:id="@+id/activity_center_retry_imageView"
                     android:layout_width="@dimen/_150sdp"
-                    android:layout_height="@dimen/_150sdp"
-                    android:layout_marginBottom="@dimen/_minus16sdp" />
+                    android:layout_height="@dimen/_150sdp" />
 
                 <TextView
                     android:id="@+id/activity_center_retry_textView"

@@ -50,13 +50,13 @@ public class AllCenterFragment extends Fragment {
         viewModel = ViewModelProviders.of(this).get(CenterViewModel.class);
 
         adapter = new CenterAdapter(activity);
-//        adapter.setCenter(viewModel.getMy());
+        adapter.setCenter(viewModel.getAll());
 
         recyclerView = view.findViewById(R.id.fragment_all_center_recyclerView);
         recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout",(int) getResources().getDimension(R.dimen._18sdp)));
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
-//        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
     }
 
 }
