@@ -749,7 +749,7 @@ public class SampleRepository extends MainRepository {
          ---------- Work ----------
     */
 
-    public void workManager(String work) throws JSONException {
+    private void workManager(String work) throws JSONException {
         if (isNetworkConnected(application.getApplicationContext())) {
             Constraints constraints = new Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
