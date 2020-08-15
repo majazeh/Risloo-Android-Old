@@ -49,8 +49,8 @@
                     app:tabGravity="fill"
                     app:tabBackground="@null"
                     app:tabRippleColor="@color/Quartz"
-                    app:tabIndicatorColor="@color/Primary5P"
-                    app:tabIndicatorHeight="@dimen/_36sdp"
+                    app:tabIndicatorColor="@color/Primary"
+                    app:tabIndicatorHeight="@dimen/_2sdp"
                     app:tabTextColor="@color/Mischka"
                     app:tabSelectedTextColor="@color/PrimaryDark"
                     app:tabTextAppearance="@style/TabTextBoldAppearance">
