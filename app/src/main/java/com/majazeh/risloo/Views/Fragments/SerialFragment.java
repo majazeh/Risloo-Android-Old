@@ -138,15 +138,19 @@ public class SerialFragment extends Fragment {
         });
     }
 
-    private void setText() {
+    public void setText() {
         if (((AuthActivity) Objects.requireNonNull(getActivity())).token()) {
-            serialLinkLinearLayout.setVisibility(View.VISIBLE);
-        } else {
             serialDescriptionTextView.setText(activity.getResources().getString(R.string.SerialDescriptionToken));
             serialEditText.setHint(activity.getResources().getString(R.string.SerialHintToken));
             serialButton.setText(activity.getResources().getString(R.string.SerialButtonToken));
 
             serialLinkLinearLayout.setVisibility(View.INVISIBLE);
+        } else {
+            serialDescriptionTextView.setText(activity.getResources().getString(R.string.SerialDescription));
+            serialEditText.setHint(activity.getResources().getString(R.string.SerialHint));
+            serialButton.setText(activity.getResources().getString(R.string.SerialButton));
+
+            serialLinkLinearLayout.setVisibility(View.VISIBLE);
         }
     }
 

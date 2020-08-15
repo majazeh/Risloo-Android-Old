@@ -5,9 +5,11 @@
     android:id="@+id/activity_auth_footer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layoutDirection="rtl"
+    android:layout_gravity="bottom"
     android:fitsSystemWindows="true"
-    android:background="@null">
+    android:background="@null"
+    tools:context=".Views.Activities.AuthActivity"
+    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded, RtlSymmetry, UseCompoundDrawables">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +18,7 @@
         android:paddingBottom="@dimen/_11sdp"
         android:paddingRight="@dimen/_16sdp"
         android:layoutDirection="rtl"
-        android:gravity="center"
+        android:gravity="right"
         android:orientation="horizontal">
 
         <ImageView
@@ -24,13 +26,13 @@
             android:layout_height="@dimen/_16sdp"
             android:layout_marginLeft="@dimen/_18sdp"
             android:src="@drawable/ic_cog"
-            android:tint="@color/Grey"/>
+            app:tint="@color/Grey" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:text="@string/AuthSettingTitle"
+            android:text="@string/AuthFooter"
             android:textSize="@dimen/_10ssp"
             android:textStyle="bold"
             android:textColor="@color/Grey"

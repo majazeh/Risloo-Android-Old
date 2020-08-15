@@ -38,12 +38,12 @@
             <group android:checkableBehavior="none">
                 <item
                     android:id="@+id/tool_treatment_psychologist"
-                    android:icon="@drawable/ic_stethoscope"
+                    android:icon="@drawable/ic_stethoscope_light"
                     android:title="@string/AuthTreatmentPsychologist"/>
                 <item
-                    android:id="@+id/tool_treatment_counseling_center"
-                    android:icon="@drawable/ic_hospital"
-                    android:title="@string/AuthTreatmentCounselingCenter"/>
+                    android:id="@+id/tool_treatment_center"
+                    android:icon="@drawable/ic_hospital_light"
+                    android:title="@string/AuthTreatmentCenter"/>
             </group>
         </menu>
     </item>

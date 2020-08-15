@@ -62,7 +62,7 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        layouts = new int[]{R.layout.activity_intro_single_item_1, R.layout.activity_intro_single_item_2, R.layout.activity_intro_single_item_3, R.layout.activity_intro_single_item_4};
+        layouts = new int[]{R.layout.single_item_intro_1, R.layout.single_item_intro_2, R.layout.single_item_intro_3, R.layout.single_item_intro_4};
 
         activeColors = getResources().getIntArray(R.array.activeColors);
         inActiveColors = getResources().getIntArray(R.array.inActiveColors);
@@ -96,7 +96,7 @@ public class IntroActivity extends AppCompatActivity {
 
         skipTextView.setOnClickListener(v -> {
             skipTextView.setClickable(false);
-            handler.postDelayed(() -> skipTextView.setClickable(true), 1000);
+            handler.postDelayed(() -> skipTextView.setClickable(true), 500);
 
             launchAuth();
         });
@@ -117,10 +117,14 @@ public class IntroActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) {
+
+            }
 
         });
     }

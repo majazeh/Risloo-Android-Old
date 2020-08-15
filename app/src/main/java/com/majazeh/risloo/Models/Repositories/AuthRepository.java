@@ -39,7 +39,6 @@ public class AuthRepository extends MainRepository {
     public static String birthday = "";
     public static String password = "";
     public static String code = "";
-    public static String sampleId = "";
 
     public AuthRepository(Application application) throws JSONException {
         super(application);

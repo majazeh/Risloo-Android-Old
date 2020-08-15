@@ -89,7 +89,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginRight="@dimen/_6sdp"
                         android:padding="@dimen/_5sdp"
-                        android:src="@drawable/ic_user"
+                        android:src="@drawable/ic_user_light"
                         android:tint="@color/Grey"
                         android:background="@drawable/draw_4sdp_solitude"/>
 

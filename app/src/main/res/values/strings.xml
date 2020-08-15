@@ -66,11 +66,10 @@
 
     <string name="AuthTreatmentTitle">درمان</string>
     <string name="AuthTreatmentPsychologist">مشاوران</string>
-    <string name="AuthTreatmentCounselingCenter">مراکز درمان</string>
-
-    <string name="AuthSettingTitle">مطالب دیگر</string>
+    <string name="AuthTreatmentCenter">مراکز درمان</string>
 
     <string name="AuthHeader">ریسلو</string>
+    <string name="AuthFooter">مطالب دیگر</string>
 
     <string name="SerialTitle">ورود</string>
     <string name="SerialTitleToken">شروع</string>

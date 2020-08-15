@@ -50,7 +50,7 @@
                     android:layout_marginTop="@dimen/_24sdp"
                     android:padding="@dimen/_18sdp"
                     android:tint="@color/White"
-                    android:src="@drawable/ic_brain"
+                    android:src="@drawable/ic_brain_light"
                     android:background="@drawable/draw_16sdp_primary" />
 
                 <androidx.recyclerview.widget.RecyclerView
