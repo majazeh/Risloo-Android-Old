@@ -38,28 +38,102 @@ public class ExceptionManager {
 
             switch (errorCode) {
                 case 200:
-                    farsi_message = "درخواست صحیح";
+                    switch (module) {
+                        case "auth":
+                            farsi_message = "درخواست صحیح";
+                            break;
+                        case "sample":
+                            farsi_message = "درخواست صحیح";
+                            break;
+                        default:
+                            farsi_message = "درخواست صحیح";
+
+                    }
                     break;
                 case 400:
-                    farsi_message = "درخواست ناصحیح";
+                    switch (module) {
+                        case "auth":
+                            farsi_message = "درخواست ناصحیح";
+                            break;
+                        case "sample":
+                            farsi_message = "درخواست ناصحیح";
+                            break;
+                        default:
+                            farsi_message = "درخواست ناصحیح";
+
+                    }
                     break;
                 case 401:
-                    farsi_message = "مجاز نیست";
+                    switch (module) {
+                        case "auth":
+                            farsi_message = "مجاز نیست";
+                            break;
+                        case "sample":
+                            farsi_message = "مجاز نیست";
+                            break;
+                        default:
+                            farsi_message = "مجاز نیست";
+                    }
                     break;
                 case 403:
-                    farsi_message = "نمونه بسته شد";
+                    switch (module) {
+                        case "auth":
+                            farsi_message = "ابتدا لاگین کنید";
+                            break;
+                        case "sample":
+                            farsi_message = "نمونه بسته شد";
+                            break;
+                        default:
+                            farsi_message = "نمونه بسته شد";
+                    }
                     break;
                 case 404:
-                    farsi_message = "یافت نشد";
+                    switch (module) {
+                        case "auth":
+                            farsi_message = "یافت نشد";
+                            break;
+                        case "sample":
+                            farsi_message = "یافت نشد";
+                            break;
+                        default:
+                            farsi_message = "یافت نشد";
+                    }
                     break;
                 case 408:
-                    farsi_message = "وقفه درخواست";
+                    switch (module) {
+                        case "auth":
+                            farsi_message = "وقفه درخواست";
+                            break;
+                        case "sample":
+                            farsi_message = "وقفه درخواست";
+                            break;
+                        default:
+                            farsi_message = "وقفه درخواست";
+                    }
                     break;
                 case 422:
-                    farsi_message = "فیلد ها اشکال دارد";
+                    switch (module) {
+                        case "auth":
+                            farsi_message = "فیلد ها اشکال دارد";
+                            break;
+                        case "sample":
+                            farsi_message = "فیلد ها اشکال دارد";
+                            break;
+                        default:
+                            farsi_message = "فیلد ها اشکال دارد";
+                    }
                     break;
                 case 500:
-                    farsi_message = "خطای داخلی سرور";
+                    switch (module) {
+                        case "auth":
+                            farsi_message = "خطای داخلی سرور";
+                            break;
+                        case "sample":
+                            farsi_message = "خطای داخلی سرور";
+                            break;
+                        default:
+                            farsi_message = "خطای داخلی سرور";
+                    }
                     break;
                 default:
                     farsi_message = "خطای ارسال اطلاعات";
