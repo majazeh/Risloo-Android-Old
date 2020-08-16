@@ -6,9 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
-    android:fitsSystemWindows="false"
+    android:fitsSystemWindows="true"
     android:background="@color/White"
-    tools:context=".Views.Activities.AccountActivity">
+    android:descendantFocusability="blocksDescendants"
+    tools:context=".Views.Activities.AccountActivity"
+    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,22 +27,28 @@
                 android:id="@+id/activity_edit_account_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:layout_marginTop="@dimen/_18sdp"
                 android:theme="@style/ToolbarTheme"
                 android:background="@null"
-                app:title=""
+                app:title="@null"
                 app:titleTextAppearance="@style/ToolbarTextAppearance"
                 app:navigationIcon="@drawable/tool_back"
                 app:contentInsetStartWithNavigation="0dp" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/activity_edit_account_avatar_circleImageView"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/_92sdp"
                 android:layout_height="@dimen/_92sdp"
+                android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_6sdp"
                 android:layout_marginBottom="@dimen/_24sdp"
                 app:civ_border_width="@dimen/_6sdp"
                 app:civ_border_color="@color/White"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_gravity="bottom"
+                android:background="@color/Quartz" />
 
         </LinearLayout>
 
@@ -48,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbarSize="0dp"
-            android:overScrollMode="always">
+            android:overScrollMode="never">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -89,7 +97,8 @@
                     android:textColor="@color/Grey"
                     android:textColorHint="@color/Mischka"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_18sdp_quartz_border" />
+                    android:background="@drawable/draw_18sdp_quartz_border"
+                    android:importantForAutofill="no" />
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -107,12 +116,12 @@
                         android:background="@drawable/draw_18sdp_quartz_border"
                         app:tabMode="fixed"
                         app:tabGravity="fill"
+                        app:tabBackground="@null"
                         app:tabRippleColor="@color/Quartz"
                         app:tabIndicatorColor="@color/Primary5P"
                         app:tabIndicatorHeight="@dimen/_36sdp"
                         app:tabTextColor="@color/Mischka"
                         app:tabSelectedTextColor="@color/Grey"
-                        app:tabBackground="@null"
                         app:tabTextAppearance="@style/TabTextNormalAppearance">
 
                         <com.google.android.material.tabs.TabItem
@@ -155,9 +164,9 @@
                         android:layout_width="@dimen/_12sdp"
                         android:layout_height="@dimen/_12sdp"
                         android:layout_marginLeft="@dimen/_12sdp"
-                        android:layout_gravity="left|center"
+                        android:layout_gravity="center|left"
                         android:src="@drawable/ic_chevron_down"
-                        android:tint="@color/Mischka"/>
+                        app:tint="@color/Mischka" />
 
                 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -165,8 +174,6 @@
                     android:id="@+id/activity_edit_account_edit_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/_4sdp"
-                    android:paddingBottom="@dimen/_4sdp"
                     android:gravity="center"
                     android:text="@string/EditAccountEdit"
                     android:textSize="@dimen/_12ssp"

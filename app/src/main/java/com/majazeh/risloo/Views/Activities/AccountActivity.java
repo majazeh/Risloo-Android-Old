@@ -51,7 +51,7 @@ public class AccountActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private CircleImageView avatarImageView;
     private TextView nameTextView, typeTextView;
-    private RecyclerView recyclerView;
+    private RecyclerView authRecyclerView;
     private Dialog logOutDialog, progressDialog;
     private TextView logOutDialogTitle, logOutDialogDescription, logOutDialogPositive, logOutDialogNegative;
 
@@ -72,7 +72,7 @@ public class AccountActivity extends AppCompatActivity {
 
     private void decorator() {
         WindowDecorator windowDecorator = new WindowDecorator();
-        windowDecorator.lightTransparentWindow(this, R.color.Snow);
+        windowDecorator.lightWindow(this, R.color.Snow, R.color.Snow);
     }
 
     private void initializer() {
@@ -99,11 +99,11 @@ public class AccountActivity extends AppCompatActivity {
         typeTextView = findViewById(R.id.activity_account_type_textView);
         typeTextView.setText(viewModel.getType());
 
-        recyclerView = findViewById(R.id.activity_account_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout2", (int) getResources().getDimension(R.dimen._18sdp)));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
+        authRecyclerView = findViewById(R.id.activity_account_recyclerView);
+        authRecyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout2", (int) getResources().getDimension(R.dimen._18sdp)));
+        authRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        authRecyclerView.setHasFixedSize(true);
+        authRecyclerView.setAdapter(adapter);
 
         logOutDialog = new Dialog(this, R.style.DialogTheme);
         logOutDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -148,7 +148,7 @@ public class AccountActivity extends AppCompatActivity {
 
         logOutDialogPositive.setOnClickListener(v -> {
             logOutDialogPositive.setClickable(false);
-            handler.postDelayed(() -> logOutDialogPositive.setClickable(true), 1000);
+            handler.postDelayed(() -> logOutDialogPositive.setClickable(true), 500);
             logOutDialog.dismiss();
 
             try {
@@ -162,7 +162,7 @@ public class AccountActivity extends AppCompatActivity {
 
         logOutDialogNegative.setOnClickListener(v -> {
             logOutDialogNegative.setClickable(false);
-            handler.postDelayed(() -> logOutDialogNegative.setClickable(true), 1000);
+            handler.postDelayed(() -> logOutDialogNegative.setClickable(true), 500);
             logOutDialog.dismiss();
         });
 
@@ -173,10 +173,11 @@ public class AccountActivity extends AppCompatActivity {
         AuthRepository.workState.observe((LifecycleOwner) this, integer -> {
             if (AuthRepository.work == "logOut") {
                 if (integer == 1) {
+                    setResult(RESULT_OK, null);
                     finish();
 
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + "درخواست شما با موفقیت انجام شد.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     progressDialog.dismiss();

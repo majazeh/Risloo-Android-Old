@@ -66,11 +66,10 @@
 
     <string name="AuthTreatmentTitle">درمان</string>
     <string name="AuthTreatmentPsychologist">مشاوران</string>
-    <string name="AuthTreatmentCounselingCenter">مراکز درمان</string>
-
-    <string name="AuthSettingTitle">مطالب دیگر</string>
+    <string name="AuthTreatmentCenter">مراکز درمان</string>
 
     <string name="AuthHeader">ریسلو</string>
+    <string name="AuthFooter">مطالب دیگر</string>
 
     <string name="SerialTitle">ورود</string>
     <string name="SerialTitleToken">شروع</string>
@@ -234,12 +233,18 @@
     <string name="CenterCreate">ساخت جدید</string>
 
     <string name="CenterEmpty">فعلا مرکز درمانی برای شما نیست</string>
-    <string name="CenterRequest">درخواست پذیرش</string>
 
     <string name="CenterDescription">توضیحات:</string>
-    <string name="CenterAddress">آدرس:</string>
     <string name="CenterPrincipal">مدیر:</string>
-    <string name="CenterTreatmentRooms">اتاق های درمان</string>
+    <string name="CenterAddress">آدرس:</string>
+    <string name="CenterPhone">شماره تماس:</string>
+
+    <string name="CenterRequest">درخواست پذیرش</string>
+
+    <string name="CenterRequestDialogTitle">درخواست پذیرش به</string>
+    <string name="CenterRequestDialogDescription">درخواست شما به مرکر مورد نظر ارسال خواهد و پس ار بررسی نتیجه به شما اطلاع داده خواهد شد.</string>
+    <string name="CenterRequestDialogPositive">درخواست</string>
+    <string name="CenterRequestDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

@@ -26,9 +26,6 @@ public class SplashActivity extends AppCompatActivity {
     // ViewModels
     private ExplodeViewModel viewModel;
 
-    // Vars
-    private String update = "";
-
     // Objects
     private IntentCaller intentCaller;
     private Handler handler;
@@ -53,7 +50,7 @@ public class SplashActivity extends AppCompatActivity {
 
         listener();
 
-        checkContent();
+        checkUpdate();
     }
 
     private void decorator() {
@@ -102,7 +99,7 @@ public class SplashActivity extends AppCompatActivity {
     private void listener() {
         updateDialogPositive.setOnClickListener(v -> {
             updateDialogPositive.setClickable(false);
-            handler.postDelayed(() -> updateDialogPositive.setClickable(true), 1000);
+            handler.postDelayed(() -> updateDialogPositive.setClickable(true), 500);
             updateDialog.dismiss();
 
             intentCaller.googlePlay(this);
@@ -111,59 +108,36 @@ public class SplashActivity extends AppCompatActivity {
 
         updateDialogNegative.setOnClickListener(v -> {
             updateDialogNegative.setClickable(false);
-            handler.postDelayed(() -> updateDialogNegative.setClickable(true), 1000);
+            handler.postDelayed(() -> updateDialogNegative.setClickable(true), 500);
             updateDialog.dismiss();
 
-            if (update != "force") {
-                launchIntro();
-            } else {
+            if (viewModel.forceUpdate()) {
                 finish();
+            } else {
+                launchIntro();
             }
         });
 
         updateDialog.setOnCancelListener(dialog -> {
             updateDialog.dismiss();
 
-            if (update != "force") {
-                launchIntro();
-            } else {
+            if (viewModel.forceUpdate()) {
                 finish();
+            } else {
+                launchIntro();
             }
         });
     }
 
-    private void checkContent() {
-        if (newContent()) {
-            loadContent();
-        } else {
-            checkUpdate();
-        }
-    }
-
-    private boolean newContent() {
-        return viewModel.newContent();
-    }
-
-    private void loadContent() {
-        updateProgressBar.setVisibility(View.VISIBLE);
-        versionTextView.setText(getResources().getString(R.string.SplashLoading));
-        // TODO : Load Our Samples Content Or Add New Samples
-        updateProgressBar.setVisibility(View.INVISIBLE);
-        versionTextView.setText(currentVersion());
-        checkUpdate();
-    }
-
     private void checkUpdate() {
-        if (hasUpdate()) {
-            if (forceUpdate()) {
+        if (viewModel.hasUpdate()) {
+            if (viewModel.forceUpdate()) {
                 updateDialogTitle.setText(newVersion());
                 updateDialogDescription.setText(getResources().getString(R.string.SplashUpdateDialogForceDescription));
                 updateDialogPositive.setText(getResources().getString(R.string.SplashUpdateDialogForcePositive));
                 updateDialogNegative.setText(getResources().getString(R.string.SplashUpdateDialogForceNegative));
 
                 updateDialog.show();
-
-                update = "force";
             } else {
                 updateDialogTitle.setText(newVersion());
                 updateDialogDescription.setText(getResources().getString(R.string.SplashUpdateDialogNotForceDescription));
@@ -171,20 +145,21 @@ public class SplashActivity extends AppCompatActivity {
                 updateDialogNegative.setText(getResources().getString(R.string.SplashUpdateDialogNotForceNegative));
 
                 updateDialog.show();
-
-                update = "notForce";
             }
         } else {
-            launchIntro();
+            checkContent();
         }
     }
 
-    private boolean hasUpdate() {
-        return viewModel.hasUpdate();
-    }
-
-    private boolean forceUpdate() {
-        return  viewModel.forceUpdate();
+    private void checkContent() {
+        if (viewModel.newContent()) {
+            updateProgressBar.setVisibility(View.VISIBLE);
+            versionTextView.setText(getResources().getString(R.string.SplashLoading));
+            // TODO : Load Our Samples Content Or Add New Samples
+            updateProgressBar.setVisibility(View.INVISIBLE);
+            versionTextView.setText(currentVersion());
+        }
+        launchIntro();
     }
 
     private String currentVersion() {

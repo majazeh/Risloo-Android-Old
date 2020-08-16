@@ -33,7 +33,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountH
     @NonNull
     @Override
     public AccountHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.activity_account_single_item, viewGroup, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_account, viewGroup, false);
         return new AccountHolder(view);
     }
 
@@ -67,9 +67,9 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountH
 
         public AccountHolder(View view) {
             super(view);
-            avatarImageView = view.findViewById(R.id.activity_account_single_item_avatar_imageView);
-            titleTextView = view.findViewById(R.id.activity_account_single_item_title_textView);
-            subTitleTextView = view.findViewById(R.id.activity_account_single_item_subTitle_textView);
+            avatarImageView = view.findViewById(R.id.single_item_account_avatar_imageView);
+            titleTextView = view.findViewById(R.id.single_item_account_title_textView);
+            subTitleTextView = view.findViewById(R.id.single_item_account_subTitle_textView);
         }
     }
 

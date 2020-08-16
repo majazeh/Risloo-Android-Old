@@ -97,7 +97,7 @@ public class EditAccountActivity extends AppCompatActivity {
 
     private void decorator() {
         WindowDecorator windowDecorator = new WindowDecorator();
-        windowDecorator.lightTransparentWindow(this, R.color.Snow);
+        windowDecorator.lightWindow(this, R.color.Snow, R.color.Snow);
     }
 
     private void initializer() {
@@ -239,7 +239,7 @@ public class EditAccountActivity extends AppCompatActivity {
 
         dateDialogPositive.setOnClickListener(v -> {
             dateDialogPositive.setClickable(false);
-            handler.postDelayed(() -> dateDialogPositive.setClickable(true), 1000);
+            handler.postDelayed(() -> dateDialogPositive.setClickable(true), 500);
             dateDialog.dismiss();
 
             Year = dateDialogDatePicker.getYear();
@@ -264,7 +264,7 @@ public class EditAccountActivity extends AppCompatActivity {
 
         dateDialogNegative.setOnClickListener(v -> {
             dateDialogNegative.setClickable(false);
-            handler.postDelayed(() -> dateDialogNegative.setClickable(true), 1000);
+            handler.postDelayed(() -> dateDialogNegative.setClickable(true), 500);
             dateDialog.dismiss();
 
             dateDialogDatePicker.updateDate(Year, Month, Day);

@@ -1,5 +1,6 @@
 package com.majazeh.risloo.Views.Activities;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -150,7 +151,7 @@ public class AuthActivity extends AppCompatActivity {
 
                 }, 50);
 
-            } else if (id == R.id.tool_treatment_counseling_center) {
+            } else if (id == R.id.tool_treatment_center) {
                 handler.postDelayed(() -> {
                     startActivity(new Intent(this, CenterActivity.class));
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
@@ -171,9 +172,9 @@ public class AuthActivity extends AppCompatActivity {
     private void launchAuth(int enterAnim, int exitAnim) {
         AuthRepository.theory = "auth";
         if (token()) {
-            titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
-        } else {
             titleToolbar.setTitle(getResources().getString(R.string.SerialTitleToken));
+        } else {
+            titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
         }
         loadFragment(new SerialFragment(this), enterAnim, exitAnim);
     }
@@ -182,9 +183,9 @@ public class AuthActivity extends AppCompatActivity {
         switch (AuthRepository.theory) {
             case "auth":
                 if (token()) {
-                    titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
-                } else {
                     titleToolbar.setTitle(getResources().getString(R.string.SerialTitleToken));
+                } else {
+                    titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
                 }
                 loadFragment(new SerialFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
                 break;
@@ -232,12 +233,11 @@ public class AuthActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         } else if (AuthRepository.theory.equals("sample")) {
-                            AuthRepository.sampleId = AuthRepository.key;
+                            AuthRepository.theory = "sample";
 
-                            editor.putString("sampleId", AuthRepository.sampleId);
+                            editor.putString("sampleId", AuthRepository.key);
                             editor.apply();
 
-                            AuthRepository.theory = "sample";
                             startActivity(new Intent(this, SampleActivity.class));
                             AuthRepository.workState.removeObservers((LifecycleOwner) this);
                         } else {
@@ -246,12 +246,12 @@ public class AuthActivity extends AppCompatActivity {
                         }
                     }
                 }
+
                 if (toolUser != null) {
-                    if (token()) {
-                        toolUser.setVisible(false);
-                    } else {
+                    if (token())
                         toolUser.setVisible(true);
-                    }
+                    else
+                        toolUser.setVisible(false);
                 }
 
                 progressDialog.dismiss();
@@ -268,7 +268,7 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     public boolean token() {
-        return sharedPreferences.getString("token", "").equals("");
+        return !sharedPreferences.getString("token", "").equals("");
     }
 
     @Override
@@ -277,14 +277,13 @@ public class AuthActivity extends AppCompatActivity {
 
         toolUser = menu.findItem(R.id.tool_account);
 
-        if (token()) {
-            toolUser.setVisible(false);
-        } else {
+        if (token())
             toolUser.setVisible(true);
-        }
+        else
+            toolUser.setVisible(false);
 
         toolUser.setOnMenuItemClickListener(item -> {
-            startActivity(new Intent(this, AccountActivity.class));
+            startActivityForResult(new Intent(this, AccountActivity.class), 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             return false;
         });
@@ -293,18 +292,29 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 100) {
+                if (toolUser != null) {
+                    toolUser.setVisible(false);
+                    titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
+
+                    SerialFragment fragment = ((SerialFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                    if (fragment != null) {
+                        fragment.setText();
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
 
-        if (toolUser != null) {
-            if (token()) {
-                toolUser.setVisible(false);
-            } else {
-                toolUser.setVisible(true);
-            }
-        }
-
-        if (AuthRepository.theory == "sample") {
+        if (AuthRepository.theory.equals("sample")) {
             launchAuth(0, 0);
         }
     }
