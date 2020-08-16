@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -26,8 +25,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
+import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
-import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
@@ -51,18 +50,18 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
     private PhoneAdapter adapter;
 
     // Vars
-    private int position = -1, size = 0;
+    private int position = -1;
     private ArrayList<Model> centers;
     private ArrayList<Boolean> expandedCenters = new ArrayList<>();
-    private JSONObject details;
 
     // Objects
     private Activity activity;
     private Handler handler;
+    private JSONObject details;
 
     // Widgets
-    private TextView requestDialogTitle, requestDialogDescription, requestDialogPositive, requestDialogNegative;
     private Dialog requestDialog, progressDialog;
+    private TextView requestDialogTitle, requestDialogDescription, requestDialogPositive, requestDialogNegative;
 
     public CenterAdapter(Activity activity) {
         this.activity = activity;
@@ -71,7 +70,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
     @NonNull
     @Override
     public CenterHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.activity_center_single_item, viewGroup, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_center, viewGroup, false);
 
         initializer(view);
 
@@ -89,78 +88,102 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                 holder.peopleImageView.setBackgroundResource(R.drawable.draw_4sdp_solitude_ripple);
             }
 
-            int created_at = (int) centers.get(i).get("created_at");
-            switch (created_at % 16) {
+            int createdAt = (int) centers.get(i).get("created_at");
+
+            switch (createdAt % 16) {
                 case 0:
-                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_0);
+                    holder.gradientImageView.setImageResource(R.drawable.gra_0);
+                    holder.expandLinearLayout.setBackgroundResource(R.color.Gradient0);
                     break;
                 case 1:
-                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_1);
+                    holder.gradientImageView.setImageResource(R.drawable.gra_1);
+                    holder.expandLinearLayout.setBackgroundResource(R.color.Gradient1);
                     break;
                 case 2:
-                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_2);
+                    holder.gradientImageView.setImageResource(R.drawable.gra_2);
+                    holder.expandLinearLayout.setBackgroundResource(R.color.Gradient2);
                     break;
                 case 3:
-                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_3);
+                    holder.gradientImageView.setImageResource(R.drawable.gra_3);
+                    holder.expandLinearLayout.setBackgroundResource(R.color.Gradient3);
                     break;
                 case 4:
-                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_4);
+                    holder.gradientImageView.setImageResource(R.drawable.gra_4);
+                    holder.expandLinearLayout.setBackgroundResource(R.color.Gradient4);
                     break;
                 case 5:
-                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_5);
+                    holder.gradientImageView.setImageResource(R.drawable.gra_5);
+                    holder.expandLinearLayout.setBackgroundResource(R.color.Gradient5);
                     break;
                 case 6:
-                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_6);
+                    holder.gradientImageView.setImageResource(R.drawable.gra_6);
+                    holder.expandLinearLayout.setBackgroundResource(R.color.Gradient6);
                     break;
                 case 7:
-                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_7);
+                    holder.gradientImageView.setImageResource(R.drawable.gra_7);
+                    holder.expandLinearLayout.setBackgroundResource(R.color.Gradient7);
                     break;
                 case 8:
-                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_8);
+                    holder.gradientImageView.setImageResource(R.drawable.gra_8);
+                    holder.expandLinearLayout.setBackgroundResource(R.color.Gradient8);
                     break;
                 case 9:
-                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_9);
+                    holder.gradientImageView.setImageResource(R.drawable.gra_9);
+                    holder.expandLinearLayout.setBackgroundResource(R.color.Gradient9);
                     break;
                 case 10:
-                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_10);
+                    holder.gradientImageView.setImageResource(R.drawable.gra_10);
+                    holder.expandLinearLayout.setBackgroundResource(R.color.Gradient10);
                     break;
                 case 11:
-                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_11);
+                    holder.gradientImageView.setImageResource(R.drawable.gra_11);
+                    holder.expandLinearLayout.setBackgroundResource(R.color.Gradient11);
                     break;
                 case 12:
-                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_12);
+                    holder.gradientImageView.setImageResource(R.drawable.gra_12);
+                    holder.expandLinearLayout.setBackgroundResource(R.color.Gradient12);
                     break;
                 case 13:
-                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_13);
+                    holder.gradientImageView.setImageResource(R.drawable.gra_13);
+                    holder.expandLinearLayout.setBackgroundResource(R.color.Gradient13);
                     break;
                 case 14:
-                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_14);
+                    holder.gradientImageView.setImageResource(R.drawable.gra_14);
+                    holder.expandLinearLayout.setBackgroundResource(R.color.Gradient14);
                     break;
                 case 15:
-                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_15);
+                    holder.gradientImageView.setImageResource(R.drawable.gra_15);
+                    holder.expandLinearLayout.setBackgroundResource(R.color.Gradient15);
                     break;
             }
-//            holder.expandLinearLayout.setBackgroundResource(R.color.Snow);
 
             details = (JSONObject) centers.get(i).get("detail");
+
             if (!details.isNull("avatar")) {
                 JSONObject avatar = details.getJSONObject("avatar");
-                Log.e("size", String.valueOf(i));
                 JSONObject medium = avatar.getJSONObject("medium");
+
                 Picasso.get().load(medium.getString("url")).placeholder(R.color.White).into(holder.avatarImageView);
+            } else {
+                Picasso.get().load(R.color.Solitude).placeholder(R.color.White).into(holder.avatarImageView);
             }
+
             JSONObject manager = (JSONObject) centers.get(i).get("manager");
+
             holder.titleTextView.setText(details.getString("title"));
             holder.descriptionTextView.setText(details.getString("description"));
             holder.principalTextView.setText(manager.getString("name"));
             holder.addressTextView.setText(details.getString("address"));
-            JSONArray phone_number = (JSONArray) details.getJSONArray("phone_numbers");
-            ArrayList arrayList = new ArrayList<String>();
-            for (int j = 0; j < phone_number.length(); j++) {
-                arrayList.add(phone_number.get(j));
+
+            JSONArray phoneNumbers = details.getJSONArray("phone_numbers");
+
+            ArrayList phones = new ArrayList<String>();
+            for (int j = 0; j < phoneNumbers.length(); j++) {
+                phones.add(phoneNumbers.get(j));
             }
+
             if (position == -1) {
-                adapter.setPhone(arrayList);
+                adapter.setPhone(phones);
 
                 holder.phoneRecyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout3", (int) activity.getResources().getDimension(R.dimen._8sdp)));
                 holder.phoneRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
@@ -201,7 +224,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 1000);
+            handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
 
             position = i;
 
@@ -210,10 +233,10 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
         holder.requestTextView.setOnClickListener(v -> {
             holder.requestTextView.setClickable(false);
-            handler.postDelayed(() -> holder.requestTextView.setClickable(true), 1000);
+            handler.postDelayed(() -> holder.requestTextView.setClickable(true), 500);
 
             try {
-                doWork((String) centers.get(i).get("id"), details.getString("title"));
+                doWork(centers.get(i).get("id").toString(), holder.titleTextView.getText().toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -221,7 +244,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
         holder.editImageView.setOnClickListener(v -> {
             holder.editImageView.setClickable(false);
-            handler.postDelayed(() -> holder.editImageView.setClickable(true), 1000);
+            handler.postDelayed(() -> holder.editImageView.setClickable(true), 500);
 
             activity.startActivityForResult(new Intent(activity, EditCenterActivity.class), 100);
             activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
@@ -229,7 +252,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
         holder.peopleImageView.setOnClickListener(v -> {
             holder.peopleImageView.setClickable(false);
-            handler.postDelayed(() -> holder.peopleImageView.setClickable(true), 1000);
+            handler.postDelayed(() -> holder.peopleImageView.setClickable(true), 500);
 
             // TODO : See What This Function Do And Then Add The Code
         });
@@ -237,7 +260,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
     @Override
     public int getItemCount() {
-        return size;
+        return centers.size();
     }
 
     private void initializer(View view) {
@@ -250,17 +273,15 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
     public void setCenter(ArrayList<Model> centers) {
         this.centers = centers;
-        size = centers.size();
-        Log.e("centers", String.valueOf(centers.get(0).attributes));
         notifyDataSetChanged();
     }
 
-    private void doWork(String clinic_id, String title) {
+    private void doWork(String clinicId, String title) {
         initDialog(title);
 
         detector();
 
-        listener(clinic_id);
+        listener(clinicId);
 
         requestDialog.show();
     }
@@ -271,7 +292,6 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
         requestDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         requestDialog.setContentView(R.layout.dialog_action);
         requestDialog.setCancelable(true);
-
         progressDialog = new Dialog(activity, R.style.DialogTheme);
         progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -302,15 +322,15 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
         }
     }
 
-    private void listener(String clinic_id) {
+    private void listener(String clinicId) {
         requestDialogPositive.setOnClickListener(v -> {
             requestDialogPositive.setClickable(false);
-            handler.postDelayed(() -> requestDialogPositive.setClickable(true), 1000);
+            handler.postDelayed(() -> requestDialogPositive.setClickable(true), 500);
             requestDialog.dismiss();
 
             try {
                 progressDialog.show();
-                viewModel.request(clinic_id);
+                viewModel.request(clinicId);
                 observeWork();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -319,55 +339,58 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
         requestDialogNegative.setOnClickListener(v -> {
             requestDialogNegative.setClickable(false);
-            handler.postDelayed(() -> requestDialogNegative.setClickable(true), 1000);
+            handler.postDelayed(() -> requestDialogNegative.setClickable(true), 500);
             requestDialog.dismiss();
         });
 
         requestDialog.setOnCancelListener(dialog -> requestDialog.dismiss());
     }
 
+    public void observeWork() {
+        CenterRepository.workState.observeForever(integer -> {
+            if (CenterRepository.work == "request") {
+                if (integer == 1) {
+                    // Do Nothing
+
+                    progressDialog.dismiss();
+                    Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                } else if (integer == 0) {
+                    progressDialog.dismiss();
+                    Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                } else if (integer == -2) {
+                    progressDialog.dismiss();
+                    Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                }
+            }
+        });
+    }
+
     public class CenterHolder extends RecyclerView.ViewHolder {
 
-        public RelativeLayout mainRelativeLayout;
         public CircleImageView avatarImageView;
         public TextView titleTextView, requestTextView, descriptionTextView, principalTextView, addressTextView;
         public RecyclerView phoneRecyclerView;
-        public ImageView editImageView, peopleImageView, expandImageView;
+        public ImageView gradientImageView, editImageView, peopleImageView, expandImageView;
         public LinearLayout expandLinearLayout;
 
         public CenterHolder(View view) {
             super(view);
-            mainRelativeLayout = view.findViewById(R.id.activity_center_single_item_main_relativeLayout);
-            avatarImageView = view.findViewById(R.id.activity_center_single_item_avatar_imageView);
-            titleTextView = view.findViewById(R.id.activity_center_single_item_title_textView);
-            requestTextView = view.findViewById(R.id.activity_center_single_item_request_textView);
-            descriptionTextView = view.findViewById(R.id.activity_center_single_item_description_textView);
-            principalTextView = view.findViewById(R.id.activity_center_single_item_principal_textView);
-            addressTextView = view.findViewById(R.id.activity_center_single_item_address_textView);
-            phoneRecyclerView = view.findViewById(R.id.activity_center_single_item_recyclerView);
-            editImageView = view.findViewById(R.id.activity_center_single_item_edit_imageView);
-            peopleImageView = view.findViewById(R.id.activity_center_single_item_people_imageView);
-            expandImageView = view.findViewById(R.id.activity_center_single_item_expand_imageView);
-            expandLinearLayout = view.findViewById(R.id.activity_center_single_item_expand_linearLayout);
+            gradientImageView = view.findViewById(R.id.single_item_center_gradient_imageView);
+            avatarImageView = view.findViewById(R.id.single_center_item_avatar_imageView);
+            titleTextView = view.findViewById(R.id.single_item_center_title_textView);
+            requestTextView = view.findViewById(R.id.single_item_center_request_textView);
+            descriptionTextView = view.findViewById(R.id.single_center_item_description_textView);
+            principalTextView = view.findViewById(R.id.single_item_center_principal_textView);
+            addressTextView = view.findViewById(R.id.single_item_center_address_textView);
+            phoneRecyclerView = view.findViewById(R.id.single_item_center_recyclerView);
+            editImageView = view.findViewById(R.id.single_item_center_edit_imageView);
+            peopleImageView = view.findViewById(R.id.single_item_center_people_imageView);
+            expandImageView = view.findViewById(R.id.single_item_center_expand_imageView);
+            expandLinearLayout = view.findViewById(R.id.single_item_center_expand_linearLayout);
         }
-    }
-
-    public void observeWork() {
-        CenterRepository.workState.observeForever(integer -> {
-            Log.e("inte", String.valueOf(integer));
-            if (integer == 1) {
-            } else if (integer == 0) {
-
-            } else if (integer == -2) {
-
-            } else {
-                // nothing
-            }
-            if (integer != -1)
-                progressDialog.dismiss();
-            CenterRepository.workState.removeObserver(integer1 -> {
-            });
-        });
     }
 
 }

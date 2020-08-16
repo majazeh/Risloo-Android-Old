@@ -28,18 +28,18 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.PhoneHolder>
     @NonNull
     @Override
     public PhoneHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.phone_single_item, viewGroup, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_phone, viewGroup, false);
         return new PhoneHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PhoneHolder holder, int i) {
-        holder.itemTextView.setText("09195742201");
+        holder.itemTextView.setText(phones.get(i));
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return phones.size();
     }
 
     public void setPhone(ArrayList<String> phones) {
@@ -53,7 +53,7 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.PhoneHolder>
 
         public PhoneHolder(View view) {
             super(view);
-            itemTextView = view.findViewById(R.id.phone_single_item_textView);
+            itemTextView = view.findViewById(R.id.single_item_phone_textView);
         }
     }
 

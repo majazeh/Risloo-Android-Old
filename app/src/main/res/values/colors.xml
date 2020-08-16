@@ -32,9 +32,30 @@
     <color name="Primary5P">#0D5867DD</color>
     <color name="Primary20P">#335867DD</color>
 
-    <color name="White30P">#4DFFFFFF</color>
+    <color name="White25P">#40FFFFFF</color>
+    <color name="Mischka25P">#40A0A9B8</color>
 
-    <color name="Mischka20P">#34A0A9B8</color>
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // gradient colors
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <color name="Gradient0">#40E8F6BB</color>
+    <color name="Gradient1">#40E8F6BB</color>
+    <color name="Gradient2">#40E8F6BB</color>
+    <color name="Gradient3">#40E3F5F4</color>
+    <color name="Gradient4">#40EDE7F3</color>
+    <color name="Gradient5">#40E9E5F1</color>
+    <color name="Gradient6">#40DBE9F3</color>
+    <color name="Gradient7">#40EBE9F4</color>
+    <color name="Gradient8">#40D6E5F4</color>
+    <color name="Gradient9">#40FFEBD6</color>
+    <color name="Gradient10">#40FFDACA</color>
+    <color name="Gradient11">#40CBB4D3</color>
+    <color name="Gradient12">#40EFC7D5</color>
+    <color name="Gradient13">#40EEB8AB</color>
+    <color name="Gradient14">#40FDC491</color>
+    <color name="Gradient15">#40FFB477</color>
 
     ////////////////////////////////////////////////////////////////////////////////
 

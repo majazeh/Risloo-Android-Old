@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:background="@null"
-    tools:context=".Views.Fragments.AllCenterFragment">
+    tools:context=".Views.Fragments.MyCenterFragment"
+    tools:ignore="UnusedAttribute, ContentDescription">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_my_center_recyclerView"

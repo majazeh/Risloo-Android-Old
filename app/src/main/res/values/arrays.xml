@@ -12,10 +12,10 @@
     </array>
 
     <array name="inActiveColors">
-        <item>@color/Mischka20P</item>
-        <item>@color/Mischka20P</item>
-        <item>@color/Mischka20P</item>
-        <item>@color/Mischka20P</item>
+        <item>@color/Mischka25P</item>
+        <item>@color/Mischka25P</item>
+        <item>@color/Mischka25P</item>
+        <item>@color/Mischka25P</item>
     </array>
 
     ////////////////////////////////////////////////////////////////////////////////
