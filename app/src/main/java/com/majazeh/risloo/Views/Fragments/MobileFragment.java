@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,6 +44,7 @@ public class MobileFragment extends Fragment {
     private TextView mobileDescriptionTextView;
     private EditText mobileEditText;
     private Button mobileButton;
+    private TextView mobileLinkTextView;
 
     public MobileFragment(Activity activity) {
         this.activity = activity;
@@ -50,7 +52,7 @@ public class MobileFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(activity).inflate(R.layout.fragment_mobile, viewGroup, false);
 
         initializer(view);
@@ -70,6 +72,9 @@ public class MobileFragment extends Fragment {
         mobileEditText = view.findViewById(R.id.fragment_mobile_editText);
 
         mobileButton = view.findViewById(R.id.fragment_mobile_button);
+
+        mobileLinkTextView = view.findViewById(R.id.fragment_mobile_link_textView);
+        mobileLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     private void detector() {

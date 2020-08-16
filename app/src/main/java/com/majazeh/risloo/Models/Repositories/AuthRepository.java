@@ -129,6 +129,8 @@ public class AuthRepository extends MainRepository {
          ---------- Strings ----------
     */
 
+    public String getAccount() { return authItems.account(); }
+
     public String getAvatar() {
         return authItems.avatar();
     }

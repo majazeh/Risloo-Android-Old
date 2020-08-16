@@ -5,9 +5,9 @@
     android:id="@+id/fragment_register"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
     android:background="@null"
-    tools:context=".Views.Fragments.RegisterFragment">
+    tools:context=".Views.Fragments.RegisterFragment"
+    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,7 +48,8 @@
             android:textColor="@color/Grey"
             android:textColorHint="@color/Mischka"
             android:textAlignment="gravity"
-            android:background="@drawable/draw_18sdp_quartz_border" />
+            android:background="@drawable/draw_18sdp_quartz_border"
+            android:importantForAutofill="no" />
 
         <EditText
             android:id="@+id/fragment_register_mobile_editText"
@@ -69,12 +70,14 @@
             android:textColor="@color/Grey"
             android:textColorHint="@color/Mischka"
             android:textAlignment="gravity"
-            android:background="@drawable/draw_18sdp_quartz_border" />
+            android:background="@drawable/draw_18sdp_quartz_border"
+            android:importantForAutofill="no" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="@dimen/_36sdp"
             android:layout_marginBottom="@dimen/_8sdp"
+            android:layoutDirection="rtl"
             app:cardBackgroundColor="@color/White"
             app:cardCornerRadius="@dimen/_18sdp"
             app:cardElevation="0dp">
@@ -87,12 +90,12 @@
                 android:background="@drawable/draw_18sdp_quartz_border"
                 app:tabMode="fixed"
                 app:tabGravity="fill"
+                app:tabBackground="@null"
                 app:tabRippleColor="@color/Quartz"
-                app:tabIndicatorColor="@color/Solitude"
+                app:tabIndicatorColor="@color/Primary5P"
                 app:tabIndicatorHeight="@dimen/_36sdp"
                 app:tabTextColor="@color/Mischka"
                 app:tabSelectedTextColor="@color/Grey"
-                app:tabBackground="@null"
                 app:tabTextAppearance="@style/TabTextNormalAppearance">
 
                 <com.google.android.material.tabs.TabItem
@@ -120,8 +123,8 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/_8sdp"
                 android:paddingBottom="@dimen/_8sdp"
-                android:paddingLeft="@dimen/_30sdp"
-                android:paddingRight="@dimen/_30sdp"
+                android:paddingLeft="@dimen/_32sdp"
+                android:paddingRight="@dimen/_16sdp"
                 android:imeOptions="actionDone"
                 android:cursorVisible="false"
                 android:inputType="textPassword"
@@ -132,18 +135,19 @@
                 android:textColor="@color/Grey"
                 android:textColorHint="@color/Mischka"
                 android:textAlignment="gravity"
-                android:background="@drawable/draw_18sdp_quartz_border" />
+                android:background="@drawable/draw_18sdp_quartz_border"
+                android:importantForAutofill="no" />
 
             <ImageView
                 android:id="@+id/fragment_register_imageView"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
-                android:layout_gravity="left|center"
+                android:layout_gravity="center|left"
                 android:layout_marginLeft="@dimen/_8sdp"
                 android:padding="@dimen/_6sdp"
                 android:visibility="invisible"
-                android:tint="@color/Mischka"
-                android:src="@drawable/ic_eye_slash"/>
+                android:src="@drawable/ic_eye_slash_light"
+                app:tint="@color/Mischka" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -151,8 +155,6 @@
             android:id="@+id/fragment_register_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/_4sdp"
-            android:paddingBottom="@dimen/_4sdp"
             android:gravity="center"
             android:text="@string/RegisterButton"
             android:textSize="@dimen/_12ssp"

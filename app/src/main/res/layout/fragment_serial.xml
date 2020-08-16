@@ -5,9 +5,9 @@
     android:id="@+id/fragment_serial"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
     android:background="@null"
-    tools:context=".Views.Fragments.SerialFragment">
+    tools:context=".Views.Fragments.SerialFragment"
+    tools:ignore="UnusedAttribute, HardcodedText, RtlHardcoded, RtlSymmetry">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +23,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_24sdp"
             android:gravity="center"
-            android:text="@string/SerialDescription"
             android:textSize="@dimen/_13ssp"
             android:textStyle="bold"
             android:textColor="@color/Grey"
@@ -42,23 +41,20 @@
             android:cursorVisible="false"
             android:inputType="text"
             android:gravity="center"
-            android:hint="@string/SerialHint"
             android:textSize="@dimen/_12ssp"
             android:textStyle="normal"
             android:textColor="@color/Grey"
             android:textColorHint="@color/Mischka"
             android:textAlignment="gravity"
-            android:background="@drawable/draw_18sdp_quartz_border" />
+            android:background="@drawable/draw_18sdp_quartz_border"
+            android:importantForAutofill="no" />
 
         <Button
             android:id="@+id/fragment_serial_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_18sdp"
-            android:paddingTop="@dimen/_4sdp"
-            android:paddingBottom="@dimen/_4sdp"
             android:gravity="center"
-            android:text="@string/SerialButton"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
             android:textColor="@color/White"

@@ -71,6 +71,10 @@ public class AuthViewModel extends AndroidViewModel {
          ---------- Strings ----------
     */
 
+    public String getAccount() {
+        return repository.getAccount();
+    }
+
     public String getAvatar() {
         return repository.getAvatar();
     }

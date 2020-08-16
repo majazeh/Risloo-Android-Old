@@ -9,7 +9,8 @@
     android:fitsSystemWindows="true"
     android:background="@color/White"
     android:descendantFocusability="blocksDescendants"
-    tools:context=".Views.Activities.AboutUsActivity">
+    tools:context=".Views.Activities.AboutUsActivity"
+    tools:ignore="UnusedAttribute, ContentDescription">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,9 +50,9 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_24sdp"
                     android:padding="@dimen/_18sdp"
-                    android:tint="@color/White"
                     android:src="@drawable/ic_brain_light"
-                    android:background="@drawable/draw_16sdp_primary" />
+                    android:background="@drawable/draw_18sdp_primary"
+                    app:tint="@color/White" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/activity_about_us_recyclerView"

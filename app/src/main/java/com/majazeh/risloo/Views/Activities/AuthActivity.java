@@ -99,6 +99,11 @@ public class AuthActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.activity_auth);
 
         navigationView = findViewById(R.id.activity_auth_navigationView);
+        if (token()) {
+            navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(true);
+        } else {
+            navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
+        }
         navigationFooter = navigationView.findViewById(R.id.activity_auth_footer);
 
         titleToolbar = findViewById(R.id.activity_auth_toolbar);
@@ -248,10 +253,13 @@ public class AuthActivity extends AppCompatActivity {
                 }
 
                 if (toolUser != null) {
-                    if (token())
+                    if (token()) {
                         toolUser.setVisible(true);
-                    else
+                        navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(true);
+                    } else {
                         toolUser.setVisible(false);
+                        navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
+                    }
                 }
 
                 progressDialog.dismiss();
@@ -276,12 +284,10 @@ public class AuthActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_auth, menu);
 
         toolUser = menu.findItem(R.id.tool_account);
-
         if (token())
             toolUser.setVisible(true);
         else
             toolUser.setVisible(false);
-
         toolUser.setOnMenuItemClickListener(item -> {
             startActivityForResult(new Intent(this, AccountActivity.class), 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
@@ -298,8 +304,10 @@ public class AuthActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
                 if (toolUser != null) {
-                    toolUser.setVisible(false);
                     titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
+
+                    toolUser.setVisible(false);
+                    navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
 
                     SerialFragment fragment = ((SerialFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
                     if (fragment != null) {

@@ -34,6 +34,13 @@ public class AuthItems {
         return items;
     }
 
+    public String account() {
+        if (!sharedPreferences.getString("type", "").equals("null")) {
+            return sharedPreferences.getString("type", "");
+        }
+        return "";
+    }
+
     public String avatar() {
         if (!sharedPreferences.getString("avatar", "").equals("null")) {
             return sharedPreferences.getString("avatar", "");

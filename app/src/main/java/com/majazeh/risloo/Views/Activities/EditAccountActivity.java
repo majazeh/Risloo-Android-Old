@@ -97,7 +97,7 @@ public class EditAccountActivity extends AppCompatActivity {
 
     private void decorator() {
         WindowDecorator windowDecorator = new WindowDecorator();
-        windowDecorator.lightWindow(this, R.color.Snow, R.color.Snow);
+        windowDecorator.lightWindow(this, R.color.Primary5P, R.color.Snow);
     }
 
     private void initializer() {

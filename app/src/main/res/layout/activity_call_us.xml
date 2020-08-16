@@ -8,7 +8,9 @@
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
     android:background="@color/White"
-    tools:context=".Views.Activities.CallUsActivity">
+    android:descendantFocusability="blocksDescendants"
+    tools:context=".Views.Activities.CallUsActivity"
+    tools:ignore="UnusedAttribute, RtlHardcoded">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbarSize="0dp"
-            android:overScrollMode="always">
+            android:overScrollMode="never">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -63,7 +65,8 @@
                     android:textColor="@color/Grey"
                     android:textColorHint="@color/Mischka"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_18sdp_quartz_border" />
+                    android:background="@drawable/draw_18sdp_quartz_border"
+                    android:importantForAutofill="no" />
 
                 <EditText
                     android:id="@+id/activity_call_us_mobile_editText"
@@ -84,7 +87,8 @@
                     android:textColor="@color/Grey"
                     android:textColorHint="@color/Mischka"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_18sdp_quartz_border" />
+                    android:background="@drawable/draw_18sdp_quartz_border"
+                    android:importantForAutofill="no" />
 
                 <EditText
                     android:id="@+id/activity_call_us_message_editText"
@@ -106,14 +110,14 @@
                     android:textColor="@color/Grey"
                     android:textColorHint="@color/Mischka"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_18sdp_quartz_border" />
+                    android:background="@drawable/draw_18sdp_quartz_border"
+                    android:importantForAutofill="no"
+                    tools:ignore="RtlHardcoded" />
 
                 <Button
                     android:id="@+id/activity_call_us_send_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/_4sdp"
-                    android:paddingBottom="@dimen/_4sdp"
                     android:gravity="center"
                     android:text="@string/CallUsSend"
                     android:textSize="@dimen/_12ssp"

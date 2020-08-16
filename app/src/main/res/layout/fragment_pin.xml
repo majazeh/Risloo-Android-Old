@@ -5,9 +5,9 @@
     android:id="@+id/fragment_pin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
     android:background="@null"
-    tools:context=".Views.Fragments.PinFragment">
+    tools:context=".Views.Fragments.PinFragment"
+    tools:ignore="UnusedAttribute, RtlHardcoded">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
             android:paddingLeft="@dimen/_16sdp"
             android:paddingRight="@dimen/_16sdp"
             android:imeOptions="actionDone"
-            android:cursorVisible="true"
+            android:cursorVisible="false"
             android:inputType="number"
             android:maxLength="6"
             android:gravity="center"
@@ -49,15 +49,14 @@
             android:textColor="@color/Grey"
             android:textColorHint="@color/Mischka"
             android:textAlignment="gravity"
-            android:background="@drawable/draw_18sdp_quartz_border" />
+            android:background="@drawable/draw_18sdp_quartz_border"
+            android:importantForAutofill="no" />
 
         <Button
             android:id="@+id/fragment_pin_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_18sdp"
-            android:paddingTop="@dimen/_4sdp"
-            android:paddingBottom="@dimen/_4sdp"
             android:gravity="center"
             android:text="@string/PinButton"
             android:textSize="@dimen/_12ssp"

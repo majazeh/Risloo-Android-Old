@@ -39,7 +39,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
     @NonNull
     @Override
     public QuestionHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.activity_question_single_item, viewGroup, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_question, viewGroup, false);
 
         initializer(view);
 
@@ -105,7 +105,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 1000);
+            handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
 
             position = i;
 
@@ -135,9 +135,9 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
         public QuestionHolder(View view) {
             super(view);
-            subjectTextView = view.findViewById(R.id.activity_question_single_item_subject_textView);
-            answerTextView = view.findViewById(R.id.activity_question_single_item_answer_textView);
-            expandImageView = view.findViewById(R.id.activity_question_single_item_expand_imageView);
+            subjectTextView = view.findViewById(R.id.single_item_question_subject_textView);
+            answerTextView = view.findViewById(R.id.single_item_question_answer_textView);
+            expandImageView = view.findViewById(R.id.single_item_question_expand_imageView);
         }
     }
 

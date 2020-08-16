@@ -8,7 +8,8 @@
     android:layout_marginLeft="@dimen/_18sdp"
     android:layout_marginRight="@dimen/_18sdp"
     android:layout_gravity="center"
-    android:background="@drawable/draw_16sdp_top_white">
+    android:background="@drawable/draw_16sdp_top_white"
+    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded">
 
     <LinearLayout
         android:layout_width="match_parent"

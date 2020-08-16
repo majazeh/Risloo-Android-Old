@@ -35,10 +35,10 @@ public class CallUsActivity extends AppCompatActivity {
 
     // Widgets
     private Toolbar toolbar;
-    private TextView infoDialogTitle, infoDialogDescription, infoDialogConfirm;
     private EditText nameEditText, mobileEditText, messageEditText;
     private Button sendButton;
     private Dialog infoDialog, progressDialog;
+    private TextView infoDialogTitle, infoDialogDescription, infoDialogConfirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

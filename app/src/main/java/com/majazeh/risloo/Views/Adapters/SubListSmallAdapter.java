@@ -31,7 +31,7 @@ public class SubListSmallAdapter extends RecyclerView.Adapter<SubListSmallAdapte
     @NonNull
     @Override
     public SubListSmallHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.sublist_small_single_item, viewGroup, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_sublist_small, viewGroup, false);
         return new SubListSmallHolder(view);
     }
 
@@ -62,7 +62,7 @@ public class SubListSmallAdapter extends RecyclerView.Adapter<SubListSmallAdapte
 
         public SubListSmallHolder(View view) {
             super(view);
-            itemTextView = view.findViewById(R.id.sublist_small_single_item_title_textView);
+            itemTextView = view.findViewById(R.id.single_item_sublist_small_title_textView);
         }
     }
 

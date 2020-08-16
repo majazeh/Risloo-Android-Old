@@ -9,7 +9,8 @@
     android:fitsSystemWindows="true"
     android:background="@color/White"
     android:descendantFocusability="blocksDescendants"
-    tools:context=".Views.Activities.TermConditionActivity">
+    tools:context=".Views.Activities.TermConditionActivity"
+    tools:ignore="UnusedAttribute">
 
     <LinearLayout
         android:layout_width="match_parent"

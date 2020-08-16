@@ -8,7 +8,8 @@
     android:layout_marginLeft="@dimen/_18sdp"
     android:layout_marginRight="@dimen/_18sdp"
     android:layout_gravity="center"
-    android:background="@drawable/draw_16sdp_top_white">
+    android:background="@drawable/draw_16sdp_top_white"
+    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,8 +47,8 @@
                 android:layout_marginLeft="@dimen/_18sdp"
                 android:padding="@dimen/_4sdp"
                 android:src="@drawable/ic_gallery_regular"
-                android:tint="@color/White"
-                android:background="@drawable/draw_4sdp_hot"/>
+                android:background="@drawable/draw_4sdp_hot"
+                app:tint="@color/White" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -77,8 +78,8 @@
                 android:layout_marginLeft="@dimen/_18sdp"
                 android:padding="@dimen/_4sdp"
                 android:src="@drawable/ic_camera_regular"
-                android:tint="@color/White"
-                android:background="@drawable/draw_4sdp_cold"/>
+                android:background="@drawable/draw_4sdp_cold"
+                app:tint="@color/White" />
 
             <TextView
                 android:layout_width="match_parent"

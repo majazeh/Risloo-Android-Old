@@ -5,9 +5,9 @@
     android:id="@+id/fragment_mobile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
     android:background="@null"
-    tools:context=".Views.Fragments.MobileFragment">
+    tools:context=".Views.Fragments.MobileFragment"
+    tools:ignore="UnusedAttribute, RtlHardcoded">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
             android:paddingLeft="@dimen/_16sdp"
             android:paddingRight="@dimen/_16sdp"
             android:imeOptions="actionDone"
-            android:cursorVisible="true"
+            android:cursorVisible="false"
             android:inputType="number"
             android:gravity="center"
             android:hint="@string/MobileHint"
@@ -48,14 +48,14 @@
             android:textColor="@color/Grey"
             android:textColorHint="@color/Mischka"
             android:textAlignment="gravity"
-            android:background="@drawable/draw_18sdp_quartz_border" />
+            android:background="@drawable/draw_18sdp_quartz_border"
+            android:importantForAutofill="no" />
 
         <Button
             android:id="@+id/fragment_mobile_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/_4sdp"
-            android:paddingBottom="@dimen/_4sdp"
+            android:layout_marginBottom="@dimen/_18sdp"
             android:gravity="center"
             android:text="@string/MobileButton"
             android:textSize="@dimen/_12ssp"
@@ -64,6 +64,16 @@
             android:textAlignment="gravity"
             android:background="@drawable/draw_18sdp_primary"
             style="?android:attr/borderlessButtonStyle"/>
+
+        <TextView
+            android:id="@+id/fragment_mobile_link_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="@dimen/_11ssp"
+            android:textStyle="bold"
+            android:textColor="@color/Mischka"
+            android:textAlignment="gravity" />
 
     </LinearLayout>
 

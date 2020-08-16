@@ -25,7 +25,7 @@
             android:layout_width="@dimen/_16sdp"
             android:layout_height="@dimen/_16sdp"
             android:layout_marginLeft="@dimen/_18sdp"
-            android:src="@drawable/ic_cog"
+            android:src="@drawable/ic_setting_light"
             app:tint="@color/Grey" />
 
         <TextView

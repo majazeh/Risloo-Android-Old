@@ -62,7 +62,7 @@ public class PasswordFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(activity).inflate(R.layout.fragment_password, viewGroup, false);
 
         initializer(view);
@@ -131,15 +131,13 @@ public class PasswordFragment extends Fragment {
         passwordImageView.setOnClickListener(v -> {
             if (!passwordVisibility) {
                 passwordVisibility = true;
-
-                passwordImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_eye));
+                passwordImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_eye_light));
 
                 ImageViewCompat.setImageTintList(passwordImageView, AppCompatResources.getColorStateList(activity, R.color.Primary));
                 passwordEditText.setTransformationMethod(null);
             } else {
                 passwordVisibility = false;
-
-                passwordImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_eye_slash));
+                passwordImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_eye_slash_light));
 
                 ImageViewCompat.setImageTintList(passwordImageView, AppCompatResources.getColorStateList(activity, R.color.Mischka));
                 passwordEditText.setTransformationMethod(new PasswordTransformationMethod());

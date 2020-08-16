@@ -77,7 +77,7 @@ public class ImageDialog extends BottomSheetDialogFragment {
     private void listener() {
         galleryLinearLayout.setOnClickListener(v -> {
             galleryLinearLayout.setClickable(false);
-            handler.postDelayed(() -> galleryLinearLayout.setClickable(true), 1000);
+            handler.postDelayed(() -> galleryLinearLayout.setClickable(true), 500);
             dismiss();
 
             if (((EditAccountActivity) Objects.requireNonNull(getActivity())).galleryPermissionsGranted) {
@@ -89,7 +89,7 @@ public class ImageDialog extends BottomSheetDialogFragment {
 
         cameraLinearLayout.setOnClickListener(v -> {
             cameraLinearLayout.setClickable(false);
-            handler.postDelayed(() -> cameraLinearLayout.setClickable(true), 1000);
+            handler.postDelayed(() -> cameraLinearLayout.setClickable(true), 500);
             dismiss();
 
             if (((EditAccountActivity) Objects.requireNonNull(getActivity())).cameraPermissionsGranted) {
@@ -105,7 +105,7 @@ public class ImageDialog extends BottomSheetDialogFragment {
 
         closeTextView.setOnClickListener(v -> {
             closeTextView.setClickable(false);
-            handler.postDelayed(() -> closeTextView.setClickable(true), 1000);
+            handler.postDelayed(() -> closeTextView.setClickable(true), 500);
             dismiss();
         });
     }

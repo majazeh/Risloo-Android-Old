@@ -7,12 +7,12 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/tool_sample_serial"
-                    android:icon="@drawable/ic_code"
+                    android:icon="@drawable/ic_code_light"
                     android:title="@string/AuthSampleSerial"
                     android:checked="true"/>
                 <item
                     android:id="@+id/tool_sample_build"
-                    android:icon="@drawable/ic_plus"
+                    android:icon="@drawable/ic_plus_light"
                     android:title="@string/AuthSampleBuild"/>
             </group>
         </menu>
@@ -23,11 +23,11 @@
             <group android:checkableBehavior="none">
                 <item
                     android:id="@+id/tool_reserve_construct"
-                    android:icon="@drawable/ic_wrench"
+                    android:icon="@drawable/ic_wrench_light"
                     android:title="@string/AuthReserveConstruct"/>
                 <item
                     android:id="@+id/tool_reserve_request"
-                    android:icon="@drawable/ic_clock"
+                    android:icon="@drawable/ic_clock_light"
                     android:title="@string/AuthReserveRequest"/>
             </group>
         </menu>

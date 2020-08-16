@@ -46,7 +46,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
     @NonNull
     @Override
     public ListHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.list_single_item, viewGroup, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_list, viewGroup, false);
 
         initializer(view);
 
@@ -67,12 +67,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
                     subListBigAdapter.setSubListBig(termConditionViewModel.getSubset(i));
                 }
 
-                holder.recyclerView.setVisibility(View.VISIBLE);
+                holder.listRecyclerView.setVisibility(View.VISIBLE);
 
-                holder.recyclerView.addItemDecoration(new ItemDecorator("subListLayout",(int) activity.getResources().getDimension(R.dimen._12sdp)));
-                holder.recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-                holder.recyclerView.setHasFixedSize(false);
-                holder.recyclerView.setAdapter(subListBigAdapter);
+                holder.listRecyclerView.addItemDecoration(new ItemDecorator("subListLayout",(int) activity.getResources().getDimension(R.dimen._12sdp)));
+                holder.listRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+                holder.listRecyclerView.setHasFixedSize(false);
+                holder.listRecyclerView.setAdapter(subListBigAdapter);
 
             } else if (list.get(i).get("subset").equals("small")){
                 if (asset.equals("AboutUs")) {
@@ -81,15 +81,15 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
                     subListSmallAdapter.setSubListSmall(termConditionViewModel.getSubset(i));
                 }
 
-                holder.recyclerView.setVisibility(View.VISIBLE);
+                holder.listRecyclerView.setVisibility(View.VISIBLE);
 
-                holder.recyclerView.addItemDecoration(new ItemDecorator("subListLayout",(int) activity.getResources().getDimension(R.dimen._8sdp)));
-                holder.recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-                holder.recyclerView.setHasFixedSize(false);
-                holder.recyclerView.setAdapter(subListSmallAdapter);
+                holder.listRecyclerView.addItemDecoration(new ItemDecorator("subListLayout",(int) activity.getResources().getDimension(R.dimen._8sdp)));
+                holder.listRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+                holder.listRecyclerView.setHasFixedSize(false);
+                holder.listRecyclerView.setAdapter(subListSmallAdapter);
 
             } else if (list.get(i).get("subset").equals("none")){
-                holder.recyclerView.setVisibility(View.GONE);
+                holder.listRecyclerView.setVisibility(View.GONE);
             }
 
         } catch (JSONException e) {
@@ -120,13 +120,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
     public class ListHolder extends RecyclerView.ViewHolder {
 
         public TextView titleTextView, descriptionTextView;
-        public RecyclerView recyclerView;
+        public RecyclerView listRecyclerView;
 
         public ListHolder(View view) {
             super(view);
-            titleTextView = view.findViewById(R.id.list_single_item_title_textView);
-            descriptionTextView = view.findViewById(R.id.list_single_item_description_textView);
-            recyclerView = view.findViewById(R.id.list_single_item_recyclerView);
+            titleTextView = view.findViewById(R.id.single_item_list_title_textView);
+            descriptionTextView = view.findViewById(R.id.single_item_list_description_textView);
+            listRecyclerView = view.findViewById(R.id.single_item_list_recyclerView);
         }
     }
 

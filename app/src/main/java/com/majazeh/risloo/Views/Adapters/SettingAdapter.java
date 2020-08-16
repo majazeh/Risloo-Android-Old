@@ -51,8 +51,8 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
     private SocialDialog socialDialog;
 
     // Widgets
-    private TextView noUpdateDialogTitle, noUpdateDialogDescription, noUpdateDialogConfirm, availableUpdateDialogTitle, availableUpdateDialogDescription, availableUpdateDialogPositive, availableUpdateDialogNegative;
     private Dialog noUpdateDialog, availableUpdateDialog;
+    private TextView noUpdateDialogTitle, noUpdateDialogDescription, noUpdateDialogConfirm, availableUpdateDialogTitle, availableUpdateDialogDescription, availableUpdateDialogPositive, availableUpdateDialogNegative;
 
     public SettingAdapter(Activity activity) {
         this.activity = activity;
@@ -61,7 +61,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
     @NonNull
     @Override
     public MoreHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.activity_setting_single_item, viewGroup, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_setting, viewGroup, false);
 
         initializer(view);
 
@@ -79,7 +79,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
             if (i != mores.size() - 1) {
                 holder.titleTextView.setText(mores.get(i).get("title").toString());
             } else {
-                if (hasUpdate()) {
+                if (viewModel.hasUpdate()) {
                     holder.titleTextView.setText(activity.getResources().getString(R.string.SettingUpdate));
                     holder.updateTextView.setVisibility(View.VISIBLE);
                 } else {
@@ -97,7 +97,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 1000);
+            handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
 
             doWork(i);
         });
@@ -157,13 +157,14 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
 
                 listener();
 
-                if (hasUpdate()) {
+                if (viewModel.hasUpdate()) {
                     availableUpdateDialogTitle.setText(newVersion());
                     availableUpdateDialog.show();
                 } else {
                     noUpdateDialogTitle.setText(currentVersion());
                     noUpdateDialog.show();
-                } break;
+                }
+                break;
         }
     }
 
@@ -220,7 +221,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
     private void listener() {
         availableUpdateDialogPositive.setOnClickListener(v -> {
             availableUpdateDialogPositive.setClickable(false);
-            handler.postDelayed(() -> availableUpdateDialogPositive.setClickable(true), 1000);
+            handler.postDelayed(() -> availableUpdateDialogPositive.setClickable(true), 500);
             availableUpdateDialog.dismiss();
 
             intentCaller.googlePlay(activity);
@@ -228,23 +229,19 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
 
         availableUpdateDialogNegative.setOnClickListener(v -> {
             availableUpdateDialogNegative.setClickable(false);
-            handler.postDelayed(() -> availableUpdateDialogNegative.setClickable(true), 1000);
+            handler.postDelayed(() -> availableUpdateDialogNegative.setClickable(true), 500);
             availableUpdateDialog.dismiss();
         });
 
         noUpdateDialogConfirm.setOnClickListener(v -> {
             noUpdateDialogConfirm.setClickable(false);
-            handler.postDelayed(() -> noUpdateDialogConfirm.setClickable(true), 1000);
+            handler.postDelayed(() -> noUpdateDialogConfirm.setClickable(true), 500);
             noUpdateDialog.dismiss();
         });
 
         noUpdateDialog.setOnCancelListener(dialog -> noUpdateDialog.dismiss());
 
         availableUpdateDialog.setOnCancelListener(dialog -> availableUpdateDialog.dismiss());
-    }
-
-    private boolean hasUpdate() {
-        return viewModel.hasUpdate();
     }
 
     private String currentVersion() {
@@ -263,10 +260,10 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
 
         public MoreHolder(View view) {
             super(view);
-            avatarImageView = view.findViewById(R.id.activity_setting_single_item_avatar_imageView);
-            titleTextView = view.findViewById(R.id.activity_setting_single_item_title_textView);
-            updateTextView = view.findViewById(R.id.activity_setting_single_item_update_textView);
-            lineView = view.findViewById(R.id.activity_setting_single_item_line_view);
+            avatarImageView = view.findViewById(R.id.single_item_setting_avatar_imageView);
+            titleTextView = view.findViewById(R.id.single_item_setting_title_textView);
+            updateTextView = view.findViewById(R.id.single_item_setting_update_textView);
+            lineView = view.findViewById(R.id.single_item_setting_line_view);
         }
     }
 
