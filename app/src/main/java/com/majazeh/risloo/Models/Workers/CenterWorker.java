@@ -2,6 +2,7 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -77,6 +78,7 @@ public class CenterWorker extends Worker {
         try {
             Call<ResponseBody> call = centerApi.getAll(token());
 
+            Log.e( "getAll: "  ,"test" );
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
@@ -112,7 +114,7 @@ public class CenterWorker extends Worker {
     public void getMy() {
         try {
             Call<ResponseBody> call = centerApi.getMy(token());
-
+            Log.e( "getmy: "  ,"test" );
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());

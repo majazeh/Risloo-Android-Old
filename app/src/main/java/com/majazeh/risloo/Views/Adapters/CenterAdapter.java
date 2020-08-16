@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,18 +20,23 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
+import com.majazeh.risloo.Models.Repositories.CenterRepository;
+import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.Views.Activities.EditCenterActivity;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -45,9 +51,10 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
     private PhoneAdapter adapter;
 
     // Vars
-    private int position = -1;
+    private int position = -1, size = 0;
     private ArrayList<Model> centers;
     private ArrayList<Boolean> expandedCenters = new ArrayList<>();
+    private JSONObject details;
 
     // Objects
     private Activity activity;
@@ -74,44 +81,104 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
     @Override
     public void onBindViewHolder(@NonNull CenterHolder holder, int i) {
 
-//        try {
+        try {
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            holder.requestTextView.setBackgroundResource(R.drawable.draw_4sdp_primary_ripple);
-            holder.editImageView.setBackgroundResource(R.drawable.draw_4sdp_solitude_ripple);
-            holder.peopleImageView.setBackgroundResource(R.drawable.draw_4sdp_solitude_ripple);
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                holder.requestTextView.setBackgroundResource(R.drawable.draw_4sdp_primary_ripple);
+                holder.editImageView.setBackgroundResource(R.drawable.draw_4sdp_solitude_ripple);
+                holder.peopleImageView.setBackgroundResource(R.drawable.draw_4sdp_solitude_ripple);
+            }
+
+            int created_at = (int) centers.get(i).get("created_at");
+            switch (created_at % 16) {
+                case 0:
+                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_0);
+                    break;
+                case 1:
+                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_1);
+                    break;
+                case 2:
+                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_2);
+                    break;
+                case 3:
+                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_3);
+                    break;
+                case 4:
+                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_4);
+                    break;
+                case 5:
+                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_5);
+                    break;
+                case 6:
+                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_6);
+                    break;
+                case 7:
+                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_7);
+                    break;
+                case 8:
+                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_8);
+                    break;
+                case 9:
+                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_9);
+                    break;
+                case 10:
+                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_10);
+                    break;
+                case 11:
+                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_11);
+                    break;
+                case 12:
+                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_12);
+                    break;
+                case 13:
+                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_13);
+                    break;
+                case 14:
+                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_14);
+                    break;
+                case 15:
+                    holder.mainRelativeLayout.setBackgroundResource(R.drawable.gra_15);
+                    break;
+            }
+//            holder.expandLinearLayout.setBackgroundResource(R.color.Snow);
+
+            details = (JSONObject) centers.get(i).get("detail");
+            if (!details.isNull("avatar")) {
+                JSONObject avatar = details.getJSONObject("avatar");
+                Log.e("size", String.valueOf(i));
+                JSONObject medium = avatar.getJSONObject("medium");
+                Picasso.get().load(medium.getString("url")).placeholder(R.color.White).into(holder.avatarImageView);
+            }
+            JSONObject manager = (JSONObject) centers.get(i).get("manager");
+            holder.titleTextView.setText(details.getString("title"));
+            holder.descriptionTextView.setText(details.getString("description"));
+            holder.principalTextView.setText(manager.getString("name"));
+            holder.addressTextView.setText(details.getString("address"));
+            JSONArray phone_number = (JSONArray) details.getJSONArray("phone_numbers");
+            ArrayList arrayList = new ArrayList<String>();
+            for (int j = 0; j < phone_number.length(); j++) {
+                arrayList.add(phone_number.get(j));
+            }
+            if (position == -1) {
+                adapter.setPhone(arrayList);
+
+                holder.phoneRecyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout3", (int) activity.getResources().getDimension(R.dimen._8sdp)));
+                holder.phoneRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+                holder.phoneRecyclerView.setHasFixedSize(false);
+                holder.phoneRecyclerView.setAdapter(adapter);
+            }
+
+            expandedCenters.add(false);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-
-        holder.mainRelativeLayout.setBackgroundResource(R.color.Accent);
-        holder.expandLinearLayout.setBackgroundResource(R.color.Snow);
-
-        Picasso.get().load(R.drawable.soc_facebook).placeholder(R.color.White).into(holder.avatarImageView);
-
-        holder.titleTextView.setText("مرکز درمانی بقیه الله اعظم");
-        holder.descriptionTextView.setText("هم به خانه ای می روهند و را برای اداره ای.");
-        holder.principalTextView.setText("دکتر روانشناس");
-        holder.addressTextView.setText("قم / خیابان صفاییه / کوچه 20 / پلاک 20");
-
-        if (position == -1) {
-            //        adapter.setPhone();
-
-            holder.phoneRecyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout3",(int) activity.getResources().getDimension(R.dimen._8sdp)));
-            holder.phoneRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
-            holder.phoneRecyclerView.setHasFixedSize(false);
-            holder.phoneRecyclerView.setAdapter(adapter);
-        }
-
-        expandedCenters.add(false);
-
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
 
         if (position == -1) {
             holder.expandLinearLayout.setVisibility(View.GONE);
         } else {
             if (position == i) {
-                if (!expandedCenters.get(i)){
+                if (!expandedCenters.get(i)) {
                     holder.expandLinearLayout.setVisibility(View.VISIBLE);
                     holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_up));
 
@@ -123,7 +190,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                     expandedCenters.set(i, false);
                 }
             } else {
-                if (!expandedCenters.get(i)){
+                if (!expandedCenters.get(i)) {
                     holder.expandLinearLayout.setVisibility(View.GONE);
                     holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_down));
 
@@ -145,7 +212,11 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
             holder.requestTextView.setClickable(false);
             handler.postDelayed(() -> holder.requestTextView.setClickable(true), 1000);
 
-            doWork(i);
+            try {
+                doWork((String) centers.get(i).get("id"), details.getString("title"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         });
 
         holder.editImageView.setOnClickListener(v -> {
@@ -162,12 +233,11 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
             // TODO : See What This Function Do And Then Add The Code
         });
-
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return size;
     }
 
     private void initializer(View view) {
@@ -180,20 +250,22 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
     public void setCenter(ArrayList<Model> centers) {
         this.centers = centers;
+        size = centers.size();
+        Log.e("centers", String.valueOf(centers.get(0).attributes));
         notifyDataSetChanged();
     }
 
-    private void doWork(int position) {
-        initDialog(position);
+    private void doWork(String clinic_id, String title) {
+        initDialog(title);
 
         detector();
 
-        listener(position);
+        listener(clinic_id);
 
         requestDialog.show();
     }
 
-    private void initDialog(int position) {
+    private void initDialog(String title) {
         requestDialog = new Dialog(activity, R.style.DialogTheme);
         requestDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         requestDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -213,7 +285,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
         requestDialog.getWindow().setAttributes(layoutParams);
 
         requestDialogTitle = requestDialog.findViewById(R.id.dialog_action_title_textView);
-        requestDialogTitle.setText(activity.getResources().getString(R.string.CenterRequestDialogTitle) + " " + "مرکز درمانی بوقی");
+        requestDialogTitle.setText(activity.getResources().getString(R.string.CenterRequestDialogTitle) + " " + title);
         requestDialogDescription = requestDialog.findViewById(R.id.dialog_action_description_textView);
         requestDialogDescription.setText(activity.getResources().getString(R.string.CenterRequestDialogDescription));
         requestDialogPositive = requestDialog.findViewById(R.id.dialog_action_positive_textView);
@@ -230,19 +302,19 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
         }
     }
 
-    private void listener(int position) {
+    private void listener(String clinic_id) {
         requestDialogPositive.setOnClickListener(v -> {
             requestDialogPositive.setClickable(false);
             handler.postDelayed(() -> requestDialogPositive.setClickable(true), 1000);
             requestDialog.dismiss();
 
-//            try {
-//                progressDialog.show();
-//                viewModel.request();
-//                observeWork();
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                progressDialog.show();
+                viewModel.request(clinic_id);
+                observeWork();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         });
 
         requestDialogNegative.setOnClickListener(v -> {
@@ -277,7 +349,25 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
             peopleImageView = view.findViewById(R.id.activity_center_single_item_people_imageView);
             expandImageView = view.findViewById(R.id.activity_center_single_item_expand_imageView);
             expandLinearLayout = view.findViewById(R.id.activity_center_single_item_expand_linearLayout);
-         }
+        }
+    }
+
+    public void observeWork() {
+        CenterRepository.workState.observeForever(integer -> {
+            Log.e("inte", String.valueOf(integer));
+            if (integer == 1) {
+            } else if (integer == 0) {
+
+            } else if (integer == -2) {
+
+            } else {
+                // nothing
+            }
+            if (integer != -1)
+                progressDialog.dismiss();
+            CenterRepository.workState.removeObserver(integer1 -> {
+            });
+        });
     }
 
 }

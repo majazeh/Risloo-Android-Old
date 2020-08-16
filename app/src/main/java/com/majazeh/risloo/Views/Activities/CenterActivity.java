@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -203,7 +204,7 @@ public class CenterActivity extends AppCompatActivity {
 
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
-                } else  {
+                } else {
                     if (viewModel.getAll() == null) {
                         if (integer == 0) {
                             // AllCenter is Empty And Error
@@ -227,28 +228,30 @@ public class CenterActivity extends AppCompatActivity {
                             CenterRepository.workState.removeObservers((LifecycleOwner) this);
                         }
                     } else {
-                        if (token()) {
-                            // Show Both AllCenter And MyCenter
+                        if (integer != -1) {
+                            if (token()) {
+                                // Show Both AllCenter And MyCenter
 
-                            loadingLayout.setVisibility(View.GONE);
-                            retryLayout.setVisibility(View.GONE);
-                            mainLayout.setVisibility(View.VISIBLE);
+                                loadingLayout.setVisibility(View.GONE);
+                                retryLayout.setVisibility(View.GONE);
+                                mainLayout.setVisibility(View.VISIBLE);
 
-                            tabLayout.setVisibility(View.VISIBLE);
-                            rtlViewPager.setAdapter(adapter);
+                                tabLayout.setVisibility(View.VISIBLE);
+                                rtlViewPager.setAdapter(adapter);
 
-                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
-                        } else {
-                            // Just Show AllCenter
+                                CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                            } else {
+                                // Just Show AllCenter
 
-                            loadingLayout.setVisibility(View.GONE);
-                            retryLayout.setVisibility(View.GONE);
-                            mainLayout.setVisibility(View.VISIBLE);
+                                loadingLayout.setVisibility(View.GONE);
+                                retryLayout.setVisibility(View.GONE);
+                                mainLayout.setVisibility(View.VISIBLE);
 
-                            tabLayout.setVisibility(View.GONE);
-                            rtlViewPager.setAdapter(adapter);
+                                tabLayout.setVisibility(View.GONE);
+                                rtlViewPager.setAdapter(adapter);
 
-                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                                CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                            }
                         }
                     }
                 }
