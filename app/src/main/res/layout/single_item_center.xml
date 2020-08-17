@@ -27,7 +27,7 @@
                 android:layout_alignBottom="@id/single_item_center_main_relativeLayout"
                 android:layout_alignLeft="@id/single_item_center_main_relativeLayout"
                 android:layout_alignRight="@id/single_item_center_main_relativeLayout"
-                android:scaleType="fitXY" />
+                android:scaleType="matrix" />
 
             <RelativeLayout
                 android:id="@+id/single_item_center_main_relativeLayout"
@@ -82,18 +82,16 @@
                             android:paddingLeft="@dimen/_8sdp"
                             android:paddingRight="@dimen/_8sdp"
                             android:gravity="right"
-                            android:text="درخواست پذیرش"
                             android:textSize="@dimen/_9ssp"
                             android:textStyle="bold"
-                            android:textColor="@color/White"
-                            android:textAlignment="gravity"
-                            android:background="@drawable/draw_4sdp_primary"/>
+                            android:textAlignment="gravity" />
 
                         <ImageView
                             android:id="@+id/single_item_center_edit_imageView"
                             android:layout_width="@dimen/_22sdp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/_6sdp"
+                            android:visibility="invisible"
                             android:padding="@dimen/_6sdp"
                             android:src="@drawable/ic_edit_light"
                             android:background="@drawable/draw_4sdp_solitude"
@@ -104,6 +102,7 @@
                             android:layout_width="@dimen/_22sdp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/_6sdp"
+                            android:visibility="invisible"
                             android:padding="@dimen/_6sdp"
                             android:src="@drawable/ic_user_light"
                             android:background="@drawable/draw_4sdp_solitude"
@@ -120,9 +119,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:padding="@dimen/_6sdp"
-                    android:src="@drawable/ic_chevron_down"
-                    android:background="@drawable/draw_oval_white25p"
-                    app:tint="@color/Nero" />
+                    android:src="@drawable/ic_chevron_down" />
 
             </RelativeLayout>
 
@@ -140,7 +137,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/single_item_center_manager_linearLayout"
+                android:id="@+id/single_item_center_principal_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_2sdp"
@@ -153,14 +150,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:gravity="center"
-                    android:text="@string/CenterManager"
+                    android:text="@string/CenterPrincipal"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"
                     android:textColor="@color/Grey"
                     android:textAlignment="gravity" />
 
                 <TextView
-                    android:id="@+id/single_item_center_manager_textView"
+                    android:id="@+id/single_item_center_principal_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/_4sdp"

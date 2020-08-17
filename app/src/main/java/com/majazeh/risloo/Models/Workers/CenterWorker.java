@@ -83,11 +83,12 @@ public class CenterWorker extends Worker {
 
                 FileManager.writeToCache(context, successBody, "centers", "all");
 
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "all", "center");
                 CenterRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "center");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "all", "center");
                 CenterRepository.workState.postValue(0);
             }
 
@@ -119,11 +120,12 @@ public class CenterWorker extends Worker {
 
                 FileManager.writeToCache(context, successBody, "centers", "my");
 
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "my", "center");
                 CenterRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "center");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "my", "center");
                 CenterRepository.workState.postValue(0);
             }
 
@@ -153,11 +155,12 @@ public class CenterWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "request", "center");
                 CenterRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "center");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "request", "center");
                 CenterRepository.workState.postValue(0);
             }
 

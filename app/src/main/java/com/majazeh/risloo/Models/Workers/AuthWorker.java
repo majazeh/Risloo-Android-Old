@@ -121,11 +121,12 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "auth", "auth");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "auth");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "auth", "auth");
                 AuthRepository.workState.postValue(0);
             }
 
@@ -182,11 +183,12 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "authTheory", "auth");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "auth");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "authTheory", "auth");
                 AuthRepository.workState.postValue(0);
             }
 
@@ -243,11 +245,12 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "register", "auth");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "auth");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "register", "auth");
                 AuthRepository.workState.postValue(0);
             }
 
@@ -304,11 +307,12 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "verification", "auth");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "auth");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "verification", "auth");
                 AuthRepository.workState.postValue(0);
             }
 
@@ -365,11 +369,12 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "recovery", "auth");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "auth");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "recovery", "auth");
                 AuthRepository.workState.postValue(0);
             }
 
@@ -412,11 +417,12 @@ public class AuthWorker extends Worker {
 
                 editor.apply();
 
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "me", "auth");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "auth");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "me", "auth");
                 AuthRepository.workState.postValue(0);
             }
 
@@ -451,11 +457,12 @@ public class AuthWorker extends Worker {
                 editor.putString("birthday", AuthRepository.birthday);
                 editor.apply();
 
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "edit", "auth");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "auth");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "edit", "auth");
                 AuthRepository.workState.postValue(0);
             }
 
@@ -495,11 +502,12 @@ public class AuthWorker extends Worker {
                 editor.remove("avatar");
                 editor.apply();
 
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "logOut", "auth");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "auth");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "logOut", "auth");
                 AuthRepository.workState.postValue(0);
             }
 

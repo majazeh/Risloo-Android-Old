@@ -63,11 +63,12 @@ public class ExplodeWorker extends Worker {
                     // TODO: Normal Update
                 }
 
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "explode", "explode");
                 ExplodeRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "explode");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "explode", "explode");
                 ExplodeRepository.workState.postValue(0);
             }
 

@@ -95,11 +95,12 @@ public class SampleWorker extends Worker {
                 repository.saveSampleToCache(context, successBody, sharedPreferences.getString("sampleId", ""));
                 repository.savePrerequisiteToCache(context,data.getJSONArray("prerequisite"),sharedPreferences.getString("sampleId",""));
 
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "get", "sample");
                 SampleRepository.workStateSample.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "sample");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "get", "sample");
                 SampleRepository.workStateSample.postValue(0);
             }
 
@@ -129,11 +130,12 @@ public class SampleWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "close", "sample");
                 SampleRepository.workStateSample.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "sample");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "close", "sample");
                 SampleRepository.workStateSample.postValue(0);
             }
 
@@ -170,13 +172,14 @@ public class SampleWorker extends Worker {
 
                 SampleRepository.remoteData.clear();
 
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "send", "sample");
                 SampleRepository.workStateAnswer.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
                 repository.insertRemoteToLocal();
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "sample");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "send", "sample");
                 SampleRepository.workStateAnswer.postValue(0);
             }
 
@@ -212,11 +215,12 @@ public class SampleWorker extends Worker {
 
                 SampleRepository.remoteData.clear();
 
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "prerequisite", "sample");
                 SampleRepository.workStateAnswer.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "", "sample");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "prerequisite", "sample");
                 SampleRepository.workStateAnswer.postValue(0);
             }
 

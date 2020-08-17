@@ -18,8 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +40,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -46,13 +49,9 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
     // ViewModels
     private CenterViewModel viewModel;
 
-    // Adapters
-    private PhoneAdapter adapter;
-
     // Vars
-    private int position = -1;
     private ArrayList<Model> centers;
-    private ArrayList<Boolean> expandedCenters = new ArrayList<>();
+    private HashMap<Integer, Boolean> expands;
 
     // Objects
     private Activity activity;
@@ -80,76 +79,118 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
     public void onBindViewHolder(@NonNull CenterHolder holder, int i) {
 
         try {
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                holder.requestTextView.setBackgroundResource(R.drawable.draw_4sdp_primary_ripple);
-                holder.editImageView.setBackgroundResource(R.drawable.draw_4sdp_solitude_ripple);
-                holder.peopleImageView.setBackgroundResource(R.drawable.draw_4sdp_solitude_ripple);
-            }
-
             int createdAt = (int) centers.get(i).get("created_at");
 
             switch (createdAt % 16) {
                 case 0:
+                    holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_nero5p);
+                    ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+
                     holder.gradientImageView.setImageResource(R.drawable.gra_0);
                     holder.expandLinearLayout.setBackgroundResource(R.color.Gradient0);
                     break;
                 case 1:
+                    holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_nero5p);
+                    ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+
                     holder.gradientImageView.setImageResource(R.drawable.gra_1);
                     holder.expandLinearLayout.setBackgroundResource(R.color.Gradient1);
                     break;
                 case 2:
+                    holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_nero5p);
+                    ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+
                     holder.gradientImageView.setImageResource(R.drawable.gra_2);
                     holder.expandLinearLayout.setBackgroundResource(R.color.Gradient2);
                     break;
                 case 3:
+                    holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_nero5p);
+                    ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+
                     holder.gradientImageView.setImageResource(R.drawable.gra_3);
                     holder.expandLinearLayout.setBackgroundResource(R.color.Gradient3);
                     break;
                 case 4:
+                    holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_nero5p);
+                    ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+
                     holder.gradientImageView.setImageResource(R.drawable.gra_4);
                     holder.expandLinearLayout.setBackgroundResource(R.color.Gradient4);
                     break;
                 case 5:
+                    holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_nero5p);
+                    ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+
                     holder.gradientImageView.setImageResource(R.drawable.gra_5);
                     holder.expandLinearLayout.setBackgroundResource(R.color.Gradient5);
                     break;
                 case 6:
+                    holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_nero5p);
+                    ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+
                     holder.gradientImageView.setImageResource(R.drawable.gra_6);
                     holder.expandLinearLayout.setBackgroundResource(R.color.Gradient6);
                     break;
                 case 7:
+                    holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_nero5p);
+                    ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+
                     holder.gradientImageView.setImageResource(R.drawable.gra_7);
                     holder.expandLinearLayout.setBackgroundResource(R.color.Gradient7);
                     break;
                 case 8:
+                    holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_nero5p);
+                    ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+
                     holder.gradientImageView.setImageResource(R.drawable.gra_8);
                     holder.expandLinearLayout.setBackgroundResource(R.color.Gradient8);
                     break;
                 case 9:
+                    holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_nero5p);
+                    ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+
                     holder.gradientImageView.setImageResource(R.drawable.gra_9);
                     holder.expandLinearLayout.setBackgroundResource(R.color.Gradient9);
                     break;
                 case 10:
+                    holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_nero5p);
+                    ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+
                     holder.gradientImageView.setImageResource(R.drawable.gra_10);
                     holder.expandLinearLayout.setBackgroundResource(R.color.Gradient10);
                     break;
                 case 11:
+                    holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_white15p);
+                    ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Solitude));
+
                     holder.gradientImageView.setImageResource(R.drawable.gra_11);
                     holder.expandLinearLayout.setBackgroundResource(R.color.Gradient11);
                     break;
                 case 12:
+                    holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_white15p);
+                    ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Solitude));
+
                     holder.gradientImageView.setImageResource(R.drawable.gra_12);
                     holder.expandLinearLayout.setBackgroundResource(R.color.Gradient12);
                     break;
                 case 13:
+                    holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_white15p);
+                    ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Solitude));
+
                     holder.gradientImageView.setImageResource(R.drawable.gra_13);
                     holder.expandLinearLayout.setBackgroundResource(R.color.Gradient13);
                     break;
                 case 14:
+                    holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_white15p);
+                    ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Solitude));
+
                     holder.gradientImageView.setImageResource(R.drawable.gra_14);
                     holder.expandLinearLayout.setBackgroundResource(R.color.Gradient14);
                     break;
                 case 15:
+                    holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_white15p);
+                    ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Solitude));
+
                     holder.gradientImageView.setImageResource(R.drawable.gra_15);
                     holder.expandLinearLayout.setBackgroundResource(R.color.Gradient15);
                     break;
@@ -158,9 +199,9 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
             JSONObject manager = (JSONObject) centers.get(i).get("manager");
 
             if (!manager.isNull("name")) {
-                holder.managerTextView.setText(manager.getString("name"));
+                holder.principalTextView.setText(manager.getString("name"));
             } else {
-                holder.managerLinearLayout.setVisibility(View.GONE);
+                holder.principalLinearLayout.setVisibility(View.GONE);
             }
 
             JSONObject details = (JSONObject) centers.get(i).get("detail");
@@ -179,71 +220,91 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                 holder.addressLinearLayout.setVisibility(View.GONE);
             }
 
-            JSONArray phoneNumbers = details.getJSONArray("phone_numbers");
-
-            ArrayList phones = new ArrayList<String>();
-            for (int j = 0; j < phoneNumbers.length(); j++) {
-                phones.add(phoneNumbers.get(j));
-            }
-
-            if (phones.size() != 0) {
-                if (position == -1) {
-                    adapter.setPhone(phones);
-
-                    holder.phoneRecyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout3", (int) activity.getResources().getDimension(R.dimen._8sdp)));
-                    holder.phoneRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
-                    holder.phoneRecyclerView.setHasFixedSize(false);
-                    holder.phoneRecyclerView.setAdapter(adapter);
-                }
-            } else {
-                holder.phoneLinearLayout.setVisibility(View.GONE);
-            }
-
             if (!details.isNull("avatar")) {
                 JSONObject avatar = details.getJSONObject("avatar");
                 JSONObject medium = avatar.getJSONObject("medium");
 
-                Picasso.get().load(medium.getString("url")).placeholder(R.color.White).into(holder.avatarImageView);
+                Picasso.get().load(medium.getString("url")).placeholder(R.color.Solitude).into(holder.avatarImageView);
             } else {
-                Picasso.get().load(R.color.Solitude).placeholder(R.color.White).into(holder.avatarImageView);
+                Picasso.get().load(R.color.Nero).placeholder(R.color.Solitude).into(holder.avatarImageView);
             }
 
-            expandedCenters.add(false);
+            if (!details.isNull("phone_numbers")) {
+                JSONArray phoneNumbers = details.getJSONArray("phone_numbers");
+
+                ArrayList phones = new ArrayList<String>();
+                for (int j = 0; j < phoneNumbers.length(); j++) {
+                    phones.add(phoneNumbers.get(j));
+                }
+
+                PhoneAdapter adapter = new PhoneAdapter(activity);
+                adapter.setPhone(phones);
+
+                if (holder.phoneRecyclerView.getAdapter() == null) {
+                    holder.phoneRecyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout3", (int) activity.getResources().getDimension(R.dimen._8sdp)));
+                    holder.phoneRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+                    holder.phoneRecyclerView.setHasFixedSize(false);
+                }
+                holder.phoneRecyclerView.setAdapter(adapter);
+
+            } else {
+                holder.phoneLinearLayout.setVisibility(View.GONE);
+            }
+
+            JSONObject item = centers.get(i).attributes;
+
+            if (item.isNull("acceptation")) {
+                holder.requestTextView.setText(activity.getResources().getString(R.string.CenterRequest));
+                holder.requestTextView.setTextColor(activity.getResources().getColor(R.color.White));
+
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                    holder.requestTextView.setBackgroundResource(R.drawable.draw_4sdp_primary_ripple);
+                } else {
+                    holder.requestTextView.setBackgroundResource(R.drawable.draw_4sdp_primary);
+                }
+
+            } else {
+                holder.requestTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+
+                holder.requestTextView.setBackgroundResource(R.drawable.draw_4sdp_solitude);
+
+                JSONObject acceptation = (JSONObject) centers.get(i).get("acceptation");
+                if (acceptation.getString("position").equals("manager")) {
+                    holder.requestTextView.setText(activity.getResources().getString(R.string.CenterManager));
+                } else {
+                    if (acceptation.isNull("kicked_at")) {
+                        if (acceptation.isNull("accepted_at")) {
+                            holder.requestTextView.setText(activity.getResources().getString(R.string.CenterAwaiting));
+                        } else {
+                            holder.requestTextView.setText(activity.getResources().getString(R.string.CenterAccepted));
+                        }
+                    } else {
+                        holder.requestTextView.setText(activity.getResources().getString(R.string.CenterKicked));
+                    }
+                }
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        if (position == -1) {
-            holder.expandLinearLayout.setVisibility(View.GONE);
+        if (expands.get(i)) {
+            holder.expandLinearLayout.setVisibility(View.VISIBLE);
+            holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_up));
         } else {
-            if (position == i) {
-                if (!expandedCenters.get(i)) {
-                    holder.expandLinearLayout.setVisibility(View.VISIBLE);
-                    holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_up));
-
-                    expandedCenters.set(i, true);
-                } else {
-                    holder.expandLinearLayout.setVisibility(View.GONE);
-                    holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_down));
-
-                    expandedCenters.set(i, false);
-                }
-            } else {
-                if (!expandedCenters.get(i)) {
-                    holder.expandLinearLayout.setVisibility(View.GONE);
-                    holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_down));
-
-                    expandedCenters.set(i, false);
-                }
-            }
+            holder.expandLinearLayout.setVisibility(View.GONE);
+            holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_down));
         }
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
             handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
 
-            position = i;
+            if (expands.get(i)) {
+                expands.put(i, false);
+            } else {
+                expands.put(i, true);
+            }
 
             notifyDataSetChanged();
         });
@@ -252,10 +313,22 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
             holder.requestTextView.setClickable(false);
             handler.postDelayed(() -> holder.requestTextView.setClickable(true), 500);
 
-            try {
-                doWork(centers.get(i).get("id").toString(), holder.titleTextView.getText().toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
+            JSONObject item = centers.get(i).attributes;
+
+            if (item.isNull("acceptation")) {
+                try {
+                    doWork(centers.get(i).get("id").toString(), holder.titleTextView.getText().toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                if (expands.get(i)) {
+                    expands.put(i, false);
+                } else {
+                    expands.put(i, true);
+                }
+
+                notifyDataSetChanged();
             }
         });
 
@@ -283,13 +356,12 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
     private void initializer(View view) {
         viewModel = ViewModelProviders.of((FragmentActivity) activity).get(CenterViewModel.class);
 
-        adapter = new PhoneAdapter(activity);
-
         handler = new Handler();
     }
 
-    public void setCenter(ArrayList<Model> centers) {
+    public void setCenter(ArrayList<Model> centers, HashMap<Integer, Boolean> expands) {
         this.centers = centers;
+        this.expands = expands;
         notifyDataSetChanged();
     }
 
@@ -364,34 +436,38 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
     }
 
     public void observeWork() {
-        CenterRepository.workState.observeForever(integer -> {
-            if (CenterRepository.work == "request") {
-                if (integer == 1) {
-                    // Do Nothing
+        CenterRepository.workState.observeForever(new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if (CenterRepository.work == "request") {
+                    if (integer == 1) {
+                        // Do Nothing
 
-                    progressDialog.dismiss();
-                    Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    CenterRepository.workState.removeObservers((LifecycleOwner) this);
-                } else if (integer == 0) {
-                    progressDialog.dismiss();
-                    Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    CenterRepository.workState.removeObservers((LifecycleOwner) this);
-                } else if (integer == -2) {
-                    progressDialog.dismiss();
-                    Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                        progressDialog.dismiss();
+                        Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        CenterRepository.workState.removeObserver((Observer<? super Integer>) this);
+                    } else if (integer == 0) {
+                        progressDialog.dismiss();
+                        Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        CenterRepository.workState.removeObserver((Observer<? super Integer>) this);
+                    } else if (integer == -2) {
+                        progressDialog.dismiss();
+                        Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        CenterRepository.workState.removeObserver((Observer<? super Integer>) this);
+                    }
                 }
             }
+
         });
     }
 
     public class CenterHolder extends RecyclerView.ViewHolder {
 
         public CircleImageView avatarImageView;
-        public TextView titleTextView, requestTextView, managerTextView, descriptionTextView, addressTextView;
+        public TextView titleTextView, requestTextView, principalTextView, descriptionTextView, addressTextView;
         public RecyclerView phoneRecyclerView;
         public ImageView gradientImageView, editImageView, peopleImageView, expandImageView;
-        public LinearLayout expandLinearLayout, managerLinearLayout, descriptionLinearLayout, addressLinearLayout, phoneLinearLayout;
+        public LinearLayout expandLinearLayout, principalLinearLayout, descriptionLinearLayout, addressLinearLayout, phoneLinearLayout;
 
         public CenterHolder(View view) {
             super(view);
@@ -403,8 +479,8 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
             peopleImageView = view.findViewById(R.id.single_item_center_people_imageView);
             expandImageView = view.findViewById(R.id.single_item_center_expand_imageView);
             expandLinearLayout = view.findViewById(R.id.single_item_center_expand_linearLayout);
-            managerTextView = view.findViewById(R.id.single_item_center_manager_textView);
-            managerLinearLayout = view.findViewById(R.id.single_item_center_manager_linearLayout);
+            principalTextView = view.findViewById(R.id.single_item_center_principal_textView);
+            principalLinearLayout = view.findViewById(R.id.single_item_center_principal_linearLayout);
             descriptionTextView = view.findViewById(R.id.single_item_center_description_textView);
             descriptionLinearLayout = view.findViewById(R.id.single_item_center_description_linearLayout);
             addressTextView = view.findViewById(R.id.single_item_center_address_textView);

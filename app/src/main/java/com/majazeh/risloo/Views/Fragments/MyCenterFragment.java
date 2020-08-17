@@ -19,6 +19,8 @@ import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.Views.Adapters.CenterAdapter;
 
+import java.util.HashMap;
+
 public class MyCenterFragment extends Fragment {
 
     // ViewModels
@@ -26,6 +28,9 @@ public class MyCenterFragment extends Fragment {
 
     // Adapters
     private CenterAdapter adapter;
+
+    // Vars
+    private HashMap<Integer, Boolean> expands;
 
     // Objects
     private Activity activity;
@@ -53,11 +58,16 @@ public class MyCenterFragment extends Fragment {
     private void initializer(View view) {
         viewModel = ViewModelProviders.of(this).get(CenterViewModel.class);
 
+        expands = new HashMap<>();
+        for (int i = 0; i < viewModel.getMy().size(); i++) {
+            expands.put(i, false);
+        }
+
         adapter = new CenterAdapter(activity);
-        adapter.setCenter(viewModel.getMy());
+        adapter.setCenter(viewModel.getMy(), expands);
 
         recyclerView = view.findViewById(R.id.fragment_my_center_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout",(int) getResources().getDimension(R.dimen._18sdp)));
+        recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout", (int) getResources().getDimension(R.dimen._18sdp)));
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
 

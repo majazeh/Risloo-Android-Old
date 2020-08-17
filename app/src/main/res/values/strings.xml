@@ -235,11 +235,15 @@
     <string name="CenterEmpty">فعلا مرکز درمانی برای شما نیست</string>
 
     <string name="CenterDescription">توضیحات:</string>
-    <string name="CenterManager">مدیر:</string>
+    <string name="CenterPrincipal">مدیر:</string>
     <string name="CenterAddress">آدرس:</string>
     <string name="CenterPhone">شماره تماس:</string>
 
     <string name="CenterRequest">درخواست پذیرش</string>
+    <string name="CenterManager">شما مدیر این مرکز درمانی هستید</string>
+    <string name="CenterKicked">رد شد</string>
+    <string name="CenterAwaiting">در انتظار</string>
+    <string name="CenterAccepted">پذیرفته شد</string>
 
     <string name="CenterRequestDialogTitle">درخواست پذیرش به</string>
     <string name="CenterRequestDialogDescription">درخواست شما به مرکر مورد نظر ارسال خواهد و پس ار بررسی نتیجه به شما اطلاع داده خواهد شد.</string>

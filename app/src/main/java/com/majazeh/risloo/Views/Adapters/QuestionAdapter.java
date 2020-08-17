@@ -20,13 +20,13 @@ import com.majazeh.risloo.R;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.QuestionHolder> {
 
     // Vars
-    private int position = -1;
     private ArrayList<Model> questions;
-    private ArrayList<Boolean> expandedQuestions = new ArrayList<>();
+    private HashMap<Integer, Boolean> expands;
 
     // Objects
     private Activity activity;
@@ -73,41 +73,27 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
             holder.subjectTextView.setText(questions.get(i).get("subject").toString());
             holder.answerTextView.setText(questions.get(i).get("answer").toString());
 
-            expandedQuestions.add(false);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        if (position == -1) {
+        if (expands.get(i)){
+            holder.answerTextView.setVisibility(View.VISIBLE);
+            holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_up));
+        }else{
             holder.answerTextView.setVisibility(View.GONE);
-        } else {
-            if (position == i) {
-                if (!expandedQuestions.get(i)){
-                    holder.answerTextView.setVisibility(View.VISIBLE);
-                    holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_up));
-
-                    expandedQuestions.set(i, true);
-                } else {
-                    holder.answerTextView.setVisibility(View.GONE);
-                    holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_down));
-
-                    expandedQuestions.set(i, false);
-                }
-            } else {
-                if (!expandedQuestions.get(i)){
-                    holder.answerTextView.setVisibility(View.GONE);
-                    holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_down));
-
-                    expandedQuestions.set(i, false);
-                }
-            }
+            holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_down));
         }
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
             handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
 
-            position = i;
+            if (expands.get(i)){
+                expands.put(i, false);
+            }else{
+                expands.put(i, true);
+            }
 
             notifyDataSetChanged();
         });
@@ -123,8 +109,9 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
         handler = new Handler();
     }
 
-    public void setQuestion(ArrayList<Model> questions) {
+    public void setQuestion(ArrayList<Model> questions, HashMap<Integer, Boolean> expands) {
         this.questions = questions;
+        this.expands = expands;
         notifyDataSetChanged();
     }
 

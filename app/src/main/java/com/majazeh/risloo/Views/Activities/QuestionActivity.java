@@ -14,6 +14,8 @@ import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.QuestionViewModel;
 import com.majazeh.risloo.Views.Adapters.QuestionAdapter;
 
+import java.util.HashMap;
+
 public class QuestionActivity extends AppCompatActivity {
 
     // ViewModels
@@ -21,6 +23,9 @@ public class QuestionActivity extends AppCompatActivity {
 
     // Adapters
     private QuestionAdapter adapter;
+
+    // Vars
+    private HashMap<Integer, Boolean> expands;
 
     // Widgets
     private Toolbar toolbar;
@@ -47,8 +52,13 @@ public class QuestionActivity extends AppCompatActivity {
     private void initializer() {
         viewModel = ViewModelProviders.of(this).get(QuestionViewModel.class);
 
+        expands = new HashMap<>();
+        for (int i = 0; i < viewModel.getAll().size(); i++) {
+            expands.put(i, false);
+        }
+
         adapter = new QuestionAdapter(this);
-        adapter.setQuestion(viewModel.getAll());
+        adapter.setQuestion(viewModel.getAll(), expands);
 
         toolbar = findViewById(R.id.activity_question_toolbar);
 
