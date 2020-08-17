@@ -39,7 +39,7 @@
                 android:paddingRight="@dimen/_12sdp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/single_center_item_avatar_imageView"
+                    android:id="@+id/single_item_center_avatar_imageView"
                     android:layout_width="@dimen/_42sdp"
                     android:layout_height="@dimen/_42sdp"
                     android:layout_alignParentTop="true"
@@ -49,7 +49,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/single_center_item_avatar_imageView"
+                    android:layout_toLeftOf="@id/single_item_center_avatar_imageView"
                     android:layout_toRightOf="@id/single_item_center_expand_imageView"
                     android:layout_marginLeft="@dimen/_8sdp"
                     android:layout_marginRight="@dimen/_12sdp"
@@ -140,6 +140,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/single_item_center_manager_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_2sdp"
@@ -152,14 +153,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:gravity="center"
-                    android:text="@string/CenterPrincipal"
+                    android:text="@string/CenterManager"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"
                     android:textColor="@color/Grey"
                     android:textAlignment="gravity" />
 
                 <TextView
-                    android:id="@+id/single_item_center_principal_textView"
+                    android:id="@+id/single_item_center_manager_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/_4sdp"
@@ -172,6 +173,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/single_item_center_description_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_2sdp"
@@ -191,7 +193,7 @@
                     android:textAlignment="gravity" />
 
                 <TextView
-                    android:id="@+id/single_center_item_description_textView"
+                    android:id="@+id/single_item_center_description_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/_4sdp"
@@ -204,6 +206,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/single_item_center_address_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_2sdp"
@@ -236,6 +239,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/single_item_center_phone_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -253,7 +257,7 @@
                     android:textAlignment="gravity" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/single_item_center_recyclerView"
+                    android:id="@+id/single_item_center_phone_recyclerView"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:overScrollMode="never" />

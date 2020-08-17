@@ -57,7 +57,6 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
     // Objects
     private Activity activity;
     private Handler handler;
-    private JSONObject details;
 
     // Widgets
     private Dialog requestDialog, progressDialog;
@@ -81,7 +80,6 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
     public void onBindViewHolder(@NonNull CenterHolder holder, int i) {
 
         try {
-
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                 holder.requestTextView.setBackgroundResource(R.drawable.draw_4sdp_primary_ripple);
                 holder.editImageView.setBackgroundResource(R.drawable.draw_4sdp_solitude_ripple);
@@ -157,23 +155,29 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                     break;
             }
 
-            details = (JSONObject) centers.get(i).get("detail");
-
-            if (!details.isNull("avatar")) {
-                JSONObject avatar = details.getJSONObject("avatar");
-                JSONObject medium = avatar.getJSONObject("medium");
-
-                Picasso.get().load(medium.getString("url")).placeholder(R.color.White).into(holder.avatarImageView);
-            } else {
-                Picasso.get().load(R.color.Solitude).placeholder(R.color.White).into(holder.avatarImageView);
-            }
-
             JSONObject manager = (JSONObject) centers.get(i).get("manager");
 
+            if (!manager.isNull("name")) {
+                holder.managerTextView.setText(manager.getString("name"));
+            } else {
+                holder.managerLinearLayout.setVisibility(View.GONE);
+            }
+
+            JSONObject details = (JSONObject) centers.get(i).get("detail");
+
             holder.titleTextView.setText(details.getString("title"));
-            holder.descriptionTextView.setText(details.getString("description"));
-            holder.principalTextView.setText(manager.getString("name"));
-            holder.addressTextView.setText(details.getString("address"));
+
+            if (!details.isNull("description")) {
+                holder.descriptionTextView.setText(details.getString("description"));
+            } else {
+                holder.descriptionLinearLayout.setVisibility(View.GONE);
+            }
+
+            if (!details.isNull("address")) {
+                holder.addressTextView.setText(details.getString("address"));
+            } else {
+                holder.addressLinearLayout.setVisibility(View.GONE);
+            }
 
             JSONArray phoneNumbers = details.getJSONArray("phone_numbers");
 
@@ -182,13 +186,26 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                 phones.add(phoneNumbers.get(j));
             }
 
-            if (position == -1) {
-                adapter.setPhone(phones);
+            if (phones.size() != 0) {
+                if (position == -1) {
+                    adapter.setPhone(phones);
 
-                holder.phoneRecyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout3", (int) activity.getResources().getDimension(R.dimen._8sdp)));
-                holder.phoneRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
-                holder.phoneRecyclerView.setHasFixedSize(false);
-                holder.phoneRecyclerView.setAdapter(adapter);
+                    holder.phoneRecyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout3", (int) activity.getResources().getDimension(R.dimen._8sdp)));
+                    holder.phoneRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
+                    holder.phoneRecyclerView.setHasFixedSize(false);
+                    holder.phoneRecyclerView.setAdapter(adapter);
+                }
+            } else {
+                holder.phoneLinearLayout.setVisibility(View.GONE);
+            }
+
+            if (!details.isNull("avatar")) {
+                JSONObject avatar = details.getJSONObject("avatar");
+                JSONObject medium = avatar.getJSONObject("medium");
+
+                Picasso.get().load(medium.getString("url")).placeholder(R.color.White).into(holder.avatarImageView);
+            } else {
+                Picasso.get().load(R.color.Solitude).placeholder(R.color.White).into(holder.avatarImageView);
             }
 
             expandedCenters.add(false);
@@ -371,25 +388,29 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
     public class CenterHolder extends RecyclerView.ViewHolder {
 
         public CircleImageView avatarImageView;
-        public TextView titleTextView, requestTextView, descriptionTextView, principalTextView, addressTextView;
+        public TextView titleTextView, requestTextView, managerTextView, descriptionTextView, addressTextView;
         public RecyclerView phoneRecyclerView;
         public ImageView gradientImageView, editImageView, peopleImageView, expandImageView;
-        public LinearLayout expandLinearLayout;
+        public LinearLayout expandLinearLayout, managerLinearLayout, descriptionLinearLayout, addressLinearLayout, phoneLinearLayout;
 
         public CenterHolder(View view) {
             super(view);
             gradientImageView = view.findViewById(R.id.single_item_center_gradient_imageView);
-            avatarImageView = view.findViewById(R.id.single_center_item_avatar_imageView);
+            avatarImageView = view.findViewById(R.id.single_item_center_avatar_imageView);
             titleTextView = view.findViewById(R.id.single_item_center_title_textView);
             requestTextView = view.findViewById(R.id.single_item_center_request_textView);
-            descriptionTextView = view.findViewById(R.id.single_center_item_description_textView);
-            principalTextView = view.findViewById(R.id.single_item_center_principal_textView);
-            addressTextView = view.findViewById(R.id.single_item_center_address_textView);
-            phoneRecyclerView = view.findViewById(R.id.single_item_center_recyclerView);
             editImageView = view.findViewById(R.id.single_item_center_edit_imageView);
             peopleImageView = view.findViewById(R.id.single_item_center_people_imageView);
             expandImageView = view.findViewById(R.id.single_item_center_expand_imageView);
             expandLinearLayout = view.findViewById(R.id.single_item_center_expand_linearLayout);
+            managerTextView = view.findViewById(R.id.single_item_center_manager_textView);
+            managerLinearLayout = view.findViewById(R.id.single_item_center_manager_linearLayout);
+            descriptionTextView = view.findViewById(R.id.single_item_center_description_textView);
+            descriptionLinearLayout = view.findViewById(R.id.single_item_center_description_linearLayout);
+            addressTextView = view.findViewById(R.id.single_item_center_address_textView);
+            addressLinearLayout = view.findViewById(R.id.single_item_center_address_linearLayout);
+            phoneRecyclerView = view.findViewById(R.id.single_item_center_phone_recyclerView);
+            phoneLinearLayout = view.findViewById(R.id.single_item_center_phone_linearLayout);
         }
     }
 

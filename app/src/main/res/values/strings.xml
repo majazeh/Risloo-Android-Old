@@ -235,7 +235,7 @@
     <string name="CenterEmpty">فعلا مرکز درمانی برای شما نیست</string>
 
     <string name="CenterDescription">توضیحات:</string>
-    <string name="CenterPrincipal">مدیر:</string>
+    <string name="CenterManager">مدیر:</string>
     <string name="CenterAddress">آدرس:</string>
     <string name="CenterPhone">شماره تماس:</string>
 
