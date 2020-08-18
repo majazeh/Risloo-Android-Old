@@ -62,7 +62,7 @@ public class ArchiveActivity extends AppCompatActivity implements ItemHelper.Rec
 
     private void decorator() {
         WindowDecorator windowDecorator = new WindowDecorator();
-        windowDecorator.lightWindow(this, R.color.Primary5P, R.color.Snow);
+        windowDecorator.lightWindow(this, R.color.Snow, R.color.Snow);
     }
 
     private void initializer() {

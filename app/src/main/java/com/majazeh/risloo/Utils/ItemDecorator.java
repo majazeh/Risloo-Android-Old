@@ -109,23 +109,6 @@ public class ItemDecorator extends RecyclerView.ItemDecoration {
                 }
 
                 break;
-            case "horizontalLinearLayout3":
-
-                // Right Margin
-                if (position == 0) {
-                    rect.right = margin;
-                } else {
-                    rect.right = margin / 2;
-                }
-
-                // Left Margin
-                if (count > 0 && position == count - 1) {
-                    rect.left = margin;
-                } else {
-                    rect.left = margin / 2;
-                }
-
-                break;
             case "gridLayout":
 
                 // Top Margin

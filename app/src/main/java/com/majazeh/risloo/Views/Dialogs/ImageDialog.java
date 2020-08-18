@@ -28,11 +28,9 @@ import java.util.Objects;
 
 public class ImageDialog extends BottomSheetDialogFragment {
 
-    // Class
-    private IntentCaller intentCaller;
-
     // Objects
     private Activity activity;
+    private IntentCaller intentCaller;
     private Handler handler;
 
     // Widgets

@@ -208,6 +208,20 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
             holder.titleTextView.setText(details.getString("title"));
 
+            if (!details.isNull("avatar")) {
+                JSONObject avatar = details.getJSONObject("avatar");
+                JSONObject medium = avatar.getJSONObject("medium");
+
+                Picasso.get().load(medium.getString("url")).placeholder(R.color.Solitude).into(holder.avatarImageView);
+
+                holder.subTitleTextView.setVisibility(View.GONE);
+            } else {
+                Picasso.get().load(R.color.Solitude).placeholder(R.color.Solitude).into(holder.avatarImageView);
+
+                holder.subTitleTextView.setVisibility(View.VISIBLE);
+                holder.subTitleTextView.setText(String.valueOf(details.getString("title").charAt(0)) + String.valueOf(details.getString("title").substring(details.getString("title").lastIndexOf(" ") + 1).charAt(0)));
+            }
+
             if (!details.isNull("description")) {
                 holder.descriptionTextView.setText(details.getString("description"));
             } else {
@@ -218,15 +232,6 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                 holder.addressTextView.setText(details.getString("address"));
             } else {
                 holder.addressLinearLayout.setVisibility(View.GONE);
-            }
-
-            if (!details.isNull("avatar")) {
-                JSONObject avatar = details.getJSONObject("avatar");
-                JSONObject medium = avatar.getJSONObject("medium");
-
-                Picasso.get().load(medium.getString("url")).placeholder(R.color.Solitude).into(holder.avatarImageView);
-            } else {
-                Picasso.get().load(R.color.Nero).placeholder(R.color.Solitude).into(holder.avatarImageView);
             }
 
             if (!details.isNull("phone_numbers")) {
@@ -241,7 +246,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                 adapter.setPhone(phones);
 
                 if (holder.phoneRecyclerView.getAdapter() == null) {
-                    holder.phoneRecyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout3", (int) activity.getResources().getDimension(R.dimen._8sdp)));
+                    holder.phoneRecyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout2", (int) activity.getResources().getDimension(R.dimen._4sdp)));
                     holder.phoneRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
                     holder.phoneRecyclerView.setHasFixedSize(false);
                 }
@@ -258,20 +263,22 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                 holder.requestTextView.setTextColor(activity.getResources().getColor(R.color.White));
 
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    holder.requestTextView.setBackgroundResource(R.drawable.draw_4sdp_primary_ripple);
+                    holder.requestTextView.setBackgroundResource(R.drawable.draw_8sdp_primary_ripple);
                 } else {
-                    holder.requestTextView.setBackgroundResource(R.drawable.draw_4sdp_primary);
+                    holder.requestTextView.setBackgroundResource(R.drawable.draw_8sdp_primary);
                 }
 
             } else {
-                holder.requestTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-
-                holder.requestTextView.setBackgroundResource(R.drawable.draw_4sdp_solitude);
-
                 JSONObject acceptation = (JSONObject) centers.get(i).get("acceptation");
                 if (acceptation.getString("position").equals("manager")) {
+                    holder.requestTextView.setTextColor(activity.getResources().getColor(R.color.White));
+                    holder.requestTextView.setBackgroundResource(R.drawable.draw_8sdp_primary);
+
                     holder.requestTextView.setText(activity.getResources().getString(R.string.CenterManager));
                 } else {
+                    holder.requestTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                    holder.requestTextView.setBackgroundResource(R.drawable.draw_8sdp_solitude);
+
                     if (acceptation.isNull("kicked_at")) {
                         if (acceptation.isNull("accepted_at")) {
                             holder.requestTextView.setText(activity.getResources().getString(R.string.CenterAwaiting));
@@ -464,7 +471,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
     public class CenterHolder extends RecyclerView.ViewHolder {
 
         public CircleImageView avatarImageView;
-        public TextView titleTextView, requestTextView, principalTextView, descriptionTextView, addressTextView;
+        public TextView titleTextView, subTitleTextView, requestTextView, principalTextView, descriptionTextView, addressTextView;
         public RecyclerView phoneRecyclerView;
         public ImageView gradientImageView, editImageView, peopleImageView, expandImageView;
         public LinearLayout expandLinearLayout, principalLinearLayout, descriptionLinearLayout, addressLinearLayout, phoneLinearLayout;
@@ -474,6 +481,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
             gradientImageView = view.findViewById(R.id.single_item_center_gradient_imageView);
             avatarImageView = view.findViewById(R.id.single_item_center_avatar_imageView);
             titleTextView = view.findViewById(R.id.single_item_center_title_textView);
+            subTitleTextView = view.findViewById(R.id.single_item_center_subtitle_textView);
             requestTextView = view.findViewById(R.id.single_item_center_request_textView);
             editImageView = view.findViewById(R.id.single_item_center_edit_imageView);
             peopleImageView = view.findViewById(R.id.single_item_center_people_imageView);

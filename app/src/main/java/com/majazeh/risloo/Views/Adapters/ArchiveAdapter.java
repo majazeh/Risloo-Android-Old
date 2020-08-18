@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -41,8 +42,8 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
     private SharedPreferences.Editor editor;
 
     // Widgets
-    private TextView continueDialogTitle, continueDialogDescription, continueDialogPositive, continueDialogNegative;
     private Dialog continueDialog;
+    private TextView continueDialogTitle, continueDialogDescription, continueDialogPositive, continueDialogNegative;
 
     public ArchiveAdapter(Activity activity) {
         this.activity = activity;
@@ -51,7 +52,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
     @NonNull
     @Override
     public ArchiveHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.activity_archive_single_item, viewGroup, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_archive, viewGroup, false);
 
         initializer(view);
 
@@ -66,8 +67,6 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
     public void onBindViewHolder(@NonNull ArchiveHolder holder, int i) {
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            holder.foreGroundView.setBackgroundResource(R.drawable.draw_24sdp_quartz_border_ripple);
-
             holder.continueTextView.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
         }
 
@@ -78,14 +77,9 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
             e.printStackTrace();
         }
 
-        holder.itemView.setOnClickListener(v -> {
-            holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 1000);
-        });
-
         holder.continueTextView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 1000);
+            handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
             continueDialog.show();
 
             position = i;
@@ -183,16 +177,17 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
 
     public class ArchiveHolder extends RecyclerView.ViewHolder {
 
-        public LinearLayout foreGroundView, backGroundView;
+        public FrameLayout backGroundView;
+        public LinearLayout foreGroundView;
         public TextView serialTextView, statusTextView, continueTextView;
 
         public ArchiveHolder(View view) {
             super(view);
-            foreGroundView = view.findViewById(R.id.activity_archive_single_item_foreGroundView);
-            backGroundView = view.findViewById(R.id.activity_archive_single_item_backGroundView);
-            serialTextView = view.findViewById(R.id.activity_archive_single_item_serial_textView);
-            statusTextView = view.findViewById(R.id.activity_archive_single_item_status_textView);
-            continueTextView = view.findViewById(R.id.activity_archive_single_item_continue_textView);
+            backGroundView = view.findViewById(R.id.single_item_archive_backGroundView);
+            foreGroundView = view.findViewById(R.id.single_item_archive_foreGroundView);
+            serialTextView = view.findViewById(R.id.single_item_archive_serial_textView);
+            statusTextView = view.findViewById(R.id.single_item_archive_status_textView);
+            continueTextView = view.findViewById(R.id.single_item_archive_continue_textView);
         }
     }
 

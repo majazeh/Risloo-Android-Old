@@ -29,6 +29,12 @@
             app:navigationIcon="@drawable/tool_back"
             app:contentInsetStartWithNavigation="0dp" />
 
+        <View
+            android:id="@+id/activity_center_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/Quartz" />
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">

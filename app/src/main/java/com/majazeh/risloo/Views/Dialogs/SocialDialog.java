@@ -24,11 +24,9 @@ import com.majazeh.risloo.Utils.IntentCaller;
 
 public class SocialDialog extends BottomSheetDialogFragment {
 
-    // Class
-    private IntentCaller intentCaller;
-
     // Objects
     private Activity activity;
+    private IntentCaller intentCaller;
     private Handler handler;
 
     // Widgets

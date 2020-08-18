@@ -48,6 +48,7 @@ public class CenterActivity extends AppCompatActivity {
 
     // Widgets
     private Toolbar toolbar;
+    private View view;
     private TabLayout tabLayout;
     private RtlViewPager rtlViewPager;
     private TextView retryTextView;
@@ -86,6 +87,8 @@ public class CenterActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.activity_center_toolbar);
         setSupportActionBar(toolbar);
+
+        view = findViewById(R.id.activity_center_view);
 
         tabLayout = findViewById(R.id.activity_center_tabLayout);
 
@@ -198,6 +201,8 @@ public class CenterActivity extends AppCompatActivity {
                         retryLayout.setVisibility(View.GONE);
                         mainLayout.setVisibility(View.VISIBLE);
 
+                        view.setVisibility(View.GONE);
+
                         tabLayout.setVisibility(View.GONE);
                         rtlViewPager.setAdapter(adapter);
 
@@ -235,6 +240,8 @@ public class CenterActivity extends AppCompatActivity {
                                 retryLayout.setVisibility(View.GONE);
                                 mainLayout.setVisibility(View.VISIBLE);
 
+                                view.setVisibility(View.GONE);
+
                                 tabLayout.setVisibility(View.VISIBLE);
                                 rtlViewPager.setAdapter(adapter);
 
@@ -245,6 +252,8 @@ public class CenterActivity extends AppCompatActivity {
                                 loadingLayout.setVisibility(View.GONE);
                                 retryLayout.setVisibility(View.GONE);
                                 mainLayout.setVisibility(View.VISIBLE);
+
+                                view.setVisibility(View.GONE);
 
                                 tabLayout.setVisibility(View.GONE);
                                 rtlViewPager.setAdapter(adapter);
@@ -261,6 +270,8 @@ public class CenterActivity extends AppCompatActivity {
                     loadingLayout.setVisibility(View.GONE);
                     retryLayout.setVisibility(View.GONE);
                     mainLayout.setVisibility(View.VISIBLE);
+
+                    view.setVisibility(View.GONE);
 
                     tabLayout.setVisibility(View.VISIBLE);
                     rtlViewPager.setAdapter(adapter);
@@ -280,6 +291,7 @@ public class CenterActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_center, menu);
 
         toolCreate = menu.findItem(R.id.tool_create);
+        toolCreate.setVisible(false);
         toolCreate.setOnMenuItemClickListener(menuItem -> {
             startActivityForResult(new Intent(this, CreateCenterActivity.class), 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
