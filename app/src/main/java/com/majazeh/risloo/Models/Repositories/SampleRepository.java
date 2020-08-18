@@ -15,6 +15,7 @@ import androidx.work.WorkManager;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Items.SampleItems;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
+import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Workers.SampleWorker;
 
 import org.json.JSONArray;
@@ -78,6 +79,13 @@ public class SampleRepository extends MainRepository {
     public SampleRepository() {
 
     }
+
+
+
+
+
+
+
 
 
 
@@ -192,27 +200,6 @@ public class SampleRepository extends MainRepository {
     }
 
     /*
-         ---------- Insert ----------
-    */
-
-    public void insertToLocal(int index, int answer) {
-        ArrayList arrayList = new ArrayList<Integer>();
-        arrayList.add(index);
-        arrayList.add(answer);
-        localData.add(arrayList);
-    }
-
-    public void insertRemoteToLocal() {
-        localData.addAll(remoteData);
-        remoteData.clear();
-    }
-
-    public void insertLocalToRemote() {
-        remoteData.addAll(localData);
-        localData.clear();
-    }
-
-    /*
          ---------- Save ----------
     */
 
@@ -272,43 +259,8 @@ public class SampleRepository extends MainRepository {
         return false;
     }
 
-    public void saveAnswerToCache(JSONArray jsonArray, String fileName) {
-        try {
-            File file = new File(application.getApplicationContext().getCacheDir(), "Answers/" + fileName);
-            if (!file.getParentFile().exists())
-                file.getParentFile().mkdirs();
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            FileOutputStream fos = new FileOutputStream(file);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(jsonArray.toString());
-            oos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void savePrerequisiteAnswerToCache(Context context, JSONObject jsonObject, String fileName) {
-        try {
-            File file = new File(context.getCacheDir(), "prerequisiteAnswers/" + fileName);
-
-            if (!file.getParentFile().exists())
-                file.getParentFile().mkdirs();
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            FileOutputStream fos = new FileOutputStream(file);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(jsonObject.toString());
-            oos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public boolean saveAnswerToCache(JSONArray jsonArray, String fileName) {
+        return FileManager.writeArrayToCache(application.getApplicationContext(), jsonArray, "Answers", fileName);
     }
 
     public void savePrerequisiteToCache(Context context, JSONArray jsonArray, String fileName) {
@@ -328,7 +280,7 @@ public class SampleRepository extends MainRepository {
                     jsonObject.put(String.valueOf(i + 1), "");
                 }
             }
-            savePrerequisiteAnswerToCache(context, jsonObject, fileName);
+            writePrerequisiteAnswerToCache(jsonObject, fileName);
             FileOutputStream fos = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(jsonArray.toString());
@@ -342,113 +294,28 @@ public class SampleRepository extends MainRepository {
         }
     }
 
+    public boolean writePrerequisiteAnswerToCache(JSONObject jsonObject, String fileName) {
+        return FileManager.writeObjectToCache(application.getApplicationContext(), jsonObject, "prerequisiteAnswers", fileName);
+    }
+
     /*
          ---------- Read ----------
     */
 
     public JSONObject readSampleFromCache(String fileName) {
-        JSONObject jsonObject = null;
-        try {
-            File file = new File(application.getApplicationContext().getCacheDir(), "Samples/" + fileName);
-            if (file.exists()) {
-                FileInputStream fis = new FileInputStream(file);
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                jsonObject = new JSONObject((String) ois.readObject());
-                ois.close();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return jsonObject;
+        return FileManager.readObjectFromCache(application.getApplicationContext(), "Samples", fileName);
     }
 
     public JSONArray readAnswerFromCache(String fileName) {
-        JSONArray jsonArray = null;
-        try {
-            File file = new File(application.getApplicationContext().getCacheDir(), "Answers/" + fileName);
-            if (file.exists()) {
-                FileInputStream fis = new FileInputStream(file);
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                jsonArray = new JSONArray((String) ois.readObject());
-                ois.close();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return jsonArray;
+        return FileManager.readArrayFromCache(application.getApplicationContext(), "Answers", fileName);
     }
 
     public JSONArray readPrerequisiteFromCache(String fileName) {
-        JSONArray jsonArray = null;
-        try {
-            File file = new File(application.getApplicationContext().getCacheDir(), "Prerequisite/" + fileName);
-            if (file.exists()) {
-                FileInputStream fis = new FileInputStream(file);
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                jsonArray = new JSONArray((String) ois.readObject());
-                ois.close();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return jsonArray;
+        return FileManager.readArrayFromCache(application.getApplicationContext(), "Prerequisite", fileName);
     }
 
     public JSONObject readPrerequisiteAnswerFromCache(String fileName) {
-        JSONObject jsonObject = null;
-        try {
-            File file = new File(application.getApplicationContext().getCacheDir(), "prerequisiteAnswers/" + fileName);
-            if (file.exists()) {
-                FileInputStream fis = new FileInputStream(file);
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                jsonObject = new JSONObject((String) ois.readObject());
-                ois.close();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return jsonObject;
-
+        return FileManager.readObjectFromCache(application.getApplicationContext(), "prerequisiteAnswers", fileName);
     }
 
     /*
@@ -456,11 +323,11 @@ public class SampleRepository extends MainRepository {
     */
 
     public boolean hasAnswerStorage(String fileName) {
-        return new File(application.getApplicationContext().getCacheDir(), "Answers/" + fileName).exists();
+        return FileManager.hasCache(application.getApplicationContext(), "Answers", fileName);
     }
 
-    public boolean havePrerequisiteStorage(String fileName) {
-        return new File(application.getApplicationContext().getCacheDir(), "Prerequisite/" + fileName).exists();
+    public boolean hasPrerequisiteStorage(String fileName) {
+        return FileManager.hasCache(application.getApplicationContext(), "Prerequisite", fileName);
     }
 
     public void checkAnswerStorage(String fileName) {
@@ -648,6 +515,62 @@ public class SampleRepository extends MainRepository {
         return size;
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+         ---------- Insert ----------
+    */
+
+    public void insertToLocal(int index, int answer) {
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        arrayList.add(index);
+        arrayList.add(answer);
+        localData.add(arrayList);
+    }
+
+    public void insertRemoteToLocal() {
+        localData.addAll(remoteData);
+        remoteData.clear();
+    }
+
+    public void insertLocalToRemote() {
+        remoteData.addAll(localData);
+        localData.clear();
+    }
+
      /*
          ---------- Get ----------
     */
@@ -729,21 +652,6 @@ public class SampleRepository extends MainRepository {
     public int getSize() {
         return sampleItems.size();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /*
          ---------- Work ----------

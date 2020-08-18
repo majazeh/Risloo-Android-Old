@@ -50,8 +50,8 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
     // Widgets
     private Button internetButton, smsButton, downloadButton, laterButton;
-    private TextView outroDialogTitle, outroDialogDescription, outroDialogPositive, outroDialogNegative;
     private Dialog outroDialog, progressDialog;
+    private TextView outroDialogTitle, outroDialogDescription, outroDialogPositive, outroDialogNegative;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +129,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
     private void listener() {
         internetButton.setOnClickListener(v -> {
             internetButton.setClickable(false);
-            handler.postDelayed(() -> internetButton.setClickable(true), 1000);
+            handler.postDelayed(() -> internetButton.setClickable(true), 500);
 
             outroDialogTitle.setText(getResources().getString(R.string.OutroInternetDialogTitle));
             outroDialogDescription.setText(getResources().getString(R.string.OutroInternetDialogDescription));
@@ -143,7 +143,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
         smsButton.setOnClickListener(v -> {
             smsButton.setClickable(false);
-            handler.postDelayed(() -> smsButton.setClickable(true), 1000);
+            handler.postDelayed(() -> smsButton.setClickable(true), 500);
 
             outroDialogTitle.setText(getResources().getString(R.string.OutroSMSDialogTitle));
             outroDialogDescription.setText(getResources().getString(R.string.OutroSMSDialogDescription));
@@ -157,7 +157,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
         downloadButton.setOnClickListener(v -> {
             downloadButton.setClickable(false);
-            handler.postDelayed(() -> downloadButton.setClickable(true), 1000);
+            handler.postDelayed(() -> downloadButton.setClickable(true), 500);
 
             outroDialogTitle.setText(getResources().getString(R.string.OutroDownloadDialogTitle));
             outroDialogDescription.setText(getResources().getString(R.string.OutroDownloadDialogDescription));
@@ -171,14 +171,14 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
         laterButton.setOnClickListener(v -> {
             laterButton.setClickable(false);
-            handler.postDelayed(() -> laterButton.setClickable(true), 1000);
+            handler.postDelayed(() -> laterButton.setClickable(true), 500);
 
             finish();
         });
 
         outroDialogPositive.setOnClickListener(v -> {
             outroDialogPositive.setClickable(false);
-            handler.postDelayed(() -> outroDialogPositive.setClickable(true), 1000);
+            handler.postDelayed(() -> outroDialogPositive.setClickable(true), 500);
             outroDialog.dismiss();
 
             if (work == "internet") {
@@ -241,7 +241,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
         finish();
 
-        Toast.makeText(this, "جواب ها در پوشه Download ذخیره شد.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "جواب ها در پوشه Download ذخیره شد", Toast.LENGTH_SHORT).show();
     }
 
     private void observeWorkAnswer() {
@@ -305,9 +305,9 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        storagePermissionsGranted = false;
-
         if (requestCode == 100) {
+            storagePermissionsGranted = false;
+
             if (grantResults.length > 0) {
                 for (int grantResult : grantResults) {
                     if (grantResult != PackageManager.PERMISSION_GRANTED) {

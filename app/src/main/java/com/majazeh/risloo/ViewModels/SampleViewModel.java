@@ -2,7 +2,6 @@ package com.majazeh.risloo.ViewModels;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -123,7 +122,7 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
     public void savePrerequisiteAnswerToCache(Context context, JSONObject jsonObject, String fileName) {
-    repository.savePrerequisiteAnswerToCache(context, jsonObject, fileName);
+    repository.writePrerequisiteAnswerToCache(jsonObject, fileName);
     }
 
 //    public void savePrerequisiteToCache(Context context, JSONArray jsonArray, String fileName) {
@@ -151,7 +150,7 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
     public boolean havePrerequisiteStorage(String fileName) {
-        return repository.havePrerequisiteStorage(fileName);
+        return repository.hasPrerequisiteStorage(fileName);
     }
 
     public boolean showPrerequisite(String fileName){

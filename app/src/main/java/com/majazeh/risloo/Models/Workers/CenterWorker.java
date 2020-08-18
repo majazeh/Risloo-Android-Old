@@ -81,7 +81,7 @@ public class CenterWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
-                FileManager.writeToCache(context, successBody, "centers", "all");
+                FileManager.writeObjectToCache(context, successBody, "centers", "all");
 
                 ExceptionManager.getException(bodyResponse.code(), successBody, true, "all", "center");
                 CenterRepository.workState.postValue(1);
@@ -118,7 +118,7 @@ public class CenterWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
-                FileManager.writeToCache(context, successBody, "centers", "my");
+                FileManager.writeObjectToCache(context, successBody, "centers", "my");
 
                 ExceptionManager.getException(bodyResponse.code(), successBody, true, "my", "center");
                 CenterRepository.workState.postValue(1);

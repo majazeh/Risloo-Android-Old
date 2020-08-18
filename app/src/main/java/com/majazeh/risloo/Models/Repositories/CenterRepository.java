@@ -66,8 +66,8 @@ public class CenterRepository extends MainRepository {
 
     public ArrayList<Model> getAll() {
         ArrayList<Model> arrayList = new ArrayList<>();
-        if (FileManager.readFromCache(application.getApplicationContext(), "centers", "all") != null) {
-            JSONObject jsonObject = FileManager.readFromCache(application.getApplicationContext(), "centers", "all");
+        if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "all") != null) {
+            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "all");
             try {
                 JSONArray data = jsonObject.getJSONArray("data");
                 if (data.length() == 0) {
@@ -89,8 +89,8 @@ public class CenterRepository extends MainRepository {
 
     public ArrayList<Model> getMy() {
         ArrayList<Model> arrayList = new ArrayList<>();
-        if (FileManager.readFromCache(application.getApplicationContext(), "centers", "my") != null) {
-            JSONObject jsonObject = FileManager.readFromCache(application.getApplicationContext(), "centers", "my");
+        if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "my") != null) {
+            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "my");
             try {
                 JSONArray data = jsonObject.getJSONArray("data");
                 if (data.length() == 0) {
