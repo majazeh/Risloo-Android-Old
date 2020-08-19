@@ -57,8 +57,8 @@
     <string name="AuthAccount">حساب کاربری</string>
 
     <string name="AuthSampleTitle">نمونه</string>
-    <string name="AuthSampleSerial">سریال نمونه</string>
-    <string name="AuthSampleBuild">ساخت نمونه</string>
+    <string name="AuthSampleStart">شروع نمونه</string>
+    <string name="AuthSampleList">نمونه ها</string>
 
     <string name="AuthReserveTitle">رزرواسیون</string>
     <string name="AuthReserveConstruct">ایجاد رزرواسیون</string>
@@ -130,6 +130,26 @@
     <string name="SampleCancelDialogDescription">نمونه شما از بین نمی رود و بعدا می توانید از بایگانی خود به آن دسترسی پیدا کنید و ان را تکمیل نمایید.</string>
     <string name="SampleCancelDialogPositive">خروج</string>
     <string name="SampleCancelDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // samples strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="SamplesTitle">نمونه ها</string>
+
+    <string name="SamplesCreate">ساخت جدید</string>
+
+    <string name="SamplesReference">مراجع</string>
+    <string name="SamplesCase">پرونده</string>
+    <string name="SamplesRoom">اتاق درمان</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // create sample strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="CreateSampleTitle">ایجاد نمونه</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -263,7 +283,7 @@
     // create center strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="CreateCenterTitle">ساخت جدید</string>
+    <string name="CreateCenterTitle">ایجاد مرکز درمانی</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

@@ -101,8 +101,10 @@ public class AuthActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.activity_auth_navigationView);
         if (token()) {
             navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(true);
+            navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(true);
         } else {
             navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(false);
         }
         navigationFooter = navigationView.findViewById(R.id.activity_auth_footer);
 
@@ -137,11 +139,12 @@ public class AuthActivity extends AppCompatActivity {
 
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == R.id.tool_sample_serial) {
+            if (id == R.id.tool_sample_start) {
                 drawerLayout.closeDrawer(GravityCompat.START);
-            } else if (id == R.id.tool_sample_build) {
+            } else if (id == R.id.tool_sample_list) {
                 handler.postDelayed(() -> {
-
+                    startActivity(new Intent(this, SamplesActivity.class));
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }, 50);
             } else if (id == R.id.tool_reserve_construct) {
                 handler.postDelayed(() -> {
@@ -256,9 +259,11 @@ public class AuthActivity extends AppCompatActivity {
                     if (token()) {
                         toolUser.setVisible(true);
                         navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(true);
+                        navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(true);
                     } else {
                         toolUser.setVisible(false);
                         navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
+                        navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(false);
                     }
                 }
 
@@ -308,6 +313,7 @@ public class AuthActivity extends AppCompatActivity {
 
                     toolUser.setVisible(false);
                     navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
+                    navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(false);
 
                     SerialFragment fragment = ((SerialFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
                     if (fragment != null) {

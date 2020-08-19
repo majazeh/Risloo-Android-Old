@@ -164,12 +164,12 @@ public class SampleRepository extends MainRepository {
     }
 
     public void samples() throws JSONException {
-        work = "samples";
+        work = "getAll";
         workStateSample.setValue(-1);
-        workManager("samples");
+        workManager("getAll");
     }
 
-    public ArrayList<Model> getSamples() {
+    public ArrayList<Model> getAll() {
         ArrayList<Model> arrayList = new ArrayList<>();
         if (FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all") != null) {
             JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all");

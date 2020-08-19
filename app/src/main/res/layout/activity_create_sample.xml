@@ -2,14 +2,14 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_create_center"
+    android:id="@+id/activity_create_sample"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
     android:background="@color/White"
     android:descendantFocusability="blocksDescendants"
-    tools:context=".Views.Activities.CreateCenterActivity"
+    tools:context=".Views.Activities.CreateSampleActivity"
     tools:ignore="UnusedAttribute">
 
     <LinearLayout
@@ -18,12 +18,12 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/activity_create_center_toolbar"
+            android:id="@+id/activity_create_sample_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/ToolbarTheme"
             android:background="@color/Snow"
-            app:title="@string/CreateCenterTitle"
+            app:title="@string/CreateSampleTitle"
             app:titleTextAppearance="@style/ToolbarTextAppearance"
             app:navigationIcon="@drawable/tool_back"
             app:contentInsetStartWithNavigation="0dp" />

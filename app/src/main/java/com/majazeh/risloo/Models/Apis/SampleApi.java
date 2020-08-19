@@ -27,8 +27,8 @@ public interface SampleApi {
     @POST("$/samples/{sample_id}/items")
     Call<ResponseBody> prerequisite(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Body Object body);
 
-    @Headers({"content-type: application/json","Accept-Language:fa"})
-    @POST("$/samples")
-    Call<ResponseBody> getSamples(@Header("Authorization") String authorization);
+    @Headers({"content-type: application/json", "Accept-Language:fa"})
+    @GET("$/samples")
+    Call<ResponseBody> getAll(@Header("Authorization") String authorization);
 
 }

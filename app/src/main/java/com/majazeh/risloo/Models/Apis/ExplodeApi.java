@@ -7,7 +7,7 @@ import retrofit2.http.Headers;
 
 public interface ExplodeApi {
 
-    @Headers({"content-type: application/x-www-form-urlencoded","Accept-Language:fa"})
+    @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("explode")
     Call<ResponseBody> explode();
 

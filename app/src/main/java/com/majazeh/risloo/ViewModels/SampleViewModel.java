@@ -37,6 +37,10 @@ public class SampleViewModel extends AndroidViewModel {
         repository.getSample(sampleId);
     }
 
+    public void samples() throws JSONException {
+        repository.samples();
+    }
+
     public void sendAnswers(String sampleId) throws JSONException {
         repository.sendAnswers(sampleId);
     }
@@ -47,10 +51,6 @@ public class SampleViewModel extends AndroidViewModel {
 
     public void sendPrerequisite(HashMap hashMap) throws JSONException {
         repository.sendPrerequisite(hashMap);
-    }
-
-    public void samples() throws JSONException {
-        repository.samples();
     }
 
      /*
@@ -105,8 +105,8 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.getAnswer(index);
     }
 
-    public ArrayList<Model> getSamples(){
-        return repository.getSamples();
+    public ArrayList<Model> getAll(){
+        return repository.getAll();
     }
 
     /*

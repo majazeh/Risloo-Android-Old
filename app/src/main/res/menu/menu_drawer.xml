@@ -6,14 +6,14 @@
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/tool_sample_serial"
+                    android:id="@+id/tool_sample_start"
                     android:icon="@drawable/ic_code_light"
-                    android:title="@string/AuthSampleSerial"
+                    android:title="@string/AuthSampleStart"
                     android:checked="true"/>
                 <item
-                    android:id="@+id/tool_sample_build"
-                    android:icon="@drawable/ic_plus_light"
-                    android:title="@string/AuthSampleBuild"/>
+                    android:id="@+id/tool_sample_list"
+                    android:icon="@drawable/ic_folders_light"
+                    android:title="@string/AuthSampleList"/>
             </group>
         </menu>
     </item>

@@ -67,6 +67,8 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
     public void onBindViewHolder(@NonNull ArchiveHolder holder, int i) {
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            holder.foreGroundView.setBackgroundResource(R.drawable.draw_24sdp_white_ripple);
+
             holder.continueTextView.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
         }
 

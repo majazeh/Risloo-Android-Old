@@ -45,6 +45,8 @@
         <activity android:name=".Views.Activities.IntroActivity" android:theme="@style/WindowTheme" />
         <activity android:name=".Views.Activities.AuthActivity" />
         <activity android:name=".Views.Activities.SampleActivity" />
+        <activity android:name=".Views.Activities.SamplesActivity" />
+        <activity android:name=".Views.Activities.CreateSampleActivity" />
         <activity android:name=".Views.Activities.OutroActivity" />
         <activity android:name=".Views.Activities.AccountActivity" />
         <activity android:name=".Views.Activities.EditAccountActivity" />
