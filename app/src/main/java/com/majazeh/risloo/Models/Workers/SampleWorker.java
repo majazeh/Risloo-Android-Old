@@ -10,6 +10,8 @@ import androidx.work.WorkerParameters;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Apis.SampleApi;
 import com.majazeh.risloo.Models.Generators.RetroGenerator;
+import com.majazeh.risloo.Models.Managers.FileManager;
+import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 
 import org.json.JSONException;
@@ -70,6 +72,8 @@ public class SampleWorker extends Worker {
                 case "sendPrerequisite":
                     sendPrerequisite();
                     break;
+                case "samples":
+                    getSamples();
             }
         }
 
@@ -119,6 +123,43 @@ public class SampleWorker extends Worker {
 
             ExceptionManager.getException(0, null, false, "IOException", "sample");
             SampleRepository.workStateSample.postValue(0);
+        }
+    }
+
+    public void getSamples() {
+        try {
+            Call<ResponseBody> call = sampleApi.getSamples(token());
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+
+                FileManager.writeObjectToCache(context, successBody, "samples", "all");
+
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "all", "sample");
+                CenterRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "all", "sample");
+                CenterRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "sample");
+            CenterRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(0, null, false, "JSONException", "sample");
+            CenterRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(0, null, false, "IOException", "sample");
+            CenterRepository.workState.postValue(0);
         }
     }
 
@@ -241,5 +282,7 @@ public class SampleWorker extends Worker {
             SampleRepository.workStateAnswer.postValue(0);
         }
     }
+
+
 
 }

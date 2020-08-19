@@ -49,6 +49,10 @@ public class SampleViewModel extends AndroidViewModel {
         repository.sendPrerequisite(hashMap);
     }
 
+    public void samples() throws JSONException {
+        repository.samples();
+    }
+
      /*
          ---------- Get ----------
     */
@@ -99,6 +103,10 @@ public class SampleViewModel extends AndroidViewModel {
 
     public JSONObject getAnswer(int index) {
         return repository.getAnswer(index);
+    }
+
+    public ArrayList<Model> getSamples(){
+        return repository.getSamples();
     }
 
     /*

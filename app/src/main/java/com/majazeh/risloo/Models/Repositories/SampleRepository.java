@@ -163,6 +163,35 @@ public class SampleRepository extends MainRepository {
         workManager("closeSample");
     }
 
+    public void samples() throws JSONException {
+        work = "samples";
+        workStateSample.setValue(-1);
+        workManager("samples");
+    }
+
+    public ArrayList<Model> getSamples() {
+        ArrayList<Model> arrayList = new ArrayList<>();
+        if (FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all") != null) {
+            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all");
+            try {
+                JSONArray data = jsonObject.getJSONArray("data");
+                if (data.length() == 0) {
+                    return null;
+                }
+                for (int i = 0; i < data.length(); i++) {
+                    Model model = new Model(data.getJSONObject(i));
+                    arrayList.add(model);
+                }
+                return arrayList;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
     public void sendAnswers(String sampleId) throws JSONException {
         if (isNetworkConnected(application.getApplicationContext())) {
             if (SampleRepository.cache == true) {
