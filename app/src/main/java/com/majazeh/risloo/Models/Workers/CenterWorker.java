@@ -60,6 +60,7 @@ public class CenterWorker extends Worker {
                     break;
                 case "request":
                     request();
+                    break;
             }
         }
 

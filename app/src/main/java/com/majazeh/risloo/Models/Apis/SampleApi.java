@@ -11,24 +11,20 @@ import retrofit2.http.Path;
 
 public interface SampleApi {
 
-    @Headers({"content-type: application/json","Accept-Language:fa"})
+    @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("$/samples/{sample_id}")
-    Call<ResponseBody> get(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
-
-    @Headers({"content-type: application/json","Accept-Language:fa"})
-    @POST("$/samples/{sample_id}/items")
-    Call<ResponseBody> send(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Body Object body);
-
-    @Headers({"content-type: application/x-www-form-urlencoded","Accept-Language:fa"})
-    @POST("$/samples/{sample_id}/close")
-    Call<ResponseBody> close(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
-
-    @Headers({"content-type: application/json","Accept-Language:fa"})
-    @POST("$/samples/{sample_id}/items")
-    Call<ResponseBody> prerequisite(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Body Object body);
+    Call<ResponseBody> getSingle(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("$/samples")
     Call<ResponseBody> getAll(@Header("Authorization") String authorization);
+
+    @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
+    @POST("$/samples/{sample_id}/close")
+    Call<ResponseBody> close(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
+
+    @Headers({"content-type: application/json", "Accept-Language:fa"})
+    @POST("$/samples/{sample_id}/items")
+    Call<ResponseBody> send(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Body Object body);
 
 }

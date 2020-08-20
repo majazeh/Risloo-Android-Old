@@ -17,7 +17,7 @@ public interface CenterApi {
     Call<ResponseBody> getAll(@Header("Authorization") String authorization);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
-    @GET("centers?my=1")
+    @GET("centers?my=yes")
     Call<ResponseBody> getMy(@Header("Authorization") String authorization);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})

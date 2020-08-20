@@ -73,8 +73,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_6sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
             android:layout_marginLeft="@dimen/_12sdp"
             android:layout_marginRight="@dimen/_12sdp"
             android:background="@color/Solitude" />

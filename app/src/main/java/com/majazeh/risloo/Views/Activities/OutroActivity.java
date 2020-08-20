@@ -216,7 +216,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         String result = "";
         String number = "+989195934528";
 
-        JSONArray jsonArray = viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", ""));
+        JSONArray jsonArray = viewModel.readSampleAnswerFromCache(sharedPreferences.getString("sampleId", ""));
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 result += jsonArray.getJSONObject(i).getString("answer");
@@ -237,7 +237,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
     }
 
     private void saveFile() {
-        viewModel.saveToExternal(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")), sharedPreferences.getString("sampleId", ""));
+        viewModel.writeSampleAnswerToExternal(viewModel.readSampleAnswerFromCache(sharedPreferences.getString("sampleId", "")), sharedPreferences.getString("sampleId", ""));
 
         finish();
 
@@ -248,7 +248,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         SampleRepository.workStateAnswer.observe(this, integer -> {
             if (integer == 1) {
                 try {
-                    viewModel.closeSample();
+                    viewModel.close(sharedPreferences.getString("sampleId", ""));
                     observeWorkSample();
                 } catch (JSONException e) {
                     e.printStackTrace();

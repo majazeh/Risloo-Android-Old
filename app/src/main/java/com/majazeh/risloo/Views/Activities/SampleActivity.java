@@ -340,7 +340,7 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void setRecyclerView() {
-        adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
+        adapter.setIndex(viewModel.readSampleAnswerFromCache(sharedPreferences.getString("sampleId", "")));
         recyclerView.setAdapter(adapter);
     }
 
@@ -350,14 +350,14 @@ public class SampleActivity extends AppCompatActivity {
 
         recyclerView.scrollToPosition(viewModel.getIndex());
 
-        adapter.setIndex(viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", "")));
+        adapter.setIndex(viewModel.readSampleAnswerFromCache(sharedPreferences.getString("sampleId", "")));
         adapter.notifyDataSetChanged();
     }
 
     private void closeSample() {
         try {
             progressDialog.show();
-            viewModel.closeSample();
+            viewModel.close(sharedPreferences.getString("sampleId", ""));
             observeWorkSample();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -367,7 +367,7 @@ public class SampleActivity extends AppCompatActivity {
     private void launchProcess() {
         SampleRepository.work = "getSample";
 
-        if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) >= 0) {
+        if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) >= 0) {
             loadingDialog.show();
         }
 
@@ -389,8 +389,8 @@ public class SampleActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         } else {
-                            if (viewModel.hasAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
-                                if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
+                            if (viewModel.hasSampleAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
+                                if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) == -1) {
                                     startActivity(new Intent(this, OutroActivity.class));
                                     finish();
                                     SampleRepository.workStateSample.removeObservers(this);
@@ -398,7 +398,7 @@ public class SampleActivity extends AppCompatActivity {
                             }
                             viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
                             setRecyclerView();
-                            if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
+                            if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) == -1) {
                                 if (viewModel.answeredSize(sharedPreferences.getString("sampleId", "")) == viewModel.getSize()) {
                                     loadingDialog.dismiss();
                                     startActivity(new Intent(this, OutroActivity.class));
@@ -413,7 +413,7 @@ public class SampleActivity extends AppCompatActivity {
                                     }
                                 }
                             }
-                            viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
+                            viewModel.setIndex(viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")));
                             loadingDialog.dismiss();
                             try {
                                 SampleRepository.theory = "sample";
@@ -435,15 +435,15 @@ public class SampleActivity extends AppCompatActivity {
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         } else {
                             viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
-                            viewModel.firstUnanswered(sharedPreferences.getString("sampleId", ""));
-                            if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
+                            viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", ""));
+                            if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) == -1) {
                                 startActivity(new Intent(this, OutroActivity.class));
                                 finish();
                                 return;
                             }
 
                             setRecyclerView();
-                            viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
+                            viewModel.setIndex(viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")));
                             try {
                                 SampleRepository.theory = "sample";
                                 showFragment();
@@ -454,7 +454,7 @@ public class SampleActivity extends AppCompatActivity {
                         }
                     } else if (integer == -2) {
                         setRecyclerView();
-                        if (viewModel.havePrerequisiteStorage(sharedPreferences.getString("sampleId", ""))) {
+                        if (viewModel.hasPrerequisiteAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
                             if (viewModel.showPrerequisite(sharedPreferences.getString("sampleId", ""))) {
                                 loadFragment(new DescriptionFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
                             } else {
@@ -476,15 +476,15 @@ public class SampleActivity extends AppCompatActivity {
 
                     if (viewModel.getItems() != null) {
                         viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
-                        viewModel.firstUnanswered(sharedPreferences.getString("sampleId", ""));
-                        if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
+                        viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", ""));
+                        if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) == -1) {
                             startActivity(new Intent(this, OutroActivity.class));
                             finish();
                             return;
                         }
 
                         setRecyclerView();
-                        viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
+                        viewModel.setIndex(viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")));
                         try {
                             SampleRepository.theory = "sample";
                             showFragment();

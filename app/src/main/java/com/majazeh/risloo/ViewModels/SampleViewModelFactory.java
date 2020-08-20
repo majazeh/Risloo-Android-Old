@@ -10,11 +10,11 @@ import org.json.JSONException;
 
 public class SampleViewModelFactory implements ViewModelProvider.Factory {
 
-    // Objects
-    private Application application;
-
     // Vars
     private String sampleId;
+
+    // Objects
+    private Application application;
 
     public SampleViewModelFactory(Application application, String sampleId) {
         this.application = application;

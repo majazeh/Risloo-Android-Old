@@ -59,20 +59,24 @@ public class SampleWorker extends Worker {
         if (work != null) {
 
             switch (work) {
-                case "getSample":
-                    getSample();
+                case "getSingle":
+                    getSingle();
                     break;
-                case "closeSample":
-                    closeSample();
+                case "getAll":
+                    getAll();
                     break;
+                case "close":
+                    close();
+                    break;
+
+
+
                 case "sendAnswers":
                     sendAnswers();
                     break;
                 case "sendPrerequisite":
                     sendPrerequisite();
                     break;
-                case "getAll":
-                    getAll();
             }
         }
 
@@ -86,9 +90,9 @@ public class SampleWorker extends Worker {
         return "";
     }
 
-    private void getSample() {
+    private void getSingle() {
         try {
-            Call<ResponseBody> call = sampleApi.get(token(), sharedPreferences.getString("sampleId", ""));
+            Call<ResponseBody> call = sampleApi.getSingle(token(), sharedPreferences.getString("sampleId", ""));
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -125,9 +129,46 @@ public class SampleWorker extends Worker {
         }
     }
 
-    private void closeSample() {
+    private void getAll() {
         try {
-            Call<ResponseBody> call = sampleApi.close("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""));
+            Call<ResponseBody> call = sampleApi.getAll(token());
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+
+                FileManager.writeObjectToCache(context, successBody, "samples", "all");
+
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "all", "sample");
+                SampleRepository.workStateSample.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "all", "sample");
+                SampleRepository.workStateSample.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "sample");
+            SampleRepository.workStateSample.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(0, null, false, "JSONException", "sample");
+            SampleRepository.workStateSample.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(0, null, false, "IOException", "sample");
+            SampleRepository.workStateSample.postValue(0);
+        }
+    }
+
+    private void close() {
+        try {
+            Call<ResponseBody> call = sampleApi.close(token(), SampleRepository.sampleId);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -159,6 +200,13 @@ public class SampleWorker extends Worker {
             SampleRepository.workStateSample.postValue(0);
         }
     }
+
+
+
+
+
+
+
 
     private void sendAnswers() {
         try {
@@ -209,7 +257,7 @@ public class SampleWorker extends Worker {
             HashMap hashMap = new HashMap();
             hashMap.put("prerequisite",SampleRepository.prerequisiteData);
 
-            Call<ResponseBody> call = sampleApi.prerequisite("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""), hashMap);
+            Call<ResponseBody> call = sampleApi.send("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""), hashMap);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -242,43 +290,6 @@ public class SampleWorker extends Worker {
 
             ExceptionManager.getException(0, null, false, "IOException", "sample");
             SampleRepository.workStateAnswer.postValue(0);
-        }
-    }
-
-    private void getAll() {
-        try {
-            Call<ResponseBody> call = sampleApi.getAll(token());
-
-            Response<ResponseBody> bodyResponse = call.execute();
-            if (bodyResponse.isSuccessful()) {
-                JSONObject successBody = new JSONObject(bodyResponse.body().string());
-
-                FileManager.writeObjectToCache(context, successBody, "samples", "all");
-
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "all", "sample");
-                SampleRepository.workStateSample.postValue(1);
-            } else {
-                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "all", "sample");
-                SampleRepository.workStateSample.postValue(0);
-            }
-
-        } catch (SocketTimeoutException e) {
-            e.printStackTrace();
-
-            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "sample");
-            SampleRepository.workStateSample.postValue(0);
-        } catch (JSONException e) {
-            e.printStackTrace();
-
-            ExceptionManager.getException(0, null, false, "JSONException", "sample");
-            SampleRepository.workStateSample.postValue(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            ExceptionManager.getException(0, null, false, "IOException", "sample");
-            SampleRepository.workStateSample.postValue(0);
         }
     }
 

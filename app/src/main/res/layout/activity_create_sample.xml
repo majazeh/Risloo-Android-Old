@@ -33,7 +33,71 @@
             android:layout_height="@dimen/_1sdp"
             android:background="@color/Quartz" />
 
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarSize="0dp"
+            android:overScrollMode="never">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_18sdp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <Spinner
+                    android:id="@+id/activity_create_sample_scale_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_36sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:singleLine="true"
+                    android:spinnerMode="dropdown"
+                    android:background="@drawable/draw_18sdp_quartz_border"/>
+
+                <Spinner
+                    android:id="@+id/activity_create_sample_room_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_36sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:singleLine="true"
+                    android:spinnerMode="dropdown"
+                    android:background="@drawable/draw_18sdp_quartz_border"/>
+
+                <Spinner
+                    android:id="@+id/activity_create_sample_case_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_36sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:singleLine="true"
+                    android:spinnerMode="dropdown"
+                    android:background="@drawable/draw_18sdp_quartz_border"/>
+
+                <Spinner
+                    android:id="@+id/activity_create_sample_reference_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_36sdp"
+                    android:layout_marginBottom="@dimen/_24sdp"
+                    android:singleLine="true"
+                    android:spinnerMode="dropdown"
+                    android:background="@drawable/draw_18sdp_quartz_border"/>
+
+                <Button
+                    android:id="@+id/activity_create_sample_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/CreateSampleCreate"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/White"
+                    android:textAlignment="gravity"
+                    android:background="@drawable/draw_18sdp_primary"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 

@@ -1,6 +1,7 @@
 package com.majazeh.risloo.Views.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.LifecycleOwner;
@@ -287,11 +288,21 @@ public class CenterActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 100) {
+
+            }
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_center, menu);
 
         toolCreate = menu.findItem(R.id.tool_create);
-        toolCreate.setVisible(false);
         toolCreate.setOnMenuItemClickListener(menuItem -> {
             startActivityForResult(new Intent(this, CreateCenterActivity.class), 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);

@@ -45,6 +45,7 @@ public class SampleRepository extends MainRepository {
     public static MutableLiveData<Integer> workStateAnswer;
     public static String work = "";
     public static String theory = "sample";
+    public static String sampleId = "";
     public static boolean cache = false;
 
     // Objects
@@ -53,7 +54,7 @@ public class SampleRepository extends MainRepository {
     public SampleRepository(Application application, String sampleId) throws JSONException {
         super(application);
 
-        getSample(sampleId);
+        sample(sampleId);
 
         prerequisiteData = new HashMap();
         localData = new ArrayList<>();
@@ -80,28 +81,93 @@ public class SampleRepository extends MainRepository {
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
     /*
          ---------- Voids ----------
     */
 
-    public void getSample(String sampleId) throws JSONException {
+    public void close(String sampleId) throws JSONException {
+        SampleRepository.sampleId = sampleId;
+
+        work = "close";
+        workStateSample.setValue(-1);
+        workManager("close");
+    }
+
+    public void samples() throws JSONException {
+        work = "getAll";
+        workStateSample.setValue(-1);
+        workManager("getAll");
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public void delete(String sampleId) {
+        File file = new File(application.getApplicationContext().getCacheDir(), "Answers" + "/" + sampleId);
+        file.delete();
+    }
+
+    public void sample(String sampleId) throws JSONException {
         if (isNetworkConnected(application.getApplicationContext())) {
 
-            work = "getSample";
+            work = "getSingle";
             workStateSample.setValue(-1);
-            workManager("getSample");
+            workManager("getSingle");
 
             SampleRepository.workStateSample.observeForever(integer -> {
                 if (integer == 1) {
@@ -110,16 +176,16 @@ public class SampleRepository extends MainRepository {
                         JSONObject data = jsonObject.getJSONObject("data");
                         sampleItems = new SampleItems(data.getJSONArray("items"));
                         checkAnswerStorage(sampleId);
-                        JSONArray jsonArray = readAnswerFromCache(sampleId);
+                        JSONArray jsonArray = readSampleAnswerFromCache(sampleId);
                         for (int i = 0; i < sampleItems.size(); i++) {
                             if (answered(i) != -1) {
                                 jsonArray.getJSONObject(i).put("index", i);
                                 jsonArray.getJSONObject(i).put("answer", answered(i));
-                                saveAnswerToCache(jsonArray, sampleId);
+                                writeSampleAnswerToCache(jsonArray, sampleId);
                             }
                         }
-                        if (readAnswerFromCache(sampleId) != null) {
-                            sampleItems.setIndex(firstUnanswered(sampleId));
+                        if (readSampleAnswerFromCache(sampleId) != null) {
+                            sampleItems.setIndex(firstUnAnswered(sampleId));
                         }
                         sampleJson = readSampleFromCache(sampleId);
                         SampleRepository.workStateSample.removeObserver(integer1 -> {
@@ -157,47 +223,12 @@ public class SampleRepository extends MainRepository {
         }
     }
 
-    public void closeSample() throws JSONException {
-        work = "closeSample";
-        workStateSample.setValue(-1);
-        workManager("closeSample");
-    }
-
-    public void samples() throws JSONException {
-        work = "getAll";
-        workStateSample.setValue(-1);
-        workManager("getAll");
-    }
-
-    public ArrayList<Model> getAll() {
-        ArrayList<Model> arrayList = new ArrayList<>();
-        if (FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all") != null) {
-            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all");
-            try {
-                JSONArray data = jsonObject.getJSONArray("data");
-                if (data.length() == 0) {
-                    return null;
-                }
-                for (int i = 0; i < data.length(); i++) {
-                    Model model = new Model(data.getJSONObject(i));
-                    arrayList.add(model);
-                }
-                return arrayList;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
-
     public void sendAnswers(String sampleId) throws JSONException {
         if (isNetworkConnected(application.getApplicationContext())) {
             if (SampleRepository.cache == true) {
                 localData.clear();
-                JSONArray jsonArray = readAnswerFromCache(sampleId);
-                for (int i = 0; i < readAnswerFromCache(sampleId).length(); i++) {
+                JSONArray jsonArray = readSampleAnswerFromCache(sampleId);
+                for (int i = 0; i < readSampleAnswerFromCache(sampleId).length(); i++) {
                     if (!jsonArray.getJSONObject(i).getString("index").equals("")) {
                         if (!jsonArray.getJSONObject(i).getString("answer").equals("")) {
                             ArrayList arrayList = new ArrayList<Integer>();
@@ -220,19 +251,15 @@ public class SampleRepository extends MainRepository {
         }
     }
 
-    public void sendPrerequisite(HashMap hashMap) throws JSONException {
-        prerequisiteData = hashMap;
+    public void sendPrerequisite(HashMap parameters) throws JSONException {
+        prerequisiteData = parameters;
 
         work = "sendPrerequisite";
         workStateAnswer.setValue(-1);
         workManager("sendPrerequisite");
     }
 
-    /*
-         ---------- Save ----------
-    */
-
-    public void saveToExternal(JSONArray jsonArray, String fileName) {
+    public void writeSampleAnswerToExternal(JSONArray jsonArray, String fileName) {
         try {
             File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName + ".csv");
             FileOutputStream fos = new FileOutputStream(file);
@@ -288,7 +315,7 @@ public class SampleRepository extends MainRepository {
         return false;
     }
 
-    public boolean saveAnswerToCache(JSONArray jsonArray, String fileName) {
+    public boolean writeSampleAnswerToCache(JSONArray jsonArray, String fileName) {
         return FileManager.writeArrayToCache(application.getApplicationContext(), jsonArray, "Answers", fileName);
     }
 
@@ -327,29 +354,17 @@ public class SampleRepository extends MainRepository {
         return FileManager.writeObjectToCache(application.getApplicationContext(), jsonObject, "prerequisiteAnswers", fileName);
     }
 
-    /*
-         ---------- Read ----------
-    */
-
     public JSONObject readSampleFromCache(String fileName) {
         return FileManager.readObjectFromCache(application.getApplicationContext(), "Samples", fileName);
     }
 
-    public JSONArray readAnswerFromCache(String fileName) {
+    public JSONArray readSampleAnswerFromCache(String fileName) {
         return FileManager.readArrayFromCache(application.getApplicationContext(), "Answers", fileName);
-    }
-
-    public JSONArray readPrerequisiteFromCache(String fileName) {
-        return FileManager.readArrayFromCache(application.getApplicationContext(), "Prerequisite", fileName);
     }
 
     public JSONObject readPrerequisiteAnswerFromCache(String fileName) {
         return FileManager.readObjectFromCache(application.getApplicationContext(), "prerequisiteAnswers", fileName);
     }
-
-    /*
-         ---------- Check ----------
-    */
 
     public boolean hasAnswerStorage(String fileName) {
         return FileManager.hasCache(application.getApplicationContext(), "Answers", fileName);
@@ -372,73 +387,9 @@ public class SampleRepository extends MainRepository {
                     e.printStackTrace();
                 }
             }
-            saveAnswerToCache(jsonArray, fileName);
+            writeSampleAnswerToCache(jsonArray, fileName);
         }
     }
-
-//    public void checkPrerequisiteStorage(String fileName) {
-//        if (!hasAnswerStorage(fileName)) {
-//            JSONObject jsonObject = new JSONObject();
-//            for (int i = 0; i < prerequisiteItems.length(); i++) {
-//                JSONObject jsonObject = new JSONObject();
-//                try {
-//                    jsonObject.put("index", i);
-//                    jsonObject.put("answer", "");
-//                    jsonArray.put(jsonObject);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            savePrerequisiteToCache(context, jsonArray, fileName);
-//        }
-//    }
-
-    public void deleteAnswerStorage(String fileName) {
-        File file = new File(application.getApplicationContext().getCacheDir(), "Answers/" + fileName);
-        file.delete();
-    }
-
-    /*
-         ---------- Storage ----------
-    */
-
-    public ArrayList<Model> storageFiles() {
-        ArrayList<Model> arrayList = new ArrayList<Model>();
-        File file = new File(application.getApplicationContext().getCacheDir(), "Samples");
-        File[] list = file.listFiles();
-        if (list != null) {
-            for (int i = 0; i < list.length; i++) {
-                if (readAnswerFromCache(list[i].getName()) != null) {
-                    JSONObject jsonObject = new JSONObject();
-                    try {
-                        jsonObject.put("serial", list[i].getName());
-                        if (answeredSize(list[i].getName()) < readAnswerFromCache(list[i].getName()).length()) {
-                            jsonObject.put("status", "ناقص");
-                        } else {
-                            jsonObject.put("status", "کامل");
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        arrayList.add(new Model(jsonObject));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            if (arrayList.size() == 0) {
-                return null;
-            }
-            return arrayList;
-        } else {
-            return null;
-        }
-    }
-
-    /*
-         ---------- Answer ----------
-    */
 
     public int answered(int i) {
         try {
@@ -454,7 +405,7 @@ public class SampleRepository extends MainRepository {
     }
 
     public int answeredPosition(String fileName, int index) {
-        JSONArray items = readAnswerFromCache(fileName);
+        JSONArray items = readSampleAnswerFromCache(fileName);
         try {
             if (!items.getJSONObject(index).getString("answer").equals("")) {
                 return items.getJSONObject(index).getInt("answer");
@@ -468,7 +419,7 @@ public class SampleRepository extends MainRepository {
     }
 
     public int answeredSize(String fileName) {
-        JSONArray items = readAnswerFromCache(fileName);
+        JSONArray items = readSampleAnswerFromCache(fileName);
         int size = 0;
         if (items != null) {
             for (int i = 0; i < items.length(); i++) {
@@ -484,8 +435,8 @@ public class SampleRepository extends MainRepository {
         return size;
     }
 
-    public int firstUnanswered(String fileName) {
-        JSONArray items = readAnswerFromCache(fileName);
+    public int firstUnAnswered(String fileName) {
+        JSONArray items = readSampleAnswerFromCache(fileName);
         if (items != null) {
             for (int i = 0; i < items.length(); i++) {
                 try {
@@ -518,31 +469,19 @@ public class SampleRepository extends MainRepository {
         }
     }
 
-    public int prerequisiteAnswersSize(String fileName) {
-        int size = 0;
-        File file = new File(application.getApplicationContext().getCacheDir(), "prerequisiteAnswers/" + fileName);
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(file);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            JSONArray jsonArray = new JSONArray((String) ois.readObject());
-            for (int i = 0; i < jsonArray.length(); i++) {
-                if (!jsonArray.get(1).equals("")) {
-                    size++;
-                }
-            }
-            ois.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return size;
-    }
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -580,28 +519,7 @@ public class SampleRepository extends MainRepository {
 
 
     /*
-         ---------- Insert ----------
-    */
-
-    public void insertToLocal(int index, int answer) {
-        ArrayList<Integer> arrayList = new ArrayList<>();
-        arrayList.add(index);
-        arrayList.add(answer);
-        localData.add(arrayList);
-    }
-
-    public void insertRemoteToLocal() {
-        localData.addAll(remoteData);
-        remoteData.clear();
-    }
-
-    public void insertLocalToRemote() {
-        remoteData.addAll(localData);
-        localData.clear();
-    }
-
-     /*
-         ---------- Get ----------
+         ---------- Items ----------
     */
 
     public String getDescription() {
@@ -626,16 +544,15 @@ public class SampleRepository extends MainRepository {
         return arrayList;
     }
 
-    public ArrayList<String> getOptions(int index) {
-        ArrayList<String> arrayList = new ArrayList<>();
-        try {
-            for (int i = 0; i < getAnswer(index).getJSONArray("options").length(); i++) {
-                arrayList.add((String) getAnswer(index).getJSONArray("options").get(i));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return arrayList;
+    public ArrayList getItems() {
+        if (sampleItems != null)
+            return sampleItems.items();
+        else
+            return null;
+    }
+
+    public Model getItem(int index) {
+        return sampleItems.item(index);
     }
 
     public JSONObject getAnswer(int index) {
@@ -647,16 +564,22 @@ public class SampleRepository extends MainRepository {
         return null;
     }
 
-    public ArrayList getItems() {
-        if (sampleItems != null)
-            return sampleItems.items();
-        else
-            return null;
+    public ArrayList getOptions(int index) {
+        ArrayList arrayList = new ArrayList<>();
+        try {
+            JSONArray jsonArray = getAnswer(index).getJSONArray("options");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                arrayList.add(jsonArray.get(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return arrayList;
     }
 
-    public Model getItem(int index) {
-        return sampleItems.item(index);
-    }
+
+
+
 
     public Model getNext() {
         return sampleItems.next();
@@ -680,6 +603,88 @@ public class SampleRepository extends MainRepository {
 
     public int getSize() {
         return sampleItems.size();
+    }
+
+    /*
+         ---------- Arrays ----------
+    */
+
+    public ArrayList<Model> getAll() {
+        ArrayList<Model> arrayList = new ArrayList<>();
+        if (FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all") != null) {
+            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all");
+            try {
+                JSONArray data = jsonObject.getJSONArray("data");
+                if (data.length() == 0) {
+                    return null;
+                }
+                for (int i = 0; i < data.length(); i++) {
+                    Model model = new Model(data.getJSONObject(i));
+                    arrayList.add(model);
+                }
+                return arrayList;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public ArrayList<Model> getArchive() {
+        ArrayList<Model> arrayList = new ArrayList<>();
+        File file = new File(application.getApplicationContext().getCacheDir(), "Samples");
+        File[] list = file.listFiles();
+        if (list != null) {
+            for (int i = 0; i < list.length; i++) {
+                if (readSampleAnswerFromCache(list[i].getName()) != null) {
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("serial", list[i].getName());
+                        if (answeredSize(list[i].getName()) < readSampleAnswerFromCache(list[i].getName()).length()) {
+                            jsonObject.put("status", "ناقص");
+                        } else {
+                            jsonObject.put("status", "کامل");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        arrayList.add(new Model(jsonObject));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            if (arrayList.size() == 0) {
+                return null;
+            }
+            return arrayList;
+        } else {
+            return null;
+        }
+    }
+
+    /*
+         ---------- Insert ----------
+    */
+
+    public void insertToLocal(int index, int answer) {
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        arrayList.add(index);
+        arrayList.add(answer);
+        localData.add(arrayList);
+    }
+
+    public void insertRemoteToLocal() {
+        localData.addAll(remoteData);
+        remoteData.clear();
+    }
+
+    public void insertLocalToRemote() {
+        remoteData.addAll(localData);
+        localData.clear();
     }
 
     /*

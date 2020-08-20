@@ -70,7 +70,7 @@ public class ArchiveActivity extends AppCompatActivity implements ItemHelper.Rec
 
         adapter = new ArchiveAdapter(this);
         if (hasArchive()) {
-            adapter.setArchive(viewModel.getStorageFiles());
+            adapter.setArchive(viewModel.getArchive());
         }
 
         handler = new Handler();
@@ -88,7 +88,7 @@ public class ArchiveActivity extends AppCompatActivity implements ItemHelper.Rec
 
         countTextView = findViewById(R.id.activity_archive_count_textView);
         if (hasArchive()) {
-            countTextView.setText(viewModel.getStorageFiles().size() + " " + getResources().getString(R.string.ArchiveCount));
+            countTextView.setText(viewModel.getArchive().size() + " " + getResources().getString(R.string.ArchiveCount));
         }
 
         recyclerView = findViewById(R.id.activity_archive_recyclerView);
@@ -109,7 +109,7 @@ public class ArchiveActivity extends AppCompatActivity implements ItemHelper.Rec
     }
 
     private boolean hasArchive() {
-        return viewModel.getStorageFiles() != null;
+        return viewModel.getArchive() != null;
     }
 
     @Override
@@ -137,11 +137,11 @@ public class ArchiveActivity extends AppCompatActivity implements ItemHelper.Rec
             adapter.removeArchive(index);
 
             if (hasArchive()) {
-                countTextView.setText(viewModel.getStorageFiles().size() - 1 + " " + getResources().getString(R.string.ArchiveCount));
+                countTextView.setText(viewModel.getArchive().size() - 1 + " " + getResources().getString(R.string.ArchiveCount));
             }
 
             handler.postDelayed(() -> {
-                viewModel.deleteStorage(sharedPreferences.getString("sampleId", ""));
+                viewModel.delete(sharedPreferences.getString("sampleId", ""));
 
                 if (!hasArchive()) {
                     finish();
@@ -155,7 +155,7 @@ public class ArchiveActivity extends AppCompatActivity implements ItemHelper.Rec
                 handler.removeCallbacksAndMessages(null);
 
                 if (hasArchive()) {
-                    countTextView.setText(viewModel.getStorageFiles().size() + " " + getResources().getString(R.string.ArchiveCount));
+                    countTextView.setText(viewModel.getArchive().size() + " " + getResources().getString(R.string.ArchiveCount));
                 }
             });
 

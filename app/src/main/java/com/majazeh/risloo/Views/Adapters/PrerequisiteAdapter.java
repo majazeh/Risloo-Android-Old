@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -211,7 +210,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
             int i = index + 1;
             JSONObject jsonObject = viewModel.readPrerequisiteAnswerFromCache(fileName);
             jsonObject.put(String.valueOf(i), result);
-            viewModel.savePrerequisiteAnswerToCache(activity.getApplicationContext(), jsonObject, fileName);
+            viewModel.writePrerequisiteAnswerToCache(jsonObject, fileName);
             answer.put(String.valueOf(i), result);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -1,7 +1,6 @@
 package com.majazeh.risloo.ViewModels;
 
 import android.app.Application;
-import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -33,28 +32,160 @@ public class SampleViewModel extends AndroidViewModel {
         repository = new SampleRepository(application);
     }
 
-    public void getSample(String sampleId) throws JSONException {
-        repository.getSample(sampleId);
+    /*
+         ---------- Voids ----------
+    */
+
+    public void sample(String sampleId) throws JSONException {
+        repository.sample(sampleId);
     }
 
     public void samples() throws JSONException {
         repository.samples();
     }
 
+    public void close(String sampleId) throws JSONException {
+        repository.close(sampleId);
+    }
+
+    public void delete(String sampleId) {
+        repository.delete(sampleId);
+    }
+
     public void sendAnswers(String sampleId) throws JSONException {
         repository.sendAnswers(sampleId);
     }
 
-    public void closeSample() throws JSONException {
-        repository.closeSample();
+    public void sendPrerequisite(HashMap parameters) throws JSONException {
+        repository.sendPrerequisite(parameters);
     }
 
-    public void sendPrerequisite(HashMap hashMap) throws JSONException {
-        repository.sendPrerequisite(hashMap);
+    /*
+         ---------- Write ----------
+    */
+
+    public void writeSampleAnswerToExternal(JSONArray jsonArray, String fileName) {
+        repository.writeSampleAnswerToExternal(jsonArray, fileName);
     }
 
-     /*
-         ---------- Get ----------
+    public void writeSampleAnswerToCache(JSONArray jsonArray, String fileName) {
+        repository.writeSampleAnswerToCache(jsonArray, fileName);
+    }
+
+    public void writePrerequisiteAnswerToCache(JSONObject jsonObject, String fileName) {
+        repository.writePrerequisiteAnswerToCache(jsonObject, fileName);
+    }
+
+    /*
+         ---------- Read ----------
+    */
+
+    public JSONArray readSampleAnswerFromCache(String fileName) {
+        return repository.readSampleAnswerFromCache(fileName);
+    }
+
+    public JSONObject readPrerequisiteAnswerFromCache(String fileName) {
+        return repository.readPrerequisiteAnswerFromCache(fileName);
+    }
+
+    /*
+         ---------- Check ----------
+    */
+
+    public boolean hasSampleAnswerStorage(String fileName) {
+        return repository.hasAnswerStorage(fileName);
+    }
+
+    public boolean hasPrerequisiteAnswerStorage(String fileName) {
+        return repository.hasPrerequisiteStorage(fileName);
+    }
+
+    /*
+         ---------- Delete ----------
+    */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ///////////////////////////////////////////////////////////////////
+
+    public boolean showPrerequisite(String fileName){
+     return repository.showPrerequisite(fileName);
+    }
+
+    public void checkAnswerStorage(String fileName) {
+        repository.checkAnswerStorage(fileName);
+    }
+
+    ///////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+         ---------- Sample ----------
     */
 
     public String getDescription() {
@@ -68,6 +199,16 @@ public class SampleViewModel extends AndroidViewModel {
     public ArrayList getItems() {
         return repository.getItems();
     }
+
+    public JSONObject getAnswer(int index) {
+        return repository.getAnswer(index);
+    }
+
+    public ArrayList getOptions(int index) {
+        return repository.getOptions(index);
+    }
+
+
 
     public Model getItem(int index) {
         return repository.getItem(index);
@@ -97,93 +238,8 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.getSize();
     }
 
-    public ArrayList<String> getOptions(int index) {
-        return repository.getOptions(index);
-    }
-
-    public JSONObject getAnswer(int index) {
-        return repository.getAnswer(index);
-    }
-
-    public ArrayList<Model> getAll(){
-        return repository.getAll();
-    }
-
     /*
-         ---------- Insert ----------
-    */
-
-    public void insertToLocal(int index, int answer) {
-        repository.insertToLocal(index, answer);
-    }
-
-    /*
-         ---------- Save ----------
-    */
-
-    public void saveToExternal(JSONArray jsonArray, String fileName) {
-        repository.saveToExternal(jsonArray, fileName);
-    }
-
-    public void saveAnswerToCache(JSONArray jsonArray, String fileName) {
-        repository.saveAnswerToCache(jsonArray, fileName);
-    }
-
-    public void savePrerequisiteAnswerToCache(Context context, JSONObject jsonObject, String fileName) {
-    repository.writePrerequisiteAnswerToCache(jsonObject, fileName);
-    }
-
-//    public void savePrerequisiteToCache(Context context, JSONArray jsonArray, String fileName) {
-//        repository.savePrerequisiteToCache(context, jsonArray, fileName);
-//    }
-
-    /*
-         ---------- Read ----------
-    */
-
-    public JSONArray readAnswerFromCache(String fileName) {
-        return repository.readAnswerFromCache(fileName);
-    }
-
-    public JSONArray readPrerequisiteFromCache(String fileName) {
-        return repository.readPrerequisiteFromCache(fileName);
-    }
-
-    /*
-         ---------- Check ----------
-    */
-
-    public boolean hasAnswerStorage(String fileName) {
-        return repository.hasAnswerStorage(fileName);
-    }
-
-    public boolean havePrerequisiteStorage(String fileName) {
-        return repository.hasPrerequisiteStorage(fileName);
-    }
-
-    public boolean showPrerequisite(String fileName){
-     return repository.showPrerequisite(fileName);
-    }
-
-    public void checkAnswerStorage(String fileName) {
-        repository.checkAnswerStorage(fileName);
-    }
-
-
-    public void deleteStorage(String fileName) {
-        repository.deleteAnswerStorage(fileName);
-    }
-
-    /*
-         ---------- Check ----------
-    */
-
-    public ArrayList<Model> getStorageFiles() {
-        return repository.storageFiles();
-    }
-
-    /*
-         ---------- Answer ----------
+         ---------- Ints ----------
     */
 
     public int answeredPosition(String fileName, int index) {
@@ -194,12 +250,28 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.answeredSize(fileName);
     }
 
-    public int firstUnanswered(String fileName) {
-        return repository.firstUnanswered(fileName);
+    public int firstUnAnswered(String fileName) {
+        return repository.firstUnAnswered(fileName);
     }
 
-    public JSONObject readPrerequisiteAnswerFromCache(String fileName){
-        return repository.readPrerequisiteAnswerFromCache(fileName);
+    /*
+         ---------- Arrays ----------
+    */
+
+    public ArrayList<Model> getAll(){
+        return repository.getAll();
+    }
+
+    public ArrayList<Model> getArchive() {
+        return repository.getArchive();
+    }
+
+    /*
+         ---------- Insert ----------
+    */
+
+    public void insertToLocal(int index, int answer) {
+        repository.insertToLocal(index, answer);
     }
 
 }

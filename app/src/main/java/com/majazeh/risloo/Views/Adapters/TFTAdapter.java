@@ -130,20 +130,20 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
 
     private void doWork(int position) {
         try {
-            JSONArray jsonArray = viewModel.readAnswerFromCache(sharedPreferences.getString("sampleId", ""));
+            JSONArray jsonArray = viewModel.readSampleAnswerFromCache(sharedPreferences.getString("sampleId", ""));
             jsonArray.getJSONObject(viewModel.getIndex()).put("index", viewModel.getIndex());
             jsonArray.getJSONObject(viewModel.getIndex()).put("answer", position + 1);
-            viewModel.saveAnswerToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
+            viewModel.writeSampleAnswerToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
 
             if (viewModel.getNext() == null) {
-                if (viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")) == -1) {
+                if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) == -1) {
                     viewModel.insertToLocal(viewModel.getIndex() + 1, position + 1);
                     viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
                     activity.startActivity(new Intent(activity, OutroActivity.class));
                     activity.finish();
                     return;
                 }
-                viewModel.setIndex(viewModel.firstUnanswered(sharedPreferences.getString("sampleId", "")));
+                viewModel.setIndex(viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")));
             }
             try {
                 ((SampleActivity) Objects.requireNonNull(activity)).showFragment();
