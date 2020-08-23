@@ -24,13 +24,18 @@ public class AuthItems {
     public AuthItems(Application application, SharedPreferences sharedPreferences) throws JSONException {
         this.application = application;
         this.sharedPreferences = sharedPreferences;
+    }
+
+    private void refresh() throws JSONException {
+        items.clear();
 
         for (int i = 0; i < data().length(); i++) {
             items.add(new Model(data().getJSONObject(i)));
         }
     }
 
-    public ArrayList<Model> items(){
+    public ArrayList<Model> items() throws JSONException {
+        refresh();
         return items;
     }
 
@@ -118,7 +123,7 @@ public class AuthItems {
                 data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "اپراتور").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset_light)));
             } else if (sharedPreferences.getString("type", "").equals("admin")) {
                 data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "ادمین").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset_light)));
-            } else  {
+            } else {
                 data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "مراجع").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_pills_light)));
             }
         }

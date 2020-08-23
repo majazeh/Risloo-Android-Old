@@ -64,7 +64,7 @@ public class ExceptionManager {
                                     farsi_message = "خروج با موفقیت انجام شد";
                                     break;
                                 default:
-                                    farsi_message = "";
+                                    farsi_message = "auth";
                             }
                             break;
                         case "center":
@@ -108,7 +108,14 @@ public class ExceptionManager {
                             }
                             break;
                         default:
-                            farsi_message = "";
+                            farsi_message = "اطلاعات با موفقیت ارسال شد";
+                    }
+                    break;
+                default:
+                    try {
+                        farsi_message = errorBody.getString("message_text");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
             }
 //                    break;
@@ -163,7 +170,6 @@ public class ExceptionManager {
 //                default:
 //                    farsi_message = "خطای ارسال اطلاعات";
 //            }
-            farsi_message = message_text;
         } else {
             switch (exception) {
                 case "SocketTimeoutException":

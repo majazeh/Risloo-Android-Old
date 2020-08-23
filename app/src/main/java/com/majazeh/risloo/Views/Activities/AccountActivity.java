@@ -79,7 +79,11 @@ public class AccountActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
 
         adapter = new AccountAdapter(this);
-        adapter.setAccount(viewModel.getAll());
+        try {
+            adapter.setAccount(viewModel.getAll());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         handler = new Handler();
 
@@ -218,7 +222,11 @@ public class AccountActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
-                adapter.setAccount(viewModel.getAll());
+                try {
+                    adapter.setAccount(viewModel.getAll());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 if (viewModel.getAvatar().equals("")) {
                     avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle));
