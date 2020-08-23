@@ -36,80 +36,81 @@ public class ExceptionManager {
 //                e.printStackTrace();
 //            }
 //
-//            switch (errorCode) {
-//                case 200:
-//                    switch (module) {
-//                        case "auth":
-//                            switch (exception) {
-//                                case "auth":
-//                                case "authTheory":
-//                                    farsi_message = "درخواست ورود شما ارسال شد";
-//                                    break;
-//                                case "register":
-//                                    farsi_message = "درخواست ثبت نام شما ارسال شد";
-//                                    break;
-//                                case "verification":
-//                                    farsi_message = "کد پیامکی به شما ارسال شد";
-//                                    break;
-//                                case "recovery":
-//                                    farsi_message = "بازیابی رمز عبور انجام شد";
-//                                    break;
-//                                case "me":
-//                                    farsi_message = "دریافت اطلاعات با موفقیت انجام شد";
-//                                    break;
-//                                case "edit":
-//                                    farsi_message = "ویرایش حساب با موفقیت انجام شد";
-//                                    break;
-//                                case "logOut":
-//                                    farsi_message = "خروج با موفقیت انجام شد";
-//                                    break;
-//                                default:
-//                                    farsi_message = "";
-//                            }
-//                            break;
-//                        case "center":
-//                            switch (exception) {
-//                                case "all":
-//                                case "my":
-//                                    farsi_message = "دریافت اطلاعات با موفقیت انجام شد";
-//                                    break;
-//                                case "request":
-//                                    farsi_message = "درخواست پذیرش شما ارسال شد";
-//                                    break;
-//                                default:
-//                                    farsi_message = "";
-//                            }
-//                            break;
-//                        case "explode":
-//                            switch (exception) {
-//                                case "explode":
-//                                    farsi_message = "دریافت اطلاعات با موفقیت انجام شد";
-//                                    break;
-//                                default:
-//                                    farsi_message = "";
-//                            }
-//                            break;
-//                        case "sample":
-//                            switch (exception) {
-//                                case "get":
-//                                    farsi_message = "دریافت اطلاعات با موفقیت انجام شد";
-//                                    break;
-//                                case "close":
-//                                    farsi_message = "نمونه با موفقیت بسته شد";
-//                                    break;
-//                                case "send":
-//                                    farsi_message = "پاسخ ها با موفقیت ارسال شد";
-//                                    break;
-//                                case "prerequisite":
-//                                    farsi_message = "پیش نیاز ها با موفقیت تکمیل شد";
-//                                    break;
-//                                default:
-//                                    farsi_message = "";
-//                            }
-//                            break;
-//                        default:
-//                            farsi_message = "";
-//                    }
+            switch (errorCode) {
+                case 200:
+                    switch (module) {
+                        case "auth":
+                            switch (exception) {
+                                case "auth":
+                                case "authTheory":
+                                    farsi_message = "درخواست ورود شما ارسال شد";
+                                    break;
+                                case "register":
+                                    farsi_message = "درخواست ثبت نام شما ارسال شد";
+                                    break;
+                                case "verification":
+                                    farsi_message = "کد پیامکی به شما ارسال شد";
+                                    break;
+                                case "recovery":
+                                    farsi_message = "بازیابی رمز عبور انجام شد";
+                                    break;
+                                case "me":
+                                    farsi_message = "دریافت اطلاعات با موفقیت انجام شد";
+                                    break;
+                                case "edit":
+                                    farsi_message = "ویرایش حساب با موفقیت انجام شد";
+                                    break;
+                                case "logOut":
+                                    farsi_message = "خروج با موفقیت انجام شد";
+                                    break;
+                                default:
+                                    farsi_message = "";
+                            }
+                            break;
+                        case "center":
+                            switch (exception) {
+                                case "all":
+                                case "my":
+                                    farsi_message = "دریافت اطلاعات با موفقیت انجام شد";
+                                    break;
+                                case "request":
+                                    farsi_message = "درخواست پذیرش شما ارسال شد";
+                                    break;
+                                default:
+                                    farsi_message = "";
+                            }
+                            break;
+                        case "explode":
+                            switch (exception) {
+                                case "explode":
+                                    farsi_message = "دریافت اطلاعات با موفقیت انجام شد";
+                                    break;
+                                default:
+                                    farsi_message = "";
+                            }
+                            break;
+                        case "sample":
+                            switch (exception) {
+                                case "get":
+                                    farsi_message = "دریافت اطلاعات با موفقیت انجام شد";
+                                    break;
+                                case "close":
+                                    farsi_message = "نمونه با موفقیت بسته شد";
+                                    break;
+                                case "send":
+                                    farsi_message = "پاسخ ها با موفقیت ارسال شد";
+                                    break;
+                                case "prerequisite":
+                                    farsi_message = "پیش نیاز ها با موفقیت تکمیل شد";
+                                    break;
+                                default:
+                                    farsi_message = "";
+                            }
+                            break;
+                        default:
+                            farsi_message = "";
+                    }
+            }
 //                    break;
 //                case 400:
 //                    switch (module) {

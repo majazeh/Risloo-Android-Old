@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
+import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
@@ -52,6 +53,8 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
     // Vars
     private ArrayList<Model> centers;
     private HashMap<Integer, Boolean> expands;
+    private int position = -1;
+    private String check = "";
 
     // Objects
     private Activity activity;
@@ -319,7 +322,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
         holder.requestTextView.setOnClickListener(v -> {
             holder.requestTextView.setClickable(false);
             handler.postDelayed(() -> holder.requestTextView.setClickable(true), 500);
-
+            position = i;
             JSONObject item = centers.get(i).attributes;
 
             if (item.isNull("acceptation")) {
@@ -366,9 +369,10 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
         handler = new Handler();
     }
 
-    public void setCenter(ArrayList<Model> centers, HashMap<Integer, Boolean> expands) {
+    public void setCenter(ArrayList<Model> centers, HashMap<Integer, Boolean> expands, String check) {
         this.centers = centers;
         this.expands = expands;
+        this.check = check;
         notifyDataSetChanged();
     }
 
@@ -449,18 +453,49 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                 if (CenterRepository.work == "request") {
                     if (integer == 1) {
                         // Do Nothing
-
+                        Model item = centers.get(position);
+                        if (check.equals("all")) {
+                            JSONObject jsonObject = FileManager.readObjectFromCache(activity.getApplicationContext(), "centers", "all");
+                            try {
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                for (int i = 0; i < data.length(); i++) {
+                                    JSONObject response = data.getJSONObject(i);
+                                    if (item.get("id").equals(response.getString("id"))) {
+                                        item = new Model(response);
+                                        centers.remove(position);
+                                        centers.add(position, item);
+                                    }
+                                }
+                                notifyItemChanged(position);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            JSONObject jsonObject = FileManager.readObjectFromCache(activity.getApplicationContext(), "centers", "my");
+                            try {
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                JSONObject acceptation = data.getJSONObject(data.length()-1).getJSONObject("acceptation");
+                                if (acceptation.isNull("kicked_at")) {
+                                    if (!acceptation.isNull("accepted_at")) {
+                                        centers.add(new Model(data.getJSONObject(data.length()-1)));
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            notifyItemChanged(position);
+                        }
                         progressDialog.dismiss();
                         Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                        CenterRepository.workState.removeObserver((Observer<? super Integer>) this);
+                        CenterRepository.workState.removeObserver(this);
                     } else if (integer == 0) {
                         progressDialog.dismiss();
                         Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                        CenterRepository.workState.removeObserver((Observer<? super Integer>) this);
+                        CenterRepository.workState.removeObserver(this);
                     } else if (integer == -2) {
                         progressDialog.dismiss();
                         Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                        CenterRepository.workState.removeObserver((Observer<? super Integer>) this);
+                        CenterRepository.workState.removeObserver(this);
                     }
                 }
             }

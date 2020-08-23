@@ -64,7 +64,7 @@ public class MyCenterFragment extends Fragment {
         }
 
         adapter = new CenterAdapter(activity);
-        adapter.setCenter(viewModel.getMy(), expands);
+        adapter.setCenter(viewModel.getMy(), expands,"my");
 
         recyclerView = view.findViewById(R.id.fragment_my_center_recyclerView);
         recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout", (int) getResources().getDimension(R.dimen._18sdp)));
