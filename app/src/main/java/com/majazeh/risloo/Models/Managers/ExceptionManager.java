@@ -65,6 +65,7 @@ public class ExceptionManager {
                                     break;
                                 default:
                                     farsi_message = "auth";
+                                    break;
                             }
                             break;
                         case "center":
@@ -78,6 +79,7 @@ public class ExceptionManager {
                                     break;
                                 default:
                                     farsi_message = "";
+                                    break;
                             }
                             break;
                         case "explode":
@@ -87,6 +89,7 @@ public class ExceptionManager {
                                     break;
                                 default:
                                     farsi_message = "";
+                                    break;
                             }
                             break;
                         case "sample":
@@ -105,10 +108,12 @@ public class ExceptionManager {
                                     break;
                                 default:
                                     farsi_message = "";
+                                    break;
                             }
                             break;
                         default:
                             farsi_message = "اطلاعات با موفقیت ارسال شد";
+                            break;
                     }
                     break;
                 default:
