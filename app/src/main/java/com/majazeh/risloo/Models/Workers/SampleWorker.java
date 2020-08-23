@@ -68,9 +68,6 @@ public class SampleWorker extends Worker {
                 case "close":
                     close();
                     break;
-
-
-
                 case "sendAnswers":
                     sendAnswers();
                     break;
@@ -92,22 +89,22 @@ public class SampleWorker extends Worker {
 
     private void getSingle() {
         try {
-            Call<ResponseBody> call = sampleApi.getSingle(token(), sharedPreferences.getString("sampleId", ""));
+            Call<ResponseBody> call = sampleApi.getSingle(token(), SampleRepository.sampleId);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONObject data = successBody.getJSONObject("data");
 
-                FileManager.writeSampleAnswerToCache(context, successBody, sharedPreferences.getString("sampleId", ""));
-                FileManager.writePrerequisiteAnswerToCache(context,data.getJSONArray("prerequisite"),sharedPreferences.getString("sampleId",""));
+                FileManager.writeSampleAnswerToCache(context, successBody, SampleRepository.sampleId);
+                FileManager.writePrerequisiteAnswerToCache(context, data.getJSONArray("prerequisite"), SampleRepository.sampleId);
 
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "get", "sample");
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "single", "sample");
                 SampleRepository.workStateSample.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "get", "sample");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "single", "sample");
                 SampleRepository.workStateSample.postValue(0);
             }
 
@@ -201,13 +198,6 @@ public class SampleWorker extends Worker {
         }
     }
 
-
-
-
-
-
-
-
     private void sendAnswers() {
         try {
             SampleRepository.cache = false;
@@ -215,7 +205,7 @@ public class SampleWorker extends Worker {
             HashMap hashMap = new HashMap();
             hashMap.put("items", SampleRepository.remoteData);
 
-            Call<ResponseBody> call = sampleApi.send("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""), hashMap);
+            Call<ResponseBody> call = sampleApi.send(token(), SampleRepository.sampleId, hashMap);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -223,14 +213,14 @@ public class SampleWorker extends Worker {
 
                 SampleRepository.remoteData.clear();
 
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "send", "sample");
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "answers", "sample");
                 SampleRepository.workStateAnswer.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
                 repository.insertRemoteToLocal();
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "send", "sample");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "answers", "sample");
                 SampleRepository.workStateAnswer.postValue(0);
             }
 
@@ -255,9 +245,9 @@ public class SampleWorker extends Worker {
     private void sendPrerequisite() {
         try {
             HashMap hashMap = new HashMap();
-            hashMap.put("prerequisite",SampleRepository.prerequisiteData);
+            hashMap.put("prerequisite", SampleRepository.prerequisiteData);
 
-            Call<ResponseBody> call = sampleApi.send("Bearer " + sharedPreferences.getString("token", ""), sharedPreferences.getString("sampleId", ""), hashMap);
+            Call<ResponseBody> call = sampleApi.send(token(), SampleRepository.sampleId, hashMap);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {

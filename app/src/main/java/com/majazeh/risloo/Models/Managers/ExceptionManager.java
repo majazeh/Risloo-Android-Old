@@ -35,7 +35,7 @@ public class ExceptionManager {
 //            } catch (JSONException e) {
 //                e.printStackTrace();
 //            }
-//
+
             switch (errorCode) {
                 case 200:
                     switch (module) {
@@ -64,7 +64,7 @@ public class ExceptionManager {
                                     farsi_message = "خروج با موفقیت انجام شد";
                                     break;
                                 default:
-                                    farsi_message = "auth";
+                                    farsi_message = "";
                                     break;
                             }
                             break;
@@ -94,13 +94,14 @@ public class ExceptionManager {
                             break;
                         case "sample":
                             switch (exception) {
-                                case "get":
+                                case "single":
+                                case "all":
                                     farsi_message = "دریافت اطلاعات با موفقیت انجام شد";
                                     break;
                                 case "close":
                                     farsi_message = "نمونه با موفقیت بسته شد";
                                     break;
-                                case "send":
+                                case "answers":
                                     farsi_message = "پاسخ ها با موفقیت ارسال شد";
                                     break;
                                 case "prerequisite":

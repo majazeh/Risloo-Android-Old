@@ -56,8 +56,8 @@ public class SampleViewModel extends AndroidViewModel {
         repository.sendAnswers(sampleId);
     }
 
-    public void sendPrerequisite(HashMap parameters) throws JSONException {
-        repository.sendPrerequisite(parameters);
+    public void sendPrerequisite(String sampleId, HashMap prerequisites) throws JSONException {
+        repository.sendPrerequisite(sampleId, prerequisites);
     }
 
     /*

@@ -71,7 +71,7 @@ public class PrerequisiteFragment extends Fragment {
 
     public void doWork() {
         try {
-            viewModel.sendPrerequisite(adapter.answer);
+            viewModel.sendPrerequisite(sharedPreferences.getString("sampleId", ""), adapter.answer);
         } catch (JSONException e) {
             e.printStackTrace();
         }
