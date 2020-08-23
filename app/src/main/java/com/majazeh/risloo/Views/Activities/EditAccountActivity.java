@@ -27,7 +27,6 @@ import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,11 +36,14 @@ import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.BitmapController;
+import com.majazeh.risloo.Utils.CustomPicker;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.UnitConverter;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Dialogs.ImageDialog;
+
+import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -77,7 +79,7 @@ public class EditAccountActivity extends AppCompatActivity {
     private TextView birthdayTextView;
     private Button editButton;
     private Dialog dateDialog, progressDialog;
-    private DatePicker dateDialogDatePicker;
+    private CustomPicker yearNumberPicker, monthNumberPicker, dayNumberPicker;
     private TextView dateDialogPositive, dateDialogNegative;
 
     @Override
@@ -93,6 +95,8 @@ public class EditAccountActivity extends AppCompatActivity {
         detector();
 
         listener();
+
+        setCustomPicker();
     }
 
     private void decorator() {
@@ -135,7 +139,7 @@ public class EditAccountActivity extends AppCompatActivity {
         birthdayTextView.setText(birthday);
 
         Year = Integer.parseInt(UnitConverter.dateToString("yyyy", UnitConverter.stringToDate("yyyy-MM-dd", birthday)));
-        Month = Integer.parseInt(UnitConverter.dateToString("MM", UnitConverter.stringToDate("yyyy-MM-dd", birthday))) - 1;
+        Month = Integer.parseInt(UnitConverter.dateToString("MM", UnitConverter.stringToDate("yyyy-MM-dd", birthday)));
         Day = Integer.parseInt(UnitConverter.dateToString("dd", UnitConverter.stringToDate("yyyy-MM-dd", birthday)));
 
         editButton = findViewById(R.id.activity_edit_account_edit_button);
@@ -157,8 +161,9 @@ public class EditAccountActivity extends AppCompatActivity {
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dateDialog.getWindow().setAttributes(layoutParams);
 
-        dateDialogDatePicker = dateDialog.findViewById(R.id.dialog_date_datePicker);
-        dateDialogDatePicker.init(Year, Month, Day, null);
+        yearNumberPicker = dateDialog.findViewById(R.id.dialog_date_year_NumberPicker);
+        monthNumberPicker = dateDialog.findViewById(R.id.dialog_date_month_NumberPicker);
+        dayNumberPicker = dateDialog.findViewById(R.id.dialog_date_day_NumberPicker);
 
         dateDialogPositive = dateDialog.findViewById(R.id.dialog_date_positive_textView);
         dateDialogNegative = dateDialog.findViewById(R.id.dialog_date_negative_textView);
@@ -214,6 +219,16 @@ public class EditAccountActivity extends AppCompatActivity {
             }
         });
 
+        monthNumberPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
+            if (picker == monthNumberPicker) {
+                if (newVal <= 6) {
+                    dayNumberPicker.setMaxValue(31);
+                } else {
+                    dayNumberPicker.setMaxValue(30);
+                }
+            }
+        });
+
         birthdayTextView.setOnTouchListener((v, event) -> {
             dateDialog.show();
             return false;
@@ -227,13 +242,13 @@ public class EditAccountActivity extends AppCompatActivity {
             } else {
                 clearData();
 
-//                try {
-//                    progressDialog.show();
-//                    viewModel.edit(name, gender, birthday);
-//                    observeWork();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    progressDialog.show();
+                    viewModel.edit(name, gender, birthday);
+                    observeWork();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -242,11 +257,13 @@ public class EditAccountActivity extends AppCompatActivity {
             handler.postDelayed(() -> dateDialogPositive.setClickable(true), 500);
             dateDialog.dismiss();
 
-            Year = dateDialogDatePicker.getYear();
-            Month = dateDialogDatePicker.getMonth() + 1;
-            Day = dateDialogDatePicker.getDayOfMonth();
+            Year = yearNumberPicker.getValue();
+            Month = monthNumberPicker.getValue();
+            Day = dayNumberPicker.getValue();
 
-            dateDialogDatePicker.updateDate(Year, Month - 1, Day);
+            yearNumberPicker.setValue(Year);
+            monthNumberPicker.setValue(Month);
+            dayNumberPicker.setValue(Day);
 
             if (Month < 10) {
                 if (Day < 10)
@@ -267,14 +284,33 @@ public class EditAccountActivity extends AppCompatActivity {
             handler.postDelayed(() -> dateDialogNegative.setClickable(true), 500);
             dateDialog.dismiss();
 
-            dateDialogDatePicker.updateDate(Year, Month, Day);
+            yearNumberPicker.setValue(Year);
+            monthNumberPicker.setValue(Month);
+            dayNumberPicker.setValue(Day);
         });
 
         dateDialog.setOnCancelListener(dialog -> {
             dateDialog.dismiss();
 
-            dateDialogDatePicker.updateDate(Year, Month, Day);
+            yearNumberPicker.setValue(Year);
+            monthNumberPicker.setValue(Month);
+            dayNumberPicker.setValue(Day);
         });
+    }
+
+    private void setCustomPicker() {
+        yearNumberPicker.setMinValue(1300);
+        yearNumberPicker.setMaxValue(2100);
+        yearNumberPicker.setValue(Year);
+
+        monthNumberPicker.setMinValue(1);
+        monthNumberPicker.setMaxValue(12);
+        monthNumberPicker.setValue(Month);
+        monthNumberPicker.setDisplayedValues(new String[] { "فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند" });
+
+        dayNumberPicker.setMinValue(1);
+        dayNumberPicker.setMaxValue(31);
+        dayNumberPicker.setValue(Day);
     }
 
     private void checkInput() {

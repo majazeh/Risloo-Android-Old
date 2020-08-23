@@ -118,7 +118,7 @@ public class AuthItems {
                 data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "اپراتور").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset_light)));
             } else if (sharedPreferences.getString("type", "").equals("admin")) {
                 data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "ادمین").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset_light)));
-            } else if (sharedPreferences.getString("type", "").equals("client")) {
+            } else  {
                 data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "مراجع").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_pills_light)));
             }
         }

@@ -61,6 +61,15 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
     /*
+         ---------- Insert ----------
+    */
+
+    public void insertToLocal(int index, int answer) {
+        repository.insertToLocal(index, answer);
+    }
+
+
+    /*
          ---------- Write ----------
     */
 
@@ -93,96 +102,20 @@ public class SampleViewModel extends AndroidViewModel {
     */
 
     public boolean hasSampleAnswerStorage(String fileName) {
-        return repository.hasAnswerStorage(fileName);
+        return repository.hasSampleAnswerStorage(fileName);
+    }
+
+    public boolean checkSampleAnswerStorage(String fileName) {
+        return repository.checkSampleAnswerStorage(fileName);
     }
 
     public boolean hasPrerequisiteAnswerStorage(String fileName) {
-        return repository.hasPrerequisiteStorage(fileName);
+        return repository.hasPrerequisiteAnswerStorage(fileName);
     }
 
-    /*
-         ---------- Delete ----------
-    */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ///////////////////////////////////////////////////////////////////
-
-    public boolean showPrerequisite(String fileName){
-     return repository.showPrerequisite(fileName);
+    public boolean checkPrerequisiteAnswerStorage(String fileName){
+        return repository.checkPrerequisiteAnswerStorage(fileName);
     }
-
-    public void checkAnswerStorage(String fileName) {
-        repository.checkAnswerStorage(fileName);
-    }
-
-    ///////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     /*
          ---------- Sample ----------
@@ -200,6 +133,10 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.getItems();
     }
 
+    public Model getItem(int index) {
+        return repository.getItem(index);
+    }
+
     public JSONObject getAnswer(int index) {
         return repository.getAnswer(index);
     }
@@ -208,10 +145,8 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.getOptions(index);
     }
 
-
-
-    public Model getItem(int index) {
-        return repository.getItem(index);
+    public String getType(int index) {
+        return repository.getType(index);
     }
 
     public Model getNext() {
@@ -264,14 +199,6 @@ public class SampleViewModel extends AndroidViewModel {
 
     public ArrayList<Model> getArchive() {
         return repository.getArchive();
-    }
-
-    /*
-         ---------- Insert ----------
-    */
-
-    public void insertToLocal(int index, int answer) {
-        repository.insertToLocal(index, answer);
     }
 
 }

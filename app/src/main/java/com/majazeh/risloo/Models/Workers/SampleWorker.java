@@ -99,8 +99,8 @@ public class SampleWorker extends Worker {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONObject data = successBody.getJSONObject("data");
 
-                repository.saveSampleToCache(context, successBody, sharedPreferences.getString("sampleId", ""));
-                repository.savePrerequisiteToCache(context,data.getJSONArray("prerequisite"),sharedPreferences.getString("sampleId",""));
+                FileManager.writeSampleAnswerToCache(context, successBody, sharedPreferences.getString("sampleId", ""));
+                FileManager.writePrerequisiteAnswerToCache(context,data.getJSONArray("prerequisite"),sharedPreferences.getString("sampleId",""));
 
                 ExceptionManager.getException(bodyResponse.code(), successBody, true, "get", "sample");
                 SampleRepository.workStateSample.postValue(1);

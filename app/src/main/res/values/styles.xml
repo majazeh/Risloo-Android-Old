@@ -10,7 +10,6 @@
         <item name="colorAccent">@color/Accent</item>
 
         <item name="android:fontFamily">@font/dana</item>
-        <item name="android:screenOrientation">portrait</item>
         <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
     </style>
@@ -77,16 +76,11 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // datePicker theme
+    // numberPicker theme
     ////////////////////////////////////////////////////////////////////////////////
 
-    <style name="DatePickerTheme" parent="Theme.AppCompat.Light.Dialog">
+    <style name="NumberPickerTheme" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">@color/Quartz</item>
-
-        <item name="android:dateTextAppearance">@font/dana</item>
-        <item name="android:textSize">@dimen/_12ssp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColorPrimary">@color/Grey</item>
     </style>
 
     ////////////////////////////////////////////////////////////////////////////////

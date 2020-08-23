@@ -8,9 +8,8 @@
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
     android:background="@color/White"
-    android:descendantFocusability="blocksDescendants"
     tools:context=".Views.Activities.CreateSampleActivity"
-    tools:ignore="UnusedAttribute">
+    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,41 +45,97 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <Spinner
-                    android:id="@+id/activity_create_sample_scale_spinner"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_36sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:singleLine="true"
-                    android:spinnerMode="dropdown"
-                    android:background="@drawable/draw_18sdp_quartz_border"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp">
 
-                <Spinner
-                    android:id="@+id/activity_create_sample_room_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_36sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:singleLine="true"
-                    android:spinnerMode="dropdown"
-                    android:background="@drawable/draw_18sdp_quartz_border"/>
+                    <Spinner
+                        android:id="@+id/activity_create_sample_scale_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:singleLine="true"
+                        android:spinnerMode="dropdown"
+                        android:background="@drawable/draw_18sdp_quartz_border"/>
 
-                <Spinner
-                    android:id="@+id/activity_create_sample_case_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_36sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:singleLine="true"
-                    android:spinnerMode="dropdown"
-                    android:background="@drawable/draw_18sdp_quartz_border"/>
+                    <ImageView
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_marginLeft="@dimen/_12sdp"
+                        android:layout_gravity="center|left"
+                        android:src="@drawable/ic_chevron_down"
+                        app:tint="@color/Mischka" />
 
-                <Spinner
-                    android:id="@+id/activity_create_sample_reference_spinner"
+                </FrameLayout>
+
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_36sdp"
-                    android:layout_marginBottom="@dimen/_24sdp"
-                    android:singleLine="true"
-                    android:spinnerMode="dropdown"
-                    android:background="@drawable/draw_18sdp_quartz_border"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp">
+
+                    <Spinner
+                        android:id="@+id/activity_create_sample_room_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:singleLine="true"
+                        android:spinnerMode="dropdown"
+                        android:background="@drawable/draw_18sdp_quartz_border"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_marginLeft="@dimen/_12sdp"
+                        android:layout_gravity="center|left"
+                        android:src="@drawable/ic_chevron_down"
+                        app:tint="@color/Mischka" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp">
+
+                    <Spinner
+                        android:id="@+id/activity_create_sample_case_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:singleLine="true"
+                        android:spinnerMode="dropdown"
+                        android:background="@drawable/draw_18sdp_quartz_border"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_marginLeft="@dimen/_12sdp"
+                        android:layout_gravity="center|left"
+                        android:src="@drawable/ic_chevron_down"
+                        app:tint="@color/Mischka" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_24sdp">
+
+                    <Spinner
+                        android:id="@+id/activity_create_sample_reference_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:singleLine="true"
+                        android:spinnerMode="dropdown"
+                        android:background="@drawable/draw_18sdp_quartz_border"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_marginLeft="@dimen/_12sdp"
+                        android:layout_gravity="center|left"
+                        android:src="@drawable/ic_chevron_down"
+                        app:tint="@color/Mischka" />
+
+                </FrameLayout>
 
                 <Button
                     android:id="@+id/activity_create_sample_button"

@@ -34,8 +34,7 @@
             android:gravity="right"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
-            android:textAlignment="gravity"
-            tools:ignore="RtlHardcoded,RtlSymmetry" />
+            android:textAlignment="gravity" />
 
     </LinearLayout>
 

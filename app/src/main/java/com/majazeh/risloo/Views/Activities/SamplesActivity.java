@@ -146,8 +146,8 @@ public class SamplesActivity extends AppCompatActivity {
                     retryLayout.setVisibility(View.GONE);
                     mainLayout.setVisibility(View.VISIBLE);
 
-                    adapter.setSamples(viewModel.getAll());
-                    recyclerView.setAdapter(adapter);
+//                    adapter.setSamples(viewModel.getAll());
+//                    recyclerView.setAdapter(adapter);
 
                     SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                 } else {
@@ -181,8 +181,8 @@ public class SamplesActivity extends AppCompatActivity {
                             retryLayout.setVisibility(View.GONE);
                             mainLayout.setVisibility(View.VISIBLE);
 
-                            adapter.setSamples(viewModel.getAll());
-                            recyclerView.setAdapter(adapter);
+//                            adapter.setSamples(viewModel.getAll());
+//                            recyclerView.setAdapter(adapter);
 
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         }

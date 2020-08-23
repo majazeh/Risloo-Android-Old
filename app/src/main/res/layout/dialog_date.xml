@@ -31,16 +31,38 @@
             android:textColor="@color/Nero"
             android:textAlignment="gravity" />
 
-        <DatePicker
-            android:id="@+id/dialog_date_datePicker"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/_12sdp"
-            android:layoutDirection="rtl"
-            android:datePickerMode="spinner"
-            android:spinnersShown="true"
-            android:calendarViewShown="false"
-            android:theme="@style/DatePickerTheme"/>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:orientation="horizontal"
+            android:layoutDirection="ltr">
+
+            <com.majazeh.risloo.Utils.CustomPicker
+                android:id="@+id/dialog_date_year_NumberPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:selectionDividerHeight="@dimen/_1sdp"
+                android:theme="@style/NumberPickerTheme"/>
+
+            <com.majazeh.risloo.Utils.CustomPicker
+                android:id="@+id/dialog_date_month_NumberPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:selectionDividerHeight="@dimen/_1sdp"
+                android:theme="@style/NumberPickerTheme"/>
+
+            <com.majazeh.risloo.Utils.CustomPicker
+                android:id="@+id/dialog_date_day_NumberPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:selectionDividerHeight="@dimen/_1sdp"
+                android:theme="@style/NumberPickerTheme"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

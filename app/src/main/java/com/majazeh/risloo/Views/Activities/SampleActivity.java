@@ -259,7 +259,7 @@ public class SampleActivity extends AppCompatActivity {
                 showProgress();
                 setProgress();
 
-                switch ((String) viewModel.getAnswer(viewModel.getIndex()).get("type")) {
+                switch (viewModel.getType(viewModel.getIndex())) {
                     case "TP":
                         loadFragment(new TPFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
                         break;
@@ -381,7 +381,7 @@ public class SampleActivity extends AppCompatActivity {
 
                 if (isNetworkConnected()) {
                     if (integer == 1) {
-                        if (viewModel.showPrerequisite(sharedPreferences.getString("sampleId", ""))) {
+                        if (viewModel.checkPrerequisiteAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
                             SampleRepository.theory = "description";
                             try {
                                 showFragment();
@@ -396,7 +396,7 @@ public class SampleActivity extends AppCompatActivity {
                                     SampleRepository.workStateSample.removeObservers(this);
                                 }
                             }
-                            viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
+                            viewModel.checkSampleAnswerStorage(sharedPreferences.getString("sampleId", ""));
                             setRecyclerView();
                             if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) == -1) {
                                 if (viewModel.answeredSize(sharedPreferences.getString("sampleId", "")) == viewModel.getSize()) {
@@ -434,7 +434,7 @@ public class SampleActivity extends AppCompatActivity {
                             Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         } else {
-                            viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
+                            viewModel.checkSampleAnswerStorage(sharedPreferences.getString("sampleId", ""));
                             viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", ""));
                             if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) == -1) {
                                 startActivity(new Intent(this, OutroActivity.class));
@@ -455,7 +455,7 @@ public class SampleActivity extends AppCompatActivity {
                     } else if (integer == -2) {
                         setRecyclerView();
                         if (viewModel.hasPrerequisiteAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
-                            if (viewModel.showPrerequisite(sharedPreferences.getString("sampleId", ""))) {
+                            if (viewModel.checkPrerequisiteAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
                                 loadFragment(new DescriptionFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
                             } else {
                                 SampleRepository.theory = "sample";
@@ -475,7 +475,7 @@ public class SampleActivity extends AppCompatActivity {
                 } else {
 
                     if (viewModel.getItems() != null) {
-                        viewModel.checkAnswerStorage(sharedPreferences.getString("sampleId", ""));
+                        viewModel.checkSampleAnswerStorage(sharedPreferences.getString("sampleId", ""));
                         viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", ""));
                         if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) == -1) {
                             startActivity(new Intent(this, OutroActivity.class));

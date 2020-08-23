@@ -51,10 +51,10 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
     private CenterViewModel viewModel;
 
     // Vars
+    private String check = "";
     private ArrayList<Model> centers;
     private HashMap<Integer, Boolean> expands;
     private int position = -1;
-    private String check = "";
 
     // Objects
     private Activity activity;
@@ -273,6 +273,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
             } else {
                 JSONObject acceptation = (JSONObject) centers.get(i).get("acceptation");
+
                 if (acceptation.getString("position").equals("manager")) {
                     holder.requestTextView.setTextColor(activity.getResources().getColor(R.color.White));
                     holder.requestTextView.setBackgroundResource(R.drawable.draw_8sdp_primary);
@@ -322,7 +323,9 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
         holder.requestTextView.setOnClickListener(v -> {
             holder.requestTextView.setClickable(false);
             handler.postDelayed(() -> holder.requestTextView.setClickable(true), 500);
+
             position = i;
+
             JSONObject item = centers.get(i).attributes;
 
             if (item.isNull("acceptation")) {
@@ -452,8 +455,8 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
             public void onChanged(Integer integer) {
                 if (CenterRepository.work == "request") {
                     if (integer == 1) {
-                        // Do Nothing
                         Model item = centers.get(position);
+
                         if (check.equals("all")) {
                             JSONObject jsonObject = FileManager.readObjectFromCache(activity.getApplicationContext(), "centers", "all");
                             try {
@@ -470,6 +473,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+
                         } else {
                             JSONObject jsonObject = FileManager.readObjectFromCache(activity.getApplicationContext(), "centers", "my");
                             try {
@@ -480,11 +484,12 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                                         centers.add(new Model(data.getJSONObject(data.length()-1)));
                                     }
                                 }
+                                notifyItemChanged(position);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            notifyItemChanged(position);
                         }
+
                         progressDialog.dismiss();
                         Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                         CenterRepository.workState.removeObserver(this);

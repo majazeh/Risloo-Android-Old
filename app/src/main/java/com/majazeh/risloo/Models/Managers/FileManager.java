@@ -1,6 +1,7 @@
 package com.majazeh.risloo.Models.Managers;
 
 import android.content.Context;
+import android.os.Environment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,8 +61,77 @@ public class FileManager {
         return false;
     }
 
-    public static boolean hasCache(Context context, String fileName, String fileSubName) {
-        return new File(context.getCacheDir(), fileName + "/" + fileSubName).exists();
+    public static boolean writeSampleAnswerToCache(Context context, JSONObject jsonObject, String fileName) {
+        try {
+            File file = new File(context.getCacheDir(), "Samples/" + fileName);
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            JSONArray jsonArray = new JSONArray();
+            JSONObject data = jsonObject.getJSONObject("data");
+            JSONArray items = data.getJSONArray("items");
+            for (int i = 0; i < items.length(); i++) {
+                JSONArray jsonArray1 = new JSONArray();
+                jsonArray1.put(i);
+                if (items.getJSONObject(i).has("user_answered")) {
+                    jsonArray1.put(items.getJSONObject(i).getString("user_answered"));
+                } else {
+                    jsonArray.put("");
+                }
+            }
+
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(jsonObject.toString());
+            oos.close();
+            return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean writePrerequisiteAnswerToCache(Context context, JSONArray jsonArray, String fileName) {
+        try {
+            File file = new File(context.getCacheDir(), "Prerequisite/" + fileName);
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            JSONObject jsonObject = new JSONObject();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                if (jsonArray.getJSONObject(i).has("user_answered")) {
+                    jsonObject.put(String.valueOf(i + 1), jsonArray.getJSONObject(i).getString("user_answered"));
+                } else {
+                    jsonObject.put(String.valueOf(i + 1), "");
+                }
+            }
+            writeObjectToCache(context, jsonObject, "prerequisiteAnswers", fileName);
+
+            FileOutputStream fos = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(jsonArray.toString());
+            oos.close();
+            return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public static JSONObject readObjectFromCache(Context context, String fileName, String fileSubName) {
@@ -116,7 +186,37 @@ public class FileManager {
         return jsonArray;
     }
 
-    public static void writeToCSV(Context context, JSONArray jsonArray, String fileName) {
+    public static boolean hasCache(Context context, String fileName, String fileSubName) {
+        return new File(context.getCacheDir(), fileName + "/" + fileSubName).exists();
+    }
+
+    public static void deleteCache(Context context, String fileName, String fileSubName) {
+        new File(context.getCacheDir(), fileName + "/" + fileSubName).delete();
+    }
+
+    public static boolean writeToExternal(Context context, JSONArray jsonArray, String fileName) {
+        try {
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName + ".csv");
+            FileOutputStream fos = new FileOutputStream(file);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                fos.write(jsonArray.getJSONObject(i).getString("index").getBytes("UTF-8"));
+                fos.write(",".getBytes("UTF-8"));
+                fos.write(jsonArray.getJSONObject(i).getString("answer").getBytes("UTF-8"));
+                fos.write("\n".getBytes("UTF-8"));
+            }
+            fos.close();
+            return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean writeToCSV(Context context, JSONArray jsonArray, String fileName) {
         try {
             FileOutputStream fos = context.openFileOutput(fileName + ".csv", Context.MODE_PRIVATE);
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -126,6 +226,7 @@ public class FileManager {
                 fos.write("\n".getBytes("UTF-8"));
             }
             fos.close();
+            return true;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -133,6 +234,7 @@ public class FileManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public static File readFromCSV(Context context, String fileName) {

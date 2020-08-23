@@ -60,7 +60,7 @@ public class AllCenterFragment extends Fragment {
         }
 
         adapter = new CenterAdapter(activity);
-        adapter.setCenter(viewModel.getAll(), expands,"all");
+        adapter.setCenter(viewModel.getAll(), expands, "all");
 
         recyclerView = view.findViewById(R.id.fragment_all_center_recyclerView);
         recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout",(int) getResources().getDimension(R.dimen._18sdp)));
