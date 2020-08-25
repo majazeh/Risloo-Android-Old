@@ -45,7 +45,7 @@ public class ExceptionManager {
                                     farsi_message = "خروج با موفقیت انجام شد";
                                     break;
                                 default:
-                                    farsi_message = "اطلاعات دریافتی با موفقیت ثبت شد";
+                                    farsi_message = ".";
                                     break;
                             }
                             break;
@@ -59,7 +59,7 @@ public class ExceptionManager {
                                     farsi_message = "درخواست پذیرش شما ارسال شد";
                                     break;
                                 default:
-                                    farsi_message = "اطلاعات دریافتی با موفقیت ثبت شد";
+                                    farsi_message = ".";
                                     break;
                             }
                             break;
@@ -69,7 +69,7 @@ public class ExceptionManager {
                                     farsi_message = "دریافت اطلاعات با موفقیت انجام شد";
                                     break;
                                 default:
-                                    farsi_message = "اطلاعات دریافتی با موفقیت ثبت شد";
+                                    farsi_message = ".";
                                     break;
                             }
                             break;
@@ -89,12 +89,12 @@ public class ExceptionManager {
                                     farsi_message = "پیش نیاز ها با موفقیت تکمیل شد";
                                     break;
                                 default:
-                                    farsi_message = "اطلاعات دریافتی با موفقیت ثبت شد";
+                                    farsi_message = ".";
                                     break;
                             }
                             break;
                         default:
-                            farsi_message = "اطلاعات دریافتی با موفقیت ثبت شد";
+                            farsi_message = ".";
                             break;
                     }
                     break;

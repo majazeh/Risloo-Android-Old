@@ -80,7 +80,8 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
     @Override
     public void onBindViewHolder(@NonNull CenterHolder holder, int i) {
-           Model model = centers.get(i);
+        Model model = centers.get(i);
+
         try {
             int createdAt = (int) model.get("created_at");
 

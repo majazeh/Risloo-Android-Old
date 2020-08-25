@@ -29,13 +29,12 @@ public class AuthWorker extends Worker {
     private AuthApi authApi;
 
     // Objects
+    private Context context;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private Context context;
 
     public AuthWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
-
         this.context = context;
 
         authApi = RetroGenerator.getRetrofit().create(AuthApi.class);
@@ -408,10 +407,8 @@ public class AuthWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONObject data = successBody.getJSONObject("data");
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("data", data.getJSONArray("centers"));
-                FileManager.writeObjectToCache(context, jsonObject, "centers", "my");
 
+                FileManager.writeObjectToCache(context, new JSONObject().put("data", data.getJSONArray("centers")), "centers", "my");
 
                 editor.putString("name", data.getString("name"));
                 editor.putString("type", data.getString("type"));

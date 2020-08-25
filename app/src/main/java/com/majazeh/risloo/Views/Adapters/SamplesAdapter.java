@@ -66,6 +66,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
 
     @Override
     public void onBindViewHolder(@NonNull SamplesHolder holder, int i) {
+        Model model = samples.get(i);
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             holder.itemView.setBackgroundResource(R.drawable.draw_24sdp_white_ripple);
@@ -74,8 +75,6 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
         }
 
         try {
-            Model model = samples.get(i);
-
             holder.serialTextView.setText(model.get("id").toString());
 
             JSONObject scale = (JSONObject) model.get("scale");
