@@ -80,9 +80,9 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
     @Override
     public void onBindViewHolder(@NonNull CenterHolder holder, int i) {
-
+           Model model = centers.get(i);
         try {
-            int createdAt = (int) centers.get(i).get("created_at");
+            int createdAt = (int) model.get("created_at");
 
             switch (createdAt % 16) {
                 case 0:
@@ -199,7 +199,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                     break;
             }
 
-            JSONObject manager = (JSONObject) centers.get(i).get("manager");
+            JSONObject manager = (JSONObject) model.get("manager");
 
             if (!manager.isNull("name")) {
                 holder.principalTextView.setText(manager.getString("name"));
@@ -207,7 +207,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                 holder.principalLinearLayout.setVisibility(View.GONE);
             }
 
-            JSONObject details = (JSONObject) centers.get(i).get("detail");
+            JSONObject details = (JSONObject) model.get("detail");
 
             holder.titleTextView.setText(details.getString("title"));
 
@@ -259,7 +259,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                 holder.phoneLinearLayout.setVisibility(View.GONE);
             }
 
-            JSONObject item = centers.get(i).attributes;
+            JSONObject item = model.attributes;
 
             if (item.isNull("acceptation")) {
                 holder.requestTextView.setText(activity.getResources().getString(R.string.CenterRequest));
@@ -272,7 +272,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                 }
 
             } else {
-                JSONObject acceptation = (JSONObject) centers.get(i).get("acceptation");
+                JSONObject acceptation = (JSONObject) model.get("acceptation");
 
                 if (acceptation.getString("position").equals("manager")) {
                     holder.requestTextView.setTextColor(activity.getResources().getColor(R.color.White));
@@ -326,11 +326,11 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
             position = i;
 
-            JSONObject item = centers.get(i).attributes;
+            JSONObject item = model.attributes;
 
             if (item.isNull("acceptation")) {
                 try {
-                    doWork(centers.get(i).get("id").toString(), holder.titleTextView.getText().toString());
+                    doWork(model.get("id").toString(), holder.titleTextView.getText().toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

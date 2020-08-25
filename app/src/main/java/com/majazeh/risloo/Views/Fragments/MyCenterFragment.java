@@ -2,6 +2,7 @@ package com.majazeh.risloo.Views.Fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,12 +58,12 @@ public class MyCenterFragment extends Fragment {
 
     private void initializer(View view) {
         viewModel = ViewModelProviders.of(this).get(CenterViewModel.class);
-
         expands = new HashMap<>();
-        for (int i = 0; i < viewModel.getMy().size(); i++) {
-            expands.put(i, false);
+        if (viewModel.getMy() != null) {
+            for (int i = 0; i < viewModel.getMy().size(); i++) {
+                expands.put(i, false);
+            }
         }
-
         adapter = new CenterAdapter(activity);
         adapter.setCenter(viewModel.getMy(), expands, "my");
 

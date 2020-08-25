@@ -10,6 +10,7 @@ import androidx.work.WorkerParameters;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Apis.AuthApi;
 import com.majazeh.risloo.Models.Generators.RetroGenerator;
+import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 
 import org.json.JSONException;
@@ -30,9 +31,12 @@ public class AuthWorker extends Worker {
     // Objects
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private Context context;
 
     public AuthWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
+
+        this.context = context;
 
         authApi = RetroGenerator.getRetrofit().create(AuthApi.class);
 
@@ -404,6 +408,10 @@ public class AuthWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONObject data = successBody.getJSONObject("data");
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("data", data.getJSONArray("centers"));
+                FileManager.writeObjectToCache(context, jsonObject, "centers", "my");
+
 
                 editor.putString("name", data.getString("name"));
                 editor.putString("type", data.getString("type"));

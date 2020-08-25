@@ -17,25 +17,6 @@ public class ExceptionManager {
 
     public static void getException(int errorCode, JSONObject errorBody, boolean serverSide, String exception, String module) {
         if (serverSide) {
-//            try {
-//                is_ok = errorBody.getString("is_ok");
-//                message = errorBody.getString("message");
-//                message_text = errorBody.getString("message_text");
-//
-//                if (errorBody.has("refer"))
-//                    referer = errorBody.getString("referer");
-//                else
-//                    referer = "";
-//
-//                if (errorBody.has("error"))
-//                    errors = errorBody.getJSONObject("errors");
-//                else
-//                    errors = new JSONObject();
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-
             switch (errorCode) {
                 case 200:
                     switch (module) {
@@ -64,7 +45,7 @@ public class ExceptionManager {
                                     farsi_message = "خروج با موفقیت انجام شد";
                                     break;
                                 default:
-                                    farsi_message = "";
+                                    farsi_message = "اطلاعات دریافتی با موفقیت ثبت شد";
                                     break;
                             }
                             break;
@@ -78,7 +59,7 @@ public class ExceptionManager {
                                     farsi_message = "درخواست پذیرش شما ارسال شد";
                                     break;
                                 default:
-                                    farsi_message = "";
+                                    farsi_message = "اطلاعات دریافتی با موفقیت ثبت شد";
                                     break;
                             }
                             break;
@@ -88,7 +69,7 @@ public class ExceptionManager {
                                     farsi_message = "دریافت اطلاعات با موفقیت انجام شد";
                                     break;
                                 default:
-                                    farsi_message = "";
+                                    farsi_message = "اطلاعات دریافتی با موفقیت ثبت شد";
                                     break;
                             }
                             break;
@@ -108,74 +89,36 @@ public class ExceptionManager {
                                     farsi_message = "پیش نیاز ها با موفقیت تکمیل شد";
                                     break;
                                 default:
-                                    farsi_message = "";
+                                    farsi_message = "اطلاعات دریافتی با موفقیت ثبت شد";
                                     break;
                             }
                             break;
                         default:
-                            farsi_message = "اطلاعات با موفقیت ارسال شد";
+                            farsi_message = "اطلاعات دریافتی با موفقیت ثبت شد";
                             break;
                     }
                     break;
                 default:
                     try {
-                        farsi_message = errorBody.getString("message_text");
+                        is_ok = errorBody.getString("is_ok");
+                        message = errorBody.getString("message");
+                        message_text = errorBody.getString("message_text");
+
+                        if (errorBody.has("refer"))
+                            referer = errorBody.getString("referer");
+                        else
+                            referer = "";
+
+                        if (errorBody.has("error"))
+                            errors = errorBody.getJSONObject("errors");
+                        else
+                            errors = new JSONObject();
+
+                        farsi_message = message_text;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
             }
-//                    break;
-//                case 400:
-//                    switch (module) {
-//                        default:
-//                            farsi_message = "درخواست ناصحیح";
-//                    }
-//                    break;
-//                case 401:
-//                    switch (module) {
-//                        default:
-//                            farsi_message = "مجاز نیست";
-//                    }
-//                    break;
-//                case 403:
-//                    switch (module) {
-//                        case "auth":
-//                            farsi_message = "ابتدا لاگین کنید";
-//                            break;
-//                        default:
-//                            farsi_message = "نمونه بسته شد";
-//                    }
-//                    break;
-//                case 404:
-//                    switch (module) {
-//                        default:
-//                            farsi_message = "یافت نشد";
-//                    }
-//                    break;
-//                case 408:
-//                    switch (module) {
-//                        default:
-//                            farsi_message = "وقفه درخواست";
-//                    }
-//                    break;
-//                case 422:
-//                    switch (module) {
-//                        default:
-//                            farsi_message = "فیلد ها اشکال دارد";
-//                    }
-//                    break;
-//                case 500:
-//                    switch (module) {
-//                        case "center":
-//                            farsi_message = "درخواست قبلا ارسال شده است";
-//                            break;
-//                        default:
-//                            farsi_message = "خطای داخلی سرور";
-//                    }
-//                    break;
-//                default:
-//                    farsi_message = "خطای ارسال اطلاعات";
-//            }
         } else {
             switch (exception) {
                 case "SocketTimeoutException":
