@@ -79,9 +79,14 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
             e.printStackTrace();
         }
 
-        holder.continueTextView.setOnClickListener(v -> {
+        holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
             handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
+        });
+
+        holder.continueTextView.setOnClickListener(v -> {
+            holder.continueTextView.setClickable(false);
+            handler.postDelayed(() -> holder.continueTextView.setClickable(true), 500);
             continueDialog.show();
 
             position = i;
@@ -132,7 +137,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
     private void listener() {
         continueDialogPositive.setOnClickListener(v -> {
             continueDialogPositive.setClickable(false);
-            handler.postDelayed(() -> continueDialogPositive.setClickable(true), 1000);
+            handler.postDelayed(() -> continueDialogPositive.setClickable(true), 500);
             continueDialog.dismiss();
 
             doWork(position);
@@ -140,7 +145,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
 
         continueDialogNegative.setOnClickListener(v -> {
             continueDialogNegative.setClickable(false);
-            handler.postDelayed(() -> continueDialogNegative.setClickable(true), 1000);
+            handler.postDelayed(() -> continueDialogNegative.setClickable(true), 500);
             continueDialog.dismiss();
         });
 

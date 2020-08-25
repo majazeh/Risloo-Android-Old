@@ -24,7 +24,7 @@
             android:id="@+id/single_item_samples_scale_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_6sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
             android:paddingLeft="@dimen/_4sdp"
             android:paddingRight="@dimen/_12sdp"
             android:gravity="right"
@@ -35,45 +35,64 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/_12sdp"
-            android:paddingRight="@dimen/_12sdp"
-            android:layoutDirection="ltr"
-            android:gravity="center"
+            android:layout_height="match_parent"
+            android:layoutDirection="rtl"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/single_item_samples_status_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/_2sdp"
-                android:paddingBottom="@dimen/_2sdp"
-                android:paddingLeft="@dimen/_12sdp"
-                android:paddingRight="@dimen/_12sdp"
-                android:gravity="center"
-                android:textSize="@dimen/_9ssp"
-                android:textStyle="bold"
-                android:textColor="@color/White"
-                android:textAlignment="gravity"
-                android:background="@drawable/draw_18sdp_primary"/>
 
             <TextView
                 android:id="@+id/single_item_samples_serial_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/_1sdp"
-                android:gravity="right"
-                android:textSize="@dimen/_11ssp"
+                android:layout_weight="1"
+                android:layout_marginBottom="@dimen/_minus2sdp"
+                android:gravity="center"
+                android:textSize="@dimen/_10ssp"
                 android:textStyle="bold"
-                android:textColor="@color/Mischka"
+                android:textColor="@color/Grey"
                 android:textAlignment="gravity" />
+
+            <TextView
+                android:id="@+id/single_item_samples_status_textView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginBottom="@dimen/_minus2sdp"
+                android:gravity="center"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="bold"
+                android:textAlignment="gravity" />
+
+            <FrameLayout
+                android:id="@+id/single_item_samples_start_frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/single_item_samples_start_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingTop="@dimen/_3sdp"
+                    android:paddingBottom="@dimen/_3sdp"
+                    android:paddingLeft="@dimen/_9sdp"
+                    android:paddingRight="@dimen/_9sdp"
+                    android:gravity="center"
+                    android:text="@string/SamplesStart"
+                    android:textSize="@dimen/_9ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/White"
+                    android:textAlignment="gravity"
+                    android:background="@drawable/draw_8sdp_primary"/>
+
+            </FrameLayout>
 
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
-            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_8sdp"
             android:layout_marginLeft="@dimen/_12sdp"
             android:layout_marginRight="@dimen/_12sdp"
@@ -86,6 +105,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/single_item_samples_reference_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -93,11 +113,11 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/single_item_samples_reference_hint_textView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/_minus1sdp"
                     android:gravity="center"
-                    android:text="@string/SamplesReference"
                     android:textSize="@dimen/_8ssp"
                     android:textStyle="normal"
                     android:textColor="@color/Mischka"
@@ -117,6 +137,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/single_item_samples_case_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -147,6 +168,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/single_item_samples_room_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

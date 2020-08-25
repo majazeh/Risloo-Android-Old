@@ -54,6 +54,32 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/activity_samples_emptyLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/_150sdp"
+                    android:layout_height="@dimen/_150sdp"
+                    android:src="@drawable/illu_empty"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_32sdp"
+                    android:gravity="center"
+                    android:text="@string/SamplesEmpty"
+                    android:textSize="@dimen/_11ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Mischka"
+                    android:textAlignment="gravity" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/activity_samples_retryLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -14,4 +14,5 @@
     android:textStyle="normal"
     android:textColor="@color/Grey"
     android:textAlignment="gravity"
-    android:background="@null"/>
+    android:background="@null"
+    tools:ignore="RtlHardcoded" />

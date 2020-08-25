@@ -48,7 +48,7 @@ public class SamplesActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TextView retryTextView;
     private ImageView retryImageView;
-    private LinearLayout mainLayout, retryLayout, loadingLayout;
+    private LinearLayout mainLayout, retryLayout, emptyLayout, loadingLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +90,7 @@ public class SamplesActivity extends AppCompatActivity {
 
         mainLayout = findViewById(R.id.activity_samples_mainLayout);
         retryLayout = findViewById(R.id.activity_samples_retryLayout);
+        emptyLayout = findViewById(R.id.activity_samples_emptyLayout);
         loadingLayout = findViewById(R.id.activity_samples_loadingLayout);
     }
 
@@ -104,6 +105,7 @@ public class SamplesActivity extends AppCompatActivity {
             public void onClick(@NonNull View view) {
                 loadingLayout.setVisibility(View.VISIBLE);
                 retryLayout.setVisibility(View.GONE);
+                emptyLayout.setVisibility(View.GONE);
                 mainLayout.setVisibility(View.GONE);
 
                 launchSamples();
@@ -140,16 +142,28 @@ public class SamplesActivity extends AppCompatActivity {
         SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
             if (SampleRepository.work.equals("getAll")) {
                 if (integer == 1) {
-                    // Show Samples
+                    if (viewModel.getAll() != null) {
+                        // Show Samples
 
-                    loadingLayout.setVisibility(View.GONE);
-                    retryLayout.setVisibility(View.GONE);
-                    mainLayout.setVisibility(View.VISIBLE);
+                        loadingLayout.setVisibility(View.GONE);
+                        retryLayout.setVisibility(View.GONE);
+                        emptyLayout.setVisibility(View.GONE);
+                        mainLayout.setVisibility(View.VISIBLE);
 
-//                    adapter.setSamples(viewModel.getAll());
-//                    recyclerView.setAdapter(adapter);
+                        adapter.setSamples(viewModel.getAll());
+                        recyclerView.setAdapter(adapter);
 
-                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    } else {
+                        // Samples is Empty
+
+                        loadingLayout.setVisibility(View.GONE);
+                        retryLayout.setVisibility(View.GONE);
+                        emptyLayout.setVisibility(View.VISIBLE);
+                        mainLayout.setVisibility(View.GONE);
+
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    }
                 } else {
                     if (viewModel.getAll() == null) {
                         if (integer == 0) {
@@ -157,6 +171,7 @@ public class SamplesActivity extends AppCompatActivity {
 
                             loadingLayout.setVisibility(View.GONE);
                             retryLayout.setVisibility(View.VISIBLE);
+                            emptyLayout.setVisibility(View.GONE);
                             mainLayout.setVisibility(View.GONE);
 
                             setRetryLayout("error");
@@ -167,6 +182,7 @@ public class SamplesActivity extends AppCompatActivity {
 
                             loadingLayout.setVisibility(View.GONE);
                             retryLayout.setVisibility(View.VISIBLE);
+                            emptyLayout.setVisibility(View.GONE);
                             mainLayout.setVisibility(View.GONE);
 
                             setRetryLayout("connection");
@@ -179,10 +195,11 @@ public class SamplesActivity extends AppCompatActivity {
 
                             loadingLayout.setVisibility(View.GONE);
                             retryLayout.setVisibility(View.GONE);
+                            emptyLayout.setVisibility(View.GONE);
                             mainLayout.setVisibility(View.VISIBLE);
 
-//                            adapter.setSamples(viewModel.getAll());
-//                            recyclerView.setAdapter(adapter);
+                            adapter.setSamples(viewModel.getAll());
+                            recyclerView.setAdapter(adapter);
 
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         }

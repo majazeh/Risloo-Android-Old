@@ -140,9 +140,23 @@
 
     <string name="SamplesCreate">ساخت جدید</string>
 
+    <string name="SamplesEmpty">فعلا نمونه های موجود نیست</string>
+
+    <string name="SamplesStart">شروع نمونه</string>
     <string name="SamplesReference">مراجع</string>
+    <string name="SamplesCode">کد</string>
     <string name="SamplesCase">پرونده</string>
     <string name="SamplesRoom">اتاق درمان</string>
+
+    <string name="SamplesStatusOpen">باز شده</string>
+    <string name="SamplesStatusSeald">باز نشده</string>
+    <string name="SamplesStatusScoring">نمره گذاری</string>
+    <string name="SamplesStatusClosed">بسته شده</string>
+
+    <string name="SamplesStartDialogTitle">شروع نمونه؟</string>
+    <string name="SamplesStartDialogDescription">با شروع نمونه شما می توانید ان را به پایان برسانید ویا در صورت موکول دادن آن به بعدن می توانید از قسمت بایگانی نمونه ها آن را ادامه دهید.</string>
+    <string name="SamplesStartDialogPositive">شروع نمونه</string>
+    <string name="SamplesStartDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -150,6 +164,13 @@
     ////////////////////////////////////////////////////////////////////////////////
 
     <string name="CreateSampleTitle">ایجاد نمونه</string>
+
+    <string name="CreateSampleScale">مقیاس</string>
+    <string name="CreateSampleRoom">اتاق درمان</string>
+    <string name="CreateSampleCase">پرونده</string>
+    <string name="CreateSampleReference">مراجع</string>
+    <string name="CreateSampleReferences">مراجعان</string>
+    <string name="CreateSampleCount">تعداد</string>
 
     <string name="CreateSampleCreate">ایجاد</string>
 
@@ -279,6 +300,14 @@
 
     <string name="EditCenterTitle">ویرایش مرکز مشاوره</string>
     <string name="EditClinicTitle">ویرایش کلینیک شخصی</string>
+
+    <string name="EditCenterPrincipal">مدیر</string>
+    <string name="EditCenterName">عنوان</string>
+    <string name="EditCenterDescription">توضیحات (غیر ضروری)</string>
+    <string name="EditCenterAddress">آدرس (غیر ضروری)</string>
+    <string name="EditCenterPhones">شماره تماس (غیر ضروری)</string>
+
+    <string name="EditCenterEdit">ویرایش</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

@@ -9,7 +9,7 @@
     android:fitsSystemWindows="true"
     android:background="@color/White"
     tools:context=".Views.Activities.EditCenterActivity"
-    tools:ignore="UnusedAttribute">
+    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,7 +31,125 @@
             android:layout_height="@dimen/_1sdp"
             android:background="@color/Quartz" />
 
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarSize="0dp"
+            android:overScrollMode="never">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_18sdp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/activity_edit_center_principal_frameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp">
+
+                    <Spinner
+                        android:id="@+id/activity_edit_center_principal_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:singleLine="true"
+                        android:spinnerMode="dropdown"
+                        android:background="@drawable/draw_18sdp_quartz_border"/>
+
+                    <ImageView
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_marginLeft="@dimen/_12sdp"
+                        android:layout_gravity="center|left"
+                        android:src="@drawable/ic_chevron_down"
+                        app:tint="@color/Mischka" />
+
+                </FrameLayout>
+
+                <EditText
+                    android:id="@+id/activity_edit_center_name_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:paddingLeft="@dimen/_16sdp"
+                    android:paddingRight="@dimen/_16sdp"
+                    android:imeOptions="actionDone"
+                    android:cursorVisible="false"
+                    android:inputType="text"
+                    android:hint="@string/EditCenterName"
+                    android:gravity="right"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="normal"
+                    android:textColor="@color/Grey"
+                    android:textColorHint="@color/Mischka"
+                    android:textAlignment="gravity"
+                    android:background="@drawable/draw_18sdp_quartz_border"
+                    android:importantForAutofill="no" />
+
+                <EditText
+                    android:id="@+id/activity_edit_center_description_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:paddingLeft="@dimen/_16sdp"
+                    android:paddingRight="@dimen/_16sdp"
+                    android:imeOptions="actionDone"
+                    android:cursorVisible="false"
+                    android:inputType="text"
+                    android:hint="@string/EditCenterDescription"
+                    android:gravity="right"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="normal"
+                    android:textColor="@color/Grey"
+                    android:textColorHint="@color/Mischka"
+                    android:textAlignment="gravity"
+                    android:background="@drawable/draw_18sdp_quartz_border"
+                    android:importantForAutofill="no" />
+
+                <EditText
+                    android:id="@+id/activity_edit_center_address_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:paddingLeft="@dimen/_16sdp"
+                    android:paddingRight="@dimen/_16sdp"
+                    android:imeOptions="actionDone"
+                    android:cursorVisible="false"
+                    android:inputType="text"
+                    android:hint="@string/EditCenterAddress"
+                    android:gravity="right"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="normal"
+                    android:textColor="@color/Grey"
+                    android:textColorHint="@color/Mischka"
+                    android:textAlignment="gravity"
+                    android:background="@drawable/draw_18sdp_quartz_border"
+                    android:importantForAutofill="no" />
+
+                <Button
+                    android:id="@+id/activity_edit_center_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/EditCenterEdit"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/White"
+                    android:textAlignment="gravity"
+                    android:background="@drawable/draw_18sdp_primary"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 
