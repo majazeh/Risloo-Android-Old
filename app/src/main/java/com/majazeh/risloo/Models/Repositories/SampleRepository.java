@@ -36,10 +36,17 @@ public class SampleRepository extends MainRepository {
     public static HashMap prerequisiteData;
     public static MutableLiveData<Integer> workStateSample;
     public static MutableLiveData<Integer> workStateAnswer;
+    public static MutableLiveData<Integer> workStateCreate;
     public static String work = "";
     public static String theory = "sample";
     public static String sampleId = "";
+    public static String roomId = "";
     public static boolean cache = false;
+    public static ArrayList<String> scales;
+    public static ArrayList<String> roomsTitle;
+    public static ArrayList<String> roomsManager;
+    public static ArrayList<String> cases;
+    public static ArrayList<String> roomUsers;
 
     // Objects
     private JSONObject sampleJson;
@@ -51,11 +58,18 @@ public class SampleRepository extends MainRepository {
 
         localData = new ArrayList<>();
         remoteData = new ArrayList<>();
+        scales = new ArrayList<>();
+        roomsTitle = new ArrayList<>();
+        roomsManager = new ArrayList<>();
+        cases = new ArrayList<>();
+        roomUsers = new ArrayList<>();
         prerequisiteData = new HashMap();
         workStateSample = new MutableLiveData<>();
         workStateAnswer = new MutableLiveData<>();
+        workStateCreate = new MutableLiveData<>();
         workStateSample.setValue(-1);
         workStateAnswer.setValue(-1);
+        workStateCreate.setValue(-1);
     }
 
     public SampleRepository(Application application) {
@@ -134,6 +148,30 @@ public class SampleRepository extends MainRepository {
                 }
             }
         }
+    }
+
+    public void getScales() throws JSONException {
+        work = "getScales";
+        workStateCreate.setValue(-1);
+        workManager("getScales");
+    }
+
+    public void getRooms() throws JSONException {
+        work = "getRooms";
+        workStateCreate.setValue(-1);
+        workManager("getRooms");
+    }
+
+    public void getRoomsUsers() throws JSONException {
+        work = "getRoomsUsers";
+        workStateCreate.setValue(-1);
+        workManager("getRoomsUsers");
+    }
+
+    public void getCases() throws JSONException {
+        work = "getCases";
+        workStateCreate.setValue(-1);
+        workManager("getCases");
     }
 
     public void samples() throws JSONException {
@@ -507,6 +545,8 @@ public class SampleRepository extends MainRepository {
         }
     }
 
+
+
     /*
          ---------- Work ----------
     */
@@ -527,6 +567,7 @@ public class SampleRepository extends MainRepository {
             ExceptionManager.getException(0, null, false, "OffLine", "sample");
             workStateSample.setValue(-2);
             workStateAnswer.setValue(-2);
+            workStateCreate.setValue(-2);
         }
     }
 

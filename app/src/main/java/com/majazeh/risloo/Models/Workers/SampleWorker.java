@@ -7,12 +7,14 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Apis.SampleApi;
 import com.majazeh.risloo.Models.Generators.RetroGenerator;
 import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -73,6 +75,18 @@ public class SampleWorker extends Worker {
                     break;
                 case "sendPrerequisite":
                     sendPrerequisite();
+                    break;
+                case "getScales":
+                    getScales();
+                    break;
+                case "getRooms":
+                    getRooms();
+                    break;
+                case"getRoomUsers":
+                    getRoomUsers();
+                    break;
+                case"getCases":
+                    getScales();
                     break;
             }
         }
@@ -280,6 +294,141 @@ public class SampleWorker extends Worker {
 
             ExceptionManager.getException(0, null, false, "IOException", "sample");
             SampleRepository.workStateAnswer.postValue(0);
+        }
+    }
+
+    private void getScales() {
+        try {
+            Call<ResponseBody> call = sampleApi.getScales(token());
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONArray data = successBody.getJSONArray("data");
+                if (data.length() != 0) {
+                    for (int i = 0; i < data.length(); i++) {
+                        JSONObject object = data.getJSONObject(i);
+                        SampleRepository.scales.add(object.getString("title"));
+                    }
+                }
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "getScales", "sample");
+                SampleRepository.workStateCreate.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "getScales", "sample");
+                SampleRepository.workStateCreate.postValue(0);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            ExceptionManager.getException(0, null, false, "IOException", "sample");
+            SampleRepository.workStateCreate.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            ExceptionManager.getException(0, null, false, "JSONException", "sample");
+            SampleRepository.workStateCreate.postValue(0);
+        }
+    }
+
+    private void getRooms() {
+        try {
+            Call<ResponseBody> call = sampleApi.getRooms(token());
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONArray data = successBody.getJSONArray("data");
+                if (data.length() != 0) {
+                    for (int i = 0; i < data.length(); i++) {
+                        JSONObject object = data.getJSONObject(i);
+                        JSONObject center = object.getJSONObject("center");
+                        JSONObject detail = center.getJSONObject("detail");
+                        SampleRepository.roomsTitle.add(detail.getString("title"));
+                        JSONObject manager = object.getJSONObject("manager");
+                        SampleRepository.roomsManager.add(manager.getString("name"));
+                    }
+                }
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "getRooms", "sample");
+                SampleRepository.workStateCreate.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "getRooms", "sample");
+                SampleRepository.workStateCreate.postValue(0);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            ExceptionManager.getException(0, null, false, "IOException", "sample");
+            SampleRepository.workStateCreate.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            ExceptionManager.getException(0, null, false, "JSONException", "sample");
+            SampleRepository.workStateCreate.postValue(0);
+        }
+    }
+
+    private void getRoomUsers() {
+        try {
+            Call<ResponseBody> call = sampleApi.getRoomsUsers(token(),SampleRepository.roomId);
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONArray data = successBody.getJSONArray("data");
+                if (data.length() != 0) {
+                    for (int i = 0; i < data.length(); i++) {
+                        JSONObject object = data.getJSONObject(i);
+                        JSONObject user = object.getJSONObject("user");
+                        SampleRepository.roomUsers.add(user.getString("name"));
+                    }
+                }
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "getRoomUsers", "sample");
+                SampleRepository.workStateCreate.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "getRoomUsers", "sample");
+                SampleRepository.workStateCreate.postValue(0);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            ExceptionManager.getException(0, null, false, "IOException", "sample");
+            SampleRepository.workStateCreate.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            ExceptionManager.getException(0, null, false, "JSONException", "sample");
+            SampleRepository.workStateCreate.postValue(0);
+        }
+    }
+
+
+    private void getCases() {
+        try {
+            Call<ResponseBody> call = sampleApi.getCases(token(),SampleRepository.roomId);
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONArray data = successBody.getJSONArray("data");
+                if (data.length() != 0) {
+                    for (int i = 0; i < data.length(); i++) {
+                        JSONObject object = data.getJSONObject(i);
+                        JSONArray clients = object.getJSONArray("clients");
+                        for (int j = 0; j < clients.length(); j++) {
+                        JSONObject object1 = clients.getJSONObject(j);
+                        JSONObject user = object1.getJSONObject("user");
+                        SampleRepository.cases.add(user.getString("title"));
+                        }
+                    }
+                }
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "getCases", "sample");
+                SampleRepository.workStateCreate.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "getCases", "sample");
+                SampleRepository.workStateCreate.postValue(0);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            ExceptionManager.getException(0, null, false, "IOException", "sample");
+            SampleRepository.workStateCreate.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            ExceptionManager.getException(0, null, false, "JSONException", "sample");
+            SampleRepository.workStateCreate.postValue(0);
         }
     }
 
