@@ -81,8 +81,8 @@ public class SampleWorker extends Worker {
                 case "getRooms":
                     getRooms();
                     break;
-                case"getRoomUsers":
-                    getRoomUsers();
+                case"getReferences":
+                    getReferences();
                     break;
                 case"getCases":
                     getCases();
@@ -299,11 +299,12 @@ public class SampleWorker extends Worker {
     private void getScales() {
         try {
             Call<ResponseBody> call = sampleApi.getScales(token());
+
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
-
                 JSONArray data = successBody.getJSONArray("data");
+
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
@@ -335,14 +336,16 @@ public class SampleWorker extends Worker {
     private void getRooms() {
         try {
             Call<ResponseBody> call = sampleApi.getRooms(token());
+
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
-
                 JSONArray data = successBody.getJSONArray("data");
+
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
+                        SampleRepository.roomsId.add(object.getString("id"));
                         JSONObject center = object.getJSONObject("center");
                         JSONObject detail = center.getJSONObject("detail");
                         SampleRepository.roomsTitle.add(detail.getString("title"));
@@ -372,28 +375,29 @@ public class SampleWorker extends Worker {
         }
     }
 
-    private void getRoomUsers() {
+    private void getReferences() {
         try {
-            Call<ResponseBody> call = sampleApi.getRoomsUsers(token(), SampleRepository.roomId);
+            Call<ResponseBody> call = sampleApi.getReferences(token(), SampleRepository.roomId);
+
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
-
                 JSONArray data = successBody.getJSONArray("data");
+
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
-                        JSONObject object = data.getJSONObject(i);
-                        JSONObject user = object.getJSONObject("user");
-                        SampleRepository.roomUsers.add(user.getString("name"));
+                        JSONObject jsonObject = data.getJSONObject(i);
+                        JSONObject user = jsonObject.getJSONObject("user");
+                        SampleRepository.references.add(user.getString("name"));
                     }
                 }
 
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "roomUsers", "sample");
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "references", "sample");
                 SampleRepository.workStateCreate.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "roomUsers", "sample");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "references", "sample");
                 SampleRepository.workStateCreate.postValue(0);
             }
         } catch (IOException e) {
@@ -412,19 +416,20 @@ public class SampleWorker extends Worker {
     private void getCases() {
         try {
             Call<ResponseBody> call = sampleApi.getCases(token(), SampleRepository.roomId);
+
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
-
                 JSONArray data = successBody.getJSONArray("data");
+
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
                         JSONArray clients = object.getJSONArray("clients");
                         for (int j = 0; j < clients.length(); j++) {
-                        JSONObject object1 = clients.getJSONObject(j);
-                        JSONObject user = object1.getJSONObject("user");
-                        SampleRepository.cases.add(user.getString("title"));
+                            JSONObject object1 = clients.getJSONObject(j);
+                            JSONObject user = object1.getJSONObject("user");
+                            SampleRepository.cases.add(user.getString("name"));
                         }
                     }
                 }

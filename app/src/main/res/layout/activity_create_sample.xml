@@ -77,11 +77,32 @@
 
                     </FrameLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/activity_create_sample_scale_recyclerView"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_36sdp"
-                        android:overScrollMode="never" />
+                        android:layout_height="@dimen/_36sdp">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/activity_create_sample_scale_recyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="gone"
+                            android:overScrollMode="never" />
+
+                        <TextView
+                            android:id="@+id/activity_create_sample_scale_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingLeft="@dimen/_12sdp"
+                            android:paddingRight="@dimen/_12sdp"
+                            android:gravity="center|right"
+                            android:visibility="visible"
+                            android:text="@string/CreateSampleScale"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="normal"
+                            android:textColor="@color/Mischka"
+                            android:textAlignment="gravity" />
+
+                    </FrameLayout>
 
                 </LinearLayout>
 
@@ -174,7 +195,7 @@
                                 android:layout_marginRight="@dimen/_8sdp">
 
                                 <Spinner
-                                    android:id="@+id/activity_create_sample_reference_spinner"
+                                    android:id="@+id/activity_create_sample_room_reference_spinner"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:singleLine="true"
@@ -190,16 +211,37 @@
 
                             </FrameLayout>
 
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/activity_create_sample_room_reference_recyclerView"
+                            <FrameLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/_36sdp"
-                                android:overScrollMode="never" />
+                                android:layout_height="@dimen/_36sdp">
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/activity_create_sample_room_reference_recyclerView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:visibility="gone"
+                                    android:overScrollMode="never" />
+
+                                <TextView
+                                    android:id="@+id/activity_create_sample_room_reference_textView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:paddingLeft="@dimen/_12sdp"
+                                    android:paddingRight="@dimen/_12sdp"
+                                    android:gravity="center|right"
+                                    android:visibility="visible"
+                                    android:text="@string/CreateSampleReference"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:textStyle="normal"
+                                    android:textColor="@color/Mischka"
+                                    android:textAlignment="gravity" />
+
+                            </FrameLayout>
 
                         </LinearLayout>
 
                         <EditText
-                            android:id="@+id/activity_create_sample_count_editText"
+                            android:id="@+id/activity_create_sample_room_reference_editText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingTop="@dimen/_8sdp"
@@ -267,6 +309,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:overScrollMode="never"
+                            android:visibility="gone"
                             android:background="@drawable/draw_18sdp_quartz_border" />
 
                     </LinearLayout>

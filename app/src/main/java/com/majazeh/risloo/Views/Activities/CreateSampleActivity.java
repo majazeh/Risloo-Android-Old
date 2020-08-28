@@ -53,7 +53,8 @@ public class CreateSampleActivity extends AppCompatActivity {
     private CheckBoxAdapter checkBoxAdapter;
 
     // Vars
-    private String room, Case, count;
+    private String room = "", casse = "", count = "";
+    private ArrayList<String> scales, roomReferences, caseReferences;
 
     // Objects
     private Handler handler;
@@ -61,10 +62,11 @@ public class CreateSampleActivity extends AppCompatActivity {
     // Widgets
     private Toolbar toolbar;
     private TabLayout typeTabLayout;
-    private LinearLayout roomLinearLayout, caseLinearLayout;
-    private EditText countEditText;
-    private Spinner scaleSpinner, roomSpinner, referenceSpinner, caseSpinner;
+    private Spinner scaleSpinner, roomSpinner, caseSpinner, roomReferenceSpinner;
     private RecyclerView scaleRecyclerView, roomReferenceRecyclerView, caseReferenceRecyclerView;
+    private LinearLayout roomLinearLayout, caseLinearLayout;
+    private TextView scaleTextView, roomReferenceTextView;
+    private EditText roomReferenceEditText;
     private Button createButton;
     private Dialog progressDialog;
 
@@ -94,37 +96,41 @@ public class CreateSampleActivity extends AppCompatActivity {
         spinnerAdapter = new SpinnerAdapter(this);
         checkBoxAdapter = new CheckBoxAdapter(this);
 
+        scales = new ArrayList<>();
+        roomReferences = new ArrayList<>();
+        caseReferences = new ArrayList<>();
+
         handler = new Handler();
 
         toolbar = findViewById(R.id.activity_create_sample_toolbar);
 
         typeTabLayout = findViewById(R.id.activity_create_sample_type_tabLayout);
 
-        roomLinearLayout = findViewById(R.id.activity_create_sample_room_linearLayout);
-        caseLinearLayout = findViewById(R.id.activity_create_sample_case_linearLayout);
-
-        countEditText = findViewById(R.id.activity_create_sample_count_editText);
-
         scaleSpinner = findViewById(R.id.activity_create_sample_scale_spinner);
         roomSpinner = findViewById(R.id.activity_create_sample_room_spinner);
-        referenceSpinner = findViewById(R.id.activity_create_sample_reference_spinner);
         caseSpinner = findViewById(R.id.activity_create_sample_case_spinner);
+        roomReferenceSpinner = findViewById(R.id.activity_create_sample_room_reference_spinner);
 
         scaleRecyclerView = findViewById(R.id.activity_create_sample_scale_recyclerView);
         scaleRecyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout3", (int) getResources().getDimension(R.dimen._12sdp)));
         scaleRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         scaleRecyclerView.setHasFixedSize(false);
-        scaleRecyclerView.setAdapter(spinnerAdapter);
         roomReferenceRecyclerView = findViewById(R.id.activity_create_sample_room_reference_recyclerView);
         roomReferenceRecyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout3", (int) getResources().getDimension(R.dimen._12sdp)));
         roomReferenceRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         roomReferenceRecyclerView.setHasFixedSize(true);
-        roomReferenceRecyclerView.setAdapter(spinnerAdapter);
         caseReferenceRecyclerView = findViewById(R.id.activity_create_sample_case_reference_recyclerView);
         caseReferenceRecyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout", (int) getResources().getDimension(R.dimen._12sdp)));
         caseReferenceRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         caseReferenceRecyclerView.setHasFixedSize(true);
-        caseReferenceRecyclerView.setAdapter(checkBoxAdapter);
+
+        roomLinearLayout = findViewById(R.id.activity_create_sample_room_linearLayout);
+        caseLinearLayout = findViewById(R.id.activity_create_sample_case_linearLayout);
+
+        scaleTextView = findViewById(R.id.activity_create_sample_scale_textView);
+        roomReferenceTextView = findViewById(R.id.activity_create_sample_room_reference_textView);
+
+        roomReferenceEditText = findViewById(R.id.activity_create_sample_room_reference_editText);
 
         createButton = findViewById(R.id.activity_create_sample_button);
 
@@ -146,92 +152,6 @@ public class CreateSampleActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v -> {
             finish();
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
-        });
-
-        scaleSpinner.setOnTouchListener((v, event) -> {
-            if(MotionEvent.ACTION_UP == event.getAction()) {
-               doWork("getScales");
-            }
-            return false;
-        });
-
-        scaleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (scaleSpinner.getCount() != position) {
-                    String value = parent.getItemAtPosition(position).toString();
-                    // TODO : Set RecyclerView With "Value"
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        roomSpinner.setOnTouchListener((v, event) -> {
-            if(MotionEvent.ACTION_UP == event.getAction()) {
-                doWork("getRooms");
-            }
-            return false;
-        });
-
-        roomSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (roomSpinner.getCount() != position) {
-                    room = parent.getItemAtPosition(position).toString();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        referenceSpinner.setOnTouchListener((v, event) -> {
-            if(MotionEvent.ACTION_UP == event.getAction()) {
-                doWork("getRoomUsers");
-            }
-            return false;
-        });
-
-        referenceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (referenceSpinner.getCount() != position) {
-                    String value = parent.getItemAtPosition(position).toString();
-                    // TODO : Set RecyclerView With "Value"
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        caseSpinner.setOnTouchListener((v, event) -> {
-            if(MotionEvent.ACTION_UP == event.getAction()) {
-                doWork("getCases");
-            }
-            return false;
-        });
-
-        caseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (caseSpinner.getCount() != position) {
-                    Case = parent.getItemAtPosition(position).toString();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
         });
 
         typeTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -260,10 +180,115 @@ public class CreateSampleActivity extends AppCompatActivity {
             }
         });
 
-        countEditText.setOnTouchListener((v, event) -> {
+        scaleSpinner.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
-                countEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
-                countEditText.setCursorVisible(true);
+                if (SampleRepository.scales.size() == 0) {
+                    doWork("getScales", "");
+                }
+            }
+            return false;
+        });
+
+        roomSpinner.setOnTouchListener((v, event) -> {
+            if(MotionEvent.ACTION_UP == event.getAction()) {
+                if (SampleRepository.roomsTitle.size() == 0) {
+                    doWork("getRooms", "");
+                }
+            }
+            return false;
+        });
+
+        caseSpinner.setOnTouchListener((v, event) -> {
+            if(MotionEvent.ACTION_UP == event.getAction()) {
+                doWork("getCases", room);
+            }
+            return false;
+        });
+
+        roomReferenceSpinner.setOnTouchListener((v, event) -> {
+            if(MotionEvent.ACTION_UP == event.getAction()) {
+                doWork("getReferences", room);
+            }
+            return false;
+        });
+
+        scaleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (scaleSpinner.getCount() != position) {
+                    if (!scales.contains(parent.getItemAtPosition(position).toString())) {
+                        scales.add(parent.getItemAtPosition(position).toString());
+                        setRecyclerView(scales, scaleRecyclerView, "spinner");
+                    }
+
+                    if (scales.size() == 1) {
+                        scaleTextView.setVisibility(View.GONE);
+                        scaleRecyclerView.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        roomSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (roomSpinner.getCount() != position) {
+                    room = String.valueOf(SampleRepository.roomsId.get(position));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        caseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (caseSpinner.getCount() != position) {
+                    casse = parent.getItemAtPosition(position).toString();
+                    // TODO : Get Case References List From ViewModel and Call SetRecyclerView
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        roomReferenceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (roomReferenceSpinner.getCount() != position) {
+                    if (!roomReferences.contains(parent.getItemAtPosition(position).toString())) {
+                        roomReferences.add(parent.getItemAtPosition(position).toString());
+                        setRecyclerView(roomReferences, roomReferenceRecyclerView, "spinner");
+                    }
+
+                    if (roomReferences.size() == 1) {
+                        roomReferenceTextView.setVisibility(View.GONE);
+                        roomReferenceRecyclerView.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        roomReferenceEditText.setOnTouchListener((v, event) -> {
+            if(MotionEvent.ACTION_UP == event.getAction()) {
+                roomReferenceEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
+                roomReferenceEditText.setCursorVisible(true);
             }
             return false;
         });
@@ -285,7 +310,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         });
     }
 
-    private void setSpinner(ArrayList<String> arrayList, Spinner spinner) {
+    private void setSpinner(ArrayList<String> arrayList, Spinner spinner, String type) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_background) {
 
             @NonNull
@@ -310,21 +335,28 @@ public class CreateSampleActivity extends AppCompatActivity {
             }
 
         };
-        for (int i = 0; i < 5; i++) {
-            adapter.add("Parameter");
+        for (int i = 0; i < arrayList.size(); i++) {
+            adapter.add(arrayList.get(i));
         }
-        adapter.add("hint");
+        if (type.equals("room")) {
+            adapter.add(getResources().getString(R.string.CreateSampleRoom));
+        } else if (type.equals("case")) {
+            adapter.add(getResources().getString(R.string.CreateSampleCase));
+        } else {
+            adapter.add("");
+        }
         adapter.setDropDownViewResource(R.layout.spinner_dropdown);
-        
         spinner.setAdapter(adapter);
         spinner.setSelection(adapter.getCount());
     }
 
-    private void setRecyclerView(String value, RecyclerView recyclerView) {
-        if (value == "spinner") {
-//            spinnerAdapter.setReference();
-        } else if (value == "checkbox"){
-//            checkBoxAdapter.setReference();
+    private void setRecyclerView(ArrayList<String> arrayList, RecyclerView recyclerView, String type) {
+        if (type.equals("spinner")) {
+            spinnerAdapter.setReference(arrayList);
+            recyclerView.setAdapter(spinnerAdapter);
+        } else if (type.equals("checkbox")) {
+            checkBoxAdapter.setReference(arrayList);
+            recyclerView.setAdapter(checkBoxAdapter);
         }
     }
 
@@ -336,7 +368,7 @@ public class CreateSampleActivity extends AppCompatActivity {
 
     }
 
-    private void doWork(String method) {
+    private void doWork(String method, String roomId) {
         try {
             switch (method) {
                 case "getScales":
@@ -347,13 +379,13 @@ public class CreateSampleActivity extends AppCompatActivity {
                     // TODO : Show Progress
                     viewModel.rooms();
                     break;
-                case "getRoomUsers":
-                    // TODO : Show Progress
-//                    viewModel.roomsUsers();
-                    break;
                 case "getCases":
                     // TODO : Show Progress
-//                    viewModel.cases();
+                    viewModel.cases(roomId);
+                    break;
+                case "getReferences":
+                    // TODO : Show Progress
+                    viewModel.references(roomId);
                     break;
                 case "create":
 //                    progressDialog.show();
@@ -370,7 +402,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         SampleRepository.workStateCreate.observe((LifecycleOwner) this, integer -> {
             if (SampleRepository.work == "getScales") {
                 if (integer == 1) {
-                    setSpinner(SampleRepository.scales, scaleSpinner);
+                    setSpinner(SampleRepository.scales, scaleSpinner, "scale");
 
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
@@ -382,19 +414,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 }
             } else if (SampleRepository.work == "getRooms") {
                 if (integer == 1) {
-                    setSpinner(SampleRepository.roomsTitle, roomSpinner);
-
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                } else if (integer == 0) {
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                } else if (integer == -2) {
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                }
-            } else if (SampleRepository.work == "getRoomsUsers") {
-                if (integer == 1) {
-                    setSpinner(SampleRepository.roomUsers, referenceSpinner);
+                    setSpinner(SampleRepository.roomsTitle, roomSpinner, "room");
 
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
@@ -406,7 +426,19 @@ public class CreateSampleActivity extends AppCompatActivity {
                 }
             } else if (SampleRepository.work == "getCases") {
                 if (integer == 1) {
-                    setSpinner(SampleRepository.cases, caseSpinner);
+                    setSpinner(SampleRepository.cases, caseSpinner, "case");
+
+                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                } else if (integer == 0) {
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                } else if (integer == -2) {
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                }
+            } else if (SampleRepository.work == "getReferences") {
+                if (integer == 1) {
+                    setSpinner(SampleRepository.references, roomReferenceSpinner, "reference");
 
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {

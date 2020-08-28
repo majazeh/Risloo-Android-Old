@@ -47,7 +47,7 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
             holder.spinnerLinearLayout.setBackgroundResource(R.drawable.draw_4sdp_snow_ripple);
         }
 
-        holder.titleTextView.setText("عنوان");
+        holder.titleTextView.setText(references.get(i));
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
@@ -58,14 +58,13 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
             holder.deleteImageView.setClickable(false);
             handler.postDelayed(() -> holder.deleteImageView.setClickable(true), 500);
 
-            references.remove(i);
-            notifyItemRemoved(i);
+            removeReference(i);
         });
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return references.size();
     }
 
     private void initializer(View view) {
@@ -75,6 +74,11 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
     public void setReference(ArrayList<String> references) {
         this.references = references;
         notifyDataSetChanged();
+    }
+
+    public void removeReference(int position) {
+        references.remove(position);
+        notifyItemRemoved(position);
     }
 
     public class SpinnerHolder extends RecyclerView.ViewHolder {

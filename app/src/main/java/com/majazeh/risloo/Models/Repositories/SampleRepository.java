@@ -35,10 +35,11 @@ public class SampleRepository extends MainRepository {
     public static ArrayList<ArrayList<Integer>> remoteData;
     public static HashMap prerequisiteData;
     public static ArrayList<String> scales;
+    public static ArrayList<String> roomsId;
     public static ArrayList<String> roomsTitle;
     public static ArrayList<String> roomsManager;
     public static ArrayList<String> cases;
-    public static ArrayList<String> roomUsers;
+    public static ArrayList<String> references;
     public static MutableLiveData<Integer> workStateSample;
     public static MutableLiveData<Integer> workStateAnswer;
     public static MutableLiveData<Integer> workStateCreate;
@@ -60,10 +61,11 @@ public class SampleRepository extends MainRepository {
         remoteData = new ArrayList<>();
         prerequisiteData = new HashMap();
         scales = new ArrayList<>();
+        roomsId = new ArrayList<>();
         roomsTitle = new ArrayList<>();
         roomsManager = new ArrayList<>();
         cases = new ArrayList<>();
-        roomUsers = new ArrayList<>();
+        references = new ArrayList<>();
         workStateSample = new MutableLiveData<>();
         workStateAnswer = new MutableLiveData<>();
         workStateCreate = new MutableLiveData<>();
@@ -79,14 +81,17 @@ public class SampleRepository extends MainRepository {
         remoteData = new ArrayList<>();
         prerequisiteData = new HashMap();
         scales = new ArrayList<>();
+        roomsId = new ArrayList<>();
         roomsTitle = new ArrayList<>();
         roomsManager = new ArrayList<>();
         cases = new ArrayList<>();
-        roomUsers = new ArrayList<>();
+        references = new ArrayList<>();
         workStateSample = new MutableLiveData<>();
         workStateAnswer = new MutableLiveData<>();
+        workStateCreate = new MutableLiveData<>();
         workStateSample.setValue(-1);
         workStateAnswer.setValue(-1);
+        workStateCreate.setValue(-1);
     }
 
     public SampleRepository() {
@@ -224,20 +229,20 @@ public class SampleRepository extends MainRepository {
         workManager("getRooms");
     }
 
-    public void roomsUsers(String roomId) throws JSONException {
-        SampleRepository.roomId = roomId;
-
-        work = "getRoomsUsers";
-        workStateCreate.setValue(-1);
-        workManager("getRoomsUsers");
-    }
-
     public void cases(String roomId) throws JSONException {
         SampleRepository.roomId = roomId;
 
         work = "getCases";
         workStateCreate.setValue(-1);
         workManager("getCases");
+    }
+
+    public void references(String roomId) throws JSONException {
+        SampleRepository.roomId = roomId;
+
+        work = "getReferences";
+        workStateCreate.setValue(-1);
+        workManager("getReferences");
     }
 
     /*

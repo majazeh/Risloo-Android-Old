@@ -68,12 +68,12 @@ public class SampleViewModel extends AndroidViewModel {
         repository.rooms();
     }
 
-    public void roomsUsers(String roomId) throws JSONException {
-        repository.roomsUsers(roomId);
-    }
-
     public void cases(String roomId) throws JSONException {
         repository.cases(roomId);
+    }
+
+    public void references(String roomId) throws JSONException {
+        repository.references(roomId);
     }
 
     /*

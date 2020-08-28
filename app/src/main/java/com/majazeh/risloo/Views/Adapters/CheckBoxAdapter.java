@@ -42,33 +42,36 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
     @Override
     public void onBindViewHolder(@NonNull CheckBoxHolder holder, int i) {
 
-        holder.titleCheckBox.setText("عنوان");
+        holder.titleCheckBox.setText(references.get(i));
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
             handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
 
             if (holder.titleCheckBox.isChecked()) {
-//                checks.put(String.valueOf(i), references.get(i));
+                checks.put(String.valueOf(i), references.get(i));
             } else {
-//                checks.remove(String.valueOf(i));
+                checks.remove(String.valueOf(i));
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return references.size();
     }
 
     private void initializer(View view) {
         handler = new Handler();
     }
 
-    public void setReference(ArrayList<String> references, HashMap<String, String> checks) {
+    public void setReference(ArrayList<String> references) {
         this.references = references;
-        this.checks = checks;
         notifyDataSetChanged();
+    }
+
+    public HashMap<String, String> getChecks() {
+        return checks;
     }
 
     public class CheckBoxHolder extends RecyclerView.ViewHolder {
