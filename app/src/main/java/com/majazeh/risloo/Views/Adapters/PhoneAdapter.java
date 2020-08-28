@@ -44,10 +44,10 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.PhoneHolder>
     public void onBindViewHolder(@NonNull PhoneHolder holder, int i) {
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            holder.itemTextView.setBackgroundResource(R.drawable.draw_4sdp_white_ripple);
+            holder.titleTextView.setBackgroundResource(R.drawable.draw_4sdp_white_ripple);
         }
 
-        holder.itemTextView.setText(phones.get(i));
+        holder.titleTextView.setText(phones.get(i));
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
@@ -75,11 +75,11 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.PhoneHolder>
 
     public class PhoneHolder extends RecyclerView.ViewHolder {
 
-        public TextView itemTextView;
+        public TextView titleTextView;
 
         public PhoneHolder(View view) {
             super(view);
-            itemTextView = view.findViewById(R.id.single_item_phone_textView);
+            titleTextView = view.findViewById(R.id.single_item_phone_textView);
         }
     }
 

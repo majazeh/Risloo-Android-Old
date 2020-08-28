@@ -13,6 +13,7 @@
     // customize colors
     ////////////////////////////////////////////////////////////////////////////////
 
+    <color name="IslamicGreen">#0BA110</color>
     <color name="MoonYellow">#FFB822</color>
     <color name="VioletRed">#FD397A</color>
 

@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Apis.SampleApi;
 import com.majazeh.risloo.Models.Generators.RetroGenerator;
@@ -86,7 +85,7 @@ public class SampleWorker extends Worker {
                     getRoomUsers();
                     break;
                 case"getCases":
-                    getScales();
+                    getCases();
                     break;
             }
         }
@@ -303,6 +302,7 @@ public class SampleWorker extends Worker {
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
+
                 JSONArray data = successBody.getJSONArray("data");
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
@@ -310,19 +310,23 @@ public class SampleWorker extends Worker {
                         SampleRepository.scales.add(object.getString("title"));
                     }
                 }
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "getScales", "sample");
+
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "scales", "sample");
                 SampleRepository.workStateCreate.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "getScales", "sample");
+
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "scales", "sample");
                 SampleRepository.workStateCreate.postValue(0);
             }
         } catch (IOException e) {
             e.printStackTrace();
+
             ExceptionManager.getException(0, null, false, "IOException", "sample");
             SampleRepository.workStateCreate.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
+
             ExceptionManager.getException(0, null, false, "JSONException", "sample");
             SampleRepository.workStateCreate.postValue(0);
         }
@@ -334,6 +338,7 @@ public class SampleWorker extends Worker {
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
+
                 JSONArray data = successBody.getJSONArray("data");
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
@@ -345,19 +350,23 @@ public class SampleWorker extends Worker {
                         SampleRepository.roomsManager.add(manager.getString("name"));
                     }
                 }
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "getRooms", "sample");
+
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "rooms", "sample");
                 SampleRepository.workStateCreate.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "getRooms", "sample");
+
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "rooms", "sample");
                 SampleRepository.workStateCreate.postValue(0);
             }
         } catch (IOException e) {
             e.printStackTrace();
+
             ExceptionManager.getException(0, null, false, "IOException", "sample");
             SampleRepository.workStateCreate.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
+
             ExceptionManager.getException(0, null, false, "JSONException", "sample");
             SampleRepository.workStateCreate.postValue(0);
         }
@@ -365,10 +374,11 @@ public class SampleWorker extends Worker {
 
     private void getRoomUsers() {
         try {
-            Call<ResponseBody> call = sampleApi.getRoomsUsers(token(),SampleRepository.roomId);
+            Call<ResponseBody> call = sampleApi.getRoomsUsers(token(), SampleRepository.roomId);
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
+
                 JSONArray data = successBody.getJSONArray("data");
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
@@ -377,31 +387,35 @@ public class SampleWorker extends Worker {
                         SampleRepository.roomUsers.add(user.getString("name"));
                     }
                 }
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "getRoomUsers", "sample");
+
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "roomUsers", "sample");
                 SampleRepository.workStateCreate.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "getRoomUsers", "sample");
+
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "roomUsers", "sample");
                 SampleRepository.workStateCreate.postValue(0);
             }
         } catch (IOException e) {
             e.printStackTrace();
+
             ExceptionManager.getException(0, null, false, "IOException", "sample");
             SampleRepository.workStateCreate.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
+
             ExceptionManager.getException(0, null, false, "JSONException", "sample");
             SampleRepository.workStateCreate.postValue(0);
         }
     }
 
-
     private void getCases() {
         try {
-            Call<ResponseBody> call = sampleApi.getCases(token(),SampleRepository.roomId);
+            Call<ResponseBody> call = sampleApi.getCases(token(), SampleRepository.roomId);
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
+
                 JSONArray data = successBody.getJSONArray("data");
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
@@ -414,19 +428,23 @@ public class SampleWorker extends Worker {
                         }
                     }
                 }
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "getCases", "sample");
+
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "cases", "sample");
                 SampleRepository.workStateCreate.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "getCases", "sample");
+
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "cases", "sample");
                 SampleRepository.workStateCreate.postValue(0);
             }
         } catch (IOException e) {
             e.printStackTrace();
+
             ExceptionManager.getException(0, null, false, "IOException", "sample");
             SampleRepository.workStateCreate.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
+
             ExceptionManager.getException(0, null, false, "JSONException", "sample");
             SampleRepository.workStateCreate.postValue(0);
         }

@@ -60,20 +60,20 @@ public class SampleViewModel extends AndroidViewModel {
         repository.sendPrerequisite(sampleId, prerequisites);
     }
 
-    public void getScales() throws JSONException {
-       repository.getScales();
+    public void scales() throws JSONException {
+       repository.scales();
     }
 
-    public void getRooms() throws JSONException {
-        repository.getRooms();
+    public void rooms() throws JSONException {
+        repository.rooms();
     }
 
-    public void getRoomsUsers() throws JSONException {
-        repository.getRoomsUsers();
+    public void roomsUsers(String roomId) throws JSONException {
+        repository.roomsUsers(roomId);
     }
 
-    public void getCases() throws JSONException {
-        repository.getCases();
+    public void cases(String roomId) throws JSONException {
+        repository.cases(roomId);
     }
 
     /*

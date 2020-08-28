@@ -45,13 +45,45 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/activity_create_sample_scale_recyclerView"
+                <LinearLayout
+                    android:id="@+id/activity_create_sample_scale_linearLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_36sdp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_10sdp"
-                    android:overScrollMode="never"
-                    android:background="@drawable/draw_18sdp_quartz_border" />
+                    android:orientation="horizontal"
+                    android:layoutDirection="rtl"
+                    android:background="@drawable/draw_18sdp_quartz_border">
+
+                    <FrameLayout
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="@dimen/_8sdp">
+
+                        <Spinner
+                            android:id="@+id/activity_create_sample_scale_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:singleLine="true"
+                            android:spinnerMode="dropdown"
+                            android:background="@drawable/draw_oval_islamicgreen" />
+
+                        <ImageView
+                            android:layout_width="@dimen/_14sdp"
+                            android:layout_height="@dimen/_14sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_plus"
+                            app:tint="@color/White" />
+
+                    </FrameLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/activity_create_sample_scale_recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:overScrollMode="never" />
+
+                </LinearLayout>
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -114,24 +146,57 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <ViewFlipper
-                    android:id="@+id/activity_create_sample_type_viewFlipper"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_24sdp">
 
                     <LinearLayout
+                        android:id="@+id/activity_create_sample_room_linearLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="visible"
                         android:orientation="vertical">
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/activity_create_sample_room_reference_recyclerView"
+                        <LinearLayout
+                            android:id="@+id/activity_create_sample_room_reference_linearLayout"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_36sdp"
+                            android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/_10sdp"
-                            android:overScrollMode="never"
-                            android:background="@drawable/draw_18sdp_quartz_border" />
+                            android:orientation="horizontal"
+                            android:layoutDirection="rtl"
+                            android:background="@drawable/draw_18sdp_quartz_border">
+
+                            <FrameLayout
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="@dimen/_8sdp">
+
+                                <Spinner
+                                    android:id="@+id/activity_create_sample_reference_spinner"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:singleLine="true"
+                                    android:spinnerMode="dropdown"
+                                    android:background="@drawable/draw_oval_islamicgreen" />
+
+                                <ImageView
+                                    android:layout_width="@dimen/_14sdp"
+                                    android:layout_height="@dimen/_14sdp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/ic_plus"
+                                    app:tint="@color/White" />
+
+                            </FrameLayout>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/activity_create_sample_room_reference_recyclerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_36sdp"
+                                android:overScrollMode="never" />
+
+                        </LinearLayout>
 
                         <EditText
                             android:id="@+id/activity_create_sample_count_editText"
@@ -157,8 +222,10 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/activity_create_sample_case_linearLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:orientation="vertical">
 
                         <FrameLayout
@@ -190,7 +257,7 @@
                             android:layout_marginBottom="@dimen/_10sdp"
                             android:gravity="right"
                             android:text="@string/CreateSampleReferences"
-                            android:textSize="@dimen/_14ssp"
+                            android:textSize="@dimen/_12ssp"
                             android:textStyle="bold"
                             android:textColor="@color/Grey"
                             android:textAlignment="gravity" />
@@ -204,7 +271,7 @@
 
                     </LinearLayout>
 
-                </ViewFlipper>
+                </FrameLayout>
 
                 <Button
                     android:id="@+id/activity_create_sample_button"

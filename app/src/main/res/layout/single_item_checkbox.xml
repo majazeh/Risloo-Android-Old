@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/single_item_checkbox"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:paddingRight="@dimen/_2sdp"
+    android:elevation="@dimen/_1sdp"
+    android:background="@drawable/draw_4sdp_snow"
+    tools:ignore="UnusedAttribute, RtlHardcoded, RtlSymmetry">
+
+    <CheckBox
+        android:id="@+id/single_item_checkbox_title_checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/_6sdp"
+        android:paddingRight="@dimen/_2sdp"
+        android:layoutDirection="rtl"
+        android:checked="false"
+        android:gravity="center"
+        android:textSize="@dimen/_10ssp"
+        android:textStyle="normal"
+        android:textColor="@color/Grey"
+        android:textAlignment="gravity"
+        android:theme="@style/CheckBoxTheme"
+        android:background="@android:color/transparent"/>
+
+</FrameLayout>
