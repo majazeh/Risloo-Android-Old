@@ -67,8 +67,8 @@ public class SampleRepository extends MainRepository {
         roomsTitle = new ArrayList<>();
         roomsManager = new ArrayList<>();
         cases = new ArrayList<>();
-        references = new ArrayList<>();
         casesAll = new ArrayList<>();
+        references = new ArrayList<>();
         workStateSample = new MutableLiveData<>();
         workStateAnswer = new MutableLiveData<>();
         workStateCreate = new MutableLiveData<>();
@@ -88,8 +88,8 @@ public class SampleRepository extends MainRepository {
         roomsTitle = new ArrayList<>();
         roomsManager = new ArrayList<>();
         cases = new ArrayList<>();
-        references = new ArrayList<>();
         casesAll = new ArrayList<>();
+        references = new ArrayList<>();
         workStateSample = new MutableLiveData<>();
         workStateAnswer = new MutableLiveData<>();
         workStateCreate = new MutableLiveData<>();

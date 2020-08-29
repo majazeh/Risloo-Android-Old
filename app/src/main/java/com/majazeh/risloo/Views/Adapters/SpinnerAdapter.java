@@ -13,14 +13,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Views.Activities.CreateSampleActivity;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerHolder> {
 
     // Vars
-    private ArrayList<String> references;
+    private String type;
+    private ArrayList<String> references = new ArrayList<>();
 
     // Objects
     private Activity activity;
@@ -45,6 +49,7 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             holder.spinnerLinearLayout.setBackgroundResource(R.drawable.draw_4sdp_snow_ripple);
+            holder.deleteImageView.setBackgroundResource(R.drawable.draw_rectangle_snow_ripple);
         }
 
         holder.titleTextView.setText(references.get(i));
@@ -71,14 +76,33 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
         handler = new Handler();
     }
 
-    public void setReference(ArrayList<String> references) {
+    public void setReference(ArrayList<String> references, String type) {
         this.references = references;
+        this.type = type;
         notifyDataSetChanged();
     }
 
-    public void removeReference(int position) {
+    public ArrayList<String> getReferences() {
+        return references;
+    }
+
+    private void removeReference(int position) {
         references.remove(position);
         notifyItemRemoved(position);
+        notifyItemChanged(position);
+
+        if (references.size() == 0) {
+            if (type.equals("scale")) {
+                ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleTextView.setVisibility(View.VISIBLE);
+                ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleSpinner.setAdapter(null);
+                ((CreateSampleActivity) Objects.requireNonNull(activity)).setSpinner(SampleRepository.scales,  ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleSpinner, "scale");
+            } else {
+                ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceTextView.setVisibility(View.VISIBLE);
+                ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceEditText.setVisibility(View.VISIBLE);
+                ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceSpinner.setAdapter(null);
+                ((CreateSampleActivity) Objects.requireNonNull(activity)).setSpinner(SampleRepository.references,  ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceSpinner, "reference");
+            }
+        }
     }
 
     public class SpinnerHolder extends RecyclerView.ViewHolder {
