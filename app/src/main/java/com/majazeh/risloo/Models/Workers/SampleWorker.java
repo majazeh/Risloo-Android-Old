@@ -425,16 +425,22 @@ public class SampleWorker extends Worker {
 
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
-                        String name = null;
+                        ArrayList arrayList = new ArrayList<String>();
+                        String name = "";
                         JSONObject object = data.getJSONObject(i);
                         JSONArray clients = object.getJSONArray("clients");
                         for (int j = 0; j < clients.length(); j++) {
                             JSONObject object1 = clients.getJSONObject(j);
                             JSONObject user = object1.getJSONObject("user");
-                           name += user.getString(name) + "-";
+                            if (j == clients.length() - 1)
+                                name += user.getString("name");
+                            else
+                                name += user.getString("name") + "-";
+                            arrayList.add(user.getString("name"));
                         }
-                        if (name != null)
-                        SampleRepository.cases.add(name);
+                        if (name != "")
+                            SampleRepository.cases.add(name);
+                        SampleRepository.casesAll.add(arrayList);
                     }
                 }
 

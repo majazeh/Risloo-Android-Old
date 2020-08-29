@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -39,6 +40,7 @@ public class SampleRepository extends MainRepository {
     public static ArrayList<String> roomsTitle;
     public static ArrayList<String> roomsManager;
     public static ArrayList<String> cases;
+    public static ArrayList<ArrayList<String>> casesAll;
     public static ArrayList<String> references;
     public static MutableLiveData<Integer> workStateSample;
     public static MutableLiveData<Integer> workStateAnswer;
@@ -66,6 +68,7 @@ public class SampleRepository extends MainRepository {
         roomsManager = new ArrayList<>();
         cases = new ArrayList<>();
         references = new ArrayList<>();
+        casesAll = new ArrayList<>();
         workStateSample = new MutableLiveData<>();
         workStateAnswer = new MutableLiveData<>();
         workStateCreate = new MutableLiveData<>();
@@ -86,6 +89,7 @@ public class SampleRepository extends MainRepository {
         roomsManager = new ArrayList<>();
         cases = new ArrayList<>();
         references = new ArrayList<>();
+        casesAll = new ArrayList<>();
         workStateSample = new MutableLiveData<>();
         workStateAnswer = new MutableLiveData<>();
         workStateCreate = new MutableLiveData<>();
