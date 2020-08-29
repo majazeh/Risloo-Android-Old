@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import okhttp3.ResponseBody;
@@ -81,10 +82,10 @@ public class SampleWorker extends Worker {
                 case "getRooms":
                     getRooms();
                     break;
-                case"getReferences":
+                case "getReferences":
                     getReferences();
                     break;
-                case"getCases":
+                case "getCases":
                     getCases();
                     break;
             }
@@ -424,13 +425,16 @@ public class SampleWorker extends Worker {
 
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
+                        String name = null;
                         JSONObject object = data.getJSONObject(i);
                         JSONArray clients = object.getJSONArray("clients");
                         for (int j = 0; j < clients.length(); j++) {
                             JSONObject object1 = clients.getJSONObject(j);
                             JSONObject user = object1.getJSONObject("user");
-                            SampleRepository.cases.add(user.getString("name"));
+                           name += user.getString(name) + "-";
                         }
+                        if (name != null)
+                        SampleRepository.cases.add(name);
                     }
                 }
 
