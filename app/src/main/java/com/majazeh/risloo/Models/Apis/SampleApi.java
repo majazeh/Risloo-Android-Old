@@ -1,5 +1,7 @@
 package com.majazeh.risloo.Models.Apis;
 
+import java.util.HashMap;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -43,5 +45,9 @@ public interface SampleApi {
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("rooms/{room_id}/users")
     Call<ResponseBody> getReferences(@Header("Authorization") String authorization, @Path("room_id") String roomId);
+
+    @Headers({"content-type: application/json", "Accept-Language:fa"})
+    @POST("%/samples")
+    Call<ResponseBody> createSample(@Header("Authorization") String authorization,@Body HashMap body);
 
 }

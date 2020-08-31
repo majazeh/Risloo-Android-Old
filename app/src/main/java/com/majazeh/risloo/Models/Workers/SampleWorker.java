@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Apis.SampleApi;
 import com.majazeh.risloo.Models.Generators.RetroGenerator;
@@ -87,6 +88,9 @@ public class SampleWorker extends Worker {
                     break;
                 case "getCases":
                     getCases();
+                    break;
+                case "createSample":
+                    createSample();
                     break;
             }
         }
@@ -446,6 +450,34 @@ public class SampleWorker extends Worker {
                     }
                 }
 
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "cases", "sample");
+                SampleRepository.workStateCreate.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "cases", "sample");
+                SampleRepository.workStateCreate.postValue(0);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(0, null, false, "IOException", "sample");
+            SampleRepository.workStateCreate.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(0, null, false, "JSONException", "sample");
+            SampleRepository.workStateCreate.postValue(0);
+        }
+    }
+
+    private void createSample() {
+        try {
+            Call<ResponseBody> call = sampleApi.createSample(token(), SampleRepository.create);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 ExceptionManager.getException(bodyResponse.code(), successBody, true, "cases", "sample");
                 SampleRepository.workStateCreate.postValue(1);
             } else {

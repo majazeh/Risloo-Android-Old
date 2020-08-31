@@ -34,6 +34,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.tabs.TabLayout;
+import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
@@ -43,6 +44,7 @@ import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.CheckBoxAdapter;
 import com.majazeh.risloo.Views.Adapters.SpinnerAdapter;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
@@ -145,6 +147,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
+
     }
 
     private void detector() {
@@ -190,7 +193,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         });
 
         scaleSpinner.setOnTouchListener((v, event) -> {
-            if(MotionEvent.ACTION_UP == event.getAction()) {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (SampleRepository.scales.size() == 0) {
                     doWork("getScales", "");
                 }
@@ -199,7 +202,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         });
 
         roomSpinner.setOnTouchListener((v, event) -> {
-            if(MotionEvent.ACTION_UP == event.getAction()) {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (SampleRepository.roomsTitle.size() == 0) {
                     doWork("getRooms", "");
                 }
@@ -221,7 +224,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         });
 
         roomReferenceSpinner.setOnTouchListener((v, event) -> {
-            if(MotionEvent.ACTION_UP == event.getAction()) {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!room.isEmpty()) {
                     if (SampleRepository.references.size() == 0) {
                         doWork("getReferences", room);
@@ -239,6 +242,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 if (scaleSpinner.getCount() != position) {
                     if (!scaleAdapter.getReferences().contains(parent.getItemAtPosition(position).toString())) {
                         scaleAdapter.getReferences().add(parent.getItemAtPosition(position).toString());
+
                         setRecyclerView(scaleAdapter.getReferences(), scaleRecyclerView, "scale");
                     }
 
@@ -313,7 +317,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         });
 
         roomReferenceEditText.setOnTouchListener((v, event) -> {
-            if(MotionEvent.ACTION_UP == event.getAction()) {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!room.isEmpty()) {
                     roomReferenceEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
                     roomReferenceEditText.setCursorVisible(true);
@@ -350,15 +354,14 @@ public class CreateSampleActivity extends AppCompatActivity {
 //                checkInput();
 //            } else {
 //                clearData();
-//
-//                try {
-//                    progressDialog.show();
-//                    viewModel.create(scale, room, case, reference);
-//                    observeWork();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
+            try {
+                progressDialog.show();
+
+                viewModel.createSample(scaleAdapter.getReferences(), room, casse, referenceAdapter.getReferences(), checkBoxAdapter.getChecks(), count);
+                observeWork();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         });
     }
 

@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 
 import java.util.ArrayList;

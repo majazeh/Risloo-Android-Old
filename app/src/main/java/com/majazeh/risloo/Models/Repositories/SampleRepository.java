@@ -36,15 +36,19 @@ public class SampleRepository extends MainRepository {
     public static ArrayList<ArrayList<Integer>> remoteData;
     public static HashMap prerequisiteData;
     public static ArrayList<String> scales;
+    public static ArrayList<String> scalesId;
     public static ArrayList<String> roomsId;
     public static ArrayList<String> roomsTitle;
     public static ArrayList<String> roomsManager;
     public static ArrayList<String> cases;
+    public static ArrayList<String> casesId;
     public static ArrayList<ArrayList<String>> casesAll;
     public static ArrayList<String> references;
+    public static ArrayList<String> referencesId;
     public static MutableLiveData<Integer> workStateSample;
     public static MutableLiveData<Integer> workStateAnswer;
     public static MutableLiveData<Integer> workStateCreate;
+    public static HashMap create;
     public static String work = "";
     public static String theory = "sample";
     public static String sampleId = "";
@@ -72,6 +76,7 @@ public class SampleRepository extends MainRepository {
         workStateSample = new MutableLiveData<>();
         workStateAnswer = new MutableLiveData<>();
         workStateCreate = new MutableLiveData<>();
+        create = new HashMap();
         workStateSample.setValue(-1);
         workStateAnswer.setValue(-1);
         workStateCreate.setValue(-1);
@@ -93,6 +98,7 @@ public class SampleRepository extends MainRepository {
         workStateSample = new MutableLiveData<>();
         workStateAnswer = new MutableLiveData<>();
         workStateCreate = new MutableLiveData<>();
+        create = new HashMap();
         workStateSample.setValue(-1);
         workStateAnswer.setValue(-1);
         workStateCreate.setValue(-1);
@@ -135,7 +141,8 @@ public class SampleRepository extends MainRepository {
                             sampleItems.setIndex(firstUnAnswered(sampleId));
                         }
                         sampleJson = readSampleFromCache(sampleId);
-                        SampleRepository.workStateSample.removeObserver(integer1 -> {});
+                        SampleRepository.workStateSample.removeObserver(integer1 -> {
+                        });
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -247,6 +254,24 @@ public class SampleRepository extends MainRepository {
         work = "getReferences";
         workStateCreate.setValue(-1);
         workManager("getReferences");
+    }
+
+    public void createSample(ArrayList scales, String room, String cases, ArrayList roomReferences, HashMap caseReferences, String count) throws JSONException {
+        if (scales != null)
+        SampleRepository.create.put("scales", scales);
+        if (room != null)
+        SampleRepository.create.put("room", room);
+        if (cases != null)
+        SampleRepository.create.put("cases", cases);
+        if (roomReferences != null)
+        SampleRepository.create.put("roomReferences", roomReferences);
+        if (caseReferences != null)
+        SampleRepository.create.put("caseReferences", caseReferences);
+        if (count != null)
+        SampleRepository.create.put("count", count);
+        work = "createSample";
+        workStateCreate.setValue(-1);
+        workManager("createSample");
     }
 
     /*
