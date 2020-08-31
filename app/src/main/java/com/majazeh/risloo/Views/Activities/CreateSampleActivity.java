@@ -18,7 +18,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,6 +76,8 @@ public class CreateSampleActivity extends AppCompatActivity {
     public TextView scaleTextView, roomTextView, caseTextView, roomReferenceTextView, caseReferenceTextView;
     public EditText roomReferenceEditText;
     private CardView roomReferenceCardView;
+    private ProgressBar scaleProgressBar, roomProgressBar, caseProgressBar, roomReferenceProgressBar;
+    private ImageView roomImageView, caseImageView;
     private Button createButton;
     private Dialog progressDialog;
     private ArrayList<Model> checkBox;
@@ -142,6 +146,14 @@ public class CreateSampleActivity extends AppCompatActivity {
         roomReferenceEditText = findViewById(R.id.activity_create_sample_room_reference_editText);
 
         roomReferenceCardView = findViewById(R.id.activity_create_sample_room_reference_cardView);
+
+        scaleProgressBar = findViewById(R.id.activity_create_sample_scale_progressBar);
+        roomProgressBar = findViewById(R.id.activity_create_sample_room_progressBar);
+        caseProgressBar = findViewById(R.id.activity_create_sample_case_progressBar);
+        roomReferenceProgressBar = findViewById(R.id.activity_create_sample_room_reference_progressBar);
+
+        roomImageView = findViewById(R.id.activity_create_sample_room_imageView);
+        caseImageView = findViewById(R.id.activity_create_sample_case_imageView);
 
         createButton = findViewById(R.id.activity_create_sample_button);
 
@@ -372,7 +384,6 @@ public class CreateSampleActivity extends AppCompatActivity {
 //                clearData();
             try {
                 progressDialog.show();
-
                 viewModel.createSample(scaleAdapter.getReferences(), room, casse, referenceAdapter.getReferences(), checkBoxAdapter.getChecks(), count);
                 observeWork();
             } catch (JSONException e) {
@@ -556,24 +567,30 @@ public class CreateSampleActivity extends AppCompatActivity {
         try {
             switch (method) {
                 case "getScales":
-                    // TODO : Show Progress
+                    scaleProgressBar.setVisibility(View.VISIBLE);
+                    scaleSpinner.setClickable(false);
+
                     viewModel.scales();
                     break;
                 case "getRooms":
-                    // TODO : Show Progress
+                    roomProgressBar.setVisibility(View.VISIBLE);
+                    roomImageView.setVisibility(View.GONE);
+                    roomSpinner.setClickable(false);
+
                     viewModel.rooms();
                     break;
                 case "getCases":
-                    // TODO : Show Progress
+                    caseProgressBar.setVisibility(View.VISIBLE);
+                    caseImageView.setVisibility(View.GONE);
+                    caseSpinner.setClickable(false);
+
                     viewModel.cases(roomId);
                     break;
                 case "getReferences":
-                    // TODO : Show Progress
+                    roomReferenceProgressBar.setVisibility(View.VISIBLE);
+                    roomReferenceSpinner.setClickable(false);
+
                     viewModel.references(roomId);
-                    break;
-                case "create":
-//                    progressDialog.show();
-//                    viewModel.create();
                     break;
             }
             observeWork();
@@ -588,11 +605,17 @@ public class CreateSampleActivity extends AppCompatActivity {
                 if (integer == 1) {
                     setSpinner(SampleRepository.scales, scaleSpinner, "scale");
 
+                    scaleProgressBar.setVisibility(View.GONE);
+                    scaleSpinner.setClickable(true);
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
+                    scaleProgressBar.setVisibility(View.GONE);
+                    scaleSpinner.setClickable(true);
                     Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
+                    scaleProgressBar.setVisibility(View.GONE);
+                    scaleSpinner.setClickable(true);
                     Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 }
@@ -600,11 +623,20 @@ public class CreateSampleActivity extends AppCompatActivity {
                 if (integer == 1) {
                     setSpinner(SampleRepository.rooms, roomSpinner, "room");
 
+                    roomProgressBar.setVisibility(View.GONE);
+                    roomImageView.setVisibility(View.VISIBLE);
+                    roomSpinner.setClickable(true);
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
+                    roomProgressBar.setVisibility(View.GONE);
+                    roomImageView.setVisibility(View.VISIBLE);
+                    roomSpinner.setClickable(true);
                     Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
+                    roomProgressBar.setVisibility(View.GONE);
+                    roomImageView.setVisibility(View.VISIBLE);
+                    roomSpinner.setClickable(true);
                     Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 }
@@ -612,11 +644,20 @@ public class CreateSampleActivity extends AppCompatActivity {
                 if (integer == 1) {
                     setSpinner(SampleRepository.cases, caseSpinner, "case");
 
+                    caseProgressBar.setVisibility(View.GONE);
+                    caseImageView.setVisibility(View.VISIBLE);
+                    caseSpinner.setClickable(true);
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
+                    caseProgressBar.setVisibility(View.GONE);
+                    caseImageView.setVisibility(View.VISIBLE);
+                    caseSpinner.setClickable(true);
                     Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
+                    caseProgressBar.setVisibility(View.GONE);
+                    caseImageView.setVisibility(View.VISIBLE);
+                    caseSpinner.setClickable(true);
                     Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 }
@@ -624,11 +665,17 @@ public class CreateSampleActivity extends AppCompatActivity {
                 if (integer == 1) {
                     setSpinner(SampleRepository.references, roomReferenceSpinner, "reference");
 
+                    roomReferenceProgressBar.setVisibility(View.GONE);
+                    roomReferenceSpinner.setClickable(true);
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
+                    roomReferenceProgressBar.setVisibility(View.GONE);
+                    roomReferenceSpinner.setClickable(true);
                     Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
+                    roomReferenceProgressBar.setVisibility(View.GONE);
+                    roomReferenceSpinner.setClickable(true);
                     Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 }
