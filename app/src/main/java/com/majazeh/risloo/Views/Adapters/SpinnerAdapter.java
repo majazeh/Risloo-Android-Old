@@ -3,6 +3,7 @@ package com.majazeh.risloo.Views.Adapters;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,9 @@ import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Views.Activities.CreateSampleActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -25,7 +29,7 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
 
     // Vars
     private String type;
-    private ArrayList<String> references = new ArrayList<>();
+    private ArrayList<Model> references = new ArrayList<>();
 
     // Objects
     private Activity activity;
@@ -52,8 +56,21 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
             holder.spinnerLinearLayout.setBackgroundResource(R.drawable.draw_4sdp_snow_ripple);
             holder.deleteImageView.setBackgroundResource(R.drawable.draw_rectangle_snow_ripple);
         }
-
-        holder.titleTextView.setText(references.get(i));
+        Log.e("test", "a");
+        if (type.equals("scale")) {
+            try {
+                holder.titleTextView.setText(String.valueOf(references.get(i).get("title")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                JSONObject user = (JSONObject) references.get(i).get("user");
+                holder.titleTextView.setText(String.valueOf(user.get("name")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
@@ -77,13 +94,13 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
         handler = new Handler();
     }
 
-    public void setReference(ArrayList<String> references, String type) {
+    public void setReference(ArrayList<Model> references, String type) {
         this.references = references;
         this.type = type;
         notifyDataSetChanged();
     }
 
-    public ArrayList<String> getReferences() {
+    public ArrayList<Model> getReferences() {
         return references;
     }
 
@@ -96,12 +113,12 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
             if (type.equals("scale")) {
                 ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleTextView.setVisibility(View.VISIBLE);
                 ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleSpinner.setAdapter(null);
-                ((CreateSampleActivity) Objects.requireNonNull(activity)).setSpinner(SampleRepository.scales,  ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleSpinner, "scale");
+                ((CreateSampleActivity) Objects.requireNonNull(activity)).setSpinner(SampleRepository.scales, ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleSpinner, "scale");
             } else {
                 ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceTextView.setVisibility(View.VISIBLE);
                 ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceEditText.setVisibility(View.VISIBLE);
                 ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceSpinner.setAdapter(null);
-                ((CreateSampleActivity) Objects.requireNonNull(activity)).setSpinner(SampleRepository.references,  ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceSpinner, "reference");
+                ((CreateSampleActivity) Objects.requireNonNull(activity)).setSpinner(SampleRepository.references, ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceSpinner, "reference");
             }
         }
     }

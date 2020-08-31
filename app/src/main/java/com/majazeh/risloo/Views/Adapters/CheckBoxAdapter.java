@@ -2,6 +2,7 @@ package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckBoxHolder> {
 
     // Vars
-    private ArrayList<String> references;
+    private ArrayList<Model> references;
     private HashMap<String, String> checks;
 
     // Objects
@@ -42,19 +48,29 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
 
     @Override
     public void onBindViewHolder(@NonNull CheckBoxHolder holder, int i) {
+        try {
 
-        holder.titleCheckBox.setText(references.get(i));
+            JSONObject user = (JSONObject) references.get(i).get("user");
+
+        holder.titleCheckBox.setText(user.getString("name"));
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
             handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
 
             if (holder.titleCheckBox.isChecked()) {
-                checks.put(String.valueOf(i), references.get(i));
+                try {
+                    checks.put(String.valueOf(i), user.getString("name"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             } else {
                 checks.remove(String.valueOf(i));
             }
         });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -66,7 +82,7 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
         handler = new Handler();
     }
 
-    public void setReference(ArrayList<String> references) {
+    public void setReference(ArrayList<Model> references) {
         this.references = references;
         notifyDataSetChanged();
     }

@@ -313,7 +313,7 @@ public class SampleWorker extends Worker {
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
-                        SampleRepository.scales.add(object.getString("title"));
+                        SampleRepository.scales.add(new Model(object));
                     }
                 }
 
@@ -350,12 +350,7 @@ public class SampleWorker extends Worker {
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
-                        SampleRepository.roomsId.add(object.getString("id"));
-                        JSONObject center = object.getJSONObject("center");
-                        JSONObject detail = center.getJSONObject("detail");
-                        SampleRepository.roomsTitle.add(detail.getString("title"));
-                        JSONObject manager = object.getJSONObject("manager");
-                        SampleRepository.roomsManager.add(manager.getString("name"));
+                        SampleRepository.rooms.add(new Model(object));
                     }
                 }
 
@@ -391,9 +386,8 @@ public class SampleWorker extends Worker {
 
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
-                        JSONObject jsonObject = data.getJSONObject(i);
-                        JSONObject user = jsonObject.getJSONObject("user");
-                        SampleRepository.references.add(user.getString("name"));
+                        JSONObject object = data.getJSONObject(i);
+                        SampleRepository.references.add(new Model(object));
                     }
                 }
 
@@ -429,24 +423,25 @@ public class SampleWorker extends Worker {
 
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
-                        ArrayList arrayList = new ArrayList<String>();
-                        String name = "";
                         JSONObject object = data.getJSONObject(i);
-                        JSONArray clients = object.getJSONArray("clients");
-                        for (int j = 0; j < clients.length(); j++) {
-                            JSONObject object1 = clients.getJSONObject(j);
-                            JSONObject user = object1.getJSONObject("user");
-                            if (j == clients.length() - 1) {
-                                name += user.getString("name");
-                            } else {
-                                name += user.getString("name") + " - ";
-                            }
-                            arrayList.add(user.getString("name"));
-                        }
-                        if (name != "") {
-                            SampleRepository.cases.add(name);
-                        }
-                        SampleRepository.casesAll.add(arrayList);
+                        SampleRepository.cases.add(new Model(object));
+//                        ArrayList arrayList = new ArrayList<String>();
+//                        String name = "";
+//                        JSONArray clients = object.getJSONArray("clients");
+//                        for (int j = 0; j < clients.length(); j++) {
+//                            JSONObject object1 = clients.getJSONObject(j);
+//                            JSONObject user = object1.getJSONObject("user");
+//                            if (j == clients.length() - 1) {
+//                                name += user.getString("name");
+//                            } else {
+//                                name += user.getString("name") + " - ";
+//                            }
+//                            arrayList.add(user.getString("name"));
+//                        }
+//                        if (name != "") {
+//                            SampleRepository.cases.add(name);
+//                        }
+//                        SampleRepository.casesAll.add(arrayList);
                     }
                 }
 

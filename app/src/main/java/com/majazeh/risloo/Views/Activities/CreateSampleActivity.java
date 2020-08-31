@@ -46,6 +46,7 @@ import com.majazeh.risloo.Views.Adapters.SpinnerAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -75,6 +76,7 @@ public class CreateSampleActivity extends AppCompatActivity {
     private CardView roomReferenceCardView;
     private Button createButton;
     private Dialog progressDialog;
+    private ArrayList<Model> checkBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +101,7 @@ public class CreateSampleActivity extends AppCompatActivity {
     private void initializer() {
         viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
 
+        checkBox = new ArrayList<>();
         scaleAdapter = new SpinnerAdapter(this);
         referenceAdapter = new SpinnerAdapter(this);
         checkBoxAdapter = new CheckBoxAdapter(this);
@@ -203,7 +206,7 @@ public class CreateSampleActivity extends AppCompatActivity {
 
         roomSpinner.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                if (SampleRepository.roomsTitle.size() == 0) {
+                if (SampleRepository.rooms.size() == 0) {
                     doWork("getRooms", "");
                 }
             }
@@ -211,7 +214,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         });
 
         caseSpinner.setOnTouchListener((v, event) -> {
-            if(MotionEvent.ACTION_UP == event.getAction()) {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!room.isEmpty()) {
                     if (SampleRepository.cases.size() == 0) {
                         doWork("getCases", room);
@@ -241,7 +244,7 @@ public class CreateSampleActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (scaleSpinner.getCount() != position) {
                     if (!scaleAdapter.getReferences().contains(parent.getItemAtPosition(position).toString())) {
-                        scaleAdapter.getReferences().add(parent.getItemAtPosition(position).toString());
+                        scaleAdapter.getReferences().add(SampleRepository.scales.get(position));
 
                         setRecyclerView(scaleAdapter.getReferences(), scaleRecyclerView, "scale");
                     }
@@ -262,7 +265,11 @@ public class CreateSampleActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (roomSpinner.getCount() != position) {
-                    room = String.valueOf(SampleRepository.roomsId.get(position));
+                    try {
+                        room = String.valueOf(SampleRepository.rooms.get(position).get("id"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                     roomReferenceEditText.setFocusableInTouchMode(true);
                 }
@@ -278,8 +285,17 @@ public class CreateSampleActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (caseSpinner.getCount() != position) {
-                    casse = parent.getItemAtPosition(position).toString();
-                    setRecyclerView(SampleRepository.casesAll.get(position), caseReferenceRecyclerView, "checkbox");
+                    try {
+                        casse = String.valueOf(SampleRepository.cases.get(position).get("id"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    ArrayList cases = new ArrayList();
+                    for (int i = 0; i < SampleRepository.cases.size(); i++) {
+                        cases.add(SampleRepository.cases.get(i));
+                    }
+
+                    setRecyclerView(cases, caseReferenceRecyclerView, "checkbox");
 
                     caseReferenceTextView.setVisibility(View.VISIBLE);
                     caseReferenceRecyclerView.setVisibility(View.VISIBLE);
@@ -297,7 +313,7 @@ public class CreateSampleActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (roomReferenceSpinner.getCount() != position) {
                     if (!referenceAdapter.getReferences().contains(parent.getItemAtPosition(position).toString())) {
-                        referenceAdapter.getReferences().add(parent.getItemAtPosition(position).toString());
+                        referenceAdapter.getReferences().add(SampleRepository.references.get(position));
                         setRecyclerView(referenceAdapter.getReferences(), roomReferenceRecyclerView, "roomReference");
                     }
 
@@ -365,7 +381,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         });
     }
 
-    public void setSpinner(ArrayList<String> arrayList, Spinner spinner, String type) {
+    public void setSpinner(ArrayList<Model> arrayList, Spinner spinner, String type) {
         if (type.equals("scale") || type.equals("reference")) {
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_null) {
 
@@ -376,9 +392,35 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                     if (position == getCount()) {
                         ((TextView) view.findViewById(R.id.spinner_null_textView)).setText("");
-                        ((TextView) view.findViewById(R.id.spinner_null_textView)).setHint(getItem(getCount()));
+                        if (type.equals("scale")) {
+                            try {
+                                ((TextView) view.findViewById(R.id.spinner_null_textView)).setHint(String.valueOf(arrayList.get(position).get("title")));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            try {
+                                JSONObject user = (JSONObject) arrayList.get(position).get("user");
+                                ((TextView) view.findViewById(R.id.spinner_null_textView)).setHint(String.valueOf(user.get("name")));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     } else {
-                        ((TextView) view.findViewById(R.id.spinner_null_textView)).setText(getItem(position));
+                        if (type.equals("scale")) {
+                            try {
+                                ((TextView) view.findViewById(R.id.spinner_null_textView)).setHint(String.valueOf(arrayList.get(position).get("title")));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            try {
+                                JSONObject user = (JSONObject) arrayList.get(position).get("user");
+                                ((TextView) view.findViewById(R.id.spinner_null_textView)).setText(String.valueOf(user.get("name")));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
                         ((TextView) view.findViewById(R.id.spinner_null_textView)).setHint("");
                     }
 
@@ -391,10 +433,25 @@ public class CreateSampleActivity extends AppCompatActivity {
                 }
 
             };
-            for (int i = 0; i < arrayList.size(); i++) {
-                adapter.add(arrayList.get(i));
+            if (type.equals("scale")) {
+                for (int i = 0; i < arrayList.size(); i++) {
+                    try {
+                        adapter.add((String) arrayList.get(i).get("title"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                for (int i = 0; i < arrayList.size(); i++) {
+                    try {
+                        JSONObject user = (JSONObject) arrayList.get(i).get("user");
+                        adapter.add((String) user.get("name"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
-            adapter.add("");
+            //                adapter.add(new Model(null));
             adapter.setDropDownViewResource(R.layout.spinner_dropdown);
             spinner.setAdapter(adapter);
             spinner.setSelection(adapter.getCount());
@@ -423,8 +480,39 @@ public class CreateSampleActivity extends AppCompatActivity {
                 }
 
             };
-            for (int i = 0; i < arrayList.size(); i++) {
-                adapter.add(arrayList.get(i));
+            if (type.equals("room")) {
+                for (int i = 0; i < arrayList.size(); i++) {
+                    try {
+                        JSONObject manager = (JSONObject) arrayList.get(i).get("manager");
+                        adapter.add((String) manager.get("name"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                for (int i = 0; i < arrayList.size(); i++) {
+                    try {
+                        ArrayList arrayList1 = new ArrayList<String>();
+                        String name = "";
+                        JSONArray clients = (JSONArray) arrayList.get(i).get("clients");
+                        for (int j = 0; j < clients.length(); j++) {
+                            JSONObject object1 = clients.getJSONObject(j);
+                            JSONObject user = object1.getJSONObject("user");
+                            if (j == clients.length() - 1) {
+                                name += user.getString("name");
+                            } else {
+                                name += user.getString("name") + " - ";
+                            }
+                            arrayList1.add(user.getString("name"));
+                        }
+                        if (name != "") {
+                            adapter.add(name);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
             }
             if (type.equals("room")) {
                 adapter.add(getResources().getString(R.string.CreateSampleRoom));
@@ -439,7 +527,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         }
     }
 
-    private void setRecyclerView(ArrayList<String> arrayList, RecyclerView recyclerView, String type) {
+    private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String type) {
         switch (type) {
             case "scale":
                 scaleAdapter.setReference(arrayList, type);
@@ -510,7 +598,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 }
             } else if (SampleRepository.work == "getRooms") {
                 if (integer == 1) {
-                    setSpinner(SampleRepository.roomsTitle, roomSpinner, "room");
+                    setSpinner(SampleRepository.rooms, roomSpinner, "room");
 
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
