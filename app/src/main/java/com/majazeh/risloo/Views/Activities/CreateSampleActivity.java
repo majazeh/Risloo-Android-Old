@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,13 +118,13 @@ public class CreateSampleActivity extends AppCompatActivity {
         scaleSpinner = findViewById(R.id.activity_create_sample_scale_spinner);
         roomSpinner = findViewById(R.id.activity_create_sample_room_spinner);
         caseSpinner = findViewById(R.id.activity_create_sample_case_spinner);
-        roomReferenceSpinner = findViewById(R.id.activity_create_sample_room_reference_spinner);
+        roomReferenceSpinner = findViewById(R.id.activity_create_sample_clinic_reference_spinner);
 
         scaleRecyclerView = findViewById(R.id.activity_create_sample_scale_recyclerView);
         scaleRecyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout3", (int) getResources().getDimension(R.dimen._12sdp)));
         scaleRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         scaleRecyclerView.setHasFixedSize(false);
-        roomReferenceRecyclerView = findViewById(R.id.activity_create_sample_room_reference_recyclerView);
+        roomReferenceRecyclerView = findViewById(R.id.activity_create_sample_clinic_reference_recyclerView);
         roomReferenceRecyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout3", (int) getResources().getDimension(R.dimen._12sdp)));
         roomReferenceRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         roomReferenceRecyclerView.setHasFixedSize(true);
@@ -134,23 +133,23 @@ public class CreateSampleActivity extends AppCompatActivity {
         caseReferenceRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         caseReferenceRecyclerView.setHasFixedSize(true);
 
-        roomLinearLayout = findViewById(R.id.activity_create_sample_room_linearLayout);
+        roomLinearLayout = findViewById(R.id.activity_create_sample_clinic_linearLayout);
         caseLinearLayout = findViewById(R.id.activity_create_sample_case_linearLayout);
 
         scaleTextView = findViewById(R.id.activity_create_sample_scale_textView);
         roomTextView = findViewById(R.id.activity_create_sample_room_textView);
         caseTextView = findViewById(R.id.activity_create_sample_case_textView);
-        roomReferenceTextView = findViewById(R.id.activity_create_sample_room_reference_textView);
+        roomReferenceTextView = findViewById(R.id.activity_create_sample_clinic_reference_textView);
         caseReferenceTextView = findViewById(R.id.activity_create_sample_case_reference_textView);
 
-        roomReferenceEditText = findViewById(R.id.activity_create_sample_room_reference_editText);
+        roomReferenceEditText = findViewById(R.id.activity_create_sample_count_editText);
 
-        roomReferenceCardView = findViewById(R.id.activity_create_sample_room_reference_cardView);
+        roomReferenceCardView = findViewById(R.id.activity_create_sample_clinic_reference_cardView);
 
         scaleProgressBar = findViewById(R.id.activity_create_sample_scale_progressBar);
         roomProgressBar = findViewById(R.id.activity_create_sample_room_progressBar);
         caseProgressBar = findViewById(R.id.activity_create_sample_case_progressBar);
-        roomReferenceProgressBar = findViewById(R.id.activity_create_sample_room_reference_progressBar);
+        roomReferenceProgressBar = findViewById(R.id.activity_create_sample_clinic_reference_progressBar);
 
         roomImageView = findViewById(R.id.activity_create_sample_room_imageView);
         caseImageView = findViewById(R.id.activity_create_sample_case_imageView);
