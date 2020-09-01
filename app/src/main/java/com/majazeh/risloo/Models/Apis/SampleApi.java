@@ -31,6 +31,10 @@ public interface SampleApi {
     Call<ResponseBody> send(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Body Object body);
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
+    @POST("$/samples")
+    Call<ResponseBody> create(@Header("Authorization") String authorization, @Body HashMap body);
+
+    @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("$")
     Call<ResponseBody> getScales(@Header("Authorization") String authorization);
 
@@ -45,9 +49,5 @@ public interface SampleApi {
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("rooms/{room_id}/users")
     Call<ResponseBody> getReferences(@Header("Authorization") String authorization, @Path("room_id") String roomId);
-
-    @Headers({"content-type: application/json", "Accept-Language:fa"})
-    @POST("$/samples")
-    Call<ResponseBody> createSample(@Header("Authorization") String authorization,@Body HashMap body);
 
 }

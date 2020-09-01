@@ -15,7 +15,6 @@ import android.os.Handler;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -234,7 +233,8 @@ public class SamplesActivity extends AppCompatActivity {
                 retryLayout.setVisibility(View.GONE);
                 emptyLayout.setVisibility(View.GONE);
                 mainLayout.setVisibility(View.GONE);
-            launchSamples();
+
+                launchSamples();
             }
         }
     }

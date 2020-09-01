@@ -15,9 +15,9 @@ public class ExceptionManager {
     // Objects
     public static JSONObject errors;
 
-    public static void getException(int errorCode, JSONObject errorBody, boolean serverSide, String exception, String module) {
+    public static void getException(int code, JSONObject body, boolean serverSide, String exception, String module) {
         if (serverSide) {
-            switch (errorCode) {
+            switch (code) {
                 case 200:
                     switch (module) {
                         case "auth":
@@ -103,17 +103,17 @@ public class ExceptionManager {
                     break;
                 default:
                     try {
-                        is_ok = errorBody.getString("is_ok");
-                        message = errorBody.getString("message");
-                        message_text = errorBody.getString("message_text");
+                        is_ok = body.getString("is_ok");
+                        message = body.getString("message");
+                        message_text = body.getString("message_text");
 
-                        if (errorBody.has("refer"))
-                            referer = errorBody.getString("referer");
+                        if (body.has("refer"))
+                            referer = body.getString("referer");
                         else
                             referer = "";
 
-                        if (errorBody.has("error"))
-                            errors = errorBody.getJSONObject("errors");
+                        if (body.has("error"))
+                            errors = body.getJSONObject("errors");
                         else
                             errors = new JSONObject();
 

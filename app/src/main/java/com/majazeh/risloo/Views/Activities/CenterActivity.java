@@ -303,6 +303,7 @@ public class CenterActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_center, menu);
 
         toolCreate = menu.findItem(R.id.tool_create);
+        toolCreate.setVisible(true);
         toolCreate.setOnMenuItemClickListener(menuItem -> {
             startActivityForResult(new Intent(this, CreateCenterActivity.class), 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);

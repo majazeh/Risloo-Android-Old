@@ -2,7 +2,6 @@ package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.logging.Logger;
 
 public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckBoxHolder> {
 
     // Vars
-    private ArrayList<Model> references;
+    private ArrayList<Model> values;
     private ArrayList<String> checks;
 
     // Objects
@@ -50,7 +45,7 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
     @Override
     public void onBindViewHolder(@NonNull CheckBoxHolder holder, int i) {
         try {
-            JSONObject user = (JSONObject) references.get(i).get("user");
+            JSONObject user = (JSONObject) values.get(i).get("user");
 
             holder.titleCheckBox.setText(user.getString("name"));
 
@@ -75,15 +70,15 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
 
     @Override
     public int getItemCount() {
-        return references.size();
+        return values.size();
     }
 
     private void initializer(View view) {
         handler = new Handler();
     }
 
-    public void setReference(ArrayList<Model> references) {
-        this.references = references;
+    public void setValue(ArrayList<Model> values) {
+        this.values = values;
         notifyDataSetChanged();
     }
 
@@ -91,12 +86,12 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
         this.checks = checks;
     }
 
-    public ArrayList<String> getChecks() {
-        return checks;
+    public ArrayList<Model> getValues() {
+        return values;
     }
 
-    public ArrayList<Model> getReferences() {
-        return references;
+    public ArrayList<String> getChecks() {
+        return checks;
     }
 
     public class CheckBoxHolder extends RecyclerView.ViewHolder {

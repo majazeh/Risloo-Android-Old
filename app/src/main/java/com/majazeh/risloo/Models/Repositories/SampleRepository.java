@@ -3,7 +3,6 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Constraints;
@@ -23,7 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -36,6 +34,7 @@ public class SampleRepository extends MainRepository {
     public static ArrayList<ArrayList<Integer>> localData;
     public static ArrayList<ArrayList<Integer>> remoteData;
     public static HashMap prerequisiteData;
+    public static HashMap createData;
     public static ArrayList<Model> scales;
     public static ArrayList<Model> rooms;
     public static ArrayList<Model> cases;
@@ -43,7 +42,6 @@ public class SampleRepository extends MainRepository {
     public static MutableLiveData<Integer> workStateSample;
     public static MutableLiveData<Integer> workStateAnswer;
     public static MutableLiveData<Integer> workStateCreate;
-    public static HashMap create;
     public static String work = "";
     public static String theory = "sample";
     public static String sampleId = "";
@@ -61,6 +59,7 @@ public class SampleRepository extends MainRepository {
         localData = new ArrayList<>();
         remoteData = new ArrayList<>();
         prerequisiteData = new HashMap();
+        createData = new HashMap();
         scales = new ArrayList<>();
         cases = new ArrayList<>();
         references = new ArrayList<>();
@@ -68,7 +67,6 @@ public class SampleRepository extends MainRepository {
         workStateSample = new MutableLiveData<>();
         workStateAnswer = new MutableLiveData<>();
         workStateCreate = new MutableLiveData<>();
-        create = new HashMap();
         workStateSample.setValue(-1);
         workStateAnswer.setValue(-1);
         workStateCreate.setValue(-1);
@@ -80,6 +78,7 @@ public class SampleRepository extends MainRepository {
         localData = new ArrayList<>();
         remoteData = new ArrayList<>();
         prerequisiteData = new HashMap();
+        createData = new HashMap();
         scales = new ArrayList<>();
         cases = new ArrayList<>();
         references = new ArrayList<>();
@@ -87,7 +86,6 @@ public class SampleRepository extends MainRepository {
         workStateSample = new MutableLiveData<>();
         workStateAnswer = new MutableLiveData<>();
         workStateCreate = new MutableLiveData<>();
-        create = new HashMap();
         workStateSample.setValue(-1);
         workStateAnswer.setValue(-1);
         workStateCreate.setValue(-1);
@@ -217,6 +215,25 @@ public class SampleRepository extends MainRepository {
         workManager("sendPrerequisite");
     }
 
+    public void create(ArrayList scales, String room, String casse, ArrayList roomReferences, ArrayList caseReferences, String count) throws JSONException {
+        if (scales.size() != 0)
+            SampleRepository.createData.put("scale_id", scales);
+        if (!room.equals(""))
+            SampleRepository.createData.put("room_id", room);
+        if (!casse.equals(""))
+            SampleRepository.createData.put("case_id", casse);
+        if (roomReferences.size() != 0)
+            SampleRepository.createData.put("client_id", roomReferences);
+        else
+            SampleRepository.createData.put("client_id", caseReferences);
+        if (!count.equals(""))
+            SampleRepository.createData.put("count", count);
+
+        work = "create";
+        workStateCreate.setValue(-1);
+        workManager("create");
+    }
+
     public void scales() throws JSONException {
         work = "getScales";
         workStateCreate.setValue(-1);
@@ -243,25 +260,6 @@ public class SampleRepository extends MainRepository {
         work = "getReferences";
         workStateCreate.setValue(-1);
         workManager("getReferences");
-    }
-
-    public void createSample(ArrayList scales, String room, String cases, ArrayList roomReferences, ArrayList caseReferences, String count) throws JSONException {
-        if (scales.size()!=0)
-            SampleRepository.create.put("scale_id", scales);
-        if (!room.equals(""))
-            SampleRepository.create.put("room_id", room);
-        if (!cases.equals(""))
-            SampleRepository.create.put("case_id", cases);
-        if (roomReferences.size() != 0)
-            SampleRepository.create.put("client_id", roomReferences);
-        else
-            SampleRepository.create.put("client_id", caseReferences);
-        if (!count.equals(""))
-            SampleRepository.create.put("count", count);
-        work = "create";
-        Log.e("hashmap", String.valueOf(SampleRepository.create));
-        workStateCreate.setValue(-1);
-        workManager("createSample");
     }
 
     /*

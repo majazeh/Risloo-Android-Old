@@ -6,10 +6,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -51,7 +50,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 public class CreateSampleActivity extends AppCompatActivity {
 
@@ -65,20 +63,18 @@ public class CreateSampleActivity extends AppCompatActivity {
     // Vars
     private String room = "", casse = "", count = "";
 
-    // Objects
-    private Handler handler;
-
     // Widgets
     private Toolbar toolbar;
     private TabLayout typeTabLayout;
     public Spinner scaleSpinner, roomSpinner, caseSpinner, roomReferenceSpinner;
-    private RecyclerView scaleRecyclerView, roomReferenceRecyclerView, caseReferenceRecyclerView;
-    private LinearLayout roomLinearLayout, caseLinearLayout;
     public TextView scaleTextView, roomTextView, caseTextView, roomReferenceTextView, caseReferenceTextView;
-    public EditText roomReferenceEditText;
-    private CardView roomReferenceCardView;
+    public EditText countEditText;
+    private RecyclerView scaleRecyclerView, roomReferenceRecyclerView, caseReferenceRecyclerView;
     private ProgressBar scaleProgressBar, roomProgressBar, caseProgressBar, roomReferenceProgressBar;
     private ImageView roomImageView, caseImageView;
+    private CardView roomReferenceCardView;
+    private LinearLayout scaleLinearLayout, roomLinearLayout, caseLinearLayout;
+    private FrameLayout roomFrameLayout;
     private Button createButton;
     private Dialog progressDialog;
 
@@ -109,8 +105,6 @@ public class CreateSampleActivity extends AppCompatActivity {
         referenceAdapter = new SpinnerAdapter(this);
         checkBoxAdapter = new CheckBoxAdapter(this);
 
-        handler = new Handler();
-
         toolbar = findViewById(R.id.activity_create_sample_toolbar);
 
         typeTabLayout = findViewById(R.id.activity_create_sample_type_tabLayout);
@@ -119,6 +113,14 @@ public class CreateSampleActivity extends AppCompatActivity {
         roomSpinner = findViewById(R.id.activity_create_sample_room_spinner);
         caseSpinner = findViewById(R.id.activity_create_sample_case_spinner);
         roomReferenceSpinner = findViewById(R.id.activity_create_sample_clinic_reference_spinner);
+
+        scaleTextView = findViewById(R.id.activity_create_sample_scale_textView);
+        roomTextView = findViewById(R.id.activity_create_sample_room_textView);
+        caseTextView = findViewById(R.id.activity_create_sample_case_textView);
+        roomReferenceTextView = findViewById(R.id.activity_create_sample_clinic_reference_textView);
+        caseReferenceTextView = findViewById(R.id.activity_create_sample_case_reference_textView);
+
+        countEditText = findViewById(R.id.activity_create_sample_count_editText);
 
         scaleRecyclerView = findViewById(R.id.activity_create_sample_scale_recyclerView);
         scaleRecyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout3", (int) getResources().getDimension(R.dimen._12sdp)));
@@ -133,19 +135,6 @@ public class CreateSampleActivity extends AppCompatActivity {
         caseReferenceRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         caseReferenceRecyclerView.setHasFixedSize(true);
 
-        roomLinearLayout = findViewById(R.id.activity_create_sample_clinic_linearLayout);
-        caseLinearLayout = findViewById(R.id.activity_create_sample_case_linearLayout);
-
-        scaleTextView = findViewById(R.id.activity_create_sample_scale_textView);
-        roomTextView = findViewById(R.id.activity_create_sample_room_textView);
-        caseTextView = findViewById(R.id.activity_create_sample_case_textView);
-        roomReferenceTextView = findViewById(R.id.activity_create_sample_clinic_reference_textView);
-        caseReferenceTextView = findViewById(R.id.activity_create_sample_case_reference_textView);
-
-        roomReferenceEditText = findViewById(R.id.activity_create_sample_count_editText);
-
-        roomReferenceCardView = findViewById(R.id.activity_create_sample_clinic_reference_cardView);
-
         scaleProgressBar = findViewById(R.id.activity_create_sample_scale_progressBar);
         roomProgressBar = findViewById(R.id.activity_create_sample_room_progressBar);
         caseProgressBar = findViewById(R.id.activity_create_sample_case_progressBar);
@@ -154,6 +143,14 @@ public class CreateSampleActivity extends AppCompatActivity {
         roomImageView = findViewById(R.id.activity_create_sample_room_imageView);
         caseImageView = findViewById(R.id.activity_create_sample_case_imageView);
 
+        roomReferenceCardView = findViewById(R.id.activity_create_sample_clinic_reference_cardView);
+
+        scaleLinearLayout = findViewById(R.id.activity_create_sample_scale_linearLayout);
+        roomLinearLayout = findViewById(R.id.activity_create_sample_clinic_linearLayout);
+        caseLinearLayout = findViewById(R.id.activity_create_sample_case_linearLayout);
+
+        roomFrameLayout = findViewById(R.id.activity_create_sample_room_frameLayout);
+
         createButton = findViewById(R.id.activity_create_sample_button);
 
         progressDialog = new Dialog(this, R.style.DialogTheme);
@@ -161,7 +158,6 @@ public class CreateSampleActivity extends AppCompatActivity {
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
-
     }
 
     private void detector() {
@@ -193,6 +189,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                         caseLinearLayout.setVisibility(View.VISIBLE);
                         break;
                 }
+
+                countEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
             }
 
             @Override
@@ -211,6 +209,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                 if (SampleRepository.scales.size() == 0) {
                     doWork("getScales", "");
                 }
+
+                countEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
             }
             return false;
         });
@@ -220,6 +220,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                 if (SampleRepository.rooms.size() == 0) {
                     doWork("getRooms", "");
                 }
+
+                countEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
             }
             return false;
         });
@@ -233,6 +235,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, "لطفا اول اتاق درمانی انتخاب کنید", Toast.LENGTH_SHORT).show();
                 }
+
+                countEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
             }
             return false;
         });
@@ -246,6 +250,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, "لطفا اول اتاق درمانی انتخاب کنید", Toast.LENGTH_SHORT).show();
                 }
+
+                countEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
             }
             return false;
         });
@@ -254,13 +260,13 @@ public class CreateSampleActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (scaleSpinner.getCount() != position) {
-                    if (!scaleAdapter.getReferences().contains(parent.getItemAtPosition(position).toString())) {
-                        scaleAdapter.getReferences().add(SampleRepository.scales.get(position));
-
-                        setRecyclerView(scaleAdapter.getReferences(), scaleRecyclerView, "scale");
+                    if (!scaleAdapter.getValues().contains(parent.getItemAtPosition(position).toString())) {
+                        scaleAdapter.getValues().add(SampleRepository.scales.get(position));
+                        setRecyclerView(scaleAdapter.getValues(), scaleRecyclerView, "scale");
                     }
 
-                    if (scaleAdapter.getReferences().size() == 1) {
+                    if (scaleAdapter.getValues().size() == 1) {
+                        scaleLinearLayout.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
                         scaleTextView.setVisibility(View.GONE);
                     }
                 }
@@ -278,6 +284,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                 if (roomSpinner.getCount() != position) {
                     try {
                         room = String.valueOf(SampleRepository.rooms.get(position).get("id"));
+                        roomFrameLayout.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+
                         casse = "";
                         SampleRepository.cases.clear();
                         caseSpinner.setAdapter(null);
@@ -288,26 +296,26 @@ public class CreateSampleActivity extends AppCompatActivity {
                             roomReferenceSpinner.setAdapter(null);
                             roomReferenceTextView.setVisibility(View.VISIBLE);
 
-                            referenceAdapter.getReferences().clear();
-                            referenceAdapter.setReferencesId(new ArrayList<>());
+                            referenceAdapter.getValues().clear();
+                            referenceAdapter.setValuesId(new ArrayList<>());
                             referenceAdapter.notifyDataSetChanged();
 
-                            roomReferenceEditText.setVisibility(View.VISIBLE);
+                            countEditText.setVisibility(View.VISIBLE);
                         } else {
                             count = "";
-                            roomReferenceEditText.setText(count);
+                            countEditText.setText(count);
 
                             roomReferenceCardView.setVisibility(View.VISIBLE);
                         }
 
-                        if (checkBoxAdapter.getReferences() != null) {
+                        if (checkBoxAdapter.getValues() != null) {
                             caseReferenceTextView.setVisibility(View.GONE);
                             checkBoxAdapter.setChecks(new ArrayList<>());
-                            checkBoxAdapter.getReferences().clear();
+                            checkBoxAdapter.getValues().clear();
                             checkBoxAdapter.notifyDataSetChanged();
                         }
 
-                        roomReferenceEditText.setFocusableInTouchMode(true);
+                        countEditText.setFocusableInTouchMode(true);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -326,28 +334,21 @@ public class CreateSampleActivity extends AppCompatActivity {
                 if (caseSpinner.getCount() != position) {
                     try {
                         casse = String.valueOf(SampleRepository.cases.get(position).get("id"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    ArrayList<Model> cases = new ArrayList<>();
-                    try {
+
+                        ArrayList<Model> cases = new ArrayList<>();
                         JSONArray clients = (JSONArray) SampleRepository.cases.get(position).get("clients");
                         for (int i = 0; i < clients.length(); i++) {
-                            try {
-                                JSONObject object = (JSONObject) clients.get(i);
-                                cases.add(new Model(object));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                            JSONObject object = (JSONObject) clients.get(i);
+                            cases.add(new Model(object));
                         }
 
+                        setRecyclerView(cases, caseReferenceRecyclerView, "checkbox");
+
+                        caseReferenceTextView.setVisibility(View.VISIBLE);
+                        caseReferenceRecyclerView.setVisibility(View.VISIBLE);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    setRecyclerView(cases, caseReferenceRecyclerView, "checkbox");
-
-                    caseReferenceTextView.setVisibility(View.VISIBLE);
-                    caseReferenceRecyclerView.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -361,16 +362,14 @@ public class CreateSampleActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (roomReferenceSpinner.getCount() != position) {
-                    if (!referenceAdapter.getReferences().contains(parent.getItemAtPosition(position).toString())) {
-                        referenceAdapter.getReferences().add(SampleRepository.references.get(position));
-                        setRecyclerView(referenceAdapter.getReferences(), roomReferenceRecyclerView, "roomReference");
+                    if (!referenceAdapter.getValues().contains(parent.getItemAtPosition(position).toString())) {
+                        referenceAdapter.getValues().add(SampleRepository.references.get(position));
+                        setRecyclerView(referenceAdapter.getValues(), roomReferenceRecyclerView, "roomReference");
                     }
 
-                    if (referenceAdapter.getReferences().size() == 1) {
+                    if (referenceAdapter.getValues().size() == 1) {
                         roomReferenceTextView.setVisibility(View.GONE);
-                        roomReferenceEditText.setVisibility(View.GONE);
-                    } else {
-
+                        countEditText.setVisibility(View.GONE);
                     }
                 }
             }
@@ -381,11 +380,11 @@ public class CreateSampleActivity extends AppCompatActivity {
             }
         });
 
-        roomReferenceEditText.setOnTouchListener((v, event) -> {
+        countEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!room.isEmpty()) {
-                    roomReferenceEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
-                    roomReferenceEditText.setCursorVisible(true);
+                    countEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
+                    countEditText.setCursorVisible(true);
                 } else {
                     Toast.makeText(this, "لطفا اول اتاق درمانی انتخاب کنید", Toast.LENGTH_SHORT).show();
                 }
@@ -393,7 +392,7 @@ public class CreateSampleActivity extends AppCompatActivity {
             return false;
         });
 
-        roomReferenceEditText.addTextChangedListener(new TextWatcher() {
+        countEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -401,9 +400,9 @@ public class CreateSampleActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (roomReferenceEditText.length() == 1) {
+                if (countEditText.length() == 1) {
                     roomReferenceCardView.setVisibility(View.GONE);
-                } else if (roomReferenceEditText.length() == 0) {
+                } else if (countEditText.length() == 0) {
                     roomReferenceCardView.setVisibility(View.VISIBLE);
                 }
             }
@@ -415,20 +414,20 @@ public class CreateSampleActivity extends AppCompatActivity {
         });
 
         createButton.setOnClickListener(v -> {
-//            if () {
-//                checkInput();
-//            } else {
-//                clearData();
-            try {
-                progressDialog.show();
-                Log.e("scale", String.valueOf(scaleAdapter.getReferencesId()));
-                Log.e("room", room);
-                Log.e("casse", casse);
-                Log.e("references", String.valueOf(referenceAdapter.getReferencesId()));
-                viewModel.createSample(scaleAdapter.getReferencesId(), room, casse, referenceAdapter.getReferencesId(), checkBoxAdapter.getChecks(), count);
-                observeWork();
-            } catch (JSONException e) {
-                e.printStackTrace();
+            count = countEditText.getText().toString().trim();
+
+            if (scaleAdapter.getValues().size() == 0 || room.isEmpty()) {
+                checkInput();
+            } else {
+                clearData();
+
+                try {
+                    progressDialog.show();
+                    viewModel.create(scaleAdapter.getValuesId(), room, casse, referenceAdapter.getValuesId(), checkBoxAdapter.getChecks(), count);
+                    observeWork();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -485,6 +484,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 }
 
             };
+
             if (type.equals("scale")) {
                 for (int i = 0; i < arrayList.size(); i++) {
                     try {
@@ -503,7 +503,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     }
                 }
             }
-            //                adapter.add(new Model(null));
+
             adapter.setDropDownViewResource(R.layout.spinner_dropdown);
             spinner.setAdapter(adapter);
             spinner.setSelection(adapter.getCount());
@@ -532,6 +532,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 }
 
             };
+
             if (type.equals("room")) {
                 for (int i = 0; i < arrayList.size(); i++) {
                     try {
@@ -550,11 +551,12 @@ public class CreateSampleActivity extends AppCompatActivity {
                         for (int j = 0; j < clients.length(); j++) {
                             JSONObject object1 = clients.getJSONObject(j);
                             JSONObject user = object1.getJSONObject("user");
-                            if (j == clients.length() - 1) {
+
+                            if (j == clients.length() - 1)
                                 name += user.getString("name");
-                            } else {
+                            else
                                 name += user.getString("name") + " - ";
-                            }
+
                             arrayList1.add(user.getString("name"));
                         }
                         if (name != "") {
@@ -563,9 +565,9 @@ public class CreateSampleActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }
             }
+
             if (type.equals("room")) {
                 adapter.add(getResources().getString(R.string.CreateSampleRoom));
                 roomTextView.setVisibility(View.GONE);
@@ -582,26 +584,39 @@ public class CreateSampleActivity extends AppCompatActivity {
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String type) {
         switch (type) {
             case "scale":
-                scaleAdapter.setReference(arrayList, type);
+                scaleAdapter.setValue(arrayList, type);
                 recyclerView.setAdapter(scaleAdapter);
                 break;
             case "roomReference":
-                referenceAdapter.setReference(arrayList, type);
+                referenceAdapter.setValue(arrayList, type);
                 recyclerView.setAdapter(referenceAdapter);
                 break;
             case "checkbox":
-                checkBoxAdapter.setReference(arrayList);
+                checkBoxAdapter.setValue(arrayList);
                 recyclerView.setAdapter(checkBoxAdapter);
                 break;
         }
     }
 
     private void checkInput() {
-
+        if (scaleAdapter.getValues().size() == 0 && room.isEmpty()) {
+            scaleLinearLayout.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+            roomFrameLayout.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+        } else if (room.isEmpty()) {
+            scaleLinearLayout.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+            roomFrameLayout.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+        } else if (scaleAdapter.getValues().size() == 0) {
+            scaleLinearLayout.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+            roomFrameLayout.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+        }
     }
 
     private void clearData() {
+        countEditText.setCursorVisible(false);
 
+        countEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+        scaleLinearLayout.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+        roomFrameLayout.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
     }
 
     private void doWork(String method, String roomId) {
@@ -642,7 +657,24 @@ public class CreateSampleActivity extends AppCompatActivity {
 
     private void observeWork() {
         SampleRepository.workStateCreate.observe((LifecycleOwner) this, integer -> {
-            if (SampleRepository.work == "getScales") {
+            if (SampleRepository.work == "create") {
+                if (integer == 1) {
+                    setResult(RESULT_OK, null);
+                    finish();
+
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                } else if (integer == 0) {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                } else if (integer == -2) {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                }
+            } else if (SampleRepository.work == "getScales") {
                 if (integer == 1) {
                     setSpinner(SampleRepository.scales, scaleSpinner, "scale");
 
@@ -717,23 +749,6 @@ public class CreateSampleActivity extends AppCompatActivity {
                 } else if (integer == -2) {
                     roomReferenceProgressBar.setVisibility(View.GONE);
                     roomReferenceSpinner.setClickable(true);
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                }
-            } else if (SampleRepository.work == "create") {
-                if (integer == 1) {
-                    setResult(RESULT_OK, null);
-                    finish();
-
-                    progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                } else if (integer == 0) {
-                    progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                } else if (integer == -2) {
-                    progressDialog.dismiss();
                     Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 }

@@ -3,7 +3,6 @@ package com.majazeh.risloo.Views.Adapters;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +28,8 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
 
     // Vars
     private String type;
-    private ArrayList<Model> references = new ArrayList<>();
-    private ArrayList<String> referencesId = new ArrayList<>();
+    private ArrayList<Model> values = new ArrayList<>();
+    private ArrayList<String> valuesId = new ArrayList<>();
 
     // Objects
     private Activity activity;
@@ -57,19 +56,16 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
             holder.spinnerLinearLayout.setBackgroundResource(R.drawable.draw_4sdp_snow_ripple);
             holder.deleteImageView.setBackgroundResource(R.drawable.draw_rectangle_snow_ripple);
         }
-        if (type.equals("scale")) {
-            try {
-                holder.titleTextView.setText(String.valueOf(references.get(i).get("title")));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                JSONObject user = (JSONObject) references.get(i).get("user");
+
+        try {
+            if (type.equals("scale")) {
+                holder.titleTextView.setText(String.valueOf(values.get(i).get("title")));
+            } else {
+                JSONObject user = (JSONObject) values.get(i).get("user");
                 holder.titleTextView.setText(String.valueOf(user.get("name")));
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
         holder.itemView.setOnClickListener(v -> {
@@ -81,56 +77,59 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
             holder.deleteImageView.setClickable(false);
             handler.postDelayed(() -> holder.deleteImageView.setClickable(true), 500);
 
-            removeReference(i);
+            removeValue(i);
         });
     }
 
     @Override
     public int getItemCount() {
-        return references.size();
+        return values.size();
     }
 
     private void initializer(View view) {
         handler = new Handler();
     }
 
-    public void setReference(ArrayList<Model> references, String type) {
-        this.references = references;
+    public void setValue(ArrayList<Model> values, String type) {
+        this.values = values;
         this.type = type;
         notifyDataSetChanged();
-        for (int i = 0; i < references.size(); i++) {
+
+        for (int i = 0; i < values.size(); i++) {
             try {
-                referencesId.add((String) references.get(i).get("id"));
+                valuesId.add((String) values.get(i).get("id"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     }
-    public void setReferencesId(ArrayList<String> referencesId){
-        this.referencesId = referencesId;
+
+    public void setValuesId(ArrayList<String> valuesId){
+        this.valuesId = valuesId;
     }
 
-    public ArrayList<Model> getReferences() {
-        return references;
-    }
-    public ArrayList<String> getReferencesId(){
-        return referencesId;
+    public ArrayList<Model> getValues() {
+        return values;
     }
 
-    private void removeReference(int position) {
-        references.remove(position);
-        referencesId.remove(position);
+    public ArrayList<String> getValuesId(){
+        return valuesId;
+    }
+
+    private void removeValue(int position) {
+        values.remove(position);
+        valuesId.remove(position);
         notifyItemRemoved(position);
         notifyItemChanged(position);
 
-        if (references.size() == 0) {
+        if (values.size() == 0) {
             if (type.equals("scale")) {
                 ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleTextView.setVisibility(View.VISIBLE);
                 ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleSpinner.setAdapter(null);
                 ((CreateSampleActivity) Objects.requireNonNull(activity)).setSpinner(SampleRepository.scales, ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleSpinner, "scale");
             } else {
                 ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceTextView.setVisibility(View.VISIBLE);
-                ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceEditText.setVisibility(View.VISIBLE);
+                ((CreateSampleActivity) Objects.requireNonNull(activity)).countEditText.setVisibility(View.VISIBLE);
                 ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceSpinner.setAdapter(null);
                 ((CreateSampleActivity) Objects.requireNonNull(activity)).setSpinner(SampleRepository.references, ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceSpinner, "reference");
             }

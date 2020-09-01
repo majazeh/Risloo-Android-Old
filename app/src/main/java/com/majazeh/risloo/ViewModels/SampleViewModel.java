@@ -60,6 +60,10 @@ public class SampleViewModel extends AndroidViewModel {
         repository.sendPrerequisite(sampleId, prerequisites);
     }
 
+    public void create(ArrayList scales, String room, String cases, ArrayList roomReferences, ArrayList caseReferences, String count) throws JSONException {
+        repository.create(scales, room, cases, roomReferences, caseReferences, count);
+    }
+
     public void scales() throws JSONException {
        repository.scales();
     }
@@ -74,10 +78,6 @@ public class SampleViewModel extends AndroidViewModel {
 
     public void references(String roomId) throws JSONException {
         repository.references(roomId);
-    }
-
-    public void createSample(ArrayList scales, String room, String cases, ArrayList roomReferences, ArrayList caseReferences, String count) throws JSONException {
-        repository.createSample(scales,room,cases,roomReferences,caseReferences,count);
     }
 
     /*
