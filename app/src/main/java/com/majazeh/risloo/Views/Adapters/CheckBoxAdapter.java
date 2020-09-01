@@ -18,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
@@ -26,7 +27,7 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
 
     // Vars
     private ArrayList<Model> references;
-    private HashMap<String, String> checks;
+    private ArrayList<String> checks;
 
     // Objects
     private Activity activity;
@@ -49,25 +50,24 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
     @Override
     public void onBindViewHolder(@NonNull CheckBoxHolder holder, int i) {
         try {
-
             JSONObject user = (JSONObject) references.get(i).get("user");
 
-        holder.titleCheckBox.setText(user.getString("name"));
+            holder.titleCheckBox.setText(user.getString("name"));
 
-        holder.itemView.setOnClickListener(v -> {
-            holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
+            holder.itemView.setOnClickListener(v -> {
+                holder.itemView.setClickable(false);
+                handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
 
-            if (holder.titleCheckBox.isChecked()) {
-                try {
-                    checks.put(String.valueOf(i), user.getString("name"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if (holder.titleCheckBox.isChecked()) {
+                    try {
+                        checks.add(user.getString("id"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    checks.remove(String.valueOf(i));
                 }
-            } else {
-                checks.remove(String.valueOf(i));
-            }
-        });
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -87,8 +87,16 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
         notifyDataSetChanged();
     }
 
-    public HashMap<String, String> getChecks() {
+    public void setChecks(ArrayList<String> checks){
+        this.checks = checks;
+    }
+
+    public ArrayList<String> getChecks() {
         return checks;
+    }
+
+    public ArrayList<Model> getReferences() {
+        return references;
     }
 
     public class CheckBoxHolder extends RecyclerView.ViewHolder {

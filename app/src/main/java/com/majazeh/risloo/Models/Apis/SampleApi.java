@@ -47,7 +47,7 @@ public interface SampleApi {
     Call<ResponseBody> getReferences(@Header("Authorization") String authorization, @Path("room_id") String roomId);
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
-    @POST("%/samples")
+    @POST("$/samples")
     Call<ResponseBody> createSample(@Header("Authorization") String authorization,@Body HashMap body);
 
 }

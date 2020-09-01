@@ -3,6 +3,7 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Constraints;
@@ -244,20 +245,21 @@ public class SampleRepository extends MainRepository {
         workManager("getReferences");
     }
 
-    public void createSample(ArrayList scales, String room, String cases, ArrayList roomReferences, HashMap caseReferences, String count) throws JSONException {
-        if (scales != null)
-        SampleRepository.create.put("scales", scales);
-        if (room != null)
-        SampleRepository.create.put("room", room);
-        if (cases != null)
-        SampleRepository.create.put("cases", cases);
-        if (roomReferences != null)
-        SampleRepository.create.put("roomReferences", roomReferences);
-        if (caseReferences != null)
-        SampleRepository.create.put("caseReferences", caseReferences);
-        if (count != null)
-        SampleRepository.create.put("count", count);
-        work = "createSample";
+    public void createSample(ArrayList scales, String room, String cases, ArrayList roomReferences, ArrayList caseReferences, String count) throws JSONException {
+        if (scales.size()!=0)
+            SampleRepository.create.put("scale_id", scales);
+        if (!room.equals(""))
+            SampleRepository.create.put("room_id", room);
+        if (!cases.equals(""))
+            SampleRepository.create.put("case_id", cases);
+        if (roomReferences.size() != 0)
+            SampleRepository.create.put("client_id", roomReferences);
+        else
+            SampleRepository.create.put("client_id", caseReferences);
+        if (!count.equals(""))
+            SampleRepository.create.put("count", count);
+        work = "create";
+        Log.e("hashmap", String.valueOf(SampleRepository.create));
         workStateCreate.setValue(-1);
         workManager("createSample");
     }

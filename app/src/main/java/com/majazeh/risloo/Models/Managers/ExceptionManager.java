@@ -88,6 +88,9 @@ public class ExceptionManager {
                                 case "prerequisite":
                                     farsi_message = "پیش نیاز ها با موفقیت تکمیل شد";
                                     break;
+                                case "create":
+                                    farsi_message = "نمونه با موفقیت ساخته شد";
+                                    break;
                                 default:
                                     farsi_message = ".";
                                     break;

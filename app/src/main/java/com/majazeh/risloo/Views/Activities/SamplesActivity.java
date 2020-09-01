@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +42,7 @@ public class SamplesActivity extends AppCompatActivity {
     private SamplesAdapter adapter;
 
     // Objects
+    private Handler handler;
     private MenuItem toolCreate;
     private ClickableSpan retrySpan;
 
@@ -74,6 +77,8 @@ public class SamplesActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
 
         adapter = new SamplesAdapter(this);
+
+        handler = new Handler();
 
         toolbar = findViewById(R.id.activity_samples_toolbar);
         setSupportActionBar(toolbar);
@@ -153,6 +158,8 @@ public class SamplesActivity extends AppCompatActivity {
                         adapter.setSamples(viewModel.getAll());
                         recyclerView.setAdapter(adapter);
 
+                        toolCreate.setVisible(true);
+
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else {
                         // Samples is Empty
@@ -161,6 +168,8 @@ public class SamplesActivity extends AppCompatActivity {
                         retryLayout.setVisibility(View.GONE);
                         emptyLayout.setVisibility(View.VISIBLE);
                         mainLayout.setVisibility(View.GONE);
+
+                        toolCreate.setVisible(true);
 
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
@@ -176,6 +185,8 @@ public class SamplesActivity extends AppCompatActivity {
 
                             setRetryLayout("error");
 
+                            toolCreate.setVisible(true);
+
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         } else if (integer == -2) {
                             // Samples is Empty And Connection
@@ -186,6 +197,8 @@ public class SamplesActivity extends AppCompatActivity {
                             mainLayout.setVisibility(View.GONE);
 
                             setRetryLayout("connection");
+
+                            toolCreate.setVisible(true);
 
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         }
@@ -201,6 +214,8 @@ public class SamplesActivity extends AppCompatActivity {
                             adapter.setSamples(viewModel.getAll());
                             recyclerView.setAdapter(adapter);
 
+                            handler.postDelayed(() -> toolCreate.setVisible(true), 500);
+
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         }
                     }
@@ -215,7 +230,11 @@ public class SamplesActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
-
+                loadingLayout.setVisibility(View.VISIBLE);
+                retryLayout.setVisibility(View.GONE);
+                emptyLayout.setVisibility(View.GONE);
+                mainLayout.setVisibility(View.GONE);
+            launchSamples();
             }
         }
     }
@@ -225,6 +244,7 @@ public class SamplesActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_samples, menu);
 
         toolCreate = menu.findItem(R.id.tool_create);
+        toolCreate.setVisible(false);
         toolCreate.setOnMenuItemClickListener(menuItem -> {
             startActivityForResult(new Intent(this, CreateSampleActivity.class), 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);

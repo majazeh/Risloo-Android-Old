@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class CreateSampleActivity extends AppCompatActivity {
 
@@ -79,7 +81,6 @@ public class CreateSampleActivity extends AppCompatActivity {
     private ImageView roomImageView, caseImageView;
     private Button createButton;
     private Dialog progressDialog;
-    private ArrayList<Model> checkBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +105,6 @@ public class CreateSampleActivity extends AppCompatActivity {
     private void initializer() {
         viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
 
-        checkBox = new ArrayList<>();
         scaleAdapter = new SpinnerAdapter(this);
         referenceAdapter = new SpinnerAdapter(this);
         checkBoxAdapter = new CheckBoxAdapter(this);
@@ -278,11 +278,39 @@ public class CreateSampleActivity extends AppCompatActivity {
                 if (roomSpinner.getCount() != position) {
                     try {
                         room = String.valueOf(SampleRepository.rooms.get(position).get("id"));
+                        casse = "";
+                        SampleRepository.cases.clear();
+                        caseSpinner.setAdapter(null);
+                        caseTextView.setVisibility(View.VISIBLE);
+
+                        if (SampleRepository.references.size() != 0) {
+                            SampleRepository.references.clear();
+                            roomReferenceSpinner.setAdapter(null);
+                            roomReferenceTextView.setVisibility(View.VISIBLE);
+
+                            referenceAdapter.getReferences().clear();
+                            referenceAdapter.setReferencesId(new ArrayList<>());
+                            referenceAdapter.notifyDataSetChanged();
+
+                            roomReferenceEditText.setVisibility(View.VISIBLE);
+                        } else {
+                            count = "";
+                            roomReferenceEditText.setText(count);
+
+                            roomReferenceCardView.setVisibility(View.VISIBLE);
+                        }
+
+                        if (checkBoxAdapter.getReferences() != null) {
+                            caseReferenceTextView.setVisibility(View.GONE);
+                            checkBoxAdapter.setChecks(new ArrayList<>());
+                            checkBoxAdapter.getReferences().clear();
+                            checkBoxAdapter.notifyDataSetChanged();
+                        }
+
+                        roomReferenceEditText.setFocusableInTouchMode(true);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-                    roomReferenceEditText.setFocusableInTouchMode(true);
                 }
             }
 
@@ -301,11 +329,21 @@ public class CreateSampleActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    ArrayList cases = new ArrayList();
-                    for (int i = 0; i < SampleRepository.cases.size(); i++) {
-                        cases.add(SampleRepository.cases.get(i));
-                    }
+                    ArrayList<Model> cases = new ArrayList<>();
+                    try {
+                        JSONArray clients = (JSONArray) SampleRepository.cases.get(position).get("clients");
+                        for (int i = 0; i < clients.length(); i++) {
+                            try {
+                                JSONObject object = (JSONObject) clients.get(i);
+                                cases.add(new Model(object));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
 
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     setRecyclerView(cases, caseReferenceRecyclerView, "checkbox");
 
                     caseReferenceTextView.setVisibility(View.VISIBLE);
@@ -383,7 +421,11 @@ public class CreateSampleActivity extends AppCompatActivity {
 //                clearData();
             try {
                 progressDialog.show();
-                viewModel.createSample(scaleAdapter.getReferences(), room, casse, referenceAdapter.getReferences(), checkBoxAdapter.getChecks(), count);
+                Log.e("scale", String.valueOf(scaleAdapter.getReferencesId()));
+                Log.e("room", room);
+                Log.e("casse", casse);
+                Log.e("references", String.valueOf(referenceAdapter.getReferencesId()));
+                viewModel.createSample(scaleAdapter.getReferencesId(), room, casse, referenceAdapter.getReferencesId(), checkBoxAdapter.getChecks(), count);
                 observeWork();
             } catch (JSONException e) {
                 e.printStackTrace();

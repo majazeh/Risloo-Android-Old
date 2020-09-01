@@ -30,6 +30,7 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
     // Vars
     private String type;
     private ArrayList<Model> references = new ArrayList<>();
+    private ArrayList<String> referencesId = new ArrayList<>();
 
     // Objects
     private Activity activity;
@@ -56,7 +57,6 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
             holder.spinnerLinearLayout.setBackgroundResource(R.drawable.draw_4sdp_snow_ripple);
             holder.deleteImageView.setBackgroundResource(R.drawable.draw_rectangle_snow_ripple);
         }
-        Log.e("test", "a");
         if (type.equals("scale")) {
             try {
                 holder.titleTextView.setText(String.valueOf(references.get(i).get("title")));
@@ -98,14 +98,28 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
         this.references = references;
         this.type = type;
         notifyDataSetChanged();
+        for (int i = 0; i < references.size(); i++) {
+            try {
+                referencesId.add((String) references.get(i).get("id"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void setReferencesId(ArrayList<String> referencesId){
+        this.referencesId = referencesId;
     }
 
     public ArrayList<Model> getReferences() {
         return references;
     }
+    public ArrayList<String> getReferencesId(){
+        return referencesId;
+    }
 
     private void removeReference(int position) {
         references.remove(position);
+        referencesId.remove(position);
         notifyItemRemoved(position);
         notifyItemChanged(position);
 

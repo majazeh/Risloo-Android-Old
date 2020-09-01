@@ -425,23 +425,6 @@ public class SampleWorker extends Worker {
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
                         SampleRepository.cases.add(new Model(object));
-//                        ArrayList arrayList = new ArrayList<String>();
-//                        String name = "";
-//                        JSONArray clients = object.getJSONArray("clients");
-//                        for (int j = 0; j < clients.length(); j++) {
-//                            JSONObject object1 = clients.getJSONObject(j);
-//                            JSONObject user = object1.getJSONObject("user");
-//                            if (j == clients.length() - 1) {
-//                                name += user.getString("name");
-//                            } else {
-//                                name += user.getString("name") + " - ";
-//                            }
-//                            arrayList.add(user.getString("name"));
-//                        }
-//                        if (name != "") {
-//                            SampleRepository.cases.add(name);
-//                        }
-//                        SampleRepository.casesAll.add(arrayList);
                     }
                 }
 
@@ -473,12 +456,12 @@ public class SampleWorker extends Worker {
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "cases", "sample");
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "create", "sample");
                 SampleRepository.workStateCreate.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "cases", "sample");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "create", "sample");
                 SampleRepository.workStateCreate.postValue(0);
             }
         } catch (IOException e) {

@@ -76,7 +76,7 @@ public class SampleViewModel extends AndroidViewModel {
         repository.references(roomId);
     }
 
-    public void createSample(ArrayList scales, String room, String cases, ArrayList roomReferences, HashMap caseReferences, String count) throws JSONException {
+    public void createSample(ArrayList scales, String room, String cases, ArrayList roomReferences, ArrayList caseReferences, String count) throws JSONException {
         repository.createSample(scales,room,cases,roomReferences,caseReferences,count);
     }
 
