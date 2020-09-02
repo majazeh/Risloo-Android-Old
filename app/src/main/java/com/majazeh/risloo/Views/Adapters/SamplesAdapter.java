@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Views.Activities.SampleActivity;
+import com.majazeh.risloo.Views.Activities.DetailSampleActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -136,6 +137,9 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
             handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
+
+            activity.startActivity(new Intent(activity, DetailSampleActivity.class));
+            activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
 
         holder.startTextView.setOnClickListener(v -> {

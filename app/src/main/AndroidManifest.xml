@@ -35,31 +35,74 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".Views.Activities.SplashActivity" android:theme="@style/LauncherTheme" android:screenOrientation="portrait">
+        <activity
+            android:name=".Views.Activities.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/LauncherTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Views.Activities.IntroActivity" android:theme="@style/WindowTheme" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.AuthActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.SampleActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.SamplesActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.CreateSampleActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.OutroActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.AccountActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.EditAccountActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.ArchiveActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.CenterActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.EditCenterActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.CreateCenterActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.SettingActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.AboutUsActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.QuestionActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.CallUsActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.TermConditionActivity" android:screenOrientation="portrait" />
-        <activity android:name=".Views.Activities.TestActivity" android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.IntroActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/WindowTheme" />
+        <activity
+            android:name=".Views.Activities.AuthActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.SampleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.SamplesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.CreateSampleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.DetailSampleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.OutroActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.AccountActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.EditAccountActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.ArchiveActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.CenterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.EditCenterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.CreateCenterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.AboutUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.QuestionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.CallUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.TermConditionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.TestActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

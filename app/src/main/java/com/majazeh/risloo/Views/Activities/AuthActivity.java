@@ -100,11 +100,17 @@ public class AuthActivity extends AppCompatActivity {
 
         navigationView = findViewById(R.id.activity_auth_navigationView);
         if (token()) {
-            navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(true);
             navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(true);
+            navigationView.getMenu().findItem(R.id.tool_reserve_request).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_reserve_construct).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_treatment_psychologist).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(true);
         } else {
-            navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
             navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_reserve_request).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_reserve_construct).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_treatment_psychologist).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
         }
         navigationFooter = navigationView.findViewById(R.id.activity_auth_footer);
 
@@ -258,12 +264,12 @@ public class AuthActivity extends AppCompatActivity {
                 if (toolUser != null) {
                     if (token()) {
                         toolUser.setVisible(true);
-                        navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(true);
                         navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(true);
+                        navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(true);
                     } else {
                         toolUser.setVisible(false);
-                        navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
                         navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(false);
+                        navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
                     }
                 }
 
@@ -312,8 +318,8 @@ public class AuthActivity extends AppCompatActivity {
                     titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
 
                     toolUser.setVisible(false);
-                    navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
                     navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(false);
+                    navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
 
                     SerialFragment fragment = ((SerialFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
                     if (fragment != null) {
