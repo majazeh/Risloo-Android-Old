@@ -14,7 +14,7 @@ import retrofit2.http.Query;
 
 public interface SampleApi {
 
-    @Headers({"content-type: application/json", "Accept-Language:fa"})
+    @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("$/samples/{sample_id}")
     Call<ResponseBody> getSingle(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
 

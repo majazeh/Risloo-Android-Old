@@ -101,7 +101,7 @@ public class FileManager {
 
     public static boolean writePrerequisiteAnswerToCache(Context context, JSONArray jsonArray, String fileName) {
         try {
-            File file = new File(context.getCacheDir(), "Prerequisite/" + fileName);
+            File file = new File(context.getCacheDir(), "Prerequisites/" + fileName);
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }
@@ -117,7 +117,7 @@ public class FileManager {
                     jsonObject.put(String.valueOf(i + 1), "");
                 }
             }
-            writeObjectToCache(context, jsonObject, "prerequisiteAnswers", fileName);
+            writeObjectToCache(context, jsonObject, "prerequisitesAnswers", fileName);
 
             FileOutputStream fos = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fos);

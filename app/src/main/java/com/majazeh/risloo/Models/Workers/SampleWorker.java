@@ -2,6 +2,7 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -112,9 +113,8 @@ public class SampleWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONObject data = successBody.getJSONObject("data");
-
                 FileManager.writeSampleAnswerToCache(context, successBody, SampleRepository.sampleId);
-                FileManager.writePrerequisiteAnswerToCache(context, data.getJSONArray("prerequisite"), SampleRepository.sampleId);
+                FileManager.writePrerequisiteAnswerToCache(context, data.getJSONArray("prerequisites"), SampleRepository.sampleId);
 
                 ExceptionManager.getException(bodyResponse.code(), successBody, true, "single", "sample");
                 SampleRepository.workStateSample.postValue(1);
@@ -262,7 +262,7 @@ public class SampleWorker extends Worker {
     private void sendPrerequisite() {
         try {
             HashMap hashMap = new HashMap();
-            hashMap.put("prerequisite", SampleRepository.prerequisiteData);
+            hashMap.put("prerequisites", SampleRepository.prerequisiteData);
 
             Call<ResponseBody> call = sampleApi.send(token(), SampleRepository.sampleId, hashMap);
 

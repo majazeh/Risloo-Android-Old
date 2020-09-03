@@ -3,6 +3,7 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Constraints;
@@ -54,7 +55,7 @@ public class SampleRepository extends MainRepository {
     public SampleRepository(Application application, String sampleId) throws JSONException {
         super(application);
 
-        sample(sampleId);
+        //sample(sampleId);
 
         localData = new ArrayList<>();
         remoteData = new ArrayList<>();
@@ -100,6 +101,7 @@ public class SampleRepository extends MainRepository {
     */
 
     public void sample(String sampleId) throws JSONException {
+
         if (isNetworkConnected(application.getApplicationContext())) {
             SampleRepository.sampleId = sampleId;
 
@@ -108,6 +110,7 @@ public class SampleRepository extends MainRepository {
             workManager("getSingle");
 
             SampleRepository.workStateSample.observeForever(integer -> {
+
                 if (integer == 1) {
                     try {
                         JSONObject jsonObject = readSampleFromCache(sampleId);
@@ -156,6 +159,7 @@ public class SampleRepository extends MainRepository {
                 }
             }
         }
+
     }
 
     public void samples() throws JSONException {
@@ -297,7 +301,7 @@ public class SampleRepository extends MainRepository {
     }
 
     public boolean writePrerequisiteAnswerToCache(JSONObject jsonObject, String fileName) {
-        return FileManager.writeObjectToCache(application.getApplicationContext(), jsonObject, "prerequisiteAnswers", fileName);
+        return FileManager.writeObjectToCache(application.getApplicationContext(), jsonObject, "prerequisitesAnswers", fileName);
     }
 
     /*
@@ -313,7 +317,7 @@ public class SampleRepository extends MainRepository {
     }
 
     public JSONObject readPrerequisiteAnswerFromCache(String fileName) {
-        return FileManager.readObjectFromCache(application.getApplicationContext(), "prerequisiteAnswers", fileName);
+        return FileManager.readObjectFromCache(application.getApplicationContext(), "prerequisitesAnswers", fileName);
     }
 
     /*
@@ -341,7 +345,7 @@ public class SampleRepository extends MainRepository {
     }
 
     public boolean hasPrerequisiteAnswerStorage(String fileName) {
-        return FileManager.hasCache(application.getApplicationContext(), "Prerequisite", fileName);
+        return FileManager.hasCache(application.getApplicationContext(), "Prerequisites", fileName);
     }
 
     public boolean checkPrerequisiteAnswerStorage(String fileName) {
@@ -375,7 +379,7 @@ public class SampleRepository extends MainRepository {
     public ArrayList getPrerequisite() {
         ArrayList arrayList = new ArrayList<>();
         try {
-            JSONArray jsonArray = sampleJson.getJSONObject("data").getJSONArray("prerequisite");
+            JSONArray jsonArray = sampleJson.getJSONObject("data").getJSONArray("prerequisites");
             for (int i = 0; i < jsonArray.length(); i++) {
                 arrayList.add(jsonArray.get(i));
             }

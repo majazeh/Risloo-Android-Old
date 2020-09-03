@@ -18,6 +18,7 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -103,6 +104,7 @@ public class SampleActivity extends AppCompatActivity {
         editor.apply();
 
         viewModel = ViewModelProviders.of(this, new SampleViewModelFactory(getApplication(), sharedPreferences.getString("sampleId", ""))).get(SampleViewModel.class);
+
 
         adapter = new IndexAdapter(this, viewModel);
 
@@ -365,7 +367,7 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void launchProcess() {
-        SampleRepository.work = "getSample";
+        SampleRepository.work = "getSingle";
 
         if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) >= 0) {
             loadingDialog.show();
@@ -375,10 +377,15 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void observeWorkSample() {
+        try {
+            viewModel.sample(sharedPreferences.getString("sampleId", ""));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("test", String.valueOf(viewModel.readPrerequisiteAnswerFromCache(sharedPreferences.getString("sampleId", ""))));
         SampleRepository.workStateSample.observe(this, integer -> {
 
-            if (SampleRepository.work == "getSample") {
-
+            if (SampleRepository.work == "getSingle") {
                 if (isNetworkConnected()) {
                     if (integer == 1) {
                         if (viewModel.checkPrerequisiteAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
@@ -426,6 +433,8 @@ public class SampleActivity extends AppCompatActivity {
                         }
                         loadingDialog.dismiss();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+
+
                     } else if (integer == 0) {
 
                         if (viewModel.getItems() == null) {
@@ -534,7 +543,7 @@ public class SampleActivity extends AppCompatActivity {
                     SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
                 }
                 if (integer != -1) {
-                    SampleRepository.work = "getSample";
+                    SampleRepository.work = "getSingle";
                     observeWorkSample();
                 }
             }
