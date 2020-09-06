@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/single_item_detail_sample"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_36sdp"
+    android:layout_gravity="center"
+    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded">
+
+    <EditText
+        android:id="@+id/single_item_detail_sample_type_editText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/_16sdp"
+        android:paddingRight="@dimen/_16sdp"
+        android:imeOptions="actionDone"
+        android:cursorVisible="false"
+        android:gravity="right|center"
+        android:textSize="@dimen/_12ssp"
+        android:textStyle="normal"
+        android:textColor="@color/Grey"
+        android:textColorHint="@color/Mischka"
+        android:textAlignment="gravity"
+        android:background="@null"
+        android:importantForAutofill="no" />
+
+    <Spinner
+        android:id="@+id/single_item_detail_sample_option_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:singleLine="true"
+        android:spinnerMode="dropdown"
+        android:background="@null"/>
+
+    <ImageView
+        android:id="@+id/single_item_detail_sample_arrow_imageView"
+        android:layout_width="@dimen/_12sdp"
+        android:layout_height="@dimen/_12sdp"
+        android:layout_marginLeft="@dimen/_12sdp"
+        android:layout_gravity="center|left"
+        android:src="@drawable/ic_chevron_down"
+        app:tint="@color/Mischka" />
+
+    <ProgressBar
+        android:id="@+id/single_item_detail_sample_update_progressBar"
+        android:layout_width="@dimen/_16sdp"
+        android:layout_height="@dimen/_16sdp"
+        android:layout_gravity="center|left"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:theme="@style/ProgressBarTheme"
+        android:visibility="gone"
+        style="@style/Widget.AppCompat.ProgressBar"/>
+
+</FrameLayout>
