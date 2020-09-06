@@ -176,6 +176,31 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // detail sample strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="DetailSampleTitle">مشخصات آزمون</string>
+
+    <string name="DetailSampleClose">بستن آزمون</string>
+    <string name="DetailSampleScore">نمره دهی</string>
+
+    <string name="DetailSampleForm">مواد آزمون</string>
+    <string name="DetailSampleResult">نمره آزمون</string>
+    <string name="DetailSampleEdit">ویریش فرم</string>
+
+    <string name="DetailSampleGeneral">عمومی</string>
+    <string name="DetailSamplePrerequisite">پیش نیاز ها</string>
+    <string name="DetailSampleTest">گویه‌ها</string>
+
+    <string name="DetailDownloadDialogTitle">کدام فرمت می خوای دریافت کنید</string>
+    <string name="DetailDownloadDialogSvg">svg</string>
+    <string name="DetailDownloadDialogPng">png</string>
+    <string name="DetailDownloadDialogHtml">html</string>
+    <string name="DetailDownloadDialogPdf">pdf</string>
+    <string name="DetailDownloadDialogClose">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     // outro strings
     ////////////////////////////////////////////////////////////////////////////////
 

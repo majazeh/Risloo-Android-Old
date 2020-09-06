@@ -67,6 +67,23 @@ public class ItemDecorator extends RecyclerView.ItemDecoration {
                 rect.left = margin / 2;
 
                 break;
+            case "verticalLinearLayout3":
+
+                // Top Margin
+                if (position == 0) {
+
+                } else {
+                    rect.top = margin / 3;
+                }
+
+                // Bottom Margin
+                if (count > 0 && position == count - 1) {
+
+                } else {
+                    rect.bottom = margin / 3;
+                }
+
+                break;
             case "horizontalLinearLayout":
 
                 // Top And Bottom Margins
