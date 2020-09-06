@@ -47,7 +47,7 @@ public interface SampleApi {
     Call<ResponseBody> getCases(@Header("Authorization") String authorization, @Query("room") String room);
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
-    @GET("rooms/{room_id}/users")
+    @GET("rooms/{room_id}/users?status=accepted")
     Call<ResponseBody> getReferences(@Header("Authorization") String authorization, @Path("room_id") String roomId);
 
 }

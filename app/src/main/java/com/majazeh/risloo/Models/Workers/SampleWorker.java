@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import okhttp3.ResponseBody;
@@ -268,7 +269,7 @@ public class SampleWorker extends Worker {
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
-                SampleRepository.prerequisiteData = new HashMap();
+                SampleRepository.prerequisiteData = new ArrayList();
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
                 SampleRepository.remoteData.clear();

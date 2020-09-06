@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,8 @@ import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.PrerequisiteAdapter;
 
 import org.json.JSONException;
-import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class PrerequisiteFragment extends Fragment {
 
@@ -71,7 +73,15 @@ public class PrerequisiteFragment extends Fragment {
 
     public void doWork() {
         try {
-            viewModel.sendPrerequisite(sharedPreferences.getString("sampleId", ""), adapter.answer);
+            ArrayList arrayList = new ArrayList();
+            for (Object key: adapter.answer.keySet()) {
+            Log.e("answer", String.valueOf(adapter.answer));
+                ArrayList arrayList1 = new ArrayList<String>();
+                arrayList1.add(key);
+                arrayList1.add(adapter.answer.get(key));
+                arrayList.add(arrayList1);
+            }
+            viewModel.sendPrerequisite(sharedPreferences.getString("sampleId", ""), arrayList);
         } catch (JSONException e) {
             e.printStackTrace();
         }

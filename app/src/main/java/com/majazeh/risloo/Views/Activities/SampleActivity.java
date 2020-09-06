@@ -382,7 +382,6 @@ public class SampleActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e("test", String.valueOf(viewModel.readPrerequisiteAnswerFromCache(sharedPreferences.getString("sampleId", ""))));
         SampleRepository.workStateSample.observe(this, integer -> {
 
             if (SampleRepository.work == "getSingle") {

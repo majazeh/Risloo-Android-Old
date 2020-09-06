@@ -2,6 +2,7 @@ package com.majazeh.risloo.Models.Managers;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.logging.Logger;
 
 public class FileManager {
 
@@ -109,15 +111,19 @@ public class FileManager {
                 file.createNewFile();
             }
 
-            JSONObject jsonObject = new JSONObject();
+            JSONArray jsonArray1 = new JSONArray();
             for (int i = 0; i < jsonArray.length(); i++) {
+                JSONArray jsonArray2 = new JSONArray();
                 if (jsonArray.getJSONObject(i).has("user_answered")) {
-                    jsonObject.put(String.valueOf(i + 1), jsonArray.getJSONObject(i).getString("user_answered"));
+                    jsonArray2.put(String.valueOf(i + 1));
+                    jsonArray2.put(jsonArray.getJSONObject(i).getString("user_answered"));
                 } else {
-                    jsonObject.put(String.valueOf(i + 1), "");
+                    jsonArray2.put(String.valueOf(i + 1));
+                    jsonArray2.put("");
                 }
+                jsonArray1.put(jsonArray2);
             }
-            writeObjectToCache(context, jsonObject, "prerequisitesAnswers", fileName);
+            writeArrayToCache(context, jsonArray1, "prerequisitesAnswers", fileName);
 
             FileOutputStream fos = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fos);

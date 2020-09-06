@@ -34,7 +34,7 @@ public class SampleRepository extends MainRepository {
     // Vars
     public static ArrayList<ArrayList<Integer>> localData;
     public static ArrayList<ArrayList<Integer>> remoteData;
-    public static HashMap prerequisiteData;
+    public static ArrayList prerequisiteData;
     public static HashMap createData;
     public static ArrayList<Model> scales;
     public static ArrayList<Model> rooms;
@@ -59,7 +59,7 @@ public class SampleRepository extends MainRepository {
 
         localData = new ArrayList<>();
         remoteData = new ArrayList<>();
-        prerequisiteData = new HashMap();
+        prerequisiteData = new ArrayList();
         createData = new HashMap();
         scales = new ArrayList<>();
         cases = new ArrayList<>();
@@ -78,7 +78,7 @@ public class SampleRepository extends MainRepository {
 
         localData = new ArrayList<>();
         remoteData = new ArrayList<>();
-        prerequisiteData = new HashMap();
+        prerequisiteData = new ArrayList();
         createData = new HashMap();
         scales = new ArrayList<>();
         cases = new ArrayList<>();
@@ -210,7 +210,7 @@ public class SampleRepository extends MainRepository {
         }
     }
 
-    public void sendPrerequisite(String sampleId, HashMap prerequisites) throws JSONException {
+    public void sendPrerequisite(String sampleId, ArrayList prerequisites) throws JSONException {
         SampleRepository.prerequisiteData = prerequisites;
         SampleRepository.sampleId = sampleId;
 
@@ -224,12 +224,13 @@ public class SampleRepository extends MainRepository {
             SampleRepository.createData.put("scale_id", scales);
         if (!room.equals(""))
             SampleRepository.createData.put("room_id", room);
-        if (!casse.equals(""))
+        if (!casse.equals("")) {
             SampleRepository.createData.put("case_id", casse);
-        if (roomReferences.size() != 0)
+            if (caseReferences.size() != 0)
+                SampleRepository.createData.put("client_id", caseReferences);
+        }else{
             SampleRepository.createData.put("client_id", roomReferences);
-        else
-            SampleRepository.createData.put("client_id", caseReferences);
+        }
         if (!count.equals(""))
             SampleRepository.createData.put("count", count);
 
@@ -300,8 +301,8 @@ public class SampleRepository extends MainRepository {
         return FileManager.writeArrayToCache(application.getApplicationContext(), jsonArray, "Answers", fileName);
     }
 
-    public boolean writePrerequisiteAnswerToCache(JSONObject jsonObject, String fileName) {
-        return FileManager.writeObjectToCache(application.getApplicationContext(), jsonObject, "prerequisitesAnswers", fileName);
+    public boolean writePrerequisiteAnswerToCache(JSONArray jsonArray, String fileName) {
+        return FileManager.writeArrayToCache(application.getApplicationContext(), jsonArray, "prerequisitesAnswers", fileName);
     }
 
     /*
@@ -316,8 +317,8 @@ public class SampleRepository extends MainRepository {
         return FileManager.readArrayFromCache(application.getApplicationContext(), "Answers", fileName);
     }
 
-    public JSONObject readPrerequisiteAnswerFromCache(String fileName) {
-        return FileManager.readObjectFromCache(application.getApplicationContext(), "prerequisitesAnswers", fileName);
+    public JSONArray readPrerequisiteAnswerFromCache(String fileName) {
+        return FileManager.readArrayFromCache(application.getApplicationContext(), "prerequisitesAnswers", fileName);
     }
 
     /*
@@ -349,10 +350,12 @@ public class SampleRepository extends MainRepository {
     }
 
     public boolean checkPrerequisiteAnswerStorage(String fileName) {
+        JSONArray jsonArray = readPrerequisiteAnswerFromCache(fileName);
+
         try {
             int size = 0;
-            for (int i = 1; i <= readPrerequisiteAnswerFromCache(fileName).length(); i++) {
-                if (!readPrerequisiteAnswerFromCache(fileName).getString(String.valueOf(i)).equals("")) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                if (!jsonArray.getJSONArray(i).getString(1).equals("")) {
                     size++;
                 }
             }

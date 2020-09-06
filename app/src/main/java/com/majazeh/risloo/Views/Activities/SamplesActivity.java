@@ -9,12 +9,15 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,6 +47,7 @@ public class SamplesActivity extends AppCompatActivity {
     private Handler handler;
     private MenuItem toolCreate;
     private ClickableSpan retrySpan;
+    private SharedPreferences sharedPreferences;
 
     // Widgets
     private Toolbar toolbar;
@@ -75,6 +79,8 @@ public class SamplesActivity extends AppCompatActivity {
     private void initializer() {
         viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
 
+        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
         adapter = new SamplesAdapter(this);
 
         handler = new Handler();
@@ -83,7 +89,7 @@ public class SamplesActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         recyclerView = findViewById(R.id.activity_samples_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout",(int) getResources().getDimension(R.dimen._18sdp)));
+        recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout", (int) getResources().getDimension(R.dimen._18sdp)));
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
 
@@ -123,6 +129,12 @@ public class SamplesActivity extends AppCompatActivity {
         };
     }
 
+    public void setToolCreate() {
+        if (sharedPreferences.getString("createSample", "").equals("true")) {
+            toolCreate.setVisible(true);
+        }
+    }
+
     private void setRetryLayout(String type) {
         if (type.equals("error")) {
             retryImageView.setImageResource(R.drawable.illu_error);
@@ -157,7 +169,7 @@ public class SamplesActivity extends AppCompatActivity {
                         adapter.setSamples(viewModel.getAll());
                         recyclerView.setAdapter(adapter);
 
-                        toolCreate.setVisible(true);
+                        setToolCreate();
 
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else {
@@ -168,7 +180,7 @@ public class SamplesActivity extends AppCompatActivity {
                         emptyLayout.setVisibility(View.VISIBLE);
                         mainLayout.setVisibility(View.GONE);
 
-                        toolCreate.setVisible(true);
+                        setToolCreate();
 
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
@@ -184,7 +196,7 @@ public class SamplesActivity extends AppCompatActivity {
 
                             setRetryLayout("error");
 
-                            toolCreate.setVisible(true);
+                            setToolCreate();
 
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         } else if (integer == -2) {
@@ -197,7 +209,7 @@ public class SamplesActivity extends AppCompatActivity {
 
                             setRetryLayout("connection");
 
-                            toolCreate.setVisible(true);
+                            setToolCreate();
 
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         }
@@ -213,12 +225,13 @@ public class SamplesActivity extends AppCompatActivity {
                             adapter.setSamples(viewModel.getAll());
                             recyclerView.setAdapter(adapter);
 
-                            handler.postDelayed(() -> toolCreate.setVisible(true), 500);
+                            handler.postDelayed(() -> setToolCreate(), 500);
 
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         }
                     }
                 }
+
             }
         });
     }
@@ -259,5 +272,6 @@ public class SamplesActivity extends AppCompatActivity {
         super.finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
+
 
 }

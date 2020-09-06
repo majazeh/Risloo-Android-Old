@@ -2,6 +2,7 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -13,11 +14,13 @@ import com.majazeh.risloo.Models.Generators.RetroGenerator;
 import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.util.logging.Logger;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -407,14 +410,34 @@ public class AuthWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONObject data = successBody.getJSONObject("data");
-
+                boolean createSample = false;
+                if (data.has("type") && data.getString("type").equals("admin")){
+                   createSample = true;
+                }else{
+                    JSONArray centers = data.getJSONArray("centers");
+                    for (int i = 0; i < centers.length(); i++) {
+                        JSONObject jsonObject = centers.getJSONObject(i);
+                        JSONObject acceptation = jsonObject.getJSONObject("acceptation");
+                        if (acceptation.getString("position").equals("operator") ||acceptation.getString("position").equals("manager")||acceptation.getString("position").equals("psychologist")){
+                            createSample = true;
+                        }
+                    }
+                }
+                    if (createSample){
+                        editor.putString("createSample","true");
+                    }
                 FileManager.writeObjectToCache(context, new JSONObject().put("data", data.getJSONArray("centers")), "centers", "my");
 
                 editor.putString("name", data.getString("name"));
+                if (data.has("type"))
                 editor.putString("type", data.getString("type"));
+                if (data.has("mobile"))
                 editor.putString("mobile", data.getString("mobile"));
+                if (data.has("email"))
                 editor.putString("email", data.getString("email"));
+                if (data.has("gender"))
                 editor.putString("gender", data.getString("gender"));
+                if (data.has("birthday"))
                 editor.putString("birthday", data.getString("birthday"));
 
 //                JSONArray avatar = data.getJSONArray("avatar");

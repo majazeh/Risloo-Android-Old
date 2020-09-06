@@ -57,7 +57,7 @@ public class SampleViewModel extends AndroidViewModel {
         repository.sendAnswers(sampleId);
     }
 
-    public void sendPrerequisite(String sampleId, HashMap prerequisites) throws JSONException {
+    public void sendPrerequisite(String sampleId, ArrayList prerequisites) throws JSONException {
         repository.sendPrerequisite(sampleId, prerequisites);
     }
 
@@ -102,8 +102,8 @@ public class SampleViewModel extends AndroidViewModel {
         repository.writeSampleAnswerToCache(jsonArray, fileName);
     }
 
-    public void writePrerequisiteAnswerToCache(JSONObject jsonObject, String fileName) {
-        repository.writePrerequisiteAnswerToCache(jsonObject, fileName);
+    public void writePrerequisiteAnswerToCache(JSONArray jsonArray, String fileName) {
+        repository.writePrerequisiteAnswerToCache(jsonArray, fileName);
     }
 
     /*
@@ -114,7 +114,7 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.readSampleAnswerFromCache(fileName);
     }
 
-    public JSONObject readPrerequisiteAnswerFromCache(String fileName) {
+    public JSONArray readPrerequisiteAnswerFromCache(String fileName) {
         return repository.readPrerequisiteAnswerFromCache(fileName);
     }
 

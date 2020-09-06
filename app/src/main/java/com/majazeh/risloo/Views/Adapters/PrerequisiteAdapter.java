@@ -23,11 +23,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapter.PrerequisiteHolder> {
 
@@ -42,7 +44,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
     // Objects
     private Activity activity;
     private Handler handler;
-    private JSONObject answers;
+    private JSONArray answers;
     public HashMap answer;
 
     public PrerequisiteAdapter(Activity activity, SampleViewModel viewModel, String fileName) {
@@ -64,7 +66,6 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
     @Override
     public void onBindViewHolder(@NonNull PrerequisiteHolder holder, int i) {
         JSONObject item = (JSONObject) prerequisites.get(i);
-
         int position = i + 1;
 
         try {
@@ -73,7 +74,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                 holder.optionSpinner.setVisibility(View.GONE);
                 holder.arrowImageView.setVisibility(View.GONE);
 
-                holder.typeEditText.setText(answers.getString(String.valueOf(position)));
+                holder.typeEditText.setText(answers.getJSONArray(i).getString(1));
                 holder.typeEditText.setHint(((JSONObject) prerequisites.get(i)).getString("text"));
                 holder.typeEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
@@ -100,7 +101,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                 holder.optionSpinner.setVisibility(View.GONE);
                 holder.arrowImageView.setVisibility(View.GONE);
 
-                holder.typeEditText.setText(answers.getString(String.valueOf(position)));
+                holder.typeEditText.setText(answers.getJSONArray(i).getString(1));
                 holder.typeEditText.setHint(((JSONObject) prerequisites.get(i)).getString("text"));
                 holder.typeEditText.setInputType(InputType.TYPE_CLASS_TEXT);
 
@@ -157,8 +158,8 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                 adapter.add(((JSONObject) prerequisites.get(i)).getString("text"));
                 adapter.setDropDownViewResource(R.layout.spinner_dropdown);
                 int k;
-                if (!answers.getString(String.valueOf(position)).isEmpty()) {
-                    k = Integer.parseInt(answers.getString(String.valueOf(position)));
+                if (!answers.getJSONArray(i).getString(1).isEmpty()) {
+                    k = Integer.parseInt(answers.getJSONArray(i).getString(1));
                     k -= 1;
                 } else {
                     k = adapter.getCount();
@@ -196,25 +197,29 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
     private void initializer(View view) {
         handler = new Handler();
-
         answer = new HashMap();
+
     }
 
-    public void setPrerequisite(ArrayList prerequisites, JSONObject answers) {
+    public void setPrerequisite(ArrayList prerequisites, JSONArray answers) {
         this.prerequisites = prerequisites;
         this.answers = answers;
+
         notifyDataSetChanged();
     }
 
     public void getAnswers(int index, String result) {
         try {
             int i = index + 1;
-            ArrayList<String> arrayList = new ArrayList<>();
-            JSONObject jsonObject = viewModel.readPrerequisiteAnswerFromCache(fileName);
-            jsonObject.put(String.valueOf(i), result);
-            viewModel.writePrerequisiteAnswerToCache(jsonObject, fileName);
+            JSONArray jsonArray = viewModel.readPrerequisiteAnswerFromCache(fileName);
+            JSONArray array = new JSONArray();
+            array.put(String.valueOf(i));
+            array.put(result);
+            jsonArray.put(index, array);
 
-            answer.put(String.valueOf(i), result);
+            viewModel.writePrerequisiteAnswerToCache(jsonArray, fileName);
+
+            answer.put(i,result);
         } catch (JSONException e) {
             e.printStackTrace();
         }

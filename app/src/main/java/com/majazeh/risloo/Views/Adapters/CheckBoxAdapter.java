@@ -2,10 +2,12 @@ package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,20 +51,25 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
 
             holder.titleCheckBox.setText(user.getString("name"));
 
-            holder.itemView.setOnClickListener(v -> {
-                holder.itemView.setClickable(false);
-                handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
+                    holder.titleCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                        holder.itemView.setClickable(false);
+                        handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
 
-                if (holder.titleCheckBox.isChecked()) {
-                    try {
-                        checks.add(user.getString("id"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    checks.remove(String.valueOf(i));
-                }
-            });
+                        if (holder.titleCheckBox.isChecked()) {
+                            try {
+
+                                checks.add(user.getString("id"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            checks.remove(String.valueOf(i));
+                        }
+
+                    });
+//            holder.itemView.setOnClickListener(v -> {
+//
+//            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -75,6 +82,7 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
 
     private void initializer(View view) {
         handler = new Handler();
+        checks = new ArrayList<>();
     }
 
     public void setValue(ArrayList<Model> values) {

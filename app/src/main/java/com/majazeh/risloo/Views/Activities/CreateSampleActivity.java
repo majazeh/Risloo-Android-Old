@@ -1,17 +1,22 @@
 package com.majazeh.risloo.Views.Activities;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.inputmethodservice.Keyboard;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -183,10 +188,34 @@ public class CreateSampleActivity extends AppCompatActivity {
                     case 0:
                         roomLinearLayout.setVisibility(View.VISIBLE);
                         caseLinearLayout.setVisibility(View.GONE);
+                        casse = "";
+                        SampleRepository.cases.clear();
+                        caseSpinner.setAdapter(null);
+                        caseTextView.setVisibility(View.VISIBLE);
+                        if (checkBoxAdapter.getValues() != null) {
+                            caseReferenceTextView.setVisibility(View.GONE);
+                            checkBoxAdapter.setChecks(new ArrayList<>());
+                            checkBoxAdapter.getValues().clear();
+                            checkBoxAdapter.notifyDataSetChanged();
+                        }
                         break;
                     case 1:
                         roomLinearLayout.setVisibility(View.GONE);
                         caseLinearLayout.setVisibility(View.VISIBLE);
+                        if (SampleRepository.references.size() != 0) {
+                            SampleRepository.references.clear();
+                            roomReferenceSpinner.setAdapter(null);
+                            roomReferenceTextView.setVisibility(View.VISIBLE);
+
+                            referenceAdapter.getValues().clear();
+                            referenceAdapter.notifyDataSetChanged();
+
+                            countEditText.setVisibility(View.VISIBLE);
+                        } else {
+                            count = "";
+                            countEditText.setText(count);
+                            roomReferenceCardView.setVisibility(View.VISIBLE);
+                        }
                         break;
                 }
 
@@ -297,7 +326,6 @@ public class CreateSampleActivity extends AppCompatActivity {
                             roomReferenceTextView.setVisibility(View.VISIBLE);
 
                             referenceAdapter.getValues().clear();
-                            referenceAdapter.setValuesId(new ArrayList<>());
                             referenceAdapter.notifyDataSetChanged();
 
                             countEditText.setVisibility(View.VISIBLE);
@@ -755,6 +783,7 @@ public class CreateSampleActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     public void finish() {
