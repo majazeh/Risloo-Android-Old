@@ -47,18 +47,33 @@
                 <FrameLayout
                     android:id="@+id/activity_edit_center_principal_frameLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_10sdp">
+                    android:layout_height="@dimen/_36sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/draw_18sdp_quartz_border">
 
                     <Spinner
                         android:id="@+id/activity_edit_center_principal_spinner"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_36sdp"
+                        android:layout_height="match_parent"
                         android:singleLine="true"
                         android:spinnerMode="dropdown"
-                        android:background="@drawable/draw_18sdp_quartz_border"/>
+                        android:background="@null"/>
+
+                    <TextView
+                        android:id="@+id/activity_edit_center_principal_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="@dimen/_16sdp"
+                        android:paddingRight="@dimen/_16sdp"
+                        android:gravity="center|right"
+                        android:text="@string/EditCenterPrincipal"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Mischka"
+                        android:textAlignment="gravity" />
 
                     <ImageView
+                        android:id="@+id/activity_edit_center_principal_imageView"
                         android:layout_width="@dimen/_12sdp"
                         android:layout_height="@dimen/_12sdp"
                         android:layout_marginLeft="@dimen/_12sdp"
@@ -66,10 +81,20 @@
                         android:src="@drawable/ic_chevron_down"
                         app:tint="@color/Mischka" />
 
+                    <ProgressBar
+                        android:id="@+id/activity_edit_center_principal_progressBar"
+                        android:layout_width="@dimen/_16sdp"
+                        android:layout_height="@dimen/_16sdp"
+                        android:layout_gravity="center|left"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:theme="@style/ProgressBarTheme"
+                        android:visibility="gone"
+                        style="@style/Widget.AppCompat.ProgressBar"/>
+
                 </FrameLayout>
 
                 <EditText
-                    android:id="@+id/activity_edit_center_name_editText"
+                    android:id="@+id/activity_edit_center_title_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_10sdp"
@@ -133,6 +158,61 @@
                     android:textAlignment="gravity"
                     android:background="@drawable/draw_18sdp_quartz_border"
                     android:importantForAutofill="no" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_36sdp"
+                    android:layout_marginBottom="@dimen/_24sdp"
+                    app:cardBackgroundColor="@null"
+                    app:cardCornerRadius="@dimen/_18sdp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:id="@+id/activity_edit_center_phone_linearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layoutDirection="rtl"
+                        android:background="@drawable/draw_18sdp_quartz_border">
+
+                        <ImageView
+                            android:id="@+id/activity_edit_center_phone_imageView"
+                            android:layout_width="@dimen/_36sdp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="@dimen/_1sdp"
+                            android:padding="@dimen/_9sdp"
+                            android:src="@drawable/ic_plus"
+                            android:background="@color/Primary5P"
+                            app:tint="@color/Primary" />
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/activity_edit_center_phone_recyclerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:overScrollMode="never" />
+
+                            <TextView
+                                android:id="@+id/activity_edit_center_phone_textView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:paddingLeft="@dimen/_12sdp"
+                                android:paddingRight="@dimen/_12sdp"
+                                android:gravity="center|right"
+                                android:text="@string/EditCenterPhones"
+                                android:textSize="@dimen/_12ssp"
+                                android:textStyle="normal"
+                                android:textColor="@color/Mischka"
+                                android:textAlignment="gravity" />
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
 
                 <Button
                     android:id="@+id/activity_edit_center_button"

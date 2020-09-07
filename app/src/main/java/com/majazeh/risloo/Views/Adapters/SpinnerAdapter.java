@@ -16,7 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Views.Activities.CreateCenterActivity;
 import com.majazeh.risloo.Views.Activities.CreateSampleActivity;
+import com.majazeh.risloo.Views.Activities.EditCenterActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,9 +62,11 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
         try {
             if (type.equals("scale")) {
                 holder.titleTextView.setText(String.valueOf(values.get(i).get("title")));
-            } else {
+            } else if (type.equals("reference")) {
                 JSONObject user = (JSONObject) values.get(i).get("user");
                 holder.titleTextView.setText(String.valueOf(user.get("name")));
+            } else if (type.equals("phoneCreate") || type.equals("phoneEdit")) {
+                holder.titleTextView.setText(String.valueOf(values.get(i).get("title")));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -123,15 +127,24 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
         notifyItemChanged(position);
 
         if (values.size() == 0) {
-            if (type.equals("scale")) {
-                ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleTextView.setVisibility(View.VISIBLE);
-                ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleSpinner.setAdapter(null);
-                ((CreateSampleActivity) Objects.requireNonNull(activity)).setSpinner(SampleRepository.scales, ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleSpinner, "scale");
-            } else {
-                ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceTextView.setVisibility(View.VISIBLE);
-                ((CreateSampleActivity) Objects.requireNonNull(activity)).countEditText.setVisibility(View.VISIBLE);
-                ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceSpinner.setAdapter(null);
-                ((CreateSampleActivity) Objects.requireNonNull(activity)).setSpinner(SampleRepository.references, ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceSpinner, "reference");
+            switch (type) {
+                case "scale":
+                    ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleTextView.setVisibility(View.VISIBLE);
+                    ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleSpinner.setAdapter(null);
+                    ((CreateSampleActivity) Objects.requireNonNull(activity)).setSpinner(SampleRepository.scales, ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleSpinner, "scale");
+                    break;
+                case "roomReference":
+                    ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceTextView.setVisibility(View.VISIBLE);
+                    ((CreateSampleActivity) Objects.requireNonNull(activity)).countEditText.setVisibility(View.VISIBLE);
+                    ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceSpinner.setAdapter(null);
+                    ((CreateSampleActivity) Objects.requireNonNull(activity)).setSpinner(SampleRepository.references, ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceSpinner, "reference");
+                    break;
+                case "phoneCreate":
+                    ((CreateCenterActivity) Objects.requireNonNull(activity)).phoneTextView.setVisibility(View.VISIBLE);
+                    break;
+                case "phoneEdit":
+                    ((EditCenterActivity) Objects.requireNonNull(activity)).phoneTextView.setVisibility(View.VISIBLE);
+                    break;
             }
         }
     }

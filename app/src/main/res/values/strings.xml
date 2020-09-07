@@ -334,12 +334,33 @@
 
     <string name="EditCenterEdit">ویرایش</string>
 
+    <string name="EditCenterPhoneDialogTitle">شماره تماس دلخواهی اضافه کنید.</string>
+    <string name="EditCenterPhoneDialogPhone">شماره تماس</string>
+    <string name="EditCenterPhoneDialogPositive">افزودن</string>
+    <string name="EditCenterPhoneDialogNegative">بستن</string>
+
     ////////////////////////////////////////////////////////////////////////////////
 
     // create center strings
     ////////////////////////////////////////////////////////////////////////////////
 
     <string name="CreateCenterTitle">ایجاد مرکز درمانی</string>
+
+    <string name="CreateCenterTypeCenter">مرکز مشاوره</string>
+    <string name="CreateCenterTypeClinic">کلینیک شخصی</string>
+
+    <string name="CreateCenterPrincipal">مدیر</string>
+    <string name="CreateCenterName">عنوان</string>
+    <string name="CreateCenterDescription">توضیحات (غیر ضروری)</string>
+    <string name="CreateCenterAddress">آدرس (غیر ضروری)</string>
+    <string name="CreateCenterPhones">شماره تماس (غیر ضروری)</string>
+
+    <string name="CreateCenterCreate">ساخت</string>
+
+    <string name="CreateCenterPhoneDialogTitle">شماره تماس دلخواهی اضافه کنید.</string>
+    <string name="CreateCenterPhoneDialogPhone">شماره تماس</string>
+    <string name="CreateCenterPhoneDialogPositive">افزودن</string>
+    <string name="CreateCenterPhoneDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

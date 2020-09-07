@@ -163,6 +163,10 @@ public class CenterActivity extends AppCompatActivity {
         };
     }
 
+    public void setToolCreate() {
+        toolCreate.setVisible(true);
+    }
+
     private void setRetryLayout(String type) {
         if (type.equals("error")) {
             retryImageView.setImageResource(R.drawable.illu_error);
@@ -207,6 +211,8 @@ public class CenterActivity extends AppCompatActivity {
                         tabLayout.setVisibility(View.GONE);
                         rtlViewPager.setAdapter(adapter);
 
+                        setToolCreate();
+
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
                 } else {
@@ -246,6 +252,8 @@ public class CenterActivity extends AppCompatActivity {
                                 tabLayout.setVisibility(View.VISIBLE);
                                 rtlViewPager.setAdapter(adapter);
 
+                                setToolCreate();
+
                                 CenterRepository.workState.removeObservers((LifecycleOwner) this);
                             } else {
                                 // Just Show AllCenter
@@ -277,6 +285,8 @@ public class CenterActivity extends AppCompatActivity {
                     tabLayout.setVisibility(View.VISIBLE);
                     rtlViewPager.setAdapter(adapter);
 
+                    setToolCreate();
+
                     CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 }
             }
@@ -293,7 +303,11 @@ public class CenterActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
+                loadingLayout.setVisibility(View.VISIBLE);
+                retryLayout.setVisibility(View.GONE);
+                mainLayout.setVisibility(View.GONE);
 
+                launchProcess("getAll");
             }
         }
     }
@@ -303,7 +317,7 @@ public class CenterActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_center, menu);
 
         toolCreate = menu.findItem(R.id.tool_create);
-        toolCreate.setVisible(true);
+        toolCreate.setVisible(false);
         toolCreate.setOnMenuItemClickListener(menuItem -> {
             startActivityForResult(new Intent(this, CreateCenterActivity.class), 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
