@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.RequiresApi;
 
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ActivityAnimator {
 
     public void setAnimation(Bundle savedInstanceState, LinearLayout rootLayout) {
@@ -33,7 +34,6 @@ public class ActivityAnimator {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void circularReveal(LinearLayout rootLayout) {
         int cx = rootLayout.getWidth() / 2;
         int cy = rootLayout.getHeight() / 2;
@@ -49,7 +49,6 @@ public class ActivityAnimator {
         anim.start();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void circularUnReveal(LinearLayout rootLayout) {
         int cx = rootLayout.getWidth() / 2;
         int cy = rootLayout.getHeight() / 2;

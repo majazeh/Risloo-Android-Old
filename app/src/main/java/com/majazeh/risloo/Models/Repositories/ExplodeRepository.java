@@ -16,7 +16,7 @@ import androidx.work.WorkManager;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Workers.ExplodeWorker;
 
-import org.json.JSONException;
+import java.util.Objects;
 
 public class ExplodeRepository extends MainRepository {
 
@@ -24,7 +24,7 @@ public class ExplodeRepository extends MainRepository {
     public static MutableLiveData<Integer> workState;
     public static String work = "";
 
-    public ExplodeRepository(Application application) throws JSONException {
+    public ExplodeRepository(Application application) {
         super(application);
 
         workState = new MutableLiveData<>();
@@ -35,7 +35,7 @@ public class ExplodeRepository extends MainRepository {
          ---------- Voids ----------
     */
 
-    public void explode() throws JSONException {
+    public void explode() {
         work = "explode";
         workState.setValue(-1);
         workManager("explode");
@@ -78,7 +78,7 @@ public class ExplodeRepository extends MainRepository {
          ---------- Work ----------
     */
 
-    private void workManager(String work) throws JSONException {
+    private void workManager(String work) {
         if (isNetworkConnected(application.getApplicationContext())) {
             Constraints constraints = new Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -98,10 +98,10 @@ public class ExplodeRepository extends MainRepository {
 
     private boolean isNetworkConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+        return Objects.requireNonNull(cm).getActiveNetworkInfo() != null && Objects.requireNonNull(cm.getActiveNetworkInfo()).isConnected();
     }
 
-    private Data data(String work) throws JSONException {
+    private Data data(String work) {
         return new Data.Builder()
                 .putString("work", work)
                 .build();

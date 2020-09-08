@@ -1,7 +1,7 @@
 package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -20,6 +20,8 @@ import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.ExplodeViewModel;
+
+import java.util.Objects;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -59,7 +61,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = ViewModelProviders.of(this).get(ExplodeViewModel.class);
+        viewModel = new ViewModelProvider(this).get(ExplodeViewModel.class);
 
         intentCaller = new IntentCaller();
 
@@ -71,7 +73,7 @@ public class SplashActivity extends AppCompatActivity {
         updateProgressBar = findViewById(R.id.activity_splash_update_progressBar);
 
         updateDialog = new Dialog(this, R.style.DialogTheme);
-        updateDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(updateDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         updateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         updateDialog.setContentView(R.layout.dialog_action);
         updateDialog.setCancelable(true);
@@ -99,7 +101,7 @@ public class SplashActivity extends AppCompatActivity {
     private void listener() {
         updateDialogPositive.setOnClickListener(v -> {
             updateDialogPositive.setClickable(false);
-            handler.postDelayed(() -> updateDialogPositive.setClickable(true), 500);
+            handler.postDelayed(() -> updateDialogPositive.setClickable(true), 300);
             updateDialog.dismiss();
 
             intentCaller.googlePlay(this);
@@ -108,7 +110,7 @@ public class SplashActivity extends AppCompatActivity {
 
         updateDialogNegative.setOnClickListener(v -> {
             updateDialogNegative.setClickable(false);
-            handler.postDelayed(() -> updateDialogNegative.setClickable(true), 500);
+            handler.postDelayed(() -> updateDialogNegative.setClickable(true), 300);
             updateDialog.dismiss();
 
             if (viewModel.forceUpdate()) {

@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+@SuppressLint("InlinedApi")
 public class WindowDecorator {
 
-    @SuppressLint("InlinedApi")
     public void defaultWindow(Activity activity, int statusColor, int navColor) {
         Window window = activity.getWindow();
 
@@ -25,7 +25,6 @@ public class WindowDecorator {
         }
     }
 
-    @SuppressLint("InlinedApi")
     public void lightWindow(Activity activity, int statusColor, int navColor) {
         Window window = activity.getWindow();
 
@@ -40,7 +39,6 @@ public class WindowDecorator {
         }
     }
 
-    @SuppressLint("InlinedApi")
     public void lightTransparentWindow(Activity activity, int navColor) {
         Window window = activity.getWindow();
 

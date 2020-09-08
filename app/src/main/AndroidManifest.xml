@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="UnusedAttribute"
     package="com.majazeh.risloo">
 
     <uses-permission android:name="android.permission.CAMERA" />
@@ -22,8 +24,7 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        tools:ignore="UnusedAttribute">
+        android:theme="@style/AppTheme">
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -37,8 +38,8 @@
 
         <activity
             android:name=".Views.Activities.SplashActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/LauncherTheme">
+            android:theme="@style/LauncherTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,10 +48,16 @@
         </activity>
         <activity
             android:name=".Views.Activities.IntroActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/WindowTheme" />
+            android:theme="@style/WindowTheme"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.AuthActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.AccountActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.EditAccountActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.SampleActivity"
@@ -66,12 +73,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.OutroActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Views.Activities.AccountActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Views.Activities.EditAccountActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.ArchiveActivity"
@@ -99,9 +100,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.TermConditionActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Views.Activities.TestActivity"
             android:screenOrientation="portrait" />
     </application>
 

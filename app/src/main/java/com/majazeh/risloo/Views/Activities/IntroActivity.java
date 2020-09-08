@@ -24,7 +24,7 @@ public class IntroActivity extends AppCompatActivity {
     private IntroAdapter adapter;
 
     // Vars
-    private int[] layouts, activeColors, inActiveColors;
+    private int[] introLayouts, activeColors, inActiveColors;
     private TextView[] dotsTextView;
 
     // Objects
@@ -62,15 +62,15 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        layouts = new int[]{R.layout.single_item_intro_1, R.layout.single_item_intro_2, R.layout.single_item_intro_3, R.layout.single_item_intro_4};
+        introLayouts = new int[]{R.layout.single_item_intro_1, R.layout.single_item_intro_2, R.layout.single_item_intro_3, R.layout.single_item_intro_4};
 
         activeColors = getResources().getIntArray(R.array.activeColors);
         inActiveColors = getResources().getIntArray(R.array.inActiveColors);
 
-        dotsTextView = new TextView[layouts.length];
+        dotsTextView = new TextView[introLayouts.length];
 
         adapter = new IntroAdapter(this);
-        adapter.setLayout(layouts);
+        adapter.setLayout(introLayouts);
 
         handler = new Handler();
 
@@ -85,18 +85,15 @@ public class IntroActivity extends AppCompatActivity {
 
     private void listener() {
         nextTextView.setOnClickListener(v -> {
-            int currentPage = rtlViewPager.getCurrentItem() + 1;
+            nextTextView.setClickable(false);
+            handler.postDelayed(() -> nextTextView.setClickable(true), 100);
 
-            if (currentPage < layouts.length) {
-                rtlViewPager.setCurrentItem(currentPage);
-            } else {
-                launchAuth();
-            }
+            nextPage();
         });
 
         skipTextView.setOnClickListener(v -> {
             skipTextView.setClickable(false);
-            handler.postDelayed(() -> skipTextView.setClickable(true), 500);
+            handler.postDelayed(() -> skipTextView.setClickable(true), 300);
 
             launchAuth();
         });
@@ -107,7 +104,7 @@ public class IntroActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 addDots(position);
 
-                if (position == layouts.length - 1) {
+                if (position == introLayouts.length - 1) {
                     nextTextView.setText(getString(R.string.IntroStart));
                     skipTextView.setVisibility(View.GONE);
                 } else {
@@ -152,6 +149,16 @@ public class IntroActivity extends AppCompatActivity {
         editor.apply();
 
         return sharedPreferences.getBoolean("firstTimeLaunch", true);
+    }
+
+    private void nextPage() {
+        int currentPage = rtlViewPager.getCurrentItem() + 1;
+
+        if (currentPage < introLayouts.length) {
+            rtlViewPager.setCurrentItem(currentPage);
+        } else {
+            launchAuth();
+        }
     }
 
     private void launchAuth() {

@@ -76,8 +76,9 @@ public class BitmapController {
             Object exifInstance = exifConstructor.newInstance(src);
             Method getAttributeInt = exifClass.getMethod("getAttributeInt", String.class, int.class);
             Field tagOrientationField = exifClass.getField("TAG_ORIENTATION");
-            String tagOrientation = (String) tagOrientationField.get(null);
-            return  (Integer) getAttributeInt.invoke(exifInstance, new Object[] { tagOrientation, 1 });
+            String tagOrientationString = (String) tagOrientationField.get(null);
+            Object tagOrientationObject = new Object[]{tagOrientationString, 1};
+            return (int) getAttributeInt.invoke(exifInstance, tagOrientationObject);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SecurityException e) {
@@ -95,7 +96,6 @@ public class BitmapController {
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
-
         return 1;
     }
 

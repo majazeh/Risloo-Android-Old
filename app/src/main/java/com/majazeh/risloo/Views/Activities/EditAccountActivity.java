@@ -38,7 +38,7 @@ import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.BitmapController;
 import com.majazeh.risloo.Utils.CustomPicker;
 import com.majazeh.risloo.Utils.IntentCaller;
-import com.majazeh.risloo.Utils.UnitConverter;
+import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Dialogs.ImageDialog;
@@ -138,9 +138,9 @@ public class EditAccountActivity extends AppCompatActivity {
         birthday = viewModel.getBirthday();
         birthdayTextView.setText(birthday);
 
-        Year = Integer.parseInt(UnitConverter.dateToString("yyyy", UnitConverter.stringToDate("yyyy-MM-dd", birthday)));
-        Month = Integer.parseInt(UnitConverter.dateToString("MM", UnitConverter.stringToDate("yyyy-MM-dd", birthday)));
-        Day = Integer.parseInt(UnitConverter.dateToString("dd", UnitConverter.stringToDate("yyyy-MM-dd", birthday)));
+        Year = Integer.parseInt(StringCustomizer.dateToString("yyyy", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
+        Month = Integer.parseInt(StringCustomizer.dateToString("MM", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
+        Day = Integer.parseInt(StringCustomizer.dateToString("dd", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
 
         editButton = findViewById(R.id.activity_edit_account_edit_button);
 

@@ -7,14 +7,12 @@ import androidx.lifecycle.AndroidViewModel;
 
 import com.majazeh.risloo.Models.Repositories.ExplodeRepository;
 
-import org.json.JSONException;
-
 public class ExplodeViewModel extends AndroidViewModel {
 
     // Repositories
     private ExplodeRepository repository;
 
-    public ExplodeViewModel(@NonNull Application application) throws JSONException {
+    public ExplodeViewModel(@NonNull Application application) {
         super(application);
 
         repository = new ExplodeRepository(application);
@@ -24,7 +22,7 @@ public class ExplodeViewModel extends AndroidViewModel {
          ---------- Voids ----------
     */
 
-    public void explode() throws JSONException {
+    public void explode() {
         repository.explode();
     }
 

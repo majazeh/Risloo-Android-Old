@@ -1,14 +1,144 @@
 package com.majazeh.risloo.Utils;
 
+import android.annotation.SuppressLint;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+@SuppressLint("SimpleDateFormat")
 public class StringCustomizer {
+
+    public static Date stringToDate(String pattern, String value) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        try {
+            return simpleDateFormat.parse(value);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String dateToString(String pattern, Date value) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        return simpleDateFormat.format(value);
+    }
+
+    public static String separate(String value) {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
+        return decimalFormat.format(Double.parseDouble(value));
+    }
+
+    public static SpannableString lining(String value) {
+        SpannableString spannableString = new SpannableString(value);
+        spannableString.setSpan(new StrikethroughSpan(), 0, value.length(), Spanned.SPAN_MARK_MARK);
+        return spannableString;
+    }
+
+    public static String persian(String value) {
+        String[] persianNumbers = new String[] {"۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "'۸", "۹"};
+        StringBuilder output = new StringBuilder();
+        if (value.length() == 0) {
+            return "";
+        } else {
+            for (int i = 0; i < value.length(); i++) {
+                char c = value.charAt(i);
+                if ('0' <= c && c <= '9') {
+                    output.append(persianNumbers[Integer.parseInt(String.valueOf(c))]);
+                } else if (c == '.' || c == ',' || c == 'و') {
+                    output.append(",");
+                } else {
+                    output.append(c);
+                }
+            }
+            return output.toString();
+        }
+    }
+
+    public static SpannableString separateLining(String value) {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
+        String decimalFormatString = decimalFormat.format(Double.parseDouble(value));
+        SpannableString spannableString = new SpannableString(decimalFormatString);
+        spannableString.setSpan(new StrikethroughSpan(), 0, decimalFormatString.length(), Spanned.SPAN_MARK_MARK);
+        return spannableString;
+    }
+
+    public static String separatePersian(String value) {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
+        String decimalFormatString = decimalFormat.format(Double.parseDouble(value));
+        String[] persianNumbers = new String[] {"۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "'۸", "۹"};
+        StringBuilder output = new StringBuilder();
+        if (decimalFormatString.length() == 0) {
+            return "";
+        } else {
+            for (int i = 0; i < decimalFormatString.length(); i++) {
+                char c = decimalFormatString.charAt(i);
+                if ('0' <= c && c <= '9') {
+                    output.append(persianNumbers[Integer.parseInt(String.valueOf(c))]);
+                } else if (c == '.' || c == ',' || c == 'و') {
+                    output.append(",");
+                } else {
+                    output.append(c);
+                }
+            }
+            return output.toString();
+        }
+    }
+
+    public static SpannableString persianLining(String value) {
+        String[] persianNumbers = new String[] {"۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "'۸", "۹"};
+        StringBuilder output = new StringBuilder();
+        if (value.length() == 0) {
+            return null;
+        } else {
+            for (int i = 0; i < value.length(); i++) {
+                char c = value.charAt(i);
+                if ('0' <= c && c <= '9') {
+                    output.append(persianNumbers[Integer.parseInt(String.valueOf(c))]);
+                } else if (c == '.' || c == ',' || c == 'و') {
+                    output.append(",");
+                } else {
+                    output.append(c);
+                }
+            }
+            SpannableString spannableString = new SpannableString(output.toString());
+            spannableString.setSpan(new StrikethroughSpan(), 0, output.length(), Spanned.SPAN_MARK_MARK);
+            return spannableString;
+        }
+    }
+
+    public static SpannableString separatePersianLining(String value) {
+        DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
+        String decimalFormatString = decimalFormat.format(Double.parseDouble(value));
+        String[] persianNumbers = new String[] {"۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "'۸", "۹"};
+        StringBuilder output = new StringBuilder();
+        if (decimalFormatString.length() == 0) {
+            return null;
+        } else {
+            for (int i = 0; i < decimalFormatString.length(); i++) {
+                char c = decimalFormatString.charAt(i);
+                if ('0' <= c && c <= '9') {
+                    output.append(persianNumbers[Integer.parseInt(String.valueOf(c))]);
+                } else if (c == '.' || c == ',' || c == 'و') {
+                    output.append(",");
+                } else {
+                    output.append(c);
+                }
+            }
+            SpannableString spannableString = new SpannableString(output.toString());
+            spannableString.setSpan(new StrikethroughSpan(), 0, output.length(), Spanned.SPAN_MARK_MARK);
+            return spannableString;
+        }
+    }
 
     public static SpannableString clickable(String value, int startIndex, int endIndex, ClickableSpan clickableSpan) {
         SpannableString spannableString = new SpannableString(value);
