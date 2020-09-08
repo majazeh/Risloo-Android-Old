@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,25 +82,32 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
             JSONObject scale = (JSONObject) model.get("scale");
 
             holder.scaleTextView.setText(scale.get("title").toString());
-
-            if (model.get("status").toString().equals("open")) {
-                holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusOpen));
-                holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-            } else if (model.get("status").toString().equals("seald")) {
-                holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusSeald));
-                holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-            } else if (model.get("status").toString().equals("scoring")) {
-                holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusScoring));
-                holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.MoonYellow));
-                holder.startFrameLayout.setVisibility(View.GONE);
-            } else if (model.get("status").toString().equals("closed")) {
-                holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusClosed));
-                holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
-                holder.startFrameLayout.setVisibility(View.GONE);
-            } else {
-                holder.statusTextView.setText(model.get("status").toString());
-                holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
-                holder.startFrameLayout.setVisibility(View.GONE);
+            switch ((String) model.get("status")) {
+                case "open":
+                    holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusOpen));
+                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                    holder.startFrameLayout.setVisibility(View.VISIBLE);
+                    break;
+                case "seald":
+                    holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusSeald));
+                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                    holder.startFrameLayout.setVisibility(View.VISIBLE);
+                    break;
+                case "scoring":
+                    holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusScoring));
+                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.MoonYellow));
+                    holder.startFrameLayout.setVisibility(View.GONE);
+                    break;
+                case "closed":
+                    holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusClosed));
+                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
+                    holder.startFrameLayout.setVisibility(View.GONE);
+                    break;
+                default:
+                    holder.statusTextView.setText(model.get("status").toString());
+                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
+                    holder.startFrameLayout.setVisibility(View.GONE);
+                    break;
             }
 
             if (!model.attributes.isNull("client")) {
@@ -214,6 +222,8 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
     public void setSamples(ArrayList<Model> samples) {
         this.samples = samples;
         notifyDataSetChanged();
+
+
     }
 
     private void doWork(int position) {

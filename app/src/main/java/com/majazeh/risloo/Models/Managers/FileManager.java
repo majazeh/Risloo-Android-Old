@@ -1,8 +1,11 @@
 package com.majazeh.risloo.Models.Managers;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -245,6 +248,34 @@ public class FileManager {
 
     public static File readFromCSV(Context context, String fileName) {
         return new File(context.getCacheDir(), fileName + ".csv");
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public static void deletePage(Context context, String fileName, String fileSubName, int page, int count){
+        File file = new File(context.getCacheDir(), fileName + "/" + fileSubName);
+        if (file.exists()){
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            JSONObject jsonObject = new JSONObject((String) ois.readObject());
+            JSONArray data = jsonObject.getJSONArray("data");
+                for (int i = page*count; i <page*count+count ; i++) {
+                    data.remove(i);
+                }
+            ois.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }else{
+            // it doesnt exist
+        }
     }
 
 }

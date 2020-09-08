@@ -20,7 +20,7 @@ public interface SampleApi {
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("$/samples")
-    Call<ResponseBody> getAll(@Header("Authorization") String authorization);
+    Call<ResponseBody> getAll(@Header("Authorization") String authorization, @Query("page") int page);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @POST("$/samples/{sample_id}/close")

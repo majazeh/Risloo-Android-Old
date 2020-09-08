@@ -8,6 +8,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.LayoutManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
+import com.majazeh.risloo.Models.Workers.SampleWorker;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.StringCustomizer;
@@ -55,6 +57,8 @@ public class SamplesActivity extends AppCompatActivity {
     private TextView retryTextView;
     private ImageView retryImageView;
     private LinearLayout mainLayout, retryLayout, emptyLayout, loadingLayout;
+    private LinearLayoutManager layoutManager;
+    private boolean loading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +73,8 @@ public class SamplesActivity extends AppCompatActivity {
         listener();
 
         launchSamples();
+
+        pagination();
     }
 
     private void decorator() {
@@ -88,9 +94,11 @@ public class SamplesActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.activity_samples_toolbar);
         setSupportActionBar(toolbar);
 
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
         recyclerView = findViewById(R.id.activity_samples_recyclerView);
         recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout", (int) getResources().getDimension(R.dimen._18sdp)));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
         retryImageView = findViewById(R.id.activity_samples_retry_imageView);
@@ -148,15 +156,43 @@ public class SamplesActivity extends AppCompatActivity {
     private void launchSamples() {
         try {
             viewModel.samples();
+            SampleRepository.samplesPage = 1;
             observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
+    public void pagination() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) {
+                    int visibleItemCount = layoutManager.getChildCount();
+                    int totalItemCount = layoutManager.getItemCount();
+                    int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
+                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                        try {
+                            if (!loading) {
+                                if (!SampleWorker.endSamples) {
+                                    viewModel.samples();
+                                    observeWork();
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+    }
+
     private void observeWork() {
         SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
             if (SampleRepository.work.equals("getAll")) {
+                loading = true;
                 if (integer == 1) {
                     if (viewModel.getAll() != null) {
                         // Show Samples
@@ -167,7 +203,8 @@ public class SamplesActivity extends AppCompatActivity {
                         mainLayout.setVisibility(View.VISIBLE);
 
                         adapter.setSamples(viewModel.getAll());
-                        recyclerView.setAdapter(adapter);
+                        if (SampleRepository.samplesPage == 1)
+                            recyclerView.setAdapter(adapter);
 
                         setToolCreate();
 
@@ -184,7 +221,8 @@ public class SamplesActivity extends AppCompatActivity {
 
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
-                } else {
+                    SampleRepository.samplesPage++;
+                } else if (integer != -1) {
                     if (viewModel.getAll() == null) {
                         if (integer == 0) {
                             // Samples is Empty And Error
@@ -223,6 +261,7 @@ public class SamplesActivity extends AppCompatActivity {
                             mainLayout.setVisibility(View.VISIBLE);
 
                             adapter.setSamples(viewModel.getAll());
+                            if (SampleRepository.samplesPage == 1)
                             recyclerView.setAdapter(adapter);
 
                             handler.postDelayed(() -> setToolCreate(), 500);
@@ -231,7 +270,7 @@ public class SamplesActivity extends AppCompatActivity {
                         }
                     }
                 }
-
+                loading = false;
             }
         });
     }

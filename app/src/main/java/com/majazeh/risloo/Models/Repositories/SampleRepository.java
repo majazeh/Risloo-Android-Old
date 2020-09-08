@@ -48,6 +48,7 @@ public class SampleRepository extends MainRepository {
     public static String sampleId = "";
     public static String roomId = "";
     public static boolean cache = false;
+    public static int samplesPage = 1;
 
     // Objects
     private JSONObject sampleJson;
