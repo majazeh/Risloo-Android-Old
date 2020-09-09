@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -160,6 +161,9 @@ public class FileManager {
             e.printStackTrace();
             return null;
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (EOFException e) {
             e.printStackTrace();
             return null;
         } catch (IOException e) {

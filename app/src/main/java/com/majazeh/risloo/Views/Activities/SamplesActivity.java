@@ -74,7 +74,6 @@ public class SamplesActivity extends AppCompatActivity {
 
         launchSamples();
 
-        pagination();
     }
 
     private void decorator() {
@@ -155,6 +154,7 @@ public class SamplesActivity extends AppCompatActivity {
 
     private void launchSamples() {
         try {
+            pagination();
             viewModel.samples();
             SampleRepository.samplesPage = 1;
             observeWork();
@@ -175,10 +175,8 @@ public class SamplesActivity extends AppCompatActivity {
                     if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
                         try {
                             if (!loading) {
-                                if (!SampleWorker.endSamples) {
                                     viewModel.samples();
                                     observeWork();
-                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -221,6 +219,7 @@ public class SamplesActivity extends AppCompatActivity {
 
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
+                    loading = false;
                     SampleRepository.samplesPage++;
                 } else if (integer != -1) {
                     if (viewModel.getAll() == null) {
@@ -251,26 +250,22 @@ public class SamplesActivity extends AppCompatActivity {
 
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         }
-                    } else {
-                        if (integer != -1) {
-                            // Show Samples
-
-                            loadingLayout.setVisibility(View.GONE);
-                            retryLayout.setVisibility(View.GONE);
-                            emptyLayout.setVisibility(View.GONE);
-                            mainLayout.setVisibility(View.VISIBLE);
-
-                            adapter.setSamples(viewModel.getAll());
-                            if (SampleRepository.samplesPage == 1)
-                            recyclerView.setAdapter(adapter);
-
-                            handler.postDelayed(() -> setToolCreate(), 500);
-
-                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                        }
                     }
+                    // Show Samples
+
+                    loadingLayout.setVisibility(View.GONE);
+                    retryLayout.setVisibility(View.GONE);
+                    emptyLayout.setVisibility(View.GONE);
+                    mainLayout.setVisibility(View.VISIBLE);
+
+                    adapter.setSamples(viewModel.getAll());
+                    if (SampleRepository.samplesPage == 1)
+                        recyclerView.setAdapter(adapter);
+
+                    handler.postDelayed(() -> setToolCreate(), 500);
+
+                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                 }
-                loading = false;
             }
         });
     }
