@@ -175,6 +175,7 @@ public class SamplesActivity extends AppCompatActivity {
                     if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
                         try {
                             if (!loading) {
+                                // TODO: progress should be visible
                                     viewModel.samples();
                                     observeWork();
                             }
@@ -219,6 +220,7 @@ public class SamplesActivity extends AppCompatActivity {
 
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
+                    // TODO: progress should be gone
                     loading = false;
                     SampleRepository.samplesPage++;
                 } else if (integer != -1) {
@@ -263,6 +265,8 @@ public class SamplesActivity extends AppCompatActivity {
                         recyclerView.setAdapter(adapter);
 
                     handler.postDelayed(() -> setToolCreate(), 500);
+
+                    // TODO: progress should be gone
 
                     SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                 }
