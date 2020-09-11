@@ -410,35 +410,37 @@ public class AuthWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONObject data = successBody.getJSONObject("data");
-                boolean createSample = false;
-                if (data.has("type") && data.getString("type").equals("admin")){
-                   createSample = true;
-                }else{
+                boolean access = false;
+                if (data.has("type") && data.getString("type").equals("admin")) {
+                    access = true;
+                } else {
                     JSONArray centers = data.getJSONArray("centers");
                     for (int i = 0; i < centers.length(); i++) {
                         JSONObject jsonObject = centers.getJSONObject(i);
                         JSONObject acceptation = jsonObject.getJSONObject("acceptation");
-                        if (acceptation.getString("position").equals("operator") ||acceptation.getString("position").equals("manager")||acceptation.getString("position").equals("psychologist")){
-                            createSample = true;
+                        if (acceptation.getString("position").equals("operator") || acceptation.getString("position").equals("manager") || acceptation.getString("position").equals("psychologist")) {
+                            access = true;
                         }
                     }
                 }
-                    if (createSample){
-                        editor.putString("createSample","true");
-                    }
+                if (access) {
+                    editor.putString("access", "true");
+                }else{
+                    editor.putString("access", "false");
+                }
                 FileManager.writeObjectToCache(context, new JSONObject().put("data", data.getJSONArray("centers")), "centers", "my");
 
                 editor.putString("name", data.getString("name"));
                 if (data.has("type"))
-                editor.putString("type", data.getString("type"));
+                    editor.putString("type", data.getString("type"));
                 if (data.has("mobile"))
-                editor.putString("mobile", data.getString("mobile"));
+                    editor.putString("mobile", data.getString("mobile"));
                 if (data.has("email"))
-                editor.putString("email", data.getString("email"));
+                    editor.putString("email", data.getString("email"));
                 if (data.has("gender"))
-                editor.putString("gender", data.getString("gender"));
+                    editor.putString("gender", data.getString("gender"));
                 if (data.has("birthday"))
-                editor.putString("birthday", data.getString("birthday"));
+                    editor.putString("birthday", data.getString("birthday"));
 
 //                JSONArray avatar = data.getJSONArray("avatar");
 //                editor.putString("avatar", String.valueOf(avatar.getJSONObject(0)));

@@ -177,6 +177,14 @@ public class SampleRepository extends MainRepository {
         workManager("close");
     }
 
+    public void score(String sampleId) throws JSONException {
+        SampleRepository.sampleId = sampleId;
+
+        work = "score";
+        workStateSample.setValue(-1);
+        workManager("score");
+    }
+
     public void delete(String sampleId) {
         FileManager.deleteCache(application.getApplicationContext(), "Answers", sampleId);
     }
@@ -229,7 +237,7 @@ public class SampleRepository extends MainRepository {
             SampleRepository.createData.put("case_id", casse);
             if (caseReferences.size() != 0)
                 SampleRepository.createData.put("client_id", caseReferences);
-        }else{
+        } else {
             SampleRepository.createData.put("client_id", roomReferences);
         }
         if (!count.equals(""))
@@ -266,6 +274,14 @@ public class SampleRepository extends MainRepository {
         work = "getReferences";
         workStateCreate.setValue(-1);
         workManager("getReferences");
+    }
+
+    public void getGeneral(String sampleId) throws JSONException {
+        SampleRepository.sampleId = sampleId;
+
+        work = "getGeneral";
+        workStateSample.setValue(-1);
+        workManager("getGeneral");
     }
 
     /*
@@ -320,6 +336,10 @@ public class SampleRepository extends MainRepository {
 
     public JSONArray readPrerequisiteAnswerFromCache(String fileName) {
         return FileManager.readArrayFromCache(application.getApplicationContext(), "prerequisitesAnswers", fileName);
+    }
+
+    public JSONObject readSampleDetailFromCache(String fileName){
+        return FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetail", fileName);
     }
 
     /*
@@ -583,6 +603,8 @@ public class SampleRepository extends MainRepository {
             return null;
         }
     }
+
+
 
     /*
          ---------- Work ----------

@@ -50,4 +50,14 @@ public interface SampleApi {
     @GET("rooms/{room_id}/users?status=accepted")
     Call<ResponseBody> getReferences(@Header("Authorization") String authorization, @Path("room_id") String roomId);
 
+
+    @Headers({"content-type: application/json", "Accept-Language:fa"})
+    @GET("$/samples/{sample_id}")
+    Call<ResponseBody> getGeneral(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
+
+
+    @Headers({"content-type: application/json", "Accept-Language:fa"})
+    @GET("$/samples/{sample_id}/scoring")
+    Call<ResponseBody> scoring(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
+
 }

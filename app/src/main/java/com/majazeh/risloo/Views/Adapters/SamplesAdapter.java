@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -143,11 +144,16 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
         }
 
         holder.itemView.setOnClickListener(v -> {
-            holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
-
-            activity.startActivity(new Intent(activity, DetailSampleActivity.class));
-            activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+            if (sharedPreferences.getString("access", "").equals("true")) {
+                holder.itemView.setClickable(false);
+                handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
+                try {
+                    activity.startActivity(new Intent(activity, DetailSampleActivity.class).putExtra("id", (String) model.get("id")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+            }
         });
 
         holder.startTextView.setOnClickListener(v -> {
@@ -168,6 +174,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
     private void initializer(View view) {
         sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+
 
         handler = new Handler();
 

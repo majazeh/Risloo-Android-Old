@@ -137,8 +137,11 @@ public class SamplesActivity extends AppCompatActivity {
     }
 
     public void setToolCreate() {
-        if (sharedPreferences.getString("createSample", "").equals("true")) {
+        Log.e("access", sharedPreferences.getString("access", ""));
+        if (sharedPreferences.getString("access", "").equals("true")) {
             toolCreate.setVisible(true);
+        }else{
+            toolCreate.setVisible(false);
         }
     }
 

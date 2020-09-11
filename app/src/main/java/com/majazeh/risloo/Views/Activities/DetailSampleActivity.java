@@ -6,12 +6,14 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.widget.ImageViewCompat;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -19,6 +21,7 @@ import android.os.Bundle;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -26,7 +29,11 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.majazeh.risloo.Models.Managers.ExceptionManager;
+import com.majazeh.risloo.Models.Managers.FileManager;
+import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.StringCustomizer;
@@ -35,6 +42,10 @@ import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.DetailSampleAdapter;
 import com.majazeh.risloo.Views.Dialogs.DownloadDialog;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class DetailSampleActivity extends AppCompatActivity {
 
@@ -47,6 +58,8 @@ public class DetailSampleActivity extends AppCompatActivity {
     // Objects
     private ClickableSpan retrySpan;
     private DownloadDialog downloadDialog;
+    private Bundle extras;
+    String sampleId;
 
     // Widgets
     private Toolbar toolbar;
@@ -80,13 +93,6 @@ public class DetailSampleActivity extends AppCompatActivity {
         retryLayout.setVisibility(View.GONE);
         mainLayout.setVisibility(View.VISIBLE);
 
-        scaleTextView.setText("آزمون مینه سوتا");
-        serialTextView.setText("X131FLOHD");
-        statusTextView.setText("باز شده");
-        referenceTextView.setText("محمد جبار");
-        caseTextView.setText("محمد جبار");
-        roomTextView.setText("کلینیک شخصی محمد حسن صالحی");
-
         ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
 
         Picasso.get().load(R.drawable.example).placeholder(R.color.Solitude).into(resultImageView);
@@ -106,6 +112,9 @@ public class DetailSampleActivity extends AppCompatActivity {
 
     private void initializer() {
         viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
+
+        extras = getIntent().getExtras();
+        sampleId = extras.getString("id");
 
         downloadDialog = new DownloadDialog(this);
 
@@ -258,137 +267,164 @@ public class DetailSampleActivity extends AppCompatActivity {
     }
 
     private void launchProcess(String method) {
-//        try {
-//            if (method.equals("getGeneral")) {
-//                viewModel.getGeneral();
-//            } else if (method.equals("getPrerequisite")) {
-//                viewModel.getPrerequisite();
-//            } else {
-//                viewModel.getTest
-//            }
-//            observeWork();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            viewModel.getGeneral(sampleId);
+            observeWork();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void doWork(String method) {
-//        progressDialog.show();
-//        try {
-//            switch (method) {
-//                case "score":
-//                    viewModel.score();
-//                    break;
-//                case "close":
-//                    viewModel.close();
-//                    break;
-//            }
-//            observeWork();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+        progressDialog.show();
+        try {
+            switch (method) {
+                case "score":
+                    viewModel.score(sampleId);
+                    break;
+                case "close":
+                    viewModel.close(sampleId);
+                    break;
+            }
+            observeWork();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void observeWork() {
-//        SampleRepository.workStateDetail.observe((LifecycleOwner) this, integer -> {
-//            if (SampleRepository.work == "getGeneral") {
-//                if (integer == 1) {
-//                    if (viewModel.getGeneral() != null) {
-//                        // Show General Detail
-//
-//                        loadingLayout.setVisibility(View.GONE);
-//                        retryLayout.setVisibility(View.GONE);
-//                        mainLayout.setVisibility(View.VISIBLE);
-//
-//                        setData(SampleRepository.work, true);
-//
-//                        SampleRepository.workStateDetail.removeObservers((LifecycleOwner) this);
-//                    } else {
-//                        // General Detail is Empty
-//
-//                        loadingLayout.setVisibility(View.GONE);
-//                        retryLayout.setVisibility(View.GONE);
-//                        mainLayout.setVisibility(View.VISIBLE);
-//
-//                        setData(SampleRepository.work, false);
-//
-//                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-//                    }
-//                } else {
-//                    if (viewModel.getGeneral() == null) {
-//                        if (integer == 0) {
-//                            // General Detail is Empty And Error
-//
-//                            loadingLayout.setVisibility(View.GONE);
-//                            retryLayout.setVisibility(View.VISIBLE);
-//                            mainLayout.setVisibility(View.GONE);
-//
-//                            setRetryLayout("error");
-//
-//                            SampleRepository.workStateDetail.removeObservers((LifecycleOwner) this);
-//                        } else if (integer == -2) {
-//                            // General Detail is Empty And Connection
-//
-//                            loadingLayout.setVisibility(View.GONE);
-//                            retryLayout.setVisibility(View.VISIBLE);
-//                            mainLayout.setVisibility(View.GONE);
-//
-//                            setRetryLayout("connection");
-//
-//                            SampleRepository.workStateDetail.removeObservers((LifecycleOwner) this);
-//                        }
-//                    } else {
-//                        if (integer != -1) {
-//                            // Show General Detail
-//
-//                            loadingLayout.setVisibility(View.GONE);
-//                            retryLayout.setVisibility(View.GONE);
-//                            mainLayout.setVisibility(View.VISIBLE);
-//
-//                            setData(SampleRepository.work, true);
-//
-//                            SampleRepository.workStateDetail.removeObservers((LifecycleOwner) this);
-//                        }
-//                    }
-//                }
-//            } else if (SampleRepository.work == "getPrerequisite") {
-//
-//            } else if (SampleRepository.work == "getTest") {
-//
-//            } else if (SampleRepository.work == "score") {
-//                if (integer == 1) {
-//                    setResult(RESULT_OK, null);
-//
-//                    progressDialog.dismiss();
-//                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-//                    SampleRepository.workStateDetail.removeObservers((LifecycleOwner) this);
-//                } else if (integer == 0) {
-//                    progressDialog.dismiss();
-//                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-//                    SampleRepository.workStateDetail.removeObservers((LifecycleOwner) this);
-//                } else if (integer == -2) {
-//                    progressDialog.dismiss();
-//                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-//                    SampleRepository.workStateDetail.removeObservers((LifecycleOwner) this);
-//                }
-//            } else if (SampleRepository.work == "close") {
-//                if (integer == 1) {
-//                    setResult(RESULT_OK, null);
-//
-//                    progressDialog.dismiss();
-//                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-//                    SampleRepository.workStateDetail.removeObservers((LifecycleOwner) this);
-//                } else if (integer == 0) {
-//                    progressDialog.dismiss();
-//                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-//                    SampleRepository.workStateDetail.removeObservers((LifecycleOwner) this);
-//                } else if (integer == -2) {
-//                    progressDialog.dismiss();
-//                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-//                    SampleRepository.workStateDetail.removeObservers((LifecycleOwner) this);
-//                }
-//            }
-//        });
+        SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
+            if (SampleRepository.work == "getGeneral") {
+                if (integer == 1) {
+                    if (viewModel.readSampleDetail(sampleId) != null) {
+                        try {
+                        JSONObject data = viewModel.readSampleDetail(sampleId);
+                            JSONObject scale = data.getJSONObject("scale");
+                            if (data.has("client")&& !data.isNull("client")) {
+                                JSONObject client = data.getJSONObject("client");
+                                referenceTextView.setText(client.getString("name"));
+                            }else{
+                                referenceTextView.setText(data.getString("code"));
+
+                            }
+                            JSONObject room = data.getJSONObject("room");
+                            JSONObject center = room.getJSONObject("center");
+                            JSONObject detail = center.getJSONObject("detail");
+
+                        // Show General Detail
+                        scaleTextView.setText(scale.getString("title"));
+                        serialTextView.setText(scale.getString("id"));
+                        statusTextView.setText(data.getString("status"));
+                        // TODO: no need
+//                        caseTextView.setText();
+                        roomTextView.setText(detail.getString("title"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        Log.e("data", String.valueOf(integer));
+                        loadingLayout.setVisibility(View.GONE);
+                        retryLayout.setVisibility(View.GONE);
+                        mainLayout.setVisibility(View.VISIBLE);
+
+                        setData(SampleRepository.work, true);
+
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    } else {
+                        // General Detail is Empty
+
+                        loadingLayout.setVisibility(View.GONE);
+                        retryLayout.setVisibility(View.GONE);
+                        mainLayout.setVisibility(View.VISIBLE);
+
+                        setData(SampleRepository.work, false);
+
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    }
+                } else {
+                    if (viewModel.readSampleDetail(sampleId) == null) {
+                        if (integer == 0) {
+                            // General Detail is Empty And Error
+
+                            loadingLayout.setVisibility(View.GONE);
+                            retryLayout.setVisibility(View.VISIBLE);
+                            mainLayout.setVisibility(View.GONE);
+
+                            setRetryLayout("error");
+
+                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                        } else if (integer == -2) {
+                            // General Detail is Empty And Connection
+
+                            loadingLayout.setVisibility(View.GONE);
+                            retryLayout.setVisibility(View.VISIBLE);
+                            mainLayout.setVisibility(View.GONE);
+
+                            setRetryLayout("connection");
+
+                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                        }
+                    } else {
+                        if (integer != -1) {
+                            // Show General Detail
+
+                            loadingLayout.setVisibility(View.GONE);
+                            retryLayout.setVisibility(View.GONE);
+                            mainLayout.setVisibility(View.VISIBLE);
+
+                            setData(SampleRepository.work, true);
+
+                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                        }
+                    }
+                }
+            } else if (SampleRepository.work == "getPrerequisite") {
+
+            } else if (SampleRepository.work == "getTest") {
+
+            } else if (SampleRepository.work == "score") {
+                if (integer == 1) {
+                    setResult(RESULT_OK, null);
+
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                } else if (integer == 0) {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                } else if (integer == -2) {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                }
+            } else if (SampleRepository.work == "close") {
+                if (integer == 1) {
+                    setResult(RESULT_OK, null);
+                    try {
+                   JSONObject jsonObject = FileManager.readObjectFromCache(this,"sampleDetail",SampleRepository.sampleId);
+                        jsonObject.put("status", "closed");
+                        FileManager.writeObjectToCache(this, jsonObject,"sampleDetail",SampleRepository.sampleId);
+                        statusTextView.setText("closed");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                } else if (integer == 0) {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                } else if (integer == -2) {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                }
+            }
+        });
     }
 
     @Override

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.majazeh.risloo.Entities.Model;
+import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 
 import org.json.JSONArray;
@@ -222,4 +223,14 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.getArchive();
     }
 
+    public void getGeneral(String sampleId) throws JSONException {
+        repository.getGeneral(sampleId);
+    }
+    public JSONObject readSampleDetail(String fileName){
+        return repository.readSampleDetailFromCache(fileName);
+    }
+
+    public void score(String sampleId) throws JSONException {
+        repository.score(sampleId);
+    }
 }
