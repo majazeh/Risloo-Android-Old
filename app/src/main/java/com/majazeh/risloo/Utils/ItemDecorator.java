@@ -10,11 +10,13 @@ public class ItemDecorator extends RecyclerView.ItemDecoration {
 
     // Vars
     private String layoutManager;
-    private int margin;
+    private int marginOuter, marginInner, marginSide;
 
-    public ItemDecorator(String layoutManager, int margin) {
+    public ItemDecorator(String layoutManager, int marginOuter, int marginInner, int marginSide) {
         this.layoutManager = layoutManager;
-        this.margin = margin;
+        this.marginOuter = marginOuter;
+        this.marginInner = marginInner;
+        this.marginSide = marginSide;
     }
 
     @Override
@@ -25,211 +27,112 @@ public class ItemDecorator extends RecyclerView.ItemDecoration {
         int count = state.getItemCount();
 
         switch (layoutManager) {
-            case "verticalLinearLayout":
+            case "verticalLayout":
 
-                // Top Margin
                 if (position == 0) {
-                    rect.top = margin;
+                    if (marginOuter != 0) {
+                        rect.top = marginOuter;
+                    }
                 } else {
-                    rect.top = margin / 4;
+                    if (marginInner != 0) {
+                        rect.top = marginInner;
+                    }
                 }
 
-                // Bottom Margin
                 if (count > 0 && position == count - 1) {
-                    rect.bottom = margin;
+                    if (marginOuter != 0) {
+                        rect.bottom = marginOuter;
+                    }
                 } else {
-                    rect.bottom = margin / 4;
+                    if (marginInner != 0) {
+                        rect.bottom = marginInner;
+                    }
                 }
 
-                // Right And Left Margins
-                rect.right = margin;
-                rect.left = margin;
-
-                break;
-            case "verticalLinearLayout2":
-
-                // Top Margin
-                if (position == 0) {
-                    rect.top = margin;
-                } else {
-                    rect.top = margin / 2;
-                }
-
-                // Bottom Margin
-                if (count > 0 && position == count - 1) {
-                    rect.bottom = margin;
-                } else {
-                    rect.bottom = margin / 2;
-                }
-
-                // Right And Left Margins
-                rect.right = margin / 2;
-                rect.left = margin / 2;
-
-                break;
-            case "verticalLinearLayout3":
-
-                // Top Margin
-                if (position == 0) {
-
-                } else {
-                    rect.top = margin / 3;
-                }
-
-                // Bottom Margin
-                if (count > 0 && position == count - 1) {
-
-                } else {
-                    rect.bottom = margin / 3;
+                if (marginSide != 0) {
+                    rect.right = marginSide;
+                    rect.left = marginSide;
                 }
 
                 break;
-            case "horizontalLinearLayout":
+            case "horizontalLayout":
 
-                // Top And Bottom Margins
-                rect.top = margin;
-                rect.bottom = margin;
+                if (marginOuter != 0) {
+                    rect.top = marginOuter;
+                    rect.bottom = marginOuter;
+                }
 
-                // Right Margin
                 if (position == 0) {
-                    rect.right = margin;
+                    if (marginSide != 0) {
+                        rect.right = marginSide;
+                    }
                 } else {
-                    rect.right = margin / 4;
+                    if (marginInner != 0) {
+                        rect.right = marginInner;
+                    }
                 }
 
-                // Left Margin
                 if (count > 0 && position == count - 1) {
-                    rect.left = margin;
+                    if (marginSide != 0) {
+                        rect.left = marginSide;
+                    }
                 } else {
-                    rect.left = margin / 4;
-                }
-
-                break;
-            case "horizontalLinearLayout2":
-
-                // Top And Bottom Margins
-                rect.top = margin;
-                rect.bottom = margin;
-
-                // Right Margin
-                if (position == 0) {
-                    rect.right = margin;
-                } else {
-                    rect.right = margin / 2;
-                }
-
-                // Left Margin
-                if (count > 0 && position == count - 1) {
-                    rect.left = margin;
-                } else {
-                    rect.left = margin / 2;
-                }
-
-                break;
-            case "horizontalLinearLayout3":
-
-                // Right Margin
-                if (position == 0) {
-                    rect.right = margin;
-                } else {
-                    rect.right = margin / 4;
-                }
-
-                // Left Margin
-                if (count > 0 && position == count - 1) {
-                    rect.left = margin;
-                } else {
-                    rect.left = margin / 4;
+                    if (marginInner != 0) {
+                        rect.left = marginInner;
+                    }
                 }
 
                 break;
             case "gridLayout":
 
-                // Top Margin
                 if (position == 0 || position == 1) {
-                    rect.top = margin / 2;
-                } else {
-                    rect.top = margin / 6;
-                }
-
-                // Bottom Margin
-                if (count > 0 && position == count - 1) {
-                    rect.bottom = margin / 2;
-                } else if (count > 0 && position == count - 2){
-                    if (position % 2 == 0){
-                        rect.bottom = margin / 2;
-                    } else {
-                        rect.bottom = margin / 6;
+                    if (marginOuter != 0) {
+                        rect.top = marginOuter;
                     }
                 } else {
-                    rect.bottom = margin / 6;
+                    if (marginInner != 0) {
+                        rect.top = marginInner;
+                    }
                 }
 
-                // Right And Left Margins
+                if (count > 0 && position == count - 1) {
+                    if (marginOuter != 0) {
+                        rect.bottom = marginOuter;
+                    }
+                } else if (count > 0 && position == count - 2) {
+                    if (position % 2 == 0) {
+                        if (marginOuter != 0) {
+                            rect.bottom = marginOuter;
+                        }
+                    } else {
+                        if (marginInner != 0) {
+                            rect.bottom = marginInner;
+                        }
+                    }
+                } else {
+                    if (marginInner != 0) {
+                        rect.bottom = marginInner;
+                    }
+                }
+
                 if (position % 2 == 0) {
-                    rect.right = margin;
-                    rect.left = margin / 6;
+                    if (marginSide != 0) {
+                        rect.right = marginSide;
+                    }
+                    if (marginInner != 0) {
+                        rect.left = marginInner;
+                    }
                 } else {
-                    rect.right = margin / 6;
-                    rect.left = margin;
+                    if (marginInner != 0) {
+                        rect.right = marginInner;
+                    }
+                    if (marginSide != 0) {
+                        rect.left = marginSide;
+                    }
                 }
-
-                break;
-            case "listLayout":
-
-                // Top Margin
-                if (position == 0) {
-                    rect.top = margin;
-                } else {
-                    rect.top = (int) (margin / 1.5);
-                }
-
-                // Bottom Margin
-                if (count > 0 && position == count - 1) {
-                    rect.bottom = margin;
-                } else {
-                    rect.bottom = (int) (margin / 1.5);
-                }
-
-                // Right And Left Margins
-                rect.right = margin;
-                rect.left = margin;
-
-                break;
-            case "subListLayout":
-
-                // Top Margin
-                if (position == 0) {
-
-                } else {
-                    rect.top = (int) (margin / 1.5);
-                }
-
-                // Bottom Margin
-                if (count > 0 && position == count - 1) {
-
-                } else {
-                    rect.bottom = (int) (margin / 1.5);
-                }
-
-                // Right And Left Margins
-                rect.right = margin;
-                rect.left = margin;
-
-                break;
-            case "normalLayout":
-
-                // Top And Bottom Margin
-                rect.top = margin;
-                rect.bottom = margin;
-
-                // Right And Left Margins
-                rect.right = margin;
-                rect.left = margin;
 
                 break;
         }
-
     }
 
 }

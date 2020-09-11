@@ -250,7 +250,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                 adapter.setPhone(phones);
 
                 if (holder.phoneRecyclerView.getAdapter() == null) {
-                    holder.phoneRecyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout2", (int) activity.getResources().getDimension(R.dimen._4sdp)));
+                    holder.phoneRecyclerView.addItemDecoration(new ItemDecorator("horizontalLayout", (int) activity.getResources().getDimension(R.dimen._4sdp), (int) activity.getResources().getDimension(R.dimen._2sdp), (int) activity.getResources().getDimension(R.dimen._4sdp)));
                     holder.phoneRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
                     holder.phoneRecyclerView.setHasFixedSize(false);
                 }

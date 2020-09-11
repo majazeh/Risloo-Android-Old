@@ -112,7 +112,7 @@ public class EditCenterActivity extends AppCompatActivity {
         addressEditText = findViewById(R.id.activity_edit_center_address_editText);
 
         phoneRecyclerView = findViewById(R.id.activity_edit_center_phone_recyclerView);
-        phoneRecyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout3", (int) getResources().getDimension(R.dimen._12sdp)));
+        phoneRecyclerView.addItemDecoration(new ItemDecorator("horizontalLayout", 0, (int) getResources().getDimension(R.dimen._3sdp), (int) getResources().getDimension(R.dimen._12sdp)));
         phoneRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         phoneRecyclerView.setHasFixedSize(false);
 

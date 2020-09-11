@@ -104,7 +104,7 @@ public class AccountActivity extends AppCompatActivity {
         typeTextView.setText(viewModel.getType());
 
         authRecyclerView = findViewById(R.id.activity_account_recyclerView);
-        authRecyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout2", (int) getResources().getDimension(R.dimen._18sdp)));
+        authRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._18sdp), (int) getResources().getDimension(R.dimen._9sdp), (int) getResources().getDimension(R.dimen._9sdp)));
         authRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         authRecyclerView.setHasFixedSize(true);
         authRecyclerView.setAdapter(adapter);

@@ -53,7 +53,7 @@ public class SettingActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.activity_setting_toolbar);
 
         recyclerView = findViewById(R.id.activity_setting_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout", 0));
+        recyclerView.addItemDecoration(new ItemDecorator("verticalLayout", 0, 0, 0));
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);

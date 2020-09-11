@@ -53,7 +53,7 @@ public class TermConditionActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.activity_term_condition_toolbar);
 
         recyclerView = findViewById(R.id.activity_term_condition_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("listLayout",(int) getResources().getDimension(R.dimen._24sdp)));
+        recyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._24sdp), (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._24sdp)));
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);

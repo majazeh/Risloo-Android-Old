@@ -65,7 +65,7 @@ public class AllCenterFragment extends Fragment {
         adapter.setCenter(viewModel.getAll(), expands, "all");
 
         recyclerView = view.findViewById(R.id.fragment_all_center_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout", (int) getResources().getDimension(R.dimen._18sdp)));
+        recyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._18sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._18sdp)));
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);

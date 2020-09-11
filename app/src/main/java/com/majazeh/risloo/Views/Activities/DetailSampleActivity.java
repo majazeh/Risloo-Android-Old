@@ -145,15 +145,15 @@ public class DetailSampleActivity extends AppCompatActivity {
         editCheckbox = findViewById(R.id.activity_detail_sample_edit_checkbox);
 
         generalRecyclerView = findViewById(R.id.activity_detail_sample_general_recyclerView);
-        generalRecyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout3", (int) getResources().getDimension(R.dimen._12sdp)));
+        generalRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", 0, (int) getResources().getDimension(R.dimen._4sdp), 0));
         generalRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         generalRecyclerView.setHasFixedSize(false);
         prerequisiteRecyclerView = findViewById(R.id.activity_detail_sample_prerequisite_recyclerView);
-        prerequisiteRecyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout3", (int) getResources().getDimension(R.dimen._12sdp)));
+        prerequisiteRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", 0, (int) getResources().getDimension(R.dimen._4sdp), 0));
         prerequisiteRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         prerequisiteRecyclerView.setHasFixedSize(false);
         testRecyclerView = findViewById(R.id.activity_detail_sample_test_recyclerView);
-        testRecyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout3", (int) getResources().getDimension(R.dimen._12sdp)));
+        testRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", 0, (int) getResources().getDimension(R.dimen._4sdp), 0));
         testRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         testRecyclerView.setHasFixedSize(false);
 

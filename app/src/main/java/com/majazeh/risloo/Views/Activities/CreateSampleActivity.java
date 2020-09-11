@@ -128,15 +128,15 @@ public class CreateSampleActivity extends AppCompatActivity {
         countEditText = findViewById(R.id.activity_create_sample_count_editText);
 
         scaleRecyclerView = findViewById(R.id.activity_create_sample_scale_recyclerView);
-        scaleRecyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout3", (int) getResources().getDimension(R.dimen._12sdp)));
+        scaleRecyclerView.addItemDecoration(new ItemDecorator("horizontalLayout", 0, (int) getResources().getDimension(R.dimen._3sdp), (int) getResources().getDimension(R.dimen._12sdp)));
         scaleRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         scaleRecyclerView.setHasFixedSize(false);
         roomReferenceRecyclerView = findViewById(R.id.activity_create_sample_clinic_reference_recyclerView);
-        roomReferenceRecyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout3", (int) getResources().getDimension(R.dimen._12sdp)));
+        roomReferenceRecyclerView.addItemDecoration(new ItemDecorator("horizontalLayout", 0, (int) getResources().getDimension(R.dimen._3sdp), (int) getResources().getDimension(R.dimen._12sdp)));
         roomReferenceRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         roomReferenceRecyclerView.setHasFixedSize(true);
         caseReferenceRecyclerView = findViewById(R.id.activity_create_sample_case_reference_recyclerView);
-        caseReferenceRecyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout", (int) getResources().getDimension(R.dimen._12sdp)));
+        caseReferenceRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._12sdp), (int) getResources().getDimension(R.dimen._3sdp), (int) getResources().getDimension(R.dimen._12sdp)));
         caseReferenceRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         caseReferenceRecyclerView.setHasFixedSize(true);
 

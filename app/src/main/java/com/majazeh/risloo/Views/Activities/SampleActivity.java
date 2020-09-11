@@ -117,7 +117,7 @@ public class SampleActivity extends AppCompatActivity {
         buttonLinearLayout = findViewById(R.id.activity_sample_button_linearLayout);
 
         recyclerView = findViewById(R.id.activity_sample_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout2", (int) getResources().getDimension(R.dimen._18sdp)));
+        recyclerView.addItemDecoration(new ItemDecorator("horizontalLayout", (int) getResources().getDimension(R.dimen._18sdp), (int) getResources().getDimension(R.dimen._9sdp), (int) getResources().getDimension(R.dimen._18sdp)));
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setHasFixedSize(true);
 
