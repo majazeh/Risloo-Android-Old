@@ -34,8 +34,8 @@
             android:layout_marginBottom="@dimen/_8sdp"
             android:alpha="0"
             android:visibility="invisible"
-            android:progressDrawable="@drawable/draw_progress_8sdp_primarydark"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+            android:progressDrawable="@drawable/draw_progress_8sdp_back_primarydark_front_white"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
 
         <TextView
             android:id="@+id/activity_splash_version_textView"

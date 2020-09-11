@@ -107,9 +107,9 @@ public class CallUsActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            sendButton.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
+            sendButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
 
-            infoDialogConfirm.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
+            infoDialogConfirm.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
         }
     }
 
@@ -130,21 +130,21 @@ public class CallUsActivity extends AppCompatActivity {
 
         nameEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
-                nameEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
+                nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
                 nameEditText.setCursorVisible(true);
 
                 nameError = false;
 
                 if (mobileError) {
-                    mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+                    mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 } else {
-                    mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                    mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 }
 
                 if (messageError) {
-                    messageEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+                    messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 } else {
-                    messageEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                    messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 }
             }
             return false;
@@ -152,21 +152,21 @@ public class CallUsActivity extends AppCompatActivity {
 
         mobileEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
-                mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
+                mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
                 mobileEditText.setCursorVisible(true);
 
                 mobileError = false;
 
                 if (messageError) {
-                    messageEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+                    messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 } else {
-                    messageEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                    messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 }
 
                 if (nameError) {
-                    nameEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 } else {
-                    nameEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 }
             }
             return false;
@@ -174,21 +174,21 @@ public class CallUsActivity extends AppCompatActivity {
 
         messageEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
-                messageEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
+                messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
                 messageEditText.setCursorVisible(true);
 
                 messageError = false;
 
                 if (nameError) {
-                    nameEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 } else {
-                    nameEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 }
 
                 if (mobileError) {
-                    mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+                    mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 } else {
-                    mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                    mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 }
             }
             return false;
@@ -237,58 +237,58 @@ public class CallUsActivity extends AppCompatActivity {
         messageEditText.setCursorVisible(false);
 
         if (nameEditText.length() == 0 && mobileEditText.length() == 0 && messageEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
-            mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
-            messageEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+            messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
             nameError = true;
             mobileError = true;
             messageError = true;
         } else if (mobileEditText.length() == 0 && messageEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-            mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
-            messageEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+            messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
             nameError = false;
             mobileError = true;
             messageError = true;
         } else if (nameEditText.length() == 0 && messageEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
-            mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-            messageEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+            messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
             nameError = true;
             mobileError = false;
             messageError = true;
         } else if (nameEditText.length() == 0 && mobileEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
-            mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
-            messageEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+            messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
             nameError = true;
             mobileError = true;
             messageError = false;
         } else if (messageEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-            mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-            messageEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+            messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
             nameError = false;
             mobileError = false;
             messageError = true;
         } else if (mobileEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-            mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
-            messageEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+            messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
             nameError = false;
             mobileError = true;
             messageError = false;
         } else if (nameEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
-            mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-            messageEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+            messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
             nameError = true;
             mobileError = false;
             messageError = false;
         } else {
-            nameEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-            mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-            messageEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+            messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
             nameError = false;
             mobileError = false;
             messageError = false;
@@ -300,9 +300,9 @@ public class CallUsActivity extends AppCompatActivity {
         mobileEditText.setCursorVisible(false);
         messageEditText.setCursorVisible(false);
 
-        nameEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-        mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-        messageEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+        nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+        mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+        messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
 
         nameError = false;
         mobileError = false;

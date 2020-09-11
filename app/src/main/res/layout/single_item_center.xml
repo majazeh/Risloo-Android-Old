@@ -111,7 +111,7 @@
                             android:layout_marginRight="@dimen/_6sdp"
                             android:padding="@dimen/_6sdp"
                             android:src="@drawable/ic_edit_light"
-                            android:background="@drawable/draw_4sdp_solitude"
+                            android:background="@drawable/draw_4sdp_solid_solitude"
                             app:tint="@color/Grey" />
 
                         <ImageView
@@ -122,7 +122,7 @@
                             android:visibility="invisible"
                             android:padding="@dimen/_6sdp"
                             android:src="@drawable/ic_user_light"
-                            android:background="@drawable/draw_4sdp_solitude"
+                            android:background="@drawable/draw_4sdp_solid_solitude"
                             app:tint="@color/Grey" />
 
                     </LinearLayout>

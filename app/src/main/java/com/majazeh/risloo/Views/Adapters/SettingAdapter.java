@@ -73,7 +73,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
 
         try {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_white_ripple);
+                holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_white_ripple_quartz);
             }
 
             if (i != mores.size() - 1) {
@@ -211,10 +211,10 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            noUpdateDialogConfirm.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
+            noUpdateDialogConfirm.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
 
-            availableUpdateDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
-            availableUpdateDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
+            availableUpdateDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            availableUpdateDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
         }
     }
 

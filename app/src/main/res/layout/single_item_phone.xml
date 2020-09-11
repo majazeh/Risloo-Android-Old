@@ -14,5 +14,5 @@
     android:textStyle="bold"
     android:textColor="@color/Grey"
     android:textAlignment="gravity"
-    android:background="@drawable/draw_4sdp_white"
+    android:background="@drawable/draw_4sdp_solid_white"
     tools:ignore="UnusedAttribute, RtlHardcoded" />

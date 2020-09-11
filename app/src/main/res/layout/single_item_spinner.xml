@@ -22,7 +22,7 @@
         android:gravity="center"
         android:layoutDirection="rtl"
         android:orientation="horizontal"
-        android:background="@drawable/draw_4sdp_snow">
+        android:background="@drawable/draw_4sdp_solid_snow">
 
         <ImageView
             android:id="@+id/single_item_spinner_imageView"

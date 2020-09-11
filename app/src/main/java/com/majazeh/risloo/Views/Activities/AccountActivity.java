@@ -139,8 +139,8 @@ public class AccountActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            logOutDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
-            logOutDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
+            logOutDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            logOutDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
         }
     }
 

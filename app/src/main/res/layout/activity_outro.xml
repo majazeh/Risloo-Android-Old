@@ -56,7 +56,7 @@
             android:textStyle="bold"
             android:textColor="@color/White"
             android:textAlignment="gravity"
-            android:background="@drawable/draw_18sdp_primary"
+            android:background="@drawable/draw_16sdp_solid_primary"
             style="?android:attr/borderlessButtonStyle"/>
 
         <Button
@@ -72,7 +72,7 @@
             android:textStyle="bold"
             android:textColor="@color/White"
             android:textAlignment="gravity"
-            android:background="@drawable/draw_18sdp_primary"
+            android:background="@drawable/draw_16sdp_solid_primary"
             style="?android:attr/borderlessButtonStyle"/>
 
         <Button
@@ -88,7 +88,7 @@
             android:textStyle="bold"
             android:textColor="@color/Grey"
             android:textAlignment="gravity"
-            android:background="@drawable/draw_18sdp_solitude"
+            android:background="@drawable/draw_16sdp_solid_solitude"
             style="?android:attr/borderlessButtonStyle"/>
 
         <Button
@@ -104,7 +104,7 @@
             android:textStyle="bold"
             android:textColor="@color/Grey"
             android:textAlignment="gravity"
-            android:background="@drawable/draw_18sdp_solitude"
+            android:background="@drawable/draw_16sdp_solid_solitude"
             style="?android:attr/borderlessButtonStyle"/>
 
     </LinearLayout>

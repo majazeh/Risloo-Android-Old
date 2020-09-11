@@ -1,22 +1,17 @@
 package com.majazeh.risloo.Views.Activities;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.inputmethodservice.Keyboard;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -167,10 +162,10 @@ public class CreateSampleActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            scaleSpinner.setBackgroundResource(R.drawable.draw_rectangle_quartz_ripple);
-            roomReferenceSpinner.setBackgroundResource(R.drawable.draw_rectangle_quartz_ripple);
+            scaleSpinner.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
+            roomReferenceSpinner.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
 
-            createButton.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
+            createButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
         }
     }
 
@@ -219,7 +214,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         break;
                 }
 
-                countEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
             }
 
             @Override
@@ -239,7 +234,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     doWork("getScales", "");
                 }
 
-                countEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
             }
             return false;
         });
@@ -250,7 +245,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     doWork("getRooms", "");
                 }
 
-                countEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
             }
             return false;
         });
@@ -265,7 +260,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     Toast.makeText(this, "لطفا اول اتاق درمانی انتخاب کنید", Toast.LENGTH_SHORT).show();
                 }
 
-                countEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
             }
             return false;
         });
@@ -280,7 +275,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     Toast.makeText(this, "لطفا اول اتاق درمانی انتخاب کنید", Toast.LENGTH_SHORT).show();
                 }
 
-                countEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
             }
             return false;
         });
@@ -295,7 +290,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     }
 
                     if (scaleAdapter.getValues().size() == 1) {
-                        scaleLinearLayout.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                        scaleLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                         scaleTextView.setVisibility(View.GONE);
                     }
                 }
@@ -313,7 +308,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 if (roomSpinner.getCount() != position) {
                     try {
                         room = String.valueOf(SampleRepository.rooms.get(position).get("id"));
-                        roomFrameLayout.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                        roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
 
                         casse = "";
                         SampleRepository.cases.clear();
@@ -411,7 +406,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         countEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!room.isEmpty()) {
-                    countEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
+                    countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
                     countEditText.setCursorVisible(true);
                 } else {
                     Toast.makeText(this, "لطفا اول اتاق درمانی انتخاب کنید", Toast.LENGTH_SHORT).show();
@@ -628,23 +623,23 @@ public class CreateSampleActivity extends AppCompatActivity {
 
     private void checkInput() {
         if (scaleAdapter.getValues().size() == 0 && room.isEmpty()) {
-            scaleLinearLayout.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
-            roomFrameLayout.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+            scaleLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+            roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
         } else if (room.isEmpty()) {
-            scaleLinearLayout.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-            roomFrameLayout.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+            scaleLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+            roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
         } else if (scaleAdapter.getValues().size() == 0) {
-            scaleLinearLayout.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
-            roomFrameLayout.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+            scaleLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+            roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
         }
     }
 
     private void clearData() {
         countEditText.setCursorVisible(false);
 
-        countEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-        scaleLinearLayout.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-        roomFrameLayout.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+        countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+        scaleLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+        roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
     }
 
     private void doWork(String method, String roomId) {

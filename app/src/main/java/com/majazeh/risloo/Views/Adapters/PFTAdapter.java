@@ -51,7 +51,7 @@ public class PFTAdapter extends RecyclerView.Adapter<PFTAdapter.PFTHolder> {
     public void onBindViewHolder(@NonNull PFTHolder holder, int i) {
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            holder.itemView.setBackgroundResource(R.drawable.draw_18sdp_quartz_border_ripple);
+            holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_solid_white_border_quartz_ripple_solitude);
         }
 
         // TODO : Check State

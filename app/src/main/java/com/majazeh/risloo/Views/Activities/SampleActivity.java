@@ -18,7 +18,6 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -181,13 +180,13 @@ public class SampleActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            finishButton.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
-            cancelButton.setBackgroundResource(R.drawable.draw_18sdp_solitude_ripple);
+            finishButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
+            cancelButton.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude_ripple_quartz);
 
-            finishDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
-            finishDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
-            cancelDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
-            cancelDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
+            finishDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            finishDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            cancelDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            cancelDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
         }
     }
 

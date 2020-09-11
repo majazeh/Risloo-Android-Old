@@ -44,7 +44,7 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.PhoneHolder>
     public void onBindViewHolder(@NonNull PhoneHolder holder, int i) {
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            holder.titleTextView.setBackgroundResource(R.drawable.draw_4sdp_white_ripple);
+            holder.titleTextView.setBackgroundResource(R.drawable.draw_4sdp_solid_white_ripple_quartz);
         }
 
         holder.titleTextView.setText(phones.get(i));

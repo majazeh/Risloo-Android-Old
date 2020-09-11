@@ -8,7 +8,7 @@
     android:layout_gravity="center"
     android:paddingRight="@dimen/_2sdp"
     android:elevation="@dimen/_1sdp"
-    android:background="@drawable/draw_4sdp_snow"
+    android:background="@drawable/draw_4sdp_solid_snow"
     tools:ignore="UnusedAttribute, RtlHardcoded, RtlSymmetry">
 
     <CheckBox

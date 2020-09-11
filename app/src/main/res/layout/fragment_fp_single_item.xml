@@ -16,6 +16,6 @@
         android:layout_height="@dimen/_80sdp"
         android:layout_gravity="center"
         android:padding="@dimen/_12sdp"
-        android:background="@drawable/draw_16sdp_quartz_border"/>
+        android:background="@drawable/draw_16sdp_border_quartz"/>
 
 </androidx.cardview.widget.CardView>

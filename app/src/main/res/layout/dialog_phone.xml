@@ -8,7 +8,7 @@
     android:layout_marginLeft="@dimen/_18sdp"
     android:layout_marginRight="@dimen/_18sdp"
     android:layout_gravity="center"
-    android:background="@drawable/draw_16sdp_snow"
+    android:background="@drawable/draw_16sdp_solid_snow"
     tools:ignore="UnusedAttribute, RtlHardcoded">
 
     <LinearLayout
@@ -50,7 +50,7 @@
             android:textColor="@color/Grey"
             android:textColorHint="@color/Mischka"
             android:textAlignment="gravity"
-            android:background="@drawable/draw_18sdp_quartz_border"
+            android:background="@drawable/draw_16sdp_border_quartz"
             android:importantForAutofill="no" />
 
         <LinearLayout

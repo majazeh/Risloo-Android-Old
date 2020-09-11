@@ -71,7 +71,7 @@ public class TPFragment extends Fragment {
     private void listener() {
         answerEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                answerEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
+                answerEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
                 answerEditText.setCursorVisible(true);
             }
             return false;
@@ -81,7 +81,7 @@ public class TPFragment extends Fragment {
     public void clearData() {
         answerEditText.setCursorVisible(false);
 
-        answerEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+        answerEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
     }
 
 }

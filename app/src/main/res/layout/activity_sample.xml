@@ -35,7 +35,7 @@
                 android:layout_marginLeft="@dimen/_18sdp"
                 android:layout_marginRight="@dimen/_18sdp"
                 android:progress="0"
-                android:progressDrawable="@drawable/draw_8sdp_solitude_progress"
+                android:progressDrawable="@drawable/draw_progress_8sdp_back_solitude_front_primary"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
 
         </LinearLayout>
@@ -74,7 +74,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/Grey"
                 android:textAlignment="gravity"
-                android:background="@drawable/draw_18sdp_solitude"
+                android:background="@drawable/draw_16sdp_solid_solitude"
                 style="?android:attr/borderlessButtonStyle"/>
 
             <Button
@@ -90,7 +90,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/White"
                 android:textAlignment="gravity"
-                android:background="@drawable/draw_18sdp_primary"
+                android:background="@drawable/draw_16sdp_solid_primary"
                 style="?android:attr/borderlessButtonStyle"/>
 
         </LinearLayout>

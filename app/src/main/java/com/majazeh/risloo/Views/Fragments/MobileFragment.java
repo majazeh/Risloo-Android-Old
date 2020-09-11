@@ -79,7 +79,7 @@ public class MobileFragment extends Fragment {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            mobileButton.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
+            mobileButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
         }
     }
 
@@ -87,7 +87,7 @@ public class MobileFragment extends Fragment {
     private void listener() {
         mobileEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
+                mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
                 mobileEditText.setCursorVisible(true);
             }
             return false;
@@ -131,14 +131,14 @@ public class MobileFragment extends Fragment {
         mobileEditText.setCursorVisible(false);
 
         if (mobileEditText.length() == 0) {
-            mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
         }
     }
 
     private void clearData() {
         mobileEditText.setCursorVisible(false);
 
-        mobileEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+        mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
     }
 
     private void doWork() {

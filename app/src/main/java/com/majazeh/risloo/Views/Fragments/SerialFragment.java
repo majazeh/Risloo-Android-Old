@@ -97,7 +97,7 @@ public class SerialFragment extends Fragment {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            serialButton.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
+            serialButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
         }
     }
 
@@ -105,7 +105,7 @@ public class SerialFragment extends Fragment {
     private void listener() {
         serialEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                serialEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
+                serialEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
                 serialEditText.setCursorVisible(true);
             }
             return false;
@@ -158,14 +158,14 @@ public class SerialFragment extends Fragment {
         serialEditText.setCursorVisible(false);
 
         if (serialEditText.length() == 0) {
-            serialEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+            serialEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
         }
     }
 
     private void clearData() {
         serialEditText.setCursorVisible(false);
 
-        serialEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+        serialEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
     }
 
     private void doWork() {

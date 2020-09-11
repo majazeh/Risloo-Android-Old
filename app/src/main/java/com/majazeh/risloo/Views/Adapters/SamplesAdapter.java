@@ -8,9 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,9 +70,9 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
         Model model = samples.get(i);
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            holder.itemView.setBackgroundResource(R.drawable.draw_24sdp_white_ripple);
+            holder.itemView.setBackgroundResource(R.drawable.draw_24sdp_solid_white_ripple_quartz);
 
-            holder.startTextView.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
+            holder.startTextView.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
         }
 
         try {
@@ -203,8 +201,8 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            startDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
-            startDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
+            startDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            startDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
         }
     }
 

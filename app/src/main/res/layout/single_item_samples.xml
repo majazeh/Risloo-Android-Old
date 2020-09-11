@@ -83,7 +83,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/White"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_8sdp_primary"/>
+                    android:background="@drawable/draw_8sdp_solid_primary"/>
 
             </FrameLayout>
 

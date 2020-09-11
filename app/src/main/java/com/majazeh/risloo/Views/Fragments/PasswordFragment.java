@@ -93,7 +93,7 @@ public class PasswordFragment extends Fragment {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            passwordButton.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
+            passwordButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
         }
     }
 
@@ -101,7 +101,7 @@ public class PasswordFragment extends Fragment {
     private void listener() {
         passwordEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                passwordEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
+                passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
                 passwordEditText.setCursorVisible(true);
             }
             return false;
@@ -178,14 +178,14 @@ public class PasswordFragment extends Fragment {
         passwordEditText.setCursorVisible(false);
 
         if (passwordEditText.length() == 0) {
-            passwordEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+            passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
         }
     }
 
     private void clearData() {
         passwordEditText.setCursorVisible(false);
 
-        passwordEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+        passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
     }
 
     private void doWork() {

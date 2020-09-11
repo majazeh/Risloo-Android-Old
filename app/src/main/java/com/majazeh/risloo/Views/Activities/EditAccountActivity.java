@@ -171,10 +171,10 @@ public class EditAccountActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            editButton.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
+            editButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
 
-            dateDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
-            dateDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
+            dateDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            dateDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
         }
     }
 
@@ -189,7 +189,7 @@ public class EditAccountActivity extends AppCompatActivity {
 
         nameEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                nameEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
+                nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
                 nameEditText.setCursorVisible(true);
             }
             return false;
@@ -317,14 +317,14 @@ public class EditAccountActivity extends AppCompatActivity {
         nameEditText.setCursorVisible(false);
 
         if (nameEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
         }
     }
 
     private void clearData() {
         nameEditText.setCursorVisible(false);
 
-        nameEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+        nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
     }
 
     private void observeWork() {

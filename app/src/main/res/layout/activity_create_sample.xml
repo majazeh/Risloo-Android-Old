@@ -59,7 +59,7 @@
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
                         android:layoutDirection="rtl"
-                        android:background="@drawable/draw_18sdp_quartz_border">
+                        android:background="@drawable/draw_16sdp_border_quartz">
 
                         <FrameLayout
                             android:layout_width="@dimen/_36sdp"
@@ -127,7 +127,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
-                    android:background="@drawable/draw_18sdp_quartz_border">
+                    android:background="@drawable/draw_16sdp_border_quartz">
 
                     <Spinner
                         android:id="@+id/activity_create_sample_room_spinner"
@@ -184,7 +184,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:theme="@style/TabTheme"
-                        android:background="@drawable/draw_18sdp_quartz_border"
+                        android:background="@drawable/draw_16sdp_border_quartz"
                         app:tabMode="fixed"
                         app:tabGravity="fill"
                         app:tabBackground="@null"
@@ -236,7 +236,7 @@
                                 android:layout_height="match_parent"
                                 android:orientation="horizontal"
                                 android:layoutDirection="rtl"
-                                android:background="@drawable/draw_18sdp_quartz_border">
+                                android:background="@drawable/draw_16sdp_border_quartz">
 
                                 <FrameLayout
                                     android:layout_width="@dimen/_36sdp"
@@ -318,7 +318,7 @@
                             android:textColorHint="@color/Mischka"
                             android:textAlignment="gravity"
                             android:focusableInTouchMode="false"
-                            android:background="@drawable/draw_18sdp_quartz_border"
+                            android:background="@drawable/draw_16sdp_border_quartz"
                             android:importantForAutofill="no" />
 
                     </LinearLayout>
@@ -335,7 +335,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_36sdp"
                             android:layout_marginBottom="@dimen/_10sdp"
-                            android:background="@drawable/draw_18sdp_quartz_border">
+                            android:background="@drawable/draw_16sdp_border_quartz">
 
                             <Spinner
                                 android:id="@+id/activity_create_sample_case_spinner"
@@ -398,7 +398,7 @@
                             android:layout_height="wrap_content"
                             android:overScrollMode="never"
                             android:visibility="gone"
-                            android:background="@drawable/draw_18sdp_quartz_border" />
+                            android:background="@drawable/draw_16sdp_border_quartz" />
 
                     </LinearLayout>
 
@@ -414,7 +414,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/White"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_18sdp_primary"
+                    android:background="@drawable/draw_16sdp_solid_primary"
                     style="?android:attr/borderlessButtonStyle"/>
 
             </LinearLayout>

@@ -15,7 +15,7 @@
         android:layout_height="@dimen/_8sdp"
         android:layout_marginTop="@dimen/_6sdp"
         android:layout_marginLeft="@dimen/_8sdp"
-        android:background="@drawable/draw_oval_grey_border" />
+        android:background="@drawable/draw_oval_border_grey" />
 
     <TextView
         android:id="@+id/single_item_sublist_small_title_textView"

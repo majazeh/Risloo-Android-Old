@@ -58,7 +58,7 @@
                 android:textColor="@color/Grey"
                 android:textColorHint="@color/Mischka"
                 android:textAlignment="gravity"
-                android:background="@drawable/draw_18sdp_quartz_border" />
+                android:background="@drawable/draw_16sdp_border_quartz" />
 
         </LinearLayout>
 

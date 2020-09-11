@@ -2,33 +2,20 @@ package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
 import android.os.Handler;
-import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Managers.ExceptionManager;
-import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
-
-import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -65,11 +52,11 @@ public class DetailSampleAdapter extends RecyclerView.Adapter<DetailSampleAdapte
     public void onBindViewHolder(@NonNull DetailSampleHolder holder, int i) {
 
         if (editable) {
-            holder.itemView.setBackgroundResource(R.drawable.draw_18sdp_white_solid_quartz_border);
+            holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_white_solid_border_quartz);
             holder.typeEditText.setFocusableInTouchMode(true);
             holder.optionSpinner.setEnabled(true);
         } else {
-            holder.itemView.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+            holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
             holder.typeEditText.setFocusableInTouchMode(false);
             holder.optionSpinner.setEnabled(false);
         }

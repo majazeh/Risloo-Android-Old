@@ -56,26 +56,26 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
 
         if (viewModel.getIndex() == i) {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow_border_primary_ripple);
+                holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solid_snow_border_primary_ripple_primary);
             } else {
-                holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow_border_primary);
+                holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solid_snow_border_primary);
             }
 
             holder.numberTextView.setTextColor(activity.getResources().getColor(R.color.Nero));
         } else {
             if (!answers.get(i).equals("")) {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_primary20p_ripple);
+                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solid_primary20p_ripple_primarydark);
                 } else {
-                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_primary20p);
+                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solid_primary20p);
                 }
 
                 holder.numberTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
             } else {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solitude_ripple);
+                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solid_solitude_ripple_quartz);
                 } else {
-                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solitude);
+                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solid_solitude);
                 }
 
                 holder.numberTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
