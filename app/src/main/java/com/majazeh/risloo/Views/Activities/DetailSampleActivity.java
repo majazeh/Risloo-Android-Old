@@ -295,12 +295,12 @@ public class DetailSampleActivity extends AppCompatActivity {
                 if (integer == 1) {
                     if (viewModel.readSampleDetail(sampleId) != null) {
                         try {
-                        JSONObject data = viewModel.readSampleDetail(sampleId);
+                            JSONObject data = viewModel.readSampleDetail(sampleId);
                             JSONObject scale = data.getJSONObject("scale");
-                            if (data.has("client")&& !data.isNull("client")) {
+                            if (data.has("client") && !data.isNull("client")) {
                                 JSONObject client = data.getJSONObject("client");
                                 referenceTextView.setText(client.getString("name"));
-                            }else{
+                            } else {
                                 referenceTextView.setText(data.getString("code"));
 
                             }
@@ -308,19 +308,21 @@ public class DetailSampleActivity extends AppCompatActivity {
                             JSONObject center = room.getJSONObject("center");
                             JSONObject detail = center.getJSONObject("detail");
 
-                        // Show General Detail
-                        scaleTextView.setText(scale.getString("title"));
-                        serialTextView.setText(scale.getString("id"));
-                        statusTextView.setText(data.getString("status"));
-                        // TODO: no need
+                            // Show General Detail
+                            scaleTextView.setText(scale.getString("title"));
+                            serialTextView.setText(scale.getString("id"));
+                            statusTextView.setText(data.getString("status"));
+                            ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
+                            if (data.getString("status").equals("seald") || data.getString("status").equals("open"))
+                                setButton(closeTextView, true);
+                            // TODO: no need
 //                        caseTextView.setText();
-                        roomTextView.setText(detail.getString("title"));
+                            roomTextView.setText(detail.getString("title"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
 
-                        Log.e("data", String.valueOf(integer));
                         loadingLayout.setVisibility(View.GONE);
                         retryLayout.setVisibility(View.GONE);
                         mainLayout.setVisibility(View.VISIBLE);
@@ -383,7 +385,15 @@ public class DetailSampleActivity extends AppCompatActivity {
             } else if (SampleRepository.work == "score") {
                 if (integer == 1) {
                     setResult(RESULT_OK, null);
-
+                    JSONObject jsonObject = FileManager.readObjectFromCache(this, "sampleDetail", sampleId);
+                    try {
+                        JSONObject profiles = jsonObject.getJSONObject("profiles");
+                        JSONObject png = profiles.getJSONObject("profile_png");
+                        Picasso.get().load(png.getString("url")).placeholder(R.color.Solitude).into(resultImageView);
+                        resultCardView.setVisibility(View.VISIBLE);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     progressDialog.dismiss();
                     Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
@@ -400,10 +410,11 @@ public class DetailSampleActivity extends AppCompatActivity {
                 if (integer == 1) {
                     setResult(RESULT_OK, null);
                     try {
-                   JSONObject jsonObject = FileManager.readObjectFromCache(this,"sampleDetail",SampleRepository.sampleId);
+                        JSONObject jsonObject = FileManager.readObjectFromCache(this, "sampleDetail", SampleRepository.sampleId);
                         jsonObject.put("status", "closed");
-                        FileManager.writeObjectToCache(this, jsonObject,"sampleDetail",SampleRepository.sampleId);
+                        FileManager.writeObjectToCache(this, jsonObject, "sampleDetail", SampleRepository.sampleId);
                         statusTextView.setText("closed");
+                        setButton(closeTextView, false);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -423,6 +434,8 @@ public class DetailSampleActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     @Override
     public void finish() {
