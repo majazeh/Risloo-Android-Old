@@ -66,7 +66,7 @@ public class SocialDialog extends BottomSheetDialogFragment {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            closeTextView.setBackgroundResource(R.drawable.draw_12sdp_white_ripple);
+            closeTextView.setBackgroundResource(R.drawable.draw_12sdp_solid_white_ripple_solitude);
         }
     }
 

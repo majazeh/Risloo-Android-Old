@@ -196,7 +196,7 @@
                                     android:layoutDirection="ltr"
                                     android:padding="@dimen/_4sdp"
                                     android:orientation="horizontal"
-                                    android:background="@drawable/draw_18sdp_white">
+                                    android:background="@drawable/draw_16sdp_solid_primary5p">
 
                                     <TextView
                                         android:id="@+id/activity_detail_sample_score_textView"

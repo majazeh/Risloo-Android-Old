@@ -58,14 +58,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:theme="@style/TabTheme"
-                        android:background="@drawable/draw_18sdp_quartz_border"
+                        android:background="@drawable/draw_16sdp_border_quartz"
                         app:tabMode="fixed"
                         app:tabGravity="fill"
                         app:tabBackground="@null"
                         app:tabRippleColor="@color/Quartz"
                         app:tabIndicatorColor="@color/Primary5P"
                         app:tabIndicatorHeight="@dimen/_72sdp"
-                        app:tabIconTint="@drawable/tab_icon"
+                        app:tabIconTint="@drawable/sel_tab_icon"
                         app:tabTextColor="@color/Mischka"
                         app:tabSelectedTextColor="@color/Grey"
                         app:tabTextAppearance="@style/TabTextNormalAppearance">
@@ -91,7 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
-                    android:background="@drawable/draw_18sdp_quartz_border">
+                    android:background="@drawable/draw_16sdp_border_quartz">
 
                     <Spinner
                         android:id="@+id/activity_create_center_principal_spinner"
@@ -155,7 +155,7 @@
                     android:textColor="@color/Grey"
                     android:textColorHint="@color/Mischka"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_18sdp_quartz_border"
+                    android:background="@drawable/draw_16sdp_border_quartz"
                     android:importantForAutofill="no" />
 
                 <EditText
@@ -177,7 +177,7 @@
                     android:textColor="@color/Grey"
                     android:textColorHint="@color/Mischka"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_18sdp_quartz_border"
+                    android:background="@drawable/draw_16sdp_border_quartz"
                     android:importantForAutofill="no" />
 
                 <EditText
@@ -199,7 +199,7 @@
                     android:textColor="@color/Grey"
                     android:textColorHint="@color/Mischka"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_18sdp_quartz_border"
+                    android:background="@drawable/draw_16sdp_border_quartz"
                     android:importantForAutofill="no" />
 
                 <androidx.cardview.widget.CardView
@@ -216,7 +216,7 @@
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
                         android:layoutDirection="rtl"
-                        android:background="@drawable/draw_18sdp_quartz_border">
+                        android:background="@drawable/draw_16sdp_border_quartz">
 
                         <ImageView
                             android:id="@+id/activity_create_center_phone_imageView"
@@ -267,7 +267,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/White"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_18sdp_primary"
+                    android:background="@drawable/draw_16sdp_solid_primary"
                     style="?android:attr/borderlessButtonStyle"/>
 
             </LinearLayout>

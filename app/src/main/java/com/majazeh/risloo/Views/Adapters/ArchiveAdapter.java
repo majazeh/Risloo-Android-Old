@@ -67,9 +67,9 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
     public void onBindViewHolder(@NonNull ArchiveHolder holder, int i) {
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            holder.foreGroundView.setBackgroundResource(R.drawable.draw_24sdp_white_ripple);
+            holder.foreGroundView.setBackgroundResource(R.drawable.draw_24sdp_solid_white_ripple_quartz);
 
-            holder.continueTextView.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
+            holder.continueTextView.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
         }
 
         try {
@@ -129,8 +129,8 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            continueDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
-            continueDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
+            continueDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            continueDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
         }
     }
 

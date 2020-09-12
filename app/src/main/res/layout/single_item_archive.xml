@@ -18,7 +18,7 @@
         android:paddingBottom="@dimen/_8sdp"
         android:paddingLeft="@dimen/_8sdp"
         android:paddingRight="@dimen/_18sdp"
-        android:background="@drawable/draw_24sdp_violetred">
+        android:background="@drawable/draw_24sdp_solid_violetred_border_white">
 
         <TextView
             android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
         android:paddingRight="@dimen/_12sdp"
         android:layoutDirection="rtl"
         android:orientation="horizontal"
-        android:background="@drawable/draw_24sdp_white">
+        android:background="@drawable/draw_24sdp_solid_white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -118,7 +118,7 @@
             android:textStyle="bold"
             android:textColor="@color/White"
             android:textAlignment="gravity"
-            android:background="@drawable/draw_18sdp_primary"/>
+            android:background="@drawable/draw_16sdp_solid_primary"/>
 
     </LinearLayout>
 

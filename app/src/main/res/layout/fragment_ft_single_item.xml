@@ -10,7 +10,7 @@
     android:layoutDirection="rtl"
     android:gravity="center"
     android:orientation="horizontal"
-    android:background="@drawable/draw_18sdp_quartz_border">
+    android:background="@drawable/draw_16sdp_border_quartz">
 
     <TextView
         android:id="@+id/fragment_ft_single_item_number_textView"

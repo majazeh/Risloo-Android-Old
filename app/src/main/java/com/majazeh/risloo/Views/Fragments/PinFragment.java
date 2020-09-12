@@ -95,7 +95,7 @@ public class PinFragment extends Fragment {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            pinButton.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
+            pinButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
         }
     }
 
@@ -103,7 +103,7 @@ public class PinFragment extends Fragment {
     private void listener() {
         pinEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                pinEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
+                pinEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
                 pinEditText.setCursorVisible(true);
             }
             return false;
@@ -208,14 +208,14 @@ public class PinFragment extends Fragment {
         pinEditText.setCursorVisible(false);
 
         if (pinEditText.length() == 0) {
-            pinEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+            pinEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
         }
     }
 
     private void clearData() {
         pinEditText.setCursorVisible(false);
 
-        pinEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+        pinEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
     }
 
     private void doWork(String value) {

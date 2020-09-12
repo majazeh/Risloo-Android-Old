@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -24,7 +23,6 @@ import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,7 +41,6 @@ import com.majazeh.risloo.Views.Adapters.DetailSampleAdapter;
 import com.majazeh.risloo.Views.Dialogs.DownloadDialog;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -95,7 +92,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
         ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
 
-        Picasso.get().load(R.drawable.example).placeholder(R.color.Solitude).into(resultImageView);
+        Picasso.get().load(R.drawable.pic_result).placeholder(R.color.Solitude).into(resultImageView);
 
         generalRecyclerView.setAdapter(adapter);
         prerequisiteRecyclerView.setAdapter(adapter);
@@ -145,15 +142,15 @@ public class DetailSampleActivity extends AppCompatActivity {
         editCheckbox = findViewById(R.id.activity_detail_sample_edit_checkbox);
 
         generalRecyclerView = findViewById(R.id.activity_detail_sample_general_recyclerView);
-        generalRecyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout3", (int) getResources().getDimension(R.dimen._12sdp)));
+        generalRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", 0, (int) getResources().getDimension(R.dimen._4sdp), 0));
         generalRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         generalRecyclerView.setHasFixedSize(false);
         prerequisiteRecyclerView = findViewById(R.id.activity_detail_sample_prerequisite_recyclerView);
-        prerequisiteRecyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout3", (int) getResources().getDimension(R.dimen._12sdp)));
+        prerequisiteRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", 0, (int) getResources().getDimension(R.dimen._4sdp), 0));
         prerequisiteRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         prerequisiteRecyclerView.setHasFixedSize(false);
         testRecyclerView = findViewById(R.id.activity_detail_sample_test_recyclerView);
-        testRecyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout3", (int) getResources().getDimension(R.dimen._12sdp)));
+        testRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", 0, (int) getResources().getDimension(R.dimen._4sdp), 0));
         testRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         testRecyclerView.setHasFixedSize(false);
 
@@ -177,10 +174,10 @@ public class DetailSampleActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            scoreTextView.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
-            closeTextView.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
+            scoreTextView.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
+            closeTextView.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
 
-            downloadImageView.setBackgroundResource(R.drawable.draw_oval_snow_ripple);
+            downloadImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
         }
     }
 
@@ -256,13 +253,13 @@ public class DetailSampleActivity extends AppCompatActivity {
             button.setTextColor(getResources().getColor(R.color.White));
 
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
-                button.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
+                button.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
             else
-                button.setBackgroundResource(R.drawable.draw_18sdp_primary);
+                button.setBackgroundResource(R.drawable.draw_16sdp_solid_primary);
         } else {
             button.setClickable(false);
             button.setTextColor(getResources().getColor(R.color.Mischka));
-            button.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+            button.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
         }
     }
 

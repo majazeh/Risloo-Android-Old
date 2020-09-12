@@ -93,8 +93,8 @@ public class SplashActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            updateDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
-            updateDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
+            updateDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            updateDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
         }
     }
 

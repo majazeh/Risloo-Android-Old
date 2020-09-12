@@ -104,7 +104,7 @@ public class AccountActivity extends AppCompatActivity {
         typeTextView.setText(viewModel.getType());
 
         authRecyclerView = findViewById(R.id.activity_account_recyclerView);
-        authRecyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout2", (int) getResources().getDimension(R.dimen._18sdp)));
+        authRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._18sdp), (int) getResources().getDimension(R.dimen._9sdp), (int) getResources().getDimension(R.dimen._9sdp)));
         authRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         authRecyclerView.setHasFixedSize(true);
         authRecyclerView.setAdapter(adapter);
@@ -139,8 +139,8 @@ public class AccountActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            logOutDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
-            logOutDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
+            logOutDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            logOutDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
         }
     }
 

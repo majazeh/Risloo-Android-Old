@@ -69,7 +69,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
                 holder.listRecyclerView.setVisibility(View.VISIBLE);
 
-                holder.listRecyclerView.addItemDecoration(new ItemDecorator("subListLayout",(int) activity.getResources().getDimension(R.dimen._12sdp)));
+                holder.listRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", 0, (int) activity.getResources().getDimension(R.dimen._8sdp), (int) activity.getResources().getDimension(R.dimen._12sdp)));
                 holder.listRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
                 holder.listRecyclerView.setHasFixedSize(false);
                 holder.listRecyclerView.setAdapter(subListBigAdapter);
@@ -83,7 +83,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
                 holder.listRecyclerView.setVisibility(View.VISIBLE);
 
-                holder.listRecyclerView.addItemDecoration(new ItemDecorator("subListLayout",(int) activity.getResources().getDimension(R.dimen._8sdp)));
+                holder.listRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", 0, (int) activity.getResources().getDimension(R.dimen._6sdp), (int) activity.getResources().getDimension(R.dimen._8sdp)));
                 holder.listRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
                 holder.listRecyclerView.setHasFixedSize(false);
                 holder.listRecyclerView.setAdapter(subListSmallAdapter);

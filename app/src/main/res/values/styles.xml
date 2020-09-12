@@ -136,7 +136,7 @@
     </style>
 
     <style name="BottomSheetModal" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/draw_16sdp_top_white</item>
+        <item name="android:background">@drawable/draw_16sdp_top_solid_white</item>
     </style>
 
     ////////////////////////////////////////////////////////////////////////////////

@@ -75,13 +75,13 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            internetButton.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
-            smsButton.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
-            downloadButton.setBackgroundResource(R.drawable.draw_18sdp_solitude_ripple);
-            laterButton.setBackgroundResource(R.drawable.draw_18sdp_solitude_ripple);
+            internetButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
+            smsButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
+            downloadButton.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude_ripple_quartz);
+            laterButton.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude_ripple_quartz);
 
-            outroDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
-            outroDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
+            outroDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            outroDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
         }
     }
 

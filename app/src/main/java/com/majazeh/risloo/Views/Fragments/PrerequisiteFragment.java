@@ -65,7 +65,7 @@ public class PrerequisiteFragment extends Fragment {
         descriptionTextView = view.findViewById(R.id.fragment_prerequisite_description_textView);
 
         recyclerView = view.findViewById(R.id.fragment_prerequisite_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("verticalLinearLayout", (int) getResources().getDimension(R.dimen._16sdp)));
+        recyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);

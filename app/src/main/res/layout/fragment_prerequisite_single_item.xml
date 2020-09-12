@@ -24,7 +24,7 @@
         android:textColor="@color/Grey"
         android:textColorHint="@color/Mischka"
         android:textAlignment="gravity"
-        android:background="@drawable/draw_18sdp_quartz_border" />
+        android:background="@drawable/draw_16sdp_border_quartz" />
 
     <Spinner
         android:id="@+id/fragment_prerequisite_single_item_option_spinner"
@@ -32,7 +32,7 @@
         android:layout_height="@dimen/_36sdp"
         android:singleLine="true"
         android:spinnerMode="dropdown"
-        android:background="@drawable/draw_18sdp_quartz_border"/>
+        android:background="@drawable/draw_16sdp_border_quartz"/>
 
     <ImageView
         android:id="@+id/fragment_prerequisite_single_item_arrow_imageView"

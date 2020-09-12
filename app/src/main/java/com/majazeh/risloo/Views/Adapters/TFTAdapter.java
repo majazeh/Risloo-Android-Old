@@ -58,21 +58,21 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
     public void onBindViewHolder(@NonNull TFTHolder holder, int i) {
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            holder.itemView.setBackgroundResource(R.drawable.draw_18sdp_quartz_border_ripple);
+            holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_solid_white_border_quartz_ripple_solitude);
         }
 
         holder.answerTextView.setText(answers.get(i));
 
         if (position == -1) {
             holder.numberTextView.setText("");
-            holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solitude);
+            holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solid_solitude);
 
             holder.itemView.setEnabled(true);
             holder.itemView.setClickable(true);
         } else {
             if (position == i + 1) {
                 holder.numberTextView.setText(String.valueOf(i + 1));
-                holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow_border_primary);
+                holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solid_snow_border_primary);
 
                 if (clickedItem) {
                     holder.itemView.setEnabled(false);
@@ -84,14 +84,14 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
             } else {
                 if (clickedItem) {
                     holder.numberTextView.setText("");
-                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solitude);
+                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solid_solitude);
 
                     holder.itemView.setAlpha((float) 0.3);
                     holder.itemView.setEnabled(false);
                     holder.itemView.setClickable(false);
                 } else {
                     holder.numberTextView.setText("");
-                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_snow);
+                    holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solid_snow);
 
                     holder.itemView.setAlpha(1);
                     holder.itemView.setEnabled(true);

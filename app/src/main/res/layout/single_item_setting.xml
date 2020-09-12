@@ -52,7 +52,7 @@
         android:textStyle="bold"
         android:textColor="@color/White"
         android:textAlignment="gravity"
-        android:background="@drawable/draw_16sdp_primary"/>
+        android:background="@drawable/draw_16sdp_solid_primary"/>
 
     <View
         android:id="@+id/single_item_setting_line_view"

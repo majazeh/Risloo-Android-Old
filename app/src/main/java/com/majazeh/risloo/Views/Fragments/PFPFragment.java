@@ -75,7 +75,7 @@ public class PFPFragment extends Fragment {
 //        }
 
         answerRecyclerView = view.findViewById(R.id.fragment_pfp_answer_recyclerView);
-        answerRecyclerView.addItemDecoration(new ItemDecorator("gridLayout",(int) getResources().getDimension(R.dimen._16sdp)));
+        answerRecyclerView.addItemDecoration(new ItemDecorator("gridLayout", (int) getResources().getDimension(R.dimen._8sdp), (int) getResources().getDimension(R.dimen._2sdp), (int) getResources().getDimension(R.dimen._16sdp)));
         answerRecyclerView.setLayoutManager(new GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false));
         answerRecyclerView.setHasFixedSize(true);
 //        answerRecyclerView.setAdapter(adapter);

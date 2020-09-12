@@ -127,7 +127,7 @@ public class AuthActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            navigationFooter.setBackgroundResource(R.drawable.draw_rectangle_white_ripple);
+            navigationFooter.setBackgroundResource(R.drawable.draw_rectangle_solid_white_ripple_quartz);
         }
     }
 

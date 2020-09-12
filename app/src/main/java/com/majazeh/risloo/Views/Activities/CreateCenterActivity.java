@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -114,7 +113,7 @@ public class CreateCenterActivity extends AppCompatActivity {
         addressEditText = findViewById(R.id.activity_create_center_address_editText);
 
         phoneRecyclerView = findViewById(R.id.activity_create_center_phone_recyclerView);
-        phoneRecyclerView.addItemDecoration(new ItemDecorator("horizontalLinearLayout3", (int) getResources().getDimension(R.dimen._12sdp)));
+        phoneRecyclerView.addItemDecoration(new ItemDecorator("horizontalLayout", 0, (int) getResources().getDimension(R.dimen._3sdp), (int) getResources().getDimension(R.dimen._12sdp)));
         phoneRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         phoneRecyclerView.setHasFixedSize(false);
 
@@ -152,12 +151,12 @@ public class CreateCenterActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            phoneImageView.setBackgroundResource(R.drawable.draw_rectangle_quartz_ripple);
+            phoneImageView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
 
-            createButton.setBackgroundResource(R.drawable.draw_18sdp_primary_ripple);
+            createButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
 
-            phoneDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
-            phoneDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_snow_ripple);
+            phoneDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            phoneDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
         }
     }
 
@@ -198,9 +197,9 @@ public class CreateCenterActivity extends AppCompatActivity {
                     doWork("getPrincipals");
                 }
 
-                titleEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-                descriptionEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-                addressEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                addressEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
             }
             return false;
         });
@@ -211,7 +210,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 //                if (principalSpinner.getCount() != position) {
 //                    try {
 //                        principal = String.valueOf(CenterRepository.principals.get(position).get("id"));
-//                        principalFrameLayout.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+//                        principalFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
 //                    } catch (JSONException e) {
 //                        e.printStackTrace();
 //                    }
@@ -228,27 +227,27 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         titleEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
-                titleEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
+                titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
                 titleEditText.setCursorVisible(true);
 
                 titleError = false;
 
-                descriptionEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-                addressEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                addressEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
             }
             return false;
         });
 
         descriptionEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
-                descriptionEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
+                descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
                 descriptionEditText.setCursorVisible(true);
 
-                addressEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                addressEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 if (titleError) {
-                    titleEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+                    titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 } else {
-                    titleEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                    titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 }
             }
             return false;
@@ -256,15 +255,15 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         addressEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
-                addressEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
+                addressEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
                 addressEditText.setCursorVisible(true);
 
                 if (titleError) {
-                    titleEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+                    titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 } else {
-                    titleEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                    titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 }
-                descriptionEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
             }
             return false;
         });
@@ -311,7 +310,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         phoneDialogEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
-                phoneDialogEditText.setBackgroundResource(R.drawable.draw_18sdp_primary_border);
+                phoneDialogEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
                 phoneDialogEditText.setCursorVisible(true);
             }
             return false;
@@ -339,9 +338,9 @@ public class CreateCenterActivity extends AppCompatActivity {
 
                 phoneDialogEditText.getText().clear();
                 phoneDialogEditText.setCursorVisible(false);
-                phoneDialogEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                phoneDialogEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
             } else {
-                phoneDialogEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+                phoneDialogEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
             }
 
         });
@@ -353,7 +352,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
             phoneDialogEditText.getText().clear();
             phoneDialogEditText.setCursorVisible(false);
-            phoneDialogEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+            phoneDialogEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
         });
 
         phoneDialog.setOnCancelListener(dialog -> {
@@ -361,7 +360,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
             phoneDialogEditText.getText().clear();
             phoneDialogEditText.setCursorVisible(false);
-            phoneDialogEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+            phoneDialogEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
         });
     }
 
@@ -416,27 +415,27 @@ public class CreateCenterActivity extends AppCompatActivity {
             type = "clinic";
             titleEditText.setVisibility(View.GONE);
             titleEditText.getText().clear();
-            titleEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+            titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
         }
     }
 
     private void checkInput(String type) {
         if (type.equals("center")) {
             if (principal.isEmpty() && titleEditText.length() == 0) {
-                principalFrameLayout.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
-                titleEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+                principalFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 titleError = true;
             } else if (titleEditText.length() == 0) {
-                principalFrameLayout.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-                titleEditText.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+                principalFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 titleError = true;
             } else if (principal.isEmpty()) {
-                principalFrameLayout.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
-                titleEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+                principalFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 titleError = false;
             }
         } else if (type.equals("clinic")) {
-            principalFrameLayout.setBackgroundResource(R.drawable.draw_18sdp_violetred_border);
+            principalFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
         }
     }
 
@@ -445,10 +444,10 @@ public class CreateCenterActivity extends AppCompatActivity {
         descriptionEditText.setCursorVisible(false);
         addressEditText.setCursorVisible(false);
 
-        principalFrameLayout.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-        titleEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-        descriptionEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
-        addressEditText.setBackgroundResource(R.drawable.draw_18sdp_quartz_border);
+        principalFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+        titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+        descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+        addressEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
 
         titleError = false;
     }

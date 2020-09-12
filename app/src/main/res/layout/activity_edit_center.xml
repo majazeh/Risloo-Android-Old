@@ -49,7 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
-                    android:background="@drawable/draw_18sdp_quartz_border">
+                    android:background="@drawable/draw_16sdp_border_quartz">
 
                     <Spinner
                         android:id="@+id/activity_edit_center_principal_spinner"
@@ -112,7 +112,7 @@
                     android:textColor="@color/Grey"
                     android:textColorHint="@color/Mischka"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_18sdp_quartz_border"
+                    android:background="@drawable/draw_16sdp_border_quartz"
                     android:importantForAutofill="no" />
 
                 <EditText
@@ -134,7 +134,7 @@
                     android:textColor="@color/Grey"
                     android:textColorHint="@color/Mischka"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_18sdp_quartz_border"
+                    android:background="@drawable/draw_16sdp_border_quartz"
                     android:importantForAutofill="no" />
 
                 <EditText
@@ -156,7 +156,7 @@
                     android:textColor="@color/Grey"
                     android:textColorHint="@color/Mischka"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_18sdp_quartz_border"
+                    android:background="@drawable/draw_16sdp_border_quartz"
                     android:importantForAutofill="no" />
 
                 <androidx.cardview.widget.CardView
@@ -173,7 +173,7 @@
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
                         android:layoutDirection="rtl"
-                        android:background="@drawable/draw_18sdp_quartz_border">
+                        android:background="@drawable/draw_16sdp_border_quartz">
 
                         <ImageView
                             android:id="@+id/activity_edit_center_phone_imageView"
@@ -224,7 +224,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/White"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_18sdp_primary"
+                    android:background="@drawable/draw_16sdp_solid_primary"
                     style="?android:attr/borderlessButtonStyle"/>
 
             </LinearLayout>
