@@ -9,6 +9,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -23,7 +24,7 @@ public interface SampleApi {
     Call<ResponseBody> getAll(@Header("Authorization") String authorization, @Query("page") int page);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
-    @POST("$/samples/{sample_id}/close")
+    @PUT("$/samples/{sample_id}/close")
     Call<ResponseBody> close(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
@@ -55,6 +56,9 @@ public interface SampleApi {
     @GET("$/samples/{sample_id}")
     Call<ResponseBody> getGeneral(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
 
+    @Headers({"content-type: application/json", "Accept-Language:fa"})
+    @POST("$/samples/{sample_id}/scoring")
+    Call<ResponseBody> startscoring(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("$/samples/{sample_id}/scoring")

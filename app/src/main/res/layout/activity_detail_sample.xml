@@ -331,6 +331,7 @@
                             android:layout_marginBottom="@dimen/_18sdp"
                             android:layout_marginLeft="@dimen/_18sdp"
                             android:layout_marginRight="@dimen/_18sdp"
+                            android:visibility="gone"
                             app:cardBackgroundColor="@color/Snow"
                             app:cardCornerRadius="@dimen/_18sdp">
 

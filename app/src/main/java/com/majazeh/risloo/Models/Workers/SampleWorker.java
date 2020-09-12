@@ -31,6 +31,7 @@ import java.util.TimerTask;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SampleWorker extends Worker {
@@ -102,7 +103,7 @@ public class SampleWorker extends Worker {
                     getGeneral();
                     break;
                 case "score":
-                    scoring();
+                    startScoring();
                     break;
             }
         }
@@ -538,7 +539,7 @@ public class SampleWorker extends Worker {
         }
     }
 
-    public void getGeneral(){
+    public void getGeneral() {
         try {
             Call<ResponseBody> call = sampleApi.getGeneral(token(), SampleRepository.sampleId);
 
@@ -546,7 +547,7 @@ public class SampleWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONObject data = successBody.getJSONObject("data");
-                FileManager.writeObjectToCache(context, data,"sampleDetail",SampleRepository.sampleId);
+                FileManager.writeObjectToCache(context, data, "sampleDetail", SampleRepository.sampleId);
                 ExceptionManager.getException(bodyResponse.code(), successBody, true, "getGeneral", "sample");
                 SampleRepository.workStateSample.postValue(1);
             } else {
@@ -571,47 +572,115 @@ public class SampleWorker extends Worker {
             SampleRepository.workStateSample.postValue(0);
         }
     }
-    public void scoring(){
-        try {
-            Call<ResponseBody> call = sampleApi.scoring(token(), SampleRepository.sampleId);
 
-            Response<ResponseBody> bodyResponse = call.execute();
-            if (bodyResponse.isSuccessful()) {
-                if (bodyResponse.code() == 202){
-                    new Timer().schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                         scoring();
+    public void startScoring() {
+
+        Call<ResponseBody> call = sampleApi.startscoring(token(), SampleRepository.sampleId);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (response.isSuccessful()) {
+                        if (response.code() == 202) {
+                            Handler handler = new Handler(Looper.getMainLooper());
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    scoring();
+                                }
+                            }, 3000);
+                        } else {
+                            JSONObject successBody = new JSONObject(response.body().string());
+                            JSONObject data = successBody.getJSONObject("data");
+                            FileManager.writeObjectToCache(context, data, "sampleDetail", SampleRepository.sampleId);
+                            ExceptionManager.getException(response.code(), successBody, true, "score", "sample");
+                            SampleRepository.workStateSample.postValue(1);
                         }
-                    }, 3000, 0);
-                }else {
-                    JSONObject successBody = new JSONObject(bodyResponse.body().string());
-                    JSONObject data = successBody.getJSONObject("data");
-                    FileManager.writeObjectToCache(context, data, "sampleDetail", SampleRepository.sampleId);
-                    ExceptionManager.getException(bodyResponse.code(), successBody, true, "score", "sample");
-                    SampleRepository.workStateSample.postValue(1);
+                    } else {
+                        JSONObject errorBody = new JSONObject(response.errorBody().string());
+                        ExceptionManager.getException(response.code(), errorBody, true, "score", "sample");
+                        SampleRepository.workStateSample.postValue(0);
+                    }
+                } catch (SocketTimeoutException e) {
+                    e.printStackTrace();
+
+                    ExceptionManager.getException(0, null, false, "SocketTimeoutException", "sample");
+                    SampleRepository.workStateSample.postValue(0);
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                    ExceptionManager.getException(0, null, false, "IOException", "sample");
+                    SampleRepository.workStateSample.postValue(0);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                    ExceptionManager.getException(0, null, false, "JSONException", "sample");
+                    SampleRepository.workStateSample.postValue(0);
                 }
-            } else {
-                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "score", "sample");
-                SampleRepository.workStateSample.postValue(0);
             }
-        } catch (SocketTimeoutException e) {
-            e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "sample");
-            SampleRepository.workStateSample.postValue(0);
-        } catch (IOException e) {
-            e.printStackTrace();
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-            ExceptionManager.getException(0, null, false, "IOException", "sample");
-            SampleRepository.workStateSample.postValue(0);
-        } catch (JSONException e) {
-            e.printStackTrace();
+            }
+        });
 
-            ExceptionManager.getException(0, null, false, "JSONException", "sample");
-            SampleRepository.workStateSample.postValue(0);
-        }
     }
 
+    public void scoring() {
+
+        Call<ResponseBody> call = sampleApi.scoring(token(), SampleRepository.sampleId);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+
+                    if (response.isSuccessful()) {
+                        if (response.code() == 202) {
+                            Handler handler = new Handler(Looper.getMainLooper());
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    scoring();
+                                }
+                            }, 3000);
+                        } else {
+                            JSONObject successBody = new JSONObject(response.body().string());
+                            JSONObject data = successBody.getJSONObject("data");
+                            FileManager.writeObjectToCache(context, data, "sampleDetail", SampleRepository.sampleId);
+                            ExceptionManager.getException(response.code(), successBody, true, "score", "sample");
+                            SampleRepository.workStateSample.postValue(1);
+                        }
+                    } else {
+                        JSONObject errorBody = new JSONObject(response.errorBody().string());
+                        ExceptionManager.getException(response.code(), errorBody, true, "score", "sample");
+                        SampleRepository.workStateSample.postValue(0);
+                    }
+                } catch (SocketTimeoutException e) {
+                    e.printStackTrace();
+
+                    ExceptionManager.getException(0, null, false, "SocketTimeoutException", "sample");
+                    SampleRepository.workStateSample.postValue(0);
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                    ExceptionManager.getException(0, null, false, "IOException", "sample");
+                    SampleRepository.workStateSample.postValue(0);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                    ExceptionManager.getException(0, null, false, "JSONException", "sample");
+                    SampleRepository.workStateSample.postValue(0);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
+    }
 }
