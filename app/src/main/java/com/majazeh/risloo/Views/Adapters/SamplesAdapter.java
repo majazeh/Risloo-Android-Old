@@ -146,7 +146,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
                 holder.itemView.setClickable(false);
                 handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
                 try {
-                    activity.startActivity(new Intent(activity, DetailSampleActivity.class).putExtra("id", (String) model.get("id")));
+                    activity.startActivityForResult(new Intent(activity, DetailSampleActivity.class).putExtra("id", (String) model.get("id")),100);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -236,7 +236,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
             editor.putString("sampleId", samples.get(position).get("id").toString());
             editor.apply();
 
-            activity.startActivity(new Intent(activity, SampleActivity.class));
+            activity.startActivityForResult(new Intent(activity, SampleActivity.class),100);
         } catch (JSONException e) {
             e.printStackTrace();
         }

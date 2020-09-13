@@ -264,7 +264,7 @@ public class FileManager {
             ObjectInputStream ois = new ObjectInputStream(fis);
             JSONObject jsonObject = new JSONObject((String) ois.readObject());
             JSONArray data = jsonObject.getJSONArray("data");
-                for (int i = page*count; i <page*count+count ; i++) {
+                for (int i = (page-1)*count; i <page*count ; i++) {
                     data.remove(i);
                 }
             ois.close();

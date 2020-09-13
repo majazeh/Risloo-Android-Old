@@ -18,6 +18,7 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -371,16 +372,16 @@ public class SampleActivity extends AppCompatActivity {
         if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) >= 0) {
             loadingDialog.show();
         }
-
-        observeWorkSample();
-    }
-
-    private void observeWorkSample() {
         try {
             viewModel.sample(sharedPreferences.getString("sampleId", ""));
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        observeWorkSample();
+    }
+
+    private void observeWorkSample() {
+
         SampleRepository.workStateSample.observe(this, integer -> {
 
             if (SampleRepository.work == "getSingle") {
@@ -502,8 +503,9 @@ public class SampleActivity extends AppCompatActivity {
                     }
                 }
 
-            } else if (SampleRepository.work == "closeSample") {
+            } else if (SampleRepository.work == "close") {
                 if (integer == 1) {
+                    setResult(RESULT_OK, null);
                     finish();
 
                     progressDialog.dismiss();
@@ -542,6 +544,11 @@ public class SampleActivity extends AppCompatActivity {
                 }
                 if (integer != -1) {
                     SampleRepository.work = "getSingle";
+                    try {
+                        viewModel.sample(sharedPreferences.getString("sampleId", ""));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     observeWorkSample();
                 }
             }

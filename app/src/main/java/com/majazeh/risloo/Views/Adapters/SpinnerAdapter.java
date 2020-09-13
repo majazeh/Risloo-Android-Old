@@ -3,6 +3,7 @@ package com.majazeh.risloo.Views.Adapters;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerHolder> {
 
@@ -62,7 +64,7 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
         try {
             if (type.equals("scale")) {
                 holder.titleTextView.setText(String.valueOf(values.get(i).get("title")));
-            } else if (type.equals("reference")) {
+            } else if (type.equals("roomReference")) {
                 JSONObject user = (JSONObject) values.get(i).get("user");
                 holder.titleTextView.setText(String.valueOf(user.get("name")));
             } else if (type.equals("phoneCreate") || type.equals("phoneEdit")) {

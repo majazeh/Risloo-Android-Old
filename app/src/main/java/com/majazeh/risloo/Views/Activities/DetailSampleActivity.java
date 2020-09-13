@@ -13,10 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
@@ -52,6 +56,9 @@ public class DetailSampleActivity extends AppCompatActivity {
     // Adapters
     private DetailSampleAdapter adapter;
 
+    // Vars
+    private String svg, png, html, pdf;
+
     // Objects
     private ClickableSpan retrySpan;
     private DownloadDialog downloadDialog;
@@ -84,22 +91,6 @@ public class DetailSampleActivity extends AppCompatActivity {
 
         launchProcess("getGeneral");
 
-        ///////////////////////////////////
-
-        loadingLayout.setVisibility(View.GONE);
-        retryLayout.setVisibility(View.GONE);
-        mainLayout.setVisibility(View.VISIBLE);
-
-        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
-
-        Picasso.get().load(R.drawable.pic_result).placeholder(R.color.Solitude).into(resultImageView);
-
-        generalRecyclerView.setAdapter(adapter);
-        prerequisiteRecyclerView.setAdapter(adapter);
-        testRecyclerView.setAdapter(adapter);
-
-        setButton(scoreTextView, true);
-        setButton(closeTextView, false);
     }
 
     private void decorator() {
@@ -207,6 +198,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
         downloadImageView.setOnClickListener(v -> {
             downloadDialog.show(this.getSupportFragmentManager(), "downloadBottomSheet");
+            downloadDialog.getUrls(svg,png,html,pdf);
         });
 
         resultImageView.setOnClickListener(v -> {
@@ -315,6 +307,9 @@ public class DetailSampleActivity extends AppCompatActivity {
                             ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
                             if (data.getString("status").equals("seald") || data.getString("status").equals("open"))
                                 setButton(closeTextView, true);
+                            else{
+                                setButton(closeTextView, false);
+                            }
                             // TODO: no need
 //                        caseTextView.setText();
                             roomTextView.setText(detail.getString("title"));
@@ -388,9 +383,25 @@ public class DetailSampleActivity extends AppCompatActivity {
                     JSONObject jsonObject = FileManager.readObjectFromCache(this, "sampleDetail", sampleId);
                     try {
                         JSONObject profiles = jsonObject.getJSONObject("profiles");
-                        JSONObject png = profiles.getJSONObject("profile_png");
-                        Picasso.get().load(png.getString("url")).placeholder(R.color.Solitude).into(resultImageView);
+                        if (profiles.has("profile_png")) {
+                            JSONObject png = profiles.getJSONObject("profile_png");
+                            Picasso.get().load(png.getString("url")).placeholder(R.color.Solitude).into(resultImageView);
+                            this.png = png.getString("url");
+                        }
+                        if (profiles.has("profile_svg")) {
+                            JSONObject svg = profiles.getJSONObject("profile_svg");
+                            this.svg = svg.getString("url");
+                        }
+                        if (profiles.has("profile_html")) {
+                            JSONObject html = profiles.getJSONObject("profile_html");
+                            this.html = html.getString("url");
+                        }
+                        if (profiles.has("profile_pdf")) {
+                            JSONObject pdf = profiles.getJSONObject("profile_pdf");
+                            this.pdf = pdf.getString("url");
+                        }
                         resultCardView.setVisibility(View.VISIBLE);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
