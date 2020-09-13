@@ -19,6 +19,7 @@ import com.majazeh.risloo.Models.Workers.AuthWorker;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class AuthRepository extends MainRepository {
 
@@ -183,7 +184,7 @@ public class AuthRepository extends MainRepository {
 
     private boolean isNetworkConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+        return Objects.requireNonNull(cm).getActiveNetworkInfo() != null && Objects.requireNonNull(cm.getActiveNetworkInfo()).isConnected();
     }
 
     private Data data(String work) throws JSONException {

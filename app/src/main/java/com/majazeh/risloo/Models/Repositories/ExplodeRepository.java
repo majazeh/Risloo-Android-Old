@@ -16,6 +16,8 @@ import androidx.work.WorkManager;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Workers.ExplodeWorker;
 
+import org.json.JSONException;
+
 import java.util.Objects;
 
 public class ExplodeRepository extends MainRepository {
@@ -35,7 +37,7 @@ public class ExplodeRepository extends MainRepository {
          ---------- Voids ----------
     */
 
-    public void explode() {
+    public void explode() throws JSONException {
         work = "explode";
         workState.setValue(-1);
         workManager("explode");
@@ -78,7 +80,7 @@ public class ExplodeRepository extends MainRepository {
          ---------- Work ----------
     */
 
-    private void workManager(String work) {
+    private void workManager(String work) throws JSONException {
         if (isNetworkConnected(application.getApplicationContext())) {
             Constraints constraints = new Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -101,7 +103,7 @@ public class ExplodeRepository extends MainRepository {
         return Objects.requireNonNull(cm).getActiveNetworkInfo() != null && Objects.requireNonNull(cm.getActiveNetworkInfo()).isConnected();
     }
 
-    private Data data(String work) {
+    private Data data(String work) throws JSONException {
         return new Data.Builder()
                 .putString("work", work)
                 .build();

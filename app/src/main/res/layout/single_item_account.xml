@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/single_item_account"
@@ -7,16 +8,20 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     tools:context=".Views.Activities.AccountActivity"
-    tools:ignore="ContentDescription, RtlHardcoded">
+    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded">
 
     <ImageView
         android:id="@+id/single_item_account_avatar_imageView"
-        android:layout_width="@dimen/_19sdp"
-        android:layout_height="@dimen/_19sdp"
+        android:layout_width="@dimen/_28sdp"
+        android:layout_height="@dimen/_28sdp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="@dimen/_16sdp"
-        app:tint="@color/Grey" />
+        android:layout_marginRight="@dimen/_2sdp"
+        android:elevation="@dimen/_1sdp"
+        android:padding="@dimen/_7sdp"
+        android:background="@drawable/draw_oval_solid_snow"
+        app:tint="@color/PrimaryDark" />
 
     <TextView
         android:id="@+id/single_item_account_title_textView"
@@ -25,7 +30,7 @@
         android:layout_toLeftOf="@id/single_item_account_avatar_imageView"
         android:layout_marginBottom="@dimen/_minus2sdp"
         android:gravity="right"
-        android:textSize="@dimen/_11ssp"
+        android:textSize="@dimen/_10ssp"
         android:textStyle="bold"
         android:textColor="@color/Mischka"
         android:textAlignment="gravity" />
@@ -38,7 +43,7 @@
         android:layout_below="@id/single_item_account_title_textView"
         android:layout_marginTop="@dimen/_minus2sdp"
         android:gravity="right"
-        android:textSize="@dimen/_11ssp"
+        android:textSize="@dimen/_10ssp"
         android:textStyle="bold"
         android:textColor="@color/Grey"
         android:textAlignment="gravity" />

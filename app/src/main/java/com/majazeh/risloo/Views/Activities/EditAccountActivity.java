@@ -7,11 +7,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -26,8 +27,10 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +54,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -73,7 +77,8 @@ public class EditAccountActivity extends AppCompatActivity {
 
     // Widgets
     private Toolbar toolbar;
-    private CircleImageView avatarImageView;
+    private CircleImageView avatarCircleImageView;
+    private ImageView avatarImageView;
     private EditText nameEditText;
     private TabLayout genderTabLayout;
     private TextView birthdayTextView;
@@ -101,11 +106,11 @@ public class EditAccountActivity extends AppCompatActivity {
 
     private void decorator() {
         WindowDecorator windowDecorator = new WindowDecorator();
-        windowDecorator.lightWindow(this, R.color.Primary5P, R.color.Snow);
+        windowDecorator.lightWindow(this, R.color.Snow, R.color.Snow);
     }
 
     private void initializer() {
-        viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
+        viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
         intentCaller = new IntentCaller();
 
@@ -115,12 +120,14 @@ public class EditAccountActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.activity_edit_account_toolbar);
 
-        avatarImageView = findViewById(R.id.activity_edit_account_avatar_circleImageView);
+        avatarCircleImageView = findViewById(R.id.activity_edit_account_avatar_circleImageView);
         if (viewModel.getAvatar().equals("")) {
-            avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle));
+            avatarCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle));
         } else {
-            avatarImageView.setImageBitmap(BitmapController.decodeToBase64(viewModel.getAvatar()));
+            avatarCircleImageView.setImageBitmap(BitmapController.decodeToBase64(viewModel.getAvatar()));
         }
+
+        avatarImageView = findViewById(R.id.activity_edit_account_avatar_imageView);
 
         nameEditText = findViewById(R.id.activity_edit_account_name_editText);
         nameEditText.setText(viewModel.getName());
@@ -128,10 +135,10 @@ public class EditAccountActivity extends AppCompatActivity {
         genderTabLayout = findViewById(R.id.activity_edit_account_gender_tabLayout);
         if (viewModel.getGender().equals("مرد")) {
             gender = "male";
-            genderTabLayout.getTabAt(0).select();
+            Objects.requireNonNull(genderTabLayout.getTabAt(0)).select();
         } else if (viewModel.getGender().equals("زن")) {
             gender = "female";
-            genderTabLayout.getTabAt(1).select();
+            Objects.requireNonNull(genderTabLayout.getTabAt(1)).select();
         }
 
         birthdayTextView = findViewById(R.id.activity_edit_account_birthday_textView);
@@ -145,12 +152,12 @@ public class EditAccountActivity extends AppCompatActivity {
         editButton = findViewById(R.id.activity_edit_account_edit_button);
 
         dateDialog = new Dialog(this, R.style.DialogTheme);
-        dateDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(dateDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         dateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dateDialog.setContentView(R.layout.dialog_date);
         dateDialog.setCancelable(true);
         progressDialog = new Dialog(this, R.style.DialogTheme);
-        progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
@@ -171,6 +178,7 @@ public class EditAccountActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            avatarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_border_quartz_ripple_quartz);
             editButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
 
             dateDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
@@ -185,12 +193,20 @@ public class EditAccountActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
         });
 
-        avatarImageView.setOnClickListener(v -> imageDialog.show(this.getSupportFragmentManager(), "imageBottomSheet"));
+        avatarImageView.setOnClickListener(v -> {
+            if (nameEditText.hasFocus()) {
+                clearInput();
+            }
+
+            imageDialog.show(this.getSupportFragmentManager(), "imageBottomSheet");
+        });
 
         nameEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-                nameEditText.setCursorVisible(true);
+                if (!nameEditText.hasFocus()) {
+                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
+                    nameEditText.setCursorVisible(true);
+                }
             }
             return false;
         });
@@ -198,6 +214,10 @@ public class EditAccountActivity extends AppCompatActivity {
         genderTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                if (nameEditText.hasFocus()) {
+                    clearInput();
+                }
+
                 switch (tab.getPosition()) {
                     case 0:
                         gender = "male";
@@ -219,6 +239,15 @@ public class EditAccountActivity extends AppCompatActivity {
             }
         });
 
+        birthdayTextView.setOnTouchListener((v, event) -> {
+            if (nameEditText.hasFocus()) {
+                clearInput();
+            }
+
+            dateDialog.show();
+            return false;
+        });
+
         monthNumberPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
             if (picker == monthNumberPicker) {
                 if (newVal <= 6) {
@@ -229,18 +258,13 @@ public class EditAccountActivity extends AppCompatActivity {
             }
         });
 
-        birthdayTextView.setOnTouchListener((v, event) -> {
-            dateDialog.show();
-            return false;
-        });
-
         editButton.setOnClickListener(v -> {
-            name = nameEditText.getText().toString().trim();
-
             if (nameEditText.length() == 0) {
                 checkInput();
             } else {
-                clearData();
+                clearInput();
+
+                name = nameEditText.getText().toString().trim();
 
                 try {
                     progressDialog.show();
@@ -254,16 +278,12 @@ public class EditAccountActivity extends AppCompatActivity {
 
         dateDialogPositive.setOnClickListener(v -> {
             dateDialogPositive.setClickable(false);
-            handler.postDelayed(() -> dateDialogPositive.setClickable(true), 500);
+            handler.postDelayed(() -> dateDialogPositive.setClickable(true), 300);
             dateDialog.dismiss();
 
             Year = yearNumberPicker.getValue();
             Month = monthNumberPicker.getValue();
             Day = dayNumberPicker.getValue();
-
-            yearNumberPicker.setValue(Year);
-            monthNumberPicker.setValue(Month);
-            dayNumberPicker.setValue(Day);
 
             if (Month < 10) {
                 if (Day < 10)
@@ -281,7 +301,7 @@ public class EditAccountActivity extends AppCompatActivity {
 
         dateDialogNegative.setOnClickListener(v -> {
             dateDialogNegative.setClickable(false);
-            handler.postDelayed(() -> dateDialogNegative.setClickable(true), 500);
+            handler.postDelayed(() -> dateDialogNegative.setClickable(true), 300);
             dateDialog.dismiss();
 
             yearNumberPicker.setValue(Year);
@@ -314,22 +334,32 @@ public class EditAccountActivity extends AppCompatActivity {
     }
 
     private void checkInput() {
+        nameEditText.clearFocus();
         nameEditText.setCursorVisible(false);
 
         if (nameEditText.length() == 0) {
             nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
         }
+
+        hideKeyboard();
     }
 
-    private void clearData() {
+    private void clearInput() {
+        nameEditText.clearFocus();
         nameEditText.setCursorVisible(false);
-
         nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+
+        hideKeyboard();
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        Objects.requireNonNull(inputMethodManager).hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 
     private void observeWork() {
         AuthRepository.workState.observe((LifecycleOwner) this, integer -> {
-            if (AuthRepository.work == "edit") {
+            if (AuthRepository.work.equals("edit")) {
                 if (integer == 1) {
                     setResult(RESULT_OK, null);
                     finish();
@@ -443,26 +473,23 @@ public class EditAccountActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
                 try {
-                    Uri imageUri = data.getData();
-                    InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                    Uri imageUri = Objects.requireNonNull(data).getData();
+                    InputStream imageStream = getContentResolver().openInputStream(Objects.requireNonNull(imageUri));
 
                     selectedImage = BitmapFactory.decodeStream(imageStream);
 
                     avatar = BitmapController.encodeToBase64(selectedImage);
 
-                    avatarImageView.setImageBitmap(BitmapController.rotate(selectedImage, ""));
+                    avatarCircleImageView.setImageBitmap(BitmapController.rotate(selectedImage, ""));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
             } else if (requestCode == 200) {
                 File imageFile = new File(imageFilePath);
+                intentCaller.mediaScan(this, imageFile);
 
-                if (imageFile != null) {
-                    intentCaller.mediaScan(this, imageFile);
-                }
-
-                int targetWidth = avatarImageView.getWidth();
-                int targetHeight = avatarImageView.getHeight();
+                int targetWidth = avatarCircleImageView.getWidth();
+                int targetHeight = avatarCircleImageView.getHeight();
 
                 BitmapFactory.Options bmOptions = new BitmapFactory.Options();
                 bmOptions.inJustDecodeBounds = true;
@@ -482,14 +509,13 @@ public class EditAccountActivity extends AppCompatActivity {
 
                 avatar = BitmapController.encodeToBase64(selectedImage);
 
-                avatarImageView.setImageBitmap(BitmapController.rotate(selectedImage, imageFilePath));
+                avatarCircleImageView.setImageBitmap(BitmapController.rotate(selectedImage, imageFilePath));
             }
-        } else if (resultCode == RESULT_CANCELED){
-            if (requestCode == 100) {
+        } else if (resultCode == RESULT_CANCELED) {
+            if (requestCode == 100)
                 Toast.makeText(this, "عکسی انتخاب نشده است.", Toast.LENGTH_SHORT).show();
-            } else if (requestCode == 200) {
+            else if (requestCode == 200)
                 Toast.makeText(this, "عکسی گرفته نشده است.", Toast.LENGTH_SHORT).show();
-            }
         }
     }
 

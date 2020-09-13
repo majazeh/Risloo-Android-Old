@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_edit_account"
@@ -16,40 +17,21 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/activity_edit_account_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/Primary5P"
-            android:orientation="vertical">
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/ToolbarTheme"
+            android:background="@color/Snow"
+            app:title="@string/EditAccountTitle"
+            app:titleTextAppearance="@style/ToolbarTextAppearance"
+            app:navigationIcon="@drawable/tool_back"
+            app:contentInsetStartWithNavigation="0dp" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/activity_edit_account_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:theme="@style/ToolbarTheme"
-                android:background="@null"
-                app:title="@null"
-                app:titleTextAppearance="@style/ToolbarTextAppearance"
-                app:navigationIcon="@drawable/tool_back"
-                app:contentInsetStartWithNavigation="0dp" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/activity_edit_account_avatar_circleImageView"
-                android:layout_width="@dimen/_92sdp"
-                android:layout_height="@dimen/_92sdp"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_6sdp"
-                android:layout_marginBottom="@dimen/_24sdp"
-                app:civ_border_width="@dimen/_6sdp"
-                app:civ_border_color="@color/White"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_1sdp"
-                android:layout_gravity="bottom"
-                android:background="@color/Quartz" />
-
-        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/Quartz" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -60,22 +42,38 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="@dimen/_20sdp"
-                android:paddingBottom="@dimen/_24sdp"
-                android:paddingLeft="@dimen/_24sdp"
-                android:paddingRight="@dimen/_24sdp"
+                android:padding="@dimen/_24sdp"
                 android:orientation="vertical">
 
-                <TextView
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_24sdp"
-                    android:gravity="right"
-                    android:text="@string/EditAccountTitle"
-                    android:textSize="@dimen/_15ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/PrimaryDark"
-                    android:textAlignment="gravity" />
+                    android:layout_marginBottom="@dimen/_20sdp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/activity_edit_account_avatar_circleImageView"
+                        android:layout_width="@dimen/_96sdp"
+                        android:layout_height="@dimen/_96sdp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        app:civ_border_width="@dimen/_6sdp"
+                        app:civ_border_color="@color/Snow"/>
+
+                    <ImageView
+                        android:id="@+id/activity_edit_account_avatar_imageView"
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="@dimen/_minus4sdp"
+                        android:layout_toRightOf="@id/activity_edit_account_avatar_circleImageView"
+                        android:padding="@dimen/_8sdp"
+                        android:background="@drawable/draw_oval_solid_snow_border_quartz"
+                        android:src="@drawable/ic_gallery_regular"
+                        app:tint="@color/Mischka">
+
+                    </ImageView>
+
+                </RelativeLayout>
 
                 <EditText
                     android:id="@+id/activity_edit_account_name_editText"
@@ -96,15 +94,15 @@
                     android:textColor="@color/Grey"
                     android:textColorHint="@color/Mischka"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_16sdp_border_quartz"
-                    android:importantForAutofill="no" />
+                    android:importantForAutofill="no"
+                    android:background="@drawable/draw_16sdp_border_quartz" />
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
                     app:cardBackgroundColor="@color/White"
-                    app:cardCornerRadius="@dimen/_18sdp"
+                    app:cardCornerRadius="@dimen/_16sdp"
                     app:cardElevation="0dp">
 
                     <com.google.android.material.tabs.TabLayout
@@ -137,7 +135,7 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <androidx.coordinatorlayout.widget.CoordinatorLayout
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_24sdp">
@@ -167,7 +165,7 @@
                         android:src="@drawable/ic_chevron_down"
                         app:tint="@color/Mischka" />
 
-                </androidx.coordinatorlayout.widget.CoordinatorLayout>
+                </FrameLayout>
 
                 <Button
                     android:id="@+id/activity_edit_account_edit_button"

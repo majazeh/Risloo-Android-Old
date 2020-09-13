@@ -2,7 +2,6 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -20,7 +19,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
-import java.util.logging.Logger;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -98,7 +97,7 @@ public class AuthWorker extends Worker {
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
-                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
 
                 if (successBody.has("key")) {
                     AuthRepository.key = successBody.getString("key");
@@ -130,7 +129,7 @@ public class AuthWorker extends Worker {
                 ExceptionManager.getException(bodyResponse.code(), successBody, true, "auth", "auth");
                 AuthRepository.workState.postValue(1);
             } else {
-                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
                 ExceptionManager.getException(bodyResponse.code(), errorBody, true, "auth", "auth");
                 AuthRepository.workState.postValue(0);
@@ -160,7 +159,7 @@ public class AuthWorker extends Worker {
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
-                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
 
                 if (successBody.has("key")) {
                     AuthRepository.key = successBody.getString("key");
@@ -192,7 +191,7 @@ public class AuthWorker extends Worker {
                 ExceptionManager.getException(bodyResponse.code(), successBody, true, "authTheory", "auth");
                 AuthRepository.workState.postValue(1);
             } else {
-                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
                 ExceptionManager.getException(bodyResponse.code(), errorBody, true, "authTheory", "auth");
                 AuthRepository.workState.postValue(0);
@@ -222,7 +221,7 @@ public class AuthWorker extends Worker {
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
-                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
 
                 if (successBody.has("key")) {
                     AuthRepository.key = successBody.getString("key");
@@ -254,7 +253,7 @@ public class AuthWorker extends Worker {
                 ExceptionManager.getException(bodyResponse.code(), successBody, true, "register", "auth");
                 AuthRepository.workState.postValue(1);
             } else {
-                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
                 ExceptionManager.getException(bodyResponse.code(), errorBody, true, "register", "auth");
                 AuthRepository.workState.postValue(0);
@@ -284,7 +283,7 @@ public class AuthWorker extends Worker {
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
-                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
 
                 if (successBody.has("key")) {
                     AuthRepository.key = successBody.getString("key");
@@ -316,7 +315,7 @@ public class AuthWorker extends Worker {
                 ExceptionManager.getException(bodyResponse.code(), successBody, true, "verification", "auth");
                 AuthRepository.workState.postValue(1);
             } else {
-                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
                 ExceptionManager.getException(bodyResponse.code(), errorBody, true, "verification", "auth");
                 AuthRepository.workState.postValue(0);
@@ -346,7 +345,7 @@ public class AuthWorker extends Worker {
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
-                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
 
                 if (successBody.has("key")) {
                     AuthRepository.key = successBody.getString("key");
@@ -378,7 +377,7 @@ public class AuthWorker extends Worker {
                 ExceptionManager.getException(bodyResponse.code(), successBody, true, "recovery", "auth");
                 AuthRepository.workState.postValue(1);
             } else {
-                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
                 ExceptionManager.getException(bodyResponse.code(), errorBody, true, "recovery", "auth");
                 AuthRepository.workState.postValue(0);
@@ -404,13 +403,15 @@ public class AuthWorker extends Worker {
 
     private void me() {
         try {
-            Call<ResponseBody> call = authApi.me("Bearer " + sharedPreferences.getString("token", ""));
+            Call<ResponseBody> call = authApi.me(token());
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
-                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
                 JSONObject data = successBody.getJSONObject("data");
+
                 boolean access = false;
+
                 if (data.has("type") && data.getString("type").equals("admin")) {
                     access = true;
                 } else {
@@ -423,14 +424,16 @@ public class AuthWorker extends Worker {
                         }
                     }
                 }
-                if (access) {
+
+                if (access)
                     editor.putString("access", "true");
-                }else{
+                else
                     editor.putString("access", "false");
-                }
+
                 FileManager.writeObjectToCache(context, new JSONObject().put("data", data.getJSONArray("centers")), "centers", "my");
 
-                editor.putString("name", data.getString("name"));
+                if (data.has("name"))
+                    editor.putString("name", data.getString("name"));
                 if (data.has("type"))
                     editor.putString("type", data.getString("type"));
                 if (data.has("mobile"))
@@ -450,7 +453,7 @@ public class AuthWorker extends Worker {
                 ExceptionManager.getException(bodyResponse.code(), successBody, true, "me", "auth");
                 AuthRepository.workState.postValue(1);
             } else {
-                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
                 ExceptionManager.getException(bodyResponse.code(), errorBody, true, "me", "auth");
                 AuthRepository.workState.postValue(0);
@@ -476,11 +479,11 @@ public class AuthWorker extends Worker {
 
     private void edit() {
         try {
-            Call<ResponseBody> call = authApi.edit("Bearer " + sharedPreferences.getString("token", ""), AuthRepository.name, AuthRepository.gender, AuthRepository.birthday);
+            Call<ResponseBody> call = authApi.edit(token(), AuthRepository.name, AuthRepository.gender, AuthRepository.birthday);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
-                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
 
                 editor.putString("name", AuthRepository.name);
                 editor.putString("gender", AuthRepository.gender);
@@ -490,7 +493,7 @@ public class AuthWorker extends Worker {
                 ExceptionManager.getException(bodyResponse.code(), successBody, true, "edit", "auth");
                 AuthRepository.workState.postValue(1);
             } else {
-                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
                 ExceptionManager.getException(bodyResponse.code(), errorBody, true, "edit", "auth");
                 AuthRepository.workState.postValue(0);
@@ -516,11 +519,11 @@ public class AuthWorker extends Worker {
 
     private void logOut() {
         try {
-            Call<ResponseBody> call = authApi.logOut("Bearer " + sharedPreferences.getString("token", ""));
+            Call<ResponseBody> call = authApi.logOut(token());
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
-                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
 
                 editor.remove("token");
                 editor.remove("name");
@@ -535,7 +538,7 @@ public class AuthWorker extends Worker {
                 ExceptionManager.getException(bodyResponse.code(), successBody, true, "logOut", "auth");
                 AuthRepository.workState.postValue(1);
             } else {
-                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
                 ExceptionManager.getException(bodyResponse.code(), errorBody, true, "logOut", "auth");
                 AuthRepository.workState.postValue(0);

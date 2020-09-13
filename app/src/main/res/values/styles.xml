@@ -37,6 +37,7 @@
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
         <item name="fontFamily">@font/dana</item>
         <item name="colorControlHighlight">@color/Quartz</item>
+        <item name="android:paddingLeft">@dimen/_4sdp</item>
     </style>
 
     <style name="ToolbarTextAppearance" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">

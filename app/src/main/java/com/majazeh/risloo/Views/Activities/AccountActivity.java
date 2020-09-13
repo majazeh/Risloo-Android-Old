@@ -4,7 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,8 +15,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -33,6 +31,8 @@ import com.majazeh.risloo.Views.Adapters.AccountAdapter;
 
 import org.json.JSONException;
 
+import java.util.Objects;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AccountActivity extends AppCompatActivity {
@@ -45,13 +45,12 @@ public class AccountActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
-    private MenuItem toolSignOut, toolEdit;
 
     // Widgets
     private Toolbar toolbar;
     private CircleImageView avatarImageView;
-    private TextView nameTextView, typeTextView;
-    private RecyclerView authRecyclerView;
+    private TextView nameTextView, editTextView, logOutTextView;
+    private RecyclerView accountRecyclerView;
     private Dialog logOutDialog, progressDialog;
     private TextView logOutDialogTitle, logOutDialogDescription, logOutDialogPositive, logOutDialogNegative;
 
@@ -72,11 +71,11 @@ public class AccountActivity extends AppCompatActivity {
 
     private void decorator() {
         WindowDecorator windowDecorator = new WindowDecorator();
-        windowDecorator.lightWindow(this, R.color.Primary5P, R.color.Snow);
+        windowDecorator.lightWindow(this, R.color.Snow, R.color.Snow);
     }
 
     private void initializer() {
-        viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
+        viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
         adapter = new AccountAdapter(this);
         try {
@@ -88,8 +87,6 @@ public class AccountActivity extends AppCompatActivity {
         handler = new Handler();
 
         toolbar = findViewById(R.id.activity_account_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         avatarImageView = findViewById(R.id.activity_account_avatar_circleImageView);
         if (viewModel.getAvatar().equals("")) {
@@ -100,22 +97,22 @@ public class AccountActivity extends AppCompatActivity {
 
         nameTextView = findViewById(R.id.activity_account_name_textView);
         nameTextView.setText(viewModel.getName());
-        typeTextView = findViewById(R.id.activity_account_type_textView);
-        typeTextView.setText(viewModel.getType());
+        editTextView = findViewById(R.id.activity_account_edit_textView);
+        logOutTextView = findViewById(R.id.activity_account_logOut_textView);
 
-        authRecyclerView = findViewById(R.id.activity_account_recyclerView);
-        authRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._18sdp), (int) getResources().getDimension(R.dimen._9sdp), (int) getResources().getDimension(R.dimen._9sdp)));
-        authRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        authRecyclerView.setHasFixedSize(true);
-        authRecyclerView.setAdapter(adapter);
+        accountRecyclerView = findViewById(R.id.activity_account_recyclerView);
+        accountRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._8sdp), (int) getResources().getDimension(R.dimen._32sdp)));
+        accountRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        accountRecyclerView.setHasFixedSize(true);
+        accountRecyclerView.setAdapter(adapter);
 
         logOutDialog = new Dialog(this, R.style.DialogTheme);
-        logOutDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(logOutDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         logOutDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         logOutDialog.setContentView(R.layout.dialog_action);
         logOutDialog.setCancelable(true);
         progressDialog = new Dialog(this, R.style.DialogTheme);
-        progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
@@ -139,6 +136,9 @@ public class AccountActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            editTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
+            logOutTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
+
             logOutDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
             logOutDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
         }
@@ -150,32 +150,51 @@ public class AccountActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
         });
 
+        editTextView.setOnClickListener(v -> {
+            editTextView.setClickable(false);
+            handler.postDelayed(() -> editTextView.setClickable(true), 300);
+
+            startActivityForResult(new Intent(this, EditAccountActivity.class), 100);
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+        });
+
+        logOutTextView.setOnClickListener(v -> {
+            logOutTextView.setClickable(false);
+            handler.postDelayed(() -> logOutTextView.setClickable(true), 300);
+
+            logOutDialog.show();
+        });
+
         logOutDialogPositive.setOnClickListener(v -> {
             logOutDialogPositive.setClickable(false);
-            handler.postDelayed(() -> logOutDialogPositive.setClickable(true), 500);
+            handler.postDelayed(() -> logOutDialogPositive.setClickable(true), 300);
             logOutDialog.dismiss();
 
-            try {
-                progressDialog.show();
-                viewModel.logOut();
-                observeWork();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            doWork();
         });
 
         logOutDialogNegative.setOnClickListener(v -> {
             logOutDialogNegative.setClickable(false);
-            handler.postDelayed(() -> logOutDialogNegative.setClickable(true), 500);
+            handler.postDelayed(() -> logOutDialogNegative.setClickable(true), 300);
             logOutDialog.dismiss();
         });
 
         logOutDialog.setOnCancelListener(dialog -> logOutDialog.dismiss());
     }
 
+    private void doWork() {
+        try {
+            progressDialog.show();
+            viewModel.logOut();
+            observeWork();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void observeWork() {
         AuthRepository.workState.observe((LifecycleOwner) this, integer -> {
-            if (AuthRepository.work == "logOut") {
+            if (AuthRepository.work.equals("logOut")) {
                 if (integer == 1) {
                     setResult(RESULT_OK, null);
                     finish();
@@ -197,26 +216,6 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_account, menu);
-
-        toolSignOut = menu.findItem(R.id.tool_sign_out);
-        toolSignOut.setOnMenuItemClickListener(menuItem -> {
-            logOutDialog.show();
-            return false;
-        });
-
-        toolEdit = menu.findItem(R.id.tool_edit);
-        toolEdit.setOnMenuItemClickListener(menuItem -> {
-            startActivityForResult(new Intent(this, EditAccountActivity.class), 100);
-            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
-            return false;
-        });
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -235,7 +234,6 @@ public class AccountActivity extends AppCompatActivity {
                 }
 
                 nameTextView.setText(viewModel.getName());
-                typeTextView.setText(viewModel.getType());
             }
         }
     }

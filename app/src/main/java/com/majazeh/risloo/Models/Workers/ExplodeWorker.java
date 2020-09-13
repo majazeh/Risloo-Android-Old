@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -54,7 +55,7 @@ public class ExplodeWorker extends Worker {
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
-                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
                 JSONObject android = successBody.getJSONObject("android");
 
                 if (Integer.parseInt(android.getString("current")) < Integer.parseInt(android.getString("force"))) {
@@ -66,7 +67,7 @@ public class ExplodeWorker extends Worker {
                 ExceptionManager.getException(bodyResponse.code(), successBody, true, "explode", "explode");
                 ExplodeRepository.workState.postValue(1);
             } else {
-                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+                JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
                 ExceptionManager.getException(bodyResponse.code(), errorBody, true, "explode", "explode");
                 ExplodeRepository.workState.postValue(0);
