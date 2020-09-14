@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -23,6 +23,8 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -40,10 +42,12 @@ import com.majazeh.risloo.Views.Fragments.SerialFragment;
 
 import org.json.JSONException;
 
+import java.util.Objects;
+
 public class AuthActivity extends AppCompatActivity {
 
     // ViewModels
-    private AuthViewModel viewModel;
+    public AuthViewModel viewModel;
 
     // Vars
     public MutableLiveData<Integer> callTimer;
@@ -59,6 +63,7 @@ public class AuthActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private FrameLayout navigationFooter;
     private Toolbar titleToolbar;
+    public EditText inputEditText;
     public Dialog progressDialog;
 
     @Override
@@ -84,7 +89,7 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
+        viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
         sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
@@ -116,10 +121,10 @@ public class AuthActivity extends AppCompatActivity {
 
         titleToolbar = findViewById(R.id.activity_auth_toolbar);
         setSupportActionBar(titleToolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
         progressDialog = new Dialog(this, R.style.DialogTheme);
-        progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
@@ -132,7 +137,13 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void listener() {
-        titleToolbar.setNavigationOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
+        titleToolbar.setNavigationOnClickListener(v -> {
+            if (inputEditText != null && inputEditText.hasFocus()) {
+                clearInput(inputEditText);
+            }
+
+            drawerLayout.openDrawer(GravityCompat.START);
+        });
 
         navigationFooter.setOnClickListener(v -> {
             drawerLayout.closeDrawer(GravityCompat.START);
@@ -140,7 +151,7 @@ public class AuthActivity extends AppCompatActivity {
             handler.postDelayed(() -> {
                 startActivity(new Intent(this, SettingActivity.class));
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-            }, 250);
+            }, 300);
         });
 
         navigationView.setNavigationItemSelectedListener(item -> {
@@ -174,6 +185,36 @@ public class AuthActivity extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.START);
             return false;
         });
+    }
+
+    public void focusInput(EditText input) {
+        this.inputEditText = input;
+    }
+
+    public void selectInput(EditText input) {
+        input.setCursorVisible(true);
+        input.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
+    }
+
+    public void errorInput(EditText input) {
+        input.clearFocus();
+        input.setCursorVisible(false);
+        input.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+
+        hideKeyboard();
+    }
+
+    public void clearInput(EditText input) {
+        input.clearFocus();
+        input.setCursorVisible(false);
+        input.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+
+        hideKeyboard();
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        Objects.requireNonNull(inputMethodManager).hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 
     private void loadFragment(Fragment fragment, int enterAnim, int exitAnim) {
@@ -295,11 +336,16 @@ public class AuthActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_auth, menu);
 
         toolUser = menu.findItem(R.id.tool_account);
-        if (token())
+        if (token()) {
             toolUser.setVisible(true);
-        else
+        } else {
             toolUser.setVisible(false);
+        }
         toolUser.setOnMenuItemClickListener(item -> {
+            if (inputEditText != null && inputEditText.hasFocus()) {
+                clearInput(inputEditText);
+            }
+
             startActivityForResult(new Intent(this, AccountActivity.class), 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             return false;

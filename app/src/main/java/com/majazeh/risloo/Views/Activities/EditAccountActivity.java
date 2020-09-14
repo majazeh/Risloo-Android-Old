@@ -39,7 +39,7 @@ import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.BitmapController;
-import com.majazeh.risloo.Utils.CustomPicker;
+import com.majazeh.risloo.Utils.CustomNumberPicker;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -84,7 +84,7 @@ public class EditAccountActivity extends AppCompatActivity {
     private TextView birthdayTextView;
     private Button editButton;
     private Dialog dateDialog, progressDialog;
-    private CustomPicker yearNumberPicker, monthNumberPicker, dayNumberPicker;
+    private CustomNumberPicker yearNumberPicker, monthNumberPicker, dayNumberPicker;
     private TextView dateDialogPositive, dateDialogNegative;
 
     @Override
@@ -194,6 +194,9 @@ public class EditAccountActivity extends AppCompatActivity {
         });
 
         avatarImageView.setOnClickListener(v -> {
+            avatarImageView.setClickable(false);
+            handler.postDelayed(() -> avatarImageView.setClickable(true), 300);
+
             if (nameEditText.hasFocus()) {
                 clearInput();
             }
@@ -204,8 +207,7 @@ public class EditAccountActivity extends AppCompatActivity {
         nameEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!nameEditText.hasFocus()) {
-                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-                    nameEditText.setCursorVisible(true);
+                    selectInput();
                 }
             }
             return false;
@@ -240,6 +242,9 @@ public class EditAccountActivity extends AppCompatActivity {
         });
 
         birthdayTextView.setOnTouchListener((v, event) -> {
+            birthdayTextView.setClickable(false);
+            handler.postDelayed(() -> birthdayTextView.setClickable(true), 300);
+
             if (nameEditText.hasFocus()) {
                 clearInput();
             }
@@ -260,19 +265,10 @@ public class EditAccountActivity extends AppCompatActivity {
 
         editButton.setOnClickListener(v -> {
             if (nameEditText.length() == 0) {
-                checkInput();
+                errorInput();
             } else {
                 clearInput();
-
-                name = nameEditText.getText().toString().trim();
-
-                try {
-                    progressDialog.show();
-                    viewModel.edit(name, gender, birthday);
-                    observeWork();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                doWork();
             }
         });
 
@@ -296,6 +292,7 @@ public class EditAccountActivity extends AppCompatActivity {
                 else
                     birthday = Year + "-" + Month + "-" + Day;
             }
+
             birthdayTextView.setText(birthday);
         });
 
@@ -333,13 +330,15 @@ public class EditAccountActivity extends AppCompatActivity {
         dayNumberPicker.setValue(Day);
     }
 
-    private void checkInput() {
+    private void selectInput() {
+        nameEditText.setCursorVisible(true);
+        nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
+    }
+
+    private void errorInput() {
         nameEditText.clearFocus();
         nameEditText.setCursorVisible(false);
-
-        if (nameEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-        }
+        nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
 
         hideKeyboard();
     }
@@ -355,6 +354,18 @@ public class EditAccountActivity extends AppCompatActivity {
     private void hideKeyboard() {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         Objects.requireNonNull(inputMethodManager).hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+    }
+
+    private void doWork() {
+        name = nameEditText.getText().toString().trim();
+
+        try {
+            progressDialog.show();
+            viewModel.edit(name, gender, birthday);
+            observeWork();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void observeWork() {

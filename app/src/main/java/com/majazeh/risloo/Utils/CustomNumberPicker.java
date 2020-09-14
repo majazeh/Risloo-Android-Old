@@ -6,17 +6,18 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 
 import androidx.core.content.res.ResourcesCompat;
 
 import com.majazeh.risloo.R;
 
-public class CustomPicker extends android.widget.NumberPicker {
+public class CustomNumberPicker extends NumberPicker {
 
     // Objects
     private Typeface danaBold;
 
-    public CustomPicker(Context context, AttributeSet attrs) {
+    public CustomNumberPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

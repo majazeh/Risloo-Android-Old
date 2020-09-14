@@ -18,11 +18,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Activities.AuthActivity;
 
 import org.json.JSONException;
@@ -30,9 +28,6 @@ import org.json.JSONException;
 import java.util.Objects;
 
 public class MobileFragment extends Fragment {
-
-    // ViewModels
-    private AuthViewModel viewModel;
 
     // Vars
     private String mobile = "";
@@ -65,8 +60,6 @@ public class MobileFragment extends Fragment {
     }
 
     private void initializer(View view) {
-        viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
-
         mobileDescriptionTextView = view.findViewById(R.id.fragment_mobile_description_textView);
 
         mobileEditText = view.findViewById(R.id.fragment_mobile_editText);
@@ -87,8 +80,10 @@ public class MobileFragment extends Fragment {
     private void listener() {
         mobileEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-                mobileEditText.setCursorVisible(true);
+                if (!mobileEditText.hasFocus()) {
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).selectInput(mobileEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).focusInput(mobileEditText);
+                }
             }
             return false;
         });
@@ -102,9 +97,7 @@ public class MobileFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (mobileEditText.length() == 11) {
-                    mobile = mobileEditText.getText().toString().trim();
-
-                    clearData();
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(mobileEditText);
                     doWork();
                 }
             }
@@ -116,38 +109,24 @@ public class MobileFragment extends Fragment {
         });
 
         mobileButton.setOnClickListener(v -> {
-            mobile = mobileEditText.getText().toString().trim();
-
             if (mobileEditText.length() == 0) {
-                checkInput();
+                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(mobileEditText);
             } else {
-                clearData();
+                ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(mobileEditText);
                 doWork();
             }
         });
     }
 
-    private void checkInput() {
-        mobileEditText.setCursorVisible(false);
-
-        if (mobileEditText.length() == 0) {
-            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-        }
-    }
-
-    private void clearData() {
-        mobileEditText.setCursorVisible(false);
-
-        mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-    }
-
     private void doWork() {
+        mobile = mobileEditText.getText().toString().trim();
+
         try {
             ((AuthActivity) Objects.requireNonNull(getActivity())).progressDialog.show();
             if (AuthRepository.theory.equals("mobile")) {
-                viewModel.auth(mobile);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).viewModel.auth(mobile);
             } else {
-                viewModel.recovery(mobile);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).viewModel.recovery(mobile);
             }
             ((AuthActivity) Objects.requireNonNull(getActivity())).observeWork();
         } catch (JSONException e) {

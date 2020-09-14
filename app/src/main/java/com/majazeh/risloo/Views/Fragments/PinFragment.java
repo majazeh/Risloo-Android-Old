@@ -23,11 +23,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.StringCustomizer;
-import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Activities.AuthActivity;
 
 import org.json.JSONException;
@@ -36,9 +34,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class PinFragment extends Fragment {
-
-    // ViewModels
-    private AuthViewModel viewModel;
 
     // Vars
     private String pin = "";
@@ -78,8 +73,6 @@ public class PinFragment extends Fragment {
     }
 
     private void initializer(View view) {
-        viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
-
         pinDescriptionTextView = view.findViewById(R.id.fragment_pin_description_textView);
 
         pinEditText = view.findViewById(R.id.fragment_pin_editText);
@@ -103,8 +96,10 @@ public class PinFragment extends Fragment {
     private void listener() {
         pinEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                pinEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-                pinEditText.setCursorVisible(true);
+                if (!pinEditText.hasFocus()) {
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).selectInput(pinEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).focusInput(pinEditText);
+                }
             }
             return false;
         });
@@ -118,9 +113,7 @@ public class PinFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (pinEditText.length() == 6) {
-                    pin = pinEditText.getText().toString().trim();
-
-                    clearData();
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(pinEditText);
                     doWork("pin");
                 }
             }
@@ -132,12 +125,10 @@ public class PinFragment extends Fragment {
         });
 
         pinButton.setOnClickListener(v -> {
-            pin = pinEditText.getText().toString().trim();
-
             if (pinEditText.length() == 0) {
-                checkInput();
+                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(pinEditText);
             } else {
-                clearData();
+                ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(pinEditText);
                 doWork("pin");
             }
         });
@@ -182,13 +173,13 @@ public class PinFragment extends Fragment {
             if (integer == 1) {
                 showTimer(true);
                 ((AuthActivity) Objects.requireNonNull(getActivity())).callTimer.removeObservers((LifecycleOwner) activity);
-            } else if (integer == 0){
+            } else if (integer == 0) {
                 ((AuthActivity) Objects.requireNonNull(getActivity())).callTimer.removeObservers((LifecycleOwner) activity);
             }
         });
     }
 
-    public void showTimer(boolean value) {
+    private void showTimer(boolean value) {
         if (value) {
             pinCountDownTimer.start();
 
@@ -204,27 +195,15 @@ public class PinFragment extends Fragment {
         }
     }
 
-    private void checkInput() {
-        pinEditText.setCursorVisible(false);
-
-        if (pinEditText.length() == 0) {
-            pinEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-        }
-    }
-
-    private void clearData() {
-        pinEditText.setCursorVisible(false);
-
-        pinEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-    }
-
     private void doWork(String value) {
+        pin = pinEditText.getText().toString().trim();
+
         try {
             ((AuthActivity) Objects.requireNonNull(getActivity())).progressDialog.show();
-            if (value == "pin") {
-                viewModel.authTheory("", pin);
-            } else if (value == "verification") {
-                viewModel.verification();
+            if (value.equals("pin")) {
+                ((AuthActivity) Objects.requireNonNull(getActivity())).viewModel.authTheory("", pin);
+            } else if (value.equals("verification")) {
+                ((AuthActivity) Objects.requireNonNull(getActivity())).viewModel.verification();
                 observeTimer();
             }
             ((AuthActivity) Objects.requireNonNull(getActivity())).observeWork();

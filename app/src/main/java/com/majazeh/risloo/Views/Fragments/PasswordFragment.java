@@ -15,7 +15,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,12 +23,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.CustomEditText;
 import com.majazeh.risloo.Utils.StringCustomizer;
-import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Activities.AuthActivity;
 
 import org.json.JSONException;
@@ -38,12 +36,9 @@ import java.util.Objects;
 
 public class PasswordFragment extends Fragment {
 
-    // ViewModels
-    private AuthViewModel viewModel;
-
     // Vars
     private String password = "";
-    private boolean passwordVisibility;
+    private boolean passwordVisibility = false;
 
     // Objects
     private Activity activity;
@@ -51,7 +46,7 @@ public class PasswordFragment extends Fragment {
 
     // Widgets
     private TextView passwordDescriptionTextView;
-    private EditText passwordEditText;
+    private CustomEditText passwordEditText;
     private Button passwordButton;
     private ImageView passwordImageView;
     private TextView passwordLinkTextView;
@@ -77,8 +72,6 @@ public class PasswordFragment extends Fragment {
     }
 
     private void initializer(View view) {
-        viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
-
         passwordDescriptionTextView = view.findViewById(R.id.fragment_password_description_textView);
 
         passwordEditText = view.findViewById(R.id.fragment_password_editText);
@@ -101,8 +94,10 @@ public class PasswordFragment extends Fragment {
     private void listener() {
         passwordEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-                passwordEditText.setCursorVisible(true);
+                if (!passwordEditText.hasFocus()) {
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).selectInput(passwordEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).focusInput(passwordEditText);
+                }
             }
             return false;
         });
@@ -128,6 +123,25 @@ public class PasswordFragment extends Fragment {
             }
         });
 
+        passwordEditText.setOnCutCopyPasteListener(new CustomEditText.OnCutCopyPasteListener() {
+            @Override
+            public void onCut() {
+                
+            }
+
+            @Override
+            public void onCopy() {
+
+            }
+
+            @Override
+            public void onPaste() {
+                if (passwordEditText.length() != 0) {
+                    passwordImageView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         passwordImageView.setOnClickListener(v -> {
             if (!passwordVisibility) {
                 passwordVisibility = true;
@@ -145,12 +159,10 @@ public class PasswordFragment extends Fragment {
         });
 
         passwordButton.setOnClickListener(v -> {
-            password = passwordEditText.getText().toString().trim();
-
             if (passwordEditText.length() == 0) {
-                checkInput();
+                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(passwordEditText);
             } else {
-                clearData();
+                ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(passwordEditText);
                 doWork();
             }
         });
@@ -174,24 +186,12 @@ public class PasswordFragment extends Fragment {
         passwordLinkTextView.setText(StringCustomizer.clickable(activity.getResources().getString(R.string.PasswordLink), 26, 33, passwordLinkSpan));
     }
 
-    private void checkInput() {
-        passwordEditText.setCursorVisible(false);
-
-        if (passwordEditText.length() == 0) {
-            passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-        }
-    }
-
-    private void clearData() {
-        passwordEditText.setCursorVisible(false);
-
-        passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-    }
-
     private void doWork() {
+        password = passwordEditText.getText().toString().trim();
+
         try {
             ((AuthActivity) Objects.requireNonNull(getActivity())).progressDialog.show();
-            viewModel.authTheory(password, "");
+            ((AuthActivity) Objects.requireNonNull(getActivity())).viewModel.authTheory(password, "");
             ((AuthActivity) Objects.requireNonNull(getActivity())).observeWork();
         } catch (JSONException e) {
             e.printStackTrace();

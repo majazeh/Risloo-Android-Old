@@ -9,7 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -25,7 +25,6 @@ import android.widget.TextView;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.StringCustomizer;
-import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Activities.ArchiveActivity;
 import com.majazeh.risloo.Views.Activities.AuthActivity;
@@ -37,7 +36,6 @@ import java.util.Objects;
 public class SerialFragment extends Fragment {
 
     // ViewModels
-    private AuthViewModel authViewModel;
     private SampleViewModel sampleViewModel;
 
     // Vars
@@ -75,8 +73,7 @@ public class SerialFragment extends Fragment {
     }
 
     private void initializer(View view) {
-        authViewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
-        sampleViewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
+        sampleViewModel = new ViewModelProvider(this).get(SampleViewModel.class);
 
         animSlideIn = AnimationUtils.loadAnimation(activity, R.anim.slide_in_bottom);
 
@@ -105,19 +102,19 @@ public class SerialFragment extends Fragment {
     private void listener() {
         serialEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                serialEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-                serialEditText.setCursorVisible(true);
+                if (!serialEditText.hasFocus()) {
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).selectInput(serialEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).focusInput(serialEditText);
+                }
             }
             return false;
         });
 
         serialButton.setOnClickListener(v -> {
-            serial = serialEditText.getText().toString().trim();
-
             if (serialEditText.length() == 0) {
-                checkInput();
+                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(serialEditText);
             } else {
-                clearData();
+                ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(serialEditText);
                 doWork();
             }
         });
@@ -154,24 +151,12 @@ public class SerialFragment extends Fragment {
         }
     }
 
-    private void checkInput() {
-        serialEditText.setCursorVisible(false);
-
-        if (serialEditText.length() == 0) {
-            serialEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-        }
-    }
-
-    private void clearData() {
-        serialEditText.setCursorVisible(false);
-
-        serialEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-    }
-
     private void doWork() {
+        serial = serialEditText.getText().toString().trim();
+
         try {
             ((AuthActivity) Objects.requireNonNull(getActivity())).progressDialog.show();
-            authViewModel.auth(serial);
+            ((AuthActivity) Objects.requireNonNull(getActivity())).viewModel.auth(serial);
             ((AuthActivity) Objects.requireNonNull(getActivity())).observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -184,6 +169,7 @@ public class SerialFragment extends Fragment {
 
         if (sampleViewModel.getArchive() != null ) {
             serialIncompleteTextView.setText(StringCustomizer.foregroundSize("شما" + " " + sampleViewModel.getArchive().size() + " " + "نمونه ناقص دارید!", 4, 6, getResources().getColor(R.color.MoonYellow), (int) getResources().getDimension(R.dimen._14ssp)));
+
             serialArchiveLinearLayout.setVisibility(View.VISIBLE);
             serialArchiveLinearLayout.setAnimation(animSlideIn);
         } else {

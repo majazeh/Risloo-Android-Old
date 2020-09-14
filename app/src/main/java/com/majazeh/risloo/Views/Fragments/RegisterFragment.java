@@ -21,11 +21,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.tabs.TabLayout;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.ViewModels.AuthViewModel;
+import com.majazeh.risloo.Utils.CustomEditText;
 import com.majazeh.risloo.Views.Activities.AuthActivity;
 
 import org.json.JSONException;
@@ -34,20 +33,17 @@ import java.util.Objects;
 
 public class RegisterFragment extends Fragment {
 
-    // ViewModels
-    private AuthViewModel viewModel;
-
     // Vars
     private String name = "", mobile = "", gender = "male", password = "";
-    private boolean nameError, mobileError, passwordError;
-    private boolean passwordVisibility;
+    private boolean passwordVisibility = false;
 
     // Objects
     private Activity activity;
 
     // Widgets
     private TextView registerDescriptionTextView;
-    private EditText nameEditText, mobileEditText, passwordEditText;
+    private EditText nameEditText, mobileEditText;
+    private CustomEditText passwordEditText;
     private TabLayout genderTabLayout;
     private Button registerButton;
     private ImageView passwordImageView;
@@ -71,8 +67,6 @@ public class RegisterFragment extends Fragment {
     }
 
     private void initializer(View view) {
-        viewModel = ViewModelProviders.of(this).get(AuthViewModel.class);
-
         registerDescriptionTextView = view.findViewById(R.id.fragment_register_description_textView);
 
         nameEditText = view.findViewById(R.id.fragment_register_name_editText);
@@ -96,23 +90,17 @@ public class RegisterFragment extends Fragment {
     private void listener() {
         nameEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-                nameEditText.setCursorVisible(true);
+                if (!nameEditText.hasFocus()) {
+                    if (((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText != null && ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.hasFocus()) {
+                        ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText);
+                    }
 
-                nameError = false;
+                    if (passwordImageView.getVisibility() == View.VISIBLE) {
+                        passwordImageView.setVisibility(View.INVISIBLE);
+                    }
 
-                passwordImageView.setVisibility(View.INVISIBLE);
-
-                if (mobileError) {
-                    mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                } else {
-                    mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-                }
-
-                if (passwordError) {
-                    passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                } else {
-                    passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).selectInput(nameEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).focusInput(nameEditText);
                 }
             }
             return false;
@@ -120,23 +108,17 @@ public class RegisterFragment extends Fragment {
 
         mobileEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-                mobileEditText.setCursorVisible(true);
+                if (!mobileEditText.hasFocus()) {
+                    if (((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText != null && ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.hasFocus()) {
+                        ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText);
+                    }
 
-                mobileError = false;
+                    if (passwordImageView.getVisibility() == View.VISIBLE) {
+                        passwordImageView.setVisibility(View.INVISIBLE);
+                    }
 
-                passwordImageView.setVisibility(View.INVISIBLE);
-
-                if (passwordError) {
-                    passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                } else {
-                    passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-                }
-
-                if (nameError) {
-                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                } else {
-                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).selectInput(mobileEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).focusInput(mobileEditText);
                 }
             }
             return false;
@@ -144,25 +126,17 @@ public class RegisterFragment extends Fragment {
 
         passwordEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-                passwordEditText.setCursorVisible(true);
+                if (!passwordEditText.hasFocus()) {
+                    if (((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText != null && ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.hasFocus()) {
+                        ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText);
+                    }
 
-                passwordError = false;
+                    if (passwordEditText.length() != 0) {
+                        passwordImageView.setVisibility(View.VISIBLE);
+                    }
 
-                if (passwordEditText.length() != 0) {
-                    passwordImageView.setVisibility(View.VISIBLE);
-                }
-
-                if (nameError) {
-                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                } else {
-                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-                }
-
-                if (mobileError) {
-                    mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                } else {
-                    mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).selectInput(passwordEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).focusInput(passwordEditText);
                 }
             }
             return false;
@@ -189,9 +163,32 @@ public class RegisterFragment extends Fragment {
             }
         });
 
+        passwordEditText.setOnCutCopyPasteListener(new CustomEditText.OnCutCopyPasteListener() {
+            @Override
+            public void onCut() {
+
+            }
+
+            @Override
+            public void onCopy() {
+
+            }
+
+            @Override
+            public void onPaste() {
+                if (passwordEditText.length() != 0) {
+                    passwordImageView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         genderTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                if (((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText != null && ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.hasFocus()) {
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText);
+                }
+
                 switch (tab.getPosition()) {
                     case 0:
                         gender = "male";
@@ -230,101 +227,46 @@ public class RegisterFragment extends Fragment {
         });
 
         registerButton.setOnClickListener(v -> {
-            name = nameEditText.getText().toString().trim();
-            mobile = mobileEditText.getText().toString().trim();
-            password = passwordEditText.getText().toString().trim();
+            if (((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText != null && ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.hasFocus()) {
+                ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText);
+            }
 
-            if (nameEditText.length() == 0 || mobileEditText.length() == 0 || passwordEditText.length() == 0) {
-                checkInput();
+            if (nameEditText.length() == 0 && mobileEditText.length() == 0 && passwordEditText.length() == 0) {
+                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(nameEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(mobileEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(passwordEditText);
+            } else if (mobileEditText.length() == 0 && passwordEditText.length() == 0) {
+                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(mobileEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(passwordEditText);
+            } else if (nameEditText.length() == 0 && passwordEditText.length() == 0) {
+                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(nameEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(passwordEditText);
+            } else if (nameEditText.length() == 0 && mobileEditText.length() == 0) {
+                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(nameEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(mobileEditText);
+            } else if (passwordEditText.length() == 0) {
+                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(passwordEditText);
+            } else if (mobileEditText.length() == 0) {
+                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(mobileEditText);
+            } else if (nameEditText.length() == 0) {
+                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(nameEditText);
             } else {
-                clearData();
+                ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(nameEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(mobileEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(passwordEditText);
                 doWork();
             }
         });
     }
 
-    private void checkInput() {
-        nameEditText.setCursorVisible(false);
-        mobileEditText.setCursorVisible(false);
-        passwordEditText.setCursorVisible(false);
-
-        if (nameEditText.length() == 0 && mobileEditText.length() == 0 && passwordEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            nameError = true;
-            mobileError = true;
-            passwordError = true;
-        } else if (mobileEditText.length() == 0 && passwordEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            nameError = false;
-            mobileError = true;
-            passwordError = true;
-        } else if (nameEditText.length() == 0 && passwordEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            nameError = true;
-            mobileError = false;
-            passwordError = true;
-        } else if (nameEditText.length() == 0 && mobileEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            nameError = true;
-            mobileError = true;
-            passwordError = false;
-        } else if (passwordEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            nameError = false;
-            mobileError = false;
-            passwordError = true;
-        } else if (mobileEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            nameError = false;
-            mobileError = true;
-            passwordError = false;
-        } else if (nameEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            nameError = true;
-            mobileError = false;
-            passwordError = false;
-        } else {
-            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            nameError = false;
-            mobileError = false;
-            passwordError = false;
-        }
-    }
-
-    private void clearData() {
-        nameEditText.setCursorVisible(false);
-        mobileEditText.setCursorVisible(false);
-        passwordEditText.setCursorVisible(false);
-
-        nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-        mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-        passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-
-        nameError = false;
-        mobileError = false;
-        passwordError = false;
-    }
-
     private void doWork() {
+        name = nameEditText.getText().toString().trim();
+        mobile = mobileEditText.getText().toString().trim();
+        password = passwordEditText.getText().toString().trim();
+
         try {
             ((AuthActivity) Objects.requireNonNull(getActivity())).progressDialog.show();
-            viewModel.register(name, mobile, gender, password);
+            ((AuthActivity) Objects.requireNonNull(getActivity())).viewModel.register(name, mobile, gender, password);
             ((AuthActivity) Objects.requireNonNull(getActivity())).observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
