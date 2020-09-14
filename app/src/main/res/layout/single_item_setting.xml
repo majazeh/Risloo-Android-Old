@@ -19,7 +19,7 @@
         android:layout_margin="@dimen/_16sdp"
         android:elevation="@dimen/_1sdp"
         android:padding="@dimen/_8sdp"
-        app:tint="@color/White" />
+        app:tint="@color/PrimaryDark" />
 
     <TextView
         android:id="@+id/single_item_setting_title_textView"
