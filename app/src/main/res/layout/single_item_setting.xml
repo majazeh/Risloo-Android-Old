@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/single_item_setting"
@@ -15,10 +16,7 @@
         android:layout_height="@dimen/_34sdp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:layout_marginBottom="@dimen/_16sdp"
-        android:layout_marginLeft="@dimen/_18sdp"
-        android:layout_marginRight="@dimen/_16sdp"
+        android:layout_margin="@dimen/_16sdp"
         android:elevation="@dimen/_1sdp"
         android:padding="@dimen/_8sdp"
         app:tint="@color/White" />
@@ -58,8 +56,8 @@
         android:id="@+id/single_item_setting_line_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
-        android:layout_marginLeft="@dimen/_30sdp"
-        android:layout_marginRight="@dimen/_30sdp"
+        android:layout_marginLeft="@dimen/_32sdp"
+        android:layout_marginRight="@dimen/_32sdp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/single_item_setting_avatar_imageView"
         android:background="@color/Solitude" />

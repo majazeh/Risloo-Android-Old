@@ -87,7 +87,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
+            handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
 
             if (expands.get(i)){
                 expands.put(i, false);

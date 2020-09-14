@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -104,8 +104,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
     }
 
     private void initializer(View view) {
-        aboutUsViewModel = ViewModelProviders.of((FragmentActivity) activity).get(AboutUsViewModel.class);
-        termConditionViewModel = ViewModelProviders.of((FragmentActivity) activity).get(TermConditionViewModel.class);
+        aboutUsViewModel = new ViewModelProvider((FragmentActivity) activity).get(AboutUsViewModel.class);
+        termConditionViewModel = new ViewModelProvider((FragmentActivity) activity).get(TermConditionViewModel.class);
 
         subListBigAdapter = new SubListBigAdapter(activity);
         subListSmallAdapter = new SubListSmallAdapter(activity);

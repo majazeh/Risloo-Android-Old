@@ -2,7 +2,7 @@ package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +13,8 @@ import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SettingViewModel;
 import com.majazeh.risloo.Views.Adapters.SettingAdapter;
+
+import org.json.JSONException;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -45,10 +47,14 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = ViewModelProviders.of(this).get(SettingViewModel.class);
+        viewModel = new ViewModelProvider(this).get(SettingViewModel.class);
 
         adapter = new SettingAdapter(this);
-        adapter.setMore(viewModel.getAll());
+        try {
+            adapter.setMore(viewModel.getAll());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         toolbar = findViewById(R.id.activity_setting_toolbar);
 

@@ -24,7 +24,7 @@ public class SettingRepository extends MainRepository {
          ---------- Arrays ----------
     */
 
-    public ArrayList<Model> getAll() {
+    public ArrayList<Model> getAll() throws JSONException {
         return settingItems.items();
     }
 

@@ -2,6 +2,7 @@ package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LifecycleOwner;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -15,18 +16,24 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.WindowDecorator;
+
+import org.json.JSONException;
+
+import java.util.Objects;
 
 public class CallUsActivity extends AppCompatActivity {
 
     // Vars
     private String name = "", mobile = "", message = "";
-    private boolean nameError, mobileError, messageError;
 
     // Objects
     private Handler handler;
@@ -35,10 +42,10 @@ public class CallUsActivity extends AppCompatActivity {
 
     // Widgets
     private Toolbar toolbar;
-    private EditText nameEditText, mobileEditText, messageEditText;
+    private EditText inputEditText, nameEditText, mobileEditText, messageEditText;
     private Button sendButton;
-    private Dialog infoDialog, progressDialog;
-    private TextView infoDialogTitle, infoDialogDescription, infoDialogConfirm;
+    private Dialog infoDialog, repeatDialog, progressDialog;
+    private TextView infoDialogTitle, infoDialogDescription, infoDialogConfirm, repeatDialogTitle, repeatDialogDescription, repeatDialogPositive, repeatDialogNegative;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,12 +88,17 @@ public class CallUsActivity extends AppCompatActivity {
         sendButton = findViewById(R.id.activity_call_us_send_button);
 
         infoDialog = new Dialog(this, R.style.DialogTheme);
-        infoDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(infoDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         infoDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         infoDialog.setContentView(R.layout.dialog_note);
         infoDialog.setCancelable(true);
+        repeatDialog = new Dialog(this, R.style.DialogTheme);
+        Objects.requireNonNull(repeatDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+        repeatDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        repeatDialog.setContentView(R.layout.dialog_action);
+        repeatDialog.setCancelable(true);
         progressDialog = new Dialog(this, R.style.DialogTheme);
-        progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
@@ -103,6 +115,14 @@ public class CallUsActivity extends AppCompatActivity {
         infoDialogDescription.setText(getResources().getString(R.string.CallUsInfoDialogDescription));
         infoDialogConfirm = infoDialog.findViewById(R.id.dialog_note_confirm_textView);
         infoDialogConfirm.setText(getResources().getString(R.string.CallUsInfoDialogConfirm));
+        repeatDialogTitle = repeatDialog.findViewById(R.id.dialog_action_title_textView);
+        repeatDialogTitle.setText(getResources().getString(R.string.CallUsRepeatDialogTitle));
+        repeatDialogDescription = repeatDialog.findViewById(R.id.dialog_action_description_textView);
+        repeatDialogDescription.setText(getResources().getString(R.string.CallUsRepeatDialogDescription));
+        repeatDialogPositive = repeatDialog.findViewById(R.id.dialog_action_positive_textView);
+        repeatDialogPositive.setText(getResources().getString(R.string.CallUsRepeatDialogPositive));
+        repeatDialogNegative = repeatDialog.findViewById(R.id.dialog_action_negative_textView);
+        repeatDialogNegative.setText(getResources().getString(R.string.CallUsRepeatDialogNegative));
     }
 
     private void detector() {
@@ -110,6 +130,8 @@ public class CallUsActivity extends AppCompatActivity {
             sendButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
 
             infoDialogConfirm.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            repeatDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            repeatDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
         }
     }
 
@@ -120,31 +142,15 @@ public class CallUsActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
-        infoDialogConfirm.setOnClickListener(v -> {
-            infoDialogConfirm.setClickable(false);
-            handler.postDelayed(() -> infoDialogConfirm.setClickable(true), 1000);
-            infoDialog.dismiss();
-        });
-
-        infoDialog.setOnCancelListener(dialog -> infoDialog.dismiss());
-
         nameEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
-                nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-                nameEditText.setCursorVisible(true);
+                if (!nameEditText.hasFocus()) {
+                    if (inputEditText != null && inputEditText.hasFocus()) {
+                        clearInput(inputEditText);
+                    }
 
-                nameError = false;
-
-                if (mobileError) {
-                    mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                } else {
-                    mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-                }
-
-                if (messageError) {
-                    messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                } else {
-                    messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                    selectInput(nameEditText);
+                    focusInput(nameEditText);
                 }
             }
             return false;
@@ -152,21 +158,13 @@ public class CallUsActivity extends AppCompatActivity {
 
         mobileEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
-                mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-                mobileEditText.setCursorVisible(true);
+                if (!mobileEditText.hasFocus()) {
+                    if (inputEditText != null && inputEditText.hasFocus()) {
+                        clearInput(inputEditText);
+                    }
 
-                mobileError = false;
-
-                if (messageError) {
-                    messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                } else {
-                    messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-                }
-
-                if (nameError) {
-                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                } else {
-                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                    selectInput(mobileEditText);
+                    focusInput(mobileEditText);
                 }
             }
             return false;
@@ -174,45 +172,84 @@ public class CallUsActivity extends AppCompatActivity {
 
         messageEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
-                messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-                messageEditText.setCursorVisible(true);
+                if (!messageEditText.hasFocus()) {
+                    if (inputEditText != null && inputEditText.hasFocus()) {
+                        clearInput(inputEditText);
+                    }
 
-                messageError = false;
-
-                if (nameError) {
-                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                } else {
-                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-                }
-
-                if (mobileError) {
-                    mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                } else {
-                    mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                    selectInput(messageEditText);
+                    focusInput(messageEditText);
                 }
             }
             return false;
         });
 
         sendButton.setOnClickListener(v -> {
-            name = nameEditText.getText().toString().trim();
-            mobile = mobileEditText.getText().toString().trim();
-            message = messageEditText.getText().toString().trim();
+            if (inputEditText != null && inputEditText.hasFocus()) {
+                clearInput(inputEditText);
+            }
 
-            if (nameEditText.length() == 0 || mobileEditText.length() == 0 || messageEditText.length() == 0) {
-                checkInput();
+            if (nameEditText.length() == 0 && mobileEditText.length() == 0 && messageEditText.length() == 0) {
+                errorInput(nameEditText);
+                errorInput(mobileEditText);
+                errorInput(messageEditText);
+            } else if (mobileEditText.length() == 0 && messageEditText.length() == 0) {
+                errorInput(mobileEditText);
+                errorInput(messageEditText);
+            } else if (nameEditText.length() == 0 && messageEditText.length() == 0) {
+                errorInput(nameEditText);
+                errorInput(messageEditText);
+            } else if (nameEditText.length() == 0 && mobileEditText.length() == 0) {
+                errorInput(nameEditText);
+                errorInput(mobileEditText);
+            } else if (messageEditText.length() == 0) {
+                errorInput(messageEditText);
+            } else if (mobileEditText.length() == 0) {
+                errorInput(mobileEditText);
+            } else if (nameEditText.length() == 0) {
+                errorInput(nameEditText);
             } else {
-                clearData();
-
-//                try {
-//                    progressDialog.show();
-//                    viewModel.send(name, mobile, message);
-//                    observeWork();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                clearInput(nameEditText);
+                clearInput(mobileEditText);
+                clearInput(messageEditText);
+                doWork();
             }
         });
+
+        infoDialogConfirm.setOnClickListener(v -> {
+            infoDialogConfirm.setClickable(false);
+            handler.postDelayed(() -> infoDialogConfirm.setClickable(true), 300);
+            infoDialog.dismiss();
+        });
+
+        infoDialog.setOnCancelListener(dialog -> infoDialog.dismiss());
+
+        repeatDialogPositive.setOnClickListener(v -> {
+            repeatDialogPositive.setClickable(false);
+            handler.postDelayed(() -> repeatDialogPositive.setClickable(true), 300);
+            repeatDialog.dismiss();
+
+            nameEditText.getText().clear();
+            mobileEditText.getText().clear();
+            messageEditText.getText().clear();
+        });
+
+        repeatDialogNegative.setOnClickListener(v -> {
+            repeatDialogNegative.setClickable(false);
+            handler.postDelayed(() -> repeatDialogNegative.setClickable(true), 300);
+            repeatDialog.dismiss();
+
+            finish();
+        });
+
+        repeatDialog.setOnCancelListener(dialog -> {
+            repeatDialog.dismiss();
+
+            nameEditText.getText().clear();
+            mobileEditText.getText().clear();
+            messageEditText.getText().clear();
+        });
+
     }
 
     private boolean firstTimeLoad() {
@@ -231,86 +268,70 @@ public class CallUsActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private void checkInput() {
-        nameEditText.setCursorVisible(false);
-        mobileEditText.setCursorVisible(false);
-        messageEditText.setCursorVisible(false);
-
-        if (nameEditText.length() == 0 && mobileEditText.length() == 0 && messageEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            nameError = true;
-            mobileError = true;
-            messageError = true;
-        } else if (mobileEditText.length() == 0 && messageEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            nameError = false;
-            mobileError = true;
-            messageError = true;
-        } else if (nameEditText.length() == 0 && messageEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            nameError = true;
-            mobileError = false;
-            messageError = true;
-        } else if (nameEditText.length() == 0 && mobileEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            nameError = true;
-            mobileError = true;
-            messageError = false;
-        } else if (messageEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            nameError = false;
-            mobileError = false;
-            messageError = true;
-        } else if (mobileEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            nameError = false;
-            mobileError = true;
-            messageError = false;
-        } else if (nameEditText.length() == 0) {
-            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            nameError = true;
-            mobileError = false;
-            messageError = false;
-        } else {
-            nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            nameError = false;
-            mobileError = false;
-            messageError = false;
-        }
+    private void focusInput(EditText input) {
+        this.inputEditText = input;
     }
 
-    private void clearData() {
-        nameEditText.setCursorVisible(false);
-        mobileEditText.setCursorVisible(false);
-        messageEditText.setCursorVisible(false);
+    private void selectInput(EditText input) {
+        input.setCursorVisible(true);
+        input.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
+    }
 
-        nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-        mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-        messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+    private void errorInput(EditText input) {
+        input.clearFocus();
+        input.setCursorVisible(false);
+        input.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
 
-        nameError = false;
-        mobileError = false;
-        messageError = false;
+        hideKeyboard();
+    }
+
+    private void clearInput(EditText input) {
+        input.clearFocus();
+        input.setCursorVisible(false);
+        input.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+
+        hideKeyboard();
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        Objects.requireNonNull(inputMethodManager).hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+    }
+
+    private void doWork() {
+//        name = nameEditText.getText().toString().trim();
+//        mobile = mobileEditText.getText().toString().trim();
+//        message = messageEditText.getText().toString().trim();
+//
+//        try {
+//            progressDialog.show();
+//            viewModel.send(name, mobile, message);
+//            observeWork();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void observeWork() {
-
+//        CallUsRepository.workState.observe((LifecycleOwner) this, integer -> {
+//            if (CallUsRepository.work.equals("send")) {
+//                if (integer == 1) {
+//                    repeatDialog.show();
+//
+//                    progressDialog.dismiss();
+//                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+//                    CallUsRepository.workState.removeObservers((LifecycleOwner) this);
+//                } else if (integer == 0) {
+//                    progressDialog.dismiss();
+//                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+//                    CallUsRepository.workState.removeObservers((LifecycleOwner) this);
+//                } else if (integer == -2) {
+//                    progressDialog.dismiss();
+//                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+//                    CallUsRepository.workState.removeObservers((LifecycleOwner) this);
+//                }
+//            }
+//        });
     }
 
     @Override

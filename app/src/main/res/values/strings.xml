@@ -436,6 +436,10 @@
     <string name="CallUsInfoDialogTitle">کاربر گرامی</string>
     <string name="CallUsInfoDialogDescription">شما می توانید نظرات و انتقادات خود را نسبت به خدمات و سرویس به ما اطلاع دعید. هدف ما جلب رضایت و اعتماد متقابل شما می باشد.</string>
     <string name="CallUsInfoDialogConfirm">بستن</string>
+    <string name="CallUsRepeatDialogTitle">پیام شما ارسال شد</string>
+    <string name="CallUsRepeatDialogDescription">اپراتور های ما در اسرع وقت پیام شما را بررسی خواهند داد.</string>
+    <string name="CallUsRepeatDialogPositive">پیام جدید</string>
+    <string name="CallUsRepeatDialogNegative">خروج</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

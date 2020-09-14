@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/single_item_question"
@@ -7,7 +8,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:orientation="vertical"
-    tools:ignore="UnusedAttribute, RtlHardcoded, RtlSymmetry">
+    tools:ignore="UnusedAttribute, ContentDescription, UseCompoundDrawables, RtlHardcoded, RtlSymmetry">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,15 +22,18 @@
 
         <ImageView
             android:id="@+id/single_item_question_expand_imageView"
-            android:layout_width="@dimen/_13sdp"
-            android:layout_height="@dimen/_13sdp"
-            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_gravity="center"
+            android:padding="@dimen/_6sdp"
+            android:background="@drawable/draw_oval_solid_snow"
             android:src="@drawable/ic_chevron_down" />
 
         <TextView
             android:id="@+id/single_item_question_subject_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:paddingLeft="@dimen/_2sdp"
             android:gravity="right"
             android:textSize="@dimen/_12ssp"

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_about_us"
@@ -50,8 +51,8 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_24sdp"
                     android:padding="@dimen/_18sdp"
-                    android:src="@drawable/ic_brain_light"
                     android:background="@drawable/draw_16sdp_solid_primary"
+                    android:src="@drawable/ic_brain_light"
                     app:tint="@color/White" />
 
                 <androidx.recyclerview.widget.RecyclerView

@@ -2,7 +2,7 @@ package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,7 +45,7 @@ public class TermConditionActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = ViewModelProviders.of(this).get(TermConditionViewModel.class);
+        viewModel = new ViewModelProvider(this).get(TermConditionViewModel.class);
 
         adapter = new ListAdapter(this);
         adapter.setList(viewModel.getAll(), "TermCondition");

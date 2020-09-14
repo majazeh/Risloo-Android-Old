@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
@@ -35,6 +35,7 @@ import com.majazeh.risloo.Views.Activities.TermConditionActivity;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHolder> {
 
@@ -42,7 +43,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
     private ExplodeViewModel viewModel;
 
     // Vars
-    private ArrayList<Model> mores;
+    private ArrayList<Model> settings;
 
     // Objects
     private Activity activity;
@@ -76,8 +77,8 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
                 holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_white_ripple_quartz);
             }
 
-            if (i != mores.size() - 1) {
-                holder.titleTextView.setText(mores.get(i).get("title").toString());
+            if (i != settings.size() - 1) {
+                holder.titleTextView.setText(settings.get(i).get("title").toString());
             } else {
                 if (viewModel.hasUpdate()) {
                     holder.titleTextView.setText(activity.getResources().getString(R.string.SettingUpdate));
@@ -89,15 +90,15 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
 
                 holder.lineView.setVisibility(View.GONE);
             }
-            holder.avatarImageView.setImageDrawable((Drawable) mores.get(i).get("image"));
-            holder.avatarImageView.setBackground((Drawable) mores.get(i).get("drawable"));
+            holder.avatarImageView.setImageDrawable((Drawable) settings.get(i).get("image"));
+            holder.avatarImageView.setBackground((Drawable) settings.get(i).get("drawable"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
+            handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
 
             doWork(i);
         });
@@ -106,11 +107,11 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
 
     @Override
     public int getItemCount() {
-        return mores.size();
+        return settings.size();
     }
 
     private void initializer(View view) {
-        viewModel = ViewModelProviders.of((FragmentActivity) activity).get(ExplodeViewModel.class);
+        viewModel = new ViewModelProvider((FragmentActivity) activity).get(ExplodeViewModel.class);
 
         intentCaller = new IntentCaller();
         socialDialog = new SocialDialog(activity);
@@ -119,7 +120,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
     }
 
     public void setMore(ArrayList<Model> mores) {
-        this.mores = mores;
+        this.settings = mores;
         notifyDataSetChanged();
     }
 
@@ -170,13 +171,13 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
 
     private void initDialog() {
         noUpdateDialog = new Dialog(activity, R.style.DialogTheme);
-        noUpdateDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(noUpdateDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         noUpdateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         noUpdateDialog.setContentView(R.layout.dialog_note);
         noUpdateDialog.setCancelable(true);
 
         availableUpdateDialog = new Dialog(activity, R.style.DialogTheme);
-        availableUpdateDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(availableUpdateDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         availableUpdateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         availableUpdateDialog.setContentView(R.layout.dialog_action);
         availableUpdateDialog.setCancelable(true);
@@ -221,7 +222,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
     private void listener() {
         availableUpdateDialogPositive.setOnClickListener(v -> {
             availableUpdateDialogPositive.setClickable(false);
-            handler.postDelayed(() -> availableUpdateDialogPositive.setClickable(true), 500);
+            handler.postDelayed(() -> availableUpdateDialogPositive.setClickable(true), 300);
             availableUpdateDialog.dismiss();
 
             intentCaller.googlePlay(activity);
@@ -229,13 +230,13 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
 
         availableUpdateDialogNegative.setOnClickListener(v -> {
             availableUpdateDialogNegative.setClickable(false);
-            handler.postDelayed(() -> availableUpdateDialogNegative.setClickable(true), 500);
+            handler.postDelayed(() -> availableUpdateDialogNegative.setClickable(true), 300);
             availableUpdateDialog.dismiss();
         });
 
         noUpdateDialogConfirm.setOnClickListener(v -> {
             noUpdateDialogConfirm.setClickable(false);
-            handler.postDelayed(() -> noUpdateDialogConfirm.setClickable(true), 500);
+            handler.postDelayed(() -> noUpdateDialogConfirm.setClickable(true), 300);
             noUpdateDialog.dismiss();
         });
 

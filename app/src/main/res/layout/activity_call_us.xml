@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_call_us"
@@ -41,7 +42,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/_18sdp"
+                android:padding="@dimen/_24sdp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -64,8 +65,8 @@
                     android:textColor="@color/Grey"
                     android:textColorHint="@color/Mischka"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_16sdp_border_quartz"
-                    android:importantForAutofill="no" />
+                    android:importantForAutofill="no"
+                    android:background="@drawable/draw_16sdp_border_quartz" />
 
                 <EditText
                     android:id="@+id/activity_call_us_mobile_editText"
@@ -86,8 +87,8 @@
                     android:textColor="@color/Grey"
                     android:textColorHint="@color/Mischka"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_16sdp_border_quartz"
-                    android:importantForAutofill="no" />
+                    android:importantForAutofill="no"
+                    android:background="@drawable/draw_16sdp_border_quartz" />
 
                 <EditText
                     android:id="@+id/activity_call_us_message_editText"
@@ -109,9 +110,8 @@
                     android:textColor="@color/Grey"
                     android:textColorHint="@color/Mischka"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_16sdp_border_quartz"
                     android:importantForAutofill="no"
-                    tools:ignore="RtlHardcoded" />
+                    android:background="@drawable/draw_16sdp_border_quartz" />
 
                 <Button
                     android:id="@+id/activity_call_us_send_button"
