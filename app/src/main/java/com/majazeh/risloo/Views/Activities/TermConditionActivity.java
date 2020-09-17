@@ -14,6 +14,8 @@ import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.TermConditionViewModel;
 import com.majazeh.risloo.Views.Adapters.ListAdapter;
 
+import org.json.JSONException;
+
 public class TermConditionActivity extends AppCompatActivity {
 
     // ViewModel
@@ -24,7 +26,7 @@ public class TermConditionActivity extends AppCompatActivity {
 
     // Widgets
     private Toolbar toolbar;
-    private RecyclerView recyclerView;
+    private RecyclerView termsRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,15 +50,19 @@ public class TermConditionActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(TermConditionViewModel.class);
 
         adapter = new ListAdapter(this);
-        adapter.setList(viewModel.getAll(), "TermCondition");
+        try {
+            adapter.setList(viewModel.getAll(), "TermCondition");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         toolbar = findViewById(R.id.activity_term_condition_toolbar);
 
-        recyclerView = findViewById(R.id.activity_term_condition_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._24sdp), (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._24sdp)));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
+        termsRecyclerView = findViewById(R.id.activity_term_condition_recyclerView);
+        termsRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._24sdp), (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._24sdp)));
+        termsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        termsRecyclerView.setHasFixedSize(true);
+        termsRecyclerView.setAdapter(adapter);
     }
 
     private void listener() {

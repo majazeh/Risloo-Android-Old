@@ -425,10 +425,11 @@ public class AuthWorker extends Worker {
                     }
                 }
 
-                if (access)
+                if (access) {
                     editor.putString("access", "true");
-                else
+                } else {
                     editor.putString("access", "false");
+                }
 
                 FileManager.writeObjectToCache(context, new JSONObject().put("data", data.getJSONArray("centers")), "centers", "my");
 

@@ -24,10 +24,6 @@ import java.util.ArrayList;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
-    // Vars
-    private String asset;
-    private ArrayList<Model> list;
-
     // ViewModel
     private AboutUsViewModel aboutUsViewModel;
     private TermConditionViewModel termConditionViewModel;
@@ -35,6 +31,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
     // Adapters
     private SubListBigAdapter subListBigAdapter;
     private SubListSmallAdapter subListSmallAdapter;
+
+    // Vars
+    private String asset;
+    private ArrayList<Model> list;
 
     // Objects
     private Activity activity;
@@ -55,12 +55,13 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ListHolder holder, int i) {
+        Model model = list.get(i);
 
         try {
-            holder.titleTextView.setText(list.get(i).get("title").toString());
-            holder.descriptionTextView.setText(list.get(i).get("description").toString());
+            holder.titleTextView.setText(model.get("title").toString());
+            holder.descriptionTextView.setText(model.get("description").toString());
 
-            if (list.get(i).get("subset").equals("big")) {
+            if (model.get("subset").equals("big")) {
                 if (asset.equals("AboutUs")) {
                     subListBigAdapter.setSubListBig(aboutUsViewModel.getSubset(i));
                 } else if (asset.equals("TermCondition")){

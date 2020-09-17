@@ -37,10 +37,11 @@ public class SubListBigAdapter extends RecyclerView.Adapter<SubListBigAdapter.Su
 
     @Override
     public void onBindViewHolder(@NonNull SubListBigHolder holder, int i) {
+        Model model = subListBig.get(i);
 
         try {
-            holder.titleTextView.setText(subListBig.get(i).get("title").toString());
-            holder.descriptionTextView.setText(subListBig.get(i).get("description").toString());
+            holder.titleTextView.setText(model.get("title").toString());
+            holder.descriptionTextView.setText(model.get("description").toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

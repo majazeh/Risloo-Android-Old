@@ -23,10 +23,6 @@ public interface SampleApi {
     @GET("$/samples")
     Call<ResponseBody> getAll(@Header("Authorization") String authorization, @Query("page") int page);
 
-    @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
-    @PUT("$/samples/{sample_id}/close")
-    Call<ResponseBody> close(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
-
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @POST("$/samples/{sample_id}/items")
     Call<ResponseBody> send(@Header("Authorization") String authorization, @Path("sample_id") String sampleId, @Body Object body);
@@ -34,6 +30,18 @@ public interface SampleApi {
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @POST("$/samples")
     Call<ResponseBody> create(@Header("Authorization") String authorization, @Body HashMap body);
+
+    @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
+    @PUT("$/samples/{sample_id}/close")
+    Call<ResponseBody> close(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
+
+    @Headers({"content-type: application/json", "Accept-Language:fa"})
+    @POST("$/samples/{sample_id}/scoring")
+    Call<ResponseBody> score(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
+
+    @Headers({"content-type: application/json", "Accept-Language:fa"})
+    @GET("$/samples/{sample_id}/scoring")
+    Call<ResponseBody> getScore(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("$")
@@ -51,17 +59,8 @@ public interface SampleApi {
     @GET("rooms/{room_id}/users?status=accepted")
     Call<ResponseBody> getReferences(@Header("Authorization") String authorization, @Path("room_id") String roomId);
 
-
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("$/samples/{sample_id}")
     Call<ResponseBody> getGeneral(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
-
-    @Headers({"content-type: application/json", "Accept-Language:fa"})
-    @POST("$/samples/{sample_id}/scoring")
-    Call<ResponseBody> startscoring(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
-
-    @Headers({"content-type: application/json", "Accept-Language:fa"})
-    @GET("$/samples/{sample_id}/scoring")
-    Call<ResponseBody> scoring(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
 
 }

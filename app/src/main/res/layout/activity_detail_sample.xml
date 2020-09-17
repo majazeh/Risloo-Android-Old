@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_detail_sample"
@@ -8,6 +9,7 @@
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
     android:background="@color/White"
+    android:descendantFocusability="blocksDescendants"
     tools:context=".Views.Activities.DetailSampleActivity"
     tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded, TooDeepLayout, UseCompoundDrawables">
 
@@ -36,12 +38,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/activity_detail_sample_mainLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
-                android:orientation="vertical">
+                android:visibility="gone">
 
                 <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
@@ -57,12 +58,12 @@
                         <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_18sdp"
-                            android:layout_marginBottom="@dimen/_12sdp"
-                            android:layout_marginLeft="@dimen/_18sdp"
-                            android:layout_marginRight="@dimen/_18sdp"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:layout_marginBottom="@dimen/_8sdp"
+                            android:layout_marginLeft="@dimen/_16sdp"
+                            android:layout_marginRight="@dimen/_16sdp"
                             app:cardBackgroundColor="@color/Snow"
-                            app:cardCornerRadius="@dimen/_18sdp">
+                            app:cardCornerRadius="@dimen/_16sdp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -93,7 +94,6 @@
                                     android:textAlignment="gravity" />
 
                                 <LinearLayout
-                                    android:id="@+id/activity_detail_sample_info_linearLayout"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:baselineAligned="false"
@@ -103,28 +103,44 @@
                                     <LinearLayout
                                         android:id="@+id/activity_detail_sample_reference_linearLayout"
                                         android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:gravity="center|top"
-                                        android:layoutDirection="rtl"
-                                        android:orientation="horizontal">
+                                        android:orientation="vertical">
 
-                                        <ImageView
-                                            android:layout_width="@dimen/_10sdp"
-                                            android:layout_height="@dimen/_10sdp"
-                                            android:layout_marginTop="@dimen/_3sdp"
-                                            android:layout_marginLeft="@dimen/_6sdp"
-                                            android:src="@drawable/ic_user_regular"
-                                            app:tint="@color/Mischka" />
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal"
+                                            android:layoutDirection="rtl">
+
+                                            <ImageView
+                                                android:id="@+id/activity_detail_sample_reference_hint_imageView"
+                                                android:layout_width="@dimen/_9sdp"
+                                                android:layout_height="@dimen/_9sdp"
+                                                android:layout_marginLeft="@dimen/_4sdp"
+                                                android:layout_gravity="center"
+                                                app:tint="@color/Mischka" />
+
+                                            <TextView
+                                                android:id="@+id/activity_detail_sample_reference_hint_textView"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:gravity="center|right"
+                                                android:textSize="@dimen/_9ssp"
+                                                android:textStyle="normal"
+                                                android:textColor="@color/Mischka"
+                                                android:textAlignment="gravity" />
+
+                                        </LinearLayout>
 
                                         <TextView
                                             android:id="@+id/activity_detail_sample_reference_textView"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:gravity="right|center"
+                                            android:gravity="center|right"
                                             android:textSize="@dimen/_9ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Mischka"
+                                            android:textColor="@color/Grey"
                                             android:textAlignment="gravity" />
 
                                     </LinearLayout>
@@ -132,28 +148,44 @@
                                     <LinearLayout
                                         android:id="@+id/activity_detail_sample_case_linearLayout"
                                         android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:gravity="center|top"
-                                        android:layoutDirection="rtl"
-                                        android:orientation="horizontal">
+                                        android:orientation="vertical">
 
-                                        <ImageView
-                                            android:layout_width="@dimen/_10sdp"
-                                            android:layout_height="@dimen/_10sdp"
-                                            android:layout_marginTop="@dimen/_3sdp"
-                                            android:layout_marginLeft="@dimen/_6sdp"
-                                            android:src="@drawable/ic_case_regular"
-                                            app:tint="@color/Mischka" />
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal"
+                                            android:layoutDirection="rtl">
+
+                                            <ImageView
+                                                android:layout_width="@dimen/_9sdp"
+                                                android:layout_height="@dimen/_9sdp"
+                                                android:layout_marginLeft="@dimen/_4sdp"
+                                                android:layout_gravity="center"
+                                                android:src="@drawable/ic_case_light"
+                                                app:tint="@color/Mischka" />
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:gravity="center|right"
+                                                android:text="@string/DetailSampleCase"
+                                                android:textSize="@dimen/_9ssp"
+                                                android:textStyle="normal"
+                                                android:textColor="@color/Mischka"
+                                                android:textAlignment="gravity" />
+
+                                        </LinearLayout>
 
                                         <TextView
                                             android:id="@+id/activity_detail_sample_case_textView"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:gravity="right|center"
+                                            android:gravity="center|right"
                                             android:textSize="@dimen/_9ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Mischka"
+                                            android:textColor="@color/Grey"
                                             android:textAlignment="gravity" />
 
                                     </LinearLayout>
@@ -161,28 +193,44 @@
                                     <LinearLayout
                                         android:id="@+id/activity_detail_sample_room_linearLayout"
                                         android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:gravity="center|top"
-                                        android:layoutDirection="rtl"
-                                        android:orientation="horizontal">
+                                        android:orientation="vertical">
 
-                                        <ImageView
-                                            android:layout_width="@dimen/_10sdp"
-                                            android:layout_height="@dimen/_10sdp"
-                                            android:layout_marginTop="@dimen/_3sdp"
-                                            android:layout_marginLeft="@dimen/_6sdp"
-                                            android:src="@drawable/ic_hospital_regular"
-                                            app:tint="@color/Mischka" />
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal"
+                                            android:layoutDirection="rtl">
+
+                                            <ImageView
+                                                android:layout_width="@dimen/_9sdp"
+                                                android:layout_height="@dimen/_9sdp"
+                                                android:layout_marginLeft="@dimen/_4sdp"
+                                                android:layout_gravity="center"
+                                                android:src="@drawable/ic_hospital_light"
+                                                app:tint="@color/Mischka" />
+
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:gravity="center|right"
+                                                android:text="@string/DetailSampleRoom"
+                                                android:textSize="@dimen/_9ssp"
+                                                android:textStyle="normal"
+                                                android:textColor="@color/Mischka"
+                                                android:textAlignment="gravity" />
+
+                                        </LinearLayout>
 
                                         <TextView
                                             android:id="@+id/activity_detail_sample_room_textView"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:gravity="right|center"
+                                            android:gravity="center|right"
                                             android:textSize="@dimen/_9ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Mischka"
+                                            android:textColor="@color/Grey"
                                             android:textAlignment="gravity" />
 
                                     </LinearLayout>
@@ -192,11 +240,11 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/_10sdp"
+                                    android:layout_marginTop="@dimen/_12sdp"
                                     android:layoutDirection="ltr"
                                     android:padding="@dimen/_4sdp"
                                     android:orientation="horizontal"
-                                    android:background="@drawable/draw_16sdp_solid_primary5p">
+                                    android:background="@drawable/draw_8sdp_solid_primary5p">
 
                                     <TextView
                                         android:id="@+id/activity_detail_sample_score_textView"
@@ -206,8 +254,8 @@
                                         android:layout_marginRight="@dimen/_2sdp"
                                         android:paddingTop="@dimen/_3sdp"
                                         android:paddingBottom="@dimen/_3sdp"
-                                        android:paddingLeft="@dimen/_9sdp"
-                                        android:paddingRight="@dimen/_9sdp"
+                                        android:paddingLeft="@dimen/_8sdp"
+                                        android:paddingRight="@dimen/_8sdp"
                                         android:gravity="center"
                                         android:text="@string/DetailSampleScore"
                                         android:textSize="@dimen/_9ssp"
@@ -222,8 +270,8 @@
                                         android:layout_marginLeft="@dimen/_2sdp"
                                         android:paddingTop="@dimen/_3sdp"
                                         android:paddingBottom="@dimen/_3sdp"
-                                        android:paddingLeft="@dimen/_9sdp"
-                                        android:paddingRight="@dimen/_9sdp"
+                                        android:paddingLeft="@dimen/_8sdp"
+                                        android:paddingRight="@dimen/_8sdp"
                                         android:gravity="center"
                                         android:text="@string/DetailSampleClose"
                                         android:textSize="@dimen/_9ssp"
@@ -268,12 +316,12 @@
                             android:id="@+id/activity_detail_sample_result_cardView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/_12sdp"
-                            android:layout_marginLeft="@dimen/_18sdp"
-                            android:layout_marginRight="@dimen/_18sdp"
+                            android:layout_marginBottom="@dimen/_8sdp"
+                            android:layout_marginLeft="@dimen/_16sdp"
+                            android:layout_marginRight="@dimen/_16sdp"
                             android:visibility="gone"
                             app:cardBackgroundColor="@color/Snow"
-                            app:cardCornerRadius="@dimen/_18sdp">
+                            app:cardCornerRadius="@dimen/_16sdp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -317,7 +365,7 @@
                                 <ImageView
                                     android:id="@+id/activity_detail_sample_result_imageView"
                                     android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_400sdp"
+                                    android:layout_height="@dimen/_360sdp"
                                     android:scaleType="fitXY" />
 
                             </LinearLayout>
@@ -328,12 +376,12 @@
                             android:id="@+id/activity_detail_sample_component_cardView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/_18sdp"
-                            android:layout_marginLeft="@dimen/_18sdp"
-                            android:layout_marginRight="@dimen/_18sdp"
+                            android:layout_marginBottom="@dimen/_16sdp"
+                            android:layout_marginLeft="@dimen/_16sdp"
+                            android:layout_marginRight="@dimen/_16sdp"
                             android:visibility="gone"
                             app:cardBackgroundColor="@color/Snow"
-                            app:cardCornerRadius="@dimen/_18sdp">
+                            app:cardCornerRadius="@dimen/_16sdp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -445,7 +493,7 @@
 
                 </androidx.core.widget.NestedScrollView>
 
-            </LinearLayout>
+            </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/activity_detail_sample_retryLayout"

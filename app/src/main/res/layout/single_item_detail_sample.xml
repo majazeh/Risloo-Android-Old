@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/single_item_detail_sample"
     android:layout_width="match_parent"
     android:layout_height="@dimen/_36sdp"
     android:layout_gravity="center"
-    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded">
+    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded, LabelFor, TextFields">
 
     <EditText
         android:id="@+id/single_item_detail_sample_type_editText"
@@ -22,8 +23,8 @@
         android:textColor="@color/Grey"
         android:textColorHint="@color/Mischka"
         android:textAlignment="gravity"
-        android:background="@null"
-        android:importantForAutofill="no" />
+        android:importantForAutofill="no"
+        android:background="@null" />
 
     <Spinner
         android:id="@+id/single_item_detail_sample_option_spinner"
@@ -48,8 +49,8 @@
         android:layout_height="@dimen/_16sdp"
         android:layout_gravity="center|left"
         android:layout_marginLeft="@dimen/_10sdp"
-        android:theme="@style/ProgressBarTheme"
         android:visibility="gone"
+        android:theme="@style/ProgressBarTheme"
         style="@style/Widget.AppCompat.ProgressBar"/>
 
 </FrameLayout>

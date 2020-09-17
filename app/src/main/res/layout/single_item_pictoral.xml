@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_fp_single_item"
+    android:id="@+id/single_item_pictoral"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:clipToPadding="true"
-    app:cardCornerRadius="@dimen/_18sdp"
-    app:cardElevation="0dp">
+    app:cardCornerRadius="@dimen/_16sdp"
+    app:cardElevation="0dp"
+    tools:ignore="ContentDescription">
 
     <ImageView
-        android:id="@+id/fragment_fp_single_item_answer_imageView"
+        android:id="@+id/single_item_pictoral_answer_imageView"
         android:layout_width="@dimen/_80sdp"
         android:layout_height="@dimen/_80sdp"
         android:layout_gravity="center"
         android:padding="@dimen/_12sdp"
-        android:background="@drawable/draw_16sdp_border_quartz"/>
+        android:background="@drawable/draw_16sdp_border_quartz" />
 
 </androidx.cardview.widget.CardView>

@@ -5,10 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.LayoutManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,16 +17,16 @@ import android.os.Handler;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
-import com.majazeh.risloo.Models.Workers.SampleWorker;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.StringCustomizer;
@@ -45,20 +44,25 @@ public class SamplesActivity extends AppCompatActivity {
     // Adapters
     private SamplesAdapter adapter;
 
+    // Vars
+    private boolean loading = false;
+
     // Objects
     private Handler handler;
     private MenuItem toolCreate;
-    private ClickableSpan retrySpan;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private ClickableSpan retrySpan;
+    private LinearLayoutManager layoutManager;
 
     // Widgets
     private Toolbar toolbar;
-    private RecyclerView recyclerView;
+    private RecyclerView samplesRecyclerView;
+    private ProgressBar pagingProgressBar;
     private TextView retryTextView;
     private ImageView retryImageView;
-    private LinearLayout mainLayout, retryLayout, emptyLayout, loadingLayout;
-    private LinearLayoutManager layoutManager;
-    private boolean loading = false;
+    private FrameLayout mainLayout;
+    private LinearLayout retryLayout, emptyLayout, loadingLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +77,6 @@ public class SamplesActivity extends AppCompatActivity {
         listener();
 
         launchSamples();
-
     }
 
     private void decorator() {
@@ -82,23 +85,28 @@ public class SamplesActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
+        viewModel = new ViewModelProvider(this).get(SampleViewModel.class);
 
         sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
+        editor = sharedPreferences.edit();
+        editor.apply();
 
         adapter = new SamplesAdapter(this);
 
         handler = new Handler();
 
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
         toolbar = findViewById(R.id.activity_samples_toolbar);
         setSupportActionBar(toolbar);
 
-        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        samplesRecyclerView = findViewById(R.id.activity_samples_recyclerView);
+        samplesRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
+        samplesRecyclerView.setLayoutManager(layoutManager);
+        samplesRecyclerView.setHasFixedSize(true);
 
-        recyclerView = findViewById(R.id.activity_samples_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._18sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._18sdp)));
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
+        pagingProgressBar = findViewById(R.id.activity_samples_progressBar);
 
         retryImageView = findViewById(R.id.activity_samples_retry_imageView);
 
@@ -120,12 +128,7 @@ public class SamplesActivity extends AppCompatActivity {
         retrySpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                loadingLayout.setVisibility(View.VISIBLE);
-                retryLayout.setVisibility(View.GONE);
-                emptyLayout.setVisibility(View.GONE);
-                mainLayout.setVisibility(View.GONE);
-
-                launchSamples();
+                relaunchSamples();
             }
 
             @Override
@@ -134,15 +137,31 @@ public class SamplesActivity extends AppCompatActivity {
                 textPaint.setUnderlineText(false);
             }
         };
-    }
 
-    public void setToolCreate() {
-        Log.e("access", sharedPreferences.getString("access", ""));
-        if (sharedPreferences.getString("access", "").equals("true")) {
-            toolCreate.setVisible(true);
-        }else{
-            toolCreate.setVisible(false);
-        }
+        samplesRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) {
+
+                    int visibleItemCount = layoutManager.getChildCount();
+                    int totalItemCount = layoutManager.getItemCount();
+                    int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
+
+                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                        try {
+                            if (!loading) {
+                                pagingProgressBar.setVisibility(View.VISIBLE);
+                                viewModel.samples();
+                                observeWork();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private void setRetryLayout(String type) {
@@ -157,7 +176,6 @@ public class SamplesActivity extends AppCompatActivity {
 
     private void launchSamples() {
         try {
-            pagination();
             viewModel.samples();
             SampleRepository.samplesPage = 1;
             observeWork();
@@ -166,29 +184,13 @@ public class SamplesActivity extends AppCompatActivity {
         }
     }
 
-    public void pagination() {
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0) {
-                    int visibleItemCount = layoutManager.getChildCount();
-                    int totalItemCount = layoutManager.getItemCount();
-                    int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
-                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
-                        try {
-                            if (!loading) {
-                                // TODO: progress should be visible
-                                    viewModel.samples();
-                                    observeWork();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        });
+    private void relaunchSamples() {
+        loadingLayout.setVisibility(View.VISIBLE);
+        retryLayout.setVisibility(View.GONE);
+        emptyLayout.setVisibility(View.GONE);
+        mainLayout.setVisibility(View.GONE);
+
+        launchSamples();
     }
 
     private void observeWork() {
@@ -205,10 +207,19 @@ public class SamplesActivity extends AppCompatActivity {
                         mainLayout.setVisibility(View.VISIBLE);
 
                         adapter.setSamples(viewModel.getAll());
-                        if (SampleRepository.samplesPage == 1)
-                            recyclerView.setAdapter(adapter);
+                        if (SampleRepository.samplesPage == 1) {
+                            samplesRecyclerView.setAdapter(adapter);
+                        }
 
-                        setToolCreate();
+                        if (access()) {
+                            toolCreate.setVisible(true);
+                        } else {
+                            toolCreate.setVisible(false);
+                        }
+
+                        if (pagingProgressBar.getVisibility() == View.VISIBLE) {
+                            pagingProgressBar.setVisibility(View.GONE);
+                        }
 
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else {
@@ -219,13 +230,22 @@ public class SamplesActivity extends AppCompatActivity {
                         emptyLayout.setVisibility(View.VISIBLE);
                         mainLayout.setVisibility(View.GONE);
 
-                        setToolCreate();
+                        if (access()) {
+                            toolCreate.setVisible(true);
+                        } else {
+                            toolCreate.setVisible(false);
+                        }
+
+                        if (pagingProgressBar.getVisibility() == View.VISIBLE) {
+                            pagingProgressBar.setVisibility(View.GONE);
+                        }
 
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
-                    // TODO: progress should be gone
+
                     loading = false;
                     SampleRepository.samplesPage++;
+
                 } else if (integer != -1) {
                     if (viewModel.getAll() == null) {
                         if (integer == 0) {
@@ -238,7 +258,15 @@ public class SamplesActivity extends AppCompatActivity {
 
                             setRetryLayout("error");
 
-                            setToolCreate();
+                            if (access()) {
+                                toolCreate.setVisible(true);
+                            } else {
+                                toolCreate.setVisible(false);
+                            }
+
+                            if (pagingProgressBar.getVisibility() == View.VISIBLE) {
+                                pagingProgressBar.setVisibility(View.GONE);
+                            }
 
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         } else if (integer == -2) {
@@ -251,30 +279,52 @@ public class SamplesActivity extends AppCompatActivity {
 
                             setRetryLayout("connection");
 
-                            setToolCreate();
+                            if (access()) {
+                                toolCreate.setVisible(true);
+                            } else {
+                                toolCreate.setVisible(false);
+                            }
+
+                            if (pagingProgressBar.getVisibility() == View.VISIBLE) {
+                                pagingProgressBar.setVisibility(View.GONE);
+                            }
 
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         }
+                    } else {
+                        // Show Samples
+
+                        loadingLayout.setVisibility(View.GONE);
+                        retryLayout.setVisibility(View.GONE);
+                        emptyLayout.setVisibility(View.GONE);
+                        mainLayout.setVisibility(View.VISIBLE);
+
+                        adapter.setSamples(viewModel.getAll());
+                        if (SampleRepository.samplesPage == 1) {
+                            samplesRecyclerView.setAdapter(adapter);
+                        }
+
+                        handler.postDelayed(() -> {
+                            if (access()) {
+                                toolCreate.setVisible(true);
+                            } else {
+                                toolCreate.setVisible(false);
+                            }
+                        }, 300);
+
+                        if (pagingProgressBar.getVisibility() == View.VISIBLE) {
+                            pagingProgressBar.setVisibility(View.GONE);
+                        }
+
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
-                    // Show Samples
-
-                    loadingLayout.setVisibility(View.GONE);
-                    retryLayout.setVisibility(View.GONE);
-                    emptyLayout.setVisibility(View.GONE);
-                    mainLayout.setVisibility(View.VISIBLE);
-
-                    adapter.setSamples(viewModel.getAll());
-                    if (SampleRepository.samplesPage == 1)
-                        recyclerView.setAdapter(adapter);
-
-                    handler.postDelayed(() -> setToolCreate(), 500);
-
-                    // TODO: progress should be gone
-
-                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                 }
             }
         });
+    }
+
+    private boolean access() {
+        return sharedPreferences.getString("access", "").equals("true");
     }
 
     @Override
@@ -283,12 +333,7 @@ public class SamplesActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
-                loadingLayout.setVisibility(View.VISIBLE);
-                retryLayout.setVisibility(View.GONE);
-                emptyLayout.setVisibility(View.GONE);
-                mainLayout.setVisibility(View.GONE);
-
-                launchSamples();
+                relaunchSamples();
             }
         }
     }
@@ -298,7 +343,6 @@ public class SamplesActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_samples, menu);
 
         toolCreate = menu.findItem(R.id.tool_create);
-        toolCreate.setVisible(false);
         toolCreate.setOnMenuItemClickListener(menuItem -> {
             startActivityForResult(new Intent(this, CreateSampleActivity.class), 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
@@ -313,6 +357,5 @@ public class SamplesActivity extends AppCompatActivity {
         super.finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
-
 
 }

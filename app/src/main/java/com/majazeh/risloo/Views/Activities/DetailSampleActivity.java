@@ -7,27 +7,24 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.app.DownloadManager;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
+import android.os.Handler;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -48,6 +45,8 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 public class DetailSampleActivity extends AppCompatActivity {
 
     // ViewModels
@@ -57,22 +56,22 @@ public class DetailSampleActivity extends AppCompatActivity {
     private DetailSampleAdapter adapter;
 
     // Vars
-    private String svg, png, html, pdf;
+    private String sampleId, svgUrl, pngUrl, htmlUrl, pdfUrl;
 
     // Objects
+    private Handler handler;
     private ClickableSpan retrySpan;
     private DownloadDialog downloadDialog;
-    private Bundle extras;
-    String sampleId;
 
     // Widgets
     private Toolbar toolbar;
-    private TextView retryTextView, scaleTextView, serialTextView, statusTextView, referenceTextView, caseTextView, roomTextView, scoreTextView, closeTextView, generalTextView, prerequisiteTextView, testTextView;
-    private ImageView retryImageView, statusImageView, downloadImageView, resultImageView;
+    private TextView retryTextView, scaleTextView, serialTextView, statusTextView, referenceHintTextView, referenceTextView, caseTextView, roomTextView, scoreTextView, closeTextView, generalTextView, prerequisiteTextView, testTextView;
+    private ImageView retryImageView, statusImageView, referenceHintImageView, downloadImageView, resultImageView;
     private CheckBox editCheckbox;
     private RecyclerView generalRecyclerView, prerequisiteRecyclerView, testRecyclerView;
     private Dialog progressDialog;
-    private LinearLayout mainLayout, retryLayout, loadingLayout, infoLinearLayout, referenceLinearLayout, caseLinearLayout, roomLinearLayout;
+    private FrameLayout mainLayout;
+    private LinearLayout retryLayout, loadingLayout, referenceLinearLayout, caseLinearLayout, roomLinearLayout;
     private CardView resultCardView, componentCardView;
 
     @Override
@@ -90,7 +89,6 @@ public class DetailSampleActivity extends AppCompatActivity {
         listener();
 
         launchProcess("getGeneral");
-
     }
 
     private void decorator() {
@@ -99,14 +97,15 @@ public class DetailSampleActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
+        viewModel = new ViewModelProvider(this).get(SampleViewModel.class);
 
-        extras = getIntent().getExtras();
-        sampleId = extras.getString("id");
+        adapter = new DetailSampleAdapter(this);
+
+        handler = new Handler();
 
         downloadDialog = new DownloadDialog(this);
 
-        adapter = new DetailSampleAdapter(this, viewModel);
+        sampleId = Objects.requireNonNull(getIntent().getExtras()).getString("id");
 
         toolbar = findViewById(R.id.activity_detail_sample_toolbar);
 
@@ -116,6 +115,7 @@ public class DetailSampleActivity extends AppCompatActivity {
         scaleTextView = findViewById(R.id.activity_detail_sample_scale_textView);
         serialTextView = findViewById(R.id.activity_detail_sample_serial_textView);
         statusTextView = findViewById(R.id.activity_detail_sample_status_textView);
+        referenceHintTextView = findViewById(R.id.activity_detail_sample_reference_hint_textView);
         referenceTextView = findViewById(R.id.activity_detail_sample_reference_textView);
         caseTextView = findViewById(R.id.activity_detail_sample_case_textView);
         roomTextView = findViewById(R.id.activity_detail_sample_room_textView);
@@ -127,6 +127,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
         retryImageView = findViewById(R.id.activity_detail_sample_retry_imageView);
         statusImageView = findViewById(R.id.activity_detail_sample_status_imageView);
+        referenceHintImageView = findViewById(R.id.activity_detail_sample_reference_hint_imageView);
         downloadImageView = findViewById(R.id.activity_detail_sample_download_imageView);
         resultImageView = findViewById(R.id.activity_detail_sample_result_imageView);
 
@@ -146,7 +147,7 @@ public class DetailSampleActivity extends AppCompatActivity {
         testRecyclerView.setHasFixedSize(false);
 
         progressDialog = new Dialog(this, R.style.DialogTheme);
-        progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
@@ -154,7 +155,6 @@ public class DetailSampleActivity extends AppCompatActivity {
         mainLayout = findViewById(R.id.activity_detail_sample_mainLayout);
         retryLayout = findViewById(R.id.activity_detail_sample_retryLayout);
         loadingLayout = findViewById(R.id.activity_detail_sample_loadingLayout);
-        infoLinearLayout = findViewById(R.id.activity_detail_sample_info_linearLayout);
         referenceLinearLayout = findViewById(R.id.activity_detail_sample_reference_linearLayout);
         caseLinearLayout = findViewById(R.id.activity_detail_sample_case_linearLayout);
         roomLinearLayout = findViewById(R.id.activity_detail_sample_room_linearLayout);
@@ -165,9 +165,6 @@ public class DetailSampleActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            scoreTextView.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
-            closeTextView.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
-
             downloadImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
         }
     }
@@ -182,11 +179,7 @@ public class DetailSampleActivity extends AppCompatActivity {
         retrySpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                loadingLayout.setVisibility(View.VISIBLE);
-                retryLayout.setVisibility(View.GONE);
-                mainLayout.setVisibility(View.GONE);
-
-                launchProcess("getGeneral");
+                relaunchProcess("getGeneral");
             }
 
             @Override
@@ -198,7 +191,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
         downloadImageView.setOnClickListener(v -> {
             downloadDialog.show(this.getSupportFragmentManager(), "downloadBottomSheet");
-            downloadDialog.getUrls(svg,png,html,pdf);
+            downloadDialog.getUrls(svgUrl, pngUrl, htmlUrl, pdfUrl);
         });
 
         resultImageView.setOnClickListener(v -> {
@@ -215,9 +208,19 @@ public class DetailSampleActivity extends AppCompatActivity {
             }
         });
 
-        scoreTextView.setOnClickListener(v -> doWork("score"));
+        scoreTextView.setOnClickListener(v -> {
+            scoreTextView.setClickable(false);
+            handler.postDelayed(() -> scoreTextView.setClickable(true), 300);
 
-        closeTextView.setOnClickListener(v -> doWork("close"));
+            doWork("score");
+        });
+
+        closeTextView.setOnClickListener(v -> {
+            closeTextView.setClickable(false);
+            handler.postDelayed(() -> closeTextView.setClickable(true), 300);
+
+            doWork("close");
+        });
     }
 
     private void setRetryLayout(String type) {
@@ -230,38 +233,138 @@ public class DetailSampleActivity extends AppCompatActivity {
         }
     }
 
-    private void setData(String method, boolean isOk) {
-//        if (method.equals("getGeneral") && isOk) {
-//            adapter.setValues(viewModel.getGeneral());
-//            generalRecyclerView.setAdapter(adapter);
-//        } else {
-//            componentCardView.setVisibility(View.GONE);
-//        }
-    }
-
     private void setButton(TextView button, boolean clickable) {
         if (clickable) {
             button.setClickable(true);
             button.setTextColor(getResources().getColor(R.color.White));
 
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
-                button.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
-            else
-                button.setBackgroundResource(R.drawable.draw_16sdp_solid_primary);
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                button.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
+            } else {
+                button.setBackgroundResource(R.drawable.draw_8sdp_solid_primary);
+            }
         } else {
             button.setClickable(false);
             button.setTextColor(getResources().getColor(R.color.Mischka));
-            button.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+            button.setBackgroundResource(R.drawable.draw_8sdp_border_quartz);
+        }
+    }
+
+    private void setData() {
+        try {
+            JSONObject data = viewModel.readSampleDetailFromCache(sampleId);
+
+            JSONObject scale = data.getJSONObject("scale");
+            scaleTextView.setText(scale.getString("title"));
+
+            serialTextView.setText(data.getString("id"));
+
+            switch ((String) data.getString("status")) {
+                case "open":
+                    statusTextView.setText(getResources().getString(R.string.DetailSampleStatusOpen));
+                    statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
+                    ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+
+                    setButton(scoreTextView, false);
+                    setButton(closeTextView, true);
+                    break;
+                case "seald":
+                    statusTextView.setText(getResources().getString(R.string.DetailSampleStatusSeald));
+                    statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
+                    ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+
+                    setButton(scoreTextView, false);
+                    setButton(closeTextView, true);
+                    break;
+                case "scoring":
+                    statusTextView.setText(getResources().getString(R.string.DetailSampleStatusScoring));
+                    statusTextView.setTextColor(getResources().getColor(R.color.MoonYellow));
+                    ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
+
+                    setButton(scoreTextView, false);
+                    setButton(closeTextView, false);
+                    break;
+                case "closed":
+                    statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
+                    statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                    ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Mischka));
+
+                    setButton(scoreTextView, true);
+                    setButton(closeTextView, false);
+                    break;
+                case "done":
+                    statusTextView.setText(getResources().getString(R.string.DetailSampleStatusDone));
+                    statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                    ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Mischka));
+
+                    setButton(scoreTextView, true);
+                    setButton(closeTextView, false);
+                    break;
+                default:
+                    statusTextView.setText(data.getString("status"));
+                    statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                    ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Mischka));
+
+                    setButton(scoreTextView, false);
+                    setButton(closeTextView, false);
+                    break;
+            }
+
+            if (data.has("client") && !data.isNull("client")) {
+                JSONObject client = data.getJSONObject("client");
+
+                referenceHintTextView.setText(getResources().getString(R.string.DetailSampleReference));
+                referenceHintImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_light));
+                referenceTextView.setText(client.getString("name"));
+            } else if (data.has("code") && !data.isNull("code")) {
+
+                referenceHintTextView.setText(getResources().getString(R.string.DetailSampleCode));
+                referenceHintImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_hashtag_light));
+                referenceTextView.setText(data.getString("code"));
+            } else {
+                referenceLinearLayout.setVisibility(View.GONE);
+            }
+
+            if (data.has("case") && !data.isNull("case")) {
+                JSONObject Case = data.getJSONObject("case");
+
+                caseTextView.setText(Case.getString("name"));
+            } else {
+                caseLinearLayout.setVisibility(View.GONE);
+            }
+
+            if (data.has("room") && !data.isNull("room")) {
+                JSONObject room = data.getJSONObject("room");
+                JSONObject center = room.getJSONObject("center");
+                JSONObject detail = center.getJSONObject("detail");
+
+                roomTextView.setText(detail.getString("title"));
+            } else {
+                roomLinearLayout.setVisibility(View.GONE);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
     private void launchProcess(String method) {
         try {
-            viewModel.getGeneral(sampleId);
+            if (method.equals("getGeneral")) {
+                viewModel.general(sampleId);
+            }
             observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void relaunchProcess(String method) {
+        loadingLayout.setVisibility(View.VISIBLE);
+        retryLayout.setVisibility(View.GONE);
+        mainLayout.setVisibility(View.GONE);
+
+        launchProcess(method);
     }
 
     private void doWork(String method) {
@@ -283,61 +386,19 @@ public class DetailSampleActivity extends AppCompatActivity {
 
     private void observeWork() {
         SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
-            if (SampleRepository.work == "getGeneral") {
+            if (SampleRepository.work.equals("getGeneral")) {
                 if (integer == 1) {
-                    if (viewModel.readSampleDetail(sampleId) != null) {
-                        try {
-                            JSONObject data = viewModel.readSampleDetail(sampleId);
-                            JSONObject scale = data.getJSONObject("scale");
-                            if (data.has("client") && !data.isNull("client")) {
-                                JSONObject client = data.getJSONObject("client");
-                                referenceTextView.setText(client.getString("name"));
-                            } else {
-                                referenceTextView.setText(data.getString("code"));
+                    // Show General Detail
 
-                            }
-                            JSONObject room = data.getJSONObject("room");
-                            JSONObject center = room.getJSONObject("center");
-                            JSONObject detail = center.getJSONObject("detail");
+                    loadingLayout.setVisibility(View.GONE);
+                    retryLayout.setVisibility(View.GONE);
+                    mainLayout.setVisibility(View.VISIBLE);
 
-                            // Show General Detail
-                            scaleTextView.setText(scale.getString("title"));
-                            serialTextView.setText(scale.getString("id"));
-                            statusTextView.setText(data.getString("status"));
-                            ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
-                            if (data.getString("status").equals("seald") || data.getString("status").equals("open"))
-                                setButton(closeTextView, true);
-                            else{
-                                setButton(closeTextView, false);
-                            }
-                            // TODO: no need
-//                        caseTextView.setText();
-                            roomTextView.setText(detail.getString("title"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    setData();
 
-
-                        loadingLayout.setVisibility(View.GONE);
-                        retryLayout.setVisibility(View.GONE);
-                        mainLayout.setVisibility(View.VISIBLE);
-
-                        setData(SampleRepository.work, true);
-
-                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                    } else {
-                        // General Detail is Empty
-
-                        loadingLayout.setVisibility(View.GONE);
-                        retryLayout.setVisibility(View.GONE);
-                        mainLayout.setVisibility(View.VISIBLE);
-
-                        setData(SampleRepository.work, false);
-
-                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                    }
-                } else {
-                    if (viewModel.readSampleDetail(sampleId) == null) {
+                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                } else if (integer != -1) {
+                    if (viewModel.readSampleDetailFromCache(sampleId) == null) {
                         if (integer == 0) {
                             // General Detail is Empty And Error
 
@@ -360,53 +421,55 @@ public class DetailSampleActivity extends AppCompatActivity {
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         }
                     } else {
-                        if (integer != -1) {
-                            // Show General Detail
+                        // Show General Detail
 
-                            loadingLayout.setVisibility(View.GONE);
-                            retryLayout.setVisibility(View.GONE);
-                            mainLayout.setVisibility(View.VISIBLE);
+                        loadingLayout.setVisibility(View.GONE);
+                        retryLayout.setVisibility(View.GONE);
+                        mainLayout.setVisibility(View.VISIBLE);
 
-                            setData(SampleRepository.work, true);
+                        setData();
 
-                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                        }
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
                 }
-            } else if (SampleRepository.work == "getPrerequisite") {
+            } else if (SampleRepository.work.equals("getPrerequisite")) {
 
-            } else if (SampleRepository.work == "getTest") {
+            } else if (SampleRepository.work.equals("getTest")) {
 
-            } else if (SampleRepository.work == "score") {
+            } else if (SampleRepository.work.equals("score")) {
                 if (integer == 1) {
                     setResult(RESULT_OK, null);
-                    JSONObject jsonObject = FileManager.readObjectFromCache(this, "sampleDetail", sampleId);
+
                     try {
-                        JSONObject profiles = jsonObject.getJSONObject("profiles");
+                        JSONObject jsonObject = FileManager.readObjectFromCache(this, "sampleDetail", sampleId);
+                        JSONObject profiles = Objects.requireNonNull(jsonObject).getJSONObject("profiles");
+
+                        if (profiles.has("profile_svg")) {
+                            JSONObject svg = profiles.getJSONObject("profile_svg");
+                            this.svgUrl = svg.getString("url");
+                        }
                         if (profiles.has("profile_png")) {
                             JSONObject png = profiles.getJSONObject("profile_png");
                             Picasso.get().load(png.getString("url")).placeholder(R.color.Solitude).into(resultImageView);
-                            this.png = png.getString("url");
-                        }
-                        if (profiles.has("profile_svg")) {
-                            JSONObject svg = profiles.getJSONObject("profile_svg");
-                            this.svg = svg.getString("url");
+                            this.pngUrl = png.getString("url");
                         }
                         if (profiles.has("profile_html")) {
                             JSONObject html = profiles.getJSONObject("profile_html");
-                            this.html = html.getString("url");
+                            this.htmlUrl = html.getString("url");
                         }
                         if (profiles.has("profile_pdf")) {
                             JSONObject pdf = profiles.getJSONObject("profile_pdf");
-                            this.pdf = pdf.getString("url");
+                            this.pdfUrl = pdf.getString("url");
                         }
+
+                        setButton(scoreTextView, false);
                         resultCardView.setVisibility(View.VISIBLE);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     progressDialog.dismiss();
@@ -417,15 +480,22 @@ public class DetailSampleActivity extends AppCompatActivity {
                     Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                 }
-            } else if (SampleRepository.work == "close") {
+            } else if (SampleRepository.work.equals("close")) {
                 if (integer == 1) {
                     setResult(RESULT_OK, null);
+
                     try {
-                        JSONObject jsonObject = FileManager.readObjectFromCache(this, "sampleDetail", SampleRepository.sampleId);
-                        jsonObject.put("status", "closed");
-                        FileManager.writeObjectToCache(this, jsonObject, "sampleDetail", SampleRepository.sampleId);
-                        statusTextView.setText("closed");
+                        JSONObject jsonObject = FileManager.readObjectFromCache(this, "sampleDetail", sampleId);
+                        Objects.requireNonNull(jsonObject).put("status", "closed");
+                        FileManager.writeObjectToCache(this, jsonObject, "sampleDetail", sampleId);
+
+                        statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
+                        statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Mischka));
+
+                        setButton(scoreTextView, true);
                         setButton(closeTextView, false);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -445,8 +515,6 @@ public class DetailSampleActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     @Override
     public void finish() {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_samples"
@@ -10,7 +11,7 @@
     android:background="@color/White"
     android:descendantFocusability="blocksDescendants"
     tools:context=".Views.Activities.SamplesActivity"
-    tools:ignore="UnusedAttribute, RtlHardcoded, RtlSymmetry">
+    tools:ignore="UnusedAttribute, UseCompoundDrawables, ContentDescription, RtlHardcoded, RtlSymmetry">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +22,6 @@
             android:id="@+id/activity_samples_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:paddingLeft="@dimen/_4sdp"
             android:theme="@style/ToolbarTheme"
             android:background="@color/Snow"
             app:title="@string/SamplesTitle"
@@ -38,12 +38,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+            <FrameLayout
                 android:id="@+id/activity_samples_mainLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone"
-                android:orientation="vertical">
+                android:visibility="gone">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/activity_samples_recyclerView"
@@ -51,7 +50,19 @@
                     android:layout_height="match_parent"
                     android:overScrollMode="always" />
 
-            </LinearLayout>
+                <ProgressBar
+                    android:id="@+id/activity_samples_progressBar"
+                    android:layout_width="@dimen/_32sdp"
+                    android:layout_height="@dimen/_32sdp"
+                    android:layout_gravity="bottom|center"
+                    android:layout_marginBottom="@dimen/_16sdp"
+                    android:elevation="@dimen/_1sdp"
+                    android:padding="@dimen/_6sdp"
+                    android:theme="@style/ProgressBarTheme"
+                    android:background="@drawable/draw_oval_solid_white"
+                    style="@style/Widget.AppCompat.ProgressBar"/>
+
+            </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/activity_samples_emptyLayout"
@@ -64,7 +75,7 @@
                 <ImageView
                     android:layout_width="@dimen/_150sdp"
                     android:layout_height="@dimen/_150sdp"
-                    android:src="@drawable/illu_empty"/>
+                    android:src="@drawable/illu_empty" />
 
                 <TextView
                     android:layout_width="wrap_content"

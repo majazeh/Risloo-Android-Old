@@ -48,9 +48,10 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
     @Override
     public void onBindViewHolder(@NonNull QuestionHolder holder, int i) {
+        Model model = questions.get(i);
 
         try {
-            if (questions.get(i).get("important").equals(true)) {
+            if (model.get("important").equals(true)) {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                     holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_solid_white_border_quartz_ripple_solitude);
                 } else {
@@ -70,8 +71,8 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
                 ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Grey));
             }
 
-            holder.subjectTextView.setText(questions.get(i).get("subject").toString());
-            holder.answerTextView.setText(questions.get(i).get("answer").toString());
+            holder.subjectTextView.setText(model.get("subject").toString());
+            holder.answerTextView.setText(model.get("answer").toString());
 
         } catch (JSONException e) {
             e.printStackTrace();

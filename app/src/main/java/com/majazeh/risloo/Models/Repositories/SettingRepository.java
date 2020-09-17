@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class SettingRepository extends MainRepository {
 
-    // Items
+    // Objects
     private SettingItems settingItems;
 
     public SettingRepository(Application application) throws JSONException {

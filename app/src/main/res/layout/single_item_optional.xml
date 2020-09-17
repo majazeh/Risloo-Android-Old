@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_ft_single_item"
+    android:id="@+id/single_item_optional"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:padding="@dimen/_7sdp"
+    android:padding="@dimen/_6sdp"
     android:layoutDirection="rtl"
-    android:gravity="center"
     android:orientation="horizontal"
-    android:background="@drawable/draw_16sdp_border_quartz">
+    android:background="@drawable/draw_16sdp_border_quartz"
+    tools:ignore="UnusedAttribute, RtlHardcoded">
 
     <TextView
-        android:id="@+id/fragment_ft_single_item_number_textView"
+        android:id="@+id/single_item_optional_number_textView"
         android:layout_width="@dimen/_24sdp"
         android:layout_height="@dimen/_24sdp"
         android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_gravity="center"
         android:gravity="center"
         android:textSize="@dimen/_13ssp"
         android:textColor="@color/Nero"
@@ -24,9 +26,10 @@
         android:textAlignment="gravity" />
 
     <TextView
-        android:id="@+id/fragment_ft_single_item_answer_textView"
+        android:id="@+id/single_item_optional_answer_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:gravity="right"
         android:textSize="@dimen/_12ssp"
         android:textStyle="normal"

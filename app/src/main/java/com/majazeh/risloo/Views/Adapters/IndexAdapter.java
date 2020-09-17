@@ -1,6 +1,5 @@
 package com.majazeh.risloo.Views.Adapters;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Handler;
@@ -24,31 +23,31 @@ import java.util.Objects;
 
 public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder> {
 
+    // ViewModels
+    private SampleViewModel viewModel;
+
     // Vars
     private ArrayList<String> indexes;
     private ArrayList<String> answers;
-    private SampleViewModel viewModel;
 
     // Objects
     private Activity activity;
     private Handler handler;
 
-    public IndexAdapter(Activity activity, SampleViewModel viewModel) {
+    public IndexAdapter(Activity activity) {
         this.activity = activity;
-        this.viewModel = viewModel;
     }
 
     @NonNull
     @Override
     public IndexHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.index_single_item, viewGroup, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_index, viewGroup, false);
 
         initializer(view);
 
         return new IndexHolder(view);
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull IndexHolder holder, int i) {
 
@@ -84,14 +83,9 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 1000);
+            handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
 
-            try {
-                viewModel.goToIndex(i);
-                ((SampleActivity) Objects.requireNonNull(activity)).showFragment();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            doWork(i);
         });
     }
 
@@ -104,9 +98,10 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
         handler = new Handler();
     }
 
-    public void setIndex(JSONArray jsonArray) {
-        ArrayList indexes = new ArrayList<Integer>();
-        ArrayList answers = new ArrayList<Boolean>();
+    public void setIndex(JSONArray jsonArray, SampleViewModel viewModel) {
+        ArrayList<String> indexes = new ArrayList<>();
+        ArrayList<String> answers = new ArrayList<>();
+
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 indexes.add(jsonArray.getJSONObject(i).getString("index"));
@@ -118,7 +113,13 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
 
         this.indexes = indexes;
         this.answers = answers;
+        this.viewModel = viewModel;
         notifyDataSetChanged();
+    }
+
+    private void doWork(int position) {
+        viewModel.goToIndex(position);
+        ((SampleActivity) Objects.requireNonNull(activity)).showFragment();
     }
 
     public class IndexHolder extends RecyclerView.ViewHolder {
@@ -127,7 +128,7 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
 
         public IndexHolder(View view) {
             super(view);
-            numberTextView = view.findViewById(R.id.index_single_item_textView);
+            numberTextView = view.findViewById(R.id.single_item_index_textView);
         }
     }
 

@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.Dialog;
@@ -32,6 +32,8 @@ import com.majazeh.risloo.ViewModels.SampleViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+
+import java.util.Objects;
 
 public class OutroActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -86,7 +88,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
     }
 
     private void initializer() {
-        viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
+        viewModel = new ViewModelProvider(this).get(SampleViewModel.class);
 
         intentCaller = new IntentCaller();
 
@@ -103,12 +105,12 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         laterButton = findViewById(R.id.activity_outro_later_button);
 
         outroDialog = new Dialog(this, R.style.DialogTheme);
-        outroDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(outroDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         outroDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         outroDialog.setContentView(R.layout.dialog_action);
         outroDialog.setCancelable(true);
         progressDialog = new Dialog(this, R.style.DialogTheme);
-        progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
@@ -129,7 +131,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
     private void listener() {
         internetButton.setOnClickListener(v -> {
             internetButton.setClickable(false);
-            handler.postDelayed(() -> internetButton.setClickable(true), 500);
+            handler.postDelayed(() -> internetButton.setClickable(true), 300);
 
             outroDialogTitle.setText(getResources().getString(R.string.OutroInternetDialogTitle));
             outroDialogDescription.setText(getResources().getString(R.string.OutroInternetDialogDescription));
@@ -143,7 +145,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
         smsButton.setOnClickListener(v -> {
             smsButton.setClickable(false);
-            handler.postDelayed(() -> smsButton.setClickable(true), 500);
+            handler.postDelayed(() -> smsButton.setClickable(true), 300);
 
             outroDialogTitle.setText(getResources().getString(R.string.OutroSMSDialogTitle));
             outroDialogDescription.setText(getResources().getString(R.string.OutroSMSDialogDescription));
@@ -157,7 +159,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
         downloadButton.setOnClickListener(v -> {
             downloadButton.setClickable(false);
-            handler.postDelayed(() -> downloadButton.setClickable(true), 500);
+            handler.postDelayed(() -> downloadButton.setClickable(true), 300);
 
             outroDialogTitle.setText(getResources().getString(R.string.OutroDownloadDialogTitle));
             outroDialogDescription.setText(getResources().getString(R.string.OutroDownloadDialogDescription));
@@ -171,28 +173,32 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
         laterButton.setOnClickListener(v -> {
             laterButton.setClickable(false);
-            handler.postDelayed(() -> laterButton.setClickable(true), 500);
+            handler.postDelayed(() -> laterButton.setClickable(true), 300);
 
             finish();
         });
 
         outroDialogPositive.setOnClickListener(v -> {
             outroDialogPositive.setClickable(false);
-            handler.postDelayed(() -> outroDialogPositive.setClickable(true), 500);
+            handler.postDelayed(() -> outroDialogPositive.setClickable(true), 300);
             outroDialog.dismiss();
 
-            if (work == "internet") {
-                sendViaInternet();
-            } else if (work == "sms") {
-                sendViaSMS();
-            } else if (work == "download") {
-                downloadFile();
+            switch (work) {
+                case "internet":
+                    sendViaInternet();
+                    break;
+                case "sms":
+                    sendViaSMS();
+                    break;
+                case "download":
+                    downloadFile();
+                    break;
             }
         });
 
         outroDialogNegative.setOnClickListener(v -> {
             outroDialogNegative.setClickable(false);
-            handler.postDelayed(() -> outroDialogNegative.setClickable(true), 1000);
+            handler.postDelayed(() -> outroDialogNegative.setClickable(true), 300);
             outroDialog.dismiss();
         });
 
@@ -213,19 +219,19 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
     private void sendViaSMS() {
         String body = "sms_body";
-        String result = "";
+        StringBuilder result = new StringBuilder();
         String number = "+989195934528";
 
         JSONArray jsonArray = viewModel.readSampleAnswerFromCache(sharedPreferences.getString("sampleId", ""));
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
-                result += jsonArray.getJSONObject(i).getString("answer");
+                result.append(jsonArray.getJSONObject(i).getString("answer"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
 
-        intentCaller.sendSMS(this, number, body, result);
+        intentCaller.sendSMS(this, number, body, result.toString());
     }
 
     private void downloadFile() {
@@ -238,9 +244,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
     private void saveFile() {
         viewModel.writeSampleAnswerToExternal(viewModel.readSampleAnswerFromCache(sharedPreferences.getString("sampleId", "")), sharedPreferences.getString("sampleId", ""));
-
         finish();
-
         Toast.makeText(this, "جواب ها در پوشه Download ذخیره شد", Toast.LENGTH_SHORT).show();
     }
 

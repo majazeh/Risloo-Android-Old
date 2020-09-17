@@ -14,11 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
@@ -30,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesHolder> {
 
@@ -69,43 +72,63 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
     public void onBindViewHolder(@NonNull SamplesHolder holder, int i) {
         Model model = samples.get(i);
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            holder.itemView.setBackgroundResource(R.drawable.draw_24sdp_solid_white_ripple_quartz);
-
-            holder.startTextView.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
-        }
-
         try {
-            holder.serialTextView.setText(model.get("id").toString());
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_solid_snow_ripple_quartz);
+                holder.startTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
+            }
 
             JSONObject scale = (JSONObject) model.get("scale");
-
             holder.scaleTextView.setText(scale.get("title").toString());
+
+            holder.serialTextView.setText(model.get("id").toString());
+
             switch ((String) model.get("status")) {
                 case "open":
                     holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusOpen));
                     holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                    holder.startFrameLayout.setVisibility(View.VISIBLE);
+                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
+
+                    if (access()) {
+                        holder.startTextView.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.startTextView.setVisibility(View.INVISIBLE);
+                    }
                     break;
                 case "seald":
                     holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusSeald));
                     holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                    holder.startFrameLayout.setVisibility(View.VISIBLE);
+                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
+
+                    if (access()) {
+                        holder.startTextView.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.startTextView.setVisibility(View.INVISIBLE);
+                    }
                     break;
                 case "scoring":
                     holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusScoring));
                     holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.MoonYellow));
-                    holder.startFrameLayout.setVisibility(View.GONE);
+                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.MoonYellow));
+                    holder.startTextView.setVisibility(View.INVISIBLE);
                     break;
                 case "closed":
                     holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusClosed));
                     holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
-                    holder.startFrameLayout.setVisibility(View.GONE);
+                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Mischka));
+                    holder.startTextView.setVisibility(View.INVISIBLE);
+                    break;
+                case "done":
+                    holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusDone));
+                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
+                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Mischka));
+                    holder.startTextView.setVisibility(View.INVISIBLE);
                     break;
                 default:
                     holder.statusTextView.setText(model.get("status").toString());
                     holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
-                    holder.startFrameLayout.setVisibility(View.GONE);
+                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Mischka));
+                    holder.startTextView.setVisibility(View.INVISIBLE);
                     break;
             }
 
@@ -113,10 +136,14 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
                 JSONObject client = (JSONObject) model.get("client");
 
                 holder.referenceHintTextView.setText(activity.getResources().getString(R.string.SamplesReference));
+                holder.referenceHintImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_user_light));
                 holder.referenceTextView.setText(client.get("name").toString());
-            } else {
+            } else if (!model.attributes.isNull("code")){
                 holder.referenceHintTextView.setText(activity.getResources().getString(R.string.SamplesCode));
+                holder.referenceHintImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_hashtag_light));
                 holder.referenceTextView.setText(model.get("code").toString());
+            } else {
+                holder.referenceLinearLayout.setVisibility(View.GONE);
             }
 
             if (!model.attributes.isNull("case")) {
@@ -142,21 +169,20 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
         }
 
         holder.itemView.setOnClickListener(v -> {
-            if (sharedPreferences.getString("access", "").equals("true")) {
-                holder.itemView.setClickable(false);
-                handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
-                try {
-                    activity.startActivityForResult(new Intent(activity, DetailSampleActivity.class).putExtra("id", (String) model.get("id")),100);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            holder.itemView.setClickable(false);
+            handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
+
+            try {
+                activity.startActivityForResult(new Intent(activity, DetailSampleActivity.class).putExtra("id", (String) model.get("id")),100);
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         });
 
         holder.startTextView.setOnClickListener(v -> {
             holder.startTextView.setClickable(false);
-            handler.postDelayed(() -> holder.startTextView.setClickable(true), 500);
+            handler.postDelayed(() -> holder.startTextView.setClickable(true), 300);
             startDialog.show();
 
             position = i;
@@ -171,13 +197,14 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
 
     private void initializer(View view) {
         sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
 
+        editor = sharedPreferences.edit();
+        editor.apply();
 
         handler = new Handler();
 
         startDialog = new Dialog(activity, R.style.DialogTheme);
-        startDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(startDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         startDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         startDialog.setContentView(R.layout.dialog_action);
         startDialog.setCancelable(true);
@@ -209,7 +236,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
     private void listener() {
         startDialogPositive.setOnClickListener(v -> {
             startDialogPositive.setClickable(false);
-            handler.postDelayed(() -> startDialogPositive.setClickable(true), 500);
+            handler.postDelayed(() -> startDialogPositive.setClickable(true), 300);
             startDialog.dismiss();
 
             doWork(position);
@@ -217,7 +244,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
 
         startDialogNegative.setOnClickListener(v -> {
             startDialogNegative.setClickable(false);
-            handler.postDelayed(() -> startDialogNegative.setClickable(true), 500);
+            handler.postDelayed(() -> startDialogNegative.setClickable(true), 300);
             startDialog.dismiss();
         });
 
@@ -227,8 +254,6 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
     public void setSamples(ArrayList<Model> samples) {
         this.samples = samples;
         notifyDataSetChanged();
-
-
     }
 
     private void doWork(int position) {
@@ -237,31 +262,37 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
             editor.apply();
 
             activity.startActivityForResult(new Intent(activity, SampleActivity.class),100);
+            activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
+    private boolean access() {
+        return sharedPreferences.getString("access", "").equals("true");
+    }
+
     public class SamplesHolder extends RecyclerView.ViewHolder {
 
-        public TextView serialTextView, scaleTextView, statusTextView, startTextView, referenceHintTextView, referenceTextView, caseTextView, roomTextView;
+        public TextView scaleTextView, serialTextView, statusTextView, startTextView, referenceHintTextView, referenceTextView, caseTextView, roomTextView;
+        public ImageView statusImageView, referenceHintImageView;
         public LinearLayout referenceLinearLayout, caseLinearLayout, roomLinearLayout;
-        public FrameLayout startFrameLayout;
 
         public SamplesHolder(View view) {
             super(view);
-            serialTextView = view.findViewById(R.id.single_item_samples_serial_textView);
             scaleTextView = view.findViewById(R.id.single_item_samples_scale_textView);
+            serialTextView = view.findViewById(R.id.single_item_samples_serial_textView);
             statusTextView = view.findViewById(R.id.single_item_samples_status_textView);
+            statusImageView = view.findViewById(R.id.single_item_samples_status_imageView);
             startTextView = view.findViewById(R.id.single_item_samples_start_textView);
             referenceHintTextView = view.findViewById(R.id.single_item_samples_reference_hint_textView);
+            referenceHintImageView = view.findViewById(R.id.single_item_samples_reference_hint_imageView);
             referenceTextView = view.findViewById(R.id.single_item_samples_reference_textView);
             caseTextView = view.findViewById(R.id.single_item_samples_case_textView);
             roomTextView = view.findViewById(R.id.single_item_samples_room_textView);
             referenceLinearLayout = view.findViewById(R.id.single_item_samples_reference_linearLayout);
             caseLinearLayout = view.findViewById(R.id.single_item_samples_case_linearLayout);
             roomLinearLayout = view.findViewById(R.id.single_item_samples_room_linearLayout);
-            startFrameLayout = view.findViewById(R.id.single_item_samples_start_frameLayout);
         }
     }
 

@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,25 +19,21 @@ import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.PrerequisiteAdapter;
 
-import org.json.JSONException;
-
-import java.util.ArrayList;
-
 public class PrerequisiteFragment extends Fragment {
 
     // ViewModels
     private SampleViewModel viewModel;
 
     // Adapters
-    private PrerequisiteAdapter adapter;
+    public PrerequisiteAdapter adapter;
 
     // Objects
     private Activity activity;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     // Widgets
-    private TextView descriptionTextView;
-    private RecyclerView recyclerView;
+    private RecyclerView prerequisiteRecyclerView;
 
     public PrerequisiteFragment(Activity activity, SampleViewModel viewModel) {
         this.activity = activity;
@@ -48,7 +42,7 @@ public class PrerequisiteFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(activity).inflate(R.layout.fragment_prerequisite, viewGroup, false);
 
         initializer(view);
@@ -59,31 +53,17 @@ public class PrerequisiteFragment extends Fragment {
     private void initializer(View view) {
         sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
-        adapter = new PrerequisiteAdapter(activity,viewModel,sharedPreferences.getString("sampleId", ""));
-        adapter.setPrerequisite(viewModel.getPrerequisite(), viewModel.readPrerequisiteAnswerFromCache(sharedPreferences.getString("sampleId", "")));
+        editor = sharedPreferences.edit();
+        editor.apply();
 
-        descriptionTextView = view.findViewById(R.id.fragment_prerequisite_description_textView);
+        adapter = new PrerequisiteAdapter(activity);
+        adapter.setPrerequisite(viewModel.getPrerequisite(), viewModel.readPrerequisiteAnswerFromCache(sharedPreferences.getString("sampleId", "")), viewModel);
 
-        recyclerView = view.findViewById(R.id.fragment_prerequisite_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
-        recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
-    }
-
-    public void doWork() {
-        try {
-            ArrayList arrayList = new ArrayList();
-            for (Object key: adapter.answer.keySet()) {
-                ArrayList arrayList1 = new ArrayList<String>();
-                arrayList1.add(key);
-                arrayList1.add(adapter.answer.get(key));
-                arrayList.add(arrayList1);
-            }
-            viewModel.sendPrerequisite(sharedPreferences.getString("sampleId", ""), arrayList);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        prerequisiteRecyclerView = view.findViewById(R.id.fragment_prerequisite_recyclerView);
+        prerequisiteRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._24sdp)));
+        prerequisiteRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+        prerequisiteRecyclerView.setHasFixedSize(true);
+        prerequisiteRecyclerView.setAdapter(adapter);
     }
 
 }

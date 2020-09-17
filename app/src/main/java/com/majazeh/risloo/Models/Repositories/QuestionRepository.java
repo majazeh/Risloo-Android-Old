@@ -30,15 +30,12 @@ public class QuestionRepository extends MainRepository {
          ---------- Arrays ----------
     */
 
-    public ArrayList<Model> getAll() {
+    public ArrayList<Model> getAll() throws JSONException {
         ArrayList<Model> items = new ArrayList<>();
         for (int i = 0; i < questionItems.length(); i++) {
-            try {
-                items.add(new Model(questionItems.getJSONObject(i)));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } return items;
+            items.add(new Model(questionItems.getJSONObject(i)));
+        }
+        return items;
     }
 
 }

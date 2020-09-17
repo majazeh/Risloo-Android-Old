@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_create_sample"
@@ -41,7 +42,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/_18sdp"
+                android:padding="@dimen/_24sdp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -50,7 +51,7 @@
                     android:layout_height="@dimen/_36sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
                     app:cardBackgroundColor="@null"
-                    app:cardCornerRadius="@dimen/_18sdp"
+                    app:cardCornerRadius="@dimen/_16sdp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
@@ -78,7 +79,7 @@
                                 android:layout_height="@dimen/_16sdp"
                                 android:layout_marginRight="@dimen/_1sdp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_plus"
+                                android:src="@drawable/ic_plus_light"
                                 app:tint="@color/Primary" />
 
                         </FrameLayout>
@@ -112,8 +113,8 @@
                                 android:layout_height="@dimen/_16sdp"
                                 android:layout_gravity="center|left"
                                 android:layout_marginLeft="@dimen/_10sdp"
-                                android:theme="@style/ProgressBarTheme"
                                 android:visibility="gone"
+                                android:theme="@style/ProgressBarTheme"
                                 style="@style/Widget.AppCompat.ProgressBar"/>
 
                         </FrameLayout>
@@ -165,8 +166,8 @@
                         android:layout_height="@dimen/_16sdp"
                         android:layout_gravity="center|left"
                         android:layout_marginLeft="@dimen/_10sdp"
-                        android:theme="@style/ProgressBarTheme"
                         android:visibility="gone"
+                        android:theme="@style/ProgressBarTheme"
                         style="@style/Widget.AppCompat.ProgressBar"/>
 
                 </FrameLayout>
@@ -176,7 +177,7 @@
                     android:layout_height="@dimen/_36sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
                     app:cardBackgroundColor="@color/White"
-                    app:cardCornerRadius="@dimen/_18sdp"
+                    app:cardCornerRadius="@dimen/_16sdp"
                     app:cardElevation="0dp">
 
                     <com.google.android.material.tabs.TabLayout
@@ -227,7 +228,7 @@
                             android:layout_height="@dimen/_36sdp"
                             android:layout_marginBottom="@dimen/_10sdp"
                             app:cardBackgroundColor="@null"
-                            app:cardCornerRadius="@dimen/_18sdp"
+                            app:cardCornerRadius="@dimen/_16sdp"
                             app:cardElevation="0dp">
 
                             <LinearLayout
@@ -255,7 +256,7 @@
                                         android:layout_height="@dimen/_16sdp"
                                         android:layout_marginRight="@dimen/_1sdp"
                                         android:layout_gravity="center"
-                                        android:src="@drawable/ic_plus"
+                                        android:src="@drawable/ic_plus_light"
                                         app:tint="@color/Primary" />
 
                                 </FrameLayout>
@@ -289,8 +290,8 @@
                                         android:layout_height="@dimen/_16sdp"
                                         android:layout_gravity="center|left"
                                         android:layout_marginLeft="@dimen/_10sdp"
-                                        android:theme="@style/ProgressBarTheme"
                                         android:visibility="gone"
+                                        android:theme="@style/ProgressBarTheme"
                                         style="@style/Widget.AppCompat.ProgressBar"/>
 
                                 </FrameLayout>
@@ -317,9 +318,9 @@
                             android:textColor="@color/Grey"
                             android:textColorHint="@color/Mischka"
                             android:textAlignment="gravity"
+                            android:importantForAutofill="no"
                             android:focusableInTouchMode="false"
-                            android:background="@drawable/draw_16sdp_border_quartz"
-                            android:importantForAutofill="no" />
+                            android:background="@drawable/draw_16sdp_border_quartz" />
 
                     </LinearLayout>
 
@@ -373,8 +374,8 @@
                                 android:layout_height="@dimen/_16sdp"
                                 android:layout_gravity="center|left"
                                 android:layout_marginLeft="@dimen/_10sdp"
-                                android:theme="@style/ProgressBarTheme"
                                 android:visibility="gone"
+                                android:theme="@style/ProgressBarTheme"
                                 style="@style/Widget.AppCompat.ProgressBar"/>
 
                         </FrameLayout>

@@ -21,7 +21,7 @@ public class AuthItems {
     private Application application;
     private SharedPreferences sharedPreferences;
 
-    public AuthItems(Application application, SharedPreferences sharedPreferences) throws JSONException {
+    public AuthItems(Application application, SharedPreferences sharedPreferences) {
         this.application = application;
         this.sharedPreferences = sharedPreferences;
     }

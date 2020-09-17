@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_pfp"
+    android:id="@+id/fragment_text_optional"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:background="@null"
-    tools:context=".Views.Fragments.PFPFragment">
+    tools:context=".Views.Fragments.TextOptionalFragment"
+    tools:ignore="UnusedAttribute, RtlHardcoded">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -22,31 +24,22 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/fragment_pfp_question_textView"
+                android:id="@+id/fragment_text_optional_question_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/_24sdp"
-                android:paddingBottom="@dimen/_8sdp"
-                android:paddingLeft="@dimen/_18sdp"
-                android:paddingRight="@dimen/_18sdp"
+                android:paddingLeft="@dimen/_16sdp"
+                android:paddingRight="@dimen/_16sdp"
                 android:gravity="right"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"
                 android:textColor="@color/Nero"
                 android:textAlignment="gravity" />
 
-            <ImageView
-                android:id="@+id/fragment_pfp_question_imageView"
-                android:layout_width="@dimen/_90sdp"
-                android:layout_height="@dimen/_90sdp"
-                android:layout_gravity="center" />
-
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/fragment_pfp_answer_recyclerView"
+                android:id="@+id/fragment_text_optional_answer_recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="@dimen/_16sdp"
-                android:paddingRight="@dimen/_12sdp"
                 android:overScrollMode="never" />
 
         </LinearLayout>

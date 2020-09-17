@@ -5,7 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -45,7 +45,7 @@ public class ArchiveActivity extends AppCompatActivity implements ItemHelper.Rec
     private CoordinatorLayout coordinatorLayout;
     private Toolbar toolbar;
     private TextView countTextView;
-    private RecyclerView recyclerView;
+    private RecyclerView archiveRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public class ArchiveActivity extends AppCompatActivity implements ItemHelper.Rec
     }
 
     private void initializer() {
-        viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
+        viewModel = new ViewModelProvider(this).get(SampleViewModel.class);
 
         adapter = new ArchiveAdapter(this);
         if (hasArchive()) {
@@ -91,14 +91,14 @@ public class ArchiveActivity extends AppCompatActivity implements ItemHelper.Rec
             countTextView.setText(viewModel.getArchive().size() + " " + getResources().getString(R.string.ArchiveCount));
         }
 
-        recyclerView = findViewById(R.id.activity_archive_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._18sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._18sdp)));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
+        archiveRecyclerView = findViewById(R.id.activity_archive_recyclerView);
+        archiveRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
+        archiveRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        archiveRecyclerView.setHasFixedSize(true);
+        archiveRecyclerView.setAdapter(adapter);
 
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemHelper(0, ItemTouchHelper.LEFT, this);
-        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(archiveRecyclerView);
     }
 
     private void listener() {

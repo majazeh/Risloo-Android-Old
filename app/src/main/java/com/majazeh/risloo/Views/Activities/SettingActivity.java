@@ -26,7 +26,7 @@ public class SettingActivity extends AppCompatActivity {
 
     // Widgets
     private Toolbar toolbar;
-    private RecyclerView recyclerView;
+    private RecyclerView settingsRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +58,11 @@ public class SettingActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.activity_setting_toolbar);
 
-        recyclerView = findViewById(R.id.activity_setting_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("verticalLayout", 0, 0, 0));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
+        settingsRecyclerView = findViewById(R.id.activity_setting_recyclerView);
+        settingsRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", 0, 0, 0));
+        settingsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        settingsRecyclerView.setHasFixedSize(true);
+        settingsRecyclerView.setAdapter(adapter);
     }
 
     private void listener() {

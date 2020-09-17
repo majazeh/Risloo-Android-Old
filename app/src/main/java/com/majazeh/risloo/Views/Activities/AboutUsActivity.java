@@ -14,6 +14,8 @@ import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AboutUsViewModel;
 import com.majazeh.risloo.Views.Adapters.ListAdapter;
 
+import org.json.JSONException;
+
 public class AboutUsActivity extends AppCompatActivity {
 
     // ViewModel
@@ -24,7 +26,7 @@ public class AboutUsActivity extends AppCompatActivity {
 
     // Widgets
     private Toolbar toolbar;
-    private RecyclerView recyclerView;
+    private RecyclerView aboutUsRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,15 +50,19 @@ public class AboutUsActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(AboutUsViewModel.class);
 
         adapter = new ListAdapter(this);
-        adapter.setList(viewModel.getAll(), "AboutUs");
+        try {
+            adapter.setList(viewModel.getAll(), "AboutUs");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         toolbar = findViewById(R.id.activity_about_us_toolbar);
 
-        recyclerView = findViewById(R.id.activity_about_us_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._24sdp), (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._24sdp)));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
+        aboutUsRecyclerView = findViewById(R.id.activity_about_us_recyclerView);
+        aboutUsRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._24sdp), (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._24sdp)));
+        aboutUsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        aboutUsRecyclerView.setHasFixedSize(true);
+        aboutUsRecyclerView.setAdapter(adapter);
     }
 
     private void listener() {

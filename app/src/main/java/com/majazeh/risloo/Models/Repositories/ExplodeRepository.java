@@ -26,7 +26,7 @@ public class ExplodeRepository extends MainRepository {
     public static MutableLiveData<Integer> workState;
     public static String work = "";
 
-    public ExplodeRepository(Application application) {
+    public ExplodeRepository(Application application) throws JSONException {
         super(application);
 
         workState = new MutableLiveData<>();

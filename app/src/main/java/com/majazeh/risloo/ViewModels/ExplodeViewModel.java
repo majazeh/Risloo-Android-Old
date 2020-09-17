@@ -14,7 +14,7 @@ public class ExplodeViewModel extends AndroidViewModel {
     // Repositories
     private ExplodeRepository repository;
 
-    public ExplodeViewModel(@NonNull Application application) {
+    public ExplodeViewModel(@NonNull Application application) throws JSONException {
         super(application);
 
         repository = new ExplodeRepository(application);

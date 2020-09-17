@@ -1,16 +1,19 @@
 package com.majazeh.risloo.Utils;
 
 import  android.app.Activity;
+import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 
 import androidx.core.content.FileProvider;
 
 import java.io.File;
+import java.util.Objects;
 
 public class IntentCaller {
 
@@ -144,6 +147,16 @@ public class IntentCaller {
             intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://instagram.com/" + instagramID));
             context.startActivity(intent);
         }
+    }
+
+    public void download(Context context, String url) {
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        request.allowScanningByMediaScanner();
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, url);
+
+        DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        Objects.requireNonNull(manager).enqueue(request);
     }
 
 }

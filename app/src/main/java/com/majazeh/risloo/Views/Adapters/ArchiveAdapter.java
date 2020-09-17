@@ -15,10 +15,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.widget.ImageViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
@@ -28,6 +31,7 @@ import com.majazeh.risloo.Views.Activities.SampleActivity;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveHolder> {
 
@@ -65,28 +69,31 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
 
     @Override
     public void onBindViewHolder(@NonNull ArchiveHolder holder, int i) {
-
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            holder.foreGroundView.setBackgroundResource(R.drawable.draw_24sdp_solid_white_ripple_quartz);
-
-            holder.continueTextView.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
-        }
+        Model model = archives.get(i);
 
         try {
-            holder.serialTextView.setText(archives.get(i).get("serial").toString());
-            holder.statusTextView.setText(archives.get(i).get("status").toString());
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                holder.continueTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
+            }
+
+            holder.scaleTextView.setText("آزمون چند وجهی مینه سوتا");
+            holder.serialTextView.setText(model.get("serial").toString());
+
+            switch ((String) model.get("status")) {
+                case "ناقص":
+                    holder.statusTextView.setText(model.get("status").toString());
+                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.MoonYellow));
+                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.MoonYellow));
+                    break;
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        holder.itemView.setOnClickListener(v -> {
-            holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
-        });
-
         holder.continueTextView.setOnClickListener(v -> {
             holder.continueTextView.setClickable(false);
-            handler.postDelayed(() -> holder.continueTextView.setClickable(true), 500);
+            handler.postDelayed(() -> holder.continueTextView.setClickable(true), 300);
             continueDialog.show();
 
             position = i;
@@ -100,12 +107,14 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
 
     private void initializer(View view) {
         sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
         editor = sharedPreferences.edit();
+        editor.apply();
 
         handler = new Handler();
 
         continueDialog = new Dialog(activity, R.style.DialogTheme);
-        continueDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(continueDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         continueDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         continueDialog.setContentView(R.layout.dialog_action);
         continueDialog.setCancelable(true);
@@ -137,7 +146,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
     private void listener() {
         continueDialogPositive.setOnClickListener(v -> {
             continueDialogPositive.setClickable(false);
-            handler.postDelayed(() -> continueDialogPositive.setClickable(true), 500);
+            handler.postDelayed(() -> continueDialogPositive.setClickable(true), 300);
             continueDialog.dismiss();
 
             doWork(position);
@@ -145,7 +154,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
 
         continueDialogNegative.setOnClickListener(v -> {
             continueDialogNegative.setClickable(false);
-            handler.postDelayed(() -> continueDialogNegative.setClickable(true), 500);
+            handler.postDelayed(() -> continueDialogNegative.setClickable(true), 300);
             continueDialog.dismiss();
         });
 
@@ -177,6 +186,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
             editor.apply();
 
             activity.startActivity(new Intent(activity, SampleActivity.class));
+            activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -186,14 +196,17 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
 
         public FrameLayout backGroundView;
         public LinearLayout foreGroundView;
-        public TextView serialTextView, statusTextView, continueTextView;
+        public TextView scaleTextView, serialTextView, statusTextView, continueTextView;
+        public ImageView statusImageView;
 
         public ArchiveHolder(View view) {
             super(view);
             backGroundView = view.findViewById(R.id.single_item_archive_backGroundView);
             foreGroundView = view.findViewById(R.id.single_item_archive_foreGroundView);
+            scaleTextView = view.findViewById(R.id.single_item_archive_scale_textView);
             serialTextView = view.findViewById(R.id.single_item_archive_serial_textView);
             statusTextView = view.findViewById(R.id.single_item_archive_status_textView);
+            statusImageView = view.findViewById(R.id.single_item_archive_status_imageView);
             continueTextView = view.findViewById(R.id.single_item_archive_continue_textView);
         }
     }

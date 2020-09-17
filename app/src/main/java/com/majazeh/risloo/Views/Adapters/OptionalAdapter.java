@@ -25,43 +25,45 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
+public class OptionalAdapter extends RecyclerView.Adapter<OptionalAdapter.OptionalHolder> {
 
     // ViewModels
     private SampleViewModel viewModel;
 
     // Vars
     private int position = -1;
-    private boolean clickedItem;
+    private boolean clicked;
     private ArrayList<String> answers;
 
     // Objects
     private Activity activity;
     private Handler handler;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
-    public TFTAdapter(Activity activity) {
+    public OptionalAdapter(Activity activity) {
         this.activity = activity;
     }
 
     @NonNull
     @Override
-    public TFTHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.fragment_ft_single_item, viewGroup, false);
+    public OptionalHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_optional, viewGroup, false);
 
         initializer(view);
 
-        return new TFTHolder(view);
+        return new OptionalHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TFTHolder holder, int i) {
+    public void onBindViewHolder(@NonNull OptionalHolder holder, int i) {
+        String answer = answers.get(i);
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_solid_white_border_quartz_ripple_solitude);
         }
 
-        holder.answerTextView.setText(answers.get(i));
+        holder.answerTextView.setText(answer);
 
         if (position == -1) {
             holder.numberTextView.setText("");
@@ -74,7 +76,7 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
                 holder.numberTextView.setText(String.valueOf(i + 1));
                 holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solid_snow_border_primary);
 
-                if (clickedItem) {
+                if (clicked) {
                     holder.itemView.setEnabled(false);
                     holder.itemView.setClickable(false);
                 } else {
@@ -82,7 +84,7 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
                     holder.itemView.setClickable(true);
                 }
             } else {
-                if (clickedItem) {
+                if (clicked) {
                     holder.numberTextView.setText("");
                     holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solid_solitude);
 
@@ -102,9 +104,9 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
 
         holder.itemView.setOnClickListener(v -> {
             handler.postDelayed(() -> doWork(i), 500);
-            position = i + 1;
 
-            clickedItem = true;
+            position = i + 1;
+            clicked = true;
 
             notifyDataSetChanged();
         });
@@ -117,6 +119,9 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
 
     private void initializer(View view) {
         sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
+        editor = sharedPreferences.edit();
+        editor.apply();
 
         handler = new Handler();
     }
@@ -131,6 +136,7 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
     private void doWork(int position) {
         try {
             JSONArray jsonArray = viewModel.readSampleAnswerFromCache(sharedPreferences.getString("sampleId", ""));
+
             jsonArray.getJSONObject(viewModel.getIndex()).put("index", viewModel.getIndex());
             jsonArray.getJSONObject(viewModel.getIndex()).put("answer", position + 1);
             viewModel.writeSampleAnswerToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
@@ -145,11 +151,9 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
                 }
                 viewModel.setIndex(viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")));
             }
-            try {
-                ((SampleActivity) Objects.requireNonNull(activity)).showFragment();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+
+            ((SampleActivity) Objects.requireNonNull(activity)).showFragment();
+
             viewModel.insertToLocal(viewModel.getIndex(), position + 1);
             viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
         } catch (JSONException e) {
@@ -157,14 +161,14 @@ public class TFTAdapter extends RecyclerView.Adapter<TFTAdapter.TFTHolder> {
         }
     }
 
-    public class TFTHolder extends RecyclerView.ViewHolder {
+    public class OptionalHolder extends RecyclerView.ViewHolder {
 
         public TextView numberTextView, answerTextView;
 
-        public TFTHolder(View view) {
+        public OptionalHolder(View view) {
             super(view);
-            numberTextView = view.findViewById(R.id.fragment_ft_single_item_number_textView);
-            answerTextView = view.findViewById(R.id.fragment_ft_single_item_answer_textView);
+            numberTextView = view.findViewById(R.id.single_item_optional_number_textView);
+            answerTextView = view.findViewById(R.id.single_item_optional_answer_textView);
         }
     }
 

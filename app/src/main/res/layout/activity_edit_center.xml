@@ -181,7 +181,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/_1sdp"
                             android:padding="@dimen/_9sdp"
-                            android:src="@drawable/ic_plus"
+                            android:src="@drawable/ic_plus_light"
                             android:background="@color/Primary5P"
                             app:tint="@color/Primary" />
 

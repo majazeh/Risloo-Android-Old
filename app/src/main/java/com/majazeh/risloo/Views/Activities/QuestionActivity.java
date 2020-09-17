@@ -14,6 +14,8 @@ import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.QuestionViewModel;
 import com.majazeh.risloo.Views.Adapters.QuestionAdapter;
 
+import org.json.JSONException;
+
 import java.util.HashMap;
 
 public class QuestionActivity extends AppCompatActivity {
@@ -29,7 +31,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     // Widgets
     private Toolbar toolbar;
-    private RecyclerView recyclerView;
+    private RecyclerView questionsRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,20 +55,28 @@ public class QuestionActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(QuestionViewModel.class);
 
         expands = new HashMap<>();
-        for (int i = 0; i < viewModel.getAll().size(); i++) {
-            expands.put(i, false);
+        try {
+            for (int i = 0; i < viewModel.getAll().size(); i++) {
+                expands.put(i, false);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
         adapter = new QuestionAdapter(this);
-        adapter.setQuestion(viewModel.getAll(), expands);
+        try {
+            adapter.setQuestion(viewModel.getAll(), expands);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         toolbar = findViewById(R.id.activity_question_toolbar);
 
-        recyclerView = findViewById(R.id.activity_question_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
+        questionsRecyclerView = findViewById(R.id.activity_question_recyclerView);
+        questionsRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
+        questionsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        questionsRecyclerView.setHasFixedSize(true);
+        questionsRecyclerView.setAdapter(adapter);
     }
 
     private void listener() {

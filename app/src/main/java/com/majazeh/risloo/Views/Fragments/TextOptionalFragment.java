@@ -18,35 +18,36 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
-import com.majazeh.risloo.Views.Adapters.TFTAdapter;
+import com.majazeh.risloo.Views.Adapters.OptionalAdapter;
 
 import org.json.JSONException;
 
-public class TFTFragment extends Fragment {
+public class TextOptionalFragment extends Fragment {
 
     // ViewModels
     private SampleViewModel viewModel;
 
     // Adapters
-    private TFTAdapter adapter;
+    private OptionalAdapter adapter;
 
     // Objects
     private Activity activity;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     // Widgets
     private TextView questionTextView;
     private RecyclerView answerRecyclerView;
 
-    public TFTFragment(Activity activity, SampleViewModel viewModel) {
+    public TextOptionalFragment(Activity activity, SampleViewModel viewModel) {
         this.activity = activity;
         this.viewModel = viewModel;
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.fragment_tft, viewGroup, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
+        View view = LayoutInflater.from(activity).inflate(R.layout.fragment_text_optional, viewGroup, false);
 
         initializer(view);
 
@@ -56,18 +57,21 @@ public class TFTFragment extends Fragment {
     private void initializer(View view) {
         sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
-        adapter = new TFTAdapter(activity);
+        editor = sharedPreferences.edit();
+        editor.apply();
+
+        adapter = new OptionalAdapter(activity);
         adapter.setAnswer(viewModel.getOptions(viewModel.getIndex()), viewModel.answeredPosition(sharedPreferences.getString("sampleId",""), viewModel.getIndex()), viewModel);
 
-        questionTextView = view.findViewById(R.id.fragment_tft_question_textView);
+        questionTextView = view.findViewById(R.id.fragment_text_optional_question_textView);
         try {
             questionTextView.setText(viewModel.getItem(viewModel.getIndex()).get("text").toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        answerRecyclerView = view.findViewById(R.id.fragment_tft_answer_recyclerView);
-        answerRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
+        answerRecyclerView = view.findViewById(R.id.fragment_text_optional_answer_recyclerView);
+        answerRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._24sdp)));
         answerRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         answerRecyclerView.setHasFixedSize(true);
         answerRecyclerView.setAdapter(adapter);

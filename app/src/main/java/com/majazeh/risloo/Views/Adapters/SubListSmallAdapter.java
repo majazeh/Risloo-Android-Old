@@ -37,9 +37,10 @@ public class SubListSmallAdapter extends RecyclerView.Adapter<SubListSmallAdapte
 
     @Override
     public void onBindViewHolder(@NonNull SubListSmallHolder holder, int i) {
+        Model model = subListSmall.get(i);
 
         try {
-            holder.itemTextView.setText(subListSmall.get(i).get("title").toString());
+            holder.itemTextView.setText(model.get("title").toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

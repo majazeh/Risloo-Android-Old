@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_sample"
@@ -8,94 +9,153 @@
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
     android:background="@color/White"
-    tools:context=".Views.Activities.SampleActivity">
+    tools:context=".Views.Activities.SampleActivity"
+    tools:ignore="UnusedAttribute, UseCompoundDrawables, ContentDescription, RtlHardcoded">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/activity_sample_progress_linearLayout"
+        <RelativeLayout
+            android:id="@+id/activity_sample_mainLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/activity_sample_progress_linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activity_sample_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="always" />
+
+                <ProgressBar
+                    android:id="@+id/activity_sample_progressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_4sdp"
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:layout_marginRight="@dimen/_16sdp"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/draw_progress_8sdp_back_solitude_front_primary"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/activity_sample_frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/activity_sample_progress_linearLayout"
+                android:layout_above="@id/activity_sample_button_linearLayout"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+            <LinearLayout
+                android:id="@+id/activity_sample_button_linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/_16sdp"
+                android:layout_marginRight="@dimen/_16sdp"
+                android:layout_marginBottom="@dimen/_16sdp"
+                android:layoutDirection="ltr"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/activity_sample_cancel_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/_4sdp"
+                    android:layout_weight="0.7"
+                    android:gravity="center"
+                    android:text="@string/SampleCancel"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Grey"
+                    android:textAlignment="gravity"
+                    android:background="@drawable/draw_16sdp_solid_solitude"
+                    style="?android:attr/borderlessButtonStyle" />
+
+                <Button
+                    android:id="@+id/activity_sample_finish_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_4sdp"
+                    android:layout_weight="0.3"
+                    android:gravity="center"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/White"
+                    android:textAlignment="gravity"
+                    android:background="@drawable/draw_16sdp_solid_primary"
+                    style="?android:attr/borderlessButtonStyle" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/activity_sample_retryLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:visibility="gone"
             android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/activity_sample_recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="always" />
+            <ImageView
+                android:id="@+id/activity_sample_retry_imageView"
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="@dimen/_150sdp" />
 
-            <ProgressBar
-                android:id="@+id/activity_sample_progressBar"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_4sdp"
-                android:layout_marginLeft="@dimen/_18sdp"
-                android:layout_marginRight="@dimen/_18sdp"
-                android:progress="0"
-                android:progressDrawable="@drawable/draw_progress_8sdp_back_solitude_front_primary"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+            <TextView
+                android:id="@+id/activity_sample_retry_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_32sdp"
+                android:gravity="center"
+                android:textSize="@dimen/_11ssp"
+                android:textStyle="bold"
+                android:textColor="@color/Mischka"
+                android:textAlignment="gravity" />
 
         </LinearLayout>
-
-        <FrameLayout
-            android:id="@+id/activity_sample_frameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/activity_sample_progress_linearLayout"
-            android:layout_above="@id/activity_sample_button_linearLayout"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <LinearLayout
-            android:id="@+id/activity_sample_button_linearLayout"
+            android:id="@+id/activity_sample_loadingLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/_18sdp"
-            android:layout_marginRight="@dimen/_18sdp"
-            android:layout_marginBottom="@dimen/_18sdp"
-            android:layoutDirection="ltr"
-            android:visibility="gone"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="visible"
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/activity_sample_cancel_button"
-                android:layout_width="match_parent"
+            <ProgressBar
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:layout_marginRight="@dimen/_4sdp"
-                android:paddingTop="@dimen/_3sdp"
-                android:paddingBottom="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_16sdp"
+                android:theme="@style/ProgressBarTheme"
+                style="@style/Widget.AppCompat.ProgressBar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/SampleCancel"
-                android:textSize="@dimen/_12ssp"
+                android:text="@string/AppLoading"
+                android:textSize="@dimen/_11ssp"
                 android:textStyle="bold"
                 android:textColor="@color/Grey"
-                android:textAlignment="gravity"
-                android:background="@drawable/draw_16sdp_solid_solitude"
-                style="?android:attr/borderlessButtonStyle"/>
-
-            <Button
-                android:id="@+id/activity_sample_finish_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_4sdp"
-                android:layout_weight="0.3"
-                android:paddingTop="@dimen/_3sdp"
-                android:paddingBottom="@dimen/_3sdp"
-                android:gravity="center"
-                android:textSize="@dimen/_12ssp"
-                android:textStyle="bold"
-                android:textColor="@color/White"
-                android:textAlignment="gravity"
-                android:background="@drawable/draw_16sdp_solid_primary"
-                style="?android:attr/borderlessButtonStyle"/>
+                android:textAlignment="gravity" />
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </FrameLayout>
 
     <View
         android:layout_width="match_parent"

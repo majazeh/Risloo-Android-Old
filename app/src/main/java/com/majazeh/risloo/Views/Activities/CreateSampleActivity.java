@@ -30,7 +30,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,6 +50,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CreateSampleActivity extends AppCompatActivity {
 
@@ -99,7 +100,7 @@ public class CreateSampleActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = ViewModelProviders.of(this).get(SampleViewModel.class);
+        viewModel = new ViewModelProvider(this).get(SampleViewModel.class);
 
         scaleAdapter = new SpinnerAdapter(this);
         referenceAdapter = new SpinnerAdapter(this);
@@ -154,7 +155,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         createButton = findViewById(R.id.activity_create_sample_button);
 
         progressDialog = new Dialog(this, R.style.DialogTheme);
-        progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
@@ -168,6 +169,23 @@ public class CreateSampleActivity extends AppCompatActivity {
             createButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @SuppressLint("ClickableViewAccessibility")
     private void listener() {
@@ -231,7 +249,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         scaleSpinner.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (SampleRepository.scales.size() == 0) {
-                    doWork("getScales", "");
+                    getData("getScales", "");
                 }
 
                 countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
@@ -242,7 +260,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         roomSpinner.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (SampleRepository.rooms.size() == 0) {
-                    doWork("getRooms", "");
+                    getData("getRooms", "");
                 }
 
                 countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
@@ -254,7 +272,7 @@ public class CreateSampleActivity extends AppCompatActivity {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!room.isEmpty()) {
                     if (SampleRepository.cases.size() == 0) {
-                        doWork("getCases", room);
+                        getData("getCases", room);
                     }
                 } else {
                     Toast.makeText(this, "لطفا اول اتاق درمانی انتخاب کنید", Toast.LENGTH_SHORT).show();
@@ -269,7 +287,7 @@ public class CreateSampleActivity extends AppCompatActivity {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!room.isEmpty()) {
                     if (SampleRepository.references.size() == 0) {
-                        doWork("getReferences", room);
+                        getData("getReferences", room);
                     }
                 } else {
                     Toast.makeText(this, "لطفا اول اتاق درمانی انتخاب کنید", Toast.LENGTH_SHORT).show();
@@ -437,20 +455,14 @@ public class CreateSampleActivity extends AppCompatActivity {
         });
 
         createButton.setOnClickListener(v -> {
-            count = countEditText.getText().toString().trim();
+
 
             if (scaleAdapter.getValues().size() == 0 || room.isEmpty()) {
                 checkInput();
             } else {
                 clearData();
 
-                try {
-                    progressDialog.show();
-                    viewModel.create(scaleAdapter.getValuesId(), room, casse, referenceAdapter.getValuesId(), checkBoxAdapter.getChecks(), count);
-                    observeWork();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                doWork();
             }
         });
     }
@@ -642,7 +654,19 @@ public class CreateSampleActivity extends AppCompatActivity {
         roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
     }
 
-    private void doWork(String method, String roomId) {
+
+
+
+
+
+
+
+
+
+
+
+
+    private void getData(String method, String roomId) {
         try {
             switch (method) {
                 case "getScales":
@@ -678,9 +702,21 @@ public class CreateSampleActivity extends AppCompatActivity {
         }
     }
 
+    private void doWork() {
+        count = countEditText.getText().toString().trim();
+
+        try {
+            progressDialog.show();
+            viewModel.create(scaleAdapter.getValuesId(), room, casse, referenceAdapter.getValuesId(), checkBoxAdapter.getChecks(), count);
+            observeWork();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void observeWork() {
         SampleRepository.workStateCreate.observe((LifecycleOwner) this, integer -> {
-            if (SampleRepository.work == "create") {
+            if (SampleRepository.work.equals("create")) {
                 if (integer == 1) {
                     setResult(RESULT_OK, null);
                     finish();
@@ -697,7 +733,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 }
-            } else if (SampleRepository.work == "getScales") {
+            } else if (SampleRepository.work.equals("getScales")) {
                 if (integer == 1) {
                     setSpinner(SampleRepository.scales, scaleSpinner, "scale");
 
@@ -715,7 +751,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 }
-            } else if (SampleRepository.work == "getRooms") {
+            } else if (SampleRepository.work.equals("getRooms")) {
                 if (integer == 1) {
                     setSpinner(SampleRepository.rooms, roomSpinner, "room");
 
@@ -736,7 +772,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 }
-            } else if (SampleRepository.work == "getCases") {
+            } else if (SampleRepository.work.equals("getCases")) {
                 if (integer == 1) {
                     setSpinner(SampleRepository.cases, caseSpinner, "case");
 
@@ -757,7 +793,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 }
-            } else if (SampleRepository.work == "getReferences") {
+            } else if (SampleRepository.work.equals("getReferences")) {
                 if (integer == 1) {
                     setSpinner(SampleRepository.references, roomReferenceSpinner, "reference");
 
@@ -778,7 +814,6 @@ public class CreateSampleActivity extends AppCompatActivity {
             }
         });
     }
-
 
     @Override
     public void finish() {

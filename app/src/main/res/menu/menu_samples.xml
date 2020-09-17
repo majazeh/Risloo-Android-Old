@@ -6,6 +6,7 @@
         android:id="@+id/tool_create"
         android:icon="@drawable/tool_create"
         android:title="@string/SamplesCreate"
+        android:visible="false"
         app:showAsAction="ifRoom"/>
 
 </menu>

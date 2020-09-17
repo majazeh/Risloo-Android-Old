@@ -23,7 +23,7 @@ import java.util.Objects;
 
 public class AuthRepository extends MainRepository {
 
-    // Items
+    // Objects
     private AuthItems authItems;
 
     // Vars

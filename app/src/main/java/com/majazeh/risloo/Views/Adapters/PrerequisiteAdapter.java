@@ -1,11 +1,12 @@
 package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -29,7 +31,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapter.PrerequisiteHolder> {
 
@@ -38,25 +39,24 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
     // Vars
     private String result = "";
-    private String fileName;
     private ArrayList prerequisites;
+    private JSONArray answers;
+    public HashMap answer;
 
     // Objects
     private Activity activity;
     private Handler handler;
-    private JSONArray answers;
-    public HashMap answer;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
-    public PrerequisiteAdapter(Activity activity, SampleViewModel viewModel, String fileName) {
+    public PrerequisiteAdapter(Activity activity) {
         this.activity = activity;
-        this.viewModel = viewModel;
-        this.fileName = fileName;
     }
 
     @NonNull
     @Override
     public PrerequisiteHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.fragment_prerequisite_single_item, viewGroup, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_prerequisite, viewGroup, false);
 
         initializer(view);
 
@@ -66,7 +66,6 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
     @Override
     public void onBindViewHolder(@NonNull PrerequisiteHolder holder, int i) {
         JSONObject item = (JSONObject) prerequisites.get(i);
-        int position = i + 1;
 
         try {
             if (item.getJSONObject("answer").getString("type").equals("number")) {
@@ -86,7 +85,6 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         result = holder.typeEditText.getText().toString().trim();
-
                         getAnswers(i, result);
                     }
 
@@ -113,7 +111,6 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         result = holder.typeEditText.getText().toString().trim();
-
                         getAnswers(i, result);
                     }
 
@@ -152,10 +149,12 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                     }
 
                 };
+
                 for (int j = 0; j < item.getJSONObject("answer").getJSONArray("options").length(); j++) {
                     adapter.add((String) item.getJSONObject("answer").getJSONArray("options").get(j));
                 }
                 adapter.add(((JSONObject) prerequisites.get(i)).getString("text"));
+
                 adapter.setDropDownViewResource(R.layout.spinner_dropdown);
                 int k;
                 if (!answers.getJSONArray(i).getString(1).isEmpty()) {
@@ -164,7 +163,6 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                 } else {
                     k = adapter.getCount();
                 }
-
                 holder.optionSpinner.setAdapter(adapter);
                 holder.optionSpinner.setSelection(k);
                 holder.optionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -173,7 +171,6 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                         if (adapter.getCount() != position) {
                             int pos = position + 1;
                             result = String.valueOf(pos);
-
                             getAnswers(i, result);
                         }
                     }
@@ -196,28 +193,31 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
     }
 
     private void initializer(View view) {
-        handler = new Handler();
-        answer = new HashMap();
+        sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
+        editor = sharedPreferences.edit();
+        editor.apply();
+
+        handler = new Handler();
+
+        answer = new HashMap();
     }
 
-    public void setPrerequisite(ArrayList prerequisites, JSONArray answers) {
+    public void setPrerequisite(ArrayList prerequisites, JSONArray answers, SampleViewModel viewModel) {
         this.prerequisites = prerequisites;
         this.answers = answers;
-
+        this.viewModel = viewModel;
         notifyDataSetChanged();
     }
 
     public void getAnswers(int index, String result) {
         try {
             int i = index + 1;
-            JSONArray jsonArray = viewModel.readPrerequisiteAnswerFromCache(fileName);
-            JSONArray array = new JSONArray();
-            array.put(String.valueOf(i));
-            array.put(result);
-            jsonArray.put(index, array);
 
-            viewModel.writePrerequisiteAnswerToCache(jsonArray, fileName);
+            JSONArray jsonArray = viewModel.readPrerequisiteAnswerFromCache(sharedPreferences.getString("sampleId", ""));
+            jsonArray.put(index, new JSONArray().put(String.valueOf(i)).put(result));
+
+            viewModel.writePrerequisiteAnswerToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
 
             answer.put(i,result);
         } catch (JSONException e) {
@@ -233,9 +233,9 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
         public PrerequisiteHolder(View view) {
             super(view);
-            typeEditText = view.findViewById(R.id.fragment_prerequisite_single_item_type_editText);
-            optionSpinner = view.findViewById(R.id.fragment_prerequisite_single_item_option_spinner);
-            arrowImageView = view.findViewById(R.id.fragment_prerequisite_single_item_arrow_imageView);
+            typeEditText = view.findViewById(R.id.single_item_prerequisite_type_editText);
+            optionSpinner = view.findViewById(R.id.single_item_prerequisite_option_spinner);
+            arrowImageView = view.findViewById(R.id.single_item_prerequisite_arrow_imageView);
         }
     }
 

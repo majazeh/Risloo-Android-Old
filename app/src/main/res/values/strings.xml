@@ -142,7 +142,6 @@
 
     <string name="SamplesEmpty">فعلا نمونه های موجود نیست</string>
 
-    <string name="SamplesStart">شروع نمونه</string>
     <string name="SamplesReference">مراجع</string>
     <string name="SamplesCode">کد</string>
     <string name="SamplesCase">پرونده</string>
@@ -152,6 +151,9 @@
     <string name="SamplesStatusSeald">باز نشده</string>
     <string name="SamplesStatusScoring">نمره گذاری</string>
     <string name="SamplesStatusClosed">بسته شده</string>
+    <string name="SamplesStatusDone">اتمام شد</string>
+
+    <string name="SamplesStart">شروع نمونه</string>
 
     <string name="SamplesStartDialogTitle">شروع نمونه؟</string>
     <string name="SamplesStartDialogDescription">با شروع نمونه شما می توانید ان را به پایان برسانید ویا در صورت موکول دادن آن به بعدن می توانید از قسمت بایگانی نمونه ها آن را ادامه دهید.</string>
@@ -180,6 +182,17 @@
     ////////////////////////////////////////////////////////////////////////////////
 
     <string name="DetailSampleTitle">مشخصات آزمون</string>
+
+    <string name="DetailSampleReference">مراجع</string>
+    <string name="DetailSampleCode">کد</string>
+    <string name="DetailSampleCase">پرونده</string>
+    <string name="DetailSampleRoom">اتاق درمان</string>
+
+    <string name="DetailSampleStatusOpen">باز شده</string>
+    <string name="DetailSampleStatusSeald">باز نشده</string>
+    <string name="DetailSampleStatusScoring">نمره گذاری</string>
+    <string name="DetailSampleStatusClosed">بسته شده</string>
+    <string name="DetailSampleStatusDone">اتمام شد</string>
 
     <string name="DetailSampleClose">بستن آزمون</string>
     <string name="DetailSampleScore">نمره دهی</string>

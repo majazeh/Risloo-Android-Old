@@ -1,13 +1,11 @@
 package com.majazeh.risloo.ViewModels;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 
 import org.json.JSONArray;
@@ -15,20 +13,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class SampleViewModel extends AndroidViewModel {
 
     // Repositories
     private SampleRepository repository;
 
-    public SampleViewModel(@NonNull Application application, String sampleId) throws JSONException {
-        super(application);
-
-        repository = new SampleRepository(application, sampleId);
-    }
-
-    public SampleViewModel(@NonNull Application application) {
+    public SampleViewModel(@NonNull Application application) throws JSONException {
         super(application);
 
         repository = new SampleRepository(application);
@@ -46,14 +37,6 @@ public class SampleViewModel extends AndroidViewModel {
         repository.samples();
     }
 
-    public void close(String sampleId) throws JSONException {
-        repository.close(sampleId);
-    }
-
-    public void delete(String sampleId) {
-        repository.delete(sampleId);
-    }
-
     public void sendAnswers(String sampleId) throws JSONException {
         repository.sendAnswers(sampleId);
     }
@@ -64,6 +47,18 @@ public class SampleViewModel extends AndroidViewModel {
 
     public void create(ArrayList scales, String room, String cases, ArrayList roomReferences, ArrayList caseReferences, String count) throws JSONException {
         repository.create(scales, room, cases, roomReferences, caseReferences, count);
+    }
+
+    public void close(String sampleId) throws JSONException {
+        repository.close(sampleId);
+    }
+
+    public void score(String sampleId) throws JSONException {
+        repository.score(sampleId);
+    }
+
+    public void delete(String sampleId) {
+        repository.delete(sampleId);
     }
 
     public void scales() throws JSONException {
@@ -82,6 +77,10 @@ public class SampleViewModel extends AndroidViewModel {
         repository.references(roomId);
     }
 
+    public void general(String sampleId) throws JSONException {
+        repository.general(sampleId);
+    }
+
     /*
          ---------- Insert ----------
     */
@@ -89,7 +88,6 @@ public class SampleViewModel extends AndroidViewModel {
     public void insertToLocal(int index, int answer) {
         repository.insertToLocal(index, answer);
     }
-
 
     /*
          ---------- Write ----------
@@ -117,6 +115,10 @@ public class SampleViewModel extends AndroidViewModel {
 
     public JSONArray readPrerequisiteAnswerFromCache(String fileName) {
         return repository.readPrerequisiteAnswerFromCache(fileName);
+    }
+
+    public JSONObject readSampleDetailFromCache(String fileName) {
+        return repository.readSampleDetailFromCache(fileName);
     }
 
     /*
@@ -223,14 +225,4 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.getArchive();
     }
 
-    public void getGeneral(String sampleId) throws JSONException {
-        repository.getGeneral(sampleId);
-    }
-    public JSONObject readSampleDetail(String fileName){
-        return repository.readSampleDetailFromCache(fileName);
-    }
-
-    public void score(String sampleId) throws JSONException {
-        repository.score(sampleId);
-    }
 }

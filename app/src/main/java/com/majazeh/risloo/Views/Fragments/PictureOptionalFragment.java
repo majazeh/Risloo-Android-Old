@@ -19,34 +19,37 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
-import com.majazeh.risloo.Views.Adapters.PFTAdapter;
+import com.majazeh.risloo.Views.Adapters.OptionalAdapter;
 
-public class PFTFragment extends Fragment {
+import org.json.JSONException;
+
+public class PictureOptionalFragment extends Fragment {
 
     // ViewModels
     private SampleViewModel viewModel;
 
     // Adapters
-    private PFTAdapter adapter;
+    private OptionalAdapter adapter;
 
     // Objects
     private Activity activity;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     // Widgets
     private TextView questionTextView;
     private ImageView questionImageView;
     private RecyclerView answerRecyclerView;
 
-    public PFTFragment(Activity activity, SampleViewModel viewModel) {
+    public PictureOptionalFragment(Activity activity, SampleViewModel viewModel) {
         this.activity = activity;
         this.viewModel = viewModel;
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.fragment_pft, viewGroup, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
+        View view = LayoutInflater.from(activity).inflate(R.layout.fragment_picture_optional, viewGroup, false);
 
         initializer(view);
 
@@ -56,28 +59,31 @@ public class PFTFragment extends Fragment {
     private void initializer(View view) {
         sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
-        adapter = new PFTAdapter(activity);
-//        adapter.setAnswer(viewModel.getOptions(viewModel.getIndex()), viewModel.answeredPosition(sharedPreferences.getString("sampleId",""), viewModel.getIndex()), viewModel);
+        editor = sharedPreferences.edit();
+        editor.apply();
 
-        questionTextView = view.findViewById(R.id.fragment_pft_question_textView);
-//        try {
-//            questionTextView.setText(viewModel.getItem(viewModel.getIndex()).get("text").toString());
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+        adapter = new OptionalAdapter(activity);
+        adapter.setAnswer(viewModel.getOptions(viewModel.getIndex()), viewModel.answeredPosition(sharedPreferences.getString("sampleId",""), viewModel.getIndex()), viewModel);
 
-        questionImageView = view.findViewById(R.id.fragment_pft_question_imageView);
+        questionTextView = view.findViewById(R.id.fragment_picture_optional_question_textView);
+        try {
+            questionTextView.setText(viewModel.getItem(viewModel.getIndex()).get("text").toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        questionImageView = view.findViewById(R.id.fragment_picture_optional_question_imageView);
 //        try {
 //            questionImageView.setImageResource();
 //        } catch (JSONException e) {
 //            e.printStackTrace();
 //        }
 
-        answerRecyclerView = view.findViewById(R.id.fragment_pft_answer_recyclerView);
-        answerRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
+        answerRecyclerView = view.findViewById(R.id.fragment_picture_optional_answer_recyclerView);
+        answerRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._24sdp)));
         answerRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         answerRecyclerView.setHasFixedSize(true);
-//        answerRecyclerView.setAdapter(adapter);
+        answerRecyclerView.setAdapter(adapter);
     }
 
 }

@@ -3,7 +3,6 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Constraints;
@@ -28,7 +27,8 @@ import java.util.HashMap;
 
 public class SampleRepository extends MainRepository {
 
-    // Items
+    // Objects
+    private JSONObject sampleJson;
     private SampleItems sampleItems;
 
     // Vars
@@ -50,31 +50,7 @@ public class SampleRepository extends MainRepository {
     public static boolean cache = false;
     public static int samplesPage = 1;
 
-    // Objects
-    private JSONObject sampleJson;
-
-    public SampleRepository(Application application, String sampleId) throws JSONException {
-        super(application);
-
-        //sample(sampleId);
-
-        localData = new ArrayList<>();
-        remoteData = new ArrayList<>();
-        prerequisiteData = new ArrayList();
-        createData = new HashMap();
-        scales = new ArrayList<>();
-        cases = new ArrayList<>();
-        references = new ArrayList<>();
-        rooms = new ArrayList<>();
-        workStateSample = new MutableLiveData<>();
-        workStateAnswer = new MutableLiveData<>();
-        workStateCreate = new MutableLiveData<>();
-        workStateSample.setValue(-1);
-        workStateAnswer.setValue(-1);
-        workStateCreate.setValue(-1);
-    }
-
-    public SampleRepository(Application application) {
+    public SampleRepository(Application application) throws JSONException {
         super(application);
 
         localData = new ArrayList<>();
@@ -102,7 +78,6 @@ public class SampleRepository extends MainRepository {
     */
 
     public void sample(String sampleId) throws JSONException {
-
         if (isNetworkConnected(application.getApplicationContext())) {
             SampleRepository.sampleId = sampleId;
 
@@ -169,26 +144,6 @@ public class SampleRepository extends MainRepository {
         workManager("getAll");
     }
 
-    public void close(String sampleId) throws JSONException {
-        SampleRepository.sampleId = sampleId;
-
-        work = "close";
-        workStateSample.setValue(-1);
-        workManager("close");
-    }
-
-    public void score(String sampleId) throws JSONException {
-        SampleRepository.sampleId = sampleId;
-
-        work = "score";
-        workStateSample.setValue(-1);
-        workManager("score");
-    }
-
-    public void delete(String sampleId) {
-        FileManager.deleteCache(application.getApplicationContext(), "Answers", sampleId);
-    }
-
     public void sendAnswers(String sampleId) throws JSONException {
         if (isNetworkConnected(application.getApplicationContext())) {
             if (SampleRepository.cache == true) {
@@ -248,6 +203,26 @@ public class SampleRepository extends MainRepository {
         workManager("create");
     }
 
+    public void close(String sampleId) throws JSONException {
+        SampleRepository.sampleId = sampleId;
+
+        work = "close";
+        workStateSample.setValue(-1);
+        workManager("close");
+    }
+
+    public void score(String sampleId) throws JSONException {
+        SampleRepository.sampleId = sampleId;
+
+        work = "score";
+        workStateSample.setValue(-1);
+        workManager("score");
+    }
+
+    public void delete(String sampleId) {
+        FileManager.deleteCache(application.getApplicationContext(), "Answers", sampleId);
+    }
+
     public void scales() throws JSONException {
         work = "getScales";
         workStateCreate.setValue(-1);
@@ -276,7 +251,7 @@ public class SampleRepository extends MainRepository {
         workManager("getReferences");
     }
 
-    public void getGeneral(String sampleId) throws JSONException {
+    public void general(String sampleId) throws JSONException {
         SampleRepository.sampleId = sampleId;
 
         work = "getGeneral";
@@ -304,7 +279,6 @@ public class SampleRepository extends MainRepository {
         remoteData.addAll(localData);
         localData.clear();
     }
-
 
     /*
          ---------- Write ----------
@@ -603,8 +577,6 @@ public class SampleRepository extends MainRepository {
             return null;
         }
     }
-
-
 
     /*
          ---------- Work ----------

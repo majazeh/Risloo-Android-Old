@@ -2,20 +2,33 @@ package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
+import com.majazeh.risloo.Models.Managers.ExceptionManager;
+import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -25,17 +38,16 @@ public class DetailSampleAdapter extends RecyclerView.Adapter<DetailSampleAdapte
     private SampleViewModel viewModel;
 
     // Vars
-    private boolean editable = false;
     private String result = "";
-    private ArrayList<Model> values = new ArrayList<>();
+    private ArrayList<Model> values;
+    private boolean editable = false;
 
     // Objects
     private Activity activity;
     private Handler handler;
 
-    public DetailSampleAdapter(Activity activity, SampleViewModel viewModel) {
+    public DetailSampleAdapter(Activity activity) {
         this.activity = activity;
-        this.viewModel = viewModel;
     }
 
     @NonNull
@@ -50,17 +62,18 @@ public class DetailSampleAdapter extends RecyclerView.Adapter<DetailSampleAdapte
 
     @Override
     public void onBindViewHolder(@NonNull DetailSampleHolder holder, int i) {
-
-        if (editable) {
-            holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_white_solid_border_quartz);
-            holder.typeEditText.setFocusableInTouchMode(true);
-            holder.optionSpinner.setEnabled(true);
-        } else {
-            holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            holder.typeEditText.setFocusableInTouchMode(false);
-            holder.optionSpinner.setEnabled(false);
-        }
-
+//        Model model = values.get(i);
+//
+//        if (editable) {
+//            holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_white_solid_border_quartz);
+//            holder.typeEditText.setFocusableInTouchMode(true);
+//            holder.optionSpinner.setEnabled(true);
+//        } else {
+//            holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+//            holder.typeEditText.setFocusableInTouchMode(false);
+//            holder.optionSpinner.setEnabled(false);
+//        }
+//
 //        try {
 //            if () {
 //                holder.typeEditText.setVisibility(View.VISIBLE);
@@ -156,6 +169,8 @@ public class DetailSampleAdapter extends RecyclerView.Adapter<DetailSampleAdapte
     }
 
     private void initializer(View view) {
+        viewModel = new ViewModelProvider((FragmentActivity) activity).get(SampleViewModel.class);
+
         handler = new Handler();
     }
 
@@ -177,7 +192,9 @@ public class DetailSampleAdapter extends RecyclerView.Adapter<DetailSampleAdapte
 //            holder.updateProgressBar.setVisibility(View.VISIBLE);
 //            holder.arrowImageView.setVisibility(View.GONE);
 //            holder.optionSpinner.setClickable(false);
-//        } try {
+//        }
+//
+//        try {
 //            viewModel.update();
 //            observeWork(holder, type);
 //        } catch (JSONException e) {
@@ -187,7 +204,7 @@ public class DetailSampleAdapter extends RecyclerView.Adapter<DetailSampleAdapte
 
     private void observeWork(@NonNull DetailSampleHolder holder, String type) {
 //        SampleRepository.workStateDetail.observe((LifecycleOwner) this, integer -> {
-//            if (SampleRepository.work == "update") {
+//            if (SampleRepository.work.equals("update")) {
 //                if (integer == 1) {
 //                    if (type.equals("editText")) {
 //                        holder.updateProgressBar.setVisibility(View.GONE);
@@ -197,6 +214,7 @@ public class DetailSampleAdapter extends RecyclerView.Adapter<DetailSampleAdapte
 //                        holder.arrowImageView.setVisibility(View.VISIBLE);
 //                        holder.optionSpinner.setClickable(true);
 //                    }
+//
 //                    SampleRepository.workStateDetail.removeObservers((LifecycleOwner) this);
 //                } else if (integer == 0) {
 //                    if (type.equals("editText")) {
@@ -207,6 +225,7 @@ public class DetailSampleAdapter extends RecyclerView.Adapter<DetailSampleAdapte
 //                        holder.arrowImageView.setVisibility(View.VISIBLE);
 //                        holder.optionSpinner.setClickable(true);
 //                    }
+//
 //                    Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
 //                    SampleRepository.workStateDetail.removeObservers((LifecycleOwner) this);
 //                } else if (integer == -2) {
@@ -218,6 +237,7 @@ public class DetailSampleAdapter extends RecyclerView.Adapter<DetailSampleAdapte
 //                        holder.arrowImageView.setVisibility(View.VISIBLE);
 //                        holder.optionSpinner.setClickable(true);
 //                    }
+//
 //                    Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
 //                    SampleRepository.workStateDetail.removeObservers((LifecycleOwner) this);
 //                }

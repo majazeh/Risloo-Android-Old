@@ -27,7 +27,7 @@ public class QuestionViewModel extends AndroidViewModel {
          ---------- Arrays ----------
     */
 
-    public ArrayList<Model> getAll() {
+    public ArrayList<Model> getAll() throws JSONException {
         return repository.getAll();
     }
 

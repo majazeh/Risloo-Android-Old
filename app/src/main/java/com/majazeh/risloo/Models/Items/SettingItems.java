@@ -19,15 +19,20 @@ public class SettingItems {
     // Objects
     private Application application;
 
-    public SettingItems(Application application) throws JSONException {
+    public SettingItems(Application application) {
         this.application = application;
+    }
+
+    private void refresh() throws JSONException {
+        items.clear();
 
         for (int i = 0; i < data().length(); i++) {
             items.add(new Model(data().getJSONObject(i)));
         }
     }
 
-    public ArrayList<Model> items(){
+    public ArrayList<Model> items() throws JSONException {
+        refresh();
         return items;
     }
 
