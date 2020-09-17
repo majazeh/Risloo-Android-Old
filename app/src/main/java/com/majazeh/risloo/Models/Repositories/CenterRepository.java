@@ -3,6 +3,7 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Constraints;
@@ -21,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CenterRepository extends MainRepository {
 
@@ -28,6 +30,11 @@ public class CenterRepository extends MainRepository {
     public static MutableLiveData<Integer> workState;
     public static String work = "";
     public static String clinicId = "";
+    public static HashMap create = new HashMap();
+    public static ArrayList<Model> personal_clinic = new ArrayList<>();
+    public static ArrayList<Model> counseling_center = new ArrayList<>();
+    public static int allPage = 1;
+    public static int myPage = 1;
 
     public CenterRepository(Application application) throws JSONException {
         super(application);
@@ -60,6 +67,45 @@ public class CenterRepository extends MainRepository {
         workManager("request");
     }
 
+    public void create(String type, String manager_id, String title, String avatar, String address, String description, ArrayList phone_numbers) throws JSONException {
+        if (!type.equals("")) {
+            CenterRepository.create.put("type", type);
+        }
+        if (!manager_id.equals("")) {
+            CenterRepository.create.put("manager_id", manager_id);
+        }
+        if (!title.equals("")) {
+            CenterRepository.create.put("title", title);
+        }
+        if (!avatar.equals("")) {
+            CenterRepository.create.put("avatar", avatar);
+        }
+        if (!address.equals("")) {
+            CenterRepository.create.put("address", address);
+        }
+        if (!description.equals("")) {
+            CenterRepository.create.put("description", description);
+        }
+        if (phone_numbers.size() != 0) {
+            CenterRepository.create.put("phone_numbers", phone_numbers);
+        }
+
+        work = "create";
+        workState.setValue(-1);
+        workManager("create");
+    }
+
+    public void personal_clinic() throws JSONException {
+        work = "personal_clinic";
+        workState.setValue(-1);
+        workManager("personal_clinic");
+    }
+
+    public void counseling_center() throws JSONException {
+        work = "counseling_center";
+        workState.setValue(-1);
+        workManager("counseling_center");
+    }
     /*
          ---------- Arrays ----------
     */

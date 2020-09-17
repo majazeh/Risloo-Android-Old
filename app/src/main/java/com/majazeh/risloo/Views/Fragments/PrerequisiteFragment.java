@@ -75,7 +75,6 @@ public class PrerequisiteFragment extends Fragment {
         try {
             ArrayList arrayList = new ArrayList();
             for (Object key: adapter.answer.keySet()) {
-            Log.e("answer", String.valueOf(adapter.answer));
                 ArrayList arrayList1 = new ArrayList<String>();
                 arrayList1.add(key);
                 arrayList1.add(adapter.answer.get(key));

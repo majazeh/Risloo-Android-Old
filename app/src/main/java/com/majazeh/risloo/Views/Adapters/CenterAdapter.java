@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +82,6 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
     @Override
     public void onBindViewHolder(@NonNull CenterHolder holder, int i) {
         Model model = centers.get(i);
-
         try {
             int createdAt = (int) model.get("created_at");
 
@@ -227,12 +227,15 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
             }
 
             if (!details.isNull("description")) {
+                holder.descriptionLinearLayout.setVisibility(View.VISIBLE);
                 holder.descriptionTextView.setText(details.getString("description"));
             } else {
                 holder.descriptionLinearLayout.setVisibility(View.GONE);
             }
 
+
             if (!details.isNull("address")) {
+                holder.addressLinearLayout.setVisibility(View.VISIBLE);
                 holder.addressTextView.setText(details.getString("address"));
             } else {
                 holder.addressLinearLayout.setVisibility(View.GONE);
@@ -255,6 +258,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                     holder.phoneRecyclerView.setHasFixedSize(false);
                 }
                 holder.phoneRecyclerView.setAdapter(adapter);
+                holder.phoneLinearLayout.setVisibility(View.VISIBLE);
 
             } else {
                 holder.phoneLinearLayout.setVisibility(View.GONE);

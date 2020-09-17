@@ -39,6 +39,18 @@ public class CenterViewModel extends AndroidViewModel {
         repository.request(clinicId);
     }
 
+    public void create(String type, String manager_id, String title, String avatar, String address, String description, ArrayList phone_numbers) throws JSONException {
+        repository.create(type, manager_id, title, avatar, address, description, phone_numbers);
+    }
+
+    public void personal_clinic() throws JSONException {
+        repository.personal_clinic();
+    }
+
+    public void counseling_center() throws JSONException {
+        repository.counseling_center();
+    }
+
     /*
          ---------- Arrays ----------
     */
