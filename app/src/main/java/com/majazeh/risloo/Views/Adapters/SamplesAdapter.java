@@ -262,7 +262,6 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
             editor.apply();
 
             activity.startActivityForResult(new Intent(activity, SampleActivity.class),100);
-            activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         } catch (JSONException e) {
             e.printStackTrace();
         }

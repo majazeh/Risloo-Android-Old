@@ -53,7 +53,7 @@ dependencies {
 
     implementation 'com.duolingo.open:rtl-viewpager:2.0.0' // RtlViewPager
 
-    implementation 'com.github.mukeshsolanki:MarkdownView-Android:1.0.8' // MarkDownView
+    implementation "io.noties.markwon:core:4.6.0" // MarkDownView
 
     implementation 'com.google.android.material:material:1.2.1' // Google Material
 

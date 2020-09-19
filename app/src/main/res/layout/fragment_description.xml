@@ -11,13 +11,14 @@
     tools:context=".Views.Fragments.DescriptionFragment"
     tools:ignore="UnusedAttribute">
 
-    <com.mukesh.MarkdownView
-        android:id="@+id/fragment_description_markDownView"
+    <TextView
+        android:id="@+id/fragment_description_textView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_8sdp"
         android:layout_marginBottom="@dimen/_16sdp"
-        android:layout_marginLeft="@dimen/_8sdp"
-        android:layout_marginRight="@dimen/_8sdp"
+        android:layout_marginLeft="@dimen/_16sdp"
+        android:layout_marginRight="@dimen/_16sdp"
         android:overScrollMode="never"/>
 
 </FrameLayout>

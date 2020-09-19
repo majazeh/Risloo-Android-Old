@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,7 +13,8 @@ import androidx.fragment.app.Fragment;
 
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
-import com.mukesh.MarkdownView;
+
+import io.noties.markwon.Markwon;
 
 public class DescriptionFragment extends Fragment {
 
@@ -23,7 +25,7 @@ public class DescriptionFragment extends Fragment {
     private Activity activity;
 
     // Widgets
-    private MarkdownView markdownView;
+    private TextView markdownTextView;
 
     public DescriptionFragment(Activity activity, SampleViewModel viewModel) {
         this.activity = activity;
@@ -41,8 +43,8 @@ public class DescriptionFragment extends Fragment {
     }
 
     private void initializer(View view) {
-        markdownView = view.findViewById(R.id.fragment_description_markDownView);
-        markdownView.setMarkDownText(viewModel.getDescription());
+        markdownTextView = view.findViewById(R.id.fragment_description_textView);
+        Markwon.create(activity).setMarkdown(markdownTextView, viewModel.getDescription());
     }
 
 }

@@ -186,7 +186,6 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
             editor.apply();
 
             activity.startActivity(new Intent(activity, SampleActivity.class));
-            activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         } catch (JSONException e) {
             e.printStackTrace();
         }

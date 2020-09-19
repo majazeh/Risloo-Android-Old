@@ -359,10 +359,6 @@ public class SampleActivity extends AppCompatActivity {
 
                 break;
         }
-
-
-
-
     }
 
     private void setRecyclerView() {
