@@ -19,13 +19,15 @@ import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.PrerequisiteAdapter;
 
+import java.util.ArrayList;
+
 public class PrerequisiteFragment extends Fragment {
 
     // ViewModels
     private SampleViewModel viewModel;
 
     // Adapters
-    public PrerequisiteAdapter adapter;
+    private PrerequisiteAdapter adapter;
 
     // Objects
     private Activity activity;
@@ -64,6 +66,19 @@ public class PrerequisiteFragment extends Fragment {
         prerequisiteRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         prerequisiteRecyclerView.setHasFixedSize(true);
         prerequisiteRecyclerView.setAdapter(adapter);
+    }
+
+    public ArrayList prerequisites() {
+        ArrayList answers = new ArrayList();
+        for (Object key: adapter.answer.keySet()) {
+            ArrayList list = new ArrayList<String>();
+
+            list.add(key);
+            list.add(adapter.answer.get(key));
+
+            answers.add(list);
+        }
+        return answers;
     }
 
 }

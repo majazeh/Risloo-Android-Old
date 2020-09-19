@@ -119,13 +119,13 @@
     <string name="SamplePrerequisite">کاربر گرامی، قبل از شروع نمونه لطفا پیشنیاز های نمونه خواسته شده در زیر را تکمیل نمایید</string>
     <string name="SampleHint">اینجا وارد نمایید</string>
     <string name="SampleNext">مرحله بعدی</string>
-    <string name="SampleFinish">اتمام</string>
+    <string name="SampleClose">اتمام</string>
     <string name="SampleCancel">خروج</string>
 
-    <string name="SampleFinishDialogTitle">اتمام نمونه؟</string>
-    <string name="SampleFinishDialogDescription">آیا تمایل به اتمام این نمونه صرفا با پاسخ های حال حاضر؟</string>
-    <string name="SampleFinishDialogPositive">اتمام</string>
-    <string name="SampleFinishDialogNegative">بستن</string>
+    <string name="SampleCloseDialogTitle">اتمام نمونه؟</string>
+    <string name="SampleCloseDialogDescription">آیا تمایل به اتمام این نمونه صرفا با پاسخ های حال حاضر؟</string>
+    <string name="SampleCloseDialogPositive">اتمام</string>
+    <string name="SampleCloseDialogNegative">بستن</string>
     <string name="SampleCancelDialogTitle">خروج از نمونه؟</string>
     <string name="SampleCancelDialogDescription">نمونه شما از بین نمی رود و بعدا می توانید از بایگانی خود به آن دسترسی پیدا کنید و ان را تکمیل نمایید.</string>
     <string name="SampleCancelDialogPositive">خروج</string>

@@ -1,5 +1,6 @@
 package com.majazeh.risloo.Views.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -14,16 +15,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -34,6 +39,7 @@ import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
+import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.IndexAdapter;
@@ -48,7 +54,6 @@ import com.majazeh.risloo.Views.Fragments.TextTypingFragment;
 
 import org.json.JSONException;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class SampleActivity extends AppCompatActivity {
@@ -59,24 +64,24 @@ public class SampleActivity extends AppCompatActivity {
     // Adapters
     private IndexAdapter adapter;
 
-    // Vars
-    private String showProgress = "-1";
-
     // Objects
     private Handler handler;
     private Animation animSlideIn, animSlideOut;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private ClickableSpan retrySpan;
 
     // Widgets
-    private LinearLayout progressLinearLayout, buttonLinearLayout;
+    private LinearLayout progressLinearLayout;
     private RecyclerView indexRecyclerView;
     private ProgressBar progressBar;
-    private Button finishButton, cancelButton;
+    private Button closeButton, cancelButton;
+    private TextView retryTextView;
+    private ImageView retryImageView;
     private RelativeLayout mainLayout;
     private LinearLayout retryLayout, loadingLayout;
-    private Dialog finishDialog, cancelDialog, progressDialog;
-    private TextView finishDialogTitle, finishDialogDescription, finishDialogPositive, finishDialogNegative, cancelDialogTitle, cancelDialogDescription, cancelDialogPositive, cancelDialogNegative;
+    private Dialog closeDialog, cancelDialog, progressDialog;
+    private TextView closeDialogTitle, closeDialogDescription, closeDialogPositive, closeDialogNegative, cancelDialogTitle, cancelDialogDescription, cancelDialogPositive, cancelDialogNegative;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +97,7 @@ public class SampleActivity extends AppCompatActivity {
 
         listener();
 
-        launchProcess();
+        launchProcess("getSingle");
     }
 
     private void decorator() {
@@ -116,7 +121,6 @@ public class SampleActivity extends AppCompatActivity {
         animSlideOut = AnimationUtils.loadAnimation(this, R.anim.slide_out_top);
 
         progressLinearLayout = findViewById(R.id.activity_sample_progress_linearLayout);
-        buttonLinearLayout = findViewById(R.id.activity_sample_button_linearLayout);
 
         indexRecyclerView = findViewById(R.id.activity_sample_recyclerView);
         indexRecyclerView.addItemDecoration(new ItemDecorator("horizontalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._8sdp), (int) getResources().getDimension(R.dimen._16sdp)));
@@ -125,18 +129,23 @@ public class SampleActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.activity_sample_progressBar);
 
-        finishButton = findViewById(R.id.activity_sample_finish_button);
+        closeButton = findViewById(R.id.activity_sample_close_button);
         cancelButton = findViewById(R.id.activity_sample_cancel_button);
+
+        retryImageView = findViewById(R.id.activity_sample_retry_imageView);
+
+        retryTextView = findViewById(R.id.activity_sample_retry_textView);
+        retryTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
         mainLayout = findViewById(R.id.activity_sample_mainLayout);
         retryLayout = findViewById(R.id.activity_sample_retryLayout);
         loadingLayout = findViewById(R.id.activity_sample_loadingLayout);
 
-        finishDialog = new Dialog(this, R.style.DialogTheme);
-        Objects.requireNonNull(finishDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
-        finishDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        finishDialog.setContentView(R.layout.dialog_action);
-        finishDialog.setCancelable(true);
+        closeDialog = new Dialog(this, R.style.DialogTheme);
+        Objects.requireNonNull(closeDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+        closeDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        closeDialog.setContentView(R.layout.dialog_action);
+        closeDialog.setCancelable(true);
         cancelDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(cancelDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         cancelDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -149,25 +158,25 @@ public class SampleActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.copyFrom(finishDialog.getWindow().getAttributes());
+        layoutParams.copyFrom(closeDialog.getWindow().getAttributes());
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        finishDialog.getWindow().setAttributes(layoutParams);
+        closeDialog.getWindow().setAttributes(layoutParams);
         WindowManager.LayoutParams layoutParams2 = new WindowManager.LayoutParams();
         layoutParams2.copyFrom(cancelDialog.getWindow().getAttributes());
         layoutParams2.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParams2.height = WindowManager.LayoutParams.WRAP_CONTENT;
         cancelDialog.getWindow().setAttributes(layoutParams2);
 
-        finishDialogTitle = finishDialog.findViewById(R.id.dialog_action_title_textView);
-        finishDialogTitle.setText(getResources().getString(R.string.SampleFinishDialogTitle));
-        finishDialogDescription = finishDialog.findViewById(R.id.dialog_action_description_textView);
-        finishDialogDescription.setText(getResources().getString(R.string.SampleFinishDialogDescription));
-        finishDialogPositive = finishDialog.findViewById(R.id.dialog_action_positive_textView);
-        finishDialogPositive.setText(getResources().getString(R.string.SampleFinishDialogPositive));
-        finishDialogPositive.setTextColor(getResources().getColor(R.color.PrimaryDark));
-        finishDialogNegative = finishDialog.findViewById(R.id.dialog_action_negative_textView);
-        finishDialogNegative.setText(getResources().getString(R.string.SampleFinishDialogNegative));
+        closeDialogTitle = closeDialog.findViewById(R.id.dialog_action_title_textView);
+        closeDialogTitle.setText(getResources().getString(R.string.SampleCloseDialogTitle));
+        closeDialogDescription = closeDialog.findViewById(R.id.dialog_action_description_textView);
+        closeDialogDescription.setText(getResources().getString(R.string.SampleCloseDialogDescription));
+        closeDialogPositive = closeDialog.findViewById(R.id.dialog_action_positive_textView);
+        closeDialogPositive.setText(getResources().getString(R.string.SampleCloseDialogPositive));
+        closeDialogPositive.setTextColor(getResources().getColor(R.color.PrimaryDark));
+        closeDialogNegative = closeDialog.findViewById(R.id.dialog_action_negative_textView);
+        closeDialogNegative.setText(getResources().getString(R.string.SampleCloseDialogNegative));
         cancelDialogTitle = cancelDialog.findViewById(R.id.dialog_action_title_textView);
         cancelDialogTitle.setText(getResources().getString(R.string.SampleCancelDialogTitle));
         cancelDialogDescription = cancelDialog.findViewById(R.id.dialog_action_description_textView);
@@ -181,20 +190,33 @@ public class SampleActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            finishButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
+            closeButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
             cancelButton.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude_ripple_quartz);
 
-            finishDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
-            finishDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            closeDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            closeDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
             cancelDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
             cancelDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
         }
     }
 
     private void listener() {
-        finishButton.setOnClickListener(v -> {
-            finishButton.setClickable(false);
-            handler.postDelayed(() -> finishButton.setClickable(true), 300);
+        retrySpan = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View view) {
+                launchProcess("getSingle");
+            }
+
+            @Override
+            public void updateDrawState(@NonNull TextPaint textPaint) {
+                textPaint.setColor(getResources().getColor(R.color.PrimaryDark));
+                textPaint.setUnderlineText(false);
+            }
+        };
+
+        closeButton.setOnClickListener(v -> {
+            closeButton.setClickable(false);
+            handler.postDelayed(() -> closeButton.setClickable(true), 300);
 
             onNextPressed();
         });
@@ -205,12 +227,12 @@ public class SampleActivity extends AppCompatActivity {
             cancelDialog.show();
         });
 
-        finishDialogPositive.setOnClickListener(v -> {
-            finishDialogPositive.setClickable(false);
-            handler.postDelayed(() -> finishDialogPositive.setClickable(true), 300);
-            finishDialog.dismiss();
+        closeDialogPositive.setOnClickListener(v -> {
+            closeDialogPositive.setClickable(false);
+            handler.postDelayed(() -> closeDialogPositive.setClickable(true), 300);
+            closeDialog.dismiss();
 
-            closeSample();
+            launchProcess("closeSample");
         });
 
         cancelDialogPositive.setOnClickListener(v -> {
@@ -221,10 +243,10 @@ public class SampleActivity extends AppCompatActivity {
             finish();
         });
 
-        finishDialogNegative.setOnClickListener(v -> {
-            finishDialogNegative.setClickable(false);
-            handler.postDelayed(() -> finishDialogNegative.setClickable(true), 300);
-            finishDialog.dismiss();
+        closeDialogNegative.setOnClickListener(v -> {
+            closeDialogNegative.setClickable(false);
+            handler.postDelayed(() -> closeDialogNegative.setClickable(true), 300);
+            closeDialog.dismiss();
         });
 
         cancelDialogNegative.setOnClickListener(v -> {
@@ -233,12 +255,12 @@ public class SampleActivity extends AppCompatActivity {
             cancelDialog.dismiss();
         });
 
-        finishDialog.setOnCancelListener(dialog -> finishDialog.dismiss());
+        closeDialog.setOnCancelListener(dialog -> closeDialog.dismiss());
 
         cancelDialog.setOnCancelListener(dialog -> cancelDialog.dismiss());
     }
 
-    public void loadFragment(Fragment fragment, int enterAnim, int exitAnim) {
+    private void loadFragment(Fragment fragment, int enterAnim, int exitAnim) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(enterAnim, exitAnim);
         transaction.replace(R.id.activity_sample_frameLayout, fragment);
@@ -246,18 +268,21 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     public void showFragment() {
-        initButtons();
-
         switch (SampleRepository.theory) {
             case "description":
+                setButtonText();
+                setProgress();
+
                 loadFragment(new DescriptionFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
                 break;
             case "prerequisite":
-                hideProgress();
+                setButtonText();
+                setProgress();
+
                 loadFragment(new PrerequisiteFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
                 break;
             case "sample":
-                showProgress();
+                setButtonText();
                 setProgress();
 
                 switch (viewModel.getType(viewModel.getIndex())) {
@@ -284,195 +309,294 @@ public class SampleActivity extends AppCompatActivity {
         }
     }
 
-    private void initButtons() {
-        buttonLinearLayout.setVisibility(View.VISIBLE);
-
-        if (SampleRepository.theory.equals("description") || SampleRepository.theory.equals("prerequisite")) {
-            finishButton.setText(getResources().getString(R.string.SampleNext));
-        } else if (SampleRepository.theory.equals("sample")) {
-            finishButton.setText(getResources().getString(R.string.SampleFinish));
+    private void setRetryLayout(String type) {
+        if (type.equals("error")) {
+            retryImageView.setImageResource(R.drawable.illu_error);
+            retryTextView.setText(StringCustomizer.clickable(getResources().getString(R.string.AppError), 21, 30, retrySpan));
+        } else if (type.equals("connection")) {
+            retryImageView.setImageResource(R.drawable.illu_connection);
+            retryTextView.setText(StringCustomizer.clickable(getResources().getString(R.string.AppConnection), 17, 26, retrySpan));
         }
     }
 
-    private void showProgress() {
-        if (showProgress.equals("-1")) {
-            showProgress = "1";
-
-            progressLinearLayout.startAnimation(animSlideIn);
-            progressLinearLayout.setVisibility(View.VISIBLE);
-        } else if (showProgress.equals("0")) {
-            showProgress = "1";
-
-            progressLinearLayout.startAnimation(animSlideIn);
-            progressLinearLayout.setVisibility(View.VISIBLE);
+    private void setButtonText() {
+        switch (SampleRepository.theory) {
+            case "description":
+            case "prerequisite":
+                if (!closeButton.getText().toString().equals(R.string.SampleNext)) {
+                    closeButton.setText(getResources().getString(R.string.SampleNext));
+                }
+                break;
+            case "sample":
+                if (!closeButton.getText().toString().equals(R.string.SampleClose)) {
+                    closeButton.setText(getResources().getString(R.string.SampleClose));
+                }
+                break;
         }
-    }
-
-    private void hideProgress() {
-        showProgress = "0";
-
-        progressLinearLayout.startAnimation(animSlideOut);
-        handler.postDelayed(() -> progressLinearLayout.setVisibility(View.GONE), 200);
     }
 
     private void setProgress() {
-        progressBar.setMax(viewModel.getSize());
-        progressBar.setProgress(viewModel.answeredSize(sharedPreferences.getString("sampleId", "")));
+        switch (SampleRepository.theory) {
+            case "description":
+            case "prerequisite":
+                if (progressLinearLayout.getVisibility() == View.VISIBLE) {
+                    progressLinearLayout.startAnimation(animSlideOut);
+                    handler.postDelayed(() -> progressLinearLayout.setVisibility(View.GONE), 200);
+                }
+                break;
+            case "sample":
+                if (progressLinearLayout.getVisibility() != View.VISIBLE) {
+                    progressLinearLayout.startAnimation(animSlideIn);
+                    progressLinearLayout.setVisibility(View.VISIBLE);
+                }
+                progressBar.setMax(viewModel.getSize());
+                progressBar.setProgress(viewModel.answeredSize(sharedPreferences.getString("sampleId", "")));
 
-        indexRecyclerView.scrollToPosition(viewModel.getIndex());
+                indexRecyclerView.scrollToPosition(viewModel.getIndex());
 
-        adapter.setIndex(viewModel.readSampleAnswerFromCache(sharedPreferences.getString("sampleId", "")), viewModel);
-        adapter.notifyDataSetChanged();
+                adapter.setIndex(viewModel.readSampleAnswerFromCache(sharedPreferences.getString("sampleId", "")), viewModel);
+                adapter.notifyDataSetChanged();
+
+                break;
+        }
+
+
+
+
     }
 
     private void setRecyclerView() {
         adapter.setIndex(viewModel.readSampleAnswerFromCache(sharedPreferences.getString("sampleId", "")), viewModel);
         indexRecyclerView.setAdapter(adapter);
+
+        viewModel.setIndex(viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")));
     }
 
-    private void launchProcess() {
-        SampleRepository.work = "getSingle";
-
-        if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) >= 0) {
-            loadingLayout.setVisibility(View.VISIBLE);
-            retryLayout.setVisibility(View.GONE);
-            mainLayout.setVisibility(View.GONE);
-        }
-
-        try {
-            viewModel.sample(sharedPreferences.getString("sampleId", ""));
-            observeWorkSample();
-        } catch (JSONException e) {
-            e.printStackTrace();
+    private void launchProcess(String method) {
+        switch (method) {
+            case "getSingle":
+                try {
+                    viewModel.sample(sharedPreferences.getString("sampleId", ""));
+                    observeWorkSample();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "closeSample":
+                try {
+                    progressDialog.show();
+                    viewModel.close(sharedPreferences.getString("sampleId", ""));
+                    observeWorkSample();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "sendPrerequisite":
+                PrerequisiteFragment fragment = ((PrerequisiteFragment) getSupportFragmentManager().findFragmentById(R.id.activity_sample_frameLayout));
+                if (fragment != null) {
+                    try {
+                        viewModel.sendPrerequisite(sharedPreferences.getString("sampleId", ""), fragment.prerequisites());
+                        observeWorkAnswer();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
         }
     }
 
-
-
-
-    private void observeWorkSample() {
+    private void observeWorkSample()    {
         SampleRepository.workStateSample.observe(this, integer -> {
             if (SampleRepository.work.equals("getSingle")) {
-                if (isNetworkConnected()) {
-                    if (integer == 1) {
+                if (integer == 1) {
+                    if (viewModel.hasPrerequisiteAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
                         if (viewModel.checkPrerequisiteAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
+                            // Show Description
+
                             SampleRepository.theory = "description";
                             showFragment();
+
+                            loadingLayout.setVisibility(View.GONE);
+                            retryLayout.setVisibility(View.GONE);
+                            mainLayout.setVisibility(View.VISIBLE);
+
+                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         } else {
-                            if (viewModel.hasSampleAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
-                                if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) == -1) {
-                                    startActivity(new Intent(this, OutroActivity.class));
-                                    finish();
-                                    SampleRepository.workStateSample.removeObservers(this);
-                                }
-                            }
-                            viewModel.checkSampleAnswerStorage(sharedPreferences.getString("sampleId", ""));
-                            setRecyclerView();
                             if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) == -1) {
                                 if (viewModel.answeredSize(sharedPreferences.getString("sampleId", "")) == viewModel.getSize()) {
+                                    // Answered All Questions
+
+                                    startActivity(new Intent(this, OutroActivity.class));
+                                    finish();
+
+                                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                                } else {
+                                    // Show Sample
+
+                                    setRecyclerView();
+
+                                    SampleRepository.theory = "sample";
+                                    showFragment();
 
                                     loadingLayout.setVisibility(View.GONE);
                                     retryLayout.setVisibility(View.GONE);
                                     mainLayout.setVisibility(View.VISIBLE);
 
-                                    startActivity(new Intent(this, OutroActivity.class));
-                                    finish();
-                                    return;
-                                } else {
-                                    SampleRepository.theory = "sample";
-                                    showFragment();
+                                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                                 }
-                            }
-                            viewModel.setIndex(viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")));
-
-                            loadingLayout.setVisibility(View.GONE);
-                            retryLayout.setVisibility(View.GONE);
-                            mainLayout.setVisibility(View.VISIBLE);
-
-                            SampleRepository.theory = "sample";
-                            showFragment();
-
-                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                        }
-
-                        loadingLayout.setVisibility(View.GONE);
-                        retryLayout.setVisibility(View.GONE);
-                        mainLayout.setVisibility(View.VISIBLE);
-
-                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-
-                    } else if (integer == 0) {
-                        if (viewModel.getItems() == null) {
-                            finish();
-
-                            loadingLayout.setVisibility(View.GONE);
-                            retryLayout.setVisibility(View.GONE);
-                            mainLayout.setVisibility(View.VISIBLE);
-
-                            Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                        } else {
-                            viewModel.checkSampleAnswerStorage(sharedPreferences.getString("sampleId", ""));
-                            viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", ""));
-
-                            if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) == -1) {
-                                startActivity(new Intent(this, OutroActivity.class));
-                                finish();
-                                return;
-                            }
-
-                            setRecyclerView();
-                            viewModel.setIndex(viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")));
-
-                            SampleRepository.theory = "sample";
-                            showFragment();
-
-                            loadingLayout.setVisibility(View.GONE);
-                            retryLayout.setVisibility(View.GONE);
-                            mainLayout.setVisibility(View.VISIBLE);
-                        }
-                    } else if (integer == -2) {
-                        setRecyclerView();
-                        if (viewModel.hasPrerequisiteAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
-                            if (viewModel.checkPrerequisiteAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
-                                loadFragment(new DescriptionFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
                             } else {
+                                // Show Sample
+
+                                setRecyclerView();
+
                                 SampleRepository.theory = "sample";
                                 showFragment();
+
+                                loadingLayout.setVisibility(View.GONE);
+                                retryLayout.setVisibility(View.GONE);
+                                mainLayout.setVisibility(View.VISIBLE);
+
+                                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                             }
-                        } else {
-                            finish();
                         }
+                    } else {
+                        // Show Prerequisite
 
-                        loadingLayout.setVisibility(View.GONE);
-                        retryLayout.setVisibility(View.GONE);
-                        mainLayout.setVisibility(View.VISIBLE);
-
-                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                    }
-                } else {
-                    if (viewModel.getItems() != null) {
-                        viewModel.checkSampleAnswerStorage(sharedPreferences.getString("sampleId", ""));
-                        viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", ""));
-                        if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) == -1) {
-                            startActivity(new Intent(this, OutroActivity.class));
-                            finish();
-                            return;
-                        }
-
-                        setRecyclerView();
-                        viewModel.setIndex(viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")));
-                        SampleRepository.theory = "sample";
+                        SampleRepository.theory = "prerequisite";
                         showFragment();
 
                         loadingLayout.setVisibility(View.GONE);
                         retryLayout.setVisibility(View.GONE);
                         mainLayout.setVisibility(View.VISIBLE);
 
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    }
+                } else if (integer == 0) {
+                    if (viewModel.getItems() == null) {
+                        if (viewModel.hasPrerequisiteAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
+                            if (viewModel.checkPrerequisiteAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
+                                // Show Description
+
+                                SampleRepository.theory = "description";
+                                showFragment();
+
+                                loadingLayout.setVisibility(View.GONE);
+                                retryLayout.setVisibility(View.GONE);
+                                mainLayout.setVisibility(View.VISIBLE);
+
+                                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                            } else {
+                                // Show Sample
+
+                                setRecyclerView();
+
+                                SampleRepository.theory = "sample";
+                                showFragment();
+
+                                loadingLayout.setVisibility(View.GONE);
+                                retryLayout.setVisibility(View.GONE);
+                                mainLayout.setVisibility(View.VISIBLE);
+
+                                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                            }
+                        } else {
+                            // Sample is Empty And Error
+
+                            loadingLayout.setVisibility(View.GONE);
+                            retryLayout.setVisibility(View.VISIBLE);
+                            mainLayout.setVisibility(View.GONE);
+
+                            setRetryLayout("error");
+
+                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                        }
+                    } else {
+                        if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) == -1) {
+                            // Answered All Questions
+
+                            startActivity(new Intent(this, OutroActivity.class));
+                            finish();
+
+                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                        } else {
+                            // Show Sample
+
+                            setRecyclerView();
+
+                            SampleRepository.theory = "sample";
+                            showFragment();
+
+                            loadingLayout.setVisibility(View.GONE);
+                            retryLayout.setVisibility(View.GONE);
+                            mainLayout.setVisibility(View.VISIBLE);
+
+                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                        }
+                    }
+                } else if (integer == -2) {
+                    if (viewModel.getItems() == null) {
+                        if (viewModel.hasPrerequisiteAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
+                            if (viewModel.checkPrerequisiteAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
+                                // Show Description
+
+                                SampleRepository.theory = "description";
+                                showFragment();
+
+                                loadingLayout.setVisibility(View.GONE);
+                                retryLayout.setVisibility(View.GONE);
+                                mainLayout.setVisibility(View.VISIBLE);
+
+                                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                            } else {
+                                // Show Sample
+
+                                setRecyclerView();
+
+                                SampleRepository.theory = "sample";
+                                showFragment();
+
+                                loadingLayout.setVisibility(View.GONE);
+                                retryLayout.setVisibility(View.GONE);
+                                mainLayout.setVisibility(View.VISIBLE);
+
+                                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                            }
+                        } else {
+                            // Sample is Empty And Connection
+
+                            loadingLayout.setVisibility(View.GONE);
+                            retryLayout.setVisibility(View.VISIBLE);
+                            mainLayout.setVisibility(View.GONE);
+
+                            setRetryLayout("connection");
+
+                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                        }
+                    } else {
+                        if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) == -1) {
+                            // Answered All Questions
+
+                            startActivity(new Intent(this, OutroActivity.class));
+                            finish();
+
+                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                        } else {
+                            // Show Sample
+
+                            setRecyclerView();
+
+                            SampleRepository.theory = "sample";
+                            showFragment();
+
+                            loadingLayout.setVisibility(View.GONE);
+                            retryLayout.setVisibility(View.GONE);
+                            mainLayout.setVisibility(View.VISIBLE);
+
+                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                        }
                     }
                 }
-
-            } else if (SampleRepository.work == "close") {
+            } else if (SampleRepository.work.equals("close")) {
                 if (integer == 1) {
                     setResult(RESULT_OK, null);
                     finish();
@@ -493,69 +617,26 @@ public class SampleActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-
-
-
-
-    private void closeSample() {
-        try {
-            progressDialog.show();
-            viewModel.close(sharedPreferences.getString("sampleId", ""));
-            observeWorkSample();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void sendPrerequisite() {
-        PrerequisiteFragment fragment = ((PrerequisiteFragment) getSupportFragmentManager().findFragmentById(R.id.activity_sample_frameLayout));
-        if (fragment != null) {
-            try {
-                ArrayList answers = new ArrayList();
-                for (Object key: fragment.adapter.answer.keySet()) {
-                    ArrayList list = new ArrayList<String>();
-
-                    list.add(key);
-                    list.add(fragment.adapter.answer.get(key));
-
-                    answers.add(list);
-                }
-                viewModel.sendPrerequisite(sharedPreferences.getString("sampleId", ""), answers);
-                observeWorkAnswer();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     private void observeWorkAnswer() {
         SampleRepository.workStateAnswer.observe((LifecycleOwner) this, integer -> {
             if (SampleRepository.work.equals("sendPrerequisite")) {
                 if (integer == 1) {
-                    launchProcess();
+                    launchProcess("getSingle");
 
                     SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
-                    launchProcess();
+                    launchProcess("getSingle");
 
                     Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
-                    launchProcess();
+                    launchProcess("getSingle");
 
                     Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
                 }
             }
         });
-    }
-
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        return Objects.requireNonNull(cm).getActiveNetworkInfo() != null && Objects.requireNonNull(cm.getActiveNetworkInfo()).isConnected();
     }
 
     private void onNextPressed() {
@@ -565,10 +646,10 @@ public class SampleActivity extends AppCompatActivity {
                 showFragment();
                 break;
             case "prerequisite":
-                sendPrerequisite();
+                launchProcess("sendPrerequisite");
                 break;
             case "sample":
-                finishDialog.show();
+                closeDialog.show();
                 break;
         }
     }

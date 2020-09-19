@@ -65,7 +65,7 @@
                 android:layout_marginRight="@dimen/_16sdp"
                 android:layout_marginBottom="@dimen/_16sdp"
                 android:layoutDirection="ltr"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:orientation="horizontal">
 
                 <Button
@@ -84,7 +84,7 @@
                     style="?android:attr/borderlessButtonStyle" />
 
                 <Button
-                    android:id="@+id/activity_sample_finish_button"
+                    android:id="@+id/activity_sample_close_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_4sdp"
