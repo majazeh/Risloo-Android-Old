@@ -47,7 +47,7 @@ public class SerialFragment extends Fragment {
 
     // Widgets
     private TextView serialDescriptionTextView;
-    private EditText serialEditText;
+    public EditText serialEditText;
     private Button serialButton;
     private LinearLayout serialLinkLinearLayout, serialArchiveLinearLayout;
     private TextView serialRegisterTextView, serialRecoveryTextView, serialIncompleteTextView, serialArchiveTextView;

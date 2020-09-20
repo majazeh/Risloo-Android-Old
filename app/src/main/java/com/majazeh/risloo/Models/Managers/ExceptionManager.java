@@ -6,6 +6,7 @@ import org.json.JSONObject;
 public class ExceptionManager {
 
     // Vars
+    public static String current_exception;
     public static String is_ok;
     public static String message;
     public static String message_text;
@@ -103,6 +104,8 @@ public class ExceptionManager {
                     break;
                 default:
                     try {
+                        current_exception = exception;
+
                         is_ok = body.getString("is_ok");
                         message = body.getString("message");
                         message_text = body.getString("message_text");
@@ -112,7 +115,7 @@ public class ExceptionManager {
                         else
                             referer = "";
 
-                        if (body.has("error"))
+                        if (!body.isNull("errors"))
                             errors = body.getJSONObject("errors");
                         else
                             errors = new JSONObject();

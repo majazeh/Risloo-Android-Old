@@ -317,7 +317,7 @@ public class AuthActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             } else if (integer == 0) {
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                observeException();
                 AuthRepository.workState.removeObservers((LifecycleOwner) this);
             } else if (integer == -2) {
                 progressDialog.dismiss();
@@ -325,6 +325,132 @@ public class AuthActivity extends AppCompatActivity {
                 AuthRepository.workState.removeObservers((LifecycleOwner) this);
             }
         });
+    }
+
+    private void observeException() {
+        switch (ExceptionManager.current_exception) {
+            case "auth":
+                if (AuthRepository.theory.equals("auth")) {
+                    SerialFragment serialFragment = ((SerialFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                    if (serialFragment != null) {
+                        try {
+                            if (!ExceptionManager.errors.isNull("authorized_key")) {
+                                errorInput(serialFragment.serialEditText);
+                                Toast.makeText(this, "" + ExceptionManager.errors.getString("authorized_key"), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else if (AuthRepository.theory.equals("mobile")) {
+                    MobileFragment mobileFragment = ((MobileFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                    if (mobileFragment != null) {
+                        try {
+                            if (!ExceptionManager.errors.isNull("authorized_key")) {
+                                errorInput(mobileFragment.mobileEditText);
+                                Toast.makeText(this, "" + ExceptionManager.errors.getString("authorized_key"), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                break;
+            case "authTheory":
+                if (AuthRepository.theory.equals("password")) {
+                    PasswordFragment passwordFragment = ((PasswordFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                    if (passwordFragment != null) {
+                        try {
+                            if (!ExceptionManager.errors.isNull("password")) {
+                                errorInput(passwordFragment.passwordEditText);
+                                Toast.makeText(this, "" + ExceptionManager.errors.getString("password"), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else if (AuthRepository.theory.equals("pin")) {
+                    PinFragment pinFragment = ((PinFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                    if (pinFragment != null) {
+                        try {
+                            if (!ExceptionManager.errors.isNull("code")) {
+                                errorInput(pinFragment.pinEditText);
+                                Toast.makeText(this, "" + ExceptionManager.errors.getString("code"), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                break;
+            case "register":
+                RegisterFragment registerFragment = ((RegisterFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                if (registerFragment != null) {
+                    try {
+                        if (!ExceptionManager.errors.isNull("name") && !ExceptionManager.errors.isNull("mobile") && !ExceptionManager.errors.isNull("password")) {
+                            errorInput(registerFragment.nameEditText);
+                            errorInput(registerFragment.mobileEditText);
+                            errorInput(registerFragment.passwordEditText);
+                            Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "" + ExceptionManager.errors.getString("password"), Toast.LENGTH_SHORT).show();
+                        } else if (!ExceptionManager.errors.isNull("mobile") && !ExceptionManager.errors.isNull("password")) {
+                            errorInput(registerFragment.mobileEditText);
+                            errorInput(registerFragment.passwordEditText);
+                            Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "" + ExceptionManager.errors.getString("password"), Toast.LENGTH_SHORT).show();
+                        } else if (!ExceptionManager.errors.isNull("name") && !ExceptionManager.errors.isNull("password")) {
+                            errorInput(registerFragment.nameEditText);
+                            errorInput(registerFragment.passwordEditText);
+                            Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "" + ExceptionManager.errors.getString("password"), Toast.LENGTH_SHORT).show();
+                        } else if (!ExceptionManager.errors.isNull("name") && !ExceptionManager.errors.isNull("mobile")) {
+                            errorInput(registerFragment.nameEditText);
+                            errorInput(registerFragment.mobileEditText);
+                            Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
+                        } else if (!ExceptionManager.errors.isNull("password")) {
+                            errorInput(registerFragment.passwordEditText);
+                            Toast.makeText(this, "" + ExceptionManager.errors.getString("password"), Toast.LENGTH_SHORT).show();
+                        } else if (!ExceptionManager.errors.isNull("mobile")) {
+                            errorInput(registerFragment.mobileEditText);
+                            Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
+                        } else if (!ExceptionManager.errors.isNull("name")) {
+                            errorInput(registerFragment.nameEditText);
+                            Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case "verification":
+                PinFragment pinFragment = ((PinFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                if (pinFragment != null) {
+                    try {
+                        if (!ExceptionManager.errors.isNull("mobile")) {
+                            errorInput(pinFragment.pinEditText);
+                            Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case "recovery":
+                MobileFragment mobileFragment = ((MobileFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                if (mobileFragment != null) {
+                    try {
+                        if (!ExceptionManager.errors.isNull("username")) {
+                            errorInput(mobileFragment.mobileEditText);
+                            Toast.makeText(this, "" + ExceptionManager.errors.getString("username"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+        }
     }
 
     public boolean token() {

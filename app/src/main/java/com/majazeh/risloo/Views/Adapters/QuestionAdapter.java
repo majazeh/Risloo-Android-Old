@@ -51,22 +51,14 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
         Model model = questions.get(i);
 
         try {
-            if (model.get("important").equals(true)) {
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_solid_white_border_quartz_ripple_solitude);
-                } else {
-                    holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-                }
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_solid_snow_ripple_quartz);
+            }
 
+            if (model.get("important").equals(true)) {
                 holder.subjectTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                 ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
             } else {
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_solid_white_border_quartz_ripple_solitude);
-                } else {
-                    holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-                }
-
                 holder.subjectTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
                 ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Grey));
             }

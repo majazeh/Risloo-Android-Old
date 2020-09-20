@@ -42,8 +42,8 @@ public class RegisterFragment extends Fragment {
 
     // Widgets
     private TextView registerDescriptionTextView;
-    private EditText nameEditText, mobileEditText;
-    private CustomEditText passwordEditText;
+    public EditText nameEditText, mobileEditText;
+    public CustomEditText passwordEditText;
     private TabLayout genderTabLayout;
     private Button registerButton;
     private ImageView passwordImageView;

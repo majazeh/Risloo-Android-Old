@@ -46,7 +46,7 @@ public class PasswordFragment extends Fragment {
 
     // Widgets
     private TextView passwordDescriptionTextView;
-    private CustomEditText passwordEditText;
+    public CustomEditText passwordEditText;
     private Button passwordButton;
     private ImageView passwordImageView;
     private TextView passwordLinkTextView;

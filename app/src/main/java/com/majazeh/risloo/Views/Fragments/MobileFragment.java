@@ -37,7 +37,7 @@ public class MobileFragment extends Fragment {
 
     // Widgets
     private TextView mobileDescriptionTextView;
-    private EditText mobileEditText;
+    public EditText mobileEditText;
     private Button mobileButton;
     private TextView mobileLinkTextView;
 

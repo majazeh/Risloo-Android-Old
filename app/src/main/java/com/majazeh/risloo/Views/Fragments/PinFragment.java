@@ -45,7 +45,7 @@ public class PinFragment extends Fragment {
 
     // Widgets
     private TextView pinDescriptionTextView;
-    private EditText pinEditText;
+    public EditText pinEditText;
     private Button pinButton;
     private ViewFlipper pinViewFlipper;
     private TextView pinTimerTextView, pinLinkTextView;
