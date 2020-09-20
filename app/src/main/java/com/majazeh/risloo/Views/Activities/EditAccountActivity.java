@@ -67,6 +67,7 @@ public class EditAccountActivity extends AppCompatActivity {
     private String avatar = "", name = "", gender = "", birthday = "";
     private String imageFilePath;
     private int Year, Month, Day;
+    private boolean genderException = false, birthdayException = false;
     public boolean galleryPermissionsGranted = false, cameraPermissionsGranted = false;
 
     // Objects
@@ -198,7 +199,7 @@ public class EditAccountActivity extends AppCompatActivity {
             handler.postDelayed(() -> avatarImageView.setClickable(true), 300);
 
             if (nameEditText.hasFocus()) {
-                clearInput();
+                clearInput(nameEditText);
             }
 
             imageDialog.show(this.getSupportFragmentManager(), "imageBottomSheet");
@@ -207,7 +208,7 @@ public class EditAccountActivity extends AppCompatActivity {
         nameEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!nameEditText.hasFocus()) {
-                    selectInput();
+                    selectInput(nameEditText);
                 }
             }
             return false;
@@ -216,8 +217,12 @@ public class EditAccountActivity extends AppCompatActivity {
         genderTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                if (genderException) {
+                    clearException("gender");
+                }
+
                 if (nameEditText.hasFocus()) {
-                    clearInput();
+                    clearInput(nameEditText);
                 }
 
                 switch (tab.getPosition()) {
@@ -245,8 +250,12 @@ public class EditAccountActivity extends AppCompatActivity {
             birthdayTextView.setClickable(false);
             handler.postDelayed(() -> birthdayTextView.setClickable(true), 300);
 
+            if (birthdayException) {
+                clearException("birthday");
+            }
+
             if (nameEditText.hasFocus()) {
-                clearInput();
+                clearInput(nameEditText);
             }
 
             dateDialog.show();
@@ -265,9 +274,19 @@ public class EditAccountActivity extends AppCompatActivity {
 
         editButton.setOnClickListener(v -> {
             if (nameEditText.length() == 0) {
-                errorInput();
+                errorInput(nameEditText);
             } else {
-                clearInput();
+                clearInput(nameEditText);
+
+                if (genderException && birthdayException) {
+                    clearException("gender");
+                    clearException("birthday");
+                } else if (genderException) {
+                    clearException("gender");
+                } else if (birthdayException) {
+                    clearException("birthday");
+                }
+
                 doWork();
             }
         });
@@ -330,25 +349,35 @@ public class EditAccountActivity extends AppCompatActivity {
         dayNumberPicker.setValue(Day);
     }
 
-    private void selectInput() {
-        nameEditText.setCursorVisible(true);
-        nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
+    private void selectInput(EditText input) {
+        input.setCursorVisible(true);
+        input.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
     }
 
-    private void errorInput() {
-        nameEditText.clearFocus();
-        nameEditText.setCursorVisible(false);
-        nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+    private void errorInput(EditText input) {
+        input.clearFocus();
+        input.setCursorVisible(false);
+        input.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
 
         hideKeyboard();
     }
 
-    private void clearInput() {
-        nameEditText.clearFocus();
-        nameEditText.setCursorVisible(false);
-        nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+    private void clearInput(EditText input) {
+        input.clearFocus();
+        input.setCursorVisible(false);
+        input.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
 
         hideKeyboard();
+    }
+
+    private void clearException(String type) {
+        if (type.equals("gender")) {
+            genderException = false;
+            genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+        } else if (type.equals("birthday")) {
+            birthdayException = false;
+            birthdayTextView.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+        }
     }
 
     private void hideKeyboard() {
@@ -380,7 +409,7 @@ public class EditAccountActivity extends AppCompatActivity {
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    observeException();
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     progressDialog.dismiss();
@@ -389,6 +418,55 @@ public class EditAccountActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void observeException() {
+        if (ExceptionManager.current_exception.equals("edit")) {
+            try {
+                if (!ExceptionManager.errors.isNull("name") && !ExceptionManager.errors.isNull("gender") && !ExceptionManager.errors.isNull("birthday")) {
+                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    birthdayTextView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("birthday"), Toast.LENGTH_SHORT).show();
+                    genderException = true;
+                    birthdayException = true;
+                } else if (!ExceptionManager.errors.isNull("gender") && !ExceptionManager.errors.isNull("birthday")) {
+                    genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    birthdayTextView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("birthday"), Toast.LENGTH_SHORT).show();
+                    genderException = true;
+                    birthdayException = true;
+                } else if (!ExceptionManager.errors.isNull("name") && !ExceptionManager.errors.isNull("birthday")) {
+                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    birthdayTextView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("birthday"), Toast.LENGTH_SHORT).show();
+                    birthdayException = true;
+                } else if (!ExceptionManager.errors.isNull("name") && !ExceptionManager.errors.isNull("gender")) {
+                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
+                    genderException = true;
+                } else if (!ExceptionManager.errors.isNull("birthday")) {
+                    birthdayTextView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("birthday"), Toast.LENGTH_SHORT).show();
+                    birthdayException = true;
+                } else if (!ExceptionManager.errors.isNull("gender")) {
+                    genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
+                    genderException = true;
+                } else if (!ExceptionManager.errors.isNull("name")) {
+                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @SuppressLint("SimpleDateFormat")

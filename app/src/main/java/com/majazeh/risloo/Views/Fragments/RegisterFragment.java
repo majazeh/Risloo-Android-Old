@@ -36,6 +36,7 @@ public class RegisterFragment extends Fragment {
     // Vars
     private String name = "", mobile = "", gender = "male", password = "";
     private boolean passwordVisibility = false;
+    public boolean genderException = false;
 
     // Objects
     private Activity activity;
@@ -44,7 +45,7 @@ public class RegisterFragment extends Fragment {
     private TextView registerDescriptionTextView;
     public EditText nameEditText, mobileEditText;
     public CustomEditText passwordEditText;
-    private TabLayout genderTabLayout;
+    public TabLayout genderTabLayout;
     private Button registerButton;
     private ImageView passwordImageView;
 
@@ -185,6 +186,10 @@ public class RegisterFragment extends Fragment {
         genderTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                if (genderException) {
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).clearException();
+                }
+
                 if (((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText != null && ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.hasFocus()) {
                     ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText);
                 }
@@ -254,6 +259,11 @@ public class RegisterFragment extends Fragment {
                 ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(nameEditText);
                 ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(mobileEditText);
                 ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(passwordEditText);
+
+                if (genderException) {
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).clearException();
+                }
+
                 doWork();
             }
         });

@@ -80,7 +80,7 @@
             android:layout_marginBottom="@dimen/_8sdp"
             android:layoutDirection="rtl"
             app:cardBackgroundColor="@color/White"
-            app:cardCornerRadius="@dimen/_18sdp"
+            app:cardCornerRadius="@dimen/_16sdp"
             app:cardElevation="0dp">
 
             <com.google.android.material.tabs.TabLayout
