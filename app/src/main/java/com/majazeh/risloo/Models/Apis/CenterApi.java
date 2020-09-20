@@ -11,6 +11,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -32,6 +33,9 @@ public interface CenterApi {
     @POST("centers")
     Call<ResponseBody> create(@Header("Authorization") String authorization, @Body HashMap body);
 
+    @Headers({"content-type: application/json", "Accept-Language:fa"})
+    @PUT("centers/{center}")
+    Call<ResponseBody> update(@Header("Authorization") String authorization,@Path("center") String center, @Body HashMap body);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("users?personal_clinic=no")

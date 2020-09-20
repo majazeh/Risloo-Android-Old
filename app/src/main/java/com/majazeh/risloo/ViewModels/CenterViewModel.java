@@ -51,6 +51,10 @@ public class CenterViewModel extends AndroidViewModel {
         repository.counseling_center();
     }
 
+    public void update(String id,String manager_id, String title, String description, String address, ArrayList phone_numbers) throws JSONException {
+        repository.update(id,manager_id, title, description, address, phone_numbers);
+    }
+
     /*
          ---------- Arrays ----------
     */
@@ -60,7 +64,7 @@ public class CenterViewModel extends AndroidViewModel {
     }
 
     public ArrayList<Model> getMy() {
-       return repository.getMy();
+        return repository.getMy();
     }
 
 }

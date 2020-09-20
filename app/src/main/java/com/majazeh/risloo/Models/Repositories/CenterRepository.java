@@ -31,6 +31,7 @@ public class CenterRepository extends MainRepository {
     public static String work = "";
     public static String clinicId = "";
     public static HashMap create = new HashMap();
+    public static HashMap update = new HashMap();
     public static ArrayList<Model> personal_clinic = new ArrayList<>();
     public static ArrayList<Model> counseling_center = new ArrayList<>();
     public static int allPage = 1;
@@ -105,6 +106,24 @@ public class CenterRepository extends MainRepository {
         work = "counseling_center";
         workState.setValue(-1);
         workManager("counseling_center");
+    }
+
+    public void update(String id, String manager_id, String title, String description, String address, ArrayList phone_numbers) throws JSONException {
+        update.put("id", id);
+
+        if (!manager_id.equals(""))
+            update.put("manager_id", manager_id);
+        if (!title.equals(""))
+            update.put("title", title);
+        if (!description.equals(""))
+            update.put("description", description);
+        if (!address.equals(""))
+            update.put("address", address);
+        if (phone_numbers.size()!= 0)
+            update.put("phone_numbers", phone_numbers);
+        work = "update";
+        workState.setValue(-1);
+        workManager("update");
     }
     /*
          ---------- Arrays ----------

@@ -2,7 +2,9 @@ package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -56,6 +58,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
     private ArrayList<Model> centers;
     private HashMap<Integer, Boolean> expands;
     private int position = -1;
+    private SharedPreferences sharedPreferences;
 
     // Objects
     private Activity activity;
@@ -82,9 +85,10 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
     @Override
     public void onBindViewHolder(@NonNull CenterHolder holder, int i) {
         Model model = centers.get(i);
+        Intent intent = (new Intent(activity, EditCenterActivity.class));
         try {
             int createdAt = (int) model.get("created_at");
-
+            intent.putExtra("id", (String) model.get("id"));
             switch (createdAt % 16) {
                 case 0:
                     holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_solid_nero5p);
@@ -201,9 +205,10 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
             }
 
             JSONObject manager = (JSONObject) model.get("manager");
-
+            intent.putExtra("type", (String) model.get("type"));
             if (!manager.isNull("name")) {
                 holder.principalTextView.setText(manager.getString("name"));
+                intent.putExtra("manager", manager.getString("name"));
             } else {
                 holder.principalLinearLayout.setVisibility(View.GONE);
             }
@@ -229,6 +234,8 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
             if (!details.isNull("description")) {
                 holder.descriptionLinearLayout.setVisibility(View.VISIBLE);
                 holder.descriptionTextView.setText(details.getString("description"));
+                intent.putExtra("description", details.getString("description"));
+
             } else {
                 holder.descriptionLinearLayout.setVisibility(View.GONE);
             }
@@ -237,12 +244,19 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
             if (!details.isNull("address")) {
                 holder.addressLinearLayout.setVisibility(View.VISIBLE);
                 holder.addressTextView.setText(details.getString("address"));
+                intent.putExtra("address", details.getString("address"));
+
             } else {
                 holder.addressLinearLayout.setVisibility(View.GONE);
             }
 
+            if (model.get("type").equals("counseling_center")) {
+                intent.putExtra("title", details.getString("title"));
+            }
+
             if (!details.isNull("phone_numbers")) {
                 JSONArray phoneNumbers = details.getJSONArray("phone_numbers");
+                intent.putExtra("phone_numbers", String.valueOf(details.getJSONArray("phone_numbers")));
 
                 ArrayList phones = new ArrayList<String>();
                 for (int j = 0; j < phoneNumbers.length(); j++) {
@@ -275,9 +289,19 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                 } else {
                     holder.requestTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary);
                 }
+                if (sharedPreferences.getString("access", "").equals("true")) {
+                    holder.editImageView.setVisibility(View.VISIBLE);
+                }else{
+                    holder.editImageView.setVisibility(View.GONE);
+                }
 
             } else {
                 JSONObject acceptation = (JSONObject) model.get("acceptation");
+                if (sharedPreferences.getString("access", "").equals("true") || acceptation.getString("position").equals("manager")) {
+                    holder.editImageView.setVisibility(View.VISIBLE);
+                }else{
+                    holder.editImageView.setVisibility(View.GONE);
+                }
 
                 if (acceptation.getString("position").equals("manager")) {
                     holder.requestTextView.setTextColor(activity.getResources().getColor(R.color.White));
@@ -300,46 +324,19 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                 }
             }
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        if (expands.get(i)) {
-            holder.expandLinearLayout.setVisibility(View.VISIBLE);
-            holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_up));
-        } else {
-            holder.expandLinearLayout.setVisibility(View.GONE);
-            holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_down));
-        }
-
-        holder.itemView.setOnClickListener(v -> {
-            holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
 
             if (expands.get(i)) {
-                expands.put(i, false);
+                holder.expandLinearLayout.setVisibility(View.VISIBLE);
+                holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_up));
             } else {
-                expands.put(i, true);
+                holder.expandLinearLayout.setVisibility(View.GONE);
+                holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_down));
             }
 
-            notifyDataSetChanged();
-        });
+            holder.itemView.setOnClickListener(v -> {
+                holder.itemView.setClickable(false);
+                handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
 
-        holder.requestTextView.setOnClickListener(v -> {
-            holder.requestTextView.setClickable(false);
-            handler.postDelayed(() -> holder.requestTextView.setClickable(true), 500);
-
-            position = i;
-
-            JSONObject item = model.attributes;
-
-            if (item.isNull("acceptation")) {
-                try {
-                    doWork(model.get("id").toString(), holder.titleTextView.getText().toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else {
                 if (expands.get(i)) {
                     expands.put(i, false);
                 } else {
@@ -347,23 +344,50 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                 }
 
                 notifyDataSetChanged();
-            }
-        });
+            });
 
-        holder.editImageView.setOnClickListener(v -> {
-            holder.editImageView.setClickable(false);
-            handler.postDelayed(() -> holder.editImageView.setClickable(true), 500);
+            holder.requestTextView.setOnClickListener(v -> {
+                holder.requestTextView.setClickable(false);
+                handler.postDelayed(() -> holder.requestTextView.setClickable(true), 500);
 
-            activity.startActivityForResult(new Intent(activity, EditCenterActivity.class), 100);
-            activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
-        });
+                position = i;
 
-        holder.peopleImageView.setOnClickListener(v -> {
-            holder.peopleImageView.setClickable(false);
-            handler.postDelayed(() -> holder.peopleImageView.setClickable(true), 500);
+                JSONObject item1 = model.attributes;
 
-            // TODO : See What This Function Do And Then Add The Code
-        });
+                if (item1.isNull("acceptation")) {
+                    try {
+                        doWork(model.get("id").toString(), holder.titleTextView.getText().toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    if (expands.get(i)) {
+                        expands.put(i, false);
+                    } else {
+                        expands.put(i, true);
+                    }
+
+                    notifyDataSetChanged();
+                }
+            });
+
+            holder.editImageView.setOnClickListener(v -> {
+                holder.editImageView.setClickable(false);
+                handler.postDelayed(() -> holder.editImageView.setClickable(true), 500);
+
+                activity.startActivityForResult(intent, 100);
+                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+            });
+
+            holder.peopleImageView.setOnClickListener(v -> {
+                holder.peopleImageView.setClickable(false);
+                handler.postDelayed(() -> holder.peopleImageView.setClickable(true), 500);
+
+                // TODO : See What This Function Do And Then Add The Code
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -373,6 +397,8 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
     private void initializer(View view) {
         viewModel = ViewModelProviders.of((FragmentActivity) activity).get(CenterViewModel.class);
+
+        sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
         handler = new Handler();
     }
@@ -483,10 +509,10 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                             JSONObject jsonObject = FileManager.readObjectFromCache(activity.getApplicationContext(), "centers", "my");
                             try {
                                 JSONArray data = jsonObject.getJSONArray("data");
-                                JSONObject acceptation = data.getJSONObject(data.length()-1).getJSONObject("acceptation");
+                                JSONObject acceptation = data.getJSONObject(data.length() - 1).getJSONObject("acceptation");
                                 if (acceptation.isNull("kicked_at")) {
                                     if (!acceptation.isNull("accepted_at")) {
-                                        centers.add(new Model(data.getJSONObject(data.length()-1)));
+                                        centers.add(new Model(data.getJSONObject(data.length() - 1)));
                                     }
                                 }
                                 notifyItemChanged(position);

@@ -3,6 +3,7 @@ package com.majazeh.risloo.Models.Workers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -73,6 +74,9 @@ public class CenterWorker extends Worker {
                     break;
                 case "counseling_center":
                     counseling_center();
+                    break;
+                case "update":
+                    update();
                     break;
             }
         }
@@ -265,6 +269,43 @@ public class CenterWorker extends Worker {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
                 ExceptionManager.getException(bodyResponse.code(), errorBody, true, "create", "center");
+                CenterRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "center");
+            CenterRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(0, null, false, "JSONException", "center");
+            CenterRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(0, null, false, "IOException", "center");
+            CenterRepository.workState.postValue(0);
+        }
+    }
+
+    public void update() {
+        try {
+            String id = (String) CenterRepository.update.get("id");
+            CenterRepository.update.remove("id");
+            Call<ResponseBody> call = centerApi.update(token(), id, CenterRepository.update);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "update", "center");
+                CenterRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "update", "center");
                 CenterRepository.workState.postValue(0);
             }
 
