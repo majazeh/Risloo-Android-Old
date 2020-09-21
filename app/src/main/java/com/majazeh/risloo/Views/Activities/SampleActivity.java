@@ -388,14 +388,19 @@ public class SampleActivity extends AppCompatActivity {
                 }
                 break;
             case "sendPrerequisite":
-                PrerequisiteFragment fragment = ((PrerequisiteFragment) getSupportFragmentManager().findFragmentById(R.id.activity_sample_frameLayout));
-                if (fragment != null) {
-                    try {
-                        viewModel.sendPrerequisite(sharedPreferences.getString("sampleId", ""), fragment.prerequisites());
-                        observeWorkAnswer();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                try {
+                    PrerequisiteFragment fragment = ((PrerequisiteFragment) getSupportFragmentManager().findFragmentById(R.id.activity_sample_frameLayout));
+                    if (fragment != null) {
+                        if (fragment.prerequisites().isEmpty()) {
+                            Toast.makeText(this, "لطفا یک پارامتری را پر نمایید", Toast.LENGTH_SHORT).show();
+                        } else {
+                            fragment.adapter.clearInput(fragment.adapter.inputEditText);
+                            viewModel.sendPrerequisite(sharedPreferences.getString("sampleId", ""), fragment.prerequisites());
+                            observeWorkAnswer();
+                        }
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
                 break;
         }
@@ -456,9 +461,9 @@ public class SampleActivity extends AppCompatActivity {
                             }
                         }
                     } else {
-                        // Show Prerequisite
+                        // Show Description
 
-                        SampleRepository.theory = "prerequisite";
+                        SampleRepository.theory = "description";
                         showFragment();
 
                         loadingLayout.setVisibility(View.GONE);

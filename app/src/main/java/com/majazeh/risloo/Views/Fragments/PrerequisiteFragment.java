@@ -27,7 +27,7 @@ public class PrerequisiteFragment extends Fragment {
     private SampleViewModel viewModel;
 
     // Adapters
-    private PrerequisiteAdapter adapter;
+    public PrerequisiteAdapter adapter;
 
     // Objects
     private Activity activity;

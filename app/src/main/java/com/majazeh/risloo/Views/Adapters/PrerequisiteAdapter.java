@@ -1,5 +1,6 @@
 package com.majazeh.risloo.Views.Adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,13 +9,14 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -31,6 +33,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapter.PrerequisiteHolder> {
 
@@ -49,6 +52,9 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
+    // Widgets
+    public EditText inputEditText;
+
     public PrerequisiteAdapter(Activity activity) {
         this.activity = activity;
     }
@@ -63,6 +69,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
         return new PrerequisiteHolder(view);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull PrerequisiteHolder holder, int i) {
         JSONObject item = (JSONObject) prerequisites.get(i);
@@ -77,6 +84,20 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                 holder.typeEditText.setHint(((JSONObject) prerequisites.get(i)).getString("text"));
                 holder.typeEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
 
+                holder.typeEditText.setOnTouchListener((v, event) -> {
+                    if (MotionEvent.ACTION_UP == event.getAction()) {
+                        if (!holder.typeEditText.hasFocus()) {
+                            if (inputEditText != null && inputEditText.hasFocus()) {
+                                clearInput(inputEditText);
+                            }
+
+                            selectInput(holder.typeEditText);
+                            focusInput(holder.typeEditText);
+                        }
+                    }
+                    return false;
+                });
+
                 holder.typeEditText.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -85,7 +106,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         result = holder.typeEditText.getText().toString().trim();
-                        getAnswers(i, result);
+                        getAnswers(i + 1, result);
                     }
 
                     @Override
@@ -103,6 +124,20 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                 holder.typeEditText.setHint(((JSONObject) prerequisites.get(i)).getString("text"));
                 holder.typeEditText.setInputType(InputType.TYPE_CLASS_TEXT);
 
+                holder.typeEditText.setOnTouchListener((v, event) -> {
+                    if (MotionEvent.ACTION_UP == event.getAction()) {
+                        if (!holder.typeEditText.hasFocus()) {
+                            if (inputEditText != null && inputEditText.hasFocus()) {
+                                clearInput(inputEditText);
+                            }
+
+                            selectInput(holder.typeEditText);
+                            focusInput(holder.typeEditText);
+                        }
+                    }
+                    return false;
+                });
+
                 holder.typeEditText.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -111,7 +146,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                         result = holder.typeEditText.getText().toString().trim();
-                        getAnswers(i, result);
+                        getAnswers(i + 1, result);
                     }
 
                     @Override
@@ -149,29 +184,38 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                     }
 
                 };
-
                 for (int j = 0; j < item.getJSONObject("answer").getJSONArray("options").length(); j++) {
                     adapter.add((String) item.getJSONObject("answer").getJSONArray("options").get(j));
                 }
                 adapter.add(((JSONObject) prerequisites.get(i)).getString("text"));
-
                 adapter.setDropDownViewResource(R.layout.spinner_dropdown);
-                int k;
+
+                int count;
                 if (!answers.getJSONArray(i).getString(1).isEmpty()) {
-                    k = Integer.parseInt(answers.getJSONArray(i).getString(1));
-                    k -= 1;
+                    count = (Integer.parseInt(answers.getJSONArray(i).getString(1))) - 1;
                 } else {
-                    k = adapter.getCount();
+                    count = adapter.getCount();
                 }
+
                 holder.optionSpinner.setAdapter(adapter);
-                holder.optionSpinner.setSelection(k);
+                holder.optionSpinner.setSelection(count);
+
+                holder.optionSpinner.setOnTouchListener((v, event) -> {
+                    if (MotionEvent.ACTION_UP == event.getAction()) {
+                        if (inputEditText != null && inputEditText.hasFocus()) {
+                            clearInput(inputEditText);
+                        }
+                    }
+                    return false;
+                });
+
                 holder.optionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         if (adapter.getCount() != position) {
                             int pos = position + 1;
                             result = String.valueOf(pos);
-                            getAnswers(i, result);
+                            getAnswers(i + 1, result);
                         }
                     }
 
@@ -180,6 +224,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                     }
 
                 });
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -212,17 +257,37 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
     public void getAnswers(int index, String result) {
         try {
-            int i = index + 1;
-
             JSONArray jsonArray = viewModel.readPrerequisiteAnswerFromCache(sharedPreferences.getString("sampleId", ""));
-            jsonArray.put(index, new JSONArray().put(String.valueOf(i)).put(result));
+            jsonArray.put(index, new JSONArray().put(String.valueOf(index)).put(result));
 
             viewModel.writePrerequisiteAnswerToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
 
-            answer.put(i,result);
+            answer.put(index,result);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void focusInput(EditText input) {
+        this.inputEditText = input;
+    }
+
+    private void selectInput(EditText input) {
+        input.setCursorVisible(true);
+        input.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
+    }
+
+    public void clearInput(EditText input) {
+        input.clearFocus();
+        input.setCursorVisible(false);
+        input.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+
+        hideKeyboard();
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        Objects.requireNonNull(inputMethodManager).hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
     }
 
     public class PrerequisiteHolder extends RecyclerView.ViewHolder {
