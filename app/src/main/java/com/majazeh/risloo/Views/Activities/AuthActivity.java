@@ -395,79 +395,22 @@ public class AuthActivity extends AppCompatActivity {
                 RegisterFragment registerFragment = ((RegisterFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
                 if (registerFragment != null) {
                     try {
-                        if (!ExceptionManager.errors.isNull("name") && !ExceptionManager.errors.isNull("mobile") && !ExceptionManager.errors.isNull("gender") && !ExceptionManager.errors.isNull("password")) {
+                        if (!ExceptionManager.errors.isNull("name")) {
                             registerFragment.nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            registerFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            registerFragment.genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            registerFragment.passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                             Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("password"), Toast.LENGTH_SHORT).show();
-                            registerFragment.genderException = true;
-                        } else if (!ExceptionManager.errors.isNull("mobile") && !ExceptionManager.errors.isNull("gender") && !ExceptionManager.errors.isNull("password")) {
+                        }
+                        if (!ExceptionManager.errors.isNull("mobile")) {
                             registerFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            registerFragment.genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            registerFragment.passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                             Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("password"), Toast.LENGTH_SHORT).show();
-                            registerFragment.genderException = true;
-                        } else if (!ExceptionManager.errors.isNull("name") && !ExceptionManager.errors.isNull("mobile") && !ExceptionManager.errors.isNull("password")) {
-                            registerFragment.nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            registerFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            registerFragment.passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("password"), Toast.LENGTH_SHORT).show();
-                        } else if (!ExceptionManager.errors.isNull("name") && !ExceptionManager.errors.isNull("mobile") && !ExceptionManager.errors.isNull("gender")) {
-                            registerFragment.nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            registerFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            registerFragment.genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
-                            registerFragment.genderException = true;
-                        } else if (!ExceptionManager.errors.isNull("mobile") && !ExceptionManager.errors.isNull("password")) {
-                            registerFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            registerFragment.passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("password"), Toast.LENGTH_SHORT).show();
-                        } else if (!ExceptionManager.errors.isNull("mobile") && !ExceptionManager.errors.isNull("gender")) {
-                            registerFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            registerFragment.genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
-                            registerFragment.genderException = true;
-                        } else if (!ExceptionManager.errors.isNull("name") && !ExceptionManager.errors.isNull("password")) {
-                            registerFragment.nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            registerFragment.passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("password"), Toast.LENGTH_SHORT).show();
-                        } else if (!ExceptionManager.errors.isNull("name") && !ExceptionManager.errors.isNull("gender")) {
-                            registerFragment.nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            registerFragment.genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
-                            registerFragment.genderException = true;
-                        } else if (!ExceptionManager.errors.isNull("name") && !ExceptionManager.errors.isNull("mobile")) {
-                            registerFragment.nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            registerFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
-                        } else if (!ExceptionManager.errors.isNull("password")) {
-                            registerFragment.passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("password"), Toast.LENGTH_SHORT).show();
-                        } else if (!ExceptionManager.errors.isNull("gender")) {
+                        }
+                        if (!ExceptionManager.errors.isNull("gender")) {
                             registerFragment.genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                             Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
                             registerFragment.genderException = true;
-                        } else if (!ExceptionManager.errors.isNull("mobile")) {
-                            registerFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
-                        } else if (!ExceptionManager.errors.isNull("name")) {
-                            registerFragment.nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
+                        }
+                        if (!ExceptionManager.errors.isNull("password")) {
+                            registerFragment.passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                            Toast.makeText(this, "" + ExceptionManager.errors.getString("password"), Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

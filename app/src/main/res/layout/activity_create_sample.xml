@@ -174,7 +174,7 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_36sdp"
+                    android:layout_height="@dimen/_68sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
                     app:cardBackgroundColor="@color/White"
                     app:cardCornerRadius="@dimen/_16sdp"
@@ -191,7 +191,8 @@
                         app:tabBackground="@null"
                         app:tabRippleColor="@color/Quartz"
                         app:tabIndicatorColor="@color/Primary5P"
-                        app:tabIndicatorHeight="@dimen/_36sdp"
+                        app:tabIndicatorHeight="@dimen/_68sdp"
+                        app:tabIconTint="@drawable/sel_tab_icon"
                         app:tabTextColor="@color/Mischka"
                         app:tabSelectedTextColor="@color/Grey"
                         app:tabTextAppearance="@style/TabTextNormalAppearance">
@@ -199,12 +200,14 @@
                         <com.google.android.material.tabs.TabItem
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="@string/CreateSampleRoom" />
+                            android:text="@string/CreateSampleRoom"
+                            android:icon="@drawable/ic_room_light" />
 
                         <com.google.android.material.tabs.TabItem
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="@string/CreateSampleCase" />
+                            android:text="@string/CreateSampleCase"
+                            android:icon="@drawable/ic_case_light" />
 
                     </com.google.android.material.tabs.TabLayout>
 

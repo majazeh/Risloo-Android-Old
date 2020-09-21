@@ -278,12 +278,10 @@ public class EditAccountActivity extends AppCompatActivity {
             } else {
                 clearInput(nameEditText);
 
-                if (genderException && birthdayException) {
+                if (genderException) {
                     clearException("gender");
-                    clearException("birthday");
-                } else if (genderException) {
-                    clearException("gender");
-                } else if (birthdayException) {
+                }
+                if (birthdayException) {
                     clearException("birthday");
                 }
 
@@ -423,45 +421,19 @@ public class EditAccountActivity extends AppCompatActivity {
     private void observeException() {
         if (ExceptionManager.current_exception.equals("edit")) {
             try {
-                if (!ExceptionManager.errors.isNull("name") && !ExceptionManager.errors.isNull("gender") && !ExceptionManager.errors.isNull("birthday")) {
+                if (!ExceptionManager.errors.isNull("name")) {
                     nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    birthdayTextView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                     Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("birthday"), Toast.LENGTH_SHORT).show();
-                    genderException = true;
-                    birthdayException = true;
-                } else if (!ExceptionManager.errors.isNull("gender") && !ExceptionManager.errors.isNull("birthday")) {
-                    genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    birthdayTextView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("birthday"), Toast.LENGTH_SHORT).show();
-                    genderException = true;
-                    birthdayException = true;
-                } else if (!ExceptionManager.errors.isNull("name") && !ExceptionManager.errors.isNull("birthday")) {
-                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    birthdayTextView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("birthday"), Toast.LENGTH_SHORT).show();
-                    birthdayException = true;
-                } else if (!ExceptionManager.errors.isNull("name") && !ExceptionManager.errors.isNull("gender")) {
-                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
-                    genderException = true;
-                } else if (!ExceptionManager.errors.isNull("birthday")) {
-                    birthdayTextView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("birthday"), Toast.LENGTH_SHORT).show();
-                    birthdayException = true;
-                } else if (!ExceptionManager.errors.isNull("gender")) {
+                }
+                if (!ExceptionManager.errors.isNull("gender")) {
                     genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                     Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
                     genderException = true;
-                } else if (!ExceptionManager.errors.isNull("name")) {
-                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
+                }
+                if (!ExceptionManager.errors.isNull("birthday")) {
+                    birthdayTextView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("birthday"), Toast.LENGTH_SHORT).show();
+                    birthdayException = true;
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

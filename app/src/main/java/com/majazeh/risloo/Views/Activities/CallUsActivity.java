@@ -189,29 +189,21 @@ public class CallUsActivity extends AppCompatActivity {
                 clearInput(inputEditText);
             }
 
-            if (nameEditText.length() == 0 && mobileEditText.length() == 0 && messageEditText.length() == 0) {
+            if (nameEditText.length() == 0) {
                 errorInput(nameEditText);
+            }
+            if (mobileEditText.length() == 0) {
                 errorInput(mobileEditText);
+            }
+            if (messageEditText.length() == 0) {
                 errorInput(messageEditText);
-            } else if (mobileEditText.length() == 0 && messageEditText.length() == 0) {
-                errorInput(mobileEditText);
-                errorInput(messageEditText);
-            } else if (nameEditText.length() == 0 && messageEditText.length() == 0) {
-                errorInput(nameEditText);
-                errorInput(messageEditText);
-            } else if (nameEditText.length() == 0 && mobileEditText.length() == 0) {
-                errorInput(nameEditText);
-                errorInput(mobileEditText);
-            } else if (messageEditText.length() == 0) {
-                errorInput(messageEditText);
-            } else if (mobileEditText.length() == 0) {
-                errorInput(mobileEditText);
-            } else if (nameEditText.length() == 0) {
-                errorInput(nameEditText);
-            } else {
+            }
+
+            if (nameEditText.length() != 0 && mobileEditText.length() != 0 && messageEditText.length() != 0) {
                 clearInput(nameEditText);
                 clearInput(mobileEditText);
                 clearInput(messageEditText);
+
                 doWork();
             }
         });
@@ -337,37 +329,17 @@ public class CallUsActivity extends AppCompatActivity {
     private void observeException() {
         if (ExceptionManager.current_exception.equals("callUs")) {
             try {
-                if (!ExceptionManager.errors.isNull("name") && !ExceptionManager.errors.isNull("mobile") && !ExceptionManager.errors.isNull("message")) {
+                if (!ExceptionManager.errors.isNull("name")) {
                     nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                     Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("password"), Toast.LENGTH_SHORT).show();
-                } else if (!ExceptionManager.errors.isNull("mobile") && !ExceptionManager.errors.isNull("message")) {
+                }
+                if (!ExceptionManager.errors.isNull("mobile")) {
                     mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                     Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("message"), Toast.LENGTH_SHORT).show();
-                } else if (!ExceptionManager.errors.isNull("name") && !ExceptionManager.errors.isNull("message")) {
-                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("message"), Toast.LENGTH_SHORT).show();
-                } else if (!ExceptionManager.errors.isNull("name") && !ExceptionManager.errors.isNull("mobile")) {
-                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
-                } else if (!ExceptionManager.errors.isNull("message")) {
+                }
+                if (!ExceptionManager.errors.isNull("message")) {
                     messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                     Toast.makeText(this, "" + ExceptionManager.errors.getString("message"), Toast.LENGTH_SHORT).show();
-                } else if (!ExceptionManager.errors.isNull("mobile")) {
-                    mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
-                } else if (!ExceptionManager.errors.isNull("name")) {
-                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

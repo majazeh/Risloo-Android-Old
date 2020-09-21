@@ -2,6 +2,7 @@ package com.majazeh.risloo.Views.Activities;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -12,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -63,6 +65,7 @@ public class CreateSampleActivity extends AppCompatActivity {
 
     // Vars
     private String room = "", casse = "", count = "";
+    private boolean scaleException = false, roomException = false, roomReferenceException = false, caseException = false, caseReferenceException = false;
 
     // Widgets
     private Toolbar toolbar;
@@ -74,8 +77,8 @@ public class CreateSampleActivity extends AppCompatActivity {
     private ProgressBar scaleProgressBar, roomProgressBar, caseProgressBar, roomReferenceProgressBar;
     private ImageView roomImageView, caseImageView;
     private CardView roomReferenceCardView;
-    private LinearLayout scaleLinearLayout, roomLinearLayout, caseLinearLayout;
-    private FrameLayout roomFrameLayout;
+    private LinearLayout scaleLinearLayout, roomLinearLayout, caseLinearLayout, roomReferenceLinearLayout;
+    private FrameLayout roomFrameLayout, caseFrameLayout;
     private Button createButton;
     private Dialog progressDialog;
 
@@ -149,8 +152,10 @@ public class CreateSampleActivity extends AppCompatActivity {
         scaleLinearLayout = findViewById(R.id.activity_create_sample_scale_linearLayout);
         roomLinearLayout = findViewById(R.id.activity_create_sample_clinic_linearLayout);
         caseLinearLayout = findViewById(R.id.activity_create_sample_case_linearLayout);
+        roomReferenceLinearLayout = findViewById(R.id.activity_create_sample_clinic_reference_linearLayout);
 
         roomFrameLayout = findViewById(R.id.activity_create_sample_room_frameLayout);
+        caseFrameLayout = findViewById(R.id.activity_create_sample_case_frameLayout);
 
         createButton = findViewById(R.id.activity_create_sample_button);
 
@@ -170,23 +175,6 @@ public class CreateSampleActivity extends AppCompatActivity {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @SuppressLint("ClickableViewAccessibility")
     private void listener() {
         toolbar.setNavigationOnClickListener(v -> {
@@ -197,24 +185,38 @@ public class CreateSampleActivity extends AppCompatActivity {
         typeTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                if (!countEditText.hasFocus()) {
+                    clearInput(countEditText);
+                }
+
                 switch (tab.getPosition()) {
                     case 0:
                         roomLinearLayout.setVisibility(View.VISIBLE);
                         caseLinearLayout.setVisibility(View.GONE);
-                        casse = "";
-                        SampleRepository.cases.clear();
-                        caseSpinner.setAdapter(null);
-                        caseTextView.setVisibility(View.VISIBLE);
+
+                        // Reset Case
+                        if (SampleRepository.cases.size() != 0) {
+                            casse = "";
+                            SampleRepository.cases.clear();
+                            caseSpinner.setAdapter(null);
+                            caseTextView.setVisibility(View.VISIBLE);
+                        }
+
+                        // Reset CaseReferences
                         if (checkBoxAdapter.getValues() != null) {
-                            caseReferenceTextView.setVisibility(View.GONE);
                             checkBoxAdapter.setChecks(new ArrayList<>());
+                            caseReferenceTextView.setVisibility(View.GONE);
+
                             checkBoxAdapter.getValues().clear();
                             checkBoxAdapter.notifyDataSetChanged();
                         }
+
                         break;
                     case 1:
                         roomLinearLayout.setVisibility(View.GONE);
                         caseLinearLayout.setVisibility(View.VISIBLE);
+
+                        // Reset RoomReferences
                         if (SampleRepository.references.size() != 0) {
                             SampleRepository.references.clear();
                             roomReferenceSpinner.setAdapter(null);
@@ -222,17 +224,18 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                             referenceAdapter.getValues().clear();
                             referenceAdapter.notifyDataSetChanged();
+                        }
 
-                            countEditText.setVisibility(View.VISIBLE);
-                        } else {
+                        // Reset Count
+                        if (countEditText.length() != 0) {
                             count = "";
                             countEditText.setText(count);
-                            roomReferenceCardView.setVisibility(View.VISIBLE);
+                            countEditText.setVisibility(View.VISIBLE);
+                            countEditText.setFocusableInTouchMode(true);
                         }
+
                         break;
                 }
-
-                countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
             }
 
             @Override
@@ -248,22 +251,34 @@ public class CreateSampleActivity extends AppCompatActivity {
 
         scaleSpinner.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
+                if (scaleException) {
+                    clearException("scale");
+                }
+
+                if (!countEditText.hasFocus()) {
+                    clearInput(countEditText);
+                }
+
                 if (SampleRepository.scales.size() == 0) {
                     getData("getScales", "");
                 }
-
-                countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
             }
             return false;
         });
 
         roomSpinner.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
+                if (roomException) {
+                    clearException("room");
+                }
+
+                if (!countEditText.hasFocus()) {
+                    clearInput(countEditText);
+                }
+
                 if (SampleRepository.rooms.size() == 0) {
                     getData("getRooms", "");
                 }
-
-                countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
             }
             return false;
         });
@@ -271,6 +286,10 @@ public class CreateSampleActivity extends AppCompatActivity {
         caseSpinner.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!room.isEmpty()) {
+                    if (caseException) {
+                        clearException("case");
+                    }
+
                     if (SampleRepository.cases.size() == 0) {
                         getData("getCases", room);
                     }
@@ -278,7 +297,9 @@ public class CreateSampleActivity extends AppCompatActivity {
                     Toast.makeText(this, "لطفا اول اتاق درمانی انتخاب کنید", Toast.LENGTH_SHORT).show();
                 }
 
-                countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                if (!countEditText.hasFocus()) {
+                    clearInput(countEditText);
+                }
             }
             return false;
         });
@@ -286,6 +307,10 @@ public class CreateSampleActivity extends AppCompatActivity {
         roomReferenceSpinner.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!room.isEmpty()) {
+                    if (roomReferenceException) {
+                        clearException("roomReference");
+                    }
+
                     if (SampleRepository.references.size() == 0) {
                         getData("getReferences", room);
                     }
@@ -293,7 +318,9 @@ public class CreateSampleActivity extends AppCompatActivity {
                     Toast.makeText(this, "لطفا اول اتاق درمانی انتخاب کنید", Toast.LENGTH_SHORT).show();
                 }
 
-                countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                if (!countEditText.hasFocus()) {
+                    clearInput(countEditText);
+                }
             }
             return false;
         });
@@ -308,7 +335,6 @@ public class CreateSampleActivity extends AppCompatActivity {
                     }
 
                     if (scaleAdapter.getValues().size() == 1) {
-                        scaleLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                         scaleTextView.setVisibility(View.GONE);
                     }
                 }
@@ -326,13 +352,16 @@ public class CreateSampleActivity extends AppCompatActivity {
                 if (roomSpinner.getCount() != position) {
                     try {
                         room = String.valueOf(SampleRepository.rooms.get(position).get("id"));
-                        roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
 
-                        casse = "";
-                        SampleRepository.cases.clear();
-                        caseSpinner.setAdapter(null);
-                        caseTextView.setVisibility(View.VISIBLE);
+                        // Reset Case
+                        if (SampleRepository.cases.size() != 0) {
+                            casse = "";
+                            SampleRepository.cases.clear();
+                            caseSpinner.setAdapter(null);
+                            caseTextView.setVisibility(View.VISIBLE);
+                        }
 
+                        // Reset RoomReferences
                         if (SampleRepository.references.size() != 0) {
                             SampleRepository.references.clear();
                             roomReferenceSpinner.setAdapter(null);
@@ -340,23 +369,25 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                             referenceAdapter.getValues().clear();
                             referenceAdapter.notifyDataSetChanged();
-
-                            countEditText.setVisibility(View.VISIBLE);
-                        } else {
-                            count = "";
-                            countEditText.setText(count);
-
-                            roomReferenceCardView.setVisibility(View.VISIBLE);
                         }
 
+                        // Reset CaseReferences
                         if (checkBoxAdapter.getValues() != null) {
-                            caseReferenceTextView.setVisibility(View.GONE);
                             checkBoxAdapter.setChecks(new ArrayList<>());
+                            caseReferenceTextView.setVisibility(View.GONE);
+
                             checkBoxAdapter.getValues().clear();
                             checkBoxAdapter.notifyDataSetChanged();
                         }
 
-                        countEditText.setFocusableInTouchMode(true);
+                        // Reset Count
+                        if (countEditText.length() != 0) {
+                            count = "";
+                            countEditText.setText(count);
+                            countEditText.setVisibility(View.VISIBLE);
+                            countEditText.setFocusableInTouchMode(true);
+                        }
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -424,8 +455,9 @@ public class CreateSampleActivity extends AppCompatActivity {
         countEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!room.isEmpty()) {
-                    countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-                    countEditText.setCursorVisible(true);
+                    if (!countEditText.hasFocus()) {
+                        selectInput(countEditText);
+                    }
                 } else {
                     Toast.makeText(this, "لطفا اول اتاق درمانی انتخاب کنید", Toast.LENGTH_SHORT).show();
                 }
@@ -455,16 +487,58 @@ public class CreateSampleActivity extends AppCompatActivity {
         });
 
         createButton.setOnClickListener(v -> {
+            if (!countEditText.hasFocus()) {
+                clearInput(countEditText);
+            }
 
+            if (scaleAdapter.getValues().size() == 0) {
+                errorView("scale");
+            }
+            if (room.isEmpty()) {
+                errorView("room");
+            }
 
-            if (scaleAdapter.getValues().size() == 0 || room.isEmpty()) {
-                checkInput();
-            } else {
-                clearData();
+            if (scaleException) {
+                clearException("scale");
+            }
+            if (roomException) {
+                clearException("room");
+            }
+            if (caseException) {
+                clearException("case");
+            }
+            if (roomReferenceException) {
+                clearException("roomReference");
+            }
+            if (caseReferenceException) {
+                clearException("caseReference");
+            }
 
+            if (scaleAdapter.getValues().size() != 0 && !room.isEmpty()) {
                 doWork();
             }
         });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     public void setSpinner(ArrayList<Model> arrayList, Spinner spinner, String type) {
@@ -478,34 +552,26 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                     if (position == getCount()) {
                         ((TextView) view.findViewById(R.id.spinner_null_textView)).setText("");
-                        if (type.equals("scale")) {
-                            try {
+                        try {
+                            if (type.equals("scale")) {
                                 ((TextView) view.findViewById(R.id.spinner_null_textView)).setHint(String.valueOf(arrayList.get(position).get("title")));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            try {
+                            } else {
                                 JSONObject user = (JSONObject) arrayList.get(position).get("user");
                                 ((TextView) view.findViewById(R.id.spinner_null_textView)).setHint(String.valueOf(user.get("name")));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
                     } else {
-                        if (type.equals("scale")) {
-                            try {
-                                ((TextView) view.findViewById(R.id.spinner_null_textView)).setHint(String.valueOf(arrayList.get(position).get("title")));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            try {
+                        try {
+                            if (type.equals("scale")) {
+                                ((TextView) view.findViewById(R.id.spinner_null_textView)).setText(String.valueOf(arrayList.get(position).get("title")));
+                            } else {
                                 JSONObject user = (JSONObject) arrayList.get(position).get("user");
                                 ((TextView) view.findViewById(R.id.spinner_null_textView)).setText(String.valueOf(user.get("name")));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
                         ((TextView) view.findViewById(R.id.spinner_null_textView)).setHint("");
                     }
@@ -519,30 +585,26 @@ public class CreateSampleActivity extends AppCompatActivity {
                 }
 
             };
-
-            if (type.equals("scale")) {
-                for (int i = 0; i < arrayList.size(); i++) {
-                    try {
+            try {
+                if (type.equals("scale")) {
+                    for (int i = 0; i < arrayList.size(); i++) {
                         adapter.add((String) arrayList.get(i).get("title"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-                }
-            } else {
-                for (int i = 0; i < arrayList.size(); i++) {
-                    try {
+                } else {
+                    for (int i = 0; i < arrayList.size(); i++) {
                         JSONObject user = (JSONObject) arrayList.get(i).get("user");
                         adapter.add((String) user.get("name"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
             adapter.setDropDownViewResource(R.layout.spinner_dropdown);
+
             spinner.setAdapter(adapter);
             spinner.setSelection(adapter.getCount());
-        } else {
+
+        } else if (type.equals("room") || type.equals("case")){
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_background) {
 
                 @NonNull
@@ -567,52 +629,51 @@ public class CreateSampleActivity extends AppCompatActivity {
                 }
 
             };
-
-            if (type.equals("room")) {
-                for (int i = 0; i < arrayList.size(); i++) {
-                    try {
+            try {
+                if (type.equals("room")) {
+                    for (int i = 0; i < arrayList.size(); i++) {
                         JSONObject manager = (JSONObject) arrayList.get(i).get("manager");
                         adapter.add((String) manager.get("name"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-                }
-            } else {
-                for (int i = 0; i < arrayList.size(); i++) {
-                    try {
-                        ArrayList arrayList1 = new ArrayList<String>();
-                        String name = "";
+                } else {
+                    for (int i = 0; i < arrayList.size(); i++) {
+                        ArrayList<String> list = new ArrayList<>();
+                        StringBuilder title = new StringBuilder();
                         JSONArray clients = (JSONArray) arrayList.get(i).get("clients");
+
                         for (int j = 0; j < clients.length(); j++) {
-                            JSONObject object1 = clients.getJSONObject(j);
-                            JSONObject user = object1.getJSONObject("user");
+                            JSONObject object = clients.getJSONObject(j);
+                            JSONObject user = object.getJSONObject("user");
 
-                            if (j == clients.length() - 1)
-                                name += user.getString("name");
-                            else
-                                name += user.getString("name") + " - ";
+                            if (j == clients.length() - 1) {
+                                title.append(user.getString("name"));
+                            } else {
+                                title.append(user.getString("name")).append(" - ");
+                            }
 
-                            arrayList1.add(user.getString("name"));
+                            list.add(user.getString("name"));
                         }
-                        if (name != "") {
-                            adapter.add(name);
+
+                        if (!title.toString().equals("")) {
+                            adapter.add(title.toString());
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
             if (type.equals("room")) {
                 adapter.add(getResources().getString(R.string.CreateSampleRoom));
                 roomTextView.setVisibility(View.GONE);
-            } else if (type.equals("case")) {
+            } else {
                 adapter.add(getResources().getString(R.string.CreateSampleCase));
                 caseTextView.setVisibility(View.GONE);
             }
             adapter.setDropDownViewResource(R.layout.spinner_dropdown);
+
             spinner.setAdapter(adapter);
             spinner.setSelection(adapter.getCount());
+
         }
     }
 
@@ -633,38 +694,56 @@ public class CreateSampleActivity extends AppCompatActivity {
         }
     }
 
-    private void checkInput() {
-        if (scaleAdapter.getValues().size() == 0 && room.isEmpty()) {
+    private void selectInput(EditText input) {
+        input.setCursorVisible(true);
+        input.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
+    }
+
+    private void errorView(String type) {
+        if (type.equals("scale")) {
             scaleLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+        } else if (type.equals("room")) {
             roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-        } else if (room.isEmpty()) {
-            scaleLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-            roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-        } else if (scaleAdapter.getValues().size() == 0) {
-            scaleLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-            roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
         }
     }
 
-    private void clearData() {
-        countEditText.setCursorVisible(false);
+    private void clearInput(EditText input) {
+        input.clearFocus();
+        input.setCursorVisible(false);
+        input.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
 
-        countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-        scaleLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-        roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+        hideKeyboard();
     }
 
+    private void clearException(String type) {
+        switch (type) {
+            case "scale":
+                scaleException = false;
+                scaleLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                break;
+            case "room":
+                roomException = false;
+                roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                break;
+            case "case":
+                caseException = false;
+                caseFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                break;
+            case "roomReference":
+                roomReferenceException = false;
+                roomReferenceLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                break;
+            case "caseReference":
+                caseReferenceException = false;
+                caseReferenceRecyclerView.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                break;
+        }
+    }
 
-
-
-
-
-
-
-
-
-
-
+    private void hideKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        Objects.requireNonNull(inputMethodManager).hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+    }
 
     private void getData(String method, String roomId) {
         try {
@@ -716,103 +795,148 @@ public class CreateSampleActivity extends AppCompatActivity {
 
     private void observeWork() {
         SampleRepository.workStateCreate.observe((LifecycleOwner) this, integer -> {
-            if (SampleRepository.work.equals("create")) {
-                if (integer == 1) {
-                    setResult(RESULT_OK, null);
-                    finish();
+            switch (SampleRepository.work) {
+                case "create":
+                    if (integer == 1) {
+                        setResult(RESULT_OK, null);
+                        finish();
 
-                    progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                } else if (integer == 0) {
-                    progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                } else if (integer == -2) {
-                    progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                }
-            } else if (SampleRepository.work.equals("getScales")) {
-                if (integer == 1) {
-                    setSpinner(SampleRepository.scales, scaleSpinner, "scale");
+                        progressDialog.dismiss();
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                    } else if (integer == 0) {
+                        progressDialog.dismiss();
+                        observeException();
+                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                    } else if (integer == -2) {
+                        progressDialog.dismiss();
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                    }
+                    break;
+                case "getScales":
+                    if (integer == 1) {
+                        setSpinner(SampleRepository.scales, scaleSpinner, "scale");
 
-                    scaleProgressBar.setVisibility(View.GONE);
-                    scaleSpinner.setClickable(true);
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                } else if (integer == 0) {
-                    scaleProgressBar.setVisibility(View.GONE);
-                    scaleSpinner.setClickable(true);
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                } else if (integer == -2) {
-                    scaleProgressBar.setVisibility(View.GONE);
-                    scaleSpinner.setClickable(true);
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                }
-            } else if (SampleRepository.work.equals("getRooms")) {
-                if (integer == 1) {
-                    setSpinner(SampleRepository.rooms, roomSpinner, "room");
+                        scaleProgressBar.setVisibility(View.GONE);
+                        scaleSpinner.setClickable(true);
+                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                    } else if (integer == 0) {
+                        scaleProgressBar.setVisibility(View.GONE);
+                        scaleSpinner.setClickable(true);
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                    } else if (integer == -2) {
+                        scaleProgressBar.setVisibility(View.GONE);
+                        scaleSpinner.setClickable(true);
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                    }
+                    break;
+                case "getRooms":
+                    if (integer == 1) {
+                        setSpinner(SampleRepository.rooms, roomSpinner, "room");
 
-                    roomProgressBar.setVisibility(View.GONE);
-                    roomImageView.setVisibility(View.VISIBLE);
-                    roomSpinner.setClickable(true);
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                } else if (integer == 0) {
-                    roomProgressBar.setVisibility(View.GONE);
-                    roomImageView.setVisibility(View.VISIBLE);
-                    roomSpinner.setClickable(true);
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                } else if (integer == -2) {
-                    roomProgressBar.setVisibility(View.GONE);
-                    roomImageView.setVisibility(View.VISIBLE);
-                    roomSpinner.setClickable(true);
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                }
-            } else if (SampleRepository.work.equals("getCases")) {
-                if (integer == 1) {
-                    setSpinner(SampleRepository.cases, caseSpinner, "case");
+                        roomProgressBar.setVisibility(View.GONE);
+                        roomImageView.setVisibility(View.VISIBLE);
+                        roomSpinner.setClickable(true);
+                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                    } else if (integer == 0) {
+                        roomProgressBar.setVisibility(View.GONE);
+                        roomImageView.setVisibility(View.VISIBLE);
+                        roomSpinner.setClickable(true);
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                    } else if (integer == -2) {
+                        roomProgressBar.setVisibility(View.GONE);
+                        roomImageView.setVisibility(View.VISIBLE);
+                        roomSpinner.setClickable(true);
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                    }
+                    break;
+                case "getCases":
+                    if (integer == 1) {
+                        setSpinner(SampleRepository.cases, caseSpinner, "case");
 
-                    caseProgressBar.setVisibility(View.GONE);
-                    caseImageView.setVisibility(View.VISIBLE);
-                    caseSpinner.setClickable(true);
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                } else if (integer == 0) {
-                    caseProgressBar.setVisibility(View.GONE);
-                    caseImageView.setVisibility(View.VISIBLE);
-                    caseSpinner.setClickable(true);
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                } else if (integer == -2) {
-                    caseProgressBar.setVisibility(View.GONE);
-                    caseImageView.setVisibility(View.VISIBLE);
-                    caseSpinner.setClickable(true);
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                }
-            } else if (SampleRepository.work.equals("getReferences")) {
-                if (integer == 1) {
-                    setSpinner(SampleRepository.references, roomReferenceSpinner, "reference");
+                        caseProgressBar.setVisibility(View.GONE);
+                        caseImageView.setVisibility(View.VISIBLE);
+                        caseSpinner.setClickable(true);
+                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                    } else if (integer == 0) {
+                        caseProgressBar.setVisibility(View.GONE);
+                        caseImageView.setVisibility(View.VISIBLE);
+                        caseSpinner.setClickable(true);
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                    } else if (integer == -2) {
+                        caseProgressBar.setVisibility(View.GONE);
+                        caseImageView.setVisibility(View.VISIBLE);
+                        caseSpinner.setClickable(true);
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                    }
+                    break;
+                case "getReferences":
+                    if (integer == 1) {
+                        setSpinner(SampleRepository.references, roomReferenceSpinner, "reference");
 
-                    roomReferenceProgressBar.setVisibility(View.GONE);
-                    roomReferenceSpinner.setClickable(true);
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                } else if (integer == 0) {
-                    roomReferenceProgressBar.setVisibility(View.GONE);
-                    roomReferenceSpinner.setClickable(true);
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                } else if (integer == -2) {
-                    roomReferenceProgressBar.setVisibility(View.GONE);
-                    roomReferenceSpinner.setClickable(true);
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                }
+                        roomReferenceProgressBar.setVisibility(View.GONE);
+                        roomReferenceSpinner.setClickable(true);
+                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                    } else if (integer == 0) {
+                        roomReferenceProgressBar.setVisibility(View.GONE);
+                        roomReferenceSpinner.setClickable(true);
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                    } else if (integer == -2) {
+                        roomReferenceProgressBar.setVisibility(View.GONE);
+                        roomReferenceSpinner.setClickable(true);
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                    }
+                    break;
             }
         });
+    }
+
+    private void observeException() {
+        if (ExceptionManager.current_exception.equals("create")) {
+            try {
+                if (!ExceptionManager.errors.isNull("scale_id")) {
+                    scaleLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("scale_id"), Toast.LENGTH_SHORT).show();
+                    scaleException = true;
+                }
+                if (!ExceptionManager.errors.isNull("room_id")) {
+                    roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
+                    roomException = true;
+                }
+                if (!ExceptionManager.errors.isNull("case_id")) {
+                    caseFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
+                    caseException = true;
+                }
+                if (!ExceptionManager.errors.isNull("client_id")) {
+                    if (typeTabLayout.getSelectedTabPosition() == 0) {
+                        roomReferenceLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                        Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
+                        roomReferenceException = true;
+                    } else if (typeTabLayout.getSelectedTabPosition() == 1) {
+                        caseReferenceRecyclerView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                        Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
+                        caseReferenceException = true;
+                    }
+                }
+                if (!ExceptionManager.errors.isNull("count")) {
+                    countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("count"), Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

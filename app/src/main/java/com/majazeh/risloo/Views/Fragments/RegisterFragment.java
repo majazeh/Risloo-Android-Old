@@ -236,26 +236,17 @@ public class RegisterFragment extends Fragment {
                 ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText);
             }
 
-            if (nameEditText.length() == 0 && mobileEditText.length() == 0 && passwordEditText.length() == 0) {
+            if (nameEditText.length() == 0) {
                 ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(nameEditText);
+            }
+            if (mobileEditText.length() == 0) {
                 ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(mobileEditText);
+            }
+            if (passwordEditText.length() == 0) {
                 ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(passwordEditText);
-            } else if (mobileEditText.length() == 0 && passwordEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(mobileEditText);
-                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(passwordEditText);
-            } else if (nameEditText.length() == 0 && passwordEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(nameEditText);
-                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(passwordEditText);
-            } else if (nameEditText.length() == 0 && mobileEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(nameEditText);
-                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(mobileEditText);
-            } else if (passwordEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(passwordEditText);
-            } else if (mobileEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(mobileEditText);
-            } else if (nameEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(nameEditText);
-            } else {
+            }
+
+            if (nameEditText.length() != 0 && mobileEditText.length() != 0 && passwordEditText.length() != 0) {
                 ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(nameEditText);
                 ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(mobileEditText);
                 ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(passwordEditText);

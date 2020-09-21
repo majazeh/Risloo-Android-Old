@@ -386,41 +386,9 @@ public class DetailSampleActivity extends AppCompatActivity {
 
     private void observeWork() {
         SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
-            if (SampleRepository.work.equals("getGeneral")) {
-                if (integer == 1) {
-                    // Show General Detail
-
-                    loadingLayout.setVisibility(View.GONE);
-                    retryLayout.setVisibility(View.GONE);
-                    mainLayout.setVisibility(View.VISIBLE);
-
-                    setData();
-
-                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                } else if (integer != -1) {
-                    if (viewModel.readSampleDetailFromCache(sampleId) == null) {
-                        if (integer == 0) {
-                            // General Detail is Empty And Error
-
-                            loadingLayout.setVisibility(View.GONE);
-                            retryLayout.setVisibility(View.VISIBLE);
-                            mainLayout.setVisibility(View.GONE);
-
-                            setRetryLayout("error");
-
-                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                        } else if (integer == -2) {
-                            // General Detail is Empty And Connection
-
-                            loadingLayout.setVisibility(View.GONE);
-                            retryLayout.setVisibility(View.VISIBLE);
-                            mainLayout.setVisibility(View.GONE);
-
-                            setRetryLayout("connection");
-
-                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                        }
-                    } else {
+            switch (SampleRepository.work) {
+                case "getGeneral":
+                    if (integer == 1) {
                         // Show General Detail
 
                         loadingLayout.setVisibility(View.GONE);
@@ -430,88 +398,126 @@ public class DetailSampleActivity extends AppCompatActivity {
                         setData();
 
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    } else if (integer != -1) {
+                        if (viewModel.readSampleDetailFromCache(sampleId) == null) {
+                            if (integer == 0) {
+                                // General Detail is Empty And Error
+
+                                loadingLayout.setVisibility(View.GONE);
+                                retryLayout.setVisibility(View.VISIBLE);
+                                mainLayout.setVisibility(View.GONE);
+
+                                setRetryLayout("error");
+
+                                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                            } else if (integer == -2) {
+                                // General Detail is Empty And Connection
+
+                                loadingLayout.setVisibility(View.GONE);
+                                retryLayout.setVisibility(View.VISIBLE);
+                                mainLayout.setVisibility(View.GONE);
+
+                                setRetryLayout("connection");
+
+                                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                            }
+                        } else {
+                            // Show General Detail
+
+                            loadingLayout.setVisibility(View.GONE);
+                            retryLayout.setVisibility(View.GONE);
+                            mainLayout.setVisibility(View.VISIBLE);
+
+                            setData();
+
+                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                        }
                     }
-                }
-            } else if (SampleRepository.work.equals("getPrerequisite")) {
+                    break;
+                case "getPrerequisite":
 
-            } else if (SampleRepository.work.equals("getTest")) {
+                    break;
+                case "getTest":
 
-            } else if (SampleRepository.work.equals("score")) {
-                if (integer == 1) {
-                    setResult(RESULT_OK, null);
+                    break;
+                case "score":
+                    if (integer == 1) {
+                        setResult(RESULT_OK, null);
 
-                    try {
-                        JSONObject jsonObject = FileManager.readObjectFromCache(this, "sampleDetail", sampleId);
-                        JSONObject profiles = Objects.requireNonNull(jsonObject).getJSONObject("profiles");
+                        try {
+                            JSONObject jsonObject = FileManager.readObjectFromCache(this, "sampleDetail", sampleId);
+                            JSONObject profiles = Objects.requireNonNull(jsonObject).getJSONObject("profiles");
 
-                        if (profiles.has("profile_svg")) {
-                            JSONObject svg = profiles.getJSONObject("profile_svg");
-                            this.svgUrl = svg.getString("url");
+                            if (profiles.has("profile_svg")) {
+                                JSONObject svg = profiles.getJSONObject("profile_svg");
+                                this.svgUrl = svg.getString("url");
+                            }
+                            if (profiles.has("profile_png")) {
+                                JSONObject png = profiles.getJSONObject("profile_png");
+                                Picasso.get().load(png.getString("url")).placeholder(R.color.Solitude).into(resultImageView);
+                                this.pngUrl = png.getString("url");
+                            }
+                            if (profiles.has("profile_html")) {
+                                JSONObject html = profiles.getJSONObject("profile_html");
+                                this.htmlUrl = html.getString("url");
+                            }
+                            if (profiles.has("profile_pdf")) {
+                                JSONObject pdf = profiles.getJSONObject("profile_pdf");
+                                this.pdfUrl = pdf.getString("url");
+                            }
+
+                            setButton(scoreTextView, false);
+                            resultCardView.setVisibility(View.VISIBLE);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        if (profiles.has("profile_png")) {
-                            JSONObject png = profiles.getJSONObject("profile_png");
-                            Picasso.get().load(png.getString("url")).placeholder(R.color.Solitude).into(resultImageView);
-                            this.pngUrl = png.getString("url");
-                        }
-                        if (profiles.has("profile_html")) {
-                            JSONObject html = profiles.getJSONObject("profile_html");
-                            this.htmlUrl = html.getString("url");
-                        }
-                        if (profiles.has("profile_pdf")) {
-                            JSONObject pdf = profiles.getJSONObject("profile_pdf");
-                            this.pdfUrl = pdf.getString("url");
-                        }
 
-                        setButton(scoreTextView, false);
-                        resultCardView.setVisibility(View.VISIBLE);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        progressDialog.dismiss();
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    } else if (integer == 0) {
+                        progressDialog.dismiss();
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    } else if (integer == -2) {
+                        progressDialog.dismiss();
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
+                    break;
+                case "close":
+                    if (integer == 1) {
+                        setResult(RESULT_OK, null);
 
-                    progressDialog.dismiss();
-                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                } else if (integer == 0) {
-                    progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                } else if (integer == -2) {
-                    progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                }
-            } else if (SampleRepository.work.equals("close")) {
-                if (integer == 1) {
-                    setResult(RESULT_OK, null);
+                        try {
+                            JSONObject jsonObject = FileManager.readObjectFromCache(this, "sampleDetail", sampleId);
+                            Objects.requireNonNull(jsonObject).put("status", "closed");
+                            FileManager.writeObjectToCache(this, jsonObject, "sampleDetail", sampleId);
 
-                    try {
-                        JSONObject jsonObject = FileManager.readObjectFromCache(this, "sampleDetail", sampleId);
-                        Objects.requireNonNull(jsonObject).put("status", "closed");
-                        FileManager.writeObjectToCache(this, jsonObject, "sampleDetail", sampleId);
+                            statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
+                            statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                            ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Mischka));
 
-                        statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
-                        statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
-                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Mischka));
+                            setButton(scoreTextView, true);
+                            setButton(closeTextView, false);
 
-                        setButton(scoreTextView, true);
-                        setButton(closeTextView, false);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        progressDialog.dismiss();
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    } else if (integer == 0) {
+                        progressDialog.dismiss();
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    } else if (integer == -2) {
+                        progressDialog.dismiss();
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
-
-                    progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                } else if (integer == 0) {
-                    progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                } else if (integer == -2) {
-                    progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                }
+                    break;
             }
         });
     }
