@@ -39,20 +39,20 @@ public class CenterViewModel extends AndroidViewModel {
         repository.request(clinicId);
     }
 
-    public void create(String type, String manager_id, String title, String avatar, String address, String description, ArrayList phone_numbers) throws JSONException {
-        repository.create(type, manager_id, title, avatar, address, description, phone_numbers);
+    public void create(String type, String manager, String avatar, String title, String address, String description, ArrayList phones) throws JSONException {
+        repository.create(type, manager, avatar, title, address, description, phones);
     }
 
-    public void personal_clinic() throws JSONException {
-        repository.personal_clinic();
+    public void edit(String id, String manager, String title, String description, String address, ArrayList phones) throws JSONException {
+        repository.edit(id, manager, title, description, address, phones);
     }
 
-    public void counseling_center() throws JSONException {
-        repository.counseling_center();
+    public void personalClinic() throws JSONException {
+        repository.personalClinic();
     }
 
-    public void update(String id,String manager_id, String title, String description, String address, ArrayList phone_numbers) throws JSONException {
-        repository.update(id,manager_id, title, description, address, phone_numbers);
+    public void counselingCenter() throws JSONException {
+        repository.counselingCenter();
     }
 
     /*

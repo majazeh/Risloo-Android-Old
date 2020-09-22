@@ -3,7 +3,6 @@ package com.majazeh.risloo.Views.Adapters;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +25,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerHolder> {
 

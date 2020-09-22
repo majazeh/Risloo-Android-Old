@@ -167,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:gravity="center"
-                    android:text="@string/CenterPrincipal"
+                    android:text="@string/CenterManager"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"
                     android:textColor="@color/Grey"

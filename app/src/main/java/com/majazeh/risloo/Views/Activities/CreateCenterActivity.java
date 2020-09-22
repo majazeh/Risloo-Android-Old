@@ -5,29 +5,31 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -37,7 +39,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
-import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -48,6 +49,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CreateCenterActivity extends AppCompatActivity {
 
@@ -58,8 +60,8 @@ public class CreateCenterActivity extends AppCompatActivity {
     private SpinnerAdapter phoneAdapter;
 
     // Vars
-    private String type = "personal_clinic", principal = "", title = "", description = "", address = "";
-    private boolean titleError;
+    private String type = "personal_clinic", manager = "", title = "", description = "", address = "";
+    private boolean typeException = false, managerException = false, phoneException =false;
 
     // Objects
     private Handler handler;
@@ -67,13 +69,14 @@ public class CreateCenterActivity extends AppCompatActivity {
     // Widgets
     private Toolbar toolbar;
     private TabLayout typeTabLayout;
-    private Spinner principalSpinner;
-    public TextView principalTextView, phoneTextView, phoneDialogPositive, phoneDialogNegative;
-    private EditText titleEditText, descriptionEditText, addressEditText, phoneDialogEditText;
+    private Spinner managerSpinner;
+    public TextView managerTextView, phoneTextView, phoneDialogPositive, phoneDialogNegative;
+    private EditText inputEditText, titleEditText, descriptionEditText, addressEditText, phoneDialogEditText;
     private RecyclerView phoneRecyclerView;
-    private ProgressBar principalProgressBar;
-    private ImageView principalImageView, phoneImageView;
-    private FrameLayout principalFrameLayout;
+    private ProgressBar managerProgressBar;
+    private ImageView managerImageView, phoneImageView;
+    private LinearLayout phoneLinearLayout;
+    private FrameLayout managerFrameLayout;
     private Button createButton;
     private Dialog phoneDialog, progressDialog;
 
@@ -98,7 +101,7 @@ public class CreateCenterActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = ViewModelProviders.of(this).get(CenterViewModel.class);
+        viewModel = new ViewModelProvider(this).get(CenterViewModel.class);
 
         phoneAdapter = new SpinnerAdapter(this);
 
@@ -108,9 +111,9 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         typeTabLayout = findViewById(R.id.activity_create_center_type_tabLayout);
 
-        principalSpinner = findViewById(R.id.activity_create_center_principal_spinner);
+        managerSpinner = findViewById(R.id.activity_create_center_manager_spinner);
 
-        principalTextView = findViewById(R.id.activity_create_center_principal_textView);
+        managerTextView = findViewById(R.id.activity_create_center_manager_textView);
         phoneTextView = findViewById(R.id.activity_create_center_phone_textView);
 
         titleEditText = findViewById(R.id.activity_create_center_title_editText);
@@ -120,24 +123,26 @@ public class CreateCenterActivity extends AppCompatActivity {
         phoneRecyclerView = findViewById(R.id.activity_create_center_phone_recyclerView);
         phoneRecyclerView.addItemDecoration(new ItemDecorator("horizontalLayout", 0, (int) getResources().getDimension(R.dimen._3sdp), (int) getResources().getDimension(R.dimen._12sdp)));
         phoneRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        phoneRecyclerView.setHasFixedSize(false);
+        phoneRecyclerView.setHasFixedSize(true);
 
-        principalProgressBar = findViewById(R.id.activity_create_center_principal_progressBar);
+        managerProgressBar = findViewById(R.id.activity_create_center_manager_progressBar);
 
-        principalImageView = findViewById(R.id.activity_create_center_principal_imageView);
+        managerImageView = findViewById(R.id.activity_create_center_manager_imageView);
         phoneImageView = findViewById(R.id.activity_create_center_phone_imageView);
 
-        principalFrameLayout = findViewById(R.id.activity_create_center_principal_frameLayout);
+        phoneLinearLayout = findViewById(R.id.activity_create_center_phone_linearLayout);
+
+        managerFrameLayout = findViewById(R.id.activity_create_center_manager_frameLayout);
 
         createButton = findViewById(R.id.activity_create_center_button);
 
         phoneDialog = new Dialog(this, R.style.DialogTheme);
-        phoneDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(phoneDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         phoneDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         phoneDialog.setContentView(R.layout.dialog_phone);
         phoneDialog.setCancelable(true);
         progressDialog = new Dialog(this, R.style.DialogTheme);
-        progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
@@ -175,17 +180,50 @@ public class CreateCenterActivity extends AppCompatActivity {
         typeTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                if (inputEditText != null && inputEditText.hasFocus()) {
+                    clearInput(inputEditText);
+                }
+
                 switch (tab.getPosition()) {
                     case 0:
-                        setData("clinic");
-                        principal = "";
-                        setSpinner(new ArrayList<>(), principalSpinner, "personal_clinic");
+                        type = "personal_clinic";
+                        titleEditText.setVisibility(View.GONE);
+
+                        // Reset Title
+                        if (titleEditText.length() != 0) {
+                            title = "";
+                            titleEditText.getText().clear();
+                            titleEditText.setFocusableInTouchMode(true);
+                        }
+
+                        // Reset Personal Clinic
+                        if (CenterRepository.personalClinic.size() != 0) {
+                            manager = "";
+                            CenterRepository.personalClinic.clear();
+                            managerSpinner.setAdapter(null);
+                            managerTextView.setVisibility(View.VISIBLE);
+                        }
 
                         break;
                     case 1:
-                        setData("center");
-                        principal = "";
-                        setSpinner(new ArrayList<>(), principalSpinner, "counseling_center");
+                        type = "counseling_center";
+                        titleEditText.setVisibility(View.VISIBLE);
+
+                        // Reset Title
+                        if (titleEditText.length() != 0) {
+                            title = "";
+                            titleEditText.getText().clear();
+                            titleEditText.setFocusableInTouchMode(true);
+                        }
+
+                        // Reset Counseling Center
+                        if (CenterRepository.counselingCenter.size() != 0) {
+                            manager = "";
+                            CenterRepository.counselingCenter.clear();
+                            managerSpinner.setAdapter(null);
+                            managerTextView.setVisibility(View.VISIBLE);
+                        }
+
                         break;
                 }
             }
@@ -201,30 +239,37 @@ public class CreateCenterActivity extends AppCompatActivity {
             }
         });
 
-        principalSpinner.setOnTouchListener((v, event) -> {
+        managerSpinner.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                if (SampleRepository.rooms.size() == 0) {
-                    doWork("getPrincipals");
+                if (managerException) {
+                    clearException("manager");
                 }
 
-                titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-                descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-                addressEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                if (inputEditText != null && inputEditText.hasFocus()) {
+                    clearInput(inputEditText);
+                }
+
+                if (type.equals("personal_clinic")) {
+                    if (CenterRepository.personalClinic.size() == 0)
+                        getData("getPersonalClinic");
+                } else {
+                    if (CenterRepository.counselingCenter.size() == 0)
+                        getData("getCounselingCenter");
+                }
             }
             return false;
         });
 
-        principalSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        managerSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (principalSpinner.getCount() != position) {
+                if (managerSpinner.getCount() != position) {
                     try {
                         if (type.equals("personal_clinic")) {
-                            principal = String.valueOf(CenterRepository.personal_clinic.get(position).get("id"));
+                            manager = String.valueOf(CenterRepository.personalClinic.get(position).get("id"));
                         } else {
-                            principal = String.valueOf(CenterRepository.counseling_center.get(position).get("id"));
+                            manager = String.valueOf(CenterRepository.counselingCenter.get(position).get("id"));
                         }
-                        principalFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -237,31 +282,29 @@ public class CreateCenterActivity extends AppCompatActivity {
             }
         });
 
-        phoneImageView.setOnClickListener(v -> phoneDialog.show());
-
         titleEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-                titleEditText.setCursorVisible(true);
+                if (!titleEditText.hasFocus()) {
+                    if (inputEditText != null && inputEditText.hasFocus()) {
+                        clearInput(inputEditText);
+                    }
 
-                titleError = false;
-
-                descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-                addressEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                    selectInput(titleEditText);
+                    focusInput(titleEditText);
+                }
             }
             return false;
         });
 
         descriptionEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-                descriptionEditText.setCursorVisible(true);
+                if (!descriptionEditText.hasFocus()) {
+                    if (inputEditText != null && inputEditText.hasFocus()) {
+                        clearInput(inputEditText);
+                    }
 
-                addressEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-                if (titleError) {
-                    titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                } else {
-                    titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                    selectInput(descriptionEditText);
+                    focusInput(descriptionEditText);
                 }
             }
             return false;
@@ -269,71 +312,87 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         addressEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                addressEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-                addressEditText.setCursorVisible(true);
+                if (!addressEditText.hasFocus()) {
+                    if (inputEditText != null && inputEditText.hasFocus()) {
+                        clearInput(inputEditText);
+                    }
 
-                if (titleError) {
-                    titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                } else {
-                    titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                    selectInput(addressEditText);
+                    focusInput(addressEditText);
                 }
-                descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
             }
             return false;
         });
 
         createButton.setOnClickListener(v -> {
-            if (type.equals("counseling_center")) {
-                title = titleEditText.getText().toString().trim();
-                description = descriptionEditText.getText().toString().trim();
-                address = addressEditText.getText().toString().trim();
+            if (inputEditText != null && inputEditText.hasFocus()) {
+                clearInput(inputEditText);
+            }
 
-                if (principal.isEmpty() && titleEditText.length() == 0) {
-                    checkInput(type);
-                } else {
-                    clearData();
-
-                    try {
-                        progressDialog.show();
-                        viewModel.create(type, principal, title, "", description, address, phoneAdapter.getValues());
-                        observeWork();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+            if (type.equals("personal_clinic")) {
+                if (manager.isEmpty()) {
+                    errorView("manager");
                 }
 
-            } else if (type.equals("personal_clinic")) {
-                description = descriptionEditText.getText().toString().trim();
-                address = addressEditText.getText().toString().trim();
+                if (typeException) {
+                    clearException("type");
+                }
+                if (managerException) {
+                    clearException("manager");
+                }
+                if (phoneException) {
+                    clearException("phone");
+                }
 
-                if (principal.isEmpty()) {
-                    checkInput(type);
-                } else {
-                    clearData();
+                if (!manager.isEmpty()) {
+                    doWork();
+                }
+            } else {
+                if (manager.isEmpty()) {
+                    errorView("manager");
+                }
+                if (titleEditText.length() == 0) {
+                    errorView("title");
+                }
 
-                    try {
-                        progressDialog.show();
-                        viewModel.create(type, principal, title, "", address, description, phoneAdapter.getValues());
+                if (typeException) {
+                    clearException("type");
+                }
+                if (managerException) {
+                    clearException("manager");
+                }
+                if (phoneException) {
+                    clearException("phone");
+                }
 
-                        observeWork();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                if (!manager.isEmpty() && titleEditText.length() != 0) {
+                    clearInput(titleEditText);
+
+                    doWork();
                 }
             }
+
         });
+
+        phoneImageView.setOnClickListener(v -> phoneDialog.show());
 
         phoneDialogEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                phoneDialogEditText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-                phoneDialogEditText.setCursorVisible(true);
+                if (!phoneDialogEditText.hasFocus()) {
+                    if (inputEditText != null && inputEditText.hasFocus()) {
+                        clearInput(inputEditText);
+                    }
+
+                    selectInput(phoneDialogEditText);
+                    focusInput(phoneDialogEditText);
+                }
             }
             return false;
         });
 
         phoneDialogPositive.setOnClickListener(v -> {
             phoneDialogPositive.setClickable(false);
-            handler.postDelayed(() -> phoneDialogPositive.setClickable(true), 500);
+            handler.postDelayed(() -> phoneDialogPositive.setClickable(true), 300);
 
             if (phoneDialogEditText.length() != 0) {
                 if (!phoneAdapter.getValues().contains(phoneDialogEditText.getText().toString().trim())) {
@@ -351,35 +410,34 @@ public class CreateCenterActivity extends AppCompatActivity {
 
                 phoneDialog.dismiss();
 
-                phoneDialogEditText.getText().clear();
-                phoneDialogEditText.setCursorVisible(false);
-                phoneDialogEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                if (inputEditText != null && inputEditText.hasFocus()) {
+                    clearInput(inputEditText);
+                }
             } else {
-                phoneDialogEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                errorView("phone");
             }
-
         });
 
         phoneDialogNegative.setOnClickListener(v -> {
             phoneDialogNegative.setClickable(false);
-            handler.postDelayed(() -> phoneDialogNegative.setClickable(true), 500);
+            handler.postDelayed(() -> phoneDialogNegative.setClickable(true), 300);
             phoneDialog.dismiss();
 
-            phoneDialogEditText.getText().clear();
-            phoneDialogEditText.setCursorVisible(false);
-            phoneDialogEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+            if (inputEditText != null && inputEditText.hasFocus()) {
+                clearInput(inputEditText);
+            }
         });
 
         phoneDialog.setOnCancelListener(dialog -> {
             phoneDialog.dismiss();
 
-            phoneDialogEditText.getText().clear();
-            phoneDialogEditText.setCursorVisible(false);
-            phoneDialogEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+            if (inputEditText != null && inputEditText.hasFocus()) {
+                clearInput(inputEditText);
+            }
         });
     }
 
-    private void setSpinner(ArrayList<Model> arrayList, Spinner spinner, String type) {
+    private void setSpinner(ArrayList<Model> arrayList, Spinner spinner) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_background) {
 
             @NonNull
@@ -404,8 +462,6 @@ public class CreateCenterActivity extends AppCompatActivity {
             }
 
         };
-
-        //adapter.add(getResources().getString(R.string.EditCenterPrincipal));
         try {
             for (int i = 0; i < arrayList.size(); i++) {
                 adapter.add((String) arrayList.get(i).get("name"));
@@ -413,162 +469,227 @@ public class CreateCenterActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        principalTextView.setVisibility(View.GONE);
-        principalProgressBar.setVisibility(View.GONE);
-        principalImageView.setVisibility(View.VISIBLE);
-        principalSpinner.setClickable(true);
+        managerTextView.setVisibility(View.GONE);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown);
+
         spinner.setAdapter(adapter);
-        spinner.setSelection(adapter.getCount()-1);
+        spinner.setSelection(adapter.getCount() - 1);
     }
 
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String type) {
+        if ("phoneCreate".equals(type)) {
+            phoneAdapter.setValue(arrayList, type);
+            recyclerView.setAdapter(phoneAdapter);
+        }
+    }
+
+    private void focusInput(EditText input) {
+        this.inputEditText = input;
+    }
+
+    private void selectInput(EditText input) {
+        input.setCursorVisible(true);
+        input.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
+    }
+
+    private void errorView(String type) {
         switch (type) {
-            case "phoneCreate":
-                phoneAdapter.setValue(arrayList, type);
-                recyclerView.setAdapter(phoneAdapter);
+            case "manager":
+                managerFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
+            case "title":
+                titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
+            case "phone":
+                phoneDialogEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
         }
     }
 
-    private void setData(String method) {
-        if (method.equals("center")) {
-            type = "counseling_center";
-            titleEditText.setVisibility(View.VISIBLE);
-        } else if (method.equals("clinic")) {
-            type = "personal_clinic";
-            titleEditText.setVisibility(View.GONE);
-            titleEditText.getText().clear();
-            titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+    private void clearInput(EditText input) {
+        input.clearFocus();
+        input.setCursorVisible(false);
+        input.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+
+        hideKeyboard();
+    }
+
+    private void clearException(String type) {
+        switch (type) {
+            case "type":
+                typeException = false;
+                typeTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                break;
+            case "manager":
+                managerException = false;
+                managerFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                break;
+            case "phone":
+                phoneException = false;
+                phoneLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                break;
         }
     }
 
-    private void checkInput(String type) {
-        if (type.equals("center")) {
-            if (principal.isEmpty() && titleEditText.length() == 0) {
-                principalFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                titleError = true;
-            } else if (titleEditText.length() == 0) {
-                principalFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-                titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                titleError = true;
-            } else if (principal.isEmpty()) {
-                principalFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-                titleError = false;
-            }
-        } else if (type.equals("clinic")) {
-            principalFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-        }
+    private void hideKeyboard() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        Objects.requireNonNull(inputMethodManager).hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 
-    private void clearData() {
-        titleEditText.setCursorVisible(false);
-        descriptionEditText.setCursorVisible(false);
-        addressEditText.setCursorVisible(false);
-
-        principalFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-        titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-        descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-        addressEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-
-        titleError = false;
-    }
-
-    private void doWork(String method) {
+    private void getData(String method) {
         try {
             switch (method) {
-                case "getPrincipals":
-                    principalProgressBar.setVisibility(View.VISIBLE);
-                    principalImageView.setVisibility(View.GONE);
-                    principalSpinner.setClickable(false);
-                    if (type.equals("personal_clinic")) {
-                        if (CenterRepository.personal_clinic.size() == 0) {
-                            viewModel.personal_clinic();
-                            observeWork();
-                        } else {
-                            setSpinner(CenterRepository.personal_clinic, principalSpinner, "personal_clinic");
-                        }
-                    } else {
-                        if (CenterRepository.counseling_center.size() == 0) {
-                            viewModel.counseling_center();
-                            observeWork();
-                        } else {
-                            setSpinner(CenterRepository.counseling_center, principalSpinner, "counseling_center");
+                case "getPersonalClinic":
+                    managerProgressBar.setVisibility(View.VISIBLE);
+                    managerImageView.setVisibility(View.GONE);
+                    managerSpinner.setClickable(false);
 
-                        }
-                    }
+                    viewModel.personalClinic();
+                    break;
+                case "getCounselingCenter":
+                    managerProgressBar.setVisibility(View.VISIBLE);
+                    managerImageView.setVisibility(View.GONE);
+                    managerSpinner.setClickable(false);
+
+                    viewModel.counselingCenter();
                     break;
             }
-
+            observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
+    private void doWork() {
+        if (type.equals("personal_clinic")) {
+            description = descriptionEditText.getText().toString().trim();
+            address = addressEditText.getText().toString().trim();
+
+            try {
+                progressDialog.show();
+                viewModel.create(type, manager, "", "", address, description, phoneAdapter.getValues());
+                observeWork();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            title = titleEditText.getText().toString().trim();
+            description = descriptionEditText.getText().toString().trim();
+            address = addressEditText.getText().toString().trim();
+
+            try {
+                progressDialog.show();
+                viewModel.create(type, manager, "", title, address, description, phoneAdapter.getValues());
+                observeWork();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void observeWork() {
         CenterRepository.workState.observe((LifecycleOwner) this, integer -> {
-            if (CenterRepository.work == "create") {
-                if (integer == 1) {
-                    setResult(RESULT_OK, null);
-                    finish();
-                    progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    CenterRepository.workState.removeObservers((LifecycleOwner) this);
-                } else if (integer == 0) {
-                    progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    CenterRepository.workState.removeObservers((LifecycleOwner) this);
-                } else if (integer == -2) {
-                    progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    CenterRepository.workState.removeObservers((LifecycleOwner) this);
-                }
-            } else if (CenterRepository.work == "personal_clinic") {
-                if (integer == 1) {
-                    setSpinner(CenterRepository.personal_clinic, principalSpinner, "personal_clinic");
+            switch (CenterRepository.work) {
+                case "create":
+                    if (integer == 1) {
+                        setResult(RESULT_OK, null);
+                        finish();
 
-                    principalProgressBar.setVisibility(View.GONE);
-                    principalImageView.setVisibility(View.VISIBLE);
-                    principalSpinner.setClickable(true);
-                    CenterRepository.workState.removeObservers((LifecycleOwner) this);
-                } else if (integer == 0) {
-                    principalProgressBar.setVisibility(View.GONE);
-                    principalImageView.setVisibility(View.VISIBLE);
-                    principalSpinner.setClickable(true);
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    CenterRepository.workState.removeObservers((LifecycleOwner) this);
-                } else if (integer == -2) {
-                    principalProgressBar.setVisibility(View.GONE);
-                    principalImageView.setVisibility(View.VISIBLE);
-                    principalSpinner.setClickable(true);
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    CenterRepository.workState.removeObservers((LifecycleOwner) this);
-                }
-            } else if (CenterRepository.work == "counseling_center") {
-                if (integer == 1) {
-                    setSpinner(CenterRepository.counseling_center, principalSpinner, "counseling_center");
+                        progressDialog.dismiss();
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                    } else if (integer == 0) {
+                        progressDialog.dismiss();
+                        observeException();
+                        CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                    } else if (integer == -2) {
+                        progressDialog.dismiss();
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                    }
+                    break;
+                case "getPersonalClinic":
+                    if (integer == 1) {
+                        setSpinner(CenterRepository.personalClinic, managerSpinner);
 
-                    principalProgressBar.setVisibility(View.GONE);
-                    principalImageView.setVisibility(View.VISIBLE);
-                    principalSpinner.setClickable(true);
-                    CenterRepository.workState.removeObservers((LifecycleOwner) this);
-                } else if (integer == 0) {
-                    principalProgressBar.setVisibility(View.GONE);
-                    principalImageView.setVisibility(View.VISIBLE);
-                    principalSpinner.setClickable(true);
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    CenterRepository.workState.removeObservers((LifecycleOwner) this);
-                } else if (integer == -2) {
-                    principalProgressBar.setVisibility(View.GONE);
-                    principalImageView.setVisibility(View.VISIBLE);
-                    principalSpinner.setClickable(true);
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
-                    CenterRepository.workState.removeObservers((LifecycleOwner) this);
-                }
+                        managerProgressBar.setVisibility(View.GONE);
+                        managerImageView.setVisibility(View.VISIBLE);
+                        managerSpinner.setClickable(true);
+                        CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                    } else if (integer == 0) {
+                        managerProgressBar.setVisibility(View.GONE);
+                        managerImageView.setVisibility(View.VISIBLE);
+                        managerSpinner.setClickable(true);
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                    } else if (integer == -2) {
+                        managerProgressBar.setVisibility(View.GONE);
+                        managerImageView.setVisibility(View.VISIBLE);
+                        managerSpinner.setClickable(true);
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                    }
+                    break;
+                case "getCounselingCenter":
+                    if (integer == 1) {
+                        setSpinner(CenterRepository.counselingCenter, managerSpinner);
+
+                        managerProgressBar.setVisibility(View.GONE);
+                        managerImageView.setVisibility(View.VISIBLE);
+                        managerSpinner.setClickable(true);
+                        CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                    } else if (integer == 0) {
+                        managerProgressBar.setVisibility(View.GONE);
+                        managerImageView.setVisibility(View.VISIBLE);
+                        managerSpinner.setClickable(true);
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                    } else if (integer == -2) {
+                        managerProgressBar.setVisibility(View.GONE);
+                        managerImageView.setVisibility(View.VISIBLE);
+                        managerSpinner.setClickable(true);
+                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                    }
+                    break;
             }
         });
+    }
+
+    private void observeException() {
+        if (ExceptionManager.current_exception.equals("create")) {
+            try {
+                if (!ExceptionManager.errors.isNull("type")) {
+                    typeTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("type"), Toast.LENGTH_SHORT).show();
+                    typeException = true;
+                }
+                if (!ExceptionManager.errors.isNull("manager_id")) {
+                    managerFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("manager_id"), Toast.LENGTH_SHORT).show();
+                    managerException = true;
+                }
+                if (!ExceptionManager.errors.isNull("title")) {
+                    titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("title"), Toast.LENGTH_SHORT).show();
+                }
+                if (!ExceptionManager.errors.isNull("description")) {
+                    descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("description"), Toast.LENGTH_SHORT).show();
+                }
+                if (!ExceptionManager.errors.isNull("address")) {
+                    addressEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("address"), Toast.LENGTH_SHORT).show();
+                }
+                if (!ExceptionManager.errors.isNull("phone_numbers")) {
+                    phoneLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    Toast.makeText(this, "" + ExceptionManager.errors.getString("phone_numbers"), Toast.LENGTH_SHORT).show();
+                    phoneException = true;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

@@ -129,7 +129,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         scaleRecyclerView = findViewById(R.id.activity_create_sample_scale_recyclerView);
         scaleRecyclerView.addItemDecoration(new ItemDecorator("horizontalLayout", 0, (int) getResources().getDimension(R.dimen._3sdp), (int) getResources().getDimension(R.dimen._12sdp)));
         scaleRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        scaleRecyclerView.setHasFixedSize(false);
+        scaleRecyclerView.setHasFixedSize(true);
         roomReferenceRecyclerView = findViewById(R.id.activity_create_sample_clinic_reference_recyclerView);
         roomReferenceRecyclerView.addItemDecoration(new ItemDecorator("horizontalLayout", 0, (int) getResources().getDimension(R.dimen._3sdp), (int) getResources().getDimension(R.dimen._12sdp)));
         roomReferenceRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -229,7 +229,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         // Reset Count
                         if (countEditText.length() != 0) {
                             count = "";
-                            countEditText.setText(count);
+                            countEditText.getText().clear();
                             countEditText.setVisibility(View.VISIBLE);
                             countEditText.setFocusableInTouchMode(true);
                         }
@@ -518,27 +518,6 @@ public class CreateSampleActivity extends AppCompatActivity {
                 doWork();
             }
         });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     public void setSpinner(ArrayList<Model> arrayList, Spinner spinner, String type) {

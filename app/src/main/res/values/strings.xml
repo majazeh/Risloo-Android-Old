@@ -318,12 +318,12 @@
     <string name="CenterEmpty">فعلا مرکز درمانی برای شما نیست</string>
 
     <string name="CenterDescription">توضیحات:</string>
-    <string name="CenterPrincipal">مدیر:</string>
+    <string name="CenterManager">مدیر:</string>
     <string name="CenterAddress">آدرس:</string>
     <string name="CenterPhone">شماره تماس:</string>
 
     <string name="CenterRequest">درخواست پذیرش</string>
-    <string name="CenterManager">شما مدیر این مرکز درمانی هستید</string>
+    <string name="CenterOwner">شما مدیر این مرکز درمانی هستید</string>
     <string name="CenterKicked">رد شد</string>
     <string name="CenterAwaiting">در انتظار</string>
     <string name="CenterAccepted">پذیرفته شد</string>
@@ -338,14 +338,14 @@
     // edit center strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="EditCenterTitle">ویرایش مرکز مشاوره</string>
     <string name="EditClinicTitle">ویرایش کلینیک شخصی</string>
+    <string name="EditCenterTitle">ویرایش مرکز مشاوره</string>
 
-    <string name="EditCenterPrincipal">مدیر</string>
+    <string name="EditCenterManager">مدیر</string>
     <string name="EditCenterName">عنوان</string>
     <string name="EditCenterDescription">توضیحات (غیر ضروری)</string>
     <string name="EditCenterAddress">آدرس (غیر ضروری)</string>
-    <string name="EditCenterPhones">شماره تماس (غیر ضروری)</string>
+    <string name="EditCenterPhone">شماره تماس (غیر ضروری)</string>
 
     <string name="EditCenterEdit">ویرایش</string>
 
@@ -361,16 +361,16 @@
 
     <string name="CreateCenterTitle">ایجاد مرکز درمانی</string>
 
-    <string name="CreateCenterTypeCenter">مرکز مشاوره</string>
-    <string name="CreateCenterTypeClinic">کلینیک شخصی</string>
+    <string name="CreateCenterCounselingCenter">مرکز مشاوره</string>
+    <string name="CreateCenterPersonalClinic">کلینیک شخصی</string>
 
-    <string name="CreateCenterPrincipal">مدیر</string>
+    <string name="CreateCenterManager">مدیر</string>
     <string name="CreateCenterName">عنوان</string>
     <string name="CreateCenterDescription">توضیحات (غیر ضروری)</string>
     <string name="CreateCenterAddress">آدرس (غیر ضروری)</string>
-    <string name="CreateCenterPhones">شماره تماس (غیر ضروری)</string>
+    <string name="CreateCenterPhone">شماره تماس (غیر ضروری)</string>
 
-    <string name="CreateCenterCreate">ساخت</string>
+    <string name="CreateCenterCreate">ایجاد</string>
 
     <string name="CreateCenterPhoneDialogTitle">شماره تماس دلخواهی اضافه کنید.</string>
     <string name="CreateCenterPhoneDialogPhone">شماره تماس</string>

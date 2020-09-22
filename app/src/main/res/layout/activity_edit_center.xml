@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_edit_center"
@@ -40,19 +41,19 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/_18sdp"
+                android:padding="@dimen/_24sdp"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <FrameLayout
-                    android:id="@+id/activity_edit_center_principal_frameLayout"
+                    android:id="@+id/activity_edit_center_manager_frameLayout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:background="@drawable/draw_16sdp_border_quartz">
 
                     <Spinner
-                        android:id="@+id/activity_edit_center_principal_spinner"
+                        android:id="@+id/activity_edit_center_manager_spinner"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:singleLine="true"
@@ -60,20 +61,20 @@
                         android:background="@null"/>
 
                     <TextView
-                        android:id="@+id/activity_edit_center_principal_textView"
+                        android:id="@+id/activity_edit_center_manager_textView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingLeft="@dimen/_16sdp"
                         android:paddingRight="@dimen/_16sdp"
                         android:gravity="center|right"
-                        android:text="@string/EditCenterPrincipal"
+                        android:text="@string/EditCenterManager"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="normal"
                         android:textColor="@color/Mischka"
                         android:textAlignment="gravity" />
 
                     <ImageView
-                        android:id="@+id/activity_edit_center_principal_imageView"
+                        android:id="@+id/activity_edit_center_manager_imageView"
                         android:layout_width="@dimen/_12sdp"
                         android:layout_height="@dimen/_12sdp"
                         android:layout_marginLeft="@dimen/_12sdp"
@@ -82,7 +83,7 @@
                         app:tint="@color/Mischka" />
 
                     <ProgressBar
-                        android:id="@+id/activity_edit_center_principal_progressBar"
+                        android:id="@+id/activity_edit_center_manager_progressBar"
                         android:layout_width="@dimen/_16sdp"
                         android:layout_height="@dimen/_16sdp"
                         android:layout_gravity="center|left"
@@ -112,8 +113,8 @@
                     android:textColor="@color/Grey"
                     android:textColorHint="@color/Mischka"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_16sdp_border_quartz"
-                    android:importantForAutofill="no" />
+                    android:importantForAutofill="no"
+                    android:background="@drawable/draw_16sdp_border_quartz" />
 
                 <EditText
                     android:id="@+id/activity_edit_center_description_editText"
@@ -134,8 +135,8 @@
                     android:textColor="@color/Grey"
                     android:textColorHint="@color/Mischka"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_16sdp_border_quartz"
-                    android:importantForAutofill="no" />
+                    android:importantForAutofill="no"
+                    android:background="@drawable/draw_16sdp_border_quartz" />
 
                 <EditText
                     android:id="@+id/activity_edit_center_address_editText"
@@ -156,15 +157,15 @@
                     android:textColor="@color/Grey"
                     android:textColorHint="@color/Mischka"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_16sdp_border_quartz"
-                    android:importantForAutofill="no" />
+                    android:importantForAutofill="no"
+                    android:background="@drawable/draw_16sdp_border_quartz" />
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
                     android:layout_marginBottom="@dimen/_24sdp"
                     app:cardBackgroundColor="@null"
-                    app:cardCornerRadius="@dimen/_18sdp"
+                    app:cardCornerRadius="@dimen/_16sdp"
                     app:cardElevation="0dp">
 
                     <LinearLayout
@@ -181,8 +182,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/_1sdp"
                             android:padding="@dimen/_9sdp"
-                            android:src="@drawable/ic_plus_light"
                             android:background="@color/Primary5P"
+                            android:src="@drawable/ic_plus_light"
                             app:tint="@color/Primary" />
 
                         <FrameLayout
@@ -202,7 +203,7 @@
                                 android:paddingLeft="@dimen/_12sdp"
                                 android:paddingRight="@dimen/_12sdp"
                                 android:gravity="center|right"
-                                android:text="@string/EditCenterPhones"
+                                android:text="@string/EditCenterPhone"
                                 android:textSize="@dimen/_12ssp"
                                 android:textStyle="normal"
                                 android:textColor="@color/Mischka"

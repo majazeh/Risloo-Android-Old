@@ -3,7 +3,6 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Constraints;
@@ -23,23 +22,28 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class CenterRepository extends MainRepository {
 
     // Vars
+    public static HashMap createData = new HashMap();
+    public static HashMap editData = new HashMap();
+    public static ArrayList<Model> personalClinic;
+    public static ArrayList<Model> counselingCenter;
     public static MutableLiveData<Integer> workState;
     public static String work = "";
     public static String clinicId = "";
-    public static HashMap create = new HashMap();
-    public static HashMap update = new HashMap();
-    public static ArrayList<Model> personal_clinic = new ArrayList<>();
-    public static ArrayList<Model> counseling_center = new ArrayList<>();
     public static int allPage = 1;
     public static int myPage = 1;
 
     public CenterRepository(Application application) throws JSONException {
         super(application);
 
+        createData = new HashMap();
+        editData = new HashMap();
+        personalClinic = new ArrayList<>();
+        counselingCenter = new ArrayList<>();
         workState = new MutableLiveData<>();
         workState.setValue(-1);
     }
@@ -68,63 +72,58 @@ public class CenterRepository extends MainRepository {
         workManager("request");
     }
 
-    public void create(String type, String manager_id, String title, String avatar, String address, String description, ArrayList phone_numbers) throws JSONException {
-        if (!type.equals("")) {
-            CenterRepository.create.put("type", type);
-        }
-        if (!manager_id.equals("")) {
-            CenterRepository.create.put("manager_id", manager_id);
-        }
-        if (!title.equals("")) {
-            CenterRepository.create.put("title", title);
-        }
-        if (!avatar.equals("")) {
-            CenterRepository.create.put("avatar", avatar);
-        }
-        if (!address.equals("")) {
-            CenterRepository.create.put("address", address);
-        }
-        if (!description.equals("")) {
-            CenterRepository.create.put("description", description);
-        }
-        if (phone_numbers.size() != 0) {
-            CenterRepository.create.put("phone_numbers", phone_numbers);
-        }
+    public void create(String type, String manager, String avatar, String title, String address, String description, ArrayList phones) throws JSONException {
+        if (!type.equals(""))
+            CenterRepository.createData.put("type", type);
+        if (!manager.equals(""))
+            CenterRepository.createData.put("manager_id", manager);
+        if (!avatar.equals(""))
+            CenterRepository.createData.put("avatar", avatar);
+        if (!title.equals(""))
+            CenterRepository.createData.put("title", title);
+        if (!description.equals(""))
+            CenterRepository.createData.put("description", description);
+        if (!address.equals(""))
+            CenterRepository.createData.put("address", address);
+        if (phones.size() != 0)
+            CenterRepository.createData.put("phone_numbers", phones);
 
         work = "create";
         workState.setValue(-1);
         workManager("create");
     }
 
-    public void personal_clinic() throws JSONException {
-        work = "personal_clinic";
-        workState.setValue(-1);
-        workManager("personal_clinic");
-    }
+    public void edit(String id, String manager, String title, String description, String address, ArrayList phones) throws JSONException {
+        CenterRepository.editData.put("id", id);
 
-    public void counseling_center() throws JSONException {
-        work = "counseling_center";
-        workState.setValue(-1);
-        workManager("counseling_center");
-    }
-
-    public void update(String id, String manager_id, String title, String description, String address, ArrayList phone_numbers) throws JSONException {
-        update.put("id", id);
-
-        if (!manager_id.equals(""))
-            update.put("manager_id", manager_id);
+        if (!manager.equals(""))
+            CenterRepository.editData.put("manager_id", manager);
         if (!title.equals(""))
-            update.put("title", title);
+            CenterRepository.editData.put("title", title);
         if (!description.equals(""))
-            update.put("description", description);
+            CenterRepository.editData.put("description", description);
         if (!address.equals(""))
-            update.put("address", address);
-        if (phone_numbers.size()!= 0)
-            update.put("phone_numbers", phone_numbers);
-        work = "update";
+            CenterRepository.editData.put("address", address);
+        if (phones.size() != 0)
+            CenterRepository.editData.put("phone_numbers", phones);
+
+        work = "edit";
         workState.setValue(-1);
-        workManager("update");
+        workManager("edit");
     }
+
+    public void personalClinic() throws JSONException {
+        work = "getPersonalClinic";
+        workState.setValue(-1);
+        workManager("getPersonalClinic");
+    }
+
+    public void counselingCenter() throws JSONException {
+        work = "getCounselingCenter";
+        workState.setValue(-1);
+        workManager("getCounselingCenter");
+    }
+
     /*
          ---------- Arrays ----------
     */
@@ -199,7 +198,7 @@ public class CenterRepository extends MainRepository {
 
     private boolean isNetworkConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+        return Objects.requireNonNull(cm).getActiveNetworkInfo() != null && Objects.requireNonNull(cm.getActiveNetworkInfo()).isConnected();
     }
 
     private Data data(String work) throws JSONException {

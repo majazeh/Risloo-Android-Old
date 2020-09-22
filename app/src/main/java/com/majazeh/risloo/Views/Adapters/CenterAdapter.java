@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -307,7 +306,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                     holder.requestTextView.setTextColor(activity.getResources().getColor(R.color.White));
                     holder.requestTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary);
 
-                    holder.requestTextView.setText(activity.getResources().getString(R.string.CenterManager));
+                    holder.requestTextView.setText(activity.getResources().getString(R.string.CenterOwner));
                 } else {
                     holder.requestTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
                     holder.requestTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude);
