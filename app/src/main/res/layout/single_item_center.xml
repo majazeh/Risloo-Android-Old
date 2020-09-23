@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/single_item_center"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    app:cardCornerRadius="@dimen/_18sdp"
+    app:cardCornerRadius="@dimen/_16sdp"
     tools:context=".Views.Activities.CenterActivity"
     tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded">
 
@@ -110,8 +111,8 @@
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/_6sdp"
                             android:padding="@dimen/_6sdp"
+                            android:background="@drawable/draw_8sdp_solid_solitude"
                             android:src="@drawable/ic_edit_light"
-                            android:background="@drawable/draw_4sdp_solid_solitude"
                             app:tint="@color/Grey" />
 
                         <ImageView
@@ -121,8 +122,8 @@
                             android:layout_marginRight="@dimen/_6sdp"
                             android:visibility="invisible"
                             android:padding="@dimen/_6sdp"
+                            android:background="@drawable/draw_8sdp_solid_solitude"
                             android:src="@drawable/ic_user_light"
-                            android:background="@drawable/draw_4sdp_solid_solitude"
                             app:tint="@color/Grey" />
 
                     </LinearLayout>
@@ -147,14 +148,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/_10sdp"
-            android:paddingBottom="@dimen/_6sdp"
+            android:paddingBottom="@dimen/_8sdp"
             android:paddingLeft="@dimen/_6sdp"
             android:paddingRight="@dimen/_12sdp"
             android:visibility="gone"
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/single_item_center_principal_linearLayout"
+                android:id="@+id/single_item_center_manager_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_2sdp"
@@ -174,7 +175,7 @@
                     android:textAlignment="gravity" />
 
                 <TextView
-                    android:id="@+id/single_item_center_principal_textView"
+                    android:id="@+id/single_item_center_manager_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/_4sdp"

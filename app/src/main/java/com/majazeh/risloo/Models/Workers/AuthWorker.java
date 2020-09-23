@@ -438,19 +438,33 @@ public class AuthWorker extends Worker {
 
                 if (data.has("name"))
                     editor.putString("name", data.getString("name"));
+                else
+                    editor.putString("name", "null");
+
                 if (data.has("type"))
                     editor.putString("type", data.getString("type"));
+                else
+                    editor.putString("type", "null");
+
                 if (data.has("mobile"))
                     editor.putString("mobile", data.getString("mobile"));
+                else
+                    editor.putString("mobile", "null");
+
                 if (data.has("email"))
                     editor.putString("email", data.getString("email"));
+                else
+                    editor.putString("email", "null");
+
                 if (data.has("gender"))
                     editor.putString("gender", data.getString("gender"));
+                else
+                    editor.putString("gender", "null");
+
                 if (data.has("birthday"))
                     editor.putString("birthday", data.getString("birthday"));
-
-//                JSONArray avatar = data.getJSONArray("avatar");
-//                editor.putString("avatar", String.valueOf(avatar.getJSONObject(0)));
+                else
+                    editor.putString("birthday", "null");
 
                 editor.apply();
 

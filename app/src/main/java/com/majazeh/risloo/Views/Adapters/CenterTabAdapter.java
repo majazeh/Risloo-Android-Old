@@ -27,10 +27,13 @@ public class CenterTabAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int i) {
-        if (i == 0) {
-            return new AllCenterFragment(activity);
+        if (token) {
+            if (i == 0)
+                return new MyCenterFragment(activity);
+             else
+                return new AllCenterFragment(activity);
         } else {
-            return new MyCenterFragment(activity);
+            return new AllCenterFragment(activity);
         }
     }
 

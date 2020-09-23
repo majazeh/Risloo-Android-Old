@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,18 +56,20 @@ public class MyCenterFragment extends Fragment {
     }
 
     private void initializer(View view) {
-        viewModel = ViewModelProviders.of(this).get(CenterViewModel.class);
+        viewModel = new ViewModelProvider(this).get(CenterViewModel.class);
+
         expands = new HashMap<>();
         if (viewModel.getMy() != null) {
             for (int i = 0; i < viewModel.getMy().size(); i++) {
                 expands.put(i, false);
             }
         }
+
         adapter = new CenterAdapter(activity);
-        adapter.setCenter(viewModel.getMy(), expands, "my");
+        adapter.setCenter(viewModel.getMy(), expands, "my", viewModel);
 
         recyclerView = view.findViewById(R.id.fragment_my_center_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._18sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._18sdp)));
+        recyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
 
