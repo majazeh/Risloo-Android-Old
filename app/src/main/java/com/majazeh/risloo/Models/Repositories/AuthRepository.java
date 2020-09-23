@@ -18,6 +18,7 @@ import com.majazeh.risloo.Models.Workers.AuthWorker;
 
 import org.json.JSONException;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -40,6 +41,8 @@ public class AuthRepository extends MainRepository {
     public static String birthday = "";
     public static String password = "";
     public static String code = "";
+    public static String UserId = "";
+    public static File avatar = new File("avatar.png");
 
     public AuthRepository(Application application) throws JSONException {
         super(application);
@@ -118,6 +121,12 @@ public class AuthRepository extends MainRepository {
         workManager("logOut");
     }
 
+    public void setAvatar() throws JSONException {
+        work = "setAvatar";
+        workState.setValue(-1);
+        workManager("setAvatar");
+    }
+
     /*
          ---------- Arrays ----------
     */
@@ -130,7 +139,9 @@ public class AuthRepository extends MainRepository {
          ---------- Strings ----------
     */
 
-    public String getAccount() { return authItems.account(); }
+    public String getAccount() {
+        return authItems.account();
+    }
 
     public String getAvatar() {
         return authItems.avatar();

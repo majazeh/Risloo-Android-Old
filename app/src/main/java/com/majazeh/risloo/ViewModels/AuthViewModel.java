@@ -59,6 +59,10 @@ public class AuthViewModel extends AndroidViewModel {
         repository.logOut();
     }
 
+    public void setAvatar() throws JSONException {
+        repository.setAvatar();
+    }
+
     /*
          ---------- Arrays ----------
     */

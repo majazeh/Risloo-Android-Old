@@ -7,9 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Apis.AuthApi;
 import com.majazeh.risloo.Models.Generators.RetroGenerator;
+import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 
@@ -77,6 +77,9 @@ public class AuthWorker extends Worker {
                     break;
                 case "logOut":
                     logOut();
+                    break;
+                case "setAvatar":
+                    setAvatar();
                     break;
             }
         }
@@ -542,6 +545,41 @@ public class AuthWorker extends Worker {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
                 ExceptionManager.getException(bodyResponse.code(), errorBody, true, "logOut", "auth");
+                AuthRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "auth");
+            AuthRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(0, null, false, "JSONException", "auth");
+            AuthRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(0, null, false, "IOException", "auth");
+            AuthRepository.workState.postValue(0);
+        }
+    }
+
+    private void setAvatar() {
+        try {
+            Call<ResponseBody> call = authApi.setAvatar(token(), AuthRepository.UserId, AuthRepository.avatar);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
+
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "setAvatar", "auth");
+                AuthRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
+
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "setAvatar", "auth");
                 AuthRepository.workState.postValue(0);
             }
 
