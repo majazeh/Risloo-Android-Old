@@ -106,7 +106,7 @@ public class AuthItems {
         if (!sharedPreferences.getString("birthday", "").equals("null")) {
             return sharedPreferences.getString("birthday", "");
         }
-        return "نامشخص";
+        return "1400-01-01";
     }
 
     private JSONArray data() throws JSONException {

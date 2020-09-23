@@ -105,11 +105,21 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
         this.type = type;
         notifyDataSetChanged();
 
-        for (int i = 0; i < values.size(); i++) {
-            try {
-                valuesId.add((String) values.get(i).get("id"));
-            } catch (JSONException e) {
-                e.printStackTrace();
+        if (type.equals("phoneCreate")) {
+            for (int i = 0; i < values.size(); i++) {
+                try {
+                    valuesId.add((String) values.get(i).get("title"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            for (int i = 0; i < values.size(); i++) {
+                try {
+                    valuesId.add((String) values.get(i).get("id"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

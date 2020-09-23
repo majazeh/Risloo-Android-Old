@@ -458,7 +458,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
             @Override
             public int getCount() {
-                return arrayList.size();
+                return super.getCount() - 1;
             }
 
         };
@@ -469,11 +469,12 @@ public class CreateCenterActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        adapter.add(manager);
         managerTextView.setVisibility(View.GONE);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown);
 
         spinner.setAdapter(adapter);
-        spinner.setSelection(adapter.getCount() - 1);
+        spinner.setSelection(adapter.getCount());
     }
 
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String type) {
@@ -567,7 +568,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
             try {
                 progressDialog.show();
-                viewModel.create(type, manager, "", "", address, description, phoneAdapter.getValues());
+                viewModel.create(type, manager, "", "", address, description, phoneAdapter.getValuesId());
                 observeWork();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -579,7 +580,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
             try {
                 progressDialog.show();
-                viewModel.create(type, manager, "", title, address, description, phoneAdapter.getValues());
+                viewModel.create(type, manager, "", title, address, description, phoneAdapter.getValuesId());
                 observeWork();
             } catch (JSONException e) {
                 e.printStackTrace();

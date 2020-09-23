@@ -232,7 +232,9 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
             JSONObject manager = (JSONObject) model.get("manager");
             if (!manager.isNull("name")) {
+                intent.putExtra("manager_id",manager.getString("id"));
                 intent.putExtra("manager", manager.getString("name"));
+                holder.managerLinearLayout.setVisibility(View.VISIBLE);
                 holder.managerTextView.setText(manager.getString("name"));
             } else {
                 holder.managerLinearLayout.setVisibility(View.GONE);
@@ -240,6 +242,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
             if (!details.isNull("description")) {
                 intent.putExtra("description", details.getString("description"));
+                holder.descriptionLinearLayout.setVisibility(View.VISIBLE);
                 holder.descriptionTextView.setText(details.getString("description"));
             } else {
                 holder.descriptionLinearLayout.setVisibility(View.GONE);
@@ -247,6 +250,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
             if (!details.isNull("address")) {
                 intent.putExtra("address", details.getString("address"));
+                holder.addressLinearLayout.setVisibility(View.VISIBLE);
                 holder.addressTextView.setText(details.getString("address"));
             } else {
                 holder.addressLinearLayout.setVisibility(View.GONE);

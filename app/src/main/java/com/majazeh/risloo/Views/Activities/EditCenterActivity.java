@@ -60,8 +60,8 @@ public class EditCenterActivity extends AppCompatActivity {
     private SpinnerAdapter phoneAdapter;
 
     // Vars
-    private String id = "", type = "", manager = "", title = "", description = "", address = "";
-    private boolean managerException = false, phoneException =false;
+    private String id = "", type = "", manager = "", managerId = "", title = "", description = "", address = "";
+    private boolean managerException = false, phoneException = false;
 
     // Objects
     private Handler handler;
@@ -200,7 +200,9 @@ public class EditCenterActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (managerSpinner.getCount() != position) {
                     try {
-                        manager = String.valueOf(CenterRepository.counselingCenter.get(position).get("id"));
+                        if (CenterRepository.counselingCenter.size() != 0) {
+                            managerId = String.valueOf(CenterRepository.counselingCenter.get(position).get("id"));
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -214,7 +216,7 @@ public class EditCenterActivity extends AppCompatActivity {
         });
 
         titleEditText.setOnTouchListener((v, event) -> {
-            if(MotionEvent.ACTION_UP == event.getAction()) {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!titleEditText.hasFocus()) {
                     if (inputEditText != null && inputEditText.hasFocus()) {
                         clearInput(inputEditText);
@@ -228,7 +230,7 @@ public class EditCenterActivity extends AppCompatActivity {
         });
 
         descriptionEditText.setOnTouchListener((v, event) -> {
-            if(MotionEvent.ACTION_UP == event.getAction()) {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!descriptionEditText.hasFocus()) {
                     if (inputEditText != null && inputEditText.hasFocus()) {
                         clearInput(inputEditText);
@@ -242,7 +244,7 @@ public class EditCenterActivity extends AppCompatActivity {
         });
 
         addressEditText.setOnTouchListener((v, event) -> {
-            if(MotionEvent.ACTION_UP == event.getAction()) {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!addressEditText.hasFocus()) {
                     if (inputEditText != null && inputEditText.hasFocus()) {
                         clearInput(inputEditText);
@@ -302,7 +304,7 @@ public class EditCenterActivity extends AppCompatActivity {
         phoneImageView.setOnClickListener(v -> phoneDialog.show());
 
         phoneDialogEditText.setOnTouchListener((v, event) -> {
-            if(MotionEvent.ACTION_UP == event.getAction()) {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!phoneDialogEditText.hasFocus()) {
                     if (inputEditText != null && inputEditText.hasFocus()) {
                         clearInput(inputEditText);
@@ -383,7 +385,7 @@ public class EditCenterActivity extends AppCompatActivity {
 
             @Override
             public int getCount() {
-                return arrayList.size();
+                return super.getCount() - 1;
             }
 
         };
@@ -394,11 +396,12 @@ public class EditCenterActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        adapter.add(manager);
         managerTextView.setVisibility(View.GONE);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown);
 
         spinner.setAdapter(adapter);
-        spinner.setSelection(adapter.getCount() - 1);
+        spinner.setSelection(adapter.getCount());
     }
 
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String type) {
@@ -472,6 +475,7 @@ public class EditCenterActivity extends AppCompatActivity {
         id = extras.getString("id");
         type = extras.getString("type");
         manager = extras.getString("manager");
+        managerId = extras.getString("manager_id");
 
         if (extras.getString("title") != null)
             title = extras.getString("title");
@@ -504,10 +508,23 @@ public class EditCenterActivity extends AppCompatActivity {
                     phoneTextView.setVisibility(View.GONE);
                 }
             }
-        } else  {
+        } else {
             toolbar.setTitle(getResources().getString(R.string.EditCenterTitle));
 
-            managerTextView.setText(manager);
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("name", manager);
+
+                Model model = new Model(jsonObject);
+
+                ArrayList arrayList = new ArrayList<Model>();
+                arrayList.add(model);
+
+                setSpinner(arrayList, managerSpinner);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             titleEditText.setText(title);
 
             descriptionEditText.setText(description);
@@ -555,7 +572,7 @@ public class EditCenterActivity extends AppCompatActivity {
 
             try {
                 progressDialog.show();
-                viewModel.edit(id, manager, title, description, address, phoneAdapter.getValuesId());
+                viewModel.edit(id, managerId, title, description, address, phoneAdapter.getValuesId());
                 observeWork();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -567,7 +584,7 @@ public class EditCenterActivity extends AppCompatActivity {
 
             try {
                 progressDialog.show();
-                viewModel.edit(id, manager, title, description, address, phoneAdapter.getValuesId());
+                viewModel.edit(id, managerId, title, description, address, phoneAdapter.getValuesId());
                 observeWork();
             } catch (JSONException e) {
                 e.printStackTrace();
