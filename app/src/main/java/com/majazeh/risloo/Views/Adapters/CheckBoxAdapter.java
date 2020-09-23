@@ -2,12 +2,10 @@ package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,30 +44,28 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
 
     @Override
     public void onBindViewHolder(@NonNull CheckBoxHolder holder, int i) {
+        Model model = values.get(i);
+
         try {
-            JSONObject user = (JSONObject) values.get(i).get("user");
+            JSONObject user = (JSONObject) model.get("user");
 
             holder.titleCheckBox.setText(user.getString("name"));
 
-                    holder.titleCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                        holder.itemView.setClickable(false);
-                        handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
+            holder.titleCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                holder.itemView.setClickable(false);
+                handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
 
-                        if (holder.titleCheckBox.isChecked()) {
-                            try {
+                if (holder.titleCheckBox.isChecked()) {
+                    try {
+                        checks.add(user.getString("id"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    checks.remove(String.valueOf(i));
+                }
 
-                                checks.add(user.getString("id"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            checks.remove(String.valueOf(i));
-                        }
-
-                    });
-//            holder.itemView.setOnClickListener(v -> {
-//
-//            });
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }

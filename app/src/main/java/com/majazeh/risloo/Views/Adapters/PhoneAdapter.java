@@ -51,7 +51,7 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.PhoneHolder>
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
+            handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
 
             intentCaller.phone(activity, phones.get(i));
         });

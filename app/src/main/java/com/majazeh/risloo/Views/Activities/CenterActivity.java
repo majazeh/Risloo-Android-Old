@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
@@ -42,14 +42,13 @@ public class CenterActivity extends AppCompatActivity {
     private CenterTabAdapter adapter;
 
     // Objects
+    private MenuItem toolCreate;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private MenuItem toolCreate;
     private ClickableSpan retrySpan;
 
     // Widgets
     private Toolbar toolbar;
-    private View view;
     private TabLayout tabLayout;
     private RtlViewPager rtlViewPager;
     private TextView retryTextView;
@@ -77,7 +76,7 @@ public class CenterActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = ViewModelProviders.of(this).get(CenterViewModel.class);
+        viewModel = new ViewModelProvider(this).get(CenterViewModel.class);
 
         sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
@@ -88,8 +87,6 @@ public class CenterActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.activity_center_toolbar);
         setSupportActionBar(toolbar);
-
-        view = findViewById(R.id.activity_center_view);
 
         tabLayout = findViewById(R.id.activity_center_tabLayout);
 
@@ -148,11 +145,7 @@ public class CenterActivity extends AppCompatActivity {
         retrySpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                loadingLayout.setVisibility(View.VISIBLE);
-                retryLayout.setVisibility(View.GONE);
-                mainLayout.setVisibility(View.GONE);
-
-                launchProcess("getAll");
+                relaunchCenters();
             }
 
             @Override
@@ -161,10 +154,6 @@ public class CenterActivity extends AppCompatActivity {
                 textPaint.setUnderlineText(false);
             }
         };
-    }
-
-    public void setToolCreate() {
-        toolCreate.setVisible(true);
     }
 
     private void setRetryLayout(String type) {
@@ -190,6 +179,14 @@ public class CenterActivity extends AppCompatActivity {
         }
     }
 
+    private void relaunchCenters() {
+        loadingLayout.setVisibility(View.VISIBLE);
+        retryLayout.setVisibility(View.GONE);
+        mainLayout.setVisibility(View.GONE);
+
+        launchProcess("getAll");
+    }
+
     private void observeWork() {
         CenterRepository.workState.observe((LifecycleOwner) this, integer -> {
             if (CenterRepository.work.equals("getAll")) {
@@ -206,12 +203,14 @@ public class CenterActivity extends AppCompatActivity {
                         retryLayout.setVisibility(View.GONE);
                         mainLayout.setVisibility(View.VISIBLE);
 
-                        view.setVisibility(View.GONE);
-
                         tabLayout.setVisibility(View.GONE);
                         rtlViewPager.setAdapter(adapter);
 
-                        setToolCreate();
+                        if (access()) {
+                            toolCreate.setVisible(true);
+                        } else {
+                            toolCreate.setVisible(false);
+                        }
 
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
@@ -226,6 +225,12 @@ public class CenterActivity extends AppCompatActivity {
 
                             setRetryLayout("error");
 
+                            if (access()) {
+                                toolCreate.setVisible(true);
+                            } else {
+                                toolCreate.setVisible(false);
+                            }
+
                             CenterRepository.workState.removeObservers((LifecycleOwner) this);
                         } else if (integer == -2) {
                             // AllCenter is Empty And Connection
@@ -235,6 +240,12 @@ public class CenterActivity extends AppCompatActivity {
                             mainLayout.setVisibility(View.GONE);
 
                             setRetryLayout("connection");
+
+                            if (access()) {
+                                toolCreate.setVisible(true);
+                            } else {
+                                toolCreate.setVisible(false);
+                            }
 
                             CenterRepository.workState.removeObservers((LifecycleOwner) this);
                         }
@@ -247,12 +258,14 @@ public class CenterActivity extends AppCompatActivity {
                                 retryLayout.setVisibility(View.GONE);
                                 mainLayout.setVisibility(View.VISIBLE);
 
-                                view.setVisibility(View.GONE);
-
                                 tabLayout.setVisibility(View.VISIBLE);
                                 rtlViewPager.setAdapter(adapter);
 
-                                setToolCreate();
+                                if (access()) {
+                                    toolCreate.setVisible(true);
+                                } else {
+                                    toolCreate.setVisible(false);
+                                }
 
                                 CenterRepository.workState.removeObservers((LifecycleOwner) this);
                             } else {
@@ -262,10 +275,14 @@ public class CenterActivity extends AppCompatActivity {
                                 retryLayout.setVisibility(View.GONE);
                                 mainLayout.setVisibility(View.VISIBLE);
 
-                                view.setVisibility(View.GONE);
-
                                 tabLayout.setVisibility(View.GONE);
                                 rtlViewPager.setAdapter(adapter);
+
+                                if (access()) {
+                                    toolCreate.setVisible(true);
+                                } else {
+                                    toolCreate.setVisible(false);
+                                }
 
                                 CenterRepository.workState.removeObservers((LifecycleOwner) this);
                             }
@@ -280,12 +297,14 @@ public class CenterActivity extends AppCompatActivity {
                     retryLayout.setVisibility(View.GONE);
                     mainLayout.setVisibility(View.VISIBLE);
 
-                    view.setVisibility(View.GONE);
-
                     tabLayout.setVisibility(View.VISIBLE);
                     rtlViewPager.setAdapter(adapter);
 
-                    setToolCreate();
+                    if (access()) {
+                        toolCreate.setVisible(true);
+                    } else {
+                        toolCreate.setVisible(false);
+                    }
 
                     CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 }
@@ -293,8 +312,12 @@ public class CenterActivity extends AppCompatActivity {
         });
     }
 
-    public boolean token() {
+    private boolean token() {
         return !sharedPreferences.getString("token", "").equals("");
+    }
+
+    private boolean access() {
+        return sharedPreferences.getString("access", "").equals("true");
     }
 
     @Override
@@ -303,11 +326,7 @@ public class CenterActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
-                loadingLayout.setVisibility(View.VISIBLE);
-                retryLayout.setVisibility(View.GONE);
-                mainLayout.setVisibility(View.GONE);
-
-                launchProcess("getAll");
+                relaunchCenters();
             }
         }
     }
@@ -317,7 +336,6 @@ public class CenterActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_center, menu);
 
         toolCreate = menu.findItem(R.id.tool_create);
-        toolCreate.setVisible(false);
         toolCreate.setOnMenuItemClickListener(menuItem -> {
             startActivityForResult(new Intent(this, CreateCenterActivity.class), 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);

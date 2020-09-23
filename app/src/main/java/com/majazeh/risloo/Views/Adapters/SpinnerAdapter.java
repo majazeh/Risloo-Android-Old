@@ -53,6 +53,7 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
 
     @Override
     public void onBindViewHolder(@NonNull SpinnerHolder holder, int i) {
+        Model model = values.get(i);
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             holder.spinnerLinearLayout.setBackgroundResource(R.drawable.draw_4sdp_solid_snow_ripple_quartz);
@@ -60,13 +61,18 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
         }
 
         try {
-            if (type.equals("scale")) {
-                holder.titleTextView.setText(String.valueOf(values.get(i).get("title")));
-            } else if (type.equals("roomReference")) {
-                JSONObject user = (JSONObject) values.get(i).get("user");
-                holder.titleTextView.setText(String.valueOf(user.get("name")));
-            } else if (type.equals("phoneCreate") || type.equals("phoneEdit")) {
-                holder.titleTextView.setText(String.valueOf(values.get(i).get("title")));
+            switch (type) {
+                case "scale":
+                    holder.titleTextView.setText(String.valueOf(model.get("title")));
+                    break;
+                case "roomReference":
+                    JSONObject user = (JSONObject) model.get("user");
+                    holder.titleTextView.setText(String.valueOf(user.get("name")));
+                    break;
+                case "phoneCreate":
+                case "phoneEdit":
+                    holder.titleTextView.setText(String.valueOf(model.get("title")));
+                    break;
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -74,12 +80,12 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 500);
+            handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
         });
 
         holder.deleteImageView.setOnClickListener(v -> {
             holder.deleteImageView.setClickable(false);
-            handler.postDelayed(() -> holder.deleteImageView.setClickable(true), 500);
+            handler.postDelayed(() -> holder.deleteImageView.setClickable(true), 300);
 
             removeValue(i);
         });

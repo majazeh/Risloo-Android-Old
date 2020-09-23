@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_center"
@@ -10,7 +11,7 @@
     android:background="@color/White"
     android:descendantFocusability="blocksDescendants"
     tools:context=".Views.Activities.CenterActivity"
-    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded, RtlSymmetry">
+    tools:ignore="UnusedAttribute, UseCompoundDrawables, ContentDescription, RtlHardcoded, RtlSymmetry">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +22,6 @@
             android:id="@+id/activity_center_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:paddingLeft="@dimen/_4sdp"
             android:theme="@style/ToolbarTheme"
             android:background="@color/Snow"
             app:title="@string/CenterTitle"
@@ -30,7 +30,6 @@
             app:contentInsetStartWithNavigation="0dp" />
 
         <View
-            android:id="@+id/activity_center_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
             android:background="@color/Quartz" />
@@ -46,33 +45,44 @@
                 android:visibility="gone"
                 android:orientation="vertical">
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/activity_center_tabLayout"
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
-                    android:theme="@style/TabTheme"
-                    android:background="@color/Snow"
-                    app:tabMode="fixed"
-                    app:tabGravity="fill"
-                    app:tabBackground="@null"
-                    app:tabRippleColor="@color/Quartz"
-                    app:tabIndicatorColor="@color/Primary"
-                    app:tabIndicatorHeight="@dimen/_2sdp"
-                    app:tabTextColor="@color/Mischka"
-                    app:tabSelectedTextColor="@color/PrimaryDark"
-                    app:tabTextAppearance="@style/TabTextBoldAppearance">
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:layout_marginRight="@dimen/_16sdp"
+                    app:cardBackgroundColor="@color/White"
+                    app:cardCornerRadius="@dimen/_16sdp">
 
-                    <com.google.android.material.tabs.TabItem
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/activity_center_tabLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/CenterAll" />
+                        android:layout_height="match_parent"
+                        android:theme="@style/TabTheme"
+                        android:background="@color/White"
+                        app:tabMode="fixed"
+                        app:tabGravity="fill"
+                        app:tabBackground="@null"
+                        app:tabRippleColor="@color/Quartz"
+                        app:tabIndicatorColor="@color/Primary5P"
+                        app:tabIndicatorHeight="@dimen/_36sdp"
+                        app:tabTextColor="@color/Mischka"
+                        app:tabSelectedTextColor="@color/PrimaryDark"
+                        app:tabTextAppearance="@style/TabTextBoldAppearance">
 
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/CenterMy" />
+                        <com.google.android.material.tabs.TabItem
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/CenterMy" />
 
-                </com.google.android.material.tabs.TabLayout>
+                        <com.google.android.material.tabs.TabItem
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/CenterAll" />
+
+                    </com.google.android.material.tabs.TabLayout>
+
+                </androidx.cardview.widget.CardView>
 
                 <com.duolingo.open.rtlviewpager.RtlViewPager
                     android:id="@+id/activity_center_rtlViewPager"

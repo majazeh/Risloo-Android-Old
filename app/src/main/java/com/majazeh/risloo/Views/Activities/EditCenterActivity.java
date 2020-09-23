@@ -44,6 +44,7 @@ import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.Views.Adapters.SpinnerAdapter;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -487,6 +488,22 @@ public class EditCenterActivity extends AppCompatActivity {
 
             descriptionEditText.setText(description);
             addressEditText.setText(address);
+
+            if (extras.getString("phone_numbers") != null) {
+                try {
+                    JSONArray phones = new JSONArray(extras.getString("phone_numbers"));
+                    for (int i = 0; i < phones.length(); i++) {
+                        phoneAdapter.getValues().add(new Model(new JSONObject().put("title", phones.get(i))));
+                    }
+                    setRecyclerView(phoneAdapter.getValues(), phoneRecyclerView, "phoneEdit");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (phoneAdapter.getValues().size() != 0) {
+                    phoneTextView.setVisibility(View.GONE);
+                }
+            }
         } else  {
             toolbar.setTitle(getResources().getString(R.string.EditCenterTitle));
 
@@ -495,6 +512,22 @@ public class EditCenterActivity extends AppCompatActivity {
 
             descriptionEditText.setText(description);
             addressEditText.setText(address);
+
+            if (extras.getString("phone_numbers") != null) {
+                try {
+                    JSONArray phones = new JSONArray(extras.getString("phone_numbers"));
+                    for (int i = 0; i < phones.length(); i++) {
+                        phoneAdapter.getValues().add(new Model(new JSONObject().put("title", phones.get(i))));
+                    }
+                    setRecyclerView(phoneAdapter.getValues(), phoneRecyclerView, "phoneEdit");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (phoneAdapter.getValues().size() != 0) {
+                    phoneTextView.setVisibility(View.GONE);
+                }
+            }
         }
     }
 

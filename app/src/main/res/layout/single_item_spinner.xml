@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/single_item_spinner"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded, RtlSymmetry,">
+    tools:ignore="UnusedAttribute, UselessParent, ContentDescription, RtlHardcoded, RtlSymmetry,">
 
     <LinearLayout
         android:id="@+id/single_item_spinner_linearLayout"
@@ -30,7 +31,7 @@
             android:layout_height="@dimen/_14sdp"
             android:layout_marginLeft="@dimen/_4sdp"
             android:src="@drawable/ic_times"
-            app:tint="@color/Mischka"/>
+            app:tint="@color/VioletRed"/>
 
         <TextView
             android:id="@+id/single_item_spinner_textView"

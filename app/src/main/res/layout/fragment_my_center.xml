@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_my_center"
@@ -8,13 +9,12 @@
     android:layoutDirection="rtl"
     android:background="@null"
     tools:context=".Views.Fragments.MyCenterFragment"
-    tools:ignore="UnusedAttribute, ContentDescription">
+    tools:ignore="UnusedAttribute, ContentDescription, UseCompoundDrawables">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_my_center_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
         android:overScrollMode="always" />
 
     <LinearLayout
