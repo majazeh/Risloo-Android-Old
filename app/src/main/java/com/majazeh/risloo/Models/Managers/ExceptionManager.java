@@ -40,7 +40,7 @@ public class ExceptionManager {
                                     farsi_message = "دریافت اطلاعات با موفقیت انجام شد";
                                     break;
                                 case "edit":
-                                    farsi_message = "ویرایش حساب با موفقیت انجام شد";
+                                    farsi_message = "ویرایش حساب شما انجام شد";
                                     break;
                                 case "logOut":
                                     farsi_message = "خروج با موفقیت انجام شد";
@@ -54,10 +54,18 @@ public class ExceptionManager {
                             switch (exception) {
                                 case "all":
                                 case "my":
+                                case "personalClinic":
+                                case "counselingCenter":
                                     farsi_message = "دریافت اطلاعات با موفقیت انجام شد";
                                     break;
                                 case "request":
                                     farsi_message = "درخواست پذیرش شما ارسال شد";
+                                    break;
+                                case "create":
+                                    farsi_message = "مرکز درمانی با موفقیت ساخته شد";
+                                    break;
+                                case "edit":
+                                    farsi_message = "مرکز درمانی با موفقیت اصلاح شد";
                                     break;
                                 default:
                                     farsi_message = ".";
@@ -78,10 +86,13 @@ public class ExceptionManager {
                             switch (exception) {
                                 case "single":
                                 case "all":
+                                case "scores":
+                                case "scales":
+                                case "rooms":
+                                case "references":
+                                case "cases":
+                                case "generals":
                                     farsi_message = "دریافت اطلاعات با موفقیت انجام شد";
-                                    break;
-                                case "close":
-                                    farsi_message = "نمونه با موفقیت بسته شد";
                                     break;
                                 case "answers":
                                     farsi_message = "پاسخ ها با موفقیت ارسال شد";
@@ -91,6 +102,12 @@ public class ExceptionManager {
                                     break;
                                 case "create":
                                     farsi_message = "نمونه با موفقیت ساخته شد";
+                                    break;
+                                case "close":
+                                    farsi_message = "نمونه با موفقیت بسته شد";
+                                    break;
+                                case "score":
+                                    farsi_message = "نمونه با موفقیت نمره گذاری شد";
                                     break;
                                 default:
                                     farsi_message = ".";

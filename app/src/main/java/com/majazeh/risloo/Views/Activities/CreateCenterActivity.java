@@ -196,10 +196,10 @@ public class CreateCenterActivity extends AppCompatActivity {
                             titleEditText.setFocusableInTouchMode(true);
                         }
 
-                        // Reset Personal Clinic
-                        if (CenterRepository.personalClinic.size() != 0) {
+                        // Reset Counseling Center
+                        if (CenterRepository.counselingCenter.size() != 0) {
                             manager = "";
-                            CenterRepository.personalClinic.clear();
+                            CenterRepository.counselingCenter.clear();
                             managerSpinner.setAdapter(null);
                             managerTextView.setVisibility(View.VISIBLE);
                         }
@@ -216,10 +216,10 @@ public class CreateCenterActivity extends AppCompatActivity {
                             titleEditText.setFocusableInTouchMode(true);
                         }
 
-                        // Reset Counseling Center
-                        if (CenterRepository.counselingCenter.size() != 0) {
+                        // Reset Personal Clinic
+                        if (CenterRepository.personalClinic.size() != 0) {
                             manager = "";
-                            CenterRepository.counselingCenter.clear();
+                            CenterRepository.personalClinic.clear();
                             managerSpinner.setAdapter(null);
                             managerTextView.setVisibility(View.VISIBLE);
                         }
@@ -412,6 +412,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
                 if (inputEditText != null && inputEditText.hasFocus()) {
                     clearInput(inputEditText);
+                    inputEditText.getText().clear();
                 }
             } else {
                 errorView("phone");
@@ -425,6 +426,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
             if (inputEditText != null && inputEditText.hasFocus()) {
                 clearInput(inputEditText);
+                inputEditText.getText().clear();
             }
         });
 
@@ -433,6 +435,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
             if (inputEditText != null && inputEditText.hasFocus()) {
                 clearInput(inputEditText);
+                inputEditText.getText().clear();
             }
         });
     }
@@ -469,7 +472,7 @@ public class CreateCenterActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        adapter.add(manager);
+        adapter.add(getResources().getString(R.string.CreateCenterManager));
         managerTextView.setVisibility(View.GONE);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown);
 

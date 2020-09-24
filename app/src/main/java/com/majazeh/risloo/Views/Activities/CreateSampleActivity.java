@@ -231,7 +231,6 @@ public class CreateSampleActivity extends AppCompatActivity {
                             count = "";
                             countEditText.getText().clear();
                             countEditText.setVisibility(View.VISIBLE);
-                            countEditText.setFocusableInTouchMode(true);
                         }
 
                         break;
@@ -353,6 +352,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                     try {
                         room = String.valueOf(SampleRepository.rooms.get(position).get("id"));
 
+                        countEditText.setFocusableInTouchMode(true);
+
                         // Reset Case
                         if (SampleRepository.cases.size() != 0) {
                             casse = "";
@@ -385,7 +386,6 @@ public class CreateSampleActivity extends AppCompatActivity {
                             count = "";
                             countEditText.setText(count);
                             countEditText.setVisibility(View.VISIBLE);
-                            countEditText.setFocusableInTouchMode(true);
                         }
 
                     } catch (JSONException e) {
