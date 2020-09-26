@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -34,6 +35,7 @@ import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.SquareImageView;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -56,17 +58,19 @@ public class DetailSampleActivity extends AppCompatActivity {
     private DetailSampleAdapter adapter;
 
     // Vars
-    private String sampleId, svgUrl, pngUrl, htmlUrl, pdfUrl;
+    private String sampleId, scaleTitle, svgUrl, pngUrl, htmlUrl, pdfUrl;
 
     // Objects
     private Handler handler;
     private ClickableSpan retrySpan;
     private DownloadDialog downloadDialog;
+    private Bundle extras;
 
     // Widgets
     private Toolbar toolbar;
     private TextView retryTextView, scaleTextView, serialTextView, statusTextView, referenceHintTextView, referenceTextView, caseTextView, roomTextView, scoreTextView, closeTextView, generalTextView, prerequisiteTextView, testTextView;
-    private ImageView retryImageView, statusImageView, referenceHintImageView, downloadImageView, resultImageView;
+    private ImageView retryImageView, statusImageView, referenceHintImageView, downloadImageView;
+    private SquareImageView resultSquareImageView;
     private CheckBox editCheckbox;
     private RecyclerView generalRecyclerView, prerequisiteRecyclerView, testRecyclerView;
     private Dialog progressDialog;
@@ -105,7 +109,8 @@ public class DetailSampleActivity extends AppCompatActivity {
 
         downloadDialog = new DownloadDialog(this);
 
-        sampleId = Objects.requireNonNull(getIntent().getExtras()).getString("id");
+        extras = getIntent().getExtras();
+        sampleId = Objects.requireNonNull(extras).getString("id");
 
         toolbar = findViewById(R.id.activity_detail_sample_toolbar);
 
@@ -129,7 +134,8 @@ public class DetailSampleActivity extends AppCompatActivity {
         statusImageView = findViewById(R.id.activity_detail_sample_status_imageView);
         referenceHintImageView = findViewById(R.id.activity_detail_sample_reference_hint_imageView);
         downloadImageView = findViewById(R.id.activity_detail_sample_download_imageView);
-        resultImageView = findViewById(R.id.activity_detail_sample_result_imageView);
+
+        resultSquareImageView = findViewById(R.id.activity_detail_sample_result_squareImageView);
 
         editCheckbox = findViewById(R.id.activity_detail_sample_edit_checkbox);
 
@@ -194,8 +200,13 @@ public class DetailSampleActivity extends AppCompatActivity {
             downloadDialog.getUrls(svgUrl, pngUrl, htmlUrl, pdfUrl);
         });
 
-        resultImageView.setOnClickListener(v -> {
+        resultSquareImageView.setOnClickListener(v -> {
+            Intent intent = (new Intent(this, ImageActivity.class));
 
+            intent.putExtra("title", scaleTitle);
+            intent.putExtra("image", pngUrl);
+
+            startActivity(intent);
         });
 
         editCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -255,7 +266,9 @@ public class DetailSampleActivity extends AppCompatActivity {
             JSONObject data = viewModel.readSampleDetailFromCache(sampleId);
 
             JSONObject scale = data.getJSONObject("scale");
-            scaleTextView.setText(scale.getString("title"));
+            scaleTitle = scale.getString("title");
+
+            scaleTextView.setText(scaleTitle);
 
             serialTextView.setText(data.getString("id"));
 
@@ -454,8 +467,9 @@ public class DetailSampleActivity extends AppCompatActivity {
                             }
                             if (profiles.has("profile_png")) {
                                 JSONObject png = profiles.getJSONObject("profile_png");
-                                Picasso.get().load(png.getString("url")).placeholder(R.color.Solitude).into(resultImageView);
                                 this.pngUrl = png.getString("url");
+
+                                Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultSquareImageView);
                             }
                             if (profiles.has("profile_html")) {
                                 JSONObject html = profiles.getJSONObject("profile_html");

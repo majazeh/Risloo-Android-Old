@@ -101,6 +101,9 @@
         <activity
             android:name=".Views.Activities.TermConditionActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.ImageActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
