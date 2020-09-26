@@ -64,8 +64,9 @@ public class CreateSampleActivity extends AppCompatActivity {
     private CheckBoxAdapter checkBoxAdapter;
 
     // Vars
+    private int roomPosition = 0, casePosition =0;
     private String room = "", casse = "", count = "";
-    private boolean scaleException = false, roomException = false, roomReferenceException = false, caseException = false, caseReferenceException = false;
+    private boolean scaleException = false, roomException = false, roomReferenceException = false, caseException = false, caseReferenceException = false, roomSelected = false, caseSelected = false;
 
     // Widgets
     private Toolbar toolbar;
@@ -231,7 +232,6 @@ public class CreateSampleActivity extends AppCompatActivity {
                             count = "";
                             countEditText.getText().clear();
                             countEditText.setVisibility(View.VISIBLE);
-                            countEditText.setFocusableInTouchMode(true);
                         }
 
                         break;
@@ -353,8 +353,16 @@ public class CreateSampleActivity extends AppCompatActivity {
                     try {
                         room = String.valueOf(SampleRepository.rooms.get(position).get("id"));
 
+                        roomSelected = true;
+                        roomPosition = position;
+
+                        countEditText.setFocusableInTouchMode(true);
+
                         // Reset Case
                         if (SampleRepository.cases.size() != 0) {
+                            caseSelected = false;
+                            casePosition = 0;
+
                             casse = "";
                             SampleRepository.cases.clear();
                             caseSpinner.setAdapter(null);
@@ -385,7 +393,6 @@ public class CreateSampleActivity extends AppCompatActivity {
                             count = "";
                             countEditText.setText(count);
                             countEditText.setVisibility(View.VISIBLE);
-                            countEditText.setFocusableInTouchMode(true);
                         }
 
                     } catch (JSONException e) {
@@ -406,6 +413,9 @@ public class CreateSampleActivity extends AppCompatActivity {
                 if (caseSpinner.getCount() != position) {
                     try {
                         casse = String.valueOf(SampleRepository.cases.get(position).get("id"));
+
+                        caseSelected = true;
+                        casePosition = position;
 
                         ArrayList<Model> cases = new ArrayList<>();
                         JSONArray clients = (JSONArray) SampleRepository.cases.get(position).get("clients");
@@ -597,6 +607,23 @@ public class CreateSampleActivity extends AppCompatActivity {
                     } else {
                         ((TextView) view.findViewById(R.id.spinner_background_textView)).setText(getItem(position));
                         ((TextView) view.findViewById(R.id.spinner_background_textView)).setHint("");
+                    }
+
+                    return view;
+                }
+
+                @Override
+                public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                    View view =  super.getDropDownView(position, convertView, parent);
+
+                    if (type.equals("room")) {
+                        if (roomSelected && position == roomPosition) {
+                            ((TextView) view.findViewById(R.id.spinner_dropdown_textView)).setTextColor(getResources().getColor(R.color.PrimaryDark));
+                        }
+                    } else {
+                        if (caseSelected && position == casePosition) {
+                            ((TextView) view.findViewById(R.id.spinner_dropdown_textView)).setTextColor(getResources().getColor(R.color.PrimaryDark));
+                        }
                     }
 
                     return view;

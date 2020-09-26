@@ -60,8 +60,9 @@ public class CreateCenterActivity extends AppCompatActivity {
     private SpinnerAdapter phoneAdapter;
 
     // Vars
+    private int managerPosition = 0;
     private String type = "personal_clinic", manager = "", title = "", description = "", address = "";
-    private boolean typeException = false, managerException = false, phoneException =false;
+    private boolean typeException = false, managerException = false, phoneException =false, managerSelected = false;
 
     // Objects
     private Handler handler;
@@ -196,10 +197,10 @@ public class CreateCenterActivity extends AppCompatActivity {
                             titleEditText.setFocusableInTouchMode(true);
                         }
 
-                        // Reset Personal Clinic
-                        if (CenterRepository.personalClinic.size() != 0) {
+                        // Reset Counseling Center
+                        if (CenterRepository.counselingCenter.size() != 0) {
                             manager = "";
-                            CenterRepository.personalClinic.clear();
+                            CenterRepository.counselingCenter.clear();
                             managerSpinner.setAdapter(null);
                             managerTextView.setVisibility(View.VISIBLE);
                         }
@@ -216,10 +217,10 @@ public class CreateCenterActivity extends AppCompatActivity {
                             titleEditText.setFocusableInTouchMode(true);
                         }
 
-                        // Reset Counseling Center
-                        if (CenterRepository.counselingCenter.size() != 0) {
+                        // Reset Personal Clinic
+                        if (CenterRepository.personalClinic.size() != 0) {
                             manager = "";
-                            CenterRepository.counselingCenter.clear();
+                            CenterRepository.personalClinic.clear();
                             managerSpinner.setAdapter(null);
                             managerTextView.setVisibility(View.VISIBLE);
                         }
@@ -270,6 +271,9 @@ public class CreateCenterActivity extends AppCompatActivity {
                         } else {
                             manager = String.valueOf(CenterRepository.counselingCenter.get(position).get("id"));
                         }
+
+                        managerSelected = true;
+                        managerPosition = position;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -412,6 +416,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
                 if (inputEditText != null && inputEditText.hasFocus()) {
                     clearInput(inputEditText);
+                    inputEditText.getText().clear();
                 }
             } else {
                 errorView("phone");
@@ -425,6 +430,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
             if (inputEditText != null && inputEditText.hasFocus()) {
                 clearInput(inputEditText);
+                inputEditText.getText().clear();
             }
         });
 
@@ -433,6 +439,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
             if (inputEditText != null && inputEditText.hasFocus()) {
                 clearInput(inputEditText);
+                inputEditText.getText().clear();
             }
         });
     }
@@ -457,6 +464,17 @@ public class CreateCenterActivity extends AppCompatActivity {
             }
 
             @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view =  super.getDropDownView(position, convertView, parent);
+
+                if (managerSelected && position == managerPosition) {
+                    ((TextView) view.findViewById(R.id.spinner_dropdown_textView)).setTextColor(getResources().getColor(R.color.PrimaryDark));
+                }
+
+                return view;
+            }
+
+            @Override
             public int getCount() {
                 return super.getCount() - 1;
             }
@@ -469,7 +487,7 @@ public class CreateCenterActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        adapter.add(manager);
+        adapter.add(getResources().getString(R.string.CreateCenterManager));
         managerTextView.setVisibility(View.GONE);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown);
 

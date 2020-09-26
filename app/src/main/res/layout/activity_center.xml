@@ -62,6 +62,7 @@
                         android:background="@color/White"
                         app:tabMode="fixed"
                         app:tabGravity="fill"
+                        app:tabMaxWidth="0dp"
                         app:tabBackground="@null"
                         app:tabRippleColor="@color/Quartz"
                         app:tabIndicatorColor="@color/Primary5P"

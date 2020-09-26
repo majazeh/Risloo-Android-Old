@@ -60,6 +60,7 @@ public class EditCenterActivity extends AppCompatActivity {
     private SpinnerAdapter phoneAdapter;
 
     // Vars
+    private int spinnerPosition = 0;
     private String id = "", type = "", manager = "", managerId = "", title = "", description = "", address = "";
     private boolean managerException = false, phoneException = false;
 
@@ -202,6 +203,7 @@ public class EditCenterActivity extends AppCompatActivity {
                     try {
                         if (CenterRepository.counselingCenter.size() != 0) {
                             managerId = String.valueOf(CenterRepository.counselingCenter.get(position).get("id"));
+                            spinnerPosition = position;
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -339,6 +341,7 @@ public class EditCenterActivity extends AppCompatActivity {
 
                 if (inputEditText != null && inputEditText.hasFocus()) {
                     clearInput(inputEditText);
+                    inputEditText.getText().clear();
                 }
             } else {
                 errorView("phone");
@@ -352,6 +355,7 @@ public class EditCenterActivity extends AppCompatActivity {
 
             if (inputEditText != null && inputEditText.hasFocus()) {
                 clearInput(inputEditText);
+                inputEditText.getText().clear();
             }
         });
 
@@ -360,11 +364,12 @@ public class EditCenterActivity extends AppCompatActivity {
 
             if (inputEditText != null && inputEditText.hasFocus()) {
                 clearInput(inputEditText);
+                inputEditText.getText().clear();
             }
         });
     }
 
-    private void setSpinner(ArrayList<Model> arrayList, Spinner spinner) {
+    private void setSpinner(ArrayList<Model> arrayList, Spinner spinner, boolean extras) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_background) {
 
             @NonNull
@@ -384,34 +389,52 @@ public class EditCenterActivity extends AppCompatActivity {
             }
 
             @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view =  super.getDropDownView(position, convertView, parent);
+
+                if (position == spinnerPosition) {
+                    ((TextView) view.findViewById(R.id.spinner_dropdown_textView)).setTextColor(getResources().getColor(R.color.PrimaryDark));
+                }
+
+                return view;
+            }
+
+            @Override
             public int getCount() {
                 return super.getCount() - 1;
             }
 
         };
+        ArrayList<String> list = new ArrayList<>();
         try {
             for (int i = 0; i < arrayList.size(); i++) {
                 adapter.add((String) arrayList.get(i).get("name"));
+                list.add(adapter.getItem(i));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        adapter.add(manager);
         managerTextView.setVisibility(View.GONE);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown);
 
         spinner.setAdapter(adapter);
-        spinner.setSelection(adapter.getCount());
+        if (extras) {
+            adapter.add(manager);
+            spinner.setSelection(adapter.getCount());
+        } else {
+            spinnerPosition = list.indexOf(manager);
+            spinner.setSelection(list.indexOf(manager));
+        }
     }
 
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String type) {
         if ("phoneEdit".equals(type)) {
             phoneAdapter.setValue(arrayList, type);
 
-            ArrayList list = new ArrayList<String>();
+            ArrayList<String> list = new ArrayList<>();
             for (int i = 0; i < arrayList.size(); i++) {
                 try {
-                    list.add(arrayList.get(i).get("title"));
+                    list.add((String) arrayList.get(i).get("title"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -517,10 +540,10 @@ public class EditCenterActivity extends AppCompatActivity {
 
                 Model model = new Model(jsonObject);
 
-                ArrayList arrayList = new ArrayList<Model>();
+                ArrayList<Model> arrayList = new ArrayList<>();
                 arrayList.add(model);
 
-                setSpinner(arrayList, managerSpinner);
+                setSpinner(arrayList, managerSpinner, true);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -613,7 +636,7 @@ public class EditCenterActivity extends AppCompatActivity {
                 }
             } else if (CenterRepository.work.equals("getCounselingCenter")) {
                 if (integer == 1) {
-                    setSpinner(CenterRepository.counselingCenter, managerSpinner);
+                    setSpinner(CenterRepository.counselingCenter, managerSpinner, false);
 
                     managerProgressBar.setVisibility(View.GONE);
                     managerImageView.setVisibility(View.VISIBLE);

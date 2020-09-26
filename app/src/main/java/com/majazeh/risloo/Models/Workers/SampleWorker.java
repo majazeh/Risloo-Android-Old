@@ -437,13 +437,13 @@ public class SampleWorker extends Worker {
 
                             FileManager.writeObjectToCache(context, data, "sampleDetail", SampleRepository.sampleId);
 
-                            ExceptionManager.getException(response.code(), successBody, true, "score", "sample");
+                            ExceptionManager.getException(response.code(), successBody, true, "scores", "sample");
                             SampleRepository.workStateSample.postValue(1);
                         }
                     } else {
                         JSONObject errorBody = new JSONObject(response.errorBody().string());
 
-                        ExceptionManager.getException(response.code(), errorBody, true, "score", "sample");
+                        ExceptionManager.getException(response.code(), errorBody, true, "scores", "sample");
                         SampleRepository.workStateSample.postValue(0);
                     }
                 } catch (SocketTimeoutException e) {
@@ -655,12 +655,12 @@ public class SampleWorker extends Worker {
 
                 FileManager.writeObjectToCache(context, data, "sampleDetail", SampleRepository.sampleId);
 
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "getGeneral", "sample");
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "generals", "sample");
                 SampleRepository.workStateSample.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "getGeneral", "sample");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "generals", "sample");
                 SampleRepository.workStateSample.postValue(0);
             }
 
