@@ -117,6 +117,8 @@
                     android:id="@+id/activity_call_us_send_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
                     android:gravity="center"
                     android:text="@string/CallUsSend"
                     android:textSize="@dimen/_12ssp"

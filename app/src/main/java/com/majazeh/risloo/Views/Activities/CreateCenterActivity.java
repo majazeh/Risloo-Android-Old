@@ -60,8 +60,9 @@ public class CreateCenterActivity extends AppCompatActivity {
     private SpinnerAdapter phoneAdapter;
 
     // Vars
+    private int managerPosition = 0;
     private String type = "personal_clinic", manager = "", title = "", description = "", address = "";
-    private boolean typeException = false, managerException = false, phoneException =false;
+    private boolean typeException = false, managerException = false, phoneException =false, managerSelected = false;
 
     // Objects
     private Handler handler;
@@ -270,6 +271,9 @@ public class CreateCenterActivity extends AppCompatActivity {
                         } else {
                             manager = String.valueOf(CenterRepository.counselingCenter.get(position).get("id"));
                         }
+
+                        managerSelected = true;
+                        managerPosition = position;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -454,6 +458,17 @@ public class CreateCenterActivity extends AppCompatActivity {
                 } else {
                     ((TextView) view.findViewById(R.id.spinner_background_textView)).setText(getItem(position));
                     ((TextView) view.findViewById(R.id.spinner_background_textView)).setHint("");
+                }
+
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view =  super.getDropDownView(position, convertView, parent);
+
+                if (managerSelected && position == managerPosition) {
+                    ((TextView) view.findViewById(R.id.spinner_dropdown_textView)).setTextColor(getResources().getColor(R.color.PrimaryDark));
                 }
 
                 return view;
