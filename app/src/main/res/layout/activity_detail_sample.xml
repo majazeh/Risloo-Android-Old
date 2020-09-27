@@ -313,6 +313,49 @@
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/activity_detail_sample_loading_cardView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_8sdp"
+                            android:layout_marginLeft="@dimen/_16sdp"
+                            android:layout_marginRight="@dimen/_16sdp"
+                            android:visibility="gone"
+                            app:cardBackgroundColor="@color/Primary5P"
+                            app:cardCornerRadius="@dimen/_16sdp"
+                            app:cardElevation="0dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_16sdp"
+                                android:layout_marginBottom="@dimen/_16sdp"
+                                android:layout_marginLeft="@dimen/_12sdp"
+                                android:layout_marginRight="@dimen/_12sdp"
+                                android:gravity="center"
+                                android:orientation="horizontal">
+
+                                <ProgressBar
+                                    android:layout_width="@dimen/_28sdp"
+                                    android:layout_height="@dimen/_28sdp"
+                                    android:layout_marginLeft="@dimen/_16sdp"
+                                    android:theme="@style/ProgressBarTheme"
+                                    style="@style/Widget.AppCompat.ProgressBar"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="@string/DetailSampleScoring"
+                                    android:textSize="@dimen/_12ssp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/PrimaryDark"
+                                    android:textAlignment="gravity" />
+
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
                             android:id="@+id/activity_detail_sample_result_cardView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

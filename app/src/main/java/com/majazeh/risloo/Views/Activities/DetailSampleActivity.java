@@ -24,6 +24,8 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -64,6 +66,7 @@ public class DetailSampleActivity extends AppCompatActivity {
     private Handler handler;
     private ClickableSpan retrySpan;
     private DownloadDialog downloadDialog;
+    private Animation animFadeIn, animFadeOut;
     private Bundle extras;
 
     // Widgets
@@ -76,7 +79,7 @@ public class DetailSampleActivity extends AppCompatActivity {
     private Dialog progressDialog;
     private FrameLayout mainLayout;
     private LinearLayout retryLayout, loadingLayout, referenceLinearLayout, caseLinearLayout, roomLinearLayout;
-    private CardView resultCardView, componentCardView;
+    private CardView loadingCardView, resultCardView, componentCardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +111,9 @@ public class DetailSampleActivity extends AppCompatActivity {
         handler = new Handler();
 
         downloadDialog = new DownloadDialog(this);
+
+        animFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        animFadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
 
         extras = getIntent().getExtras();
         sampleId = Objects.requireNonNull(extras).getString("id");
@@ -165,6 +171,7 @@ public class DetailSampleActivity extends AppCompatActivity {
         caseLinearLayout = findViewById(R.id.activity_detail_sample_case_linearLayout);
         roomLinearLayout = findViewById(R.id.activity_detail_sample_room_linearLayout);
 
+        loadingCardView = findViewById(R.id.activity_detail_sample_loading_cardView);
         resultCardView = findViewById(R.id.activity_detail_sample_result_cardView);
         componentCardView = findViewById(R.id.activity_detail_sample_component_cardView);
     }
@@ -220,15 +227,13 @@ public class DetailSampleActivity extends AppCompatActivity {
         });
 
         scoreTextView.setOnClickListener(v -> {
-            scoreTextView.setClickable(false);
-            handler.postDelayed(() -> scoreTextView.setClickable(true), 300);
+            setButton(scoreTextView, false);
 
             doWork("score");
         });
 
         closeTextView.setOnClickListener(v -> {
-            closeTextView.setClickable(false);
-            handler.postDelayed(() -> closeTextView.setClickable(true), 300);
+            setButton(closeTextView, false);
 
             doWork("close");
         });
@@ -272,7 +277,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
             serialTextView.setText(data.getString("id"));
 
-            switch ((String) data.getString("status")) {
+            switch (data.getString("status")) {
                 case "open":
                     statusTextView.setText(getResources().getString(R.string.DetailSampleStatusOpen));
                     statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
@@ -381,13 +386,15 @@ public class DetailSampleActivity extends AppCompatActivity {
     }
 
     private void doWork(String method) {
-        progressDialog.show();
         try {
             switch (method) {
                 case "score":
+                    loadingCardView.setVisibility(View.VISIBLE);
+                    loadingCardView.setAnimation(animFadeIn);
                     viewModel.score(sampleId);
                     break;
                 case "close":
+                    progressDialog.show();
                     viewModel.close(sampleId);
                     break;
             }
@@ -480,21 +487,27 @@ public class DetailSampleActivity extends AppCompatActivity {
                                 this.pdfUrl = pdf.getString("url");
                             }
 
-                            setButton(scoreTextView, false);
                             resultCardView.setVisibility(View.VISIBLE);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
-                        progressDialog.dismiss();
+                        loadingCardView.setVisibility(View.GONE);
+                        loadingCardView.setAnimation(animFadeOut);
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer == 0) {
-                        progressDialog.dismiss();
+                        setButton(scoreTextView, true);
+
+                        loadingCardView.setVisibility(View.GONE);
+                        loadingCardView.setAnimation(animFadeOut);
                         Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
-                        progressDialog.dismiss();
+                        setButton(scoreTextView, true);
+
+                        loadingCardView.setVisibility(View.GONE);
+                        loadingCardView.setAnimation(animFadeOut);
                         Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
@@ -513,7 +526,6 @@ public class DetailSampleActivity extends AppCompatActivity {
                             ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Mischka));
 
                             setButton(scoreTextView, true);
-                            setButton(closeTextView, false);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -523,10 +535,14 @@ public class DetailSampleActivity extends AppCompatActivity {
                         Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer == 0) {
+                        setButton(closeTextView, true);
+
                         progressDialog.dismiss();
                         Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
+                        setButton(closeTextView, true);
+
                         progressDialog.dismiss();
                         Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
