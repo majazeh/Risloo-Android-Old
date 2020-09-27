@@ -34,6 +34,7 @@ import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.Views.Activities.EditCenterActivity;
+import com.majazeh.risloo.Views.Activities.ImageActivity;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -86,9 +87,11 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
         Model model = centers.get(i);
 
         try {
-            Intent intent = (new Intent(activity, EditCenterActivity.class));
-            intent.putExtra("id", (String) model.get("id"));
-            intent.putExtra("type", (String) model.get("type"));
+            Intent editIntent = (new Intent(activity, EditCenterActivity.class));
+            Intent imageIntent = (new Intent(activity, ImageActivity.class));
+
+            editIntent.putExtra("id", (String) model.get("id"));
+            editIntent.putExtra("type", (String) model.get("type"));
 
             int createdAt = (int) model.get("created_at");
 
@@ -211,14 +214,17 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
             if (!details.isNull("title")) {
                 if (model.get("type").equals("counseling_center")) {
-                    intent.putExtra("title", details.getString("title"));
+                    editIntent.putExtra("title", details.getString("title"));
                 }
+                imageIntent.putExtra("title", details.getString("title"));
                 holder.titleTextView.setText(details.getString("title"));
             }
 
             if (!details.isNull("avatar")) {
                 JSONObject avatar = details.getJSONObject("avatar");
                 JSONObject medium = avatar.getJSONObject("medium");
+
+                imageIntent.putExtra("image", medium.getString("url"));
 
                 Picasso.get().load(medium.getString("url")).placeholder(R.color.Solitude).into(holder.avatarImageView);
 
@@ -232,8 +238,8 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
             JSONObject manager = (JSONObject) model.get("manager");
             if (!manager.isNull("name")) {
-                intent.putExtra("manager_id",manager.getString("id"));
-                intent.putExtra("manager", manager.getString("name"));
+                editIntent.putExtra("manager_id",manager.getString("id"));
+                editIntent.putExtra("manager", manager.getString("name"));
                 holder.managerLinearLayout.setVisibility(View.VISIBLE);
                 holder.managerTextView.setText(manager.getString("name"));
             } else {
@@ -241,7 +247,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
             }
 
             if (!details.isNull("description")) {
-                intent.putExtra("description", details.getString("description"));
+                editIntent.putExtra("description", details.getString("description"));
                 holder.descriptionLinearLayout.setVisibility(View.VISIBLE);
                 holder.descriptionTextView.setText(details.getString("description"));
             } else {
@@ -249,7 +255,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
             }
 
             if (!details.isNull("address")) {
-                intent.putExtra("address", details.getString("address"));
+                editIntent.putExtra("address", details.getString("address"));
                 holder.addressLinearLayout.setVisibility(View.VISIBLE);
                 holder.addressTextView.setText(details.getString("address"));
             } else {
@@ -258,7 +264,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
             if (!details.isNull("phone_numbers")) {
                 JSONArray phoneNumbers = details.getJSONArray("phone_numbers");
-                intent.putExtra("phone_numbers", String.valueOf(details.getJSONArray("phone_numbers")));
+                editIntent.putExtra("phone_numbers", String.valueOf(details.getJSONArray("phone_numbers")));
 
                 ArrayList<String> phones = new ArrayList<>();
                 for (int j = 0; j < phoneNumbers.length(); j++) {
@@ -375,11 +381,28 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                 }
             });
 
+            holder.avatarImageView.setOnClickListener(v -> {
+                holder.avatarImageView.setClickable(false);
+                handler.postDelayed(() -> holder.avatarImageView.setClickable(true), 300);
+
+                if (!details.isNull("title") && !details.isNull("avatar")) {
+                    activity.startActivity(imageIntent);
+                } else {
+                    if (expands.get(i)) {
+                        expands.put(i, false);
+                    } else {
+                        expands.put(i, true);
+                    }
+
+                    notifyDataSetChanged();
+                }
+            });
+
             holder.editImageView.setOnClickListener(v -> {
                 holder.editImageView.setClickable(false);
                 handler.postDelayed(() -> holder.editImageView.setClickable(true), 300);
 
-                activity.startActivityForResult(intent, 100);
+                activity.startActivityForResult(editIntent, 100);
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
 
