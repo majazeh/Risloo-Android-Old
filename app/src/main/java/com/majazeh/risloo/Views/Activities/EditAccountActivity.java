@@ -49,8 +49,10 @@ import com.majazeh.risloo.Views.Dialogs.ImageDialog;
 
 import org.json.JSONException;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -350,7 +352,7 @@ public class EditAccountActivity extends AppCompatActivity {
         monthNumberPicker.setMinValue(1);
         monthNumberPicker.setMaxValue(12);
         monthNumberPicker.setValue(Month);
-        monthNumberPicker.setDisplayedValues(new String[] { "فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند" });
+        monthNumberPicker.setDisplayedValues(new String[]{"فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"});
 
         dayNumberPicker.setMinValue(1);
         dayNumberPicker.setMaxValue(31);
@@ -518,7 +520,7 @@ public class EditAccountActivity extends AppCompatActivity {
                 galleryPermissionsGranted = true;
                 intentCaller.gallery(this);
             }
-        } else if (requestCode ==200) {
+        } else if (requestCode == 200) {
             cameraPermissionsGranted = false;
 
             if (grantResults.length > 0) {
@@ -550,9 +552,12 @@ public class EditAccountActivity extends AppCompatActivity {
                     selectedImage = BitmapFactory.decodeStream(imageStream);
 
                     avatar = BitmapController.encodeToBase64(selectedImage);
-
+                    bitmapToFileConverter();
+                    viewModel.setAvatar();
                     avatarCircleImageView.setImageBitmap(BitmapController.rotate(selectedImage, ""));
                 } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } else if (requestCode == 200) {
@@ -579,7 +584,12 @@ public class EditAccountActivity extends AppCompatActivity {
                 selectedImage = BitmapFactory.decodeFile(imageFilePath, bmOptions);
 
                 avatar = BitmapController.encodeToBase64(selectedImage);
-
+                bitmapToFileConverter();
+                try {
+                    viewModel.setAvatar();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 avatarCircleImageView.setImageBitmap(BitmapController.rotate(selectedImage, imageFilePath));
             }
         } else if (resultCode == RESULT_CANCELED) {
@@ -587,6 +597,28 @@ public class EditAccountActivity extends AppCompatActivity {
                 Toast.makeText(this, "عکسی انتخاب نشده است.", Toast.LENGTH_SHORT).show();
             else if (requestCode == 200)
                 Toast.makeText(this, "عکسی گرفته نشده است.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void bitmapToFileConverter() {
+        File f = new File(getApplicationContext().getCacheDir(), "profile");
+        try {
+            f.createNewFile();
+
+
+//Convert bitmap to byte array
+            Bitmap bitmap = selectedImage;
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+            byte[] bitmapdata = bos.toByteArray();
+
+//write the bytes in file
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

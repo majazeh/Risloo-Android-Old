@@ -17,10 +17,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.Objects;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -435,7 +439,7 @@ public class AuthWorker extends Worker {
                 }
 
                 FileManager.writeObjectToCache(context, new JSONObject().put("data", data.getJSONArray("centers")), "centers", "my");
-
+                    editor.putString("userId", data.getString("id"));
                 if (data.has("name"))
                     editor.putString("name", data.getString("name"));
                 else
@@ -551,6 +555,7 @@ public class AuthWorker extends Worker {
                 editor.remove("gender");
                 editor.remove("birthday");
                 editor.remove("avatar");
+                editor.remove("userId");
                 editor.apply();
 
                 ExceptionManager.getException(bodyResponse.code(), successBody, true, "logOut", "auth");
@@ -582,7 +587,8 @@ public class AuthWorker extends Worker {
 
     private void setAvatar() {
         try {
-            Call<ResponseBody> call = authApi.setAvatar(token(), AuthRepository.UserId, AuthRepository.avatar);
+            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), new File(context.getCacheDir(),"profile"));
+            Call<ResponseBody> call = authApi.setAvatar(token(), sharedPreferences.getString("userId", ""), MultipartBody.Part.createFormData("upload", new File(context.getCacheDir(),"profile").getName(), reqFile));
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {

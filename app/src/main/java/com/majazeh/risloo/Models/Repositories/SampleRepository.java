@@ -3,6 +3,7 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Constraints;
@@ -100,7 +101,8 @@ public class SampleRepository extends MainRepository {
 
                     sampleJson = readSampleFromCache(sampleId);
 
-                    workStateSample.removeObserver(integer1 -> {});
+                    workStateSample.removeObserver(integer1 -> {
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -114,7 +116,8 @@ public class SampleRepository extends MainRepository {
                         e.printStackTrace();
                     }
                 }
-                workStateSample.removeObserver(integer1 -> {});
+                workStateSample.removeObserver(integer1 -> {
+                });
             }
         });
     }
@@ -296,7 +299,7 @@ public class SampleRepository extends MainRepository {
         return FileManager.readArrayFromCache(application.getApplicationContext(), "prerequisitesAnswers", fileName);
     }
 
-    public JSONObject readSampleDetailFromCache(String fileName){
+    public JSONObject readSampleDetailFromCache(String fileName) {
         return FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetail", fileName);
     }
 

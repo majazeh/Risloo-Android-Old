@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -125,7 +126,6 @@ public class SampleWorker extends Worker {
 
                 FileManager.writeSampleAnswerToCache(context, successBody, SampleRepository.sampleId);
                 FileManager.writePrerequisiteAnswerToCache(context, data.getJSONArray("prerequisites"), SampleRepository.sampleId);
-
                 ExceptionManager.getException(bodyResponse.code(), successBody, true, "single", "sample");
                 SampleRepository.workStateSample.postValue(1);
             } else {

@@ -2,6 +2,7 @@ package com.majazeh.risloo.Models.Apis;
 
 import java.io.File;
 
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -10,8 +11,10 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -52,7 +55,8 @@ public interface AuthApi {
     Call<ResponseBody> logOut(@Header("Authorization") String authorization);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
+    @Multipart
     @POST("users/{UserId}/avatar")
-    Call<ResponseBody> setAvatar(@Header("Authorization") String authorization, @Path("UserId") String UserId, @Body File avatar);
+    Call<ResponseBody> setAvatar(@Header("Authorization") String authorization, @Path("UserId") String UserId, @Part MultipartBody.Part  avatar);
 
 }
