@@ -91,6 +91,7 @@
                 android:background="@drawable/draw_16sdp_border_quartz"
                 app:tabMode="fixed"
                 app:tabGravity="fill"
+                app:tabMaxWidth="0dp"
                 app:tabBackground="@null"
                 app:tabRippleColor="@color/Quartz"
                 app:tabIndicatorColor="@color/Primary5P"

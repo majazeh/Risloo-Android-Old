@@ -24,7 +24,7 @@
             android:theme="@style/ToolbarTheme"
             android:background="@null"
             app:title=""
-            app:titleTextAppearance="@style/ToolbarTextAppearance"
+            app:titleTextAppearance="@style/ToolbarTextAppearanceLight"
             app:navigationIcon="@drawable/tool_menu"
             app:contentInsetStartWithNavigation="0dp" />
 

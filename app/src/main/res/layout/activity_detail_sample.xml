@@ -25,8 +25,8 @@
             android:theme="@style/ToolbarTheme"
             android:background="@color/Snow"
             app:title="@string/DetailSampleTitle"
-            app:titleTextAppearance="@style/ToolbarTextAppearance"
-            app:navigationIcon="@drawable/tool_back"
+            app:titleTextAppearance="@style/ToolbarTextAppearanceLight"
+            app:navigationIcon="@drawable/tool_back_light"
             app:contentInsetStartWithNavigation="0dp" />
 
         <View
@@ -362,10 +362,10 @@
                                     android:layout_marginBottom="@dimen/_16sdp"
                                     android:background="@color/Quartz" />
 
-                                <ImageView
-                                    android:id="@+id/activity_detail_sample_result_imageView"
+                                <com.majazeh.risloo.Utils.SquareImageView
+                                    android:id="@+id/activity_detail_sample_result_squareImageView"
                                     android:layout_width="match_parent"
-                                    android:layout_height="@dimen/_360sdp"
+                                    android:layout_height="wrap_content"
                                     android:scaleType="fitXY" />
 
                             </LinearLayout>
@@ -530,8 +530,8 @@
                 android:orientation="vertical">
 
                 <ProgressBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/_32sdp"
+                    android:layout_height="@dimen/_32sdp"
                     android:layout_marginBottom="@dimen/_16sdp"
                     android:theme="@style/ProgressBarTheme"
                     style="@style/Widget.AppCompat.ProgressBar"/>

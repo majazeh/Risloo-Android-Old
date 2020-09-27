@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -192,6 +193,15 @@ public class EditAccountActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v -> {
             finish();
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
+        });
+
+        avatarCircleImageView.setOnClickListener(v -> {
+            Intent intent = (new Intent(this, ImageActivity.class));
+
+            intent.putExtra("title", viewModel.getName());
+            intent.putExtra("image", String.valueOf(R.drawable.ic_user_circle));
+
+            startActivity(intent);
         });
 
         avatarImageView.setOnClickListener(v -> {
