@@ -123,7 +123,9 @@
     <string name="SampleCancel">خروج</string>
 
     <string name="SampleCloseDialogTitle">اتمام نمونه؟</string>
-    <string name="SampleCloseDialogDescription">آیا تمایل به اتمام این نمونه صرفا با پاسخ های حال حاضر؟</string>
+    <string name="SampleCloseDialogDescription">آیا تمایل به اتمام نمونه با وضعیت پاسخ های زیر:</string>
+    <string name="SampleCloseDialogAnswered">پاسخ</string>
+    <string name="SampleCloseDialogUnAnswered">بی پاسخ</string>
     <string name="SampleCloseDialogPositive">اتمام</string>
     <string name="SampleCloseDialogNegative">بستن</string>
     <string name="SampleCancelDialogTitle">خروج از نمونه؟</string>

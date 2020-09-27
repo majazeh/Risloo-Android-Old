@@ -80,7 +80,7 @@ public class SampleActivity extends AppCompatActivity {
     private RelativeLayout mainLayout;
     private LinearLayout retryLayout, loadingLayout;
     private Dialog closeDialog, cancelDialog, progressDialog;
-    private TextView closeDialogTitle, closeDialogDescription, closeDialogPositive, closeDialogNegative, cancelDialogTitle, cancelDialogDescription, cancelDialogPositive, cancelDialogNegative;
+    private TextView closeDialogAnswered, closeDialogUnAnswered, closeDialogPositive, closeDialogNegative, cancelDialogTitle, cancelDialogDescription, cancelDialogPositive, cancelDialogNegative;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +143,7 @@ public class SampleActivity extends AppCompatActivity {
         closeDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(closeDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         closeDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        closeDialog.setContentView(R.layout.dialog_action);
+        closeDialog.setContentView(R.layout.dialog_close);
         closeDialog.setCancelable(true);
         cancelDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(cancelDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
@@ -167,15 +167,10 @@ public class SampleActivity extends AppCompatActivity {
         layoutParams2.height = WindowManager.LayoutParams.WRAP_CONTENT;
         cancelDialog.getWindow().setAttributes(layoutParams2);
 
-        closeDialogTitle = closeDialog.findViewById(R.id.dialog_action_title_textView);
-        closeDialogTitle.setText(getResources().getString(R.string.SampleCloseDialogTitle));
-        closeDialogDescription = closeDialog.findViewById(R.id.dialog_action_description_textView);
-        closeDialogDescription.setText(getResources().getString(R.string.SampleCloseDialogDescription));
-        closeDialogPositive = closeDialog.findViewById(R.id.dialog_action_positive_textView);
-        closeDialogPositive.setText(getResources().getString(R.string.SampleCloseDialogPositive));
-        closeDialogPositive.setTextColor(getResources().getColor(R.color.PrimaryDark));
-        closeDialogNegative = closeDialog.findViewById(R.id.dialog_action_negative_textView);
-        closeDialogNegative.setText(getResources().getString(R.string.SampleCloseDialogNegative));
+        closeDialogAnswered = closeDialog.findViewById(R.id.dialog_close_answered_textView);
+        closeDialogUnAnswered = closeDialog.findViewById(R.id.dialog_close_unanswered_textView);
+        closeDialogPositive = closeDialog.findViewById(R.id.dialog_close_positive_textView);
+        closeDialogNegative = closeDialog.findViewById(R.id.dialog_close_negative_textView);
         cancelDialogTitle = cancelDialog.findViewById(R.id.dialog_action_title_textView);
         cancelDialogTitle.setText(getResources().getString(R.string.SampleCancelDialogTitle));
         cancelDialogDescription = cancelDialog.findViewById(R.id.dialog_action_description_textView);
@@ -350,6 +345,9 @@ public class SampleActivity extends AppCompatActivity {
                 }
                 progressBar.setMax(viewModel.getSize());
                 progressBar.setProgress(viewModel.answeredSize(sharedPreferences.getString("sampleId", "")));
+
+                closeDialogAnswered.setText(String.valueOf(viewModel.answeredSize(sharedPreferences.getString("sampleId", ""))));
+                closeDialogUnAnswered.setText(String.valueOf(viewModel.getSize() - viewModel.answeredSize(sharedPreferences.getString("sampleId", ""))));
 
                 indexRecyclerView.scrollToPosition(viewModel.getIndex());
 
