@@ -206,10 +206,10 @@
     <string name="DetailSampleTest">گویه‌ها</string>
 
     <string name="DetailDownloadDialogTitle">کدام فرمت می خوای دریافت کنید</string>
-    <string name="DetailDownloadDialogSvg">svg</string>
-    <string name="DetailDownloadDialogPng">png</string>
-    <string name="DetailDownloadDialogHtml">html</string>
-    <string name="DetailDownloadDialogPdf">pdf</string>
+    <string name="DetailDownloadDialogSvg">SVG</string>
+    <string name="DetailDownloadDialogPng">PNG</string>
+    <string name="DetailDownloadDialogHtml">HTML</string>
+    <string name="DetailDownloadDialogPdf">PDF</string>
     <string name="DetailDownloadDialogClose">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -248,8 +248,10 @@
 
     <string name="AccountTitle">حساب کاربری</string>
 
-    <string name="AccountEdit">ویرایش</string>
     <string name="AccountLogOut">خروج از حساب</string>
+
+    <string name="AccountEdit">ویرایش حساب</string>
+    <string name="AccountSend">ارسال مدارک هویتی</string>
 
     <string name="AccountInfo">مشخصات کاربر</string>
 

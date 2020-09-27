@@ -47,12 +47,12 @@
                 android:layout_height="@dimen/_22sdp"
                 android:layout_marginLeft="@dimen/_18sdp"
                 android:gravity="center"
-                android:text="s"
-                android:textSize="@dimen/_14ssp"
+                android:text="SVG"
+                android:textSize="@dimen/_8ssp"
                 android:textStyle="normal"
                 android:textColor="@color/White"
                 android:textAlignment="gravity"
-                android:background="@drawable/draw_4sdp_solid_primary" />
+                android:background="@drawable/draw_gra_4sdp_primary_and_accent" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -81,12 +81,12 @@
                 android:layout_height="@dimen/_22sdp"
                 android:layout_marginLeft="@dimen/_18sdp"
                 android:gravity="center"
-                android:text="p"
-                android:textSize="@dimen/_14ssp"
+                android:text="PNG"
+                android:textSize="@dimen/_8ssp"
                 android:textStyle="normal"
                 android:textColor="@color/White"
                 android:textAlignment="gravity"
-                android:background="@drawable/draw_4sdp_solid_primary" />
+                android:background="@drawable/draw_gra_4sdp_islamicgreen_and_accent" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -110,17 +110,11 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
+            <ImageView
                 android:layout_width="@dimen/_22sdp"
                 android:layout_height="@dimen/_22sdp"
                 android:layout_marginLeft="@dimen/_18sdp"
-                android:gravity="center"
-                android:text="h"
-                android:textSize="@dimen/_14ssp"
-                android:textStyle="normal"
-                android:textColor="@color/White"
-                android:textAlignment="gravity"
-                android:background="@drawable/draw_4sdp_solid_primary" />
+                android:src="@drawable/soc_html" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -144,17 +138,11 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <TextView
+            <ImageView
                 android:layout_width="@dimen/_22sdp"
                 android:layout_height="@dimen/_22sdp"
                 android:layout_marginLeft="@dimen/_18sdp"
-                android:gravity="center"
-                android:text="p"
-                android:textSize="@dimen/_14ssp"
-                android:textStyle="normal"
-                android:textColor="@color/White"
-                android:textAlignment="gravity"
-                android:background="@drawable/draw_4sdp_solid_primary" />
+                android:src="@drawable/soc_adobe" />
 
             <TextView
                 android:layout_width="match_parent"

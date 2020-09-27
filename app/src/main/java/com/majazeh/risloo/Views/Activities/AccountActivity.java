@@ -15,6 +15,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -45,11 +47,12 @@ public class AccountActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
+    private MenuItem toolLogOut;
 
     // Widgets
     private Toolbar toolbar;
     private CircleImageView avatarImageView;
-    private TextView nameTextView, editTextView, logOutTextView;
+    private TextView nameTextView, editTextView, sendTextView;
     private RecyclerView accountRecyclerView;
     private Dialog logOutDialog, progressDialog;
     private TextView logOutDialogTitle, logOutDialogDescription, logOutDialogPositive, logOutDialogNegative;
@@ -87,6 +90,7 @@ public class AccountActivity extends AppCompatActivity {
         handler = new Handler();
 
         toolbar = findViewById(R.id.activity_account_toolbar);
+        setSupportActionBar(toolbar);
 
         avatarImageView = findViewById(R.id.activity_account_avatar_circleImageView);
         if (viewModel.getAvatar().equals("")) {
@@ -98,7 +102,7 @@ public class AccountActivity extends AppCompatActivity {
         nameTextView = findViewById(R.id.activity_account_name_textView);
         nameTextView.setText(viewModel.getName());
         editTextView = findViewById(R.id.activity_account_edit_textView);
-        logOutTextView = findViewById(R.id.activity_account_logOut_textView);
+        sendTextView = findViewById(R.id.activity_account_send_textView);
 
         accountRecyclerView = findViewById(R.id.activity_account_recyclerView);
         accountRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._8sdp), (int) getResources().getDimension(R.dimen._32sdp)));
@@ -137,7 +141,7 @@ public class AccountActivity extends AppCompatActivity {
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             editTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
-            logOutTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
+            sendTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
 
             logOutDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
             logOutDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
@@ -158,11 +162,11 @@ public class AccountActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
 
-        logOutTextView.setOnClickListener(v -> {
-            logOutTextView.setClickable(false);
-            handler.postDelayed(() -> logOutTextView.setClickable(true), 300);
+        sendTextView.setOnClickListener(v -> {
+            sendTextView.setClickable(false);
+            handler.postDelayed(() -> sendTextView.setClickable(true), 300);
 
-            logOutDialog.show();
+
         });
 
         logOutDialogPositive.setOnClickListener(v -> {
@@ -213,6 +217,19 @@ public class AccountActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_account, menu);
+
+        toolLogOut = menu.findItem(R.id.tool_log_out);
+        toolLogOut.setOnMenuItemClickListener(item -> {
+            logOutDialog.show();
+            return false;
+        });
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
