@@ -248,8 +248,10 @@
 
     <string name="AccountTitle">حساب کاربری</string>
 
-    <string name="AccountEdit">ویرایش</string>
     <string name="AccountLogOut">خروج از حساب</string>
+
+    <string name="AccountEdit">ویرایش حساب</string>
+    <string name="AccountSend">ارسال مدارک هویتی</string>
 
     <string name="AccountInfo">مشخصات کاربر</string>
 
