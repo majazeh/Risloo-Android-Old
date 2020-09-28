@@ -10,11 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -30,9 +32,11 @@ import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Adapters.AccountAdapter;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 
+import java.io.File;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -96,7 +100,7 @@ public class AccountActivity extends AppCompatActivity {
         if (viewModel.getAvatar().equals("")) {
             avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle));
         } else {
-            avatarImageView.setImageBitmap(BitmapController.decodeToBase64(viewModel.getAvatar()));
+            Picasso.get().load(viewModel.getAvatar()).into(avatarImageView);
         }
 
         nameTextView = findViewById(R.id.activity_account_name_textView);
@@ -247,7 +251,8 @@ public class AccountActivity extends AppCompatActivity {
                 if (viewModel.getAvatar().equals("")) {
                     avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle));
                 } else {
-                    avatarImageView.setImageBitmap(BitmapController.decodeToBase64(viewModel.getAvatar()));
+                            Log.e("aaa", viewModel.getAvatar()+"AAA");
+                    Picasso.get().load(viewModel.getAvatar()).into(avatarImageView);
                 }
 
                 nameTextView.setText(viewModel.getName());

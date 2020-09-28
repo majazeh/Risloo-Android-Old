@@ -46,6 +46,7 @@ import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Dialogs.ImageDialog;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 
@@ -125,12 +126,6 @@ public class EditAccountActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.activity_edit_account_toolbar);
 
         avatarCircleImageView = findViewById(R.id.activity_edit_account_avatar_circleImageView);
-        if (viewModel.getAvatar().equals("")) {
-            avatarCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle));
-        } else {
-            avatarCircleImageView.setImageBitmap(BitmapController.decodeToBase64(viewModel.getAvatar()));
-        }
-
         avatarImageView = findViewById(R.id.activity_edit_account_avatar_imageView);
 
         nameEditText = findViewById(R.id.activity_edit_account_name_editText);
@@ -178,6 +173,13 @@ public class EditAccountActivity extends AppCompatActivity {
 
         dateDialogPositive = dateDialog.findViewById(R.id.dialog_date_positive_textView);
         dateDialogNegative = dateDialog.findViewById(R.id.dialog_date_negative_textView);
+
+//        if (viewModel.getAvatar().equals("")) {
+            avatarCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle));
+//        } else {
+//            Picasso.get().load(viewModel.getAvatar()).into(avatarImageView);
+//        }
+
     }
 
     private void detector() {
@@ -601,7 +603,7 @@ public class EditAccountActivity extends AppCompatActivity {
     }
 
     public void bitmapToFileConverter() {
-        File f = new File(getApplicationContext().getCacheDir(), "profile");
+        File f = new File(getApplicationContext().getCacheDir(), "avatar.png");
         try {
             f.createNewFile();
 

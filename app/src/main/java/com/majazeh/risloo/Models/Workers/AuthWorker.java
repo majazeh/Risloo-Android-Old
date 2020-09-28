@@ -2,6 +2,9 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -12,14 +15,19 @@ import com.majazeh.risloo.Models.Generators.RetroGenerator;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.util.HashMap;
 import java.util.Objects;
 
 import okhttp3.MediaType;
@@ -439,7 +447,7 @@ public class AuthWorker extends Worker {
                 }
 
                 FileManager.writeObjectToCache(context, new JSONObject().put("data", data.getJSONArray("centers")), "centers", "my");
-                    editor.putString("userId", data.getString("id"));
+                editor.putString("userId", data.getString("id"));
                 if (data.has("name"))
                     editor.putString("name", data.getString("name"));
                 else
@@ -469,6 +477,14 @@ public class AuthWorker extends Worker {
                     editor.putString("birthday", data.getString("birthday"));
                 else
                     editor.putString("birthday", "null");
+
+                if (data.has("avatar")) {
+                    JSONObject avatar = data.getJSONObject("avatar");
+                    JSONObject medium = avatar.getJSONObject("medium");
+                    Log.e("test", String.valueOf(medium));
+                    editor.putString("avatar", medium.getString("url"));
+                }
+
 
                 editor.apply();
 
@@ -587,8 +603,15 @@ public class AuthWorker extends Worker {
 
     private void setAvatar() {
         try {
-            RequestBody reqFile = RequestBody.create(MediaType.parse("image/*"), new File(context.getCacheDir(),"profile"));
-            Call<ResponseBody> call = authApi.setAvatar(token(), sharedPreferences.getString("userId", ""), MultipartBody.Part.createFormData("upload", new File(context.getCacheDir(),"profile").getName(), reqFile));
+
+            File file = new File(context.getCacheDir(), "avatar.png");
+            RequestBody mFile = RequestBody.create(MediaType.parse("image.png/*"), file);
+            MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("avatar", file.getName(), mFile);
+
+            HashMap hashMap = new HashMap();
+            hashMap.put("avatar", file);
+            Log.e("test", String.valueOf(fileToUpload.body()));
+            Call<ResponseBody> call = authApi.setAvatar(token(), sharedPreferences.getString("userId", ""), fileToUpload);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {

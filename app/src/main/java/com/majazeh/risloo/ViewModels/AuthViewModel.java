@@ -10,6 +10,7 @@ import com.majazeh.risloo.Models.Repositories.AuthRepository;
 
 import org.json.JSONException;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class AuthViewModel extends AndroidViewModel {
