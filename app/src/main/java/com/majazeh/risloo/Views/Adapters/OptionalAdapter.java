@@ -139,14 +139,15 @@ public class OptionalAdapter extends RecyclerView.Adapter<OptionalAdapter.Option
 
             jsonArray.getJSONObject(viewModel.getIndex()).put("index", viewModel.getIndex());
             jsonArray.getJSONObject(viewModel.getIndex()).put("answer", position + 1);
+
             viewModel.writeSampleAnswerToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
 
             if (viewModel.getNext() == null) {
                 if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) == -1) {
                     viewModel.insertToLocal(viewModel.getIndex() + 1, position + 1);
                     viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
-                    activity.startActivity(new Intent(activity, OutroActivity.class));
-                    activity.finish();
+
+                    ((SampleActivity) Objects.requireNonNull(activity)).closeDialog.show();
                     return;
                 }
                 viewModel.setIndex(viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")));

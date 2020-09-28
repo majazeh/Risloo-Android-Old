@@ -79,7 +79,7 @@ public class SampleActivity extends AppCompatActivity {
     private ImageView retryImageView;
     private RelativeLayout mainLayout;
     private LinearLayout retryLayout, loadingLayout;
-    private Dialog closeDialog, cancelDialog, progressDialog;
+    public Dialog closeDialog, cancelDialog, progressDialog;
     private TextView closeDialogAnswered, closeDialogUnAnswered, closeDialogPositive, closeDialogNegative, cancelDialogTitle, cancelDialogDescription, cancelDialogPositive, cancelDialogNegative;
 
     @Override
@@ -597,6 +597,8 @@ public class SampleActivity extends AppCompatActivity {
             } else if (SampleRepository.work.equals("close")) {
                 if (integer == 1) {
                     setResult(RESULT_OK, null);
+
+                    startActivity(new Intent(this, OutroActivity.class));
                     finish();
 
                     progressDialog.dismiss();
