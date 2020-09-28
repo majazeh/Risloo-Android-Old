@@ -160,6 +160,49 @@
                     android:importantForAutofill="no"
                     android:background="@drawable/draw_16sdp_border_quartz" />
 
+                <LinearLayout
+                    android:id="@+id/activity_create_center_avatar_linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_36sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layoutDirection="rtl"
+                    android:orientation="horizontal"
+                    android:background="@drawable/draw_16sdp_border_quartz">
+
+                    <TextView
+                        android:id="@+id/activity_create_center_select_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_marginRight="@dimen/_12sdp"
+                        android:paddingTop="@dimen/_3sdp"
+                        android:paddingBottom="@dimen/_3sdp"
+                        android:paddingLeft="@dimen/_8sdp"
+                        android:paddingRight="@dimen/_8sdp"
+                        android:gravity="center"
+                        android:text="@string/CreateCenterSelect"
+                        android:textSize="@dimen/_9ssp"
+                        android:textStyle="bold"
+                        android:textColor="@color/PrimaryDark"
+                        android:textAlignment="gravity"
+                        android:background="@drawable/draw_8sdp_solid_solitude"/>
+
+                    <TextView
+                        android:id="@+id/activity_create_center_avatar_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="@dimen/_16sdp"
+                        android:paddingRight="0dp"
+                        android:gravity="center|right"
+                        android:text="@string/CreateCenterAvatar"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Mischka"
+                        android:textAlignment="gravity" />
+
+                </LinearLayout>
+
                 <EditText
                     android:id="@+id/activity_create_center_description_editText"
                     android:layout_width="match_parent"

@@ -372,6 +372,8 @@
 
     <string name="CreateCenterManager">مدیر</string>
     <string name="CreateCenterName">عنوان</string>
+    <string name="CreateCenterSelect">انتخاب</string>
+    <string name="CreateCenterAvatar">تصویر (غیر ضروری)</string>
     <string name="CreateCenterDescription">توضیحات (غیر ضروری)</string>
     <string name="CreateCenterAddress">آدرس (غیر ضروری)</string>
     <string name="CreateCenterPhone">شماره تماس (غیر ضروری)</string>

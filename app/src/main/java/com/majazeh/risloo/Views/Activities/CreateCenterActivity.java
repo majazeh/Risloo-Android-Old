@@ -4,18 +4,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,15 +46,21 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.Views.Adapters.SpinnerAdapter;
+import com.majazeh.risloo.Views.Dialogs.ImageDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 public class CreateCenterActivity extends AppCompatActivity {
@@ -61,22 +73,25 @@ public class CreateCenterActivity extends AppCompatActivity {
 
     // Vars
     private int managerPosition = 0;
-    private String type = "personal_clinic", manager = "", title = "", description = "", address = "";
+    private String type = "personal_clinic", manager = "", title = "", description = "", address = "", imageFilePath = "";
     private boolean typeException = false, managerException = false, phoneException =false, managerSelected = false;
+    public boolean galleryPermissionsGranted = false, cameraPermissionsGranted = false;
 
     // Objects
+    private IntentCaller intentCaller;
+    private ImageDialog imageDialog;
     private Handler handler;
 
     // Widgets
     private Toolbar toolbar;
     private TabLayout typeTabLayout;
     private Spinner managerSpinner;
-    public TextView managerTextView, phoneTextView, phoneDialogPositive, phoneDialogNegative;
+    public TextView managerTextView, selectTextView, avatarTextView, phoneTextView, phoneDialogPositive, phoneDialogNegative;
     private EditText inputEditText, titleEditText, descriptionEditText, addressEditText, phoneDialogEditText;
     private RecyclerView phoneRecyclerView;
     private ProgressBar managerProgressBar;
     private ImageView managerImageView, phoneImageView;
-    private LinearLayout phoneLinearLayout;
+    private LinearLayout avatarLinearLayout, phoneLinearLayout;
     private FrameLayout managerFrameLayout;
     private Button createButton;
     private Dialog phoneDialog, progressDialog;
@@ -106,6 +121,10 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         phoneAdapter = new SpinnerAdapter(this);
 
+        intentCaller = new IntentCaller();
+
+        imageDialog = new ImageDialog(this);
+
         handler = new Handler();
 
         toolbar = findViewById(R.id.activity_create_center_toolbar);
@@ -114,6 +133,8 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         managerSpinner = findViewById(R.id.activity_create_center_manager_spinner);
 
+        selectTextView = findViewById(R.id.activity_create_center_select_textView);
+        avatarTextView = findViewById(R.id.activity_create_center_avatar_textView);
         managerTextView = findViewById(R.id.activity_create_center_manager_textView);
         phoneTextView = findViewById(R.id.activity_create_center_phone_textView);
 
@@ -131,6 +152,7 @@ public class CreateCenterActivity extends AppCompatActivity {
         managerImageView = findViewById(R.id.activity_create_center_manager_imageView);
         phoneImageView = findViewById(R.id.activity_create_center_phone_imageView);
 
+        avatarLinearLayout = findViewById(R.id.activity_create_center_avatar_linearLayout);
         phoneLinearLayout = findViewById(R.id.activity_create_center_phone_linearLayout);
 
         managerFrameLayout = findViewById(R.id.activity_create_center_manager_frameLayout);
@@ -162,6 +184,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            selectTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude_ripple_quartz);
             phoneImageView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
 
             createButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
@@ -298,6 +321,13 @@ public class CreateCenterActivity extends AppCompatActivity {
                 }
             }
             return false;
+        });
+
+        selectTextView.setOnClickListener(v -> {
+            selectTextView.setClickable(false);
+            handler.postDelayed(() -> selectTextView.setClickable(true), 300);
+
+            imageDialog.show(this.getSupportFragmentManager(), "imageBottomSheet");
         });
 
         descriptionEditText.setOnTouchListener((v, event) -> {
@@ -708,6 +738,110 @@ public class CreateCenterActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public File createImageFile() throws IOException {
+        String imageFileName = "JPEG_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + "_";
+        File imageStorageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File imageFile = File.createTempFile(imageFileName, ".jpg", imageStorageDir);
+        imageFilePath = imageFile.getAbsolutePath();
+        return imageFile;
+    }
+
+    public void checkGalleryPermission() {
+        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                galleryPermissionsGranted = true;
+                intentCaller.gallery(this);
+            } else {
+                ActivityCompat.requestPermissions(this, permissions, 100);
+            }
+        } else {
+            galleryPermissionsGranted = true;
+            intentCaller.gallery(this);
+        }
+    }
+
+    public void checkCameraPermission() {
+        String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    cameraPermissionsGranted = true;
+                    try {
+                        intentCaller.camera(this, createImageFile());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    ActivityCompat.requestPermissions(this, permissions, 200);
+                }
+            } else {
+                ActivityCompat.requestPermissions(this, permissions, 200);
+            }
+        } else {
+            cameraPermissionsGranted = true;
+            try {
+                intentCaller.camera(this, createImageFile());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 100) {
+            galleryPermissionsGranted = false;
+
+            if (grantResults.length > 0) {
+                for (int grantResult : grantResults) {
+                    if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+                }
+                galleryPermissionsGranted = true;
+                intentCaller.gallery(this);
+            }
+        } else if (requestCode == 200) {
+            cameraPermissionsGranted = false;
+
+            if (grantResults.length > 0) {
+                for (int grantResult : grantResults) {
+                    if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+                }
+                cameraPermissionsGranted = true;
+                try {
+                    intentCaller.camera(this, createImageFile());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 100) {
+
+            } else if (requestCode == 200) {
+
+            }
+        } else if (resultCode == RESULT_CANCELED) {
+            if (requestCode == 100)
+                Toast.makeText(this, "عکسی انتخاب نشده است.", Toast.LENGTH_SHORT).show();
+            else if (requestCode == 200)
+                Toast.makeText(this, "عکسی گرفته نشده است.", Toast.LENGTH_SHORT).show();
         }
     }
 
