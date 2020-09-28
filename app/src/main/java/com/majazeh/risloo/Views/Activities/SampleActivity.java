@@ -391,7 +391,11 @@ public class SampleActivity extends AppCompatActivity {
                         if (fragment.prerequisites().isEmpty()) {
                             Toast.makeText(this, "لطفا یک پارامتری را پر نمایید", Toast.LENGTH_SHORT).show();
                         } else {
-                            fragment.adapter.clearInput(fragment.adapter.inputEditText);
+                            if (fragment.adapter.inputEditText != null && fragment.adapter.inputEditText.hasFocus()) {
+                                fragment.adapter.clearInput(fragment.adapter.inputEditText);
+                            }
+
+                            progressDialog.show();
                             viewModel.sendPrerequisite(sharedPreferences.getString("sampleId", ""), fragment.prerequisites());
                             observeWorkAnswer();
                         }
@@ -594,6 +598,11 @@ public class SampleActivity extends AppCompatActivity {
                         }
                     }
                 }
+
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+
             } else if (SampleRepository.work.equals("close")) {
                 if (integer == 1) {
                     setResult(RESULT_OK, null);
