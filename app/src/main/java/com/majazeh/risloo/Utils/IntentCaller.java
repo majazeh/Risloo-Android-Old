@@ -38,6 +38,13 @@ public class IntentCaller {
         activity.startActivityForResult(intent, 200);
     }
 
+    public void file(Activity activity, String chooser) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+
+        activity.startActivityForResult(Intent.createChooser(intent, chooser), 300);
+    }
+
     public void mediaScan(Activity activity, File file) {
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         intent.setData(Uri.fromFile(file));

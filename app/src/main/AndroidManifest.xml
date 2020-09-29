@@ -18,12 +18,12 @@
         android:label="@string/AppName"
         android:largeHeap="true"
         android:launchMode="singleTop"
-        android:windowSoftInputMode="adjustResize"
         android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:windowSoftInputMode="adjustResize"
         tools:ignore="UnusedAttribute">
 
         <provider
@@ -38,8 +38,8 @@
 
         <activity
             android:name=".Views.Activities.SplashActivity"
-            android:theme="@style/LauncherTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/LauncherTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,8 +48,8 @@
         </activity>
         <activity
             android:name=".Views.Activities.IntroActivity"
-            android:theme="@style/WindowTheme"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/WindowTheme" />
         <activity
             android:name=".Views.Activities.AuthActivity"
             android:screenOrientation="portrait" />
@@ -58,6 +58,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.EditAccountActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.SendDocumentsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.SampleActivity"

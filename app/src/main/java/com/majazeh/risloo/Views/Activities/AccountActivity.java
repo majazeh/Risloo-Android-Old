@@ -170,7 +170,8 @@ public class AccountActivity extends AppCompatActivity {
             sendTextView.setClickable(false);
             handler.postDelayed(() -> sendTextView.setClickable(true), 300);
 
-
+            startActivity(new Intent(this, SendDocumentsActivity.class));
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
 
         logOutDialogPositive.setOnClickListener(v -> {
