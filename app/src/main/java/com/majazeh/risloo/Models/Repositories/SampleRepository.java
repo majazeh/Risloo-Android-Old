@@ -3,6 +3,7 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Constraints;
@@ -243,6 +244,13 @@ public class SampleRepository extends MainRepository {
         work = "getGeneral";
         workStateSample.setValue(-1);
         workManager("getGeneral");
+    }
+    public void getScore(String sampleId) throws JSONException {
+        SampleRepository.sampleId = sampleId;
+
+        work = "getScore";
+        workStateSample.setValue(-1);
+        workManager("getScore");
     }
 
     /*
@@ -597,6 +605,51 @@ public class SampleRepository extends MainRepository {
         return new Data.Builder()
                 .putString("work", work)
                 .build();
+    }
+
+    private String getUrlScore(String type) {
+        try {
+            if (FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetail", SampleRepository.sampleId) != null) {
+                JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetail", SampleRepository.sampleId);
+                JSONObject jsonObject1 = jsonObject.getJSONObject("profiles");
+                if (jsonObject1.has(type)) {
+                    JSONObject jsonObject2 = jsonObject1.getJSONObject(type);
+                    Log.e("testaaaa", String.valueOf(jsonObject2)+"aaaa");
+                    return jsonObject2.getString("url");
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String getHtmlScore() {
+        if (getUrlScore("profile_html") != null) {
+            return getUrlScore("profile_html");
+        }
+        return null;
+    }
+
+    public String getPdfScore() {
+        if (getUrlScore("profile_pdf") != null) {
+            return getUrlScore("profile_pdf");
+        }
+        return null;
+    }
+
+    public String getPngScore() {
+        if (getUrlScore("profile_png") != null) {
+            return getUrlScore("profile_png");
+        }
+        return null;
+    }
+
+    public String getSvgScore() {
+        if (getUrlScore("profile_svg") != null) {
+            return getUrlScore("profile_svg");
+        }
+        return null;
     }
 
 }

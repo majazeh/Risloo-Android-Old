@@ -225,4 +225,27 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.getArchive();
     }
 
+
+    public String getHtmlScore() {
+       return repository.getHtmlScore();
+    }
+
+    public String getPdfScore() {
+        return repository.getPdfScore();
+
+    }
+
+    public String getPngScore() {
+        return repository.getPngScore();
+
+    }
+
+    public String getSvgScore() {
+        return repository.getSvgScore();
+
+    }
+
+    public void getScore(String sampleId) throws JSONException {
+        repository.getScore(sampleId);
+    }
 }

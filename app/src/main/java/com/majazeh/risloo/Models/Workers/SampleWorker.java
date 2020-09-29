@@ -101,6 +101,9 @@ public class SampleWorker extends Worker {
                 case "getGeneral":
                     getGeneral();
                     break;
+                case "getScore":
+                    getScore();
+                    break;
             }
         }
 

@@ -22,6 +22,7 @@ import android.os.Handler;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -61,6 +62,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
     // Vars
     private String sampleId, scaleTitle, svgUrl, pngUrl, htmlUrl, pdfUrl;
+    private Boolean showScore = false;
 
     // Objects
     private Handler handler;
@@ -117,6 +119,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
         extras = getIntent().getExtras();
         sampleId = Objects.requireNonNull(extras).getString("id");
+        SampleRepository.sampleId = sampleId;
 
         toolbar = findViewById(R.id.activity_detail_sample_toolbar);
 
@@ -174,7 +177,32 @@ public class DetailSampleActivity extends AppCompatActivity {
         loadingCardView = findViewById(R.id.activity_detail_sample_loading_cardView);
         resultCardView = findViewById(R.id.activity_detail_sample_result_cardView);
         componentCardView = findViewById(R.id.activity_detail_sample_component_cardView);
+
+
+        if (viewModel.getHtmlScore() != null){
+            htmlUrl = viewModel.getHtmlScore();
+            showScore = true;
+        }
+        if (viewModel.getPdfScore() != null){
+            pdfUrl = viewModel.getPdfScore();
+            showScore = true;
+        }
+        if (viewModel.getPngScore() != null){
+            pngUrl = viewModel.getPngScore();
+            Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultSquareImageView);
+            showScore = true;
+        }
+        if (viewModel.getSvgScore() != null){
+            svgUrl = viewModel.getSvgScore();
+            showScore = true;
+        }
+       if (showScore){
+           resultCardView.setVisibility(View.VISIBLE);
+           setButton(scoreTextView, false);
+       }
     }
+
+
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -276,7 +304,7 @@ public class DetailSampleActivity extends AppCompatActivity {
             scaleTextView.setText(scaleTitle);
 
             serialTextView.setText(data.getString("id"));
-
+            viewModel.getScore(sampleId);
             switch (data.getString("status")) {
                 case "open":
                     statusTextView.setText(getResources().getString(R.string.DetailSampleStatusOpen));
@@ -298,7 +326,6 @@ public class DetailSampleActivity extends AppCompatActivity {
                     statusTextView.setText(getResources().getString(R.string.DetailSampleStatusScoring));
                     statusTextView.setTextColor(getResources().getColor(R.color.MoonYellow));
                     ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
-
                     setButton(scoreTextView, false);
                     setButton(closeTextView, false);
                     break;
@@ -359,6 +386,29 @@ public class DetailSampleActivity extends AppCompatActivity {
                 roomTextView.setText(detail.getString("title"));
             } else {
                 roomLinearLayout.setVisibility(View.GONE);
+            }
+
+
+            if (viewModel.getHtmlScore() != null){
+                htmlUrl = viewModel.getHtmlScore();
+                showScore = true;
+            }
+            if (viewModel.getPdfScore() != null){
+                pdfUrl = viewModel.getPdfScore();
+                showScore = true;
+            }
+            if (viewModel.getPngScore() != null){
+                pngUrl = viewModel.getPngScore();
+                Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultSquareImageView);
+                showScore = true;
+            }
+            if (viewModel.getSvgScore() != null){
+                svgUrl = viewModel.getSvgScore();
+                showScore = true;
+            }
+            if (showScore){
+                resultCardView.setVisibility(View.VISIBLE);
+                setButton(scoreTextView, false);
             }
 
         } catch (JSONException e) {
@@ -501,7 +551,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                         loadingCardView.setVisibility(View.GONE);
                         loadingCardView.setAnimation(animFadeOut);
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "aa" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         setButton(scoreTextView, true);
@@ -546,6 +596,31 @@ public class DetailSampleActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    }
+                    break;
+                case "getScore":
+                    if (integer == 1) {
+                        Log.e("aaa", String.valueOf(viewModel.readSampleDetailFromCache(sampleId)));
+                        setData();
+
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    } else if (integer != -1) {
+
+                            if (integer == 0) {
+
+                                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                            } else if (integer == -2) {
+                                // General Detail is Empty And Connection
+
+                                loadingLayout.setVisibility(View.GONE);
+                                retryLayout.setVisibility(View.VISIBLE);
+                                mainLayout.setVisibility(View.GONE);
+
+                                setRetryLayout("connection");
+
+                                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                            }
+
                     }
                     break;
             }
