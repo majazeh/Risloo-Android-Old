@@ -54,8 +54,6 @@
     // auth strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="AuthAccount">حساب کاربری</string>
-
     <string name="AuthSampleTitle">نمونه</string>
     <string name="AuthSampleStart">شروع نمونه</string>
     <string name="AuthSampleList">نمونه ها</string>

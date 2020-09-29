@@ -25,7 +25,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -126,6 +125,12 @@ public class EditAccountActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.activity_edit_account_toolbar);
 
         avatarCircleImageView = findViewById(R.id.activity_edit_account_avatar_circleImageView);
+        if (viewModel.getAvatar().equals("")) {
+            avatarCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_solid));
+        } else {
+            avatar = viewModel.getAvatar();
+            Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarCircleImageView);
+        }
         avatarImageView = findViewById(R.id.activity_edit_account_avatar_imageView);
 
         nameEditText = findViewById(R.id.activity_edit_account_name_editText);
@@ -173,13 +178,6 @@ public class EditAccountActivity extends AppCompatActivity {
 
         dateDialogPositive = dateDialog.findViewById(R.id.dialog_date_positive_textView);
         dateDialogNegative = dateDialog.findViewById(R.id.dialog_date_negative_textView);
-
-//        if (viewModel.getAvatar().equals("")) {
-            avatarCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle));
-//        } else {
-//            Picasso.get().load(viewModel.getAvatar()).into(avatarImageView);
-//        }
-
     }
 
     private void detector() {
@@ -203,7 +201,7 @@ public class EditAccountActivity extends AppCompatActivity {
             Intent intent = (new Intent(this, ImageActivity.class));
 
             intent.putExtra("title", viewModel.getName());
-            intent.putExtra("image", String.valueOf(R.drawable.ic_user_circle));
+            intent.putExtra("image", String.valueOf(R.drawable.ic_user_circle_solid));
 
             startActivity(intent);
         });
@@ -555,7 +553,7 @@ public class EditAccountActivity extends AppCompatActivity {
 
                     avatar = BitmapController.encodeToBase64(selectedImage);
                     bitmapToFileConverter();
-                    viewModel.setAvatar();
+                    viewModel.avatar();
                     avatarCircleImageView.setImageBitmap(BitmapController.rotate(selectedImage, ""));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -588,7 +586,7 @@ public class EditAccountActivity extends AppCompatActivity {
                 avatar = BitmapController.encodeToBase64(selectedImage);
                 bitmapToFileConverter();
                 try {
-                    viewModel.setAvatar();
+                    viewModel.avatar();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -603,19 +601,18 @@ public class EditAccountActivity extends AppCompatActivity {
     }
 
     public void bitmapToFileConverter() {
-        File f = new File(getApplicationContext().getCacheDir(), "avatar.png");
+        File file = new File(getApplicationContext().getCacheDir(), "avatar.png");
         try {
-            f.createNewFile();
+            file.createNewFile();
 
-
-//Convert bitmap to byte array
+            //Convert bitmap to byte array
             Bitmap bitmap = selectedImage;
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
             byte[] bitmapdata = bos.toByteArray();
 
-//write the bytes in file
-            FileOutputStream fos = new FileOutputStream(f);
+            //write the bytes in file
+            FileOutputStream fos = new FileOutputStream(file);
             fos.write(bitmapdata);
             fos.flush();
             fos.close();

@@ -20,8 +20,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -39,10 +38,13 @@ import com.majazeh.risloo.Views.Fragments.PasswordFragment;
 import com.majazeh.risloo.Views.Fragments.PinFragment;
 import com.majazeh.risloo.Views.Fragments.RegisterFragment;
 import com.majazeh.risloo.Views.Fragments.SerialFragment;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 
 import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AuthActivity extends AppCompatActivity {
 
@@ -54,7 +56,6 @@ public class AuthActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
-    private MenuItem toolUser;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -63,6 +64,7 @@ public class AuthActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private FrameLayout navigationFooter;
     private Toolbar titleToolbar;
+    private CircleImageView avatarImageView;
     public EditText inputEditText;
     public Dialog progressDialog;
 
@@ -120,8 +122,18 @@ public class AuthActivity extends AppCompatActivity {
         navigationFooter = navigationView.findViewById(R.id.activity_auth_footer);
 
         titleToolbar = findViewById(R.id.activity_auth_toolbar);
-        setSupportActionBar(titleToolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+
+        avatarImageView = findViewById(R.id.activity_auth_avatar_circleImageView);
+        if (token()) {
+            avatarImageView.setVisibility(View.VISIBLE);
+            if (viewModel.getAvatar().equals("")) {
+                avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_light));
+            } else {
+                Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarImageView);
+            }
+        } else {
+            avatarImageView.setVisibility(View.GONE);
+        }
 
         progressDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
@@ -143,6 +155,15 @@ public class AuthActivity extends AppCompatActivity {
             }
 
             drawerLayout.openDrawer(GravityCompat.START);
+        });
+
+        avatarImageView.setOnClickListener(v -> {
+            if (inputEditText != null && inputEditText.hasFocus()) {
+                clearInput(inputEditText);
+            }
+
+            startActivityForResult(new Intent(this, AccountActivity.class), 100);
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
 
         navigationFooter.setOnClickListener(v -> {
@@ -310,16 +331,21 @@ public class AuthActivity extends AppCompatActivity {
                     }
                 }
 
-                if (toolUser != null) {
-                    if (token()) {
-                        toolUser.setVisible(true);
-                        navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(true);
-                        navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(true);
+                if (token()) {
+                    avatarImageView.setVisibility(View.VISIBLE);
+                    if (viewModel.getAvatar().equals("")) {
+                        avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_light));
                     } else {
-                        toolUser.setVisible(false);
-                        navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(false);
-                        navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
+                        Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarImageView);
                     }
+
+                    navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(true);
+                    navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(true);
+                } else {
+                    avatarImageView.setVisibility(View.GONE);
+
+                    navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(false);
+                    navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
                 }
 
                 progressDialog.dismiss();
@@ -451,45 +477,21 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_auth, menu);
-
-        toolUser = menu.findItem(R.id.tool_account);
-        if (token()) {
-            toolUser.setVisible(true);
-        } else {
-            toolUser.setVisible(false);
-        }
-        toolUser.setOnMenuItemClickListener(item -> {
-            if (inputEditText != null && inputEditText.hasFocus()) {
-                clearInput(inputEditText);
-            }
-
-            startActivityForResult(new Intent(this, AccountActivity.class), 100);
-            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
-            return false;
-        });
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
-                if (toolUser != null) {
-                    titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
+                titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
 
-                    toolUser.setVisible(false);
-                    navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(false);
-                    navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
+                avatarImageView.setVisibility(View.GONE);
 
-                    SerialFragment fragment = ((SerialFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
-                    if (fragment != null) {
-                        fragment.setText();
-                    }
+                navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(false);
+                navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
+
+                SerialFragment fragment = ((SerialFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                if (fragment != null) {
+                    fragment.setText();
                 }
             }
         }

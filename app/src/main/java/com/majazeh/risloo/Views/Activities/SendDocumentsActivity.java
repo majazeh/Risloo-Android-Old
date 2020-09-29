@@ -109,7 +109,7 @@ public class SendDocumentsActivity extends AppCompatActivity {
     private void listener() {
         toolbar.setNavigationOnClickListener(v -> {
             finish();
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
         });
 
         fileLinearLayout.setOnClickListener(v -> {

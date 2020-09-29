@@ -10,7 +10,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class AuthItems {
@@ -43,13 +42,6 @@ public class AuthItems {
     public String account() {
         if (!sharedPreferences.getString("type", "").equals("null")) {
             return sharedPreferences.getString("type", "");
-        }
-        return "";
-    }
-
-    public String avatar() {
-        if (!sharedPreferences.getString("avatar", "").equals("null")) {
-            return sharedPreferences.getString("avatar", "");
         }
         return "";
     }
@@ -108,6 +100,13 @@ public class AuthItems {
             return sharedPreferences.getString("birthday", "");
         }
         return "1400-01-01";
+    }
+
+    public String avatar() {
+        if (!sharedPreferences.getString("avatar", "").equals("null")) {
+            return sharedPreferences.getString("avatar", "");
+        }
+        return "";
     }
 
     private JSONArray data() throws JSONException {

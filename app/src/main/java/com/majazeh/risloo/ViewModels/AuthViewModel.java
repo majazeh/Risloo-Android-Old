@@ -10,7 +10,6 @@ import com.majazeh.risloo.Models.Repositories.AuthRepository;
 
 import org.json.JSONException;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class AuthViewModel extends AndroidViewModel {
@@ -56,12 +55,12 @@ public class AuthViewModel extends AndroidViewModel {
         repository.edit(name, gender, birthday);
     }
 
-    public void logOut() throws JSONException {
-        repository.logOut();
+    public void avatar() throws JSONException {
+        repository.avatar();
     }
 
-    public void setAvatar() throws JSONException {
-        repository.setAvatar();
+    public void logOut() throws JSONException {
+        repository.logOut();
     }
 
     /*
@@ -78,10 +77,6 @@ public class AuthViewModel extends AndroidViewModel {
 
     public String getAccount() {
         return repository.getAccount();
-    }
-
-    public String getAvatar() {
-        return repository.getAvatar();
     }
 
     public String getName() {
@@ -106,6 +101,10 @@ public class AuthViewModel extends AndroidViewModel {
 
     public String getBirthday() {
         return repository.getBirthday();
+    }
+
+    public String getAvatar() {
+        return repository.getAvatar();
     }
 
 }

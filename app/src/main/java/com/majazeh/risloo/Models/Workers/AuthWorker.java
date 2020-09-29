@@ -2,9 +2,6 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -15,16 +12,12 @@ import com.majazeh.risloo.Models.Generators.RetroGenerator;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.HashMap;
@@ -87,11 +80,11 @@ public class AuthWorker extends Worker {
                 case "edit":
                     edit();
                     break;
+                case "avatar":
+                    avatar();
+                    break;
                 case "logOut":
                     logOut();
-                    break;
-                case "setAvatar":
-                    setAvatar();
                     break;
             }
         }
@@ -447,7 +440,12 @@ public class AuthWorker extends Worker {
                 }
 
                 FileManager.writeObjectToCache(context, new JSONObject().put("data", data.getJSONArray("centers")), "centers", "my");
-                editor.putString("userId", data.getString("id"));
+
+                if (data.has("userId"))
+                    editor.putString("userId", data.getString("id"));
+                else
+                    editor.putString("userId", "null");
+
                 if (data.has("name"))
                     editor.putString("name", data.getString("name"));
                 else
@@ -481,10 +479,11 @@ public class AuthWorker extends Worker {
                 if (data.has("avatar")) {
                     JSONObject avatar = data.getJSONObject("avatar");
                     JSONObject medium = avatar.getJSONObject("medium");
-                    Log.e("test", String.valueOf(medium));
-                    editor.putString("avatar", medium.getString("url"));
-                }
 
+                    editor.putString("avatar", medium.getString("url"));
+                } else {
+                    editor.putString("avatar", "null");
+                }
 
                 editor.apply();
 
@@ -555,31 +554,27 @@ public class AuthWorker extends Worker {
         }
     }
 
-    private void logOut() {
+    private void avatar() {
         try {
-            Call<ResponseBody> call = authApi.logOut(token());
+            File file = new File(context.getCacheDir(), "avatar.png");
+            RequestBody mFile = RequestBody.create(MediaType.parse("image.png/*"), file);
+            MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("avatar", file.getName(), mFile);
+
+            HashMap hashMap = new HashMap();
+            hashMap.put("avatar", file);
+
+            Call<ResponseBody> call = authApi.avatar(token(), sharedPreferences.getString("userId", ""), fileToUpload);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
 
-                editor.remove("token");
-                editor.remove("name");
-                editor.remove("type");
-                editor.remove("mobile");
-                editor.remove("email");
-                editor.remove("gender");
-                editor.remove("birthday");
-                editor.remove("avatar");
-                editor.remove("userId");
-                editor.apply();
-
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "logOut", "auth");
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "avatar", "auth");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "logOut", "auth");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "avatar", "auth");
                 AuthRepository.workState.postValue(0);
             }
 
@@ -601,28 +596,31 @@ public class AuthWorker extends Worker {
         }
     }
 
-    private void setAvatar() {
+    private void logOut() {
         try {
-
-            File file = new File(context.getCacheDir(), "avatar.png");
-            RequestBody mFile = RequestBody.create(MediaType.parse("image.png/*"), file);
-            MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("avatar", file.getName(), mFile);
-
-            HashMap hashMap = new HashMap();
-            hashMap.put("avatar", file);
-            Log.e("test", String.valueOf(fileToUpload.body()));
-            Call<ResponseBody> call = authApi.setAvatar(token(), sharedPreferences.getString("userId", ""), fileToUpload);
+            Call<ResponseBody> call = authApi.logOut(token());
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
 
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "setAvatar", "auth");
+                editor.remove("token");
+                editor.remove("userId");
+                editor.remove("name");
+                editor.remove("type");
+                editor.remove("mobile");
+                editor.remove("email");
+                editor.remove("gender");
+                editor.remove("birthday");
+                editor.remove("avatar");
+                editor.apply();
+
+                ExceptionManager.getException(bodyResponse.code(), successBody, true, "logOut", "auth");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "setAvatar", "auth");
+                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "logOut", "auth");
                 AuthRepository.workState.postValue(0);
             }
 

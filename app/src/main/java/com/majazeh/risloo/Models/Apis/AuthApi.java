@@ -1,13 +1,8 @@
 package com.majazeh.risloo.Models.Apis;
 
-import java.io.File;
-import java.util.HashMap;
-
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -53,12 +48,12 @@ public interface AuthApi {
     Call<ResponseBody> edit(@Header("Authorization") String authorization, @Query("name") String name, @Query("gender") String gender, @Query("birthday") String birthday);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
-    @POST("logout")
-    Call<ResponseBody> logOut(@Header("Authorization") String authorization);
-
-    @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @Multipart
     @POST("users/{UserId}/avatar")
-    Call<ResponseBody> setAvatar(@Header("Authorization") String authorization, @Path("UserId") String UserId, @Part MultipartBody.Part filePart);
+    Call<ResponseBody> avatar(@Header("Authorization") String authorization, @Path("UserId") String UserId, @Part MultipartBody.Part filePart);
+
+    @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
+    @POST("logout")
+    Call<ResponseBody> logOut(@Header("Authorization") String authorization);
 
 }

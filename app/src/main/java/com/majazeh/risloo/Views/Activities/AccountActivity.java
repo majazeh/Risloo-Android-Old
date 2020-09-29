@@ -10,13 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
@@ -27,7 +25,6 @@ import android.widget.Toast;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.BitmapController;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
@@ -36,7 +33,6 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 
-import java.io.File;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -98,9 +94,9 @@ public class AccountActivity extends AppCompatActivity {
 
         avatarImageView = findViewById(R.id.activity_account_avatar_circleImageView);
         if (viewModel.getAvatar().equals("")) {
-            avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle));
+            avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_solid));
         } else {
-            Picasso.get().load(viewModel.getAvatar()).into(avatarImageView);
+            Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarImageView);
         }
 
         nameTextView = findViewById(R.id.activity_account_name_textView);
@@ -250,10 +246,9 @@ public class AccountActivity extends AppCompatActivity {
                 }
 
                 if (viewModel.getAvatar().equals("")) {
-                    avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle));
+                    avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_solid));
                 } else {
-                            Log.e("aaa", viewModel.getAvatar()+"AAA");
-                    Picasso.get().load(viewModel.getAvatar()).into(avatarImageView);
+                    Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarImageView);
                 }
 
                 nameTextView.setText(viewModel.getName());
