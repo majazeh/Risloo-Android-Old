@@ -40,10 +40,6 @@ public interface SampleApi {
     Call<ResponseBody> score(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
-    @GET("$/samples/{sample_id}/scoring")
-    Call<ResponseBody> getScore(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
-
-    @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("$")
     Call<ResponseBody> getScales(@Header("Authorization") String authorization);
 
@@ -62,5 +58,9 @@ public interface SampleApi {
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("$/samples/{sample_id}")
     Call<ResponseBody> getGeneral(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
+
+    @Headers({"content-type: application/json", "Accept-Language:fa"})
+    @GET("$/samples/{sample_id}/scoring")
+    Call<ResponseBody> getScore(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
 
 }

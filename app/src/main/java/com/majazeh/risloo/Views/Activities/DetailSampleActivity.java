@@ -22,7 +22,6 @@ import android.os.Handler;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -62,7 +61,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
     // Vars
     private String sampleId, scaleTitle, svgUrl, pngUrl, htmlUrl, pdfUrl;
-    private Boolean showScore = false;
+    private boolean showLoading = false;
 
     // Objects
     private Handler handler;
@@ -177,12 +176,7 @@ public class DetailSampleActivity extends AppCompatActivity {
         loadingCardView = findViewById(R.id.activity_detail_sample_loading_cardView);
         resultCardView = findViewById(R.id.activity_detail_sample_result_cardView);
         componentCardView = findViewById(R.id.activity_detail_sample_component_cardView);
-
-
-
-
     }
-
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -235,6 +229,10 @@ public class DetailSampleActivity extends AppCompatActivity {
         });
 
         scoreTextView.setOnClickListener(v -> {
+            statusTextView.setText(getResources().getString(R.string.DetailSampleStatusScoring));
+            statusTextView.setTextColor(getResources().getColor(R.color.MoonYellow));
+            ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
+
             setButton(scoreTextView, false);
 
             doWork("score");
@@ -284,15 +282,8 @@ public class DetailSampleActivity extends AppCompatActivity {
             scaleTextView.setText(scaleTitle);
 
             serialTextView.setText(data.getString("id"));
-            switch (data.getString("status")) {
-                case "open":
-                    statusTextView.setText(getResources().getString(R.string.DetailSampleStatusOpen));
-                    statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
-                    ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
 
-                    setButton(scoreTextView, false);
-                    setButton(closeTextView, true);
-                    break;
+            switch (data.getString("status")) {
                 case "seald":
                     statusTextView.setText(getResources().getString(R.string.DetailSampleStatusSeald));
                     statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
@@ -300,30 +291,74 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                     setButton(scoreTextView, false);
                     setButton(closeTextView, true);
+
+                    showLoading = false;
+                    break;
+                case "open":
+                    statusTextView.setText(getResources().getString(R.string.DetailSampleStatusOpen));
+                    statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
+                    ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+
+                    setButton(scoreTextView, false);
+                    setButton(closeTextView, true);
+
+                    showLoading = false;
+                    break;
+                case "closed":
+                    statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
+                    statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
+                    ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+
+                    setButton(scoreTextView, true);
+                    setButton(closeTextView, false);
+
+                    showLoading = false;
                     break;
                 case "scoring":
                     statusTextView.setText(getResources().getString(R.string.DetailSampleStatusScoring));
                     statusTextView.setTextColor(getResources().getColor(R.color.MoonYellow));
                     ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
+
                     setButton(scoreTextView, false);
                     setButton(closeTextView, false);
-                    doWork("score");
-                    break;
-                case "closed":
-                    statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
-                    statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
-                    ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Mischka));
 
-                    setButton(scoreTextView, true);
+                    showLoading = true;
+                    break;
+                case "craeting_files":
+                    statusTextView.setText(getResources().getString(R.string.DetailSampleStatusCreatingFiles));
+                    statusTextView.setTextColor(getResources().getColor(R.color.MoonYellow));
+                    ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
+
+                    setButton(scoreTextView, false);
                     setButton(closeTextView, false);
+
+                    showLoading = true;
                     break;
                 case "done":
                     statusTextView.setText(getResources().getString(R.string.DetailSampleStatusDone));
                     statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
                     ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Mischka));
 
-                    setButton(scoreTextView, true);
+                    setButton(scoreTextView, false);
                     setButton(closeTextView, false);
+
+                    if (viewModel.getSvgScore() != null) {
+                        svgUrl = viewModel.getSvgScore();
+                    }
+                    if (viewModel.getPngScore() != null) {
+                        pngUrl = viewModel.getPngScore();
+                        Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultSquareImageView);
+                    }
+                    if (viewModel.getHtmlScore() != null) {
+                        htmlUrl = viewModel.getHtmlScore();
+                    }
+                    if (viewModel.getPdfScore() != null) {
+                        pdfUrl = viewModel.getPdfScore();
+                    }
+
+                    resultCardView.setVisibility(View.VISIBLE);
+
+                    showLoading = false;
                     break;
                 default:
                     statusTextView.setText(data.getString("status"));
@@ -332,6 +367,24 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                     setButton(scoreTextView, false);
                     setButton(closeTextView, false);
+
+                    if (viewModel.getSvgScore() != null) {
+                        svgUrl = viewModel.getSvgScore();
+                    }
+                    if (viewModel.getPngScore() != null) {
+                        pngUrl = viewModel.getPngScore();
+                        Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultSquareImageView);
+                    }
+                    if (viewModel.getHtmlScore() != null) {
+                        htmlUrl = viewModel.getHtmlScore();
+                    }
+                    if (viewModel.getPdfScore() != null) {
+                        pdfUrl = viewModel.getPdfScore();
+                    }
+
+                    resultCardView.setVisibility(View.VISIBLE);
+
+                    showLoading = false;
                     break;
             }
 
@@ -368,27 +421,14 @@ public class DetailSampleActivity extends AppCompatActivity {
                 roomLinearLayout.setVisibility(View.GONE);
             }
 
+            if (showLoading) {
+                loadingCardView.setVisibility(View.VISIBLE);
+                loadingCardView.setAnimation(animFadeIn);
 
-            if (viewModel.getHtmlScore() != null) {
-                htmlUrl = viewModel.getHtmlScore();
-                showScore = true;
-            }
-            if (viewModel.getPdfScore() != null) {
-                pdfUrl = viewModel.getPdfScore();
-                showScore = true;
-            }
-            if (viewModel.getPngScore() != null) {
-                pngUrl = viewModel.getPngScore();
-                Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultSquareImageView);
-                showScore = true;
-            }
-            if (viewModel.getSvgScore() != null) {
-                svgUrl = viewModel.getSvgScore();
-                showScore = true;
-            }
-            if (showScore) {
-                resultCardView.setVisibility(View.VISIBLE);
-                setButton(scoreTextView, false);
+                launchProcess("getScore");
+            } else {
+                loadingCardView.setVisibility(View.GONE);
+                loadingCardView.setAnimation(animFadeOut);
             }
 
         } catch (JSONException e) {
@@ -400,6 +440,8 @@ public class DetailSampleActivity extends AppCompatActivity {
         try {
             if (method.equals("getGeneral")) {
                 viewModel.general(sampleId);
+            } else if (method.equals("getScore")) {
+                viewModel.scores(sampleId);
             }
             observeWork();
         } catch (JSONException e) {
@@ -421,7 +463,7 @@ public class DetailSampleActivity extends AppCompatActivity {
                 case "score":
                     loadingCardView.setVisibility(View.VISIBLE);
                     loadingCardView.setAnimation(animFadeIn);
-                    viewModel.getScore(sampleId);
+                    viewModel.scores(sampleId);
                     break;
                 case "close":
                     progressDialog.show();
@@ -490,43 +532,46 @@ public class DetailSampleActivity extends AppCompatActivity {
                 case "getTest":
 
                     break;
+                case "getScore":
+                    if (integer == 1) {
+                        // Reset Data
+
+                        setData();
+
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    } else if (integer != -1) {
+                        statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
+                        statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+
+                        setButton(scoreTextView, true);
+
+                        loadingCardView.setVisibility(View.GONE);
+                        loadingCardView.setAnimation(animFadeOut);
+                        Toast.makeText(this, "aa" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    }
+                    break;
                 case "score":
                     if (integer == 1) {
                         setResult(RESULT_OK, null);
 
                         try {
                             JSONObject jsonObject = FileManager.readObjectFromCache(this, "sampleDetail", sampleId);
-                            JSONObject profiles = Objects.requireNonNull(jsonObject).getJSONObject("profiles");
+                            Objects.requireNonNull(jsonObject).put("status", "done");
+                            FileManager.writeObjectToCache(this, jsonObject, "sampleDetail", sampleId);
 
-                            if (profiles.has("profile_svg")) {
-                                JSONObject svg = profiles.getJSONObject("profile_svg");
-                                this.svgUrl = svg.getString("url");
-                            }
-                            if (profiles.has("profile_png")) {
-                                JSONObject png = profiles.getJSONObject("profile_png");
-                                this.pngUrl = png.getString("url");
-
-                                Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultSquareImageView);
-                            }
-                            if (profiles.has("profile_html")) {
-                                JSONObject html = profiles.getJSONObject("profile_html");
-                                this.htmlUrl = html.getString("url");
-                            }
-                            if (profiles.has("profile_pdf")) {
-                                JSONObject pdf = profiles.getJSONObject("profile_pdf");
-                                this.pdfUrl = pdf.getString("url");
-                            }
-
-                            resultCardView.setVisibility(View.VISIBLE);
-
+                            setData();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
-                        loadingCardView.setVisibility(View.GONE);
-                        loadingCardView.setAnimation(animFadeOut);
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer == 0) {
+                        statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
+                        statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+
                         setButton(scoreTextView, true);
 
                         loadingCardView.setVisibility(View.GONE);
@@ -534,6 +579,10 @@ public class DetailSampleActivity extends AppCompatActivity {
                         Toast.makeText(this, "aa" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
+                        statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
+                        statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+
                         setButton(scoreTextView, true);
 
                         loadingCardView.setVisibility(View.GONE);
@@ -551,12 +600,7 @@ public class DetailSampleActivity extends AppCompatActivity {
                             Objects.requireNonNull(jsonObject).put("status", "closed");
                             FileManager.writeObjectToCache(this, jsonObject, "sampleDetail", sampleId);
 
-                            statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
-                            statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
-                            ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Mischka));
-
-                            setButton(scoreTextView, true);
-
+                            setData();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -576,30 +620,6 @@ public class DetailSampleActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                    }
-                    break;
-                case "getScore":
-                    if (integer == 1) {
-                        setData();
-
-                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                    } else if (integer != -1) {
-
-                        if (integer == 0) {
-
-                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                        } else if (integer == -2) {
-                            // General Detail is Empty And Connection
-
-                            loadingLayout.setVisibility(View.GONE);
-                            retryLayout.setVisibility(View.VISIBLE);
-                            mainLayout.setVisibility(View.GONE);
-
-                            setRetryLayout("connection");
-
-                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                        }
-
                     }
                     break;
             }

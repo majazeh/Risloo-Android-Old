@@ -84,17 +84,6 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
             holder.serialTextView.setText(model.get("id").toString());
 
             switch ((String) model.get("status")) {
-                case "open":
-                    holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusOpen));
-                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
-
-                    if (access()) {
-                        holder.startTextView.setVisibility(View.VISIBLE);
-                    } else {
-                        holder.startTextView.setVisibility(View.INVISIBLE);
-                    }
-                    break;
                 case "seald":
                     holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusSeald));
                     holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
@@ -106,28 +95,50 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
                         holder.startTextView.setVisibility(View.INVISIBLE);
                     }
                     break;
+                case "open":
+                    holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusOpen));
+                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
+
+                    if (access()) {
+                        holder.startTextView.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.startTextView.setVisibility(View.INVISIBLE);
+                    }
+                    break;
+                case "closed":
+                    holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusClosed));
+                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
+
+                    holder.startTextView.setVisibility(View.INVISIBLE);
+                    break;
                 case "scoring":
                     holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusScoring));
                     holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.MoonYellow));
                     ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.MoonYellow));
+
                     holder.startTextView.setVisibility(View.INVISIBLE);
                     break;
-                case "closed":
-                    holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusClosed));
-                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
-                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Mischka));
+                case "craeting_files":
+                    holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusCreatingFiles));
+                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.MoonYellow));
+                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.MoonYellow));
+
                     holder.startTextView.setVisibility(View.INVISIBLE);
                     break;
                 case "done":
                     holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusDone));
                     holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
                     ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Mischka));
+
                     holder.startTextView.setVisibility(View.INVISIBLE);
                     break;
                 default:
                     holder.statusTextView.setText(model.get("status").toString());
                     holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
                     ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Mischka));
+
                     holder.startTextView.setVisibility(View.INVISIBLE);
                     break;
             }

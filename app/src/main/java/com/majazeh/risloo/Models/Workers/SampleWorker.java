@@ -86,6 +86,9 @@ public class SampleWorker extends Worker {
                 case "score":
                     score();
                     break;
+                case "getScore":
+                    getScore();
+                    break;
                 case "getScales":
                     getScales();
                     break;
@@ -100,9 +103,6 @@ public class SampleWorker extends Worker {
                     break;
                 case "getGeneral":
                     getGeneral();
-                    break;
-                case "getScore":
-                    getScore();
                     break;
             }
         }
@@ -423,58 +423,6 @@ public class SampleWorker extends Worker {
 
     }
 
-    private void getScore() {
-        Call<ResponseBody> call = sampleApi.getScore(token(), SampleRepository.sampleId);
-
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-                    if (response.isSuccessful()) {
-                        if (response.code() == 202) {
-                            Handler handler = new Handler(Looper.getMainLooper());
-                            handler.postDelayed(() -> getScore(), 3000);
-                        } else {
-                            JSONObject successBody = new JSONObject(response.body().string());
-                            JSONObject data = successBody.getJSONObject("data");
-
-                            FileManager.writeObjectToCache(context, data, "sampleDetail", SampleRepository.sampleId);
-
-                            ExceptionManager.getException(response.code(), successBody, true, "scores", "sample");
-                            SampleRepository.workStateSample.postValue(1);
-                        }
-                    } else {
-                        JSONObject errorBody = new JSONObject(response.errorBody().string());
-
-                        ExceptionManager.getException(response.code(), errorBody, true, "scores", "sample");
-                        SampleRepository.workStateSample.postValue(0);
-                    }
-                } catch (SocketTimeoutException e) {
-                    e.printStackTrace();
-
-                    ExceptionManager.getException(0, null, false, "SocketTimeoutException", "sample");
-                    SampleRepository.workStateSample.postValue(0);
-                } catch (IOException e) {
-                    e.printStackTrace();
-
-                    ExceptionManager.getException(0, null, false, "IOException", "sample");
-                    SampleRepository.workStateSample.postValue(0);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-
-                    ExceptionManager.getException(0, null, false, "JSONException", "sample");
-                    SampleRepository.workStateSample.postValue(0);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
-
-    }
-
     private void getScales() {
         try {
             Call<ResponseBody> call = sampleApi.getScales(token());
@@ -683,6 +631,58 @@ public class SampleWorker extends Worker {
             ExceptionManager.getException(0, null, false, "JSONException", "sample");
             SampleRepository.workStateSample.postValue(0);
         }
+    }
+
+    private void getScore() {
+        Call<ResponseBody> call = sampleApi.getScore(token(), SampleRepository.sampleId);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (response.isSuccessful()) {
+                        if (response.code() == 202) {
+                            Handler handler = new Handler(Looper.getMainLooper());
+                            handler.postDelayed(() -> getScore(), 3000);
+                        } else {
+                            JSONObject successBody = new JSONObject(response.body().string());
+                            JSONObject data = successBody.getJSONObject("data");
+
+                            FileManager.writeObjectToCache(context, data, "sampleDetail", SampleRepository.sampleId);
+
+                            ExceptionManager.getException(response.code(), successBody, true, "scores", "sample");
+                            SampleRepository.workStateSample.postValue(1);
+                        }
+                    } else {
+                        JSONObject errorBody = new JSONObject(response.errorBody().string());
+
+                        ExceptionManager.getException(response.code(), errorBody, true, "scores", "sample");
+                        SampleRepository.workStateSample.postValue(0);
+                    }
+                } catch (SocketTimeoutException e) {
+                    e.printStackTrace();
+
+                    ExceptionManager.getException(0, null, false, "SocketTimeoutException", "sample");
+                    SampleRepository.workStateSample.postValue(0);
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                    ExceptionManager.getException(0, null, false, "IOException", "sample");
+                    SampleRepository.workStateSample.postValue(0);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                    ExceptionManager.getException(0, null, false, "JSONException", "sample");
+                    SampleRepository.workStateSample.postValue(0);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+
     }
 
 }

@@ -81,6 +81,10 @@ public class SampleViewModel extends AndroidViewModel {
         repository.general(sampleId);
     }
 
+    public void scores(String sampleId) throws JSONException {
+        repository.scores(sampleId);
+    }
+
     /*
          ---------- Insert ----------
     */
@@ -214,6 +218,29 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
     /*
+         ---------- Urls ----------
+    */
+
+    public String getSvgScore() {
+        return repository.getSvgScore();
+
+    }
+
+    public String getPngScore() {
+        return repository.getPngScore();
+
+    }
+
+    public String getHtmlScore() {
+        return repository.getHtmlScore();
+    }
+
+    public String getPdfScore() {
+        return repository.getPdfScore();
+
+    }
+
+    /*
          ---------- Arrays ----------
     */
 
@@ -225,27 +252,4 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.getArchive();
     }
 
-
-    public String getHtmlScore() {
-       return repository.getHtmlScore();
-    }
-
-    public String getPdfScore() {
-        return repository.getPdfScore();
-
-    }
-
-    public String getPngScore() {
-        return repository.getPngScore();
-
-    }
-
-    public String getSvgScore() {
-        return repository.getSvgScore();
-
-    }
-
-    public void getScore(String sampleId) throws JSONException {
-        repository.getScore(sampleId);
-    }
 }
