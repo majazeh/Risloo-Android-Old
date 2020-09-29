@@ -179,29 +179,9 @@ public class DetailSampleActivity extends AppCompatActivity {
         componentCardView = findViewById(R.id.activity_detail_sample_component_cardView);
 
 
-        if (viewModel.getHtmlScore() != null){
-            htmlUrl = viewModel.getHtmlScore();
-            showScore = true;
-        }
-        if (viewModel.getPdfScore() != null){
-            pdfUrl = viewModel.getPdfScore();
-            showScore = true;
-        }
-        if (viewModel.getPngScore() != null){
-            pngUrl = viewModel.getPngScore();
-            Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultSquareImageView);
-            showScore = true;
-        }
-        if (viewModel.getSvgScore() != null){
-            svgUrl = viewModel.getSvgScore();
-            showScore = true;
-        }
-       if (showScore){
-           resultCardView.setVisibility(View.VISIBLE);
-           setButton(scoreTextView, false);
-       }
-    }
 
+
+    }
 
 
     private void detector() {
@@ -304,7 +284,6 @@ public class DetailSampleActivity extends AppCompatActivity {
             scaleTextView.setText(scaleTitle);
 
             serialTextView.setText(data.getString("id"));
-            viewModel.getScore(sampleId);
             switch (data.getString("status")) {
                 case "open":
                     statusTextView.setText(getResources().getString(R.string.DetailSampleStatusOpen));
@@ -328,6 +307,7 @@ public class DetailSampleActivity extends AppCompatActivity {
                     ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
                     setButton(scoreTextView, false);
                     setButton(closeTextView, false);
+                    doWork("score");
                     break;
                 case "closed":
                     statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
@@ -389,24 +369,24 @@ public class DetailSampleActivity extends AppCompatActivity {
             }
 
 
-            if (viewModel.getHtmlScore() != null){
+            if (viewModel.getHtmlScore() != null) {
                 htmlUrl = viewModel.getHtmlScore();
                 showScore = true;
             }
-            if (viewModel.getPdfScore() != null){
+            if (viewModel.getPdfScore() != null) {
                 pdfUrl = viewModel.getPdfScore();
                 showScore = true;
             }
-            if (viewModel.getPngScore() != null){
+            if (viewModel.getPngScore() != null) {
                 pngUrl = viewModel.getPngScore();
                 Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultSquareImageView);
                 showScore = true;
             }
-            if (viewModel.getSvgScore() != null){
+            if (viewModel.getSvgScore() != null) {
                 svgUrl = viewModel.getSvgScore();
                 showScore = true;
             }
-            if (showScore){
+            if (showScore) {
                 resultCardView.setVisibility(View.VISIBLE);
                 setButton(scoreTextView, false);
             }
@@ -441,7 +421,7 @@ public class DetailSampleActivity extends AppCompatActivity {
                 case "score":
                     loadingCardView.setVisibility(View.VISIBLE);
                     loadingCardView.setAnimation(animFadeIn);
-                    viewModel.score(sampleId);
+                    viewModel.getScore(sampleId);
                     break;
                 case "close":
                     progressDialog.show();
@@ -600,26 +580,25 @@ public class DetailSampleActivity extends AppCompatActivity {
                     break;
                 case "getScore":
                     if (integer == 1) {
-                        Log.e("aaa", String.valueOf(viewModel.readSampleDetailFromCache(sampleId)));
                         setData();
 
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer != -1) {
 
-                            if (integer == 0) {
+                        if (integer == 0) {
 
-                                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                            } else if (integer == -2) {
-                                // General Detail is Empty And Connection
+                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                        } else if (integer == -2) {
+                            // General Detail is Empty And Connection
 
-                                loadingLayout.setVisibility(View.GONE);
-                                retryLayout.setVisibility(View.VISIBLE);
-                                mainLayout.setVisibility(View.GONE);
+                            loadingLayout.setVisibility(View.GONE);
+                            retryLayout.setVisibility(View.VISIBLE);
+                            mainLayout.setVisibility(View.GONE);
 
-                                setRetryLayout("connection");
+                            setRetryLayout("connection");
 
-                                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                            }
+                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                        }
 
                     }
                     break;
