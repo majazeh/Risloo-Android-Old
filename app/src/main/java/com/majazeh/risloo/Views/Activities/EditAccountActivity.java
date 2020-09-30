@@ -450,7 +450,7 @@ public class EditAccountActivity extends AppCompatActivity {
                     if (exceptionToast.equals("")) {
                         exceptionToast = ExceptionManager.errors.getString("gender");
                     } else {
-                        exceptionToast += ("و" + ExceptionManager.errors.getString("gender"));
+                        exceptionToast += (" و " + ExceptionManager.errors.getString("gender"));
                     }
                     genderException = true;
                 }
@@ -459,7 +459,7 @@ public class EditAccountActivity extends AppCompatActivity {
                     if (exceptionToast.equals("")) {
                         exceptionToast = ExceptionManager.errors.getString("birthday");
                     } else {
-                        exceptionToast += ("و" + ExceptionManager.errors.getString("birthday"));
+                        exceptionToast += (" و " + ExceptionManager.errors.getString("birthday"));
                     }
                     birthdayException = true;
                 }

@@ -340,7 +340,7 @@ public class CallUsActivity extends AppCompatActivity {
                     if (exceptionToast.equals("")) {
                         exceptionToast = ExceptionManager.errors.getString("mobile");
                     } else {
-                        exceptionToast += ("و" + ExceptionManager.errors.getString("mobile"));
+                        exceptionToast += (" و " + ExceptionManager.errors.getString("mobile"));
                     }
                 }
                 if (!ExceptionManager.errors.isNull("message")) {
@@ -348,7 +348,7 @@ public class CallUsActivity extends AppCompatActivity {
                     if (exceptionToast.equals("")) {
                         exceptionToast = ExceptionManager.errors.getString("message");
                     } else {
-                        exceptionToast += ("و" + ExceptionManager.errors.getString("message"));
+                        exceptionToast += (" و " + ExceptionManager.errors.getString("message"));
                     }
                 }
                 Toast.makeText(this, "" + exceptionToast, Toast.LENGTH_SHORT).show();

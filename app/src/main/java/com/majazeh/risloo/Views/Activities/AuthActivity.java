@@ -432,7 +432,7 @@ public class AuthActivity extends AppCompatActivity {
                             if (exceptionToast.equals("")) {
                                 exceptionToast = ExceptionManager.errors.getString("mobile");
                             } else {
-                                exceptionToast += ("و" + ExceptionManager.errors.getString("mobile"));
+                                exceptionToast += (" و " + ExceptionManager.errors.getString("mobile"));
                             }
                         }
                         if (!ExceptionManager.errors.isNull("gender")) {
@@ -440,7 +440,7 @@ public class AuthActivity extends AppCompatActivity {
                             if (exceptionToast.equals("")) {
                                 exceptionToast = ExceptionManager.errors.getString("gender");
                             } else {
-                                exceptionToast += ("و" + ExceptionManager.errors.getString("gender"));
+                                exceptionToast += (" و " + ExceptionManager.errors.getString("gender"));
                             }
                             registerFragment.genderException = true;
                         }
@@ -449,7 +449,7 @@ public class AuthActivity extends AppCompatActivity {
                             if (exceptionToast.equals("")) {
                                 exceptionToast = ExceptionManager.errors.getString("password");
                             } else {
-                                exceptionToast += ("و" + ExceptionManager.errors.getString("password"));
+                                exceptionToast += (" و " + ExceptionManager.errors.getString("password"));
                             }
                         }
                         Toast.makeText(this, "" + exceptionToast, Toast.LENGTH_SHORT).show();

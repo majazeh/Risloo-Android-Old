@@ -674,7 +674,7 @@ public class EditCenterActivity extends AppCompatActivity {
                     if (exceptionToast.equals("")) {
                         exceptionToast = ExceptionManager.errors.getString("title");
                     } else {
-                        exceptionToast += ("و" + ExceptionManager.errors.getString("title"));
+                        exceptionToast += (" و " + ExceptionManager.errors.getString("title"));
                     }
                 }
                 if (!ExceptionManager.errors.isNull("description")) {
@@ -682,7 +682,7 @@ public class EditCenterActivity extends AppCompatActivity {
                     if (exceptionToast.equals("")) {
                         exceptionToast = ExceptionManager.errors.getString("description");
                     } else {
-                        exceptionToast += ("و" + ExceptionManager.errors.getString("description"));
+                        exceptionToast += (" و " + ExceptionManager.errors.getString("description"));
                     }
                 }
                 if (!ExceptionManager.errors.isNull("address")) {
@@ -690,7 +690,7 @@ public class EditCenterActivity extends AppCompatActivity {
                     if (exceptionToast.equals("")) {
                         exceptionToast = ExceptionManager.errors.getString("address");
                     } else {
-                        exceptionToast += ("و" + ExceptionManager.errors.getString("address"));
+                        exceptionToast += (" و " + ExceptionManager.errors.getString("address"));
                     }
                 }
                 if (!ExceptionManager.errors.isNull("phone_numbers")) {
@@ -698,7 +698,7 @@ public class EditCenterActivity extends AppCompatActivity {
                     if (exceptionToast.equals("")) {
                         exceptionToast = ExceptionManager.errors.getString("phone_numbers");
                     } else {
-                        exceptionToast += ("و" + ExceptionManager.errors.getString("phone_numbers"));
+                        exceptionToast += (" و " + ExceptionManager.errors.getString("phone_numbers"));
                     }
                     phoneException = true;
                 }

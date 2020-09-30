@@ -921,7 +921,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     if (exceptionToast.equals("")) {
                         exceptionToast = ExceptionManager.errors.getString("room_id");
                     } else {
-                        exceptionToast += ("و" + ExceptionManager.errors.getString("room_id"));
+                        exceptionToast += (" و " + ExceptionManager.errors.getString("room_id"));
                     }
                     roomException = true;
                 }
@@ -930,7 +930,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     if (exceptionToast.equals("")) {
                         exceptionToast = ExceptionManager.errors.getString("case_id");
                     } else {
-                        exceptionToast += ("و" + ExceptionManager.errors.getString("case_id"));
+                        exceptionToast += (" و " + ExceptionManager.errors.getString("case_id"));
                     }
                     caseException = true;
                 }
@@ -940,7 +940,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         if (exceptionToast.equals("")) {
                             exceptionToast = ExceptionManager.errors.getString("client_id");
                         } else {
-                            exceptionToast += ("و" + ExceptionManager.errors.getString("client_id"));
+                            exceptionToast += (" و " + ExceptionManager.errors.getString("client_id"));
                         }
                         roomReferenceException = true;
                     } else if (typeTabLayout.getSelectedTabPosition() == 1) {
@@ -948,7 +948,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         if (exceptionToast.equals("")) {
                             exceptionToast = ExceptionManager.errors.getString("client_id");
                         } else {
-                            exceptionToast += ("و" + ExceptionManager.errors.getString("client_id"));
+                            exceptionToast += (" و " + ExceptionManager.errors.getString("client_id"));
                         }
                         caseReferenceException = true;
                     }
@@ -958,7 +958,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     if (exceptionToast.equals("")) {
                         exceptionToast = ExceptionManager.errors.getString("count");
                     } else {
-                        exceptionToast += ("و" + ExceptionManager.errors.getString("count"));
+                        exceptionToast += (" و " + ExceptionManager.errors.getString("count"));
                     }
                 }
                 Toast.makeText(this, "" + exceptionToast, Toast.LENGTH_SHORT).show();
