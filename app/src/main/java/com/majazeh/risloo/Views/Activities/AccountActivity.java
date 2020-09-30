@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -152,6 +153,20 @@ public class AccountActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v -> {
             finish();
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
+        });
+
+        avatarImageView.setOnClickListener(v -> {
+            avatarImageView.setClickable(false);
+            handler.postDelayed(() -> avatarImageView.setClickable(true), 300);
+
+            if (!viewModel.getName().equals("") && !viewModel.getAvatar().equals("")) {
+                Intent intent = (new Intent(this, ImageActivity.class));
+
+                intent.putExtra("title", viewModel.getName());
+                intent.putExtra("image", viewModel.getAvatar());
+
+                startActivity(intent);
+            }
         });
 
         editTextView.setOnClickListener(v -> {

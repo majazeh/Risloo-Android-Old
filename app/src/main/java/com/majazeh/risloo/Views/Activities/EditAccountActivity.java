@@ -129,12 +129,13 @@ public class EditAccountActivity extends AppCompatActivity {
             avatarCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_solid));
         } else {
             avatar = viewModel.getAvatar();
-            Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarCircleImageView);
+            Picasso.get().load(avatar).placeholder(R.color.Solitude).into(avatarCircleImageView);
         }
         avatarImageView = findViewById(R.id.activity_edit_account_avatar_imageView);
 
         nameEditText = findViewById(R.id.activity_edit_account_name_editText);
-        nameEditText.setText(viewModel.getName());
+        name = viewModel.getName();
+        nameEditText.setText(name);
 
         genderTabLayout = findViewById(R.id.activity_edit_account_gender_tabLayout);
         if (viewModel.getGender().equals("مرد")) {
@@ -198,12 +199,17 @@ public class EditAccountActivity extends AppCompatActivity {
         });
 
         avatarCircleImageView.setOnClickListener(v -> {
-            Intent intent = (new Intent(this, ImageActivity.class));
+            avatarCircleImageView.setClickable(false);
+            handler.postDelayed(() -> avatarCircleImageView.setClickable(true), 300);
 
-            intent.putExtra("title", viewModel.getName());
-            intent.putExtra("image", String.valueOf(R.drawable.ic_user_circle_solid));
+            if (!name.equals("") && !avatar.equals("")) {
+                Intent intent = (new Intent(this, ImageActivity.class));
 
-            startActivity(intent);
+                intent.putExtra("title", viewModel.getName());
+                intent.putExtra("image", viewModel.getAvatar());
+
+                startActivity(intent);
+            }
         });
 
         avatarImageView.setOnClickListener(v -> {
