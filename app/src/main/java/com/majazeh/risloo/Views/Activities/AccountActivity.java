@@ -216,7 +216,10 @@ public class AccountActivity extends AppCompatActivity {
         AuthRepository.workState.observe((LifecycleOwner) this, integer -> {
             if (AuthRepository.work.equals("logOut")) {
                 if (integer == 1) {
-                    setResult(RESULT_OK, null);
+                    Intent intent=new Intent();
+                    intent.putExtra("RESULT_STRING", AuthRepository.work);
+
+                    setResult(RESULT_OK, intent);
                     finish();
 
                     progressDialog.dismiss();
@@ -254,6 +257,11 @@ public class AccountActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
+                Intent intent=new Intent();
+                intent.putExtra("RESULT_STRING", AuthRepository.work);
+
+                setResult(RESULT_OK, intent);
+
                 try {
                     adapter.setAccount(viewModel.getAll());
                 } catch (JSONException e) {

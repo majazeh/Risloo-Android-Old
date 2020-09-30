@@ -497,16 +497,26 @@ public class AuthActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
-                titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
+                String resultString = Objects.requireNonNull(data).getStringExtra("RESULT_STRING");
 
-                avatarImageView.setVisibility(View.GONE);
+                if (resultString.equals("logOut")) {
+                    titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
 
-                navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(false);
-                navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
+                    avatarImageView.setVisibility(View.GONE);
 
-                SerialFragment fragment = ((SerialFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
-                if (fragment != null) {
-                    fragment.setText();
+                    navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(false);
+                    navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
+
+                    SerialFragment fragment = ((SerialFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                    if (fragment != null) {
+                        fragment.setText();
+                    }
+                } else if (resultString.equals("edit")) {
+                    if (viewModel.getAvatar().equals("")) {
+                        avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_light));
+                    } else {
+                        Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarImageView);
+                    }
                 }
             }
         }
