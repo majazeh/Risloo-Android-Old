@@ -329,18 +329,29 @@ public class CallUsActivity extends AppCompatActivity {
     private void observeException() {
         if (ExceptionManager.current_exception.equals("callUs")) {
             try {
+                String exceptionToast = "";
+
                 if (!ExceptionManager.errors.isNull("name")) {
                     nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
+                    exceptionToast = ExceptionManager.errors.getString("name");
                 }
                 if (!ExceptionManager.errors.isNull("mobile")) {
                     mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
+                    if (exceptionToast.equals("")) {
+                        exceptionToast = ExceptionManager.errors.getString("mobile");
+                    } else {
+                        exceptionToast += ("و" + ExceptionManager.errors.getString("mobile"));
+                    }
                 }
                 if (!ExceptionManager.errors.isNull("message")) {
                     messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("message"), Toast.LENGTH_SHORT).show();
+                    if (exceptionToast.equals("")) {
+                        exceptionToast = ExceptionManager.errors.getString("message");
+                    } else {
+                        exceptionToast += ("و" + ExceptionManager.errors.getString("message"));
+                    }
                 }
+                Toast.makeText(this, "" + exceptionToast, Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

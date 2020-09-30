@@ -662,28 +662,47 @@ public class EditCenterActivity extends AppCompatActivity {
     private void observeException() {
         if (ExceptionManager.current_exception.equals("edit")) {
             try {
+                String exceptionToast = "";
+
                 if (!ExceptionManager.errors.isNull("manager_id")) {
                     managerFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("manager_id"), Toast.LENGTH_SHORT).show();
+                    exceptionToast = ExceptionManager.errors.getString("manager_id");
                     managerException = true;
                 }
                 if (!ExceptionManager.errors.isNull("title")) {
                     titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("title"), Toast.LENGTH_SHORT).show();
+                    if (exceptionToast.equals("")) {
+                        exceptionToast = ExceptionManager.errors.getString("title");
+                    } else {
+                        exceptionToast += ("و" + ExceptionManager.errors.getString("title"));
+                    }
                 }
                 if (!ExceptionManager.errors.isNull("description")) {
                     descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("description"), Toast.LENGTH_SHORT).show();
+                    if (exceptionToast.equals("")) {
+                        exceptionToast = ExceptionManager.errors.getString("description");
+                    } else {
+                        exceptionToast += ("و" + ExceptionManager.errors.getString("description"));
+                    }
                 }
                 if (!ExceptionManager.errors.isNull("address")) {
                     addressEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("address"), Toast.LENGTH_SHORT).show();
+                    if (exceptionToast.equals("")) {
+                        exceptionToast = ExceptionManager.errors.getString("address");
+                    } else {
+                        exceptionToast += ("و" + ExceptionManager.errors.getString("address"));
+                    }
                 }
                 if (!ExceptionManager.errors.isNull("phone_numbers")) {
                     phoneLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("phone_numbers"), Toast.LENGTH_SHORT).show();
+                    if (exceptionToast.equals("")) {
+                        exceptionToast = ExceptionManager.errors.getString("phone_numbers");
+                    } else {
+                        exceptionToast += ("و" + ExceptionManager.errors.getString("phone_numbers"));
+                    }
                     phoneException = true;
                 }
+                Toast.makeText(this, "" + exceptionToast, Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

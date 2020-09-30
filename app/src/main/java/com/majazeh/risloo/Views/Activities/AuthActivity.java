@@ -421,23 +421,38 @@ public class AuthActivity extends AppCompatActivity {
                 RegisterFragment registerFragment = ((RegisterFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
                 if (registerFragment != null) {
                     try {
+                        String exceptionToast = "";
+
                         if (!ExceptionManager.errors.isNull("name")) {
                             registerFragment.nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
+                            exceptionToast = ExceptionManager.errors.getString("name");
                         }
                         if (!ExceptionManager.errors.isNull("mobile")) {
                             registerFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
+                            if (exceptionToast.equals("")) {
+                                exceptionToast = ExceptionManager.errors.getString("mobile");
+                            } else {
+                                exceptionToast += ("و" + ExceptionManager.errors.getString("mobile"));
+                            }
                         }
                         if (!ExceptionManager.errors.isNull("gender")) {
                             registerFragment.genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
+                            if (exceptionToast.equals("")) {
+                                exceptionToast = ExceptionManager.errors.getString("gender");
+                            } else {
+                                exceptionToast += ("و" + ExceptionManager.errors.getString("gender"));
+                            }
                             registerFragment.genderException = true;
                         }
                         if (!ExceptionManager.errors.isNull("password")) {
                             registerFragment.passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("password"), Toast.LENGTH_SHORT).show();
+                            if (exceptionToast.equals("")) {
+                                exceptionToast = ExceptionManager.errors.getString("password");
+                            } else {
+                                exceptionToast += ("و" + ExceptionManager.errors.getString("password"));
+                            }
                         }
+                        Toast.makeText(this, "" + exceptionToast, Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

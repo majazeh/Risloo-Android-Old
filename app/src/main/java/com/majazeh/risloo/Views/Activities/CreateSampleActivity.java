@@ -909,36 +909,59 @@ public class CreateSampleActivity extends AppCompatActivity {
     private void observeException() {
         if (ExceptionManager.current_exception.equals("create")) {
             try {
+                String exceptionToast = "";
+
                 if (!ExceptionManager.errors.isNull("scale_id")) {
                     scaleLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("scale_id"), Toast.LENGTH_SHORT).show();
+                    exceptionToast = ExceptionManager.errors.getString("scale_id");
                     scaleException = true;
                 }
                 if (!ExceptionManager.errors.isNull("room_id")) {
                     roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
+                    if (exceptionToast.equals("")) {
+                        exceptionToast = ExceptionManager.errors.getString("room_id");
+                    } else {
+                        exceptionToast += ("و" + ExceptionManager.errors.getString("room_id"));
+                    }
                     roomException = true;
                 }
                 if (!ExceptionManager.errors.isNull("case_id")) {
                     caseFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
+                    if (exceptionToast.equals("")) {
+                        exceptionToast = ExceptionManager.errors.getString("case_id");
+                    } else {
+                        exceptionToast += ("و" + ExceptionManager.errors.getString("case_id"));
+                    }
                     caseException = true;
                 }
                 if (!ExceptionManager.errors.isNull("client_id")) {
                     if (typeTabLayout.getSelectedTabPosition() == 0) {
                         roomReferenceLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                        Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
+                        if (exceptionToast.equals("")) {
+                            exceptionToast = ExceptionManager.errors.getString("client_id");
+                        } else {
+                            exceptionToast += ("و" + ExceptionManager.errors.getString("client_id"));
+                        }
                         roomReferenceException = true;
                     } else if (typeTabLayout.getSelectedTabPosition() == 1) {
                         caseReferenceRecyclerView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                        Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
+                        if (exceptionToast.equals("")) {
+                            exceptionToast = ExceptionManager.errors.getString("client_id");
+                        } else {
+                            exceptionToast += ("و" + ExceptionManager.errors.getString("client_id"));
+                        }
                         caseReferenceException = true;
                     }
                 }
                 if (!ExceptionManager.errors.isNull("count")) {
                     countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("count"), Toast.LENGTH_SHORT).show();
+                    if (exceptionToast.equals("")) {
+                        exceptionToast = ExceptionManager.errors.getString("count");
+                    } else {
+                        exceptionToast += ("و" + ExceptionManager.errors.getString("count"));
+                    }
                 }
+                Toast.makeText(this, "" + exceptionToast, Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

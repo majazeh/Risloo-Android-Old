@@ -439,20 +439,31 @@ public class EditAccountActivity extends AppCompatActivity {
     private void observeException() {
         if (ExceptionManager.current_exception.equals("edit")) {
             try {
+                String exceptionToast = "";
+
                 if (!ExceptionManager.errors.isNull("name")) {
                     nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("name"), Toast.LENGTH_SHORT).show();
+                    exceptionToast = ExceptionManager.errors.getString("name");
                 }
                 if (!ExceptionManager.errors.isNull("gender")) {
                     genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("gender"), Toast.LENGTH_SHORT).show();
+                    if (exceptionToast.equals("")) {
+                        exceptionToast = ExceptionManager.errors.getString("gender");
+                    } else {
+                        exceptionToast += ("و" + ExceptionManager.errors.getString("gender"));
+                    }
                     genderException = true;
                 }
                 if (!ExceptionManager.errors.isNull("birthday")) {
                     birthdayTextView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    Toast.makeText(this, "" + ExceptionManager.errors.getString("birthday"), Toast.LENGTH_SHORT).show();
+                    if (exceptionToast.equals("")) {
+                        exceptionToast = ExceptionManager.errors.getString("birthday");
+                    } else {
+                        exceptionToast += ("و" + ExceptionManager.errors.getString("birthday"));
+                    }
                     birthdayException = true;
                 }
+                Toast.makeText(this, "" + exceptionToast, Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
