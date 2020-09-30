@@ -648,8 +648,7 @@ public class SampleWorker extends Worker {
                             JSONObject successBody = new JSONObject(response.body().string());
                             JSONObject data = successBody.getJSONObject("data");
 
-                            FileManager.writeObjectToCache(context, data, "sampleDetail", SampleRepository.sampleId);
-
+                            FileManager.writeObjectToCache(context, data, "sampleDetailFiles", SampleRepository.sampleId);
                             ExceptionManager.getException(response.code(), successBody, true, "scores", "sample");
                             SampleRepository.workStateSample.postValue(1);
                         }

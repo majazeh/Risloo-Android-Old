@@ -152,7 +152,7 @@
     <string name="SamplesStatusClosed">بسته شده</string>
     <string name="SamplesStatusScoring">نمره گذاری</string>
     <string name="SamplesStatusCreatingFiles">ساخت فایل ها</string>
-    <string name="SamplesStatusDone">نمام شده</string>
+    <string name="SamplesStatusDone">تمام شده</string>
 
     <string name="SamplesStart">شروع نمونه</string>
 
@@ -194,7 +194,7 @@
     <string name="DetailSampleStatusClosed">بسته شده</string>
     <string name="DetailSampleStatusScoring">نمره گذاری</string>
     <string name="DetailSampleStatusCreatingFiles">ساخت فایل ها</string>
-    <string name="DetailSampleStatusDone">نمام شده</string>
+    <string name="DetailSampleStatusDone">تمام شده</string>
 
     <string name="DetailSampleClose">بستن آزمون</string>
     <string name="DetailSampleScore">نمره دهی</string>

@@ -22,6 +22,7 @@ import android.os.Handler;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -61,7 +62,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
     // Vars
     private String sampleId, scaleTitle, svgUrl, pngUrl, htmlUrl, pdfUrl;
-    private boolean showLoading = false;
+    private boolean showLoading = false, showCardView = false;
 
     // Objects
     private Handler handler;
@@ -344,21 +345,29 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                     if (viewModel.getSvgScore() != null) {
                         svgUrl = viewModel.getSvgScore();
+                        showCardView = true;
                     }
                     if (viewModel.getPngScore() != null) {
                         pngUrl = viewModel.getPngScore();
                         Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultSquareImageView);
+                        showCardView = true;
                     }
                     if (viewModel.getHtmlScore() != null) {
                         htmlUrl = viewModel.getHtmlScore();
+                        showCardView = true;
                     }
                     if (viewModel.getPdfScore() != null) {
                         pdfUrl = viewModel.getPdfScore();
+                        showCardView = true;
                     }
 
-                    resultCardView.setVisibility(View.VISIBLE);
+                    if (showCardView) {
+                        resultCardView.setVisibility(View.VISIBLE);
+                        showLoading = false;
+                    } else {
+                        showLoading = true;
+                    }
 
-                    showLoading = false;
                     break;
                 default:
                     statusTextView.setText(data.getString("status"));
@@ -370,21 +379,29 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                     if (viewModel.getSvgScore() != null) {
                         svgUrl = viewModel.getSvgScore();
+                        showCardView = true;
                     }
                     if (viewModel.getPngScore() != null) {
                         pngUrl = viewModel.getPngScore();
                         Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultSquareImageView);
+                        showCardView = true;
                     }
                     if (viewModel.getHtmlScore() != null) {
                         htmlUrl = viewModel.getHtmlScore();
+                        showCardView = true;
                     }
                     if (viewModel.getPdfScore() != null) {
                         pdfUrl = viewModel.getPdfScore();
+                        showCardView = true;
                     }
 
-                    resultCardView.setVisibility(View.VISIBLE);
+                    if (showCardView) {
+                        resultCardView.setVisibility(View.VISIBLE);
+                        showLoading = false;
+                    } else {
+                        showLoading = true;
+                    }
 
-                    showLoading = false;
                     break;
             }
 
@@ -463,7 +480,7 @@ public class DetailSampleActivity extends AppCompatActivity {
                 case "score":
                     loadingCardView.setVisibility(View.VISIBLE);
                     loadingCardView.setAnimation(animFadeIn);
-                    viewModel.scores(sampleId);
+                    viewModel.score(sampleId);
                     break;
                 case "close":
                     progressDialog.show();
@@ -487,9 +504,9 @@ public class DetailSampleActivity extends AppCompatActivity {
                         retryLayout.setVisibility(View.GONE);
                         mainLayout.setVisibility(View.VISIBLE);
 
-                        setData();
-
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+
+                        setData();
                     } else if (integer != -1) {
                         if (viewModel.readSampleDetailFromCache(sampleId) == null) {
                             if (integer == 0) {
@@ -520,9 +537,9 @@ public class DetailSampleActivity extends AppCompatActivity {
                             retryLayout.setVisibility(View.GONE);
                             mainLayout.setVisibility(View.VISIBLE);
 
-                            setData();
-
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+
+                            setData();
                         }
                     }
                     break;
@@ -536,9 +553,9 @@ public class DetailSampleActivity extends AppCompatActivity {
                     if (integer == 1) {
                         // Reset Data
 
-                        setData();
-
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+
+                        launchProcess("getGeneral");
                     } else if (integer != -1) {
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
                         statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
@@ -555,18 +572,6 @@ public class DetailSampleActivity extends AppCompatActivity {
                 case "score":
                     if (integer == 1) {
                         setResult(RESULT_OK, null);
-
-                        try {
-                            JSONObject jsonObject = FileManager.readObjectFromCache(this, "sampleDetail", sampleId);
-                            Objects.requireNonNull(jsonObject).put("status", "done");
-                            FileManager.writeObjectToCache(this, jsonObject, "sampleDetail", sampleId);
-
-                            setData();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer == 0) {
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
                         statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));

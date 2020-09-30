@@ -516,8 +516,8 @@ public class SampleRepository extends MainRepository {
     */
 
     private String getUrlScore(String type) {
-        if (FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetail", SampleRepository.sampleId) != null) {
-            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetail", SampleRepository.sampleId);
+        if (FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetailFiles", SampleRepository.sampleId) != null) {
+            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetailFiles", SampleRepository.sampleId);
             try {
                 JSONObject profiles = jsonObject.getJSONObject("profiles");
                 if (profiles.has(type)) {
