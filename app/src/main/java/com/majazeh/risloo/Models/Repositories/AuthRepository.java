@@ -40,6 +40,9 @@ public class AuthRepository extends MainRepository {
     public static String birthday = "";
     public static String password = "";
     public static String code = "";
+    public static String titleDoc = "";
+    public static String descriptionDoc = "";
+    public static String fileDoc = "";
 
     public AuthRepository(Application application) throws JSONException {
         super(application);
@@ -122,6 +125,16 @@ public class AuthRepository extends MainRepository {
         work = "logOut";
         workState.setValue(-1);
         workManager("logOut");
+    }
+
+
+    public void sendDocument(String title, String description, String filePath) throws JSONException {
+        titleDoc = title;
+        descriptionDoc = description;
+        fileDoc = filePath;
+        work = "sendDoc";
+        workState.setValue(-1);
+        workManager("sendDoc");
     }
 
     /*

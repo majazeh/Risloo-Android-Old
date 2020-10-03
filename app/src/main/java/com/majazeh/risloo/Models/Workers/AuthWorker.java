@@ -2,23 +2,32 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.majazeh.risloo.Models.Apis.AuthApi;
 import com.majazeh.risloo.Models.Generators.RetroGenerator;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.SocketTimeoutException;
 import java.util.HashMap;
 import java.util.Objects;
@@ -85,6 +94,9 @@ public class AuthWorker extends Worker {
                     break;
                 case "logOut":
                     logOut();
+                    break;
+                case "sendDoc":
+                    sendDocument();
                     break;
             }
         }
@@ -441,7 +453,7 @@ public class AuthWorker extends Worker {
 
                 FileManager.writeObjectToCache(context, new JSONObject().put("data", data.getJSONArray("centers")), "centers", "my");
 
-                if (data.has("userId"))
+                if (data.has("id"))
                     editor.putString("userId", data.getString("id"));
                 else
                     editor.putString("userId", "null");
@@ -555,45 +567,31 @@ public class AuthWorker extends Worker {
     }
 
     private void avatar() {
-        try {
-            File file = new File(context.getCacheDir(), "avatar.png");
-            RequestBody mFile = RequestBody.create(MediaType.parse("image.png/*"), file);
-            MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("avatar", file.getName(), mFile);
 
-            HashMap hashMap = new HashMap();
-            hashMap.put("avatar", file);
+        File file = new File(context.getCacheDir(), "avatar");
 
-            Call<ResponseBody> call = authApi.avatar(token(), sharedPreferences.getString("userId", ""), fileToUpload);
+        Log.e("file", String.valueOf(sharedPreferences.getString("userId", "")));
+        AndroidNetworking.upload("https://bapi.risloo.ir/api/users/"+ sharedPreferences.getString("userId", "") + "/avatar")
+                .addHeaders("Authorization", token()) // posting any type of file
+                .addMultipartFile("avatar", file)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("response", String.valueOf(response));
+                        // do anything with response
+                    }
+                    @Override
+                    public void onError(ANError error) {
+                        // handle error
+                        Log.e("error", String.valueOf(error.getErrorBody()));
 
-            Response<ResponseBody> bodyResponse = call.execute();
-            if (bodyResponse.isSuccessful()) {
-                JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
+                        ExceptionManager.getException(0, null, false, "IOException", "auth");
+                        AuthRepository.workState.postValue(0);
+                    }
+    });
 
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "avatar", "auth");
-                AuthRepository.workState.postValue(1);
-            } else {
-                JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
-
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "avatar", "auth");
-                AuthRepository.workState.postValue(0);
-            }
-
-        } catch (SocketTimeoutException e) {
-            e.printStackTrace();
-
-            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "auth");
-            AuthRepository.workState.postValue(0);
-        } catch (JSONException e) {
-            e.printStackTrace();
-
-            ExceptionManager.getException(0, null, false, "JSONException", "auth");
-            AuthRepository.workState.postValue(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            ExceptionManager.getException(0, null, false, "IOException", "auth");
-            AuthRepository.workState.postValue(0);
-        }
     }
 
     private void logOut() {
@@ -640,6 +638,38 @@ public class AuthWorker extends Worker {
             ExceptionManager.getException(0, null, false, "IOException", "auth");
             AuthRepository.workState.postValue(0);
         }
+    }
+
+    public void sendDocument(){
+
+        File file = new File(AuthRepository.fileDoc);
+            Log.e("test", context.getFilesDir().getAbsolutePath());
+        AndroidNetworking.upload("https://bapi.risloo.ir/api/documents")
+                .addHeaders("Authorization", token()) // posting any type of file
+                .addMultipartFile("attachment", file)
+                .addMultipartParameter("title", AuthRepository.titleDoc)
+                .addMultipartParameter("description", AuthRepository.descriptionDoc)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("response", String.valueOf(response));
+                        AuthRepository.workState.postValue(1);
+                        // do anything with response
+                    }
+                    @Override
+                    public void onError(ANError error) {
+                        // handle error
+                        Log.e("error", String.valueOf(error.getErrorBody()));
+                        Log.e("error", String.valueOf(error.getResponse()));
+                        Log.e("error", String.valueOf(error.getErrorCode()));
+                        Log.e("error", String.valueOf(error));
+
+                        ExceptionManager.getException(0, null, false, "IOException", "auth");
+                        AuthRepository.workState.postValue(0);
+                    }
+                });
     }
 
 }

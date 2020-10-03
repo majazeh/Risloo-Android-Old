@@ -119,6 +119,7 @@ public class EditAccountActivity extends AppCompatActivity {
         intentCaller = new IntentCaller();
 
         imageDialog = new ImageDialog(this);
+        imageDialog.type("editAccount");
 
         handler = new Handler();
 
@@ -618,7 +619,7 @@ public class EditAccountActivity extends AppCompatActivity {
     }
 
     public void bitmapToFileConverter() {
-        File file = new File(getApplicationContext().getCacheDir(), "avatar.png");
+        File file = new File(getApplicationContext().getCacheDir(), "avatar");
         try {
             file.createNewFile();
 

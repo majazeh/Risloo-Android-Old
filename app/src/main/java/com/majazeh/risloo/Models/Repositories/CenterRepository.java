@@ -72,7 +72,7 @@ public class CenterRepository extends MainRepository {
         workManager("request");
     }
 
-    public void create(String type, String manager, String avatar, String title, String address, String description, ArrayList phones) throws JSONException {
+    public void create(String type, String manager, String avatar, String title, String address, String description, ArrayList<String> phones) throws JSONException {
         if (!type.equals(""))
             CenterRepository.createData.put("type", type);
         if (!manager.equals(""))

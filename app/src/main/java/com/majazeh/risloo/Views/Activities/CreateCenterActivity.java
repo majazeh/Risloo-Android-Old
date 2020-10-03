@@ -17,8 +17,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -46,6 +49,7 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.BitmapController;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -56,8 +60,12 @@ import com.majazeh.risloo.Views.Dialogs.ImageDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,7 +81,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
     // Vars
     private int managerPosition = 0;
-    private String type = "personal_clinic", manager = "", title = "", description = "", address = "", imageFilePath = "";
+    private String type = "personal_clinic", manager = "", title = "", description = "", address = "", imageFilePath = "", avatar = "";
     private boolean typeException = false, managerException = false, phoneException =false, managerSelected = false;
     public boolean galleryPermissionsGranted = false, cameraPermissionsGranted = false;
 
@@ -81,6 +89,7 @@ public class CreateCenterActivity extends AppCompatActivity {
     private IntentCaller intentCaller;
     private ImageDialog imageDialog;
     private Handler handler;
+    private Bitmap selectedImage;
 
     // Widgets
     private Toolbar toolbar;
@@ -124,6 +133,7 @@ public class CreateCenterActivity extends AppCompatActivity {
         intentCaller = new IntentCaller();
 
         imageDialog = new ImageDialog(this);
+        imageDialog.type("createCenter");
 
         handler = new Handler();
 
@@ -616,7 +626,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
             try {
                 progressDialog.show();
-                viewModel.create(type, manager, "", "", address, description, phoneAdapter.getValuesId());
+                viewModel.create(type, manager, avatar, "", address, description, phoneAdapter.getValuesId());
                 observeWork();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -628,7 +638,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
             try {
                 progressDialog.show();
-                viewModel.create(type, manager, "", title, address, description, phoneAdapter.getValuesId());
+                viewModel.create(type, manager, avatar, title, address, description, phoneAdapter.getValuesId());
                 observeWork();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -856,15 +866,74 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
+                try {
+                    Uri imageUri = Objects.requireNonNull(data).getData();
+                    InputStream imageStream = getContentResolver().openInputStream(Objects.requireNonNull(imageUri));
 
+                    avatarTextView.setText(imageUri.getPath());
+
+                    selectedImage = BitmapFactory.decodeStream(imageStream);
+
+
+                    avatar = BitmapController.encodeToBase64(selectedImage);
+                    bitmapToFileConverter();
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
             } else if (requestCode == 200) {
+                File imageFile = new File(imageFilePath);
+                intentCaller.mediaScan(this, imageFile);
 
+                avatarTextView.setText(imageFilePath);
+                int targetWidth = 100;
+                int targetHeight = 100;
+
+                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+                bmOptions.inJustDecodeBounds = true;
+
+                BitmapFactory.decodeFile(imageFilePath, bmOptions);
+
+                int photoWidth = bmOptions.outWidth;
+                int photoHeight = bmOptions.outHeight;
+
+                int scaleFactor = Math.max(1, Math.min(photoWidth / targetWidth, photoHeight / targetHeight));
+
+                bmOptions.inJustDecodeBounds = false;
+                bmOptions.inSampleSize = scaleFactor;
+                bmOptions.inPurgeable = true;
+
+                selectedImage = BitmapFactory.decodeFile(imageFilePath, bmOptions);
+
+                avatar = BitmapController.encodeToBase64(selectedImage);
+                bitmapToFileConverter();
             }
         } else if (resultCode == RESULT_CANCELED) {
             if (requestCode == 100)
                 Toast.makeText(this, "عکسی انتخاب نشده است.", Toast.LENGTH_SHORT).show();
             else if (requestCode == 200)
                 Toast.makeText(this, "عکسی گرفته نشده است.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void bitmapToFileConverter() {
+        File file = new File(getApplicationContext().getCacheDir(), "createCenter");
+        try {
+            file.createNewFile();
+
+            //Convert bitmap to byte array
+            Bitmap bitmap = selectedImage;
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+            byte[] bitmapdata = bos.toByteArray();
+
+            //write the bytes in file
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

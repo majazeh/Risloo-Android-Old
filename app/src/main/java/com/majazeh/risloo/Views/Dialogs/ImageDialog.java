@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.IntentCaller;
+import com.majazeh.risloo.Views.Activities.CreateCenterActivity;
 import com.majazeh.risloo.Views.Activities.EditAccountActivity;
 
 import java.io.IOException;
@@ -33,6 +34,7 @@ public class ImageDialog extends BottomSheetDialogFragment {
     private Activity activity;
     private IntentCaller intentCaller;
     private Handler handler;
+    private String type;
 
     // Widgets
     private LinearLayout galleryLinearLayout, cameraLinearLayout;
@@ -79,10 +81,18 @@ public class ImageDialog extends BottomSheetDialogFragment {
             handler.postDelayed(() -> galleryLinearLayout.setClickable(true), 300);
             dismiss();
 
-            if (((EditAccountActivity) Objects.requireNonNull(getActivity())).galleryPermissionsGranted) {
-                intentCaller.gallery(activity);
-            } else {
-                ((EditAccountActivity) Objects.requireNonNull(getActivity())).checkGalleryPermission();
+            if (type.equals("editAccount")) {
+                if (((EditAccountActivity) Objects.requireNonNull(getActivity())).galleryPermissionsGranted) {
+                    intentCaller.gallery(activity);
+                } else {
+                    ((EditAccountActivity) Objects.requireNonNull(getActivity())).checkGalleryPermission();
+                }
+            }else{
+                if (((CreateCenterActivity) Objects.requireNonNull(getActivity())).galleryPermissionsGranted) {
+                    intentCaller.gallery(activity);
+                } else {
+                    ((CreateCenterActivity) Objects.requireNonNull(getActivity())).checkGalleryPermission();
+                }
             }
         });
 
@@ -90,7 +100,7 @@ public class ImageDialog extends BottomSheetDialogFragment {
             cameraLinearLayout.setClickable(false);
             handler.postDelayed(() -> cameraLinearLayout.setClickable(true), 300);
             dismiss();
-
+            if (type.equals("editAccount")) {
             if (((EditAccountActivity) Objects.requireNonNull(getActivity())).cameraPermissionsGranted) {
                 try {
                     intentCaller.camera(activity, ((EditAccountActivity) Objects.requireNonNull(activity)).createImageFile());
@@ -99,6 +109,17 @@ public class ImageDialog extends BottomSheetDialogFragment {
                 }
             } else {
                 ((EditAccountActivity) Objects.requireNonNull(getActivity())).checkCameraPermission();
+            }
+            }else{
+                if (((CreateCenterActivity) Objects.requireNonNull(getActivity())).cameraPermissionsGranted) {
+                    try {
+                        intentCaller.camera(activity, ((CreateCenterActivity) Objects.requireNonNull(activity)).createImageFile());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    ((CreateCenterActivity) Objects.requireNonNull(getActivity())).checkCameraPermission();
+                }
             }
         });
 
@@ -141,6 +162,10 @@ public class ImageDialog extends BottomSheetDialogFragment {
 
             dialog.getWindow().setBackgroundDrawable(windowBackground);
         }
+    }
+
+    public void type(String type){
+        this.type = type;
     }
 
 }

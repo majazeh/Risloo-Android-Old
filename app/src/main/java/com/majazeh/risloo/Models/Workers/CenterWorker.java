@@ -3,24 +3,33 @@ package com.majazeh.risloo.Models.Workers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Apis.CenterApi;
 import com.majazeh.risloo.Models.Generators.RetroGenerator;
+import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -255,38 +264,69 @@ public class CenterWorker extends Worker {
     }
 
     private void create() {
-        try {
-            Call<ResponseBody> call = centerApi.create(token(), CenterRepository.createData);
+        File file = new File(context.getCacheDir(), "createCenter");
+        Log.e("this is test", String.valueOf(CenterRepository.createData));
+        AndroidNetworking.upload("https://bapi.risloo.ir/api/centers")
+                .addHeaders("Authorization", token()) // posting any type of file
+                .addMultipartParameter(CenterRepository.createData)
+                .addMultipartFile("avatar", file)
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e("response", String.valueOf(response));
+                        // do anything with response
+                        ExceptionManager.getException(200, response, true, "create", "center");
+                        CenterRepository.workState.postValue(1);
+                    }
 
-            Response<ResponseBody> bodyResponse = call.execute();
-            if (bodyResponse.isSuccessful()) {
-                JSONObject successBody = new JSONObject(bodyResponse.body().string());
-
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "create", "center");
-                CenterRepository.workState.postValue(1);
-            } else {
-                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "create", "center");
-                CenterRepository.workState.postValue(0);
-            }
-
-        } catch (SocketTimeoutException e) {
-            e.printStackTrace();
-
-            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "center");
-            CenterRepository.workState.postValue(0);
-        } catch (JSONException e) {
-            e.printStackTrace();
-
-            ExceptionManager.getException(0, null, false, "JSONException", "center");
-            CenterRepository.workState.postValue(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            ExceptionManager.getException(0, null, false, "IOException", "center");
-            CenterRepository.workState.postValue(0);
-        }
+                    @Override
+                    public void onError(ANError error) {
+                        // handle error
+                        Log.e("error", String.valueOf(error.getErrorBody()));
+                        try {
+                            JSONObject jsonObject = new JSONObject(error.getErrorBody());
+                            ExceptionManager.getException(error.getErrorCode(), jsonObject, true, "create", "center");
+                            CenterRepository.workState.postValue(0);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+//
+//        try {
+//            Call<ResponseBody> call = centerApi.create(token(), CenterRepository.createData);
+//
+//            Response<ResponseBody> bodyResponse = call.execute();
+//            if (bodyResponse.isSuccessful()) {
+//                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+//
+//                ExceptionManager.getException(bodyResponse.code(), successBody, true, "create", "center");
+//                CenterRepository.workState.postValue(1);
+//            } else {
+//                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+//
+//                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "create", "center");
+//                CenterRepository.workState.postValue(0);
+//            }
+//
+//        } catch (SocketTimeoutException e) {
+//            e.printStackTrace();
+//
+//            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "center");
+//            CenterRepository.workState.postValue(0);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//
+//            ExceptionManager.getException(0, null, false, "JSONException", "center");
+//            CenterRepository.workState.postValue(0);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//
+//            ExceptionManager.getException(0, null, false, "IOException", "center");
+//            CenterRepository.workState.postValue(0);
+//        }
 
     }
 

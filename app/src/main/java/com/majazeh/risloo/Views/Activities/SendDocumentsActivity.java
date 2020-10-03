@@ -8,18 +8,22 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.OpenableColumns;
+import android.util.Log;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,12 +36,18 @@ import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.WindowDecorator;
+import com.majazeh.risloo.ViewModels.AuthViewModel;
 
 import org.json.JSONException;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Objects;
 
 public class SendDocumentsActivity extends AppCompatActivity {
+
+    // ViewModels
+    private AuthViewModel viewModel;
 
     // Vars
     private String file = "";
@@ -54,6 +64,8 @@ public class SendDocumentsActivity extends AppCompatActivity {
     private LinearLayout fileLinearLayout;
     private Button sendButton;
     private Dialog progressDialog;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +88,8 @@ public class SendDocumentsActivity extends AppCompatActivity {
     }
 
     private void initializer() {
+        viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+
         intentCaller = new IntentCaller();
 
         handler = new Handler();
@@ -134,13 +148,13 @@ public class SendDocumentsActivity extends AppCompatActivity {
     }
     
     private void doWork() {
-//        try {
-//            progressDialog.show();
-//            viewModel.sendDocuments(file);
-//            observeWork();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            progressDialog.show();
+            viewModel.sendDocument("test", "test ", file);
+            observeWork();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void observeWork() {

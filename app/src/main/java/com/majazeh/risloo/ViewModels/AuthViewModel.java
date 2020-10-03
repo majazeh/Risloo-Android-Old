@@ -63,6 +63,7 @@ public class AuthViewModel extends AndroidViewModel {
         repository.logOut();
     }
 
+
     /*
          ---------- Arrays ----------
     */
@@ -105,6 +106,10 @@ public class AuthViewModel extends AndroidViewModel {
 
     public String getAvatar() {
         return repository.getAvatar();
+    }
+
+    public void sendDocument(String title, String description, String filePath) throws JSONException {
+    repository.sendDocument(title,description,filePath);
     }
 
 }
