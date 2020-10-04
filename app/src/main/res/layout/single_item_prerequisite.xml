@@ -17,7 +17,7 @@
         android:paddingRight="@dimen/_16sdp"
         android:imeOptions="actionDone"
         android:cursorVisible="false"
-        android:gravity="right|center"
+        android:gravity="center|right"
         android:textSize="@dimen/_12ssp"
         android:textStyle="normal"
         android:textColor="@color/Grey"

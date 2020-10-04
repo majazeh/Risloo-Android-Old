@@ -33,10 +33,8 @@
         <EditText
             android:id="@+id/fragment_pin_editText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_36sdp"
             android:layout_marginBottom="@dimen/_12sdp"
-            android:paddingTop="@dimen/_8sdp"
-            android:paddingBottom="@dimen/_8sdp"
             android:paddingLeft="@dimen/_16sdp"
             android:paddingRight="@dimen/_16sdp"
             android:imeOptions="actionDone"
@@ -56,10 +54,8 @@
         <Button
             android:id="@+id/fragment_pin_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_36sdp"
             android:layout_marginBottom="@dimen/_18sdp"
-            android:paddingTop="@dimen/_6sdp"
-            android:paddingBottom="@dimen/_6sdp"
             android:gravity="center"
             android:text="@string/PinButton"
             android:textSize="@dimen/_12ssp"

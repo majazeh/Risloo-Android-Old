@@ -1,6 +1,7 @@
 package com.majazeh.risloo.Models.Items;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.majazeh.risloo.Entities.Model;
@@ -20,90 +21,107 @@ public class AuthItems {
     // Objects
     private Application application;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
-    public AuthItems(Application application, SharedPreferences sharedPreferences) {
+    public AuthItems(Application application) {
         this.application = application;
-        this.sharedPreferences = sharedPreferences;
+
+        sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
+        editor = sharedPreferences.edit();
+        editor.apply();
     }
 
-    private void refresh() throws JSONException {
+    public ArrayList<Model> items() throws JSONException {
         items.clear();
 
         for (int i = 0; i < data().length(); i++) {
             items.add(new Model(data().getJSONObject(i)));
         }
-    }
 
-    public ArrayList<Model> items() throws JSONException {
-        refresh();
         return items;
     }
 
-    public String account() {
-        if (!sharedPreferences.getString("type", "").equals("null")) {
-            return sharedPreferences.getString("type", "");
+    public boolean hasAccess() {
+        return sharedPreferences.getBoolean("hasAccess", false);
+    }
+
+    public String token() {
+        if (!sharedPreferences.getString("token", "").equals("")) {
+            return sharedPreferences.getString("token", "");
+        }
+        return "";
+    }
+
+    public String userId() {
+        if (!sharedPreferences.getString("userId", "").equals("")) {
+            return sharedPreferences.getString("userId", "");
         }
         return "";
     }
 
     public String name() {
-        if (!sharedPreferences.getString("name", "").equals("null")) {
+        if (!sharedPreferences.getString("name", "").equals("")) {
             return sharedPreferences.getString("name", "");
         }
-        return "کاربر تجربی";
+        return "";
     }
 
     public String type() {
-        if (!sharedPreferences.getString("type", "").equals("null")) {
+        if (!sharedPreferences.getString("type", "").equals("")) {
             if (sharedPreferences.getString("type", "").equals("psychology")) {
-                return "مشاور";
+                return application.getApplicationContext().getResources().getString(R.string.AuthTypePsychology);
             } else if (sharedPreferences.getString("type", "").equals("clinic_center")) {
-                return "مرکز درمانی";
+                return application.getApplicationContext().getResources().getString(R.string.AuthTypeClinicCenter);
             } else if (sharedPreferences.getString("type", "").equals("operator")) {
-                return "اپراتور";
+                return application.getApplicationContext().getResources().getString(R.string.AuthTypeOperator);
             } else if (sharedPreferences.getString("type", "").equals("admin")) {
-                return "ادمین";
+                return application.getApplicationContext().getResources().getString(R.string.AuthTypeAdmin);
             } else if (sharedPreferences.getString("type", "").equals("client")) {
-                return "مراجع";
+                return application.getApplicationContext().getResources().getString(R.string.AuthTypeClient);
+            } else {
+                return application.getApplicationContext().getResources().getString(R.string.AuthTypeDefault);
             }
         }
-        return "مراجع";
+        return "";
     }
 
     public String mobile() {
-        if (!sharedPreferences.getString("mobile", "").equals("null")) {
+        if (!sharedPreferences.getString("mobile", "").equals("")) {
             return sharedPreferences.getString("mobile", "");
         }
-        return "+989000000000";
+        return "";
     }
 
     public String email() {
-        if (!sharedPreferences.getString("email", "").equals("null")) {
+        if (!sharedPreferences.getString("email", "").equals("")) {
             return sharedPreferences.getString("email", "");
         }
-        return "نامشخص";
+        return "";
     }
 
     public String gender() {
-        if (!sharedPreferences.getString("gender", "").equals("null")) {
+        if (!sharedPreferences.getString("gender", "").equals("")) {
             if (sharedPreferences.getString("gender", "").equals("male")) {
-                return "مرد";
+                return application.getApplicationContext().getResources().getString(R.string.AuthGenderMale);
             } else if (sharedPreferences.getString("gender", "").equals("female")) {
-                return "زن";
+                return application.getApplicationContext().getResources().getString(R.string.AuthGenderFemale);
+            } else {
+                return application.getApplicationContext().getResources().getString(R.string.AuthGenderDefault);
             }
         }
-        return "نامشخص";
+        return "";
     }
 
     public String birthday() {
-        if (!sharedPreferences.getString("birthday", "").equals("null")) {
+        if (!sharedPreferences.getString("birthday", "").equals("")) {
             return sharedPreferences.getString("birthday", "");
         }
-        return "1400-01-01";
+        return "";
     }
 
     public String avatar() {
-        if (!sharedPreferences.getString("avatar", "").equals("null")) {
+        if (!sharedPreferences.getString("avatar", "").equals("")) {
             return sharedPreferences.getString("avatar", "");
         }
         return "";
@@ -111,37 +129,44 @@ public class AuthItems {
 
     private JSONArray data() throws JSONException {
         JSONArray data = new JSONArray();
-        if (!sharedPreferences.getString("name", "").equals("null")) {
-            data.put(new JSONObject().put("title", "نام").put("subTitle", sharedPreferences.getString("name", "")).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_user_light)));
+        if (!userId().equals("")) {
+            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthUserId)).put("subTitle", userId()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_code_light)));
         }
-        if (!sharedPreferences.getString("type", "").equals("null")) {
-            if (sharedPreferences.getString("type", "").equals("psychology")) {
-                data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "مشاور").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_stethoscope_light)));
-            } else if (sharedPreferences.getString("type", "").equals("clinic_center")) {
-                data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "مرکز درمانی").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_hospital_light)));
-            } else if (sharedPreferences.getString("type", "").equals("operator")) {
-                data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "اپراتور").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset_light)));
-            } else if (sharedPreferences.getString("type", "").equals("admin")) {
-                data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "ادمین").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset_light)));
+        if (!name().equals("")) {
+            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthName)).put("subTitle", name()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_user_light)));
+        }
+        if (!type().equals("")) {
+            if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypePsychology))) {
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_stethoscope_light)));
+            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeClinicCenter))) {
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_hospital_light)));
+            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeOperator))) {
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset_light)));
+            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeAdmin))) {
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset_light)));
+            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeClient))) {
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_pills_light)));
             } else {
-                data.put(new JSONObject().put("title", "نوع حساب").put("subTitle", "مراجع").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_pills_light)));
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_pills_light)));
             }
         }
-        if (!sharedPreferences.getString("mobile", "").equals("null")) {
-            data.put(new JSONObject().put("title", "شماره همراه").put("subTitle", sharedPreferences.getString("mobile", "")).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_mobile_light)));
+        if (!mobile().equals("")) {
+            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthMobile)).put("subTitle", mobile()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_mobile_light)));
         }
-        if (!sharedPreferences.getString("email", "").equals("null")) {
-            data.put(new JSONObject().put("title", "ایمیل").put("subTitle", sharedPreferences.getString("email", "")).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_message_light)));
+        if (!email().equals("")) {
+            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthEmail)).put("subTitle", email()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_email_light)));
         }
-        if (!sharedPreferences.getString("gender", "").equals("null")) {
-            if (sharedPreferences.getString("gender", "").equals("male")) {
-                data.put(new JSONObject().put("title", "جنسیت").put("subTitle", "مرد").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_male_light)));
-            } else if (sharedPreferences.getString("gender", "").equals("female")) {
-                data.put(new JSONObject().put("title", "جنسیت").put("subTitle", "زن").put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_female_light)));
+        if (!gender().equals("")) {
+            if (gender().equals(application.getApplicationContext().getResources().getString(R.string.AuthGenderMale))) {
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthGender)).put("subTitle", gender()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_male_light)));
+            } else if (gender().equals(application.getApplicationContext().getResources().getString(R.string.AuthGenderFemale))) {
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthGender)).put("subTitle", gender()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_female_light)));
+            } else {
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthGender)).put("subTitle", gender()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_gender_light)));
             }
         }
-        if (!sharedPreferences.getString("birthday", "").equals("null")) {
-            data.put(new JSONObject().put("title", "تاریخ تولد").put("subTitle", sharedPreferences.getString("birthday", "")).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_calendar_light)));
+        if (!birthday().equals("")) {
+            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthBirthday)).put("subTitle", birthday()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_calendar_light)));
         }
         return data;
     }

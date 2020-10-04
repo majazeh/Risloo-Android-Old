@@ -9,8 +9,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -41,14 +39,13 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
     private SampleViewModel viewModel;
 
     // Vars
-    private String work = "";
+    private String sampleId = "", work = "";
     private boolean storagePermissionsGranted = false;
 
     // Objects
-    private IntentCaller intentCaller;
     private Handler handler;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
+    private Bundle extras;
+    private IntentCaller intentCaller;
 
     // Widgets
     private Button internetButton, smsButton, downloadButton, laterButton;
@@ -68,6 +65,8 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         detector();
 
         listener();
+
+        setData();
     }
 
     private void decorator() {
@@ -90,14 +89,11 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
     private void initializer() {
         viewModel = new ViewModelProvider(this).get(SampleViewModel.class);
 
-        intentCaller = new IntentCaller();
-
         handler = new Handler();
 
-        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+        extras = getIntent().getExtras();
 
-        editor = sharedPreferences.edit();
-        editor.apply();
+        intentCaller = new IntentCaller();
 
         internetButton = findViewById(R.id.activity_outro_internet_button);
         smsButton = findViewById(R.id.activity_outro_sms_button);
@@ -205,12 +201,16 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         outroDialog.setOnCancelListener(dialog -> outroDialog.dismiss());
     }
 
+    private void setData() {
+        sampleId = extras.getString("sampleId");
+    }
+
     private void sendViaInternet() {
         try {
             SampleRepository.cache = true;
 
             progressDialog.show();
-            viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
+            viewModel.sendAnswers(sampleId);
             observeWorkAnswer();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -222,7 +222,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         StringBuilder result = new StringBuilder();
         String number = "+989195934528";
 
-        JSONArray jsonArray = viewModel.readSampleAnswerFromCache(sharedPreferences.getString("sampleId", ""));
+        JSONArray jsonArray = viewModel.readSampleAnswerFromCache(sampleId);
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 result.append(jsonArray.getJSONObject(i).getString("answer"));
@@ -243,7 +243,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
     }
 
     private void saveFile() {
-        viewModel.writeSampleAnswerToExternal(viewModel.readSampleAnswerFromCache(sharedPreferences.getString("sampleId", "")), sharedPreferences.getString("sampleId", ""));
+        viewModel.writeSampleAnswerToExternal(viewModel.readSampleAnswerFromCache(sampleId), sampleId);
         finish();
         Toast.makeText(this, "جواب ها در پوشه Download ذخیره شد", Toast.LENGTH_SHORT).show();
     }
@@ -252,7 +252,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         SampleRepository.workStateAnswer.observe(this, integer -> {
             if (integer == 1) {
                 try {
-                    viewModel.close(sharedPreferences.getString("sampleId", ""));
+                    viewModel.close(sampleId);
                     observeWorkSample();
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -9,7 +9,7 @@
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
     android:background="@color/White"
-    tools:context=".Views.Activities.SendDocumentsActivity"
+    tools:context=".Views.Activities.SendDocActivity"
     tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded">
 
     <LinearLayout
@@ -18,12 +18,12 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/activity_send_documents_toolbar"
+            android:id="@+id/activity_send_doc_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/ToolbarTheme"
             android:background="@color/Snow"
-            app:title="@string/SendDocumentsTitle"
+            app:title="@string/SendDocTitle"
             app:titleTextAppearance="@style/ToolbarTextAppearanceLight"
             app:navigationIcon="@drawable/tool_back_light"
             app:contentInsetStartWithNavigation="0dp" />
@@ -46,12 +46,55 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
+                <EditText
+                    android:id="@+id/activity_send_doc_title_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_36sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:paddingLeft="@dimen/_16sdp"
+                    android:paddingRight="@dimen/_16sdp"
+                    android:imeOptions="actionDone"
+                    android:cursorVisible="false"
+                    android:inputType="text"
+                    android:hint="@string/SendDocName"
+                    android:gravity="center|right"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="normal"
+                    android:textColor="@color/Grey"
+                    android:textColorHint="@color/Mischka"
+                    android:textAlignment="gravity"
+                    android:importantForAutofill="no"
+                    android:background="@drawable/draw_16sdp_border_quartz" />
+
+                <EditText
+                    android:id="@+id/activity_send_doc_description_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:minHeight="@dimen/_72sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:paddingLeft="@dimen/_16sdp"
+                    android:paddingRight="@dimen/_16sdp"
+                    android:imeOptions="actionDone"
+                    android:cursorVisible="false"
+                    android:inputType="text"
+                    android:hint="@string/SendDocDescription"
+                    android:gravity="right"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="normal"
+                    android:textColor="@color/Grey"
+                    android:textColorHint="@color/Mischka"
+                    android:textAlignment="gravity"
+                    android:importantForAutofill="no"
+                    android:background="@drawable/draw_16sdp_border_quartz" />
+
                 <LinearLayout
-                    android:id="@+id/activity_send_documents_file_linearLayout"
+                    android:id="@+id/activity_send_doc_attachment_linearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_24sdp"
-                    android:minHeight="@dimen/_140sdp"
+                    android:minHeight="@dimen/_144sdp"
                     android:paddingTop="@dimen/_12sdp"
                     android:paddingBottom="@dimen/_12sdp"
                     android:paddingLeft="@dimen/_16sdp"
@@ -61,7 +104,7 @@
                     android:background="@drawable/draw_16sdp_solid_solitude">
 
                     <ImageView
-                        android:id="@+id/activity_send_documents_file_imageView"
+                        android:id="@+id/activity_send_doc_attachment_imageView"
                         android:layout_width="@dimen/_52sdp"
                         android:layout_height="@dimen/_52sdp"
                         android:layout_marginBottom="@dimen/_12sdp"
@@ -69,11 +112,11 @@
                         app:tint="@color/Mischka" />
 
                     <TextView
-                        android:id="@+id/activity_send_documents_file_textView"
+                        android:id="@+id/activity_send_doc_attachment_textView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="@string/SendDocumentsFile"
+                        android:text="@string/SendDocAttachment"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="normal"
                         android:textColor="@color/Mischka"
@@ -82,13 +125,11 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/activity_send_documents_send_button"
+                    android:id="@+id/activity_send_doc_send_button"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/_6sdp"
-                    android:paddingBottom="@dimen/_6sdp"
+                    android:layout_height="@dimen/_36sdp"
                     android:gravity="center"
-                    android:text="@string/SendDocumentsSend"
+                    android:text="@string/SendDocSend"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold"
                     android:textColor="@color/White"

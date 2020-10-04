@@ -17,14 +17,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.ViewModels.SampleViewModel;
+import com.majazeh.risloo.Views.Activities.SampleActivity;
 
 import org.json.JSONException;
 
-public class TextTypingFragment extends Fragment {
+import java.util.Objects;
 
-    // ViewModels
-    private SampleViewModel viewModel;
+public class TextTypingFragment extends Fragment {
 
     // Vars
     private String answer = "";
@@ -36,9 +35,8 @@ public class TextTypingFragment extends Fragment {
     private TextView questionTextView;
     private EditText answerEditText;
 
-    public TextTypingFragment(Activity activity, SampleViewModel viewModel) {
+    public TextTypingFragment(Activity activity) {
         this.activity = activity;
-        this.viewModel = viewModel;
     }
 
     @Nullable
@@ -50,16 +48,13 @@ public class TextTypingFragment extends Fragment {
 
         listener();
 
+        setData();
+
         return view;
     }
 
     private void initializer(View view) {
         questionTextView = view.findViewById(R.id.fragment_text_typing_question_textView);
-        try {
-            questionTextView.setText(viewModel.getItem(viewModel.getIndex()).get("text").toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         answerEditText = view.findViewById(R.id.fragment_text_typing_answer_editText);
     }
@@ -74,6 +69,14 @@ public class TextTypingFragment extends Fragment {
             }
             return false;
         });
+    }
+
+    private void setData() {
+        try {
+            questionTextView.setText(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getItem(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getIndex()).get("text").toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

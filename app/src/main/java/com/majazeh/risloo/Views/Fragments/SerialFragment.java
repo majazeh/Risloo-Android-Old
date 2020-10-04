@@ -103,8 +103,8 @@ public class SerialFragment extends Fragment {
         serialEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!serialEditText.hasFocus()) {
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).selectInput(serialEditText);
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).focusInput(serialEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.focus(serialEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.select(serialEditText);
                 }
             }
             return false;
@@ -112,9 +112,9 @@ public class SerialFragment extends Fragment {
 
         serialButton.setOnClickListener(v -> {
             if (serialEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(serialEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.error(getActivity(), serialEditText);
             } else {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(serialEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.clear(getActivity(), serialEditText);
                 doWork();
             }
         });
@@ -136,7 +136,7 @@ public class SerialFragment extends Fragment {
     }
 
     public void setText() {
-        if (((AuthActivity) Objects.requireNonNull(getActivity())).token()) {
+        if (!((AuthActivity) Objects.requireNonNull(getActivity())).viewModel.getToken().equals("")) {
             serialDescriptionTextView.setText(activity.getResources().getString(R.string.SerialDescriptionToken));
             serialEditText.setHint(activity.getResources().getString(R.string.SerialHintToken));
             serialButton.setText(activity.getResources().getString(R.string.SerialButtonToken));

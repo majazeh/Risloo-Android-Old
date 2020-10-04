@@ -30,8 +30,8 @@ public class DownloadDialog extends BottomSheetDialogFragment {
 
     // Objects
     private Activity activity;
-    private IntentCaller intentCaller;
     private Handler handler;
+    private IntentCaller intentCaller;
 
     // Widgets
     private LinearLayout svgLinearLayout, pngLinearLayout, htmlLinearLayout, pdfLinearLayout;
@@ -56,9 +56,9 @@ public class DownloadDialog extends BottomSheetDialogFragment {
     }
 
     private void initializer(View view) {
-        intentCaller = new IntentCaller();
-
         handler = new Handler();
+
+        intentCaller = new IntentCaller();
 
         svgLinearLayout = view.findViewById(R.id.dialog_download_svg_linearLayout);
         pngLinearLayout = view.findViewById(R.id.dialog_download_png_linearLayout);

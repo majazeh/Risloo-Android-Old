@@ -40,14 +40,14 @@ public class AuthRepository extends MainRepository {
     public static String birthday = "";
     public static String password = "";
     public static String code = "";
-    public static String titleDoc = "";
-    public static String descriptionDoc = "";
-    public static String fileDoc = "";
+    public static String fileTitle = "";
+    public static String fileDescription = "";
+    public static String filePath = "";
 
     public AuthRepository(Application application) throws JSONException {
         super(application);
 
-        authItems = new AuthItems(application, application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE));
+        authItems = new AuthItems(application);
 
         workState = new MutableLiveData<>();
         workState.setValue(-1);
@@ -127,11 +127,11 @@ public class AuthRepository extends MainRepository {
         workManager("logOut");
     }
 
+    public void sendDoc(String title, String description, String filePath) throws JSONException {
+        AuthRepository.fileTitle = title;
+        AuthRepository.fileDescription = description;
+        AuthRepository.filePath = filePath;
 
-    public void sendDocument(String title, String description, String filePath) throws JSONException {
-        titleDoc = title;
-        descriptionDoc = description;
-        fileDoc = filePath;
         work = "sendDoc";
         workState.setValue(-1);
         workManager("sendDoc");
@@ -146,11 +146,23 @@ public class AuthRepository extends MainRepository {
     }
 
     /*
+         ---------- Booleans ----------
+    */
+
+    public boolean hasAccess() {
+        return authItems.hasAccess();
+    }
+
+    /*
          ---------- Strings ----------
     */
 
-    public String getAccount() {
-        return authItems.account();
+    public String getToken() {
+        return authItems.token();
+    }
+
+    public String getUserId() {
+        return authItems.userId();
     }
 
     public String getName() {

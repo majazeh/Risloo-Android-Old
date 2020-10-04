@@ -39,6 +39,8 @@ public class AboutUsActivity extends AppCompatActivity {
         initializer();
 
         listener();
+
+        setData();
     }
 
     private void decorator() {
@@ -50,11 +52,6 @@ public class AboutUsActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(AboutUsViewModel.class);
 
         adapter = new ListAdapter(this);
-        try {
-            adapter.setList(viewModel.getAll(), "AboutUs");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         toolbar = findViewById(R.id.activity_about_us_toolbar);
 
@@ -70,6 +67,14 @@ public class AboutUsActivity extends AppCompatActivity {
             finish();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
+    }
+
+    private void setData() {
+        try {
+            adapter.setList(viewModel.getAll(), "AboutUs");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

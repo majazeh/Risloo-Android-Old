@@ -60,7 +60,7 @@
             android:name=".Views.Activities.EditAccountActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Views.Activities.SendDocumentsActivity"
+            android:name=".Views.Activities.SendDocActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.SampleActivity"

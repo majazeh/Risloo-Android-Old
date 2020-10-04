@@ -148,7 +148,15 @@ public class IntroActivity extends AppCompatActivity {
         editor = sharedPreferences.edit();
         editor.apply();
 
-        return sharedPreferences.getBoolean("firstTimeLaunch", true);
+        return sharedPreferences.getBoolean("firstLaunch", true);
+    }
+
+    private void launchAuth() {
+        startActivity(new Intent(this, AuthActivity.class));
+        finish();
+
+        editor.putBoolean("firstLaunch", false);
+        editor.apply();
     }
 
     private void nextPage() {
@@ -159,14 +167,6 @@ public class IntroActivity extends AppCompatActivity {
         } else {
             launchAuth();
         }
-    }
-
-    private void launchAuth() {
-        editor.putBoolean("firstTimeLaunch", false);
-        editor.apply();
-
-        startActivity(new Intent(this, AuthActivity.class));
-        finish();
     }
 
 }

@@ -16,14 +16,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.ViewModels.SampleViewModel;
+import com.majazeh.risloo.Views.Activities.SampleActivity;
 
 import org.json.JSONException;
 
-public class PictureTypingFragment extends Fragment {
+import java.util.Objects;
 
-    // ViewModels
-    private SampleViewModel viewModel;
+public class PictureTypingFragment extends Fragment {
 
     // Vars
     private String answer = "";
@@ -36,9 +35,8 @@ public class PictureTypingFragment extends Fragment {
     private ImageView questionImageView;
     private EditText answerEditText;
 
-    public PictureTypingFragment(Activity activity, SampleViewModel viewModel) {
+    public PictureTypingFragment(Activity activity) {
         this.activity = activity;
-        this.viewModel = viewModel;
     }
 
     @Nullable
@@ -50,23 +48,15 @@ public class PictureTypingFragment extends Fragment {
 
         listener();
 
+        setData();
+
         return view;
     }
 
     private void initializer(View view) {
         questionTextView = view.findViewById(R.id.fragment_picture_typing_question_textView);
-        try {
-            questionTextView.setText(viewModel.getItem(viewModel.getIndex()).get("text").toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         questionImageView = view.findViewById(R.id.fragment_picture_typing_question_imageView);
-//        try {
-//            questionImageView.setImageResource();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
 
         answerEditText = view.findViewById(R.id.fragment_picture_typing_answer_editText);
     }
@@ -81,6 +71,16 @@ public class PictureTypingFragment extends Fragment {
             }
             return false;
         });
+    }
+
+    private void setData() {
+        try {
+            questionTextView.setText(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getItem(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getIndex()).get("text").toString());
+
+//            questionImageView.setImageResource();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

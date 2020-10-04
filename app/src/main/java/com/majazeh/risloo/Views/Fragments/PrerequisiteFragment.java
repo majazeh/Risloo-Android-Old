@@ -1,8 +1,6 @@
 package com.majazeh.risloo.Views.Fragments;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,30 +14,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
-import com.majazeh.risloo.ViewModels.SampleViewModel;
+import com.majazeh.risloo.Views.Activities.SampleActivity;
 import com.majazeh.risloo.Views.Adapters.PrerequisiteAdapter;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class PrerequisiteFragment extends Fragment {
-
-    // ViewModels
-    private SampleViewModel viewModel;
 
     // Adapters
     public PrerequisiteAdapter adapter;
 
     // Objects
     private Activity activity;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
 
     // Widgets
     private RecyclerView prerequisiteRecyclerView;
 
-    public PrerequisiteFragment(Activity activity, SampleViewModel viewModel) {
+    public PrerequisiteFragment(Activity activity) {
         this.activity = activity;
-        this.viewModel = viewModel;
     }
 
     @Nullable
@@ -49,23 +42,23 @@ public class PrerequisiteFragment extends Fragment {
 
         initializer(view);
 
+        setData();
+
         return view;
     }
 
     private void initializer(View view) {
-        sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-
-        editor = sharedPreferences.edit();
-        editor.apply();
-
         adapter = new PrerequisiteAdapter(activity);
-        adapter.setPrerequisite(viewModel.getPrerequisite(), viewModel.readPrerequisiteAnswerFromCache(sharedPreferences.getString("sampleId", "")), viewModel);
 
         prerequisiteRecyclerView = view.findViewById(R.id.fragment_prerequisite_recyclerView);
         prerequisiteRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._24sdp)));
         prerequisiteRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         prerequisiteRecyclerView.setHasFixedSize(true);
         prerequisiteRecyclerView.setAdapter(adapter);
+    }
+
+    private void setData() {
+        adapter.setPrerequisite(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getPrerequisite(), ((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.readPrerequisiteAnswerFromCache(((SampleActivity) Objects.requireNonNull(getActivity())).sampleId), ((SampleActivity) Objects.requireNonNull(getActivity())).viewModel);
     }
 
     public ArrayList prerequisites() {

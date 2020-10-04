@@ -3,7 +3,6 @@ package com.majazeh.risloo.Models.Managers;
 import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
-import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -19,9 +18,30 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.logging.Logger;
 
 public class FileManager {
+
+    public static boolean writeBitmapToCache(Context context, byte[] bitmapData, String fileName) {
+        try {
+            File file = new File(context.getCacheDir(), fileName);
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bitmapData);
+            fos.flush();
+            fos.close();
+            return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     public static boolean writeObjectToCache(Context context, JSONObject jsonObject, String fileName, String fileSubName) {
         try {

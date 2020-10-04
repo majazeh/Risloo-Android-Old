@@ -42,9 +42,9 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountH
         Model model = accounts.get(i);
 
         try {
-                holder.titleTextView.setText(model.get("title").toString());
-                holder.subTitleTextView.setText(model.get("subTitle").toString());
-                holder.avatarImageView.setImageDrawable((Drawable) model.get("image"));
+            holder.titleTextView.setText(model.get("title").toString());
+            holder.subTitleTextView.setText(model.get("subTitle").toString());
+            holder.avatarImageView.setImageDrawable((Drawable) model.get("image"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

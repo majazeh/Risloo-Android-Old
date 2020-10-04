@@ -2,7 +2,6 @@ package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LifecycleOwner;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -16,7 +15,6 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,6 +22,7 @@ import android.widget.Toast;
 
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.InputHandler;
 import com.majazeh.risloo.Utils.WindowDecorator;
 
 import org.json.JSONException;
@@ -37,12 +36,13 @@ public class CallUsActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
+    private InputHandler inputHandler;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
     // Widgets
     private Toolbar toolbar;
-    private EditText inputEditText, nameEditText, mobileEditText, messageEditText;
+    private EditText nameEditText, mobileEditText, messageEditText;
     private Button sendButton;
     private Dialog infoDialog, repeatDialog, progressDialog;
     private TextView infoDialogTitle, infoDialogDescription, infoDialogConfirm, repeatDialogTitle, repeatDialogDescription, repeatDialogPositive, repeatDialogNegative;
@@ -61,7 +61,7 @@ public class CallUsActivity extends AppCompatActivity {
 
         listener();
 
-        if (firstTimeLoad()) {
+        if (firstMessage()) {
             showDialog();
         }
     }
@@ -74,10 +74,7 @@ public class CallUsActivity extends AppCompatActivity {
     private void initializer() {
         handler = new Handler();
 
-        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-
-        editor = sharedPreferences.edit();
-        editor.apply();
+        inputHandler = new InputHandler();
 
         toolbar = findViewById(R.id.activity_call_us_toolbar);
 
@@ -145,12 +142,12 @@ public class CallUsActivity extends AppCompatActivity {
         nameEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
                 if (!nameEditText.hasFocus()) {
-                    if (inputEditText != null && inputEditText.hasFocus()) {
-                        clearInput(inputEditText);
+                    if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                        inputHandler.clear(this, inputHandler.getInput());
                     }
 
-                    selectInput(nameEditText);
-                    focusInput(nameEditText);
+                    inputHandler.focus(nameEditText);
+                    inputHandler.select(nameEditText);
                 }
             }
             return false;
@@ -159,12 +156,12 @@ public class CallUsActivity extends AppCompatActivity {
         mobileEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
                 if (!mobileEditText.hasFocus()) {
-                    if (inputEditText != null && inputEditText.hasFocus()) {
-                        clearInput(inputEditText);
+                    if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                        inputHandler.clear(this, inputHandler.getInput());
                     }
 
-                    selectInput(mobileEditText);
-                    focusInput(mobileEditText);
+                    inputHandler.focus(mobileEditText);
+                    inputHandler.select(mobileEditText);
                 }
             }
             return false;
@@ -173,36 +170,36 @@ public class CallUsActivity extends AppCompatActivity {
         messageEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
                 if (!messageEditText.hasFocus()) {
-                    if (inputEditText != null && inputEditText.hasFocus()) {
-                        clearInput(inputEditText);
+                    if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                        inputHandler.clear(this, inputHandler.getInput());
                     }
 
-                    selectInput(messageEditText);
-                    focusInput(messageEditText);
+                    inputHandler.focus(messageEditText);
+                    inputHandler.select(messageEditText);
                 }
             }
             return false;
         });
 
         sendButton.setOnClickListener(v -> {
-            if (inputEditText != null && inputEditText.hasFocus()) {
-                clearInput(inputEditText);
+            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                inputHandler.clear(this, inputHandler.getInput());
             }
 
             if (nameEditText.length() == 0) {
-                errorInput(nameEditText);
+                inputHandler.error(this, nameEditText);
             }
             if (mobileEditText.length() == 0) {
-                errorInput(mobileEditText);
+                inputHandler.error(this, mobileEditText);
             }
             if (messageEditText.length() == 0) {
-                errorInput(messageEditText);
+                inputHandler.error(this, messageEditText);
             }
 
             if (nameEditText.length() != 0 && mobileEditText.length() != 0 && messageEditText.length() != 0) {
-                clearInput(nameEditText);
-                clearInput(mobileEditText);
-                clearInput(messageEditText);
+                inputHandler.clear(this, nameEditText);
+                inputHandler.clear(this, mobileEditText);
+                inputHandler.clear(this, messageEditText);
 
                 doWork();
             }
@@ -241,53 +238,22 @@ public class CallUsActivity extends AppCompatActivity {
             mobileEditText.getText().clear();
             messageEditText.getText().clear();
         });
-
     }
 
-    private boolean firstTimeLoad() {
+    private boolean firstMessage() {
         sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
         editor = sharedPreferences.edit();
         editor.apply();
 
-        return sharedPreferences.getBoolean("firstTimeLoad", true);
+        return sharedPreferences.getBoolean("firstMessage", true);
     }
 
     private void showDialog() {
         infoDialog.show();
 
-        editor.putBoolean("firstTimeLoad", false);
+        editor.putBoolean("firstMessage", false);
         editor.apply();
-    }
-
-    private void focusInput(EditText input) {
-        this.inputEditText = input;
-    }
-
-    private void selectInput(EditText input) {
-        input.setCursorVisible(true);
-        input.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-    }
-
-    private void errorInput(EditText input) {
-        input.clearFocus();
-        input.setCursorVisible(false);
-        input.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-
-        hideKeyboard();
-    }
-
-    private void clearInput(EditText input) {
-        input.clearFocus();
-        input.setCursorVisible(false);
-        input.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-
-        hideKeyboard();
-    }
-
-    private void hideKeyboard() {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        Objects.requireNonNull(inputMethodManager).hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 
     private void doWork() {

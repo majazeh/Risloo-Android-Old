@@ -33,10 +33,8 @@
         <EditText
             android:id="@+id/fragment_register_name_editText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_36sdp"
             android:layout_marginBottom="@dimen/_8sdp"
-            android:paddingTop="@dimen/_8sdp"
-            android:paddingBottom="@dimen/_8sdp"
             android:paddingLeft="@dimen/_16sdp"
             android:paddingRight="@dimen/_16sdp"
             android:imeOptions="actionDone"
@@ -55,10 +53,8 @@
         <EditText
             android:id="@+id/fragment_register_mobile_editText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_36sdp"
             android:layout_marginBottom="@dimen/_8sdp"
-            android:paddingTop="@dimen/_8sdp"
-            android:paddingBottom="@dimen/_8sdp"
             android:paddingLeft="@dimen/_16sdp"
             android:paddingRight="@dimen/_16sdp"
             android:imeOptions="actionDone"
@@ -116,15 +112,13 @@
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_36sdp"
             android:layout_marginBottom="@dimen/_24sdp">
 
             <com.majazeh.risloo.Utils.CustomEditText
                 android:id="@+id/fragment_register_password_editText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/_8sdp"
-                android:paddingBottom="@dimen/_8sdp"
+                android:layout_height="match_parent"
                 android:paddingLeft="@dimen/_32sdp"
                 android:paddingRight="@dimen/_16sdp"
                 android:imeOptions="actionDone"
@@ -156,9 +150,7 @@
         <Button
             android:id="@+id/fragment_register_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/_6sdp"
-            android:paddingBottom="@dimen/_6sdp"
+            android:layout_height="@dimen/_36sdp"
             android:gravity="center"
             android:text="@string/RegisterButton"
             android:textSize="@dimen/_12ssp"

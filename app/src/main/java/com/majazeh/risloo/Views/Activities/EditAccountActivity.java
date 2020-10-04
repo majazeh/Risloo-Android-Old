@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -27,7 +27,6 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,10 +35,12 @@ import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
+import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.BitmapController;
+import com.majazeh.risloo.Models.Managers.BitmapManager;
 import com.majazeh.risloo.Utils.CustomNumberPicker;
+import com.majazeh.risloo.Utils.InputHandler;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -49,10 +50,8 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -67,17 +66,18 @@ public class EditAccountActivity extends AppCompatActivity {
     private AuthViewModel viewModel;
 
     // Vars
-    private String avatar = "", name = "", gender = "", birthday = "";
-    private String imageFilePath;
+    private String name = "", gender = "", birthday = "";
+    private String imageFilePath = "";
     private int Year, Month, Day;
     private boolean genderException = false, birthdayException = false;
     public boolean galleryPermissionsGranted = false, cameraPermissionsGranted = false;
 
     // Objects
-    private IntentCaller intentCaller;
-    private ImageDialog imageDialog;
     private Handler handler;
-    private Bitmap selectedImage;
+    private IntentCaller intentCaller;
+    private InputHandler inputHandler;
+    private ImageDialog imageDialog;
+    private Bitmap selectedBitmap;
 
     // Widgets
     private Toolbar toolbar;
@@ -105,6 +105,8 @@ public class EditAccountActivity extends AppCompatActivity {
 
         listener();
 
+        setData();
+
         setCustomPicker();
     }
 
@@ -116,44 +118,26 @@ public class EditAccountActivity extends AppCompatActivity {
     private void initializer() {
         viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
+        handler = new Handler();
+
         intentCaller = new IntentCaller();
 
-        imageDialog = new ImageDialog(this);
-        imageDialog.type("editAccount");
+        inputHandler = new InputHandler();
 
-        handler = new Handler();
+        imageDialog = new ImageDialog(this);
+        imageDialog.setType("editAccount");
 
         toolbar = findViewById(R.id.activity_edit_account_toolbar);
 
         avatarCircleImageView = findViewById(R.id.activity_edit_account_avatar_circleImageView);
-        if (viewModel.getAvatar().equals("")) {
-            avatarCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_solid));
-        } else {
-            avatar = viewModel.getAvatar();
-            Picasso.get().load(avatar).placeholder(R.color.Solitude).into(avatarCircleImageView);
-        }
+
         avatarImageView = findViewById(R.id.activity_edit_account_avatar_imageView);
 
         nameEditText = findViewById(R.id.activity_edit_account_name_editText);
-        name = viewModel.getName();
-        nameEditText.setText(name);
 
         genderTabLayout = findViewById(R.id.activity_edit_account_gender_tabLayout);
-        if (viewModel.getGender().equals("مرد")) {
-            gender = "male";
-            Objects.requireNonNull(genderTabLayout.getTabAt(0)).select();
-        } else if (viewModel.getGender().equals("زن")) {
-            gender = "female";
-            Objects.requireNonNull(genderTabLayout.getTabAt(1)).select();
-        }
 
         birthdayTextView = findViewById(R.id.activity_edit_account_birthday_textView);
-        birthday = viewModel.getBirthday();
-        birthdayTextView.setText(birthday);
-
-        Year = Integer.parseInt(StringCustomizer.dateToString("yyyy", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
-        Month = Integer.parseInt(StringCustomizer.dateToString("MM", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
-        Day = Integer.parseInt(StringCustomizer.dateToString("dd", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
 
         editButton = findViewById(R.id.activity_edit_account_edit_button);
 
@@ -203,7 +187,7 @@ public class EditAccountActivity extends AppCompatActivity {
             avatarCircleImageView.setClickable(false);
             handler.postDelayed(() -> avatarCircleImageView.setClickable(true), 300);
 
-            if (!name.equals("") && !avatar.equals("")) {
+            if (!viewModel.getName().equals("") && !viewModel.getAvatar().equals("")) {
                 Intent intent = (new Intent(this, ImageActivity.class));
 
                 intent.putExtra("title", viewModel.getName());
@@ -218,7 +202,7 @@ public class EditAccountActivity extends AppCompatActivity {
             handler.postDelayed(() -> avatarImageView.setClickable(true), 300);
 
             if (nameEditText.hasFocus()) {
-                clearInput(nameEditText);
+                inputHandler.clear(this, nameEditText);
             }
 
             imageDialog.show(this.getSupportFragmentManager(), "imageBottomSheet");
@@ -227,7 +211,7 @@ public class EditAccountActivity extends AppCompatActivity {
         nameEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!nameEditText.hasFocus()) {
-                    selectInput(nameEditText);
+                    inputHandler.select(nameEditText);
                 }
             }
             return false;
@@ -241,7 +225,7 @@ public class EditAccountActivity extends AppCompatActivity {
                 }
 
                 if (nameEditText.hasFocus()) {
-                    clearInput(nameEditText);
+                    inputHandler.clear((Activity) getApplicationContext(), nameEditText);
                 }
 
                 switch (tab.getPosition()) {
@@ -274,7 +258,7 @@ public class EditAccountActivity extends AppCompatActivity {
             }
 
             if (nameEditText.hasFocus()) {
-                clearInput(nameEditText);
+                inputHandler.clear(this, nameEditText);
             }
 
             dateDialog.show();
@@ -293,9 +277,9 @@ public class EditAccountActivity extends AppCompatActivity {
 
         editButton.setOnClickListener(v -> {
             if (nameEditText.length() == 0) {
-                errorInput(nameEditText);
+                inputHandler.error(this, nameEditText);
             } else {
-                clearInput(nameEditText);
+                inputHandler.clear(this, nameEditText);
 
                 if (genderException) {
                     clearException("gender");
@@ -304,7 +288,11 @@ public class EditAccountActivity extends AppCompatActivity {
                     clearException("birthday");
                 }
 
-                doWork();
+                if (selectedBitmap == null) {
+                    doWork("edit");
+                } else {
+                    doWork("avatar");
+                }
             }
         });
 
@@ -351,6 +339,44 @@ public class EditAccountActivity extends AppCompatActivity {
         });
     }
 
+    private void setData() {
+        if (viewModel.getAvatar().equals("")) {
+            avatarCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_solid));
+        } else {
+            Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarCircleImageView);
+        }
+
+        if (viewModel.getName().equals("")) {
+            nameEditText.setText(getResources().getString(R.string.AuthNameDefault));
+        } else {
+            name = viewModel.getName();
+            nameEditText.setText(name);
+        }
+
+        if (viewModel.getGender().equals("مرد")) {
+            gender = "male";
+            Objects.requireNonNull(genderTabLayout.getTabAt(0)).select();
+        } else if (viewModel.getGender().equals("زن")) {
+            gender = "female";
+            Objects.requireNonNull(genderTabLayout.getTabAt(1)).select();
+        } else {
+            gender = "male";
+            Objects.requireNonNull(genderTabLayout.getTabAt(0)).select();
+        }
+
+        if (viewModel.getBirthday().equals("")) {
+            birthday = getResources().getString(R.string.AuthBirthdayDefault);
+            birthdayTextView.setText(birthday);
+        } else {
+            birthday = viewModel.getBirthday();
+            birthdayTextView.setText(birthday);
+        }
+
+        Year = Integer.parseInt(StringCustomizer.dateToString("yyyy", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
+        Month = Integer.parseInt(StringCustomizer.dateToString("MM", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
+        Day = Integer.parseInt(StringCustomizer.dateToString("dd", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
+    }
+
     private void setCustomPicker() {
         yearNumberPicker.setMinValue(1300);
         yearNumberPicker.setMaxValue(2100);
@@ -366,25 +392,14 @@ public class EditAccountActivity extends AppCompatActivity {
         dayNumberPicker.setValue(Day);
     }
 
-    private void selectInput(EditText input) {
-        input.setCursorVisible(true);
-        input.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-    }
-
-    private void errorInput(EditText input) {
-        input.clearFocus();
-        input.setCursorVisible(false);
-        input.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-
-        hideKeyboard();
-    }
-
-    private void clearInput(EditText input) {
-        input.clearFocus();
-        input.setCursorVisible(false);
-        input.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-
-        hideKeyboard();
+    private void errorException(String type) {
+        if (type.equals("gender")) {
+            genderException = true;
+            genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+        } else if (type.equals("birthday")) {
+            birthdayException = true;
+            birthdayTextView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+        }
     }
 
     private void clearException(String type) {
@@ -397,17 +412,18 @@ public class EditAccountActivity extends AppCompatActivity {
         }
     }
 
-    private void hideKeyboard() {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        Objects.requireNonNull(inputMethodManager).hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
-    }
-
-    private void doWork() {
-        name = nameEditText.getText().toString().trim();
-
+    private void doWork(String method) {
         try {
             progressDialog.show();
-            viewModel.edit(name, gender, birthday);
+            switch (method) {
+                case "avatar":
+                    viewModel.avatar();
+                    break;
+                case "edit":
+                    name = nameEditText.getText().toString().trim();
+                    viewModel.edit(name, gender, birthday);
+                    break;
+            }
             observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -416,7 +432,21 @@ public class EditAccountActivity extends AppCompatActivity {
 
     private void observeWork() {
         AuthRepository.workState.observe((LifecycleOwner) this, integer -> {
-            if (AuthRepository.work.equals("edit")) {
+            if (AuthRepository.work.equals("avatar")) {
+                if (integer == 1) {
+                    AuthRepository.workState.removeObservers((LifecycleOwner) this);
+
+                    doWork("edit");
+                } else if (integer == 0) {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    AuthRepository.workState.removeObservers((LifecycleOwner) this);
+                } else if (integer == -2) {
+                    progressDialog.dismiss();
+                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    AuthRepository.workState.removeObservers((LifecycleOwner) this);
+                }
+            } else if (AuthRepository.work.equals("edit")) {
                 if (integer == 1) {
                     setResult(RESULT_OK, null);
                     finish();
@@ -447,22 +477,20 @@ public class EditAccountActivity extends AppCompatActivity {
                     exceptionToast = ExceptionManager.errors.getString("name");
                 }
                 if (!ExceptionManager.errors.isNull("gender")) {
-                    genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    errorException("gender");
                     if (exceptionToast.equals("")) {
                         exceptionToast = ExceptionManager.errors.getString("gender");
                     } else {
                         exceptionToast += (" و " + ExceptionManager.errors.getString("gender"));
                     }
-                    genderException = true;
                 }
                 if (!ExceptionManager.errors.isNull("birthday")) {
-                    birthdayTextView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    errorException("birthday");
                     if (exceptionToast.equals("")) {
                         exceptionToast = ExceptionManager.errors.getString("birthday");
                     } else {
                         exceptionToast += (" و " + ExceptionManager.errors.getString("birthday"));
                     }
-                    birthdayException = true;
                 }
                 Toast.makeText(this, "" + exceptionToast, Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
@@ -567,15 +595,12 @@ public class EditAccountActivity extends AppCompatActivity {
                     Uri imageUri = Objects.requireNonNull(data).getData();
                     InputStream imageStream = getContentResolver().openInputStream(Objects.requireNonNull(imageUri));
 
-                    selectedImage = BitmapFactory.decodeStream(imageStream);
+                    selectedBitmap = BitmapFactory.decodeStream(imageStream);
 
-                    avatar = BitmapController.encodeToBase64(selectedImage);
-                    bitmapToFileConverter();
-                    viewModel.avatar();
-                    avatarCircleImageView.setImageBitmap(BitmapController.rotate(selectedImage, ""));
+                    FileManager.writeBitmapToCache(this, BitmapManager.encodeToByte(selectedBitmap), "avatar");
+
+                    avatarCircleImageView.setImageBitmap(BitmapManager.rotate(selectedBitmap, ""));
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } else if (requestCode == 200) {
@@ -599,43 +624,17 @@ public class EditAccountActivity extends AppCompatActivity {
                 bmOptions.inSampleSize = scaleFactor;
                 bmOptions.inPurgeable = true;
 
-                selectedImage = BitmapFactory.decodeFile(imageFilePath, bmOptions);
+                selectedBitmap = BitmapFactory.decodeFile(imageFilePath, bmOptions);
 
-                avatar = BitmapController.encodeToBase64(selectedImage);
-                bitmapToFileConverter();
-                try {
-                    viewModel.avatar();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                avatarCircleImageView.setImageBitmap(BitmapController.rotate(selectedImage, imageFilePath));
+                FileManager.writeBitmapToCache(this, BitmapManager.encodeToByte(selectedBitmap), "avatar");
+
+                avatarCircleImageView.setImageBitmap(BitmapManager.rotate(selectedBitmap, imageFilePath));
             }
         } else if (resultCode == RESULT_CANCELED) {
             if (requestCode == 100)
                 Toast.makeText(this, "عکسی انتخاب نشده است.", Toast.LENGTH_SHORT).show();
             else if (requestCode == 200)
                 Toast.makeText(this, "عکسی گرفته نشده است.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void bitmapToFileConverter() {
-        File file = new File(getApplicationContext().getCacheDir(), "avatar");
-        try {
-            file.createNewFile();
-
-            //Convert bitmap to byte array
-            Bitmap bitmap = selectedImage;
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
-            byte[] bitmapdata = bos.toByteArray();
-
-            //write the bytes in file
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(bitmapdata);
-            fos.flush();
-            fos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

@@ -23,11 +23,13 @@
                 <item
                     android:id="@+id/tool_reserve_construct"
                     android:icon="@drawable/ic_wrench_light"
-                    android:title="@string/AuthReserveConstruct"/>
+                    android:title="@string/AuthReserveConstruct"
+                    android:visible="false"/>
                 <item
                     android:id="@+id/tool_reserve_request"
                     android:icon="@drawable/ic_clock_light"
-                    android:title="@string/AuthReserveRequest"/>
+                    android:title="@string/AuthReserveRequest"
+                    android:visible="false"/>
             </group>
         </menu>
     </item>
@@ -38,7 +40,8 @@
                 <item
                     android:id="@+id/tool_treatment_psychologist"
                     android:icon="@drawable/ic_stethoscope_light"
-                    android:title="@string/AuthTreatmentPsychologist"/>
+                    android:title="@string/AuthTreatmentPsychologist"
+                    android:visible="false"/>
                 <item
                     android:id="@+id/tool_treatment_center"
                     android:icon="@drawable/ic_hospital_light"

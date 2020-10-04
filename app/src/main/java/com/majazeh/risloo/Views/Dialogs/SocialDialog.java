@@ -27,8 +27,8 @@ public class SocialDialog extends BottomSheetDialogFragment {
 
     // Objects
     private Activity activity;
-    private IntentCaller intentCaller;
     private Handler handler;
+    private IntentCaller intentCaller;
 
     // Widgets
     private LinearLayout telegramLinearLayout, instagramLinearLayout, facebookLinearLayout, twitterLinearLayout;
@@ -53,9 +53,9 @@ public class SocialDialog extends BottomSheetDialogFragment {
     }
 
     private void initializer(View view) {
-        intentCaller = new IntentCaller();
-
         handler = new Handler();
+
+        intentCaller = new IntentCaller();
 
         telegramLinearLayout = view.findViewById(R.id.dialog_social_telegram_linearLayout);
         instagramLinearLayout = view.findViewById(R.id.dialog_social_instagram_linearLayout);

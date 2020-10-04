@@ -49,7 +49,7 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.BitmapController;
+import com.majazeh.risloo.Models.Managers.BitmapManager;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -133,7 +133,7 @@ public class CreateCenterActivity extends AppCompatActivity {
         intentCaller = new IntentCaller();
 
         imageDialog = new ImageDialog(this);
-        imageDialog.type("createCenter");
+        imageDialog.setType("createCenter");
 
         handler = new Handler();
 
@@ -875,7 +875,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                     selectedImage = BitmapFactory.decodeStream(imageStream);
 
 
-                    avatar = BitmapController.encodeToBase64(selectedImage);
+                    avatar = BitmapManager.encodeToBase64(selectedImage);
                     bitmapToFileConverter();
 
                 } catch (FileNotFoundException e) {
@@ -905,7 +905,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
                 selectedImage = BitmapFactory.decodeFile(imageFilePath, bmOptions);
 
-                avatar = BitmapController.encodeToBase64(selectedImage);
+                avatar = BitmapManager.encodeToBase64(selectedImage);
                 bitmapToFileConverter();
             }
         } else if (resultCode == RESULT_CANCELED) {

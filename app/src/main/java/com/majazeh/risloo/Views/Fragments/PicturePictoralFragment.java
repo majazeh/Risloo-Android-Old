@@ -1,8 +1,6 @@
 package com.majazeh.risloo.Views.Fragments;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,32 +17,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
-import com.majazeh.risloo.ViewModels.SampleViewModel;
+import com.majazeh.risloo.Views.Activities.SampleActivity;
 import com.majazeh.risloo.Views.Adapters.PictoralAdapter;
 
 import org.json.JSONException;
 
-public class PicturePictoralFragment extends Fragment {
+import java.util.Objects;
 
-    // ViewModels
-    private SampleViewModel viewModel;
+public class PicturePictoralFragment extends Fragment {
 
     // Adapters
     private PictoralAdapter adapter;
 
     // Objects
     private Activity activity;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
 
     // Widgets
     private TextView questionTextView;
     private ImageView questionImageView;
     private RecyclerView answerRecyclerView;
 
-    public PicturePictoralFragment(Activity activity, SampleViewModel viewModel) {
+    public PicturePictoralFragment(Activity activity) {
         this.activity = activity;
-        this.viewModel = viewModel;
     }
 
     @Nullable
@@ -54,37 +48,35 @@ public class PicturePictoralFragment extends Fragment {
 
         initializer(view);
 
+        setData();
+
         return view;
     }
 
     private void initializer(View view) {
-        sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-
-        editor = sharedPreferences.edit();
-        editor.apply();
-
         adapter = new PictoralAdapter(activity);
-        adapter.setAnswer(viewModel.getOptions(viewModel.getIndex()), viewModel.answeredPosition(sharedPreferences.getString("sampleId",""), viewModel.getIndex()), viewModel);
 
         questionTextView = view.findViewById(R.id.fragment_picture_pictoral_question_textView);
-        try {
-            questionTextView.setText(viewModel.getItem(viewModel.getIndex()).get("text").toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         questionImageView = view.findViewById(R.id.fragment_picture_pictoral_question_imageView);
-//        try {
-//            questionImageView.setImageResource();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
 
         answerRecyclerView = view.findViewById(R.id.fragment_picture_pictoral_answer_recyclerView);
         answerRecyclerView.addItemDecoration(new ItemDecorator("gridLayout", (int) getResources().getDimension(R.dimen._8sdp), (int) getResources().getDimension(R.dimen._2sdp), (int) getResources().getDimension(R.dimen._24sdp)));
         answerRecyclerView.setLayoutManager(new GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false));
         answerRecyclerView.setHasFixedSize(true);
         answerRecyclerView.setAdapter(adapter);
+    }
+
+    private void setData() {
+        adapter.setAnswer(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getOptions(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getIndex()), ((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.answeredPosition(((SampleActivity) Objects.requireNonNull(getActivity())).sampleId, ((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getIndex()), ((SampleActivity) Objects.requireNonNull(getActivity())).viewModel);
+
+        try {
+            questionTextView.setText(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getItem(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getIndex()).get("text").toString());
+
+//            questionImageView.setImageResource();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

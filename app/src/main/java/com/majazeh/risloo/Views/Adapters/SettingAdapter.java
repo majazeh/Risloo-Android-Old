@@ -71,6 +71,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
 
     @Override
     public void onBindViewHolder(@NonNull MoreHolder holder, int i) {
+        Model model = settings.get(i);
 
         try {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -78,7 +79,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
             }
 
             if (i != settings.size() - 1) {
-                holder.titleTextView.setText(settings.get(i).get("title").toString());
+                holder.titleTextView.setText(model.get("title").toString());
             } else {
                 if (viewModel.hasUpdate()) {
                     holder.titleTextView.setText(activity.getResources().getString(R.string.SettingUpdate));
@@ -90,8 +91,10 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
 
                 holder.lineView.setVisibility(View.GONE);
             }
-            holder.avatarImageView.setImageDrawable((Drawable) settings.get(i).get("image"));
-            holder.avatarImageView.setBackground((Drawable) settings.get(i).get("drawable"));
+
+            holder.avatarImageView.setImageDrawable((Drawable) model.get("image"));
+            holder.avatarImageView.setBackground((Drawable) model.get("drawable"));
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -119,8 +122,8 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
         handler = new Handler();
     }
 
-    public void setMore(ArrayList<Model> mores) {
-        this.settings = mores;
+    public void setSetting(ArrayList<Model> settings) {
+        this.settings = settings;
         notifyDataSetChanged();
     }
 

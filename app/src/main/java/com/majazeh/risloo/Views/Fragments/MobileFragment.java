@@ -81,8 +81,8 @@ public class MobileFragment extends Fragment {
         mobileEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!mobileEditText.hasFocus()) {
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).selectInput(mobileEditText);
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).focusInput(mobileEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.focus(mobileEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.select(mobileEditText);
                 }
             }
             return false;
@@ -97,7 +97,7 @@ public class MobileFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (mobileEditText.length() == 11) {
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(mobileEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.clear(getActivity(), mobileEditText);
                     doWork();
                 }
             }
@@ -110,9 +110,9 @@ public class MobileFragment extends Fragment {
 
         mobileButton.setOnClickListener(v -> {
             if (mobileEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(mobileEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.error(getActivity(), mobileEditText);
             } else {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(mobileEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.clear(getActivity(), mobileEditText);
                 doWork();
             }
         });

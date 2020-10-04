@@ -48,11 +48,6 @@ public interface AuthApi {
     Call<ResponseBody> edit(@Header("Authorization") String authorization, @Query("name") String name, @Query("gender") String gender, @Query("birthday") String birthday);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
-    @Multipart
-    @POST("users/{UserId}/avatar")
-    Call<ResponseBody> avatar(@Header("Authorization") String authorization, @Path("UserId") String UserId, @Part MultipartBody.Part filePart);
-
-    @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @POST("logout")
     Call<ResponseBody> logOut(@Header("Authorization") String authorization);
 

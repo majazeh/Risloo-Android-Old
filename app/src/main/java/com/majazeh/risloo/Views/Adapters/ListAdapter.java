@@ -64,7 +64,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
             if (model.get("subset").equals("big")) {
                 if (asset.equals("AboutUs")) {
                     subListBigAdapter.setSubListBig(aboutUsViewModel.getSubset(i));
-                } else if (asset.equals("TermCondition")){
+                } else if (asset.equals("TermCondition")) {
                     subListBigAdapter.setSubListBig(termConditionViewModel.getSubset(i));
                 }
 
@@ -75,10 +75,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
                 holder.listRecyclerView.setHasFixedSize(false);
                 holder.listRecyclerView.setAdapter(subListBigAdapter);
 
-            } else if (list.get(i).get("subset").equals("small")){
+            } else if (list.get(i).get("subset").equals("small")) {
                 if (asset.equals("AboutUs")) {
                     subListSmallAdapter.setSubListSmall(aboutUsViewModel.getSubset(i));
-                } else if (asset.equals("TermCondition")){
+                } else if (asset.equals("TermCondition")) {
                     subListSmallAdapter.setSubListSmall(termConditionViewModel.getSubset(i));
                 }
 
@@ -89,7 +89,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
                 holder.listRecyclerView.setHasFixedSize(false);
                 holder.listRecyclerView.setAdapter(subListSmallAdapter);
 
-            } else if (list.get(i).get("subset").equals("none")){
+            } else if (list.get(i).get("subset").equals("none")) {
                 holder.listRecyclerView.setVisibility(View.GONE);
             }
 

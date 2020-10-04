@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/_10sdp"
             android:paddingBottom="@dimen/_10sdp"
-            android:paddingLeft="@dimen/_12sdp"
+            android:paddingLeft="@dimen/_8sdp"
             android:paddingRight="@dimen/_12sdp"
             android:layoutDirection="ltr"
             android:orientation="horizontal">

@@ -63,11 +63,14 @@ public class SampleActivity extends AppCompatActivity {
     // Adapters
     private IndexAdapter adapter;
 
+    // Vars
+    public String sampleId = "";
+
     // Objects
     private Handler handler;
-    private Animation animSlideIn, animSlideOut;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private Animation animSlideIn, animSlideOut;
     private ClickableSpan retrySpan;
 
     // Widgets
@@ -107,14 +110,16 @@ public class SampleActivity extends AppCompatActivity {
     private void initializer() {
         viewModel = new ViewModelProvider(this).get(SampleViewModel.class);
 
+        adapter = new IndexAdapter(this);
+
+        handler = new Handler();
+
         sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
         editor = sharedPreferences.edit();
         editor.apply();
 
-        adapter = new IndexAdapter(this);
-
-        handler = new Handler();
+        sampleId = sharedPreferences.getString("sampleId", "");
 
         animSlideIn = AnimationUtils.loadAnimation(this, R.anim.slide_in_top);
         animSlideOut = AnimationUtils.loadAnimation(this, R.anim.slide_out_top);
@@ -267,13 +272,13 @@ public class SampleActivity extends AppCompatActivity {
                 setButtonText();
                 setProgress();
 
-                loadFragment(new DescriptionFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                loadFragment(new DescriptionFragment(this), R.anim.fade_in, R.anim.fade_out);
                 break;
             case "prerequisite":
                 setButtonText();
                 setProgress();
 
-                loadFragment(new PrerequisiteFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                loadFragment(new PrerequisiteFragment(this), R.anim.fade_in, R.anim.fade_out);
                 break;
             case "sample":
                 setButtonText();
@@ -281,22 +286,22 @@ public class SampleActivity extends AppCompatActivity {
 
                 switch (viewModel.getType(viewModel.getIndex())) {
                     case "textTyping":
-                        loadFragment(new TextTypingFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                        loadFragment(new TextTypingFragment(this), R.anim.fade_in, R.anim.fade_out);
                         break;
                     case "optional":
-                        loadFragment(new TextOptionalFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                        loadFragment(new TextOptionalFragment(this), R.anim.fade_in, R.anim.fade_out);
                         break;
                     case "textPictoral":
-                        loadFragment(new TextPictoralFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                        loadFragment(new TextPictoralFragment(this), R.anim.fade_in, R.anim.fade_out);
                         break;
                     case "pictureTyping":
-                        loadFragment(new PictureTypingFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                        loadFragment(new PictureTypingFragment(this), R.anim.fade_in, R.anim.fade_out);
                         break;
                     case "pictureOptional":
-                        loadFragment(new PictureOptionalFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                        loadFragment(new PictureOptionalFragment(this), R.anim.fade_in, R.anim.fade_out);
                         break;
                     case "picturePictoral":
-                        loadFragment(new PicturePictoralFragment(this, viewModel), R.anim.fade_in, R.anim.fade_out);
+                        loadFragment(new PicturePictoralFragment(this), R.anim.fade_in, R.anim.fade_out);
                         break;
                 }
                 break;
@@ -344,14 +349,14 @@ public class SampleActivity extends AppCompatActivity {
                     progressLinearLayout.setVisibility(View.VISIBLE);
                 }
                 progressBar.setMax(viewModel.getSize());
-                progressBar.setProgress(viewModel.answeredSize(sharedPreferences.getString("sampleId", "")));
+                progressBar.setProgress(viewModel.answeredSize(sampleId));
 
-                closeDialogAnswered.setText(String.valueOf(viewModel.answeredSize(sharedPreferences.getString("sampleId", ""))));
-                closeDialogUnAnswered.setText(String.valueOf(viewModel.getSize() - viewModel.answeredSize(sharedPreferences.getString("sampleId", ""))));
+                closeDialogAnswered.setText(String.valueOf(viewModel.answeredSize(sampleId)));
+                closeDialogUnAnswered.setText(String.valueOf(viewModel.getSize() - viewModel.answeredSize(sampleId)));
 
                 indexRecyclerView.scrollToPosition(viewModel.getIndex());
 
-                adapter.setIndex(viewModel.readSampleAnswerFromCache(sharedPreferences.getString("sampleId", "")), viewModel);
+                adapter.setIndex(viewModel.readSampleAnswerFromCache(sampleId), viewModel);
                 adapter.notifyDataSetChanged();
 
                 break;
@@ -359,17 +364,17 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void setRecyclerView() {
-        adapter.setIndex(viewModel.readSampleAnswerFromCache(sharedPreferences.getString("sampleId", "")), viewModel);
+        adapter.setIndex(viewModel.readSampleAnswerFromCache(sampleId), viewModel);
         indexRecyclerView.setAdapter(adapter);
 
-        viewModel.setIndex(viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")));
+        viewModel.setIndex(viewModel.firstUnAnswered(sampleId));
     }
 
     private void launchProcess(String method) {
         switch (method) {
             case "getSingle":
                 try {
-                    viewModel.sample(sharedPreferences.getString("sampleId", ""));
+                    viewModel.sample(sampleId);
                     observeWorkSample();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -378,7 +383,7 @@ public class SampleActivity extends AppCompatActivity {
             case "closeSample":
                 try {
                     progressDialog.show();
-                    viewModel.close(sharedPreferences.getString("sampleId", ""));
+                    viewModel.close(sampleId);
                     observeWorkSample();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -391,12 +396,12 @@ public class SampleActivity extends AppCompatActivity {
                         if (fragment.prerequisites().isEmpty()) {
                             Toast.makeText(this, "لطفا یک پارامتری را پر نمایید", Toast.LENGTH_SHORT).show();
                         } else {
-                            if (fragment.adapter.inputEditText != null && fragment.adapter.inputEditText.hasFocus()) {
-                                fragment.adapter.clearInput(fragment.adapter.inputEditText);
+                            if (fragment.adapter.inputHandler.getInput() != null && fragment.adapter.inputHandler.getInput().hasFocus()) {
+                                fragment.adapter.inputHandler.clear(this, fragment.adapter.inputHandler.getInput());
                             }
 
                             progressDialog.show();
-                            viewModel.sendPrerequisite(sharedPreferences.getString("sampleId", ""), fragment.prerequisites());
+                            viewModel.sendPrerequisite(sampleId, fragment.prerequisites());
                             observeWorkAnswer();
                         }
                     }
@@ -411,8 +416,8 @@ public class SampleActivity extends AppCompatActivity {
         SampleRepository.workStateSample.observe(this, integer -> {
             if (SampleRepository.work.equals("getSingle")) {
                 if (integer == 1) {
-                    if (viewModel.hasPrerequisiteAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
-                        if (viewModel.checkPrerequisiteAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
+                    if (viewModel.hasPrerequisiteAnswerStorage(sampleId)) {
+                        if (viewModel.checkPrerequisiteAnswerStorage(sampleId)) {
                             // Show Description
 
                             SampleRepository.theory = "description";
@@ -424,11 +429,14 @@ public class SampleActivity extends AppCompatActivity {
 
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         } else {
-                            if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) == -1) {
-                                if (viewModel.answeredSize(sharedPreferences.getString("sampleId", "")) == viewModel.getSize()) {
+                            if (viewModel.firstUnAnswered(sampleId) == -1) {
+                                if (viewModel.answeredSize(sampleId) == viewModel.getSize()) {
                                     // Answered All Questions
 
-                                    startActivity(new Intent(this, OutroActivity.class));
+                                    Intent intent = (new Intent(this, OutroActivity.class));
+                                    intent.putExtra("sampleId", sampleId);
+
+                                    startActivity(intent);
                                     finish();
 
                                     SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
@@ -475,8 +483,8 @@ public class SampleActivity extends AppCompatActivity {
                     }
                 } else if (integer == 0) {
                     if (viewModel.getItems() == null) {
-                        if (viewModel.hasPrerequisiteAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
-                            if (viewModel.checkPrerequisiteAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
+                        if (viewModel.hasPrerequisiteAnswerStorage(sampleId)) {
+                            if (viewModel.checkPrerequisiteAnswerStorage(sampleId)) {
                                 // Show Description
 
                                 SampleRepository.theory = "description";
@@ -513,10 +521,13 @@ public class SampleActivity extends AppCompatActivity {
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         }
                     } else {
-                        if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) == -1) {
+                        if (viewModel.firstUnAnswered(sampleId) == -1) {
                             // Answered All Questions
 
-                            startActivity(new Intent(this, OutroActivity.class));
+                            Intent intent = (new Intent(this, OutroActivity.class));
+                            intent.putExtra("sampleId", sampleId);
+
+                            startActivity(intent);
                             finish();
 
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
@@ -537,8 +548,8 @@ public class SampleActivity extends AppCompatActivity {
                     }
                 } else if (integer == -2) {
                     if (viewModel.getItems() == null) {
-                        if (viewModel.hasPrerequisiteAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
-                            if (viewModel.checkPrerequisiteAnswerStorage(sharedPreferences.getString("sampleId", ""))) {
+                        if (viewModel.hasPrerequisiteAnswerStorage(sampleId)) {
+                            if (viewModel.checkPrerequisiteAnswerStorage(sampleId)) {
                                 // Show Description
 
                                 SampleRepository.theory = "description";
@@ -575,10 +586,13 @@ public class SampleActivity extends AppCompatActivity {
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         }
                     } else {
-                        if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) == -1) {
+                        if (viewModel.firstUnAnswered(sampleId) == -1) {
                             // Answered All Questions
 
-                            startActivity(new Intent(this, OutroActivity.class));
+                            Intent intent = (new Intent(this, OutroActivity.class));
+                            intent.putExtra("sampleId", sampleId);
+
+                            startActivity(intent);
                             finish();
 
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
@@ -607,7 +621,10 @@ public class SampleActivity extends AppCompatActivity {
                 if (integer == 1) {
                     setResult(RESULT_OK, null);
 
-                    startActivity(new Intent(this, OutroActivity.class));
+                    Intent intent = (new Intent(this, OutroActivity.class));
+                    intent.putExtra("sampleId", sampleId);
+
+                    startActivity(intent);
                     finish();
 
                     progressDialog.dismiss();

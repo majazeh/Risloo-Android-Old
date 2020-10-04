@@ -23,16 +23,13 @@ public class SettingItems {
         this.application = application;
     }
 
-    private void refresh() throws JSONException {
+    public ArrayList<Model> items() throws JSONException {
         items.clear();
 
         for (int i = 0; i < data().length(); i++) {
             items.add(new Model(data().getJSONObject(i)));
         }
-    }
 
-    public ArrayList<Model> items() throws JSONException {
-        refresh();
         return items;
     }
 

@@ -57,7 +57,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="@dimen/_8sdp"
                         app:civ_border_width="@dimen/_6sdp"
-                        app:civ_border_color="@color/Snow"/>
+                        app:civ_border_color="@color/Snow" />
 
                     <ImageView
                         android:id="@+id/activity_edit_account_avatar_imageView"
@@ -69,26 +69,22 @@
                         android:padding="@dimen/_8sdp"
                         android:background="@drawable/draw_oval_solid_snow_border_quartz"
                         android:src="@drawable/ic_gallery_regular"
-                        app:tint="@color/Mischka">
-
-                    </ImageView>
+                        app:tint="@color/Mischka" />
 
                 </RelativeLayout>
 
                 <EditText
                     android:id="@+id/activity_edit_account_name_editText"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:paddingTop="@dimen/_8sdp"
-                    android:paddingBottom="@dimen/_8sdp"
+                    android:layout_height="@dimen/_36sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
                     android:paddingLeft="@dimen/_16sdp"
                     android:paddingRight="@dimen/_16sdp"
                     android:imeOptions="actionDone"
                     android:cursorVisible="false"
                     android:inputType="text"
                     android:hint="@string/EditAccountName"
-                    android:gravity="right"
+                    android:gravity="center|right"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"
                     android:textColor="@color/Grey"
@@ -100,7 +96,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
                     app:cardBackgroundColor="@color/White"
                     app:cardCornerRadius="@dimen/_16sdp"
                     app:cardElevation="0dp">
@@ -138,18 +134,16 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_36sdp"
                     android:layout_marginBottom="@dimen/_24sdp">
 
                     <TextView
                         android:id="@+id/activity_edit_account_birthday_textView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/_8sdp"
-                        android:paddingBottom="@dimen/_8sdp"
+                        android:layout_height="match_parent"
                         android:paddingLeft="@dimen/_16sdp"
                         android:paddingRight="@dimen/_16sdp"
-                        android:gravity="right"
+                        android:gravity="center|right"
                         android:hint="@string/EditAccountBirthday"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="normal"
@@ -171,9 +165,7 @@
                 <Button
                     android:id="@+id/activity_edit_account_edit_button"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/_6sdp"
-                    android:paddingBottom="@dimen/_6sdp"
+                    android:layout_height="@dimen/_36sdp"
                     android:gravity="center"
                     android:text="@string/EditAccountEdit"
                     android:textSize="@dimen/_12ssp"

@@ -29,8 +29,8 @@ public class SplashActivity extends AppCompatActivity {
     private ExplodeViewModel viewModel;
 
     // Objects
-    private IntentCaller intentCaller;
     private Handler handler;
+    private IntentCaller intentCaller;
 
     // Widgets
     private TextView versionTextView;
@@ -63,9 +63,9 @@ public class SplashActivity extends AppCompatActivity {
     private void initializer() {
         viewModel = new ViewModelProvider(this).get(ExplodeViewModel.class);
 
-        intentCaller = new IntentCaller();
-
         handler = new Handler();
+
+        intentCaller = new IntentCaller();
 
         versionTextView = findViewById(R.id.activity_splash_version_textView);
         versionTextView.setText(currentVersion());

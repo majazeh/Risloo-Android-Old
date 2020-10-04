@@ -39,6 +39,8 @@ public class SettingActivity extends AppCompatActivity {
         initializer();
 
         listener();
+
+        setData();
     }
 
     private void decorator() {
@@ -50,11 +52,6 @@ public class SettingActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(SettingViewModel.class);
 
         adapter = new SettingAdapter(this);
-        try {
-            adapter.setMore(viewModel.getAll());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         toolbar = findViewById(R.id.activity_setting_toolbar);
 
@@ -70,6 +67,14 @@ public class SettingActivity extends AppCompatActivity {
             finish();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
+    }
+
+    private void setData() {
+        try {
+            adapter.setSetting(viewModel.getAll());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

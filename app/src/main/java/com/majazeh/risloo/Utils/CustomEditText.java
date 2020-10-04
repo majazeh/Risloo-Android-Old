@@ -11,8 +11,8 @@ public class CustomEditText extends EditText {
     // Objects
     private OnCutCopyPasteListener onCutCopyPasteListener;
 
-    public void setOnCutCopyPasteListener(OnCutCopyPasteListener listener) {
-        onCutCopyPasteListener = listener;
+    public void setOnCutCopyPasteListener(OnCutCopyPasteListener onCutCopyPasteListener) {
+        this.onCutCopyPasteListener = onCutCopyPasteListener;
     }
 
     public CustomEditText(Context context) {
@@ -44,19 +44,19 @@ public class CustomEditText extends EditText {
     }
 
     public void onCut() {
-        if (onCutCopyPasteListener !=null) {
+        if (onCutCopyPasteListener != null) {
             onCutCopyPasteListener.onCut();
         }
     }
 
     public void onCopy(){
-        if (onCutCopyPasteListener !=null) {
+        if (onCutCopyPasteListener != null) {
             onCutCopyPasteListener.onCopy();
         }
     }
 
     public void onPaste(){
-        if (onCutCopyPasteListener !=null) {
+        if (onCutCopyPasteListener != null) {
             onCutCopyPasteListener.onPaste();
         }
     }

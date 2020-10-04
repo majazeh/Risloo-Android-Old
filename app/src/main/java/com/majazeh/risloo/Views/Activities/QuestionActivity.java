@@ -31,7 +31,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     // Widgets
     private Toolbar toolbar;
-    private RecyclerView questionsRecyclerView;
+    private RecyclerView questionRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,8 @@ public class QuestionActivity extends AppCompatActivity {
         initializer();
 
         listener();
+
+        setData();
     }
 
     private void decorator() {
@@ -55,28 +57,16 @@ public class QuestionActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(QuestionViewModel.class);
 
         expands = new HashMap<>();
-        try {
-            for (int i = 0; i < viewModel.getAll().size(); i++) {
-                expands.put(i, false);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         adapter = new QuestionAdapter(this);
-        try {
-            adapter.setQuestion(viewModel.getAll(), expands);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         toolbar = findViewById(R.id.activity_question_toolbar);
 
-        questionsRecyclerView = findViewById(R.id.activity_question_recyclerView);
-        questionsRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
-        questionsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        questionsRecyclerView.setHasFixedSize(true);
-        questionsRecyclerView.setAdapter(adapter);
+        questionRecyclerView = findViewById(R.id.activity_question_recyclerView);
+        questionRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
+        questionRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        questionRecyclerView.setHasFixedSize(true);
+        questionRecyclerView.setAdapter(adapter);
     }
 
     private void listener() {
@@ -84,6 +74,18 @@ public class QuestionActivity extends AppCompatActivity {
             finish();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
+    }
+
+    private void setData() {
+        try {
+            for (int i = 0; i < viewModel.getAll().size(); i++) {
+                expands.put(i, false);
+            }
+
+            adapter.setQuestion(viewModel.getAll(), expands);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -39,8 +39,9 @@ public class IntentCaller {
     }
 
     public void file(Activity activity, String chooser) {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");
+        Intent intent = new Intent("com.sec.android.app.myfiles.PICK_DATA");
+        intent.putExtra("CONTENT_TYPE", "*/*");
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
 
         activity.startActivityForResult(Intent.createChooser(intent, chooser), 300);
     }

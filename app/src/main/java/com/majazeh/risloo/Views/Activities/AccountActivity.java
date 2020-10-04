@@ -17,7 +17,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -52,7 +51,7 @@ public class AccountActivity extends AppCompatActivity {
 
     // Widgets
     private Toolbar toolbar;
-    private CircleImageView avatarImageView;
+    private CircleImageView avatarCircleImageView;
     private TextView nameTextView, editTextView, sendTextView;
     private RecyclerView accountRecyclerView;
     private Dialog logOutDialog, progressDialog;
@@ -71,6 +70,8 @@ public class AccountActivity extends AppCompatActivity {
         detector();
 
         listener();
+
+        setData();
     }
 
     private void decorator() {
@@ -82,26 +83,15 @@ public class AccountActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
         adapter = new AccountAdapter(this);
-        try {
-            adapter.setAccount(viewModel.getAll());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         handler = new Handler();
 
         toolbar = findViewById(R.id.activity_account_toolbar);
         setSupportActionBar(toolbar);
 
-        avatarImageView = findViewById(R.id.activity_account_avatar_circleImageView);
-        if (viewModel.getAvatar().equals("")) {
-            avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_solid));
-        } else {
-            Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarImageView);
-        }
+        avatarCircleImageView = findViewById(R.id.activity_account_avatar_circleImageView);
 
         nameTextView = findViewById(R.id.activity_account_name_textView);
-        nameTextView.setText(viewModel.getName());
         editTextView = findViewById(R.id.activity_account_edit_textView);
         sendTextView = findViewById(R.id.activity_account_send_textView);
 
@@ -155,9 +145,9 @@ public class AccountActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
         });
 
-        avatarImageView.setOnClickListener(v -> {
-            avatarImageView.setClickable(false);
-            handler.postDelayed(() -> avatarImageView.setClickable(true), 300);
+        avatarCircleImageView.setOnClickListener(v -> {
+            avatarCircleImageView.setClickable(false);
+            handler.postDelayed(() -> avatarCircleImageView.setClickable(true), 300);
 
             if (!viewModel.getName().equals("") && !viewModel.getAvatar().equals("")) {
                 Intent intent = (new Intent(this, ImageActivity.class));
@@ -181,7 +171,7 @@ public class AccountActivity extends AppCompatActivity {
             sendTextView.setClickable(false);
             handler.postDelayed(() -> sendTextView.setClickable(true), 300);
 
-            startActivity(new Intent(this, SendDocumentsActivity.class));
+            startActivity(new Intent(this, SendDocActivity.class));
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
 
@@ -200,6 +190,26 @@ public class AccountActivity extends AppCompatActivity {
         });
 
         logOutDialog.setOnCancelListener(dialog -> logOutDialog.dismiss());
+    }
+
+    private void setData() {
+        try {
+            adapter.setAccount(viewModel.getAll());
+
+            if (viewModel.getAvatar().equals("")) {
+                avatarCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_solid));
+            } else {
+                Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarCircleImageView);
+            }
+
+            if (viewModel.getName().equals("")) {
+                nameTextView.setText(getResources().getString(R.string.AuthNameDefault));
+            } else {
+                nameTextView.setText(viewModel.getName());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void doWork() {
@@ -262,19 +272,7 @@ public class AccountActivity extends AppCompatActivity {
 
                 setResult(RESULT_OK, intent);
 
-                try {
-                    adapter.setAccount(viewModel.getAll());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                if (viewModel.getAvatar().equals("")) {
-                    avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_solid));
-                } else {
-                    Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarImageView);
-                }
-
-                nameTextView.setText(viewModel.getName());
+                setData();
             }
         }
     }

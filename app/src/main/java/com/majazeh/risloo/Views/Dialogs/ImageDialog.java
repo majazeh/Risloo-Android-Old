@@ -30,11 +30,13 @@ import java.util.Objects;
 
 public class ImageDialog extends BottomSheetDialogFragment {
 
+    // Vars
+    private String type;
+
     // Objects
     private Activity activity;
-    private IntentCaller intentCaller;
     private Handler handler;
-    private String type;
+    private IntentCaller intentCaller;
 
     // Widgets
     private LinearLayout galleryLinearLayout, cameraLinearLayout;
@@ -59,9 +61,9 @@ public class ImageDialog extends BottomSheetDialogFragment {
     }
 
     private void initializer(View view) {
-        intentCaller = new IntentCaller();
-
         handler = new Handler();
+
+        intentCaller = new IntentCaller();
 
         galleryLinearLayout = view.findViewById(R.id.dialog_image_gallery_linearLayout);
         cameraLinearLayout = view.findViewById(R.id.dialog_image_camera_linearLayout);
@@ -87,7 +89,7 @@ public class ImageDialog extends BottomSheetDialogFragment {
                 } else {
                     ((EditAccountActivity) Objects.requireNonNull(getActivity())).checkGalleryPermission();
                 }
-            }else{
+            } else if (type.equals("createCenter")) {
                 if (((CreateCenterActivity) Objects.requireNonNull(getActivity())).galleryPermissionsGranted) {
                     intentCaller.gallery(activity);
                 } else {
@@ -100,17 +102,18 @@ public class ImageDialog extends BottomSheetDialogFragment {
             cameraLinearLayout.setClickable(false);
             handler.postDelayed(() -> cameraLinearLayout.setClickable(true), 300);
             dismiss();
+
             if (type.equals("editAccount")) {
-            if (((EditAccountActivity) Objects.requireNonNull(getActivity())).cameraPermissionsGranted) {
-                try {
-                    intentCaller.camera(activity, ((EditAccountActivity) Objects.requireNonNull(activity)).createImageFile());
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (((EditAccountActivity) Objects.requireNonNull(getActivity())).cameraPermissionsGranted) {
+                    try {
+                        intentCaller.camera(activity, ((EditAccountActivity) Objects.requireNonNull(activity)).createImageFile());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    ((EditAccountActivity) Objects.requireNonNull(getActivity())).checkCameraPermission();
                 }
-            } else {
-                ((EditAccountActivity) Objects.requireNonNull(getActivity())).checkCameraPermission();
-            }
-            }else{
+            } else if (type.equals("createCenter")) {
                 if (((CreateCenterActivity) Objects.requireNonNull(getActivity())).cameraPermissionsGranted) {
                     try {
                         intentCaller.camera(activity, ((CreateCenterActivity) Objects.requireNonNull(activity)).createImageFile());
@@ -121,6 +124,7 @@ public class ImageDialog extends BottomSheetDialogFragment {
                     ((CreateCenterActivity) Objects.requireNonNull(getActivity())).checkCameraPermission();
                 }
             }
+
         });
 
         closeTextView.setOnClickListener(v -> {
@@ -164,7 +168,7 @@ public class ImageDialog extends BottomSheetDialogFragment {
         }
     }
 
-    public void type(String type){
+    public void setType(String type) {
         this.type = type;
     }
 

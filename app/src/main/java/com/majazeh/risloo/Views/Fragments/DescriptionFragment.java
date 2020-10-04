@@ -12,14 +12,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.ViewModels.SampleViewModel;
+import com.majazeh.risloo.Views.Activities.SampleActivity;
+
+import java.util.Objects;
 
 import io.noties.markwon.Markwon;
 
 public class DescriptionFragment extends Fragment {
-
-    // ViewModels
-    private SampleViewModel viewModel;
 
     // Objects
     private Activity activity;
@@ -27,9 +26,8 @@ public class DescriptionFragment extends Fragment {
     // Widgets
     private TextView markdownTextView;
 
-    public DescriptionFragment(Activity activity, SampleViewModel viewModel) {
+    public DescriptionFragment(Activity activity) {
         this.activity = activity;
-        this.viewModel = viewModel;
     }
 
     @Nullable
@@ -39,12 +37,17 @@ public class DescriptionFragment extends Fragment {
 
         initializer(view);
 
+        setData();
+
         return view;
     }
 
     private void initializer(View view) {
         markdownTextView = view.findViewById(R.id.fragment_description_textView);
-        Markwon.create(activity).setMarkdown(markdownTextView, viewModel.getDescription());
+    }
+
+    private void setData() {
+        Markwon.create(activity).setMarkdown(markdownTextView,  ((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getDescription());
     }
 
 }

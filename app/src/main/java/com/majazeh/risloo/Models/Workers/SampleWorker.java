@@ -173,7 +173,7 @@ public class SampleWorker extends Worker {
                         FileManager.writeObjectToCache(context, successBody, "samples", "all");
                     } else {
                         JSONObject jsonObject = FileManager.readObjectFromCache(context, "samples", "all");
-                        JSONArray data = null;
+                        JSONArray data;
                         try {
                             data = jsonObject.getJSONArray("data");
                             for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
@@ -658,6 +658,7 @@ public class SampleWorker extends Worker {
                         ExceptionManager.getException(response.code(), errorBody, true, "scores", "sample");
                         SampleRepository.workStateSample.postValue(0);
                     }
+
                 } catch (SocketTimeoutException e) {
                     e.printStackTrace();
 

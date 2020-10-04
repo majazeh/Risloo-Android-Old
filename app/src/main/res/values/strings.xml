@@ -54,6 +54,34 @@
     // auth strings
     ////////////////////////////////////////////////////////////////////////////////
 
+    <string name="AuthUserId">شماره کاربری</string>
+    <string name="AuthUserIdDefault">نامشخص</string>
+
+    <string name="AuthName">نام و نام خانوادگی</string>
+    <string name="AuthNameDefault">کاربر تجربی</string>
+
+    <string name="AuthType">نوع حساب</string>
+    <string name="AuthTypePsychology">مشاور</string>
+    <string name="AuthTypeClinicCenter">مرکز درمانی</string>
+    <string name="AuthTypeOperator">اپراتور</string>
+    <string name="AuthTypeAdmin">ادمین</string>
+    <string name="AuthTypeClient">مراجع</string>
+    <string name="AuthTypeDefault">نامشخص</string>
+
+    <string name="AuthMobile">شماره همراه</string>
+    <string name="AuthMobileDefault">نامشخص</string>
+
+    <string name="AuthEmail">پست الکترونیک</string>
+    <string name="AuthEmailDefault">نامشخص</string>
+
+    <string name="AuthGender">جنسیت</string>
+    <string name="AuthGenderMale">مرد</string>
+    <string name="AuthGenderFemale">زن</string>
+    <string name="AuthGenderDefault">نامشخص</string>
+
+    <string name="AuthBirthday">تاریخ تولد</string>
+    <string name="AuthBirthdayDefault">1400-01-01</string>
+
     <string name="AuthSampleTitle">نمونه</string>
     <string name="AuthSampleStart">شروع نمونه</string>
     <string name="AuthSampleList">نمونه ها</string>
@@ -289,15 +317,18 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // send documents strings
+    // send doc strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="SendDocumentsTitle">ارسال مدارک هویتی</string>
+    <string name="SendDocTitle">ارسال مدارک هویتی</string>
 
-    <string name="SendDocumentsFile">فایل مدارک هویتی انتخاب کن</string>
-    <string name="SendDocumentsFileChooser">بخش انتخاب کنید</string>
+    <string name="SendDocName">عنوان</string>
+    <string name="SendDocDescription">توضیحات</string>
+    <string name="SendDocAttachment">فایل مدارک هویتی انتخاب کن</string>
 
-    <string name="SendDocumentsSend">ارسال</string>
+    <string name="SendDocAttachmentChooser">بخش انتخاب کنید</string>
+
+    <string name="SendDocSend">ارسال</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

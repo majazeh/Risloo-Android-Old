@@ -22,8 +22,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -31,6 +29,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.InputHandler;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Fragments.MobileFragment;
@@ -56,6 +55,7 @@ public class AuthActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
+    public InputHandler inputHandler;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -64,8 +64,7 @@ public class AuthActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private FrameLayout navigationFooter;
     private Toolbar titleToolbar;
-    private CircleImageView avatarImageView;
-    public EditText inputEditText;
+    private CircleImageView avatarCircleImageView;
     public Dialog progressDialog;
 
     @Override
@@ -81,6 +80,8 @@ public class AuthActivity extends AppCompatActivity {
         detector();
 
         listener();
+
+        setData();
 
         launchAuth(0, 0);
     }
@@ -100,40 +101,20 @@ public class AuthActivity extends AppCompatActivity {
 
         handler = new Handler();
 
+        inputHandler = new InputHandler();
+
         callTimer = new MutableLiveData<>();
         callTimer.setValue(-1);
 
         drawerLayout = findViewById(R.id.activity_auth);
 
         navigationView = findViewById(R.id.activity_auth_navigationView);
-        if (token()) {
-            navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(true);
-            navigationView.getMenu().findItem(R.id.tool_reserve_request).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_reserve_construct).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_treatment_psychologist).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(true);
-        } else {
-            navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_reserve_request).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_reserve_construct).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_treatment_psychologist).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
-        }
+
         navigationFooter = navigationView.findViewById(R.id.activity_auth_footer);
 
         titleToolbar = findViewById(R.id.activity_auth_toolbar);
 
-        avatarImageView = findViewById(R.id.activity_auth_avatar_circleImageView);
-        if (token()) {
-            avatarImageView.setVisibility(View.VISIBLE);
-            if (viewModel.getAvatar().equals("")) {
-                avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_light));
-            } else {
-                Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarImageView);
-            }
-        } else {
-            avatarImageView.setVisibility(View.GONE);
-        }
+        avatarCircleImageView = findViewById(R.id.activity_auth_avatar_circleImageView);
 
         progressDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
@@ -150,16 +131,16 @@ public class AuthActivity extends AppCompatActivity {
 
     private void listener() {
         titleToolbar.setNavigationOnClickListener(v -> {
-            if (inputEditText != null && inputEditText.hasFocus()) {
-                clearInput(inputEditText);
+            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                inputHandler.clear(this, inputHandler.getInput());
             }
 
             drawerLayout.openDrawer(GravityCompat.START);
         });
 
-        avatarImageView.setOnClickListener(v -> {
-            if (inputEditText != null && inputEditText.hasFocus()) {
-                clearInput(inputEditText);
+        avatarCircleImageView.setOnClickListener(v -> {
+            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                inputHandler.clear(this, inputHandler.getInput());
             }
 
             startActivityForResult(new Intent(this, AccountActivity.class), 100);
@@ -208,29 +189,31 @@ public class AuthActivity extends AppCompatActivity {
         });
     }
 
-    public void focusInput(EditText input) {
-        this.inputEditText = input;
+    private void setData() {
+        if (!viewModel.getToken().equals("")) {
+            navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(true);
+            navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(true);
+
+            avatarCircleImageView.setVisibility(View.VISIBLE);
+            if (viewModel.getAvatar().equals("")) {
+                avatarCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_light));
+            } else {
+                Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarCircleImageView);
+            }
+        } else {
+            navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
+
+            avatarCircleImageView.setVisibility(View.GONE);
+        }
     }
 
-    public void selectInput(EditText input) {
-        input.setCursorVisible(true);
-        input.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-    }
-
-    public void errorInput(EditText input) {
-        input.clearFocus();
-        input.setCursorVisible(false);
-        input.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-
-        hideKeyboard();
-    }
-
-    public void clearInput(EditText input) {
-        input.clearFocus();
-        input.setCursorVisible(false);
-        input.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-
-        hideKeyboard();
+    private void errorException() {
+        RegisterFragment registerFragment = ((RegisterFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+        if (registerFragment != null) {
+            registerFragment.genderException = true;
+            registerFragment.genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+        }
     }
 
     public void clearException() {
@@ -239,11 +222,6 @@ public class AuthActivity extends AppCompatActivity {
             registerFragment.genderException = false;
             registerFragment.genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
         }
-    }
-
-    private void hideKeyboard() {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        Objects.requireNonNull(inputMethodManager).hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 
     private void loadFragment(Fragment fragment, int enterAnim, int exitAnim) {
@@ -255,7 +233,7 @@ public class AuthActivity extends AppCompatActivity {
 
     private void launchAuth(int enterAnim, int exitAnim) {
         AuthRepository.theory = "auth";
-        if (token()) {
+        if (!viewModel.getToken().equals("")) {
             titleToolbar.setTitle(getResources().getString(R.string.SerialTitleToken));
         } else {
             titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
@@ -266,7 +244,7 @@ public class AuthActivity extends AppCompatActivity {
     public void showFragment() {
         switch (AuthRepository.theory) {
             case "auth":
-                if (token()) {
+                if (!viewModel.getToken().equals("")) {
                     titleToolbar.setTitle(getResources().getString(R.string.SerialTitleToken));
                 } else {
                     titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
@@ -331,23 +309,7 @@ public class AuthActivity extends AppCompatActivity {
                     }
                 }
 
-                if (token()) {
-                    avatarImageView.setVisibility(View.VISIBLE);
-                    if (viewModel.getAvatar().equals("")) {
-                        avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_light));
-                    } else {
-                        Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarImageView);
-                    }
-
-                    navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(true);
-                    navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(true);
-                } else {
-                    avatarImageView.setVisibility(View.GONE);
-
-                    navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(false);
-                    navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
-                }
-
+                setData();
                 progressDialog.dismiss();
             } else if (integer == 0) {
                 progressDialog.dismiss();
@@ -436,13 +398,12 @@ public class AuthActivity extends AppCompatActivity {
                             }
                         }
                         if (!ExceptionManager.errors.isNull("gender")) {
-                            registerFragment.genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                            errorException();
                             if (exceptionToast.equals("")) {
                                 exceptionToast = ExceptionManager.errors.getString("gender");
                             } else {
                                 exceptionToast += (" و " + ExceptionManager.errors.getString("gender"));
                             }
-                            registerFragment.genderException = true;
                         }
                         if (!ExceptionManager.errors.isNull("password")) {
                             registerFragment.passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
@@ -487,10 +448,6 @@ public class AuthActivity extends AppCompatActivity {
         }
     }
 
-    public boolean token() {
-        return !sharedPreferences.getString("token", "").equals("");
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -502,7 +459,7 @@ public class AuthActivity extends AppCompatActivity {
                 if (resultString.equals("logOut")) {
                     titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
 
-                    avatarImageView.setVisibility(View.GONE);
+                    avatarCircleImageView.setVisibility(View.GONE);
 
                     navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(false);
                     navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
@@ -513,9 +470,9 @@ public class AuthActivity extends AppCompatActivity {
                     }
                 } else if (resultString.equals("edit")) {
                     if (viewModel.getAvatar().equals("")) {
-                        avatarImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_light));
+                        avatarCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_light));
                     } else {
-                        Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarImageView);
+                        Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarCircleImageView);
                     }
                 }
             }

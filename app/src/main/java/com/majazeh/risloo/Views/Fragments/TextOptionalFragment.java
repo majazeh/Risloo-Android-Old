@@ -1,8 +1,6 @@
 package com.majazeh.risloo.Views.Fragments;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,31 +15,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
-import com.majazeh.risloo.ViewModels.SampleViewModel;
+import com.majazeh.risloo.Views.Activities.SampleActivity;
 import com.majazeh.risloo.Views.Adapters.OptionalAdapter;
 
 import org.json.JSONException;
 
-public class TextOptionalFragment extends Fragment {
+import java.util.Objects;
 
-    // ViewModels
-    private SampleViewModel viewModel;
+public class TextOptionalFragment extends Fragment {
 
     // Adapters
     private OptionalAdapter adapter;
 
     // Objects
     private Activity activity;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
 
     // Widgets
     private TextView questionTextView;
     private RecyclerView answerRecyclerView;
 
-    public TextOptionalFragment(Activity activity, SampleViewModel viewModel) {
+    public TextOptionalFragment(Activity activity) {
         this.activity = activity;
-        this.viewModel = viewModel;
     }
 
     @Nullable
@@ -51,30 +45,31 @@ public class TextOptionalFragment extends Fragment {
 
         initializer(view);
 
+        setData();
+
         return view;
     }
 
     private void initializer(View view) {
-        sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-
-        editor = sharedPreferences.edit();
-        editor.apply();
-
         adapter = new OptionalAdapter(activity);
-        adapter.setAnswer(viewModel.getOptions(viewModel.getIndex()), viewModel.answeredPosition(sharedPreferences.getString("sampleId",""), viewModel.getIndex()), viewModel);
 
         questionTextView = view.findViewById(R.id.fragment_text_optional_question_textView);
-        try {
-            questionTextView.setText(viewModel.getItem(viewModel.getIndex()).get("text").toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         answerRecyclerView = view.findViewById(R.id.fragment_text_optional_answer_recyclerView);
         answerRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._24sdp)));
         answerRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         answerRecyclerView.setHasFixedSize(true);
         answerRecyclerView.setAdapter(adapter);
+    }
+
+    private void setData() {
+        adapter.setAnswer(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getOptions(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getIndex()), ((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.answeredPosition(((SampleActivity) Objects.requireNonNull(getActivity())).sampleId, ((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getIndex()), ((SampleActivity) Objects.requireNonNull(getActivity())).viewModel);
+
+        try {
+            questionTextView.setText(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getItem(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getIndex()).get("text").toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

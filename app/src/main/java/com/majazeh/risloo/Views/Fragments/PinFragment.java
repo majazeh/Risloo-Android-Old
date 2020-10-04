@@ -97,8 +97,8 @@ public class PinFragment extends Fragment {
         pinEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!pinEditText.hasFocus()) {
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).selectInput(pinEditText);
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).focusInput(pinEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.focus(pinEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.select(pinEditText);
                 }
             }
             return false;
@@ -113,7 +113,7 @@ public class PinFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (pinEditText.length() == 6) {
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(pinEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.clear(getActivity(), pinEditText);
                     doWork("pin");
                 }
             }
@@ -126,9 +126,9 @@ public class PinFragment extends Fragment {
 
         pinButton.setOnClickListener(v -> {
             if (pinEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(pinEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.error(getActivity(), pinEditText);
             } else {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(pinEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.clear(getActivity(), pinEditText);
                 doWork("pin");
             }
         });

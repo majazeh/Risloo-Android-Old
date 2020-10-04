@@ -95,8 +95,8 @@ public class PasswordFragment extends Fragment {
         passwordEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!passwordEditText.hasFocus()) {
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).selectInput(passwordEditText);
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).focusInput(passwordEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.focus(passwordEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.select(passwordEditText);
                 }
             }
             return false;
@@ -160,9 +160,9 @@ public class PasswordFragment extends Fragment {
 
         passwordButton.setOnClickListener(v -> {
             if (passwordEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).errorInput(passwordEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.error(getActivity(), passwordEditText);
             } else {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).clearInput(passwordEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.clear(getActivity(), passwordEditText);
                 doWork();
             }
         });

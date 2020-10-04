@@ -39,6 +39,8 @@ public class TermConditionActivity extends AppCompatActivity {
         initializer();
 
         listener();
+
+        setData();
     }
 
     private void decorator() {
@@ -50,11 +52,6 @@ public class TermConditionActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(TermConditionViewModel.class);
 
         adapter = new ListAdapter(this);
-        try {
-            adapter.setList(viewModel.getAll(), "TermCondition");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         toolbar = findViewById(R.id.activity_term_condition_toolbar);
 
@@ -70,6 +67,14 @@ public class TermConditionActivity extends AppCompatActivity {
             finish();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
+    }
+
+    private void setData() {
+        try {
+            adapter.setList(viewModel.getAll(), "TermCondition");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -17,24 +16,16 @@ import com.majazeh.risloo.Models.Generators.RetroGenerator;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.SocketTimeoutException;
-import java.util.HashMap;
 import java.util.Objects;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -96,7 +87,7 @@ public class AuthWorker extends Worker {
                     logOut();
                     break;
                 case "sendDoc":
-                    sendDocument();
+                    sendDoc();
                     break;
             }
         }
@@ -107,6 +98,13 @@ public class AuthWorker extends Worker {
     private String token() {
         if (!sharedPreferences.getString("token", "").equals("")) {
             return "Bearer " + sharedPreferences.getString("token", "");
+        }
+        return "";
+    }
+
+    private String userId() {
+        if (!sharedPreferences.getString("userId", "").equals("")) {
+            return sharedPreferences.getString("userId", "");
         }
         return "";
     }
@@ -430,25 +428,26 @@ public class AuthWorker extends Worker {
                 JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
                 JSONObject data = successBody.getJSONObject("data");
 
-                boolean access = false;
+                boolean hasAccess = false;
 
                 if (data.has("type") && data.getString("type").equals("admin")) {
-                    access = true;
+                    hasAccess = true;
                 } else {
                     JSONArray centers = data.getJSONArray("centers");
                     for (int i = 0; i < centers.length(); i++) {
                         JSONObject jsonObject = centers.getJSONObject(i);
                         JSONObject acceptation = jsonObject.getJSONObject("acceptation");
+
                         if (acceptation.getString("position").equals("operator") || acceptation.getString("position").equals("manager") || acceptation.getString("position").equals("psychologist")) {
-                            access = true;
+                            hasAccess = true;
                         }
                     }
                 }
 
-                if (access) {
-                    editor.putString("access", "true");
+                if (hasAccess) {
+                    editor.putBoolean("hasAccess", true);
                 } else {
-                    editor.putString("access", "false");
+                    editor.putBoolean("hasAccess", false);
                 }
 
                 FileManager.writeObjectToCache(context, new JSONObject().put("data", data.getJSONArray("centers")), "centers", "my");
@@ -456,37 +455,37 @@ public class AuthWorker extends Worker {
                 if (data.has("id"))
                     editor.putString("userId", data.getString("id"));
                 else
-                    editor.putString("userId", "null");
+                    editor.putString("userId", "");
 
                 if (data.has("name"))
                     editor.putString("name", data.getString("name"));
                 else
-                    editor.putString("name", "null");
+                    editor.putString("name", "");
 
                 if (data.has("type"))
                     editor.putString("type", data.getString("type"));
                 else
-                    editor.putString("type", "null");
+                    editor.putString("type", "");
 
                 if (data.has("mobile"))
                     editor.putString("mobile", data.getString("mobile"));
                 else
-                    editor.putString("mobile", "null");
+                    editor.putString("mobile", "");
 
                 if (data.has("email"))
                     editor.putString("email", data.getString("email"));
                 else
-                    editor.putString("email", "null");
+                    editor.putString("email", "");
 
                 if (data.has("gender"))
                     editor.putString("gender", data.getString("gender"));
                 else
-                    editor.putString("gender", "null");
+                    editor.putString("gender", "");
 
                 if (data.has("birthday"))
                     editor.putString("birthday", data.getString("birthday"));
                 else
-                    editor.putString("birthday", "null");
+                    editor.putString("birthday", "");
 
                 if (data.has("avatar")) {
                     JSONObject avatar = data.getJSONObject("avatar");
@@ -494,7 +493,7 @@ public class AuthWorker extends Worker {
 
                     editor.putString("avatar", medium.getString("url"));
                 } else {
-                    editor.putString("avatar", "null");
+                    editor.putString("avatar", "");
                 }
 
                 editor.apply();
@@ -567,31 +566,26 @@ public class AuthWorker extends Worker {
     }
 
     private void avatar() {
-
-        File file = new File(context.getCacheDir(), "avatar");
-
-        Log.e("file", String.valueOf(sharedPreferences.getString("userId", "")));
-        AndroidNetworking.upload("https://bapi.risloo.ir/api/users/"+ sharedPreferences.getString("userId", "") + "/avatar")
-                .addHeaders("Authorization", token()) // posting any type of file
-                .addMultipartFile("avatar", file)
+        AndroidNetworking.upload("https://bapi.risloo.ir/api/users/" + userId() + "/" + "avatar")
+                .addHeaders("Authorization", token())
+                .addMultipartFile("avatar", new File(context.getCacheDir(), "avatar"))
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
+
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.e("response", String.valueOf(response));
-                        // do anything with response
+                        ExceptionManager.getException(200, response, true, "avatar", "auth");
+                        AuthRepository.workState.postValue(1);
                     }
+
                     @Override
                     public void onError(ANError error) {
-                        // handle error
-                        Log.e("error", String.valueOf(error.getErrorBody()));
-
                         ExceptionManager.getException(0, null, false, "IOException", "auth");
                         AuthRepository.workState.postValue(0);
                     }
-    });
 
+                });
     }
 
     private void logOut() {
@@ -602,6 +596,8 @@ public class AuthWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
 
+                editor.remove("hasAccess");
+
                 editor.remove("token");
                 editor.remove("userId");
                 editor.remove("name");
@@ -611,6 +607,7 @@ public class AuthWorker extends Worker {
                 editor.remove("gender");
                 editor.remove("birthday");
                 editor.remove("avatar");
+
                 editor.apply();
 
                 ExceptionManager.getException(bodyResponse.code(), successBody, true, "logOut", "auth");
@@ -640,35 +637,28 @@ public class AuthWorker extends Worker {
         }
     }
 
-    public void sendDocument(){
-
-        File file = new File(AuthRepository.fileDoc);
-            Log.e("test", context.getFilesDir().getAbsolutePath());
+    private void sendDoc() {
         AndroidNetworking.upload("https://bapi.risloo.ir/api/documents")
-                .addHeaders("Authorization", token()) // posting any type of file
-                .addMultipartFile("attachment", file)
-                .addMultipartParameter("title", AuthRepository.titleDoc)
-                .addMultipartParameter("description", AuthRepository.descriptionDoc)
+                .addHeaders("Authorization", token())
+                .addMultipartFile("attachment", new File(AuthRepository.filePath))
+                .addMultipartParameter("title", AuthRepository.fileTitle)
+                .addMultipartParameter("description", AuthRepository.fileDescription)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
+
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.e("response", String.valueOf(response));
+                        ExceptionManager.getException(200, response, true, "sendDoc", "auth");
                         AuthRepository.workState.postValue(1);
-                        // do anything with response
                     }
+
                     @Override
                     public void onError(ANError error) {
-                        // handle error
-                        Log.e("error", String.valueOf(error.getErrorBody()));
-                        Log.e("error", String.valueOf(error.getResponse()));
-                        Log.e("error", String.valueOf(error.getErrorCode()));
-                        Log.e("error", String.valueOf(error));
-
                         ExceptionManager.getException(0, null, false, "IOException", "auth");
                         AuthRepository.workState.postValue(0);
                     }
+
                 });
     }
 
