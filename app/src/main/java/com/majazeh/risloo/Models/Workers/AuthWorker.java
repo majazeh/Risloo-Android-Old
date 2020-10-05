@@ -581,8 +581,17 @@ public class AuthWorker extends Worker {
 
                     @Override
                     public void onError(ANError error) {
-                        ExceptionManager.getException(0, null, false, "IOException", "auth");
-                        AuthRepository.workState.postValue(0);
+                        try {
+                            JSONObject errorBody = new JSONObject(error.getErrorBody());
+
+                            ExceptionManager.getException(error.getErrorCode(), errorBody, true, "avatar", "auth");
+                            AuthRepository.workState.postValue(0);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+                            ExceptionManager.getException(0, null, false, "JSONException", "auth");
+                            AuthRepository.workState.postValue(0);
+                        }
                     }
 
                 });
@@ -655,8 +664,17 @@ public class AuthWorker extends Worker {
 
                     @Override
                     public void onError(ANError error) {
-                        ExceptionManager.getException(0, null, false, "IOException", "auth");
-                        AuthRepository.workState.postValue(0);
+                        try {
+                            JSONObject errorBody = new JSONObject(error.getErrorBody());
+
+                            ExceptionManager.getException(error.getErrorCode(), errorBody, true, "sendDoc", "auth");
+                            AuthRepository.workState.postValue(0);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+                            ExceptionManager.getException(0, null, false, "JSONException", "auth");
+                            AuthRepository.workState.postValue(0);
+                        }
                     }
 
                 });

@@ -59,7 +59,6 @@ public class SettingActivity extends AppCompatActivity {
         settingsRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", 0, 0, 0));
         settingsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         settingsRecyclerView.setHasFixedSize(true);
-        settingsRecyclerView.setAdapter(adapter);
     }
 
     private void listener() {
@@ -72,6 +71,7 @@ public class SettingActivity extends AppCompatActivity {
     private void setData() {
         try {
             adapter.setSetting(viewModel.getAll());
+            settingsRecyclerView.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -8,9 +8,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
@@ -28,6 +26,7 @@ import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.Utils.WindowDecorator;
+import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.Views.Adapters.CenterTabAdapter;
 
@@ -36,15 +35,14 @@ import org.json.JSONException;
 public class CenterActivity extends AppCompatActivity {
 
     // ViewModels
-    private CenterViewModel viewModel;
+    public AuthViewModel authViewModel;
+    public CenterViewModel centerViewModel;
 
     // Adapters
     private CenterTabAdapter adapter;
 
     // Objects
     private MenuItem toolCreate;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
     private ClickableSpan retrySpan;
 
     // Widgets
@@ -76,14 +74,14 @@ public class CenterActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = new ViewModelProvider(this).get(CenterViewModel.class);
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+        centerViewModel = new ViewModelProvider(this).get(CenterViewModel.class);
 
-        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-
-        editor = sharedPreferences.edit();
-        editor.apply();
-
-        adapter = new CenterTabAdapter(getSupportFragmentManager(), 0, this, token());
+        if (!authViewModel.getToken().equals("")) {
+            adapter = new CenterTabAdapter(getSupportFragmentManager(), 0, this, true);
+        } else {
+            adapter = new CenterTabAdapter(getSupportFragmentManager(), 0, this, false);
+        }
 
         toolbar = findViewById(R.id.activity_center_toolbar);
         setSupportActionBar(toolbar);
@@ -169,9 +167,9 @@ public class CenterActivity extends AppCompatActivity {
     private void launchProcess(String method) {
         try {
             if (method.equals("getAll")) {
-                viewModel.centers();
+                centerViewModel.centers();
             } else {
-                viewModel.myCenters();
+                centerViewModel.myCenters();
             }
             observeWork();
         } catch (JSONException e) {
@@ -191,7 +189,7 @@ public class CenterActivity extends AppCompatActivity {
         CenterRepository.workState.observe((LifecycleOwner) this, integer -> {
             if (CenterRepository.work.equals("getAll")) {
                 if (integer == 1) {
-                    if (token()) {
+                    if (!authViewModel.getToken().equals("")) {
                         // Continue Get MyCenter
 
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
@@ -206,7 +204,7 @@ public class CenterActivity extends AppCompatActivity {
                         tabLayout.setVisibility(View.GONE);
                         rtlViewPager.setAdapter(adapter);
 
-                        if (access()) {
+                        if (authViewModel.hasAccess()) {
                             toolCreate.setVisible(true);
                         } else {
                             toolCreate.setVisible(false);
@@ -215,7 +213,7 @@ public class CenterActivity extends AppCompatActivity {
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
                 } else {
-                    if (viewModel.getAll() == null) {
+                    if (centerViewModel.getAll() == null) {
                         if (integer == 0) {
                             // AllCenter is Empty And Error
 
@@ -225,7 +223,7 @@ public class CenterActivity extends AppCompatActivity {
 
                             setRetryLayout("error");
 
-                            if (access()) {
+                            if (authViewModel.hasAccess()) {
                                 toolCreate.setVisible(true);
                             } else {
                                 toolCreate.setVisible(false);
@@ -241,7 +239,7 @@ public class CenterActivity extends AppCompatActivity {
 
                             setRetryLayout("connection");
 
-                            if (access()) {
+                            if (authViewModel.hasAccess()) {
                                 toolCreate.setVisible(true);
                             } else {
                                 toolCreate.setVisible(false);
@@ -251,7 +249,7 @@ public class CenterActivity extends AppCompatActivity {
                         }
                     } else {
                         if (integer != -1) {
-                            if (token()) {
+                            if (!authViewModel.getToken().equals("")) {
                                 // Show Both AllCenter And MyCenter
 
                                 loadingLayout.setVisibility(View.GONE);
@@ -261,7 +259,7 @@ public class CenterActivity extends AppCompatActivity {
                                 tabLayout.setVisibility(View.VISIBLE);
                                 rtlViewPager.setAdapter(adapter);
 
-                                if (access()) {
+                                if (authViewModel.hasAccess()) {
                                     toolCreate.setVisible(true);
                                 } else {
                                     toolCreate.setVisible(false);
@@ -278,7 +276,7 @@ public class CenterActivity extends AppCompatActivity {
                                 tabLayout.setVisibility(View.GONE);
                                 rtlViewPager.setAdapter(adapter);
 
-                                if (access()) {
+                                if (authViewModel.hasAccess()) {
                                     toolCreate.setVisible(true);
                                 } else {
                                     toolCreate.setVisible(false);
@@ -300,7 +298,7 @@ public class CenterActivity extends AppCompatActivity {
                     tabLayout.setVisibility(View.VISIBLE);
                     rtlViewPager.setAdapter(adapter);
 
-                    if (access()) {
+                    if (authViewModel.hasAccess()) {
                         toolCreate.setVisible(true);
                     } else {
                         toolCreate.setVisible(false);
@@ -310,14 +308,6 @@ public class CenterActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private boolean token() {
-        return !sharedPreferences.getString("token", "").equals("");
-    }
-
-    private boolean access() {
-        return sharedPreferences.getString("access", "").equals("true");
     }
 
     @Override

@@ -59,7 +59,6 @@ public class AboutUsActivity extends AppCompatActivity {
         aboutUsRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._24sdp), (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._24sdp)));
         aboutUsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         aboutUsRecyclerView.setHasFixedSize(true);
-        aboutUsRecyclerView.setAdapter(adapter);
     }
 
     private void listener() {
@@ -72,6 +71,7 @@ public class AboutUsActivity extends AppCompatActivity {
     private void setData() {
         try {
             adapter.setList(viewModel.getAll(), "AboutUs");
+            aboutUsRecyclerView.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }

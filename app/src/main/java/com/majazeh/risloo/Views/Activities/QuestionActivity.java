@@ -66,7 +66,6 @@ public class QuestionActivity extends AppCompatActivity {
         questionRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
         questionRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         questionRecyclerView.setHasFixedSize(true);
-        questionRecyclerView.setAdapter(adapter);
     }
 
     private void listener() {
@@ -83,6 +82,7 @@ public class QuestionActivity extends AppCompatActivity {
             }
 
             adapter.setQuestion(viewModel.getAll(), expands);
+            questionRecyclerView.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }

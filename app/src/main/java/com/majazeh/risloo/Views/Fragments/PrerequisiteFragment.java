@@ -54,11 +54,11 @@ public class PrerequisiteFragment extends Fragment {
         prerequisiteRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._24sdp)));
         prerequisiteRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         prerequisiteRecyclerView.setHasFixedSize(true);
-        prerequisiteRecyclerView.setAdapter(adapter);
     }
 
     private void setData() {
         adapter.setPrerequisite(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getPrerequisite(), ((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.readPrerequisiteAnswerFromCache(((SampleActivity) Objects.requireNonNull(getActivity())).sampleId), ((SampleActivity) Objects.requireNonNull(getActivity())).viewModel);
+        prerequisiteRecyclerView.setAdapter(adapter);
     }
 
     public ArrayList prerequisites() {

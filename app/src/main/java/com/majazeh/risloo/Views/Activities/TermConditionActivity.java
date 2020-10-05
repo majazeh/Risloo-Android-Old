@@ -59,7 +59,6 @@ public class TermConditionActivity extends AppCompatActivity {
         termsRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._24sdp), (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._24sdp)));
         termsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         termsRecyclerView.setHasFixedSize(true);
-        termsRecyclerView.setAdapter(adapter);
     }
 
     private void listener() {
@@ -72,6 +71,7 @@ public class TermConditionActivity extends AppCompatActivity {
     private void setData() {
         try {
             adapter.setList(viewModel.getAll(), "TermCondition");
+            termsRecyclerView.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }

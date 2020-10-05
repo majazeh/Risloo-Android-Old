@@ -534,28 +534,36 @@ public class SampleRepository extends MainRepository {
         }
     }
 
-    public String getSvgScore() {
+    public String getSvgScore(String sampleId) {
+        SampleRepository.sampleId = sampleId;
+
         if (getUrlScore("profile_svg") != null) {
             return getUrlScore("profile_svg");
         }
         return null;
     }
 
-    public String getPngScore() {
+    public String getPngScore(String sampleId) {
+        SampleRepository.sampleId = sampleId;
+
         if (getUrlScore("profile_png") != null) {
             return getUrlScore("profile_png");
         }
         return null;
     }
 
-    public String getHtmlScore() {
+    public String getHtmlScore(String sampleId) {
+        SampleRepository.sampleId = sampleId;
+
         if (getUrlScore("profile_html") != null) {
             return getUrlScore("profile_html");
         }
         return null;
     }
 
-    public String getPdfScore() {
+    public String getPdfScore(String sampleId) {
+        SampleRepository.sampleId = sampleId;
+
         if (getUrlScore("profile_pdf") != null) {
             return getUrlScore("profile_pdf");
         }

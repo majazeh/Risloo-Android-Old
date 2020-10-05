@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -22,7 +21,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -39,6 +37,7 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.InputHandler;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
@@ -67,12 +66,13 @@ public class EditCenterActivity extends AppCompatActivity {
     // Objects
     private Handler handler;
     private Bundle extras;
+    private InputHandler inputHandler;
 
     // Widgets
     private Toolbar toolbar;
     private Spinner managerSpinner;
     public TextView managerTextView, phoneTextView, phoneDialogPositive, phoneDialogNegative;
-    private EditText inputEditText, titleEditText, descriptionEditText, addressEditText, phoneDialogEditText;
+    private EditText titleEditText, descriptionEditText, addressEditText, phoneDialogEditText;
     private RecyclerView phoneRecyclerView;
     private ProgressBar managerProgressBar;
     private ImageView managerImageView, phoneImageView;
@@ -111,6 +111,8 @@ public class EditCenterActivity extends AppCompatActivity {
         handler = new Handler();
 
         extras = getIntent().getExtras();
+
+        inputHandler = new InputHandler();
 
         toolbar = findViewById(R.id.activity_edit_center_toolbar);
 
@@ -186,8 +188,8 @@ public class EditCenterActivity extends AppCompatActivity {
                     clearException("manager");
                 }
 
-                if (inputEditText != null && inputEditText.hasFocus()) {
-                    clearInput(inputEditText);
+                if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                    inputHandler.clear(this, inputHandler.getInput());
                 }
 
                 if (CenterRepository.counselingCenter.size() == 0)
@@ -220,12 +222,12 @@ public class EditCenterActivity extends AppCompatActivity {
         titleEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!titleEditText.hasFocus()) {
-                    if (inputEditText != null && inputEditText.hasFocus()) {
-                        clearInput(inputEditText);
+                    if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                        inputHandler.clear(this, inputHandler.getInput());
                     }
 
-                    selectInput(titleEditText);
-                    focusInput(titleEditText);
+                    inputHandler.focus(titleEditText);
+                    inputHandler.select(titleEditText);
                 }
             }
             return false;
@@ -234,12 +236,12 @@ public class EditCenterActivity extends AppCompatActivity {
         descriptionEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!descriptionEditText.hasFocus()) {
-                    if (inputEditText != null && inputEditText.hasFocus()) {
-                        clearInput(inputEditText);
+                    if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                        inputHandler.clear(this, inputHandler.getInput());
                     }
 
-                    selectInput(descriptionEditText);
-                    focusInput(descriptionEditText);
+                    inputHandler.focus(descriptionEditText);
+                    inputHandler.select(descriptionEditText);
                 }
             }
             return false;
@@ -248,20 +250,20 @@ public class EditCenterActivity extends AppCompatActivity {
         addressEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!addressEditText.hasFocus()) {
-                    if (inputEditText != null && inputEditText.hasFocus()) {
-                        clearInput(inputEditText);
+                    if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                        inputHandler.clear(this, inputHandler.getInput());
                     }
 
-                    selectInput(addressEditText);
-                    focusInput(addressEditText);
+                    inputHandler.focus(addressEditText);
+                    inputHandler.select(addressEditText);
                 }
             }
             return false;
         });
 
         editButton.setOnClickListener(v -> {
-            if (inputEditText != null && inputEditText.hasFocus()) {
-                clearInput(inputEditText);
+            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                inputHandler.clear(this, inputHandler.getInput());
             }
 
             if (type.equals("personal_clinic")) {
@@ -295,7 +297,7 @@ public class EditCenterActivity extends AppCompatActivity {
                 }
 
                 if (!manager.isEmpty() && titleEditText.length() != 0) {
-                    clearInput(titleEditText);
+                    inputHandler.clear(this, titleEditText);
 
                     doWork();
                 }
@@ -308,12 +310,12 @@ public class EditCenterActivity extends AppCompatActivity {
         phoneDialogEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!phoneDialogEditText.hasFocus()) {
-                    if (inputEditText != null && inputEditText.hasFocus()) {
-                        clearInput(inputEditText);
+                    if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                        inputHandler.clear(this, inputHandler.getInput());
                     }
 
-                    selectInput(phoneDialogEditText);
-                    focusInput(phoneDialogEditText);
+                    inputHandler.focus(phoneDialogEditText);
+                    inputHandler.select(phoneDialogEditText);
                 }
             }
             return false;
@@ -339,9 +341,9 @@ public class EditCenterActivity extends AppCompatActivity {
 
                 phoneDialog.dismiss();
 
-                if (inputEditText != null && inputEditText.hasFocus()) {
-                    clearInput(inputEditText);
-                    inputEditText.getText().clear();
+                if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                    inputHandler.clear(this, inputHandler.getInput());
+                    inputHandler.getInput().getText().clear();
                 }
             } else {
                 errorView("phone");
@@ -353,18 +355,18 @@ public class EditCenterActivity extends AppCompatActivity {
             handler.postDelayed(() -> phoneDialogNegative.setClickable(true), 300);
             phoneDialog.dismiss();
 
-            if (inputEditText != null && inputEditText.hasFocus()) {
-                clearInput(inputEditText);
-                inputEditText.getText().clear();
+            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                inputHandler.clear(this, inputHandler.getInput());
+                inputHandler.getInput().getText().clear();
             }
         });
 
         phoneDialog.setOnCancelListener(dialog -> {
             phoneDialog.dismiss();
 
-            if (inputEditText != null && inputEditText.hasFocus()) {
-                clearInput(inputEditText);
-                inputEditText.getText().clear();
+            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                inputHandler.clear(this, inputHandler.getInput());
+                inputHandler.getInput().getText().clear();
             }
         });
     }
@@ -445,15 +447,6 @@ public class EditCenterActivity extends AppCompatActivity {
         }
     }
 
-    private void focusInput(EditText input) {
-        this.inputEditText = input;
-    }
-
-    private void selectInput(EditText input) {
-        input.setCursorVisible(true);
-        input.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-    }
-
     private void errorView(String type) {
         switch (type) {
             case "manager":
@@ -468,12 +461,17 @@ public class EditCenterActivity extends AppCompatActivity {
         }
     }
 
-    private void clearInput(EditText input) {
-        input.clearFocus();
-        input.setCursorVisible(false);
-        input.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-
-        hideKeyboard();
+    private void errorException(String type) {
+        switch (type) {
+            case "manager":
+                managerException = true;
+                managerFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
+            case "phone":
+                phoneException = true;
+                phoneLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
+        }
     }
 
     private void clearException(String type) {
@@ -487,11 +485,6 @@ public class EditCenterActivity extends AppCompatActivity {
                 phoneLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 break;
         }
-    }
-
-    private void hideKeyboard() {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        Objects.requireNonNull(inputMethodManager).hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 
     private void setData() {
@@ -665,9 +658,8 @@ public class EditCenterActivity extends AppCompatActivity {
                 String exceptionToast = "";
 
                 if (!ExceptionManager.errors.isNull("manager_id")) {
-                    managerFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    errorException("manager");
                     exceptionToast = ExceptionManager.errors.getString("manager_id");
-                    managerException = true;
                 }
                 if (!ExceptionManager.errors.isNull("title")) {
                     titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
@@ -694,13 +686,12 @@ public class EditCenterActivity extends AppCompatActivity {
                     }
                 }
                 if (!ExceptionManager.errors.isNull("phone_numbers")) {
-                    phoneLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    errorException("phone");
                     if (exceptionToast.equals("")) {
                         exceptionToast = ExceptionManager.errors.getString("phone_numbers");
                     } else {
                         exceptionToast += (" و " + ExceptionManager.errors.getString("phone_numbers"));
                     }
-                    phoneException = true;
                 }
                 Toast.makeText(this, "" + exceptionToast, Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {

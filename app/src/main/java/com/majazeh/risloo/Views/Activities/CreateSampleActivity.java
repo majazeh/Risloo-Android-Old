@@ -1,8 +1,8 @@
 package com.majazeh.risloo.Views.Activities;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -13,7 +13,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -41,6 +40,7 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.InputHandler;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
@@ -67,6 +67,9 @@ public class CreateSampleActivity extends AppCompatActivity {
     private int roomPosition = 0, casePosition =0;
     private String room = "", casse = "", count = "";
     private boolean scaleException = false, roomException = false, roomReferenceException = false, caseException = false, caseReferenceException = false, roomSelected = false, caseSelected = false;
+
+    // Objects
+    private InputHandler inputHandler;
 
     // Widgets
     private Toolbar toolbar;
@@ -109,6 +112,8 @@ public class CreateSampleActivity extends AppCompatActivity {
         scaleAdapter = new SpinnerAdapter(this);
         referenceAdapter = new SpinnerAdapter(this);
         checkBoxAdapter = new CheckBoxAdapter(this);
+
+        inputHandler = new InputHandler();
 
         toolbar = findViewById(R.id.activity_create_sample_toolbar);
 
@@ -187,7 +192,7 @@ public class CreateSampleActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (!countEditText.hasFocus()) {
-                    clearInput(countEditText);
+                    inputHandler.clear((Activity) getApplicationContext(), countEditText);
                 }
 
                 switch (tab.getPosition()) {
@@ -256,7 +261,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 }
 
                 if (!countEditText.hasFocus()) {
-                    clearInput(countEditText);
+                    inputHandler.clear(this, countEditText);
                 }
 
                 if (SampleRepository.scales.size() == 0) {
@@ -273,7 +278,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 }
 
                 if (!countEditText.hasFocus()) {
-                    clearInput(countEditText);
+                    inputHandler.clear(this, countEditText);
                 }
 
                 if (SampleRepository.rooms.size() == 0) {
@@ -298,7 +303,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 }
 
                 if (!countEditText.hasFocus()) {
-                    clearInput(countEditText);
+                    inputHandler.clear(this, countEditText);
                 }
             }
             return false;
@@ -319,7 +324,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 }
 
                 if (!countEditText.hasFocus()) {
-                    clearInput(countEditText);
+                    inputHandler.clear(this, countEditText);
                 }
             }
             return false;
@@ -466,7 +471,7 @@ public class CreateSampleActivity extends AppCompatActivity {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!room.isEmpty()) {
                     if (!countEditText.hasFocus()) {
-                        selectInput(countEditText);
+                        inputHandler.select(countEditText);
                     }
                 } else {
                     Toast.makeText(this, "لطفا اول اتاق درمانی انتخاب کنید", Toast.LENGTH_SHORT).show();
@@ -498,7 +503,7 @@ public class CreateSampleActivity extends AppCompatActivity {
 
         createButton.setOnClickListener(v -> {
             if (!countEditText.hasFocus()) {
-                clearInput(countEditText);
+                inputHandler.clear(this, countEditText);
             }
 
             if (scaleAdapter.getValues().size() == 0) {
@@ -700,11 +705,6 @@ public class CreateSampleActivity extends AppCompatActivity {
         }
     }
 
-    private void selectInput(EditText input) {
-        input.setCursorVisible(true);
-        input.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
-    }
-
     private void errorView(String type) {
         if (type.equals("scale")) {
             scaleLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
@@ -713,12 +713,29 @@ public class CreateSampleActivity extends AppCompatActivity {
         }
     }
 
-    private void clearInput(EditText input) {
-        input.clearFocus();
-        input.setCursorVisible(false);
-        input.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-
-        hideKeyboard();
+    private void errorException(String type) {
+        switch (type) {
+            case "scale":
+                scaleException = true;
+                scaleLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
+            case "room":
+                roomException = true;
+                roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
+            case "case":
+                caseException = true;
+                caseFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
+            case "roomReference":
+                roomReferenceException = true;
+                roomReferenceLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
+            case "caseReference":
+                caseReferenceException = true;
+                caseReferenceRecyclerView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
+        }
     }
 
     private void clearException(String type) {
@@ -744,11 +761,6 @@ public class CreateSampleActivity extends AppCompatActivity {
                 caseReferenceRecyclerView.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 break;
         }
-    }
-
-    private void hideKeyboard() {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        Objects.requireNonNull(inputMethodManager).hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 
     private void getData(String method, String roomId) {
@@ -912,45 +924,40 @@ public class CreateSampleActivity extends AppCompatActivity {
                 String exceptionToast = "";
 
                 if (!ExceptionManager.errors.isNull("scale_id")) {
-                    scaleLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    errorException("scale");
                     exceptionToast = ExceptionManager.errors.getString("scale_id");
-                    scaleException = true;
                 }
                 if (!ExceptionManager.errors.isNull("room_id")) {
-                    roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    errorException("room");
                     if (exceptionToast.equals("")) {
                         exceptionToast = ExceptionManager.errors.getString("room_id");
                     } else {
                         exceptionToast += (" و " + ExceptionManager.errors.getString("room_id"));
                     }
-                    roomException = true;
                 }
                 if (!ExceptionManager.errors.isNull("case_id")) {
-                    caseFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    errorException("case");
                     if (exceptionToast.equals("")) {
                         exceptionToast = ExceptionManager.errors.getString("case_id");
                     } else {
                         exceptionToast += (" و " + ExceptionManager.errors.getString("case_id"));
                     }
-                    caseException = true;
                 }
                 if (!ExceptionManager.errors.isNull("client_id")) {
                     if (typeTabLayout.getSelectedTabPosition() == 0) {
-                        roomReferenceLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                        errorException("roomReference");
                         if (exceptionToast.equals("")) {
                             exceptionToast = ExceptionManager.errors.getString("client_id");
                         } else {
                             exceptionToast += (" و " + ExceptionManager.errors.getString("client_id"));
                         }
-                        roomReferenceException = true;
                     } else if (typeTabLayout.getSelectedTabPosition() == 1) {
-                        caseReferenceRecyclerView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                        errorException("caseReference");
                         if (exceptionToast.equals("")) {
                             exceptionToast = ExceptionManager.errors.getString("client_id");
                         } else {
                             exceptionToast += (" و " + ExceptionManager.errors.getString("client_id"));
                         }
-                        caseReferenceException = true;
                     }
                 }
                 if (!ExceptionManager.errors.isNull("count")) {

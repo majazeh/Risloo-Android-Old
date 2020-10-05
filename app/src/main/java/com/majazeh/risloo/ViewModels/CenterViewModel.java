@@ -39,8 +39,8 @@ public class CenterViewModel extends AndroidViewModel {
         repository.request(clinicId);
     }
 
-    public void create(String type, String manager, String avatar, String title, String address, String description, ArrayList phones) throws JSONException {
-        repository.create(type, manager, avatar, title, address, description, phones);
+    public void create(String type, String manager, String title, String avatar, String address, String description, ArrayList phones) throws JSONException {
+        repository.create(type, manager, title, avatar, address, description, phones);
     }
 
     public void edit(String id, String manager, String title, String description, String address, ArrayList phones) throws JSONException {

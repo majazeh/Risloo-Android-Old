@@ -63,11 +63,11 @@ public class PictureOptionalFragment extends Fragment {
         answerRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._24sdp)));
         answerRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         answerRecyclerView.setHasFixedSize(true);
-        answerRecyclerView.setAdapter(adapter);
     }
 
     private void setData() {
         adapter.setAnswer(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getOptions(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getIndex()), ((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.answeredPosition(((SampleActivity) Objects.requireNonNull(getActivity())).sampleId, ((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getIndex()), ((SampleActivity) Objects.requireNonNull(getActivity())).viewModel);
+        answerRecyclerView.setAdapter(adapter);
 
         try {
             questionTextView.setText(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getItem(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getIndex()).get("text").toString());

@@ -435,7 +435,6 @@ public class EditAccountActivity extends AppCompatActivity {
             if (AuthRepository.work.equals("avatar")) {
                 if (integer == 1) {
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
-
                     doWork("edit");
                 } else if (integer == 0) {
                     progressDialog.dismiss();

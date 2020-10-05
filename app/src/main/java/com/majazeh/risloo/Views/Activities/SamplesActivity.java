@@ -9,9 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextPaint;
@@ -31,6 +29,7 @@ import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.Utils.WindowDecorator;
+import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.SamplesAdapter;
 
@@ -39,7 +38,8 @@ import org.json.JSONException;
 public class SamplesActivity extends AppCompatActivity {
 
     // ViewModels
-    private SampleViewModel viewModel;
+    private AuthViewModel authViewModel;
+    private SampleViewModel sampleViewModel;
 
     // Adapters
     private SamplesAdapter adapter;
@@ -50,8 +50,6 @@ public class SamplesActivity extends AppCompatActivity {
     // Objects
     private Handler handler;
     private MenuItem toolCreate;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
     private ClickableSpan retrySpan;
     private LinearLayoutManager layoutManager;
 
@@ -85,12 +83,8 @@ public class SamplesActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = new ViewModelProvider(this).get(SampleViewModel.class);
-
-        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-
-        editor = sharedPreferences.edit();
-        editor.apply();
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+        sampleViewModel = new ViewModelProvider(this).get(SampleViewModel.class);
 
         adapter = new SamplesAdapter(this);
 
@@ -152,7 +146,7 @@ public class SamplesActivity extends AppCompatActivity {
                         try {
                             if (!loading) {
                                 pagingProgressBar.setVisibility(View.VISIBLE);
-                                viewModel.samples();
+                                sampleViewModel.samples();
                                 observeWork();
                             }
                         } catch (JSONException e) {
@@ -176,7 +170,7 @@ public class SamplesActivity extends AppCompatActivity {
 
     private void launchSamples() {
         try {
-            viewModel.samples();
+            sampleViewModel.samples();
             SampleRepository.samplesPage = 1;
             observeWork();
         } catch (JSONException e) {
@@ -198,7 +192,7 @@ public class SamplesActivity extends AppCompatActivity {
             if (SampleRepository.work.equals("getAll")) {
                 loading = true;
                 if (integer == 1) {
-                    if (viewModel.getAll() != null) {
+                    if (sampleViewModel.getAll() != null) {
                         // Show Samples
 
                         loadingLayout.setVisibility(View.GONE);
@@ -206,12 +200,12 @@ public class SamplesActivity extends AppCompatActivity {
                         emptyLayout.setVisibility(View.GONE);
                         mainLayout.setVisibility(View.VISIBLE);
 
-                        adapter.setSamples(viewModel.getAll());
+                        adapter.setSamples(sampleViewModel.getAll());
                         if (SampleRepository.samplesPage == 1) {
                             samplesRecyclerView.setAdapter(adapter);
                         }
 
-                        if (access()) {
+                        if (authViewModel.hasAccess()) {
                             toolCreate.setVisible(true);
                         } else {
                             toolCreate.setVisible(false);
@@ -230,7 +224,7 @@ public class SamplesActivity extends AppCompatActivity {
                         emptyLayout.setVisibility(View.VISIBLE);
                         mainLayout.setVisibility(View.GONE);
 
-                        if (access()) {
+                        if (authViewModel.hasAccess()) {
                             toolCreate.setVisible(true);
                         } else {
                             toolCreate.setVisible(false);
@@ -247,7 +241,7 @@ public class SamplesActivity extends AppCompatActivity {
                     SampleRepository.samplesPage++;
 
                 } else if (integer != -1) {
-                    if (viewModel.getAll() == null) {
+                    if (sampleViewModel.getAll() == null) {
                         if (integer == 0) {
                             // Samples is Empty And Error
 
@@ -258,7 +252,7 @@ public class SamplesActivity extends AppCompatActivity {
 
                             setRetryLayout("error");
 
-                            if (access()) {
+                            if (authViewModel.hasAccess()) {
                                 toolCreate.setVisible(true);
                             } else {
                                 toolCreate.setVisible(false);
@@ -279,7 +273,7 @@ public class SamplesActivity extends AppCompatActivity {
 
                             setRetryLayout("connection");
 
-                            if (access()) {
+                            if (authViewModel.hasAccess()) {
                                 toolCreate.setVisible(true);
                             } else {
                                 toolCreate.setVisible(false);
@@ -299,13 +293,13 @@ public class SamplesActivity extends AppCompatActivity {
                         emptyLayout.setVisibility(View.GONE);
                         mainLayout.setVisibility(View.VISIBLE);
 
-                        adapter.setSamples(viewModel.getAll());
+                        adapter.setSamples(sampleViewModel.getAll());
                         if (SampleRepository.samplesPage == 1) {
                             samplesRecyclerView.setAdapter(adapter);
                         }
 
                         handler.postDelayed(() -> {
-                            if (access()) {
+                            if (authViewModel.hasAccess()) {
                                 toolCreate.setVisible(true);
                             } else {
                                 toolCreate.setVisible(false);
@@ -321,10 +315,6 @@ public class SamplesActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private boolean access() {
-        return sharedPreferences.getString("access", "").equals("true");
     }
 
     @Override

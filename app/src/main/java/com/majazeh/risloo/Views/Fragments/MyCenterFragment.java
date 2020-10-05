@@ -10,21 +10,18 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
-import com.majazeh.risloo.ViewModels.CenterViewModel;
+import com.majazeh.risloo.Views.Activities.CenterActivity;
 import com.majazeh.risloo.Views.Adapters.CenterAdapter;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class MyCenterFragment extends Fragment {
-
-    // ViewModels
-    private CenterViewModel viewModel;
 
     // Adapters
     private CenterAdapter adapter;
@@ -50,23 +47,15 @@ public class MyCenterFragment extends Fragment {
 
         initializer(view);
 
-        setRecyclerView();
+        setData();
 
         return view;
     }
 
     private void initializer(View view) {
-        viewModel = new ViewModelProvider(this).get(CenterViewModel.class);
-
         expands = new HashMap<>();
-        if (viewModel.getMy() != null) {
-            for (int i = 0; i < viewModel.getMy().size(); i++) {
-                expands.put(i, false);
-            }
-        }
 
         adapter = new CenterAdapter(activity);
-        adapter.setCenter(viewModel.getMy(), expands, "my", viewModel);
 
         recyclerView = view.findViewById(R.id.fragment_my_center_recyclerView);
         recyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
@@ -76,8 +65,13 @@ public class MyCenterFragment extends Fragment {
         emptyLayout = view.findViewById(R.id.fragment_my_center_emptyLayout);
     }
 
-    private void setRecyclerView() {
-        if (viewModel.getMy() != null) {
+    private void setData() {
+        if (((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel.getMy() != null) {
+            for (int i = 0; i < ((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel.getMy().size(); i++) {
+                expands.put(i, false);
+            }
+
+            adapter.setCenter(((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel.getMy(), expands, "my", ((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel);
             recyclerView.setAdapter(adapter);
 
             recyclerView.setVisibility(View.VISIBLE);

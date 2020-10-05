@@ -221,22 +221,22 @@ public class SampleViewModel extends AndroidViewModel {
          ---------- Urls ----------
     */
 
-    public String getSvgScore() {
-        return repository.getSvgScore();
+    public String getSvgScore(String sampleId) {
+        return repository.getSvgScore(sampleId);
 
     }
 
-    public String getPngScore() {
-        return repository.getPngScore();
+    public String getPngScore(String sampleId) {
+        return repository.getPngScore(sampleId);
 
     }
 
-    public String getHtmlScore() {
-        return repository.getHtmlScore();
+    public String getHtmlScore(String sampleId) {
+        return repository.getHtmlScore(sampleId);
     }
 
-    public String getPdfScore() {
-        return repository.getPdfScore();
+    public String getPdfScore(String sampleId) {
+        return repository.getPdfScore(sampleId);
 
     }
 

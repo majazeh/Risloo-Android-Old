@@ -49,7 +49,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
                     app:cardBackgroundColor="@null"
                     app:cardCornerRadius="@dimen/_16sdp"
                     app:cardElevation="0dp">
@@ -127,7 +127,7 @@
                     android:id="@+id/activity_create_sample_room_frameLayout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
                     android:background="@drawable/draw_16sdp_border_quartz">
 
                     <Spinner
@@ -174,8 +174,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_68sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_height="@dimen/_72sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
                     app:cardBackgroundColor="@color/White"
                     app:cardCornerRadius="@dimen/_16sdp"
                     app:cardElevation="0dp">
@@ -192,7 +192,7 @@
                         app:tabBackground="@null"
                         app:tabRippleColor="@color/Quartz"
                         app:tabIndicatorColor="@color/Primary5P"
-                        app:tabIndicatorHeight="@dimen/_68sdp"
+                        app:tabIndicatorHeight="@dimen/_72sdp"
                         app:tabIconTint="@drawable/sel_tab_icon"
                         app:tabTextColor="@color/Mischka"
                         app:tabSelectedTextColor="@color/Grey"
@@ -230,7 +230,7 @@
                             android:id="@+id/activity_create_sample_clinic_reference_cardView"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_36sdp"
-                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_8sdp"
                             app:cardBackgroundColor="@null"
                             app:cardCornerRadius="@dimen/_16sdp"
                             app:cardElevation="0dp">
@@ -307,16 +307,14 @@
                         <EditText
                             android:id="@+id/activity_create_sample_count_editText"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="@dimen/_8sdp"
-                            android:paddingBottom="@dimen/_8sdp"
+                            android:layout_height="@dimen/_36sdp"
                             android:paddingLeft="@dimen/_16sdp"
                             android:paddingRight="@dimen/_16sdp"
                             android:imeOptions="actionDone"
                             android:cursorVisible="false"
                             android:inputType="number"
                             android:hint="@string/CreateSampleCount"
-                            android:gravity="right"
+                            android:gravity="center|right"
                             android:textSize="@dimen/_12ssp"
                             android:textStyle="normal"
                             android:textColor="@color/Grey"
@@ -339,7 +337,7 @@
                             android:id="@+id/activity_create_sample_case_frameLayout"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_36sdp"
-                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_8sdp"
                             android:background="@drawable/draw_16sdp_border_quartz">
 
                             <Spinner
@@ -388,7 +386,7 @@
                             android:id="@+id/activity_create_sample_case_reference_textView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:layout_marginBottom="@dimen/_8sdp"
                             android:visibility="gone"
                             android:gravity="right"
                             android:text="@string/CreateSampleReferences"
@@ -412,9 +410,7 @@
                 <Button
                     android:id="@+id/activity_create_sample_button"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/_6sdp"
-                    android:paddingBottom="@dimen/_6sdp"
+                    android:layout_height="@dimen/_36sdp"
                     android:gravity="center"
                     android:text="@string/CreateSampleCreate"
                     android:textSize="@dimen/_12ssp"

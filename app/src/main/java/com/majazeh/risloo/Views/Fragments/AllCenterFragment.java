@@ -9,21 +9,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
-import com.majazeh.risloo.ViewModels.CenterViewModel;
+import com.majazeh.risloo.Views.Activities.CenterActivity;
 import com.majazeh.risloo.Views.Adapters.CenterAdapter;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class AllCenterFragment extends Fragment {
-
-    // ViewModels
-    private CenterViewModel viewModel;
 
     // Adapters
     private CenterAdapter adapter;
@@ -48,27 +45,31 @@ public class AllCenterFragment extends Fragment {
 
         initializer(view);
 
+        setData();
+
         return view;
     }
 
     private void initializer(View view) {
-        viewModel = new ViewModelProvider(this).get(CenterViewModel.class);
-
         expands = new HashMap<>();
-        if (viewModel.getAll() != null) {
-            for (int i = 0; i < viewModel.getAll().size(); i++) {
-                expands.put(i, false);
-            }
-        }
 
         adapter = new CenterAdapter(activity);
-        adapter.setCenter(viewModel.getAll(), expands, "all", viewModel);
 
         recyclerView = view.findViewById(R.id.fragment_all_center_recyclerView);
         recyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
+    }
+
+    private void setData() {
+        if (((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel.getAll() != null) {
+            for (int i = 0; i < ((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel.getAll().size(); i++) {
+                expands.put(i, false);
+            }
+
+            adapter.setCenter(((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel.getAll(), expands, "all", ((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel);
+            recyclerView.setAdapter(adapter);
+        }
     }
 
 }

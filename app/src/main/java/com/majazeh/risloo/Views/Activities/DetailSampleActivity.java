@@ -18,11 +18,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -61,15 +59,14 @@ public class DetailSampleActivity extends AppCompatActivity {
     private DetailSampleAdapter adapter;
 
     // Vars
-    private String sampleId, scaleTitle, svgUrl, pngUrl, htmlUrl, pdfUrl;
+    private String sampleId = "", scaleTitle = "", svgUrl = "", pngUrl = "", htmlUrl = "", pdfUrl = "";
     private boolean showLoading = false, showCardView = false;
 
     // Objects
-    private Handler handler;
+    private Bundle extras;
     private ClickableSpan retrySpan;
     private DownloadDialog downloadDialog;
     private Animation animFadeIn, animFadeOut;
-    private Bundle extras;
 
     // Widgets
     private Toolbar toolbar;
@@ -97,6 +94,8 @@ public class DetailSampleActivity extends AppCompatActivity {
 
         listener();
 
+        setData();
+
         launchProcess("getGeneral");
     }
 
@@ -110,16 +109,12 @@ public class DetailSampleActivity extends AppCompatActivity {
 
         adapter = new DetailSampleAdapter(this);
 
-        handler = new Handler();
-
         downloadDialog = new DownloadDialog(this);
+
+        extras = getIntent().getExtras();
 
         animFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         animFadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
-
-        extras = getIntent().getExtras();
-        sampleId = Objects.requireNonNull(extras).getString("id");
-        SampleRepository.sampleId = sampleId;
 
         toolbar = findViewById(R.id.activity_detail_sample_toolbar);
 
@@ -274,6 +269,8 @@ public class DetailSampleActivity extends AppCompatActivity {
     }
 
     private void setData() {
+        sampleId = extras.getString("id");
+
         try {
             JSONObject data = viewModel.readSampleDetailFromCache(sampleId);
 
@@ -343,21 +340,21 @@ public class DetailSampleActivity extends AppCompatActivity {
                     setButton(scoreTextView, false);
                     setButton(closeTextView, false);
 
-                    if (viewModel.getSvgScore() != null) {
-                        svgUrl = viewModel.getSvgScore();
+                    if (viewModel.getSvgScore(sampleId) != null) {
+                        svgUrl = viewModel.getSvgScore(sampleId);
                         showCardView = true;
                     }
-                    if (viewModel.getPngScore() != null) {
-                        pngUrl = viewModel.getPngScore();
+                    if (viewModel.getPngScore(sampleId) != null) {
+                        pngUrl = viewModel.getPngScore(sampleId);
                         Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultSquareImageView);
                         showCardView = true;
                     }
-                    if (viewModel.getHtmlScore() != null) {
-                        htmlUrl = viewModel.getHtmlScore();
+                    if (viewModel.getHtmlScore(sampleId) != null) {
+                        htmlUrl = viewModel.getHtmlScore(sampleId);
                         showCardView = true;
                     }
-                    if (viewModel.getPdfScore() != null) {
-                        pdfUrl = viewModel.getPdfScore();
+                    if (viewModel.getPdfScore(sampleId) != null) {
+                        pdfUrl = viewModel.getPdfScore(sampleId);
                         showCardView = true;
                     }
 
@@ -377,21 +374,21 @@ public class DetailSampleActivity extends AppCompatActivity {
                     setButton(scoreTextView, false);
                     setButton(closeTextView, false);
 
-                    if (viewModel.getSvgScore() != null) {
-                        svgUrl = viewModel.getSvgScore();
+                    if (viewModel.getSvgScore(sampleId) != null) {
+                        svgUrl = viewModel.getSvgScore(sampleId);
                         showCardView = true;
                     }
-                    if (viewModel.getPngScore() != null) {
-                        pngUrl = viewModel.getPngScore();
+                    if (viewModel.getPngScore(sampleId) != null) {
+                        pngUrl = viewModel.getPngScore(sampleId);
                         Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultSquareImageView);
                         showCardView = true;
                     }
-                    if (viewModel.getHtmlScore() != null) {
-                        htmlUrl = viewModel.getHtmlScore();
+                    if (viewModel.getHtmlScore(sampleId) != null) {
+                        htmlUrl = viewModel.getHtmlScore(sampleId);
                         showCardView = true;
                     }
-                    if (viewModel.getPdfScore() != null) {
-                        pdfUrl = viewModel.getPdfScore();
+                    if (viewModel.getPdfScore(sampleId) != null) {
+                        pdfUrl = viewModel.getPdfScore(sampleId);
                         showCardView = true;
                     }
 

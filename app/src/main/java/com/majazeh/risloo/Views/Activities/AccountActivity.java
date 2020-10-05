@@ -99,7 +99,6 @@ public class AccountActivity extends AppCompatActivity {
         accountRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._8sdp), (int) getResources().getDimension(R.dimen._32sdp)));
         accountRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         accountRecyclerView.setHasFixedSize(true);
-        accountRecyclerView.setAdapter(adapter);
 
         logOutDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(logOutDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
@@ -195,6 +194,7 @@ public class AccountActivity extends AppCompatActivity {
     private void setData() {
         try {
             adapter.setAccount(viewModel.getAll());
+            accountRecyclerView.setAdapter(adapter);
 
             if (viewModel.getAvatar().equals("")) {
                 avatarCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_solid));
