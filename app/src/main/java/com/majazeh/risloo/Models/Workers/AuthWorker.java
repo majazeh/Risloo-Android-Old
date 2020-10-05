@@ -575,8 +575,26 @@ public class AuthWorker extends Worker {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        ExceptionManager.getException(200, response, true, "avatar", "auth");
-                        AuthRepository.workState.postValue(1);
+                        try {
+                            JSONObject successBody = new JSONObject(response.toString());
+                            JSONObject data = successBody.getJSONObject("data");
+
+                            JSONObject avatar = data.getJSONObject("avatar");
+                            JSONObject medium = avatar.getJSONObject("medium");
+
+                            editor.putString("avatar", medium.getString("url"));
+                            editor.apply();
+
+                            FileManager.deleteBitmapFromCache(context, "avatar");
+
+                            ExceptionManager.getException(200, successBody, true, "avatar", "auth");
+                            AuthRepository.workState.postValue(1);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+                            ExceptionManager.getException(0, null, false, "JSONException", "auth");
+                            AuthRepository.workState.postValue(0);
+                        }
                     }
 
                     @Override
@@ -658,8 +676,17 @@ public class AuthWorker extends Worker {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        ExceptionManager.getException(200, response, true, "sendDoc", "auth");
-                        AuthRepository.workState.postValue(1);
+                        try {
+                            JSONObject successBody = new JSONObject(response.toString());
+
+                            ExceptionManager.getException(200, successBody, true, "sendDoc", "auth");
+                            AuthRepository.workState.postValue(1);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+                            ExceptionManager.getException(0, null, false, "JSONException", "auth");
+                            AuthRepository.workState.postValue(0);
+                        }
                     }
 
                     @Override

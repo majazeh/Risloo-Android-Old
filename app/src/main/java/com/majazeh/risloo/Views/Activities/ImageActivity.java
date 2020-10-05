@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.os.Bundle;
 
 import com.jsibbold.zoomage.ZoomageView;
+import com.majazeh.risloo.Models.Managers.BitmapManager;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.squareup.picasso.Picasso;
@@ -13,7 +14,8 @@ import com.squareup.picasso.Picasso;
 public class ImageActivity extends AppCompatActivity {
 
     // Vars
-    private String title = "", image = "";
+    private String title = "";
+    private boolean bitmap = false;
 
     // Objects
     private Bundle extras;
@@ -56,10 +58,17 @@ public class ImageActivity extends AppCompatActivity {
 
     private void setData() {
         title = extras.getString("title");
-        image = extras.getString("image");
+        bitmap = extras.getBoolean("bitmap");
 
         toolbar.setTitle(title);
-        Picasso.get().load(image).placeholder(R.color.Nero).into(imageView);
+
+        if (bitmap) {
+            byte[] image = extras.getByteArray("image");
+            imageView.setImageBitmap(BitmapManager.rotate(BitmapManager.byteToBitmap(image), ""));
+        } else {
+            String image = extras.getString("image");
+            Picasso.get().load(image).placeholder(R.color.Nero).into(imageView);
+        }
     }
 
 }

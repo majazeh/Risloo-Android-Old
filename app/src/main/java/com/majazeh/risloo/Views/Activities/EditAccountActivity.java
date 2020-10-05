@@ -191,7 +191,13 @@ public class EditAccountActivity extends AppCompatActivity {
                 Intent intent = (new Intent(this, ImageActivity.class));
 
                 intent.putExtra("title", viewModel.getName());
-                intent.putExtra("image", viewModel.getAvatar());
+                if (selectedBitmap == null) {
+                    intent.putExtra("bitmap", false);
+                    intent.putExtra("image", viewModel.getAvatar());
+                } else {
+                    intent.putExtra("bitmap", true);
+                    intent.putExtra("image", BitmapManager.bitmapToByte(selectedBitmap));
+                }
 
                 startActivity(intent);
             }
@@ -417,6 +423,7 @@ public class EditAccountActivity extends AppCompatActivity {
             progressDialog.show();
             switch (method) {
                 case "avatar":
+                    FileManager.writeBitmapToCache(this, BitmapManager.bitmapToByte(selectedBitmap), "avatar");
                     viewModel.avatar();
                     break;
                 case "edit":
@@ -596,8 +603,6 @@ public class EditAccountActivity extends AppCompatActivity {
 
                     selectedBitmap = BitmapFactory.decodeStream(imageStream);
 
-                    FileManager.writeBitmapToCache(this, BitmapManager.encodeToByte(selectedBitmap), "avatar");
-
                     avatarCircleImageView.setImageBitmap(BitmapManager.rotate(selectedBitmap, ""));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -624,8 +629,6 @@ public class EditAccountActivity extends AppCompatActivity {
                 bmOptions.inPurgeable = true;
 
                 selectedBitmap = BitmapFactory.decodeFile(imageFilePath, bmOptions);
-
-                FileManager.writeBitmapToCache(this, BitmapManager.encodeToByte(selectedBitmap), "avatar");
 
                 avatarCircleImageView.setImageBitmap(BitmapManager.rotate(selectedBitmap, imageFilePath));
             }

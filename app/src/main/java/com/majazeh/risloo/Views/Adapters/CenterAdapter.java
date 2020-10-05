@@ -91,6 +91,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
             Intent imageIntent = (new Intent(activity, ImageActivity.class));
 
             editIntent.putExtra("id", (String) model.get("id"));
+            editIntent.putExtra("bitmap", false);
             editIntent.putExtra("type", (String) model.get("type"));
 
             int createdAt = (int) model.get("created_at");

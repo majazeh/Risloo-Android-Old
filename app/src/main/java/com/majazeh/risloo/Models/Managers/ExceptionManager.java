@@ -42,6 +42,9 @@ public class ExceptionManager {
                                 case "edit":
                                     farsi_message = "ویرایش حساب شما انجام شد";
                                     break;
+                                case "avatar":
+                                    farsi_message = "ویرایش عکس شما انجام شد";
+                                    break;
                                 case "logOut":
                                     farsi_message = "خروج با موفقیت انجام شد";
                                     break;

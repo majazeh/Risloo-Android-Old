@@ -152,6 +152,7 @@ public class AccountActivity extends AppCompatActivity {
                 Intent intent = (new Intent(this, ImageActivity.class));
 
                 intent.putExtra("title", viewModel.getName());
+                intent.putExtra("bitmap", false);
                 intent.putExtra("image", viewModel.getAvatar());
 
                 startActivity(intent);

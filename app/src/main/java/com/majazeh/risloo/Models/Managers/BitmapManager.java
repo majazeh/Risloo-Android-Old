@@ -13,20 +13,24 @@ import java.lang.reflect.Method;
 
 public class BitmapManager {
 
-    public static byte[] encodeToByte(Bitmap image) {
+    public static byte[] bitmapToByte(Bitmap image) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
         return byteArrayOutputStream.toByteArray();
     }
 
-    public static String encodeToBase64(Bitmap image) {
+    public static String bitmapToString(Bitmap image) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
         byte[] encodedByte = byteArrayOutputStream.toByteArray();
         return Base64.encodeToString(encodedByte, Base64.DEFAULT);
     }
 
-    public static Bitmap decodeToBase64(String value) {
+    public static Bitmap byteToBitmap(byte[] value) {
+        return BitmapFactory.decodeByteArray(value, 0, value.length);
+    }
+
+    public static Bitmap stringToBitmap(String value) {
         byte[] decodedByte = Base64.decode(value, 0);
         return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }

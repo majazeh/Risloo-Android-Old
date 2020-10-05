@@ -227,6 +227,10 @@ public class FileManager {
         new File(context.getCacheDir(), fileName + "/" + fileSubName).delete();
     }
 
+    public static void deleteBitmapFromCache(Context context, String fileName) {
+        new File(context.getCacheDir(), fileName).delete();
+    }
+
     public static boolean writeToExternal(Context context, JSONArray jsonArray, String fileName) {
         try {
             File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName + ".csv");

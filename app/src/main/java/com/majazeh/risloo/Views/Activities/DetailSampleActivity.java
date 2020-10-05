@@ -94,8 +94,6 @@ public class DetailSampleActivity extends AppCompatActivity {
 
         listener();
 
-        setData();
-
         launchProcess("getGeneral");
     }
 
@@ -112,6 +110,7 @@ public class DetailSampleActivity extends AppCompatActivity {
         downloadDialog = new DownloadDialog(this);
 
         extras = getIntent().getExtras();
+        sampleId = Objects.requireNonNull(extras).getString("id");
 
         animFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         animFadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
@@ -209,6 +208,7 @@ public class DetailSampleActivity extends AppCompatActivity {
             Intent intent = (new Intent(this, ImageActivity.class));
 
             intent.putExtra("title", scaleTitle);
+            intent.putExtra("bitmap", false);
             intent.putExtra("image", pngUrl);
 
             startActivity(intent);
@@ -269,8 +269,6 @@ public class DetailSampleActivity extends AppCompatActivity {
     }
 
     private void setData() {
-        sampleId = extras.getString("id");
-
         try {
             JSONObject data = viewModel.readSampleDetailFromCache(sampleId);
 

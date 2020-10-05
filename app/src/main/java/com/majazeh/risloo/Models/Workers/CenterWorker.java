@@ -17,6 +17,7 @@ import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Apis.CenterApi;
 import com.majazeh.risloo.Models.Generators.RetroGenerator;
+import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 
 import org.json.JSONArray;
@@ -262,7 +263,7 @@ public class CenterWorker extends Worker {
     private void create() {
         AndroidNetworking.upload("https://bapi.risloo.ir/api/centers")
                 .addHeaders("Authorization", token())
-                .addMultipartFile("avatar", new File(context.getCacheDir(), "createCenter"))
+                .addMultipartFile("avatar", new File(context.getCacheDir(), "avatar"))
                 .addMultipartParameter(CenterRepository.createData)
                 .setPriority(Priority.HIGH)
                 .build()
@@ -270,8 +271,19 @@ public class CenterWorker extends Worker {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        ExceptionManager.getException(200, response, true, "create", "center");
-                        CenterRepository.workState.postValue(1);
+                        try {
+                            JSONObject successBody = new JSONObject(response.toString());
+
+                            FileManager.deleteBitmapFromCache(context, "avatar");
+
+                            ExceptionManager.getException(200, successBody, true, "create", "center");
+                            CenterRepository.workState.postValue(1);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+                            ExceptionManager.getException(0, null, false, "JSONException", "center");
+                            CenterRepository.workState.postValue(0);
+                        }
                     }
 
                     @Override

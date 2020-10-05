@@ -672,6 +672,8 @@ public class CreateCenterActivity extends AppCompatActivity {
             description = descriptionEditText.getText().toString().trim();
             address = addressEditText.getText().toString().trim();
 
+            FileManager.writeBitmapToCache(this, BitmapManager.bitmapToByte(selectedBitmap), "avatar");
+
             try {
                 progressDialog.show();
                 viewModel.create(type, manager, title, "", address, description, phoneAdapter.getValuesId());
@@ -915,8 +917,6 @@ public class CreateCenterActivity extends AppCompatActivity {
                     avatarTextView.setTextColor(getResources().getColor(R.color.Grey));
 
                     selectedBitmap = BitmapFactory.decodeStream(imageStream);
-
-                    FileManager.writeBitmapToCache(this, BitmapManager.encodeToByte(selectedBitmap), "createCenter");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -945,8 +945,6 @@ public class CreateCenterActivity extends AppCompatActivity {
                 bmOptions.inPurgeable = true;
 
                 selectedBitmap = BitmapFactory.decodeFile(imageFilePath, bmOptions);
-
-                FileManager.writeBitmapToCache(this, BitmapManager.encodeToByte(selectedBitmap), "createCenter");
             }
         } else if (resultCode == RESULT_CANCELED) {
             if (requestCode == 100)
