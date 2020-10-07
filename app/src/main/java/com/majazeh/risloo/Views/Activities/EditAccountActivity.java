@@ -600,8 +600,8 @@ public class EditAccountActivity extends AppCompatActivity {
                 try {
                     Uri imageUri = Objects.requireNonNull(data).getData();
                     InputStream imageStream = getContentResolver().openInputStream(Objects.requireNonNull(imageUri));
-
-                    selectedBitmap = BitmapFactory.decodeStream(imageStream);
+                    Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
+                    selectedBitmap = Bitmap.createScaledBitmap(bitmap,1024,1024,true);
 
                     avatarCircleImageView.setImageBitmap(BitmapManager.rotate(selectedBitmap, ""));
                 } catch (FileNotFoundException e) {
@@ -627,8 +627,8 @@ public class EditAccountActivity extends AppCompatActivity {
                 bmOptions.inJustDecodeBounds = false;
                 bmOptions.inSampleSize = scaleFactor;
                 bmOptions.inPurgeable = true;
-
-                selectedBitmap = BitmapFactory.decodeFile(imageFilePath, bmOptions);
+                Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath, bmOptions);
+                selectedBitmap = Bitmap.createScaledBitmap(bitmap,720,720,true);
 
                 avatarCircleImageView.setImageBitmap(BitmapManager.rotate(selectedBitmap, imageFilePath));
             }
