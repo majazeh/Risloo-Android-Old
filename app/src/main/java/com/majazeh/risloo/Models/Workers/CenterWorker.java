@@ -261,9 +261,11 @@ public class CenterWorker extends Worker {
     }
 
     private void create() {
+        File avatar = new File(context.getCacheDir(), "image");
+
         AndroidNetworking.upload("https://bapi.risloo.ir/api/centers")
                 .addHeaders("Authorization", token())
-                .addMultipartFile("avatar", new File(context.getCacheDir(), "avatar"))
+                .addMultipartFile("avatar", avatar)
                 .addMultipartParameter(CenterRepository.createData)
                 .setPriority(Priority.HIGH)
                 .build()
@@ -274,7 +276,7 @@ public class CenterWorker extends Worker {
                         try {
                             JSONObject successBody = new JSONObject(response.toString());
 
-                            FileManager.deleteBitmapFromCache(context, "avatar");
+                            FileManager.deleteBitmapFromCache(context, "image");
 
                             ExceptionManager.getException(200, successBody, true, "create", "center");
                             CenterRepository.workState.postValue(1);

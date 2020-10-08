@@ -91,7 +91,6 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
             Intent imageIntent = (new Intent(activity, ImageActivity.class));
 
             editIntent.putExtra("id", (String) model.get("id"));
-            editIntent.putExtra("bitmap", false);
             editIntent.putExtra("type", (String) model.get("type"));
 
             int createdAt = (int) model.get("created_at");
@@ -225,6 +224,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                 JSONObject avatar = details.getJSONObject("avatar");
                 JSONObject medium = avatar.getJSONObject("medium");
 
+                imageIntent.putExtra("bitmap", false);
                 imageIntent.putExtra("image", medium.getString("url"));
 
                 Picasso.get().load(medium.getString("url")).placeholder(R.color.Solitude).into(holder.avatarImageView);

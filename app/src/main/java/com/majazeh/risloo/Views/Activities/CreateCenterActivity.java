@@ -367,6 +367,26 @@ public class CreateCenterActivity extends AppCompatActivity {
             imageDialog.show(this.getSupportFragmentManager(), "imageBottomSheet");
         });
 
+        avatarTextView.setOnClickListener(v -> {
+            avatarTextView.setClickable(false);
+            handler.postDelayed(() -> avatarTextView.setClickable(true), 300);
+
+            if (selectedBitmap != null) {
+                Intent intent = (new Intent(this, ImageActivity.class));
+
+                intent.putExtra("title", "");
+                intent.putExtra("bitmap", true);
+                if (imageFilePath.equals("")) {
+                    intent.putExtra("path", "");
+                } else {
+                    intent.putExtra("path", imageFilePath);
+                }
+                FileManager.writeBitmapToCache(this, selectedBitmap, "image");
+
+                startActivity(intent);
+            }
+        });
+
         descriptionEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!descriptionEditText.hasFocus()) {
@@ -672,7 +692,7 @@ public class CreateCenterActivity extends AppCompatActivity {
             description = descriptionEditText.getText().toString().trim();
             address = addressEditText.getText().toString().trim();
 
-            FileManager.writeBitmapToCache(this, BitmapManager.bitmapToByte(selectedBitmap), "avatar");
+            FileManager.writeBitmapToCache(this, selectedBitmap, "image");
 
             try {
                 progressDialog.show();
@@ -819,9 +839,10 @@ public class CreateCenterActivity extends AppCompatActivity {
 
     @SuppressLint("SimpleDateFormat")
     public File createImageFile() throws IOException {
-        String imageFileName = "JPEG_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + "_";
+        String imageFileName = new SimpleDateFormat("yyyy-MM-dd:HH-mm-ss").format(new Date()) + "_";
+        String imageFileSuffix = ".jpg";
         File imageStorageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File imageFile = File.createTempFile(imageFileName, ".jpg", imageStorageDir);
+        File imageFile = File.createTempFile(imageFileName, imageFileSuffix, imageStorageDir);
         imageFilePath = imageFile.getAbsolutePath();
         return imageFile;
     }
@@ -912,11 +933,14 @@ public class CreateCenterActivity extends AppCompatActivity {
                 try {
                     Uri imageUri = Objects.requireNonNull(data).getData();
                     InputStream imageStream = getContentResolver().openInputStream(Objects.requireNonNull(imageUri));
+                    Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
+
+                    selectedBitmap = BitmapManager.scaleToCenter(imageBitmap);
+
+                    imageFilePath = "";
 
                     avatarTextView.setText(imageUri.getPath());
                     avatarTextView.setTextColor(getResources().getColor(R.color.Grey));
-
-                    selectedBitmap = BitmapFactory.decodeStream(imageStream);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -924,27 +948,18 @@ public class CreateCenterActivity extends AppCompatActivity {
                 File imageFile = new File(imageFilePath);
                 intentCaller.mediaScan(this, imageFile);
 
+                int scaleFactor = Math.max(1, 2);
+
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = false;
+                options.inSampleSize = scaleFactor;
+
+                Bitmap imageBitmap = BitmapFactory.decodeFile(imageFilePath, options);
+
+                selectedBitmap = BitmapManager.scaleToCenter(imageBitmap);
+
                 avatarTextView.setText(imageFilePath);
                 avatarTextView.setTextColor(getResources().getColor(R.color.Grey));
-
-                int targetWidth = 100;
-                int targetHeight = 100;
-
-                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                bmOptions.inJustDecodeBounds = true;
-
-                BitmapFactory.decodeFile(imageFilePath, bmOptions);
-
-                int photoWidth = bmOptions.outWidth;
-                int photoHeight = bmOptions.outHeight;
-
-                int scaleFactor = Math.max(1, Math.min(photoWidth / targetWidth, photoHeight / targetHeight));
-
-                bmOptions.inJustDecodeBounds = false;
-                bmOptions.inSampleSize = scaleFactor;
-                bmOptions.inPurgeable = true;
-
-                selectedBitmap = BitmapFactory.decodeFile(imageFilePath, bmOptions);
             }
         } else if (resultCode == RESULT_CANCELED) {
             if (requestCode == 100)

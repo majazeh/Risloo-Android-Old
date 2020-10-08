@@ -566,9 +566,11 @@ public class AuthWorker extends Worker {
     }
 
     private void avatar() {
+        File avatar = new File(context.getCacheDir(), "image");
+
         AndroidNetworking.upload("https://bapi.risloo.ir/api/users/" + userId() + "/" + "avatar")
                 .addHeaders("Authorization", token())
-                .addMultipartFile("avatar", new File(context.getCacheDir(), "avatar"))
+                .addMultipartFile("avatar", avatar)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
@@ -585,7 +587,7 @@ public class AuthWorker extends Worker {
                             editor.putString("avatar", medium.getString("url"));
                             editor.apply();
 
-                            FileManager.deleteBitmapFromCache(context, "avatar");
+                            FileManager.deleteBitmapFromCache(context, "image");
 
                             ExceptionManager.getException(200, successBody, true, "avatar", "auth");
                             AuthRepository.workState.postValue(1);

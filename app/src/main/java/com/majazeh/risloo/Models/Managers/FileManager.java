@@ -1,6 +1,8 @@
 package com.majazeh.risloo.Models.Managers;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Environment;
 
@@ -21,27 +23,6 @@ import java.io.ObjectOutputStream;
 
 public class FileManager {
 
-    public static boolean writeBitmapToCache(Context context, byte[] bitmapData, String fileName) {
-        try {
-            File file = new File(context.getCacheDir(), fileName);
-            if (!file.getParentFile().exists()) {
-                file.getParentFile().mkdirs();
-            }
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(bitmapData);
-            fos.flush();
-            fos.close();
-            return true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
 
     public static boolean writeObjectToCache(Context context, JSONObject jsonObject, String fileName, String fileSubName) {
         try {
@@ -227,10 +208,6 @@ public class FileManager {
         new File(context.getCacheDir(), fileName + "/" + fileSubName).delete();
     }
 
-    public static void deleteBitmapFromCache(Context context, String fileName) {
-        new File(context.getCacheDir(), fileName).delete();
-    }
-
     public static boolean writeToExternal(Context context, JSONArray jsonArray, String fileName) {
         try {
             File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName + ".csv");
@@ -303,6 +280,74 @@ public class FileManager {
             }
         }else{
             // it doesnt exist
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static void writeBitmapToCache(Context context, Bitmap bitmap, String fileName) {
+        try {
+            File file = new File(context.getCacheDir(), fileName);
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileOutputStream fos = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Bitmap readBitmapFromCache(Context context, String fileName) {
+        Bitmap bitmap;
+        try {
+            File file = new File(context.getCacheDir(), fileName);
+            if (!file.exists()) {
+               return null;
+            }
+            FileInputStream fis = new FileInputStream(file);
+            bitmap = BitmapFactory.decodeStream(fis);
+            fis.close();
+            return bitmap;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (EOFException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void deleteBitmapFromCache(Context context, String fileName) {
+        File file = new File(context.getCacheDir(), fileName);
+        if (file.exists()) {
+            file.delete();
         }
     }
 

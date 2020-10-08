@@ -2,14 +2,14 @@ package com.majazeh.risloo.Models.Managers;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.RectF;
+import android.media.ExifInterface;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.io.IOException;
 
 public class BitmapManager {
 
@@ -35,78 +35,67 @@ public class BitmapManager {
         return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 
-    public static Bitmap rotate(Bitmap bitmap, String path) {
-        int orientation = exifOrientation(path);
-        Matrix matrix = new Matrix();
+    public static Bitmap scaleToCenter(Bitmap image) {
+        int imageWidth = image.getWidth();
+        int imageHeight = image.getHeight();
 
-        switch (orientation) {
-            case 1:
-                return bitmap;
-            case 2:
-                matrix.setScale(-1, 1);
-                break;
-            case 3:
-                matrix.setRotate(180);
-                break;
-            case 4:
-                matrix.setRotate(180);
-                matrix.postScale(-1, 1);
-                break;
-            case 5:
-                matrix.setRotate(90);
-                matrix.postScale(-1, 1);
-                break;
-            case 6:
-                matrix.setRotate(90);
-                break;
-            case 7:
-                matrix.setRotate(-90);
-                matrix.postScale(-1, 1);
-                break;
-            case 8:
-                matrix.setRotate(-90);
-                break;
+        int newDimension = Math.min(imageWidth, imageHeight);
+
+        if (newDimension > 960) {
+            newDimension = 960;
         }
 
-        try {
-            Bitmap oriented = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-            bitmap.recycle();
-            return oriented;
-        } catch (OutOfMemoryError e) {
-            e.printStackTrace();
-        }
+        int left = (newDimension - imageWidth) / 2;
+        int top = (newDimension - imageHeight) / 2;
+
+        int right = left + imageWidth;
+        int bottom =top + imageHeight;
+
+        RectF targetRect = new RectF(left, top, right, bottom);
+
+        Bitmap bitmap = Bitmap.createBitmap(newDimension, newDimension, image.getConfig());
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawBitmap(image, null, targetRect, null);
 
         return bitmap;
     }
 
-    private static int exifOrientation(String src) {
+    public static Bitmap modifyOrientation(Bitmap bitmap, String path) {
         try {
-            Class<?> exifClass = Class.forName("android.media.ExifInterface");
-            Constructor<?> exifConstructor = exifClass.getConstructor(String.class);
-            Object exifInstance = exifConstructor.newInstance(src);
-            Method getAttributeInt = exifClass.getMethod("getAttributeInt", String.class, int.class);
-            Field tagOrientationField = exifClass.getField("TAG_ORIENTATION");
-            String tagOrientationString = (String) tagOrientationField.get(null);
-            Object tagOrientationObject = new Object[]{tagOrientationString, 1};
-            return (int) getAttributeInt.invoke(exifInstance, tagOrientationObject);
-        } catch (ClassNotFoundException e) {
+            ExifInterface exifInterface = new ExifInterface(path);
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    return rotateOrientation(bitmap, 90);
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    return rotateOrientation(bitmap, 180);
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    return rotateOrientation(bitmap, 270);
+                case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                    return flipOrientation(bitmap, true, false);
+                case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                    return flipOrientation(bitmap, false, true);
+                default:
+                    return bitmap;
+            }
+
+        } catch (IOException e) {
             e.printStackTrace();
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
+            return null;
         }
-        return 1;
+    }
+
+    public static Bitmap rotateOrientation(Bitmap bitmap, float degrees) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degrees);
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+    }
+
+    public static Bitmap flipOrientation(Bitmap bitmap, boolean horizontal, boolean vertical) {
+        Matrix matrix = new Matrix();
+        matrix.preScale(horizontal ? -1 : 1, vertical ? -1 : 1);
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 
 }

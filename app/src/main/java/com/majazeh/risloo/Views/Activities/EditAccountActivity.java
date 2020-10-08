@@ -196,7 +196,12 @@ public class EditAccountActivity extends AppCompatActivity {
                     intent.putExtra("image", viewModel.getAvatar());
                 } else {
                     intent.putExtra("bitmap", true);
-                    intent.putExtra("image", BitmapManager.bitmapToByte(selectedBitmap));
+                    if (imageFilePath.equals("")) {
+                        intent.putExtra("path", "");
+                    } else {
+                        intent.putExtra("path", imageFilePath);
+                    }
+                    FileManager.writeBitmapToCache(this, selectedBitmap, "image");
                 }
 
                 startActivity(intent);
@@ -423,7 +428,7 @@ public class EditAccountActivity extends AppCompatActivity {
             progressDialog.show();
             switch (method) {
                 case "avatar":
-                    FileManager.writeBitmapToCache(this, BitmapManager.bitmapToByte(selectedBitmap), "avatar");
+                    FileManager.writeBitmapToCache(this, selectedBitmap, "image");
                     viewModel.avatar();
                     break;
                 case "edit":
@@ -507,9 +512,10 @@ public class EditAccountActivity extends AppCompatActivity {
 
     @SuppressLint("SimpleDateFormat")
     public File createImageFile() throws IOException {
-        String imageFileName = "JPEG_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()) + "_";
+        String imageFileName = new SimpleDateFormat("yyyy-MM-dd:HH-mm-ss").format(new Date()) + "_";
+        String imageFileSuffix = ".jpg";
         File imageStorageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File imageFile = File.createTempFile(imageFileName, ".jpg", imageStorageDir);
+        File imageFile = File.createTempFile(imageFileName, imageFileSuffix, imageStorageDir);
         imageFilePath = imageFile.getAbsolutePath();
         return imageFile;
     }
@@ -600,10 +606,13 @@ public class EditAccountActivity extends AppCompatActivity {
                 try {
                     Uri imageUri = Objects.requireNonNull(data).getData();
                     InputStream imageStream = getContentResolver().openInputStream(Objects.requireNonNull(imageUri));
-                    Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
-                    selectedBitmap = Bitmap.createScaledBitmap(bitmap,1024,1024,true);
+                    Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
 
-                    avatarCircleImageView.setImageBitmap(BitmapManager.rotate(selectedBitmap, ""));
+                    selectedBitmap = BitmapManager.scaleToCenter(imageBitmap);
+
+                    imageFilePath = "";
+
+                    avatarCircleImageView.setImageBitmap(selectedBitmap);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -611,26 +620,17 @@ public class EditAccountActivity extends AppCompatActivity {
                 File imageFile = new File(imageFilePath);
                 intentCaller.mediaScan(this, imageFile);
 
-                int targetWidth = avatarCircleImageView.getWidth();
-                int targetHeight = avatarCircleImageView.getHeight();
+                int scaleFactor = Math.max(1, 2);
 
-                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                bmOptions.inJustDecodeBounds = true;
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = false;
+                options.inSampleSize = scaleFactor;
 
-                BitmapFactory.decodeFile(imageFilePath, bmOptions);
+                Bitmap imageBitmap = BitmapFactory.decodeFile(imageFilePath, options);
 
-                int photoWidth = bmOptions.outWidth;
-                int photoHeight = bmOptions.outHeight;
+                selectedBitmap = BitmapManager.scaleToCenter(imageBitmap);
 
-                int scaleFactor = Math.max(1, Math.min(photoWidth / targetWidth, photoHeight / targetHeight));
-
-                bmOptions.inJustDecodeBounds = false;
-                bmOptions.inSampleSize = scaleFactor;
-                bmOptions.inPurgeable = true;
-                Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath, bmOptions);
-                selectedBitmap = Bitmap.createScaledBitmap(bitmap,720,720,true);
-
-                avatarCircleImageView.setImageBitmap(BitmapManager.rotate(selectedBitmap, imageFilePath));
+                avatarCircleImageView.setImageBitmap(BitmapManager.modifyOrientation(selectedBitmap, imageFilePath));
             }
         } else if (resultCode == RESULT_CANCELED) {
             if (requestCode == 100)
