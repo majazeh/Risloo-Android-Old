@@ -563,7 +563,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                         loadingCardView.setVisibility(View.GONE);
                         loadingCardView.setAnimation(animFadeOut);
-                        Toast.makeText(this, "aa" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
                     break;
@@ -579,7 +579,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                         loadingCardView.setVisibility(View.GONE);
                         loadingCardView.setAnimation(animFadeOut);
-                        Toast.makeText(this, "aa" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
@@ -590,7 +590,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                         loadingCardView.setVisibility(View.GONE);
                         loadingCardView.setAnimation(animFadeOut);
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
                     break;
@@ -609,19 +609,19 @@ public class DetailSampleActivity extends AppCompatActivity {
                         }
 
                         progressDialog.dismiss();
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer == 0) {
                         setButton(closeTextView, true);
 
                         progressDialog.dismiss();
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         setButton(closeTextView, true);
 
                         progressDialog.dismiss();
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
                     break;

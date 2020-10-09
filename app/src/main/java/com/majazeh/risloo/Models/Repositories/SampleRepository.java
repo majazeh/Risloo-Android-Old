@@ -648,7 +648,7 @@ public class SampleRepository extends MainRepository {
 
             WorkManager.getInstance(application).enqueue(workRequest);
         } else {
-            ExceptionManager.getException(0, null, false, "OffLine", "sample");
+            ExceptionManager.getException(false, 0, null, "OffLineException", "sample");
             workStateSample.setValue(-2);
             workStateAnswer.setValue(-2);
             workStateCreate.setValue(-2);

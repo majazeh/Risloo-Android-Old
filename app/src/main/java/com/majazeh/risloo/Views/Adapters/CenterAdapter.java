@@ -552,15 +552,15 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                         }
 
                         progressDialog.dismiss();
-                        Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         CenterRepository.workState.removeObserver(this);
                     } else if (integer == 0) {
                         progressDialog.dismiss();
-                        Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         CenterRepository.workState.removeObserver(this);
                     } else if (integer == -2) {
                         progressDialog.dismiss();
-                        Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         CenterRepository.workState.removeObserver(this);
                     }
                 }

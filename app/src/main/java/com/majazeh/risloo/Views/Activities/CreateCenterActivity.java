@@ -713,7 +713,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                         finish();
 
                         progressDialog.dismiss();
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     } else if (integer == 0) {
                         progressDialog.dismiss();
@@ -721,7 +721,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         progressDialog.dismiss();
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
                     break;
@@ -737,13 +737,13 @@ public class CreateCenterActivity extends AppCompatActivity {
                         managerProgressBar.setVisibility(View.GONE);
                         managerImageView.setVisibility(View.VISIBLE);
                         managerSpinner.setClickable(true);
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         managerProgressBar.setVisibility(View.GONE);
                         managerImageView.setVisibility(View.VISIBLE);
                         managerSpinner.setClickable(true);
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
                     break;
@@ -759,13 +759,13 @@ public class CreateCenterActivity extends AppCompatActivity {
                         managerProgressBar.setVisibility(View.GONE);
                         managerImageView.setVisibility(View.VISIBLE);
                         managerSpinner.setClickable(true);
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         managerProgressBar.setVisibility(View.GONE);
                         managerImageView.setVisibility(View.VISIBLE);
                         managerSpinner.setClickable(true);
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
                     break;
@@ -774,7 +774,7 @@ public class CreateCenterActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionManager.current_exception.equals("create")) {
+        if (ExceptionManager.exception.equals("create")) {
             try {
                 String exceptionToast = "";
 
@@ -830,7 +830,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                         exceptionToast += (" و " + ExceptionManager.errors.getString("phone_numbers"));
                     }
                 }
-                Toast.makeText(this, "" + exceptionToast, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -962,10 +962,13 @@ public class CreateCenterActivity extends AppCompatActivity {
                 avatarTextView.setTextColor(getResources().getColor(R.color.Grey));
             }
         } else if (resultCode == RESULT_CANCELED) {
-            if (requestCode == 100)
-                Toast.makeText(this, "عکسی انتخاب نشده است.", Toast.LENGTH_SHORT).show();
-            else if (requestCode == 200)
-                Toast.makeText(this, "عکسی گرفته نشده است.", Toast.LENGTH_SHORT).show();
+            if (requestCode == 100) {
+                ExceptionManager.getException(false, 0, null, "GalleryException", "center");
+                Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+            } else if (requestCode == 200) {
+                ExceptionManager.getException(false, 0, null, "CameraException", "center");
+                Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

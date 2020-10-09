@@ -450,11 +450,11 @@ public class EditAccountActivity extends AppCompatActivity {
                     doWork("edit");
                 } else if (integer == 0) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 }
             } else if (AuthRepository.work.equals("edit")) {
@@ -463,7 +463,7 @@ public class EditAccountActivity extends AppCompatActivity {
                     finish();
 
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     progressDialog.dismiss();
@@ -471,7 +471,7 @@ public class EditAccountActivity extends AppCompatActivity {
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 }
             }
@@ -479,7 +479,7 @@ public class EditAccountActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionManager.current_exception.equals("edit")) {
+        if (ExceptionManager.exception.equals("edit")) {
             try {
                 String exceptionToast = "";
 
@@ -503,7 +503,7 @@ public class EditAccountActivity extends AppCompatActivity {
                         exceptionToast += (" و " + ExceptionManager.errors.getString("birthday"));
                     }
                 }
-                Toast.makeText(this, "" + exceptionToast, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -633,10 +633,13 @@ public class EditAccountActivity extends AppCompatActivity {
                 avatarCircleImageView.setImageBitmap(selectedBitmap);
             }
         } else if (resultCode == RESULT_CANCELED) {
-            if (requestCode == 100)
-                Toast.makeText(this, "عکسی انتخاب نشده است.", Toast.LENGTH_SHORT).show();
-            else if (requestCode == 200)
-                Toast.makeText(this, "عکسی گرفته نشده است.", Toast.LENGTH_SHORT).show();
+            if (requestCode == 100) {
+                ExceptionManager.getException(false, 0, null, "GalleryException", "auth");
+                Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+            } else if (requestCode == 200) {
+                ExceptionManager.getException(false, 0, null, "CameraException", "auth");
+                Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

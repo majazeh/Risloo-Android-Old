@@ -6,158 +6,169 @@ import org.json.JSONObject;
 public class ExceptionManager {
 
     // Vars
-    public static String current_exception;
+    public static String exception;
     public static String is_ok;
     public static String message;
     public static String message_text;
-    public static String referer;
-    public static String farsi_message;
+    public static String fa_message_text;
 
     // Objects
     public static JSONObject errors;
 
-    public static void getException(int code, JSONObject body, boolean serverSide, String exception, String module) {
-        if (serverSide) {
-            switch (code) {
-                case 200:
-                    switch (module) {
-                        case "auth":
-                            switch (exception) {
-                                case "auth":
-                                case "authTheory":
-                                    farsi_message = "درخواست ورود شما ارسال شد";
-                                    break;
-                                case "register":
-                                    farsi_message = "درخواست ثبت نام شما ارسال شد";
-                                    break;
-                                case "verification":
-                                    farsi_message = "کد پیامکی به شما ارسال شد";
-                                    break;
-                                case "recovery":
-                                    farsi_message = "بازیابی رمز عبور انجام شد";
-                                    break;
-                                case "me":
-                                    farsi_message = "دریافت اطلاعات با موفقیت انجام شد";
-                                    break;
-                                case "edit":
-                                    farsi_message = "ویرایش حساب شما انجام شد";
-                                    break;
-                                case "avatar":
-                                    farsi_message = "ویرایش عکس شما انجام شد";
-                                    break;
-                                case "logOut":
-                                    farsi_message = "خروج با موفقیت انجام شد";
-                                    break;
-                                default:
-                                    farsi_message = ".";
-                                    break;
-                            }
-                            break;
-                        case "center":
-                            switch (exception) {
-                                case "all":
-                                case "my":
-                                case "personalClinic":
-                                case "counselingCenter":
-                                    farsi_message = "دریافت اطلاعات با موفقیت انجام شد";
-                                    break;
-                                case "request":
-                                    farsi_message = "درخواست پذیرش شما ارسال شد";
-                                    break;
-                                case "create":
-                                    farsi_message = "مرکز درمانی با موفقیت ساخته شد";
-                                    break;
-                                case "edit":
-                                    farsi_message = "مرکز درمانی با موفقیت اصلاح شد";
-                                    break;
-                                default:
-                                    farsi_message = ".";
-                                    break;
-                            }
-                            break;
-                        case "explode":
-                            switch (exception) {
-                                case "explode":
-                                    farsi_message = "دریافت اطلاعات با موفقیت انجام شد";
-                                    break;
-                                default:
-                                    farsi_message = ".";
-                                    break;
-                            }
-                            break;
-                        case "sample":
-                            switch (exception) {
-                                case "single":
-                                case "all":
-                                case "scores":
-                                case "scales":
-                                case "rooms":
-                                case "references":
-                                case "cases":
-                                case "generals":
-                                    farsi_message = "دریافت اطلاعات با موفقیت انجام شد";
-                                    break;
-                                case "answers":
-                                    farsi_message = "پاسخ ها با موفقیت ارسال شد";
-                                    break;
-                                case "prerequisite":
-                                    farsi_message = "پیش نیاز ها با موفقیت تکمیل شد";
-                                    break;
-                                case "create":
-                                    farsi_message = "نمونه با موفقیت ساخته شد";
-                                    break;
-                                case "close":
-                                    farsi_message = "نمونه با موفقیت بسته شد";
-                                    break;
-                                case "score":
-                                    farsi_message = "نمونه با موفقیت نمره گذاری شد";
-                                    break;
-                                default:
-                                    farsi_message = ".";
-                                    break;
-                            }
-                            break;
-                        default:
-                            farsi_message = ".";
-                            break;
+    public static void getException(boolean server, int code, JSONObject body, String exception, String module) {
+        if (server) {
+            if (code == 200) {
+                switch (module) {
+                    case "auth":
+                        switch (exception) {
+                            case "auth":
+                            case "authTheory":
+                                fa_message_text = "درخواست ورود شما ارسال شد";
+                                break;
+                            case "register":
+                                fa_message_text = "درخواست ثبت نام شما ارسال شد";
+                                break;
+                            case "verification":
+                                fa_message_text = "کد پیامکی به شما ارسال شد";
+                                break;
+                            case "recovery":
+                                fa_message_text = "بازیابی رمز عبور انجام شد";
+                                break;
+                            case "me":
+                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد";
+                                break;
+                            case "edit":
+                                fa_message_text = "ویرایش حساب شما انجام شد";
+                                break;
+                            case "avatar":
+                                fa_message_text = "ویرایش عکس شما انجام شد";
+                                break;
+                            case "logOut":
+                                fa_message_text = "خروج با موفقیت انجام شد";
+                                break;
+                            default:
+                                fa_message_text = ".";
+                                break;
+                        }
+                        break;
+                    case "center":
+                        switch (exception) {
+                            case "all":
+                            case "my":
+                            case "personalClinic":
+                            case "counselingCenter":
+                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد";
+                                break;
+                            case "request":
+                                fa_message_text = "درخواست پذیرش شما ارسال شد";
+                                break;
+                            case "create":
+                                fa_message_text = "مرکز درمانی با موفقیت ساخته شد";
+                                break;
+                            case "edit":
+                                fa_message_text = "مرکز درمانی با موفقیت اصلاح شد";
+                                break;
+                            default:
+                                fa_message_text = ".";
+                                break;
+                        }
+                        break;
+                    case "explode":
+                        switch (exception) {
+                            case "explode":
+                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد";
+                                break;
+                            default:
+                                fa_message_text = ".";
+                                break;
+                        }
+                        break;
+                    case "sample":
+                        switch (exception) {
+                            case "single":
+                            case "all":
+                            case "scores":
+                            case "scales":
+                            case "rooms":
+                            case "references":
+                            case "cases":
+                            case "generals":
+                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد";
+                                break;
+                            case "answers":
+                                fa_message_text = "پاسخ ها با موفقیت ارسال شد";
+                                break;
+                            case "prerequisite":
+                                fa_message_text = "پیش نیاز ها با موفقیت تکمیل شد";
+                                break;
+                            case "create":
+                                fa_message_text = "نمونه با موفقیت ساخته شد";
+                                break;
+                            case "close":
+                                fa_message_text = "نمونه با موفقیت بسته شد";
+                                break;
+                            case "score":
+                                fa_message_text = "نمونه با موفقیت نمره گذاری شد";
+                                break;
+                            default:
+                                fa_message_text = ".";
+                                break;
+                        }
+                        break;
+                    default:
+                        fa_message_text = ".";
+                        break;
+                }
+            } else {
+                try {
+                    ExceptionManager.exception = exception;
+
+                    is_ok = body.getString("is_ok");
+                    message = body.getString("message");
+                    message_text = body.getString("message_text");
+
+                    fa_message_text = message_text;
+
+                    if (!body.isNull("errors")) {
+                        errors = body.getJSONObject("errors");
+                    } else {
+                        errors = new JSONObject();
                     }
-                    break;
-                default:
-                    try {
-                        current_exception = exception;
-
-                        is_ok = body.getString("is_ok");
-                        message = body.getString("message");
-                        message_text = body.getString("message_text");
-
-                        if (body.has("refer"))
-                            referer = body.getString("referer");
-                        else
-                            referer = "";
-
-                        if (!body.isNull("errors"))
-                            errors = body.getJSONObject("errors");
-                        else
-                            errors = new JSONObject();
-
-                        farsi_message = message_text;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         } else {
             switch (exception) {
                 case "SocketTimeoutException":
-                    farsi_message = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
+                    fa_message_text = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
                     break;
                 case "JSONException":
-                    farsi_message = "مشکل دریافت JSON! دوباره تلاش کنید.";
+                    fa_message_text = "مشکل دریافت JSON! دوباره تلاش کنید.";
                     break;
                 case "IOException":
-                    farsi_message = "مشکل دریافت IO! دوباره تلاش کنید.";
+                    fa_message_text = "مشکل دریافت IO! دوباره تلاش کنید.";
                     break;
-                case "OffLine":
-                    farsi_message = "انترنت وصل نیست! لطفا متصل شوید.";
+                case "OffLineException":
+                    fa_message_text = "انترنت وصل نیست! لطفا متصل شوید.";
+                    break;
+                case "FillOneException":
+                    fa_message_text = "لطفا یک پارامتری را پر نمایید.";
+                    break;
+                case "SelectRoomFirstException":
+                    fa_message_text = "لطفا اول اتاق درمانی انتخاب کنید.";
+                    break;
+                case "SavedToDownloadException":
+                    fa_message_text = "جواب ها در پوشه Download ذخیره شد.";
+                    break;
+                case "FileException":
+                    fa_message_text = "فایلی انتخاب نشده است.";
+                    break;
+                case "GalleryException":
+                    fa_message_text = "عکسی انتخاب نشده است.";
+                    break;
+                case "CameraException":
+                    fa_message_text = "عکسی گرفته نشده است.";
                     break;
             }
         }

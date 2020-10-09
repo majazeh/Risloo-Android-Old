@@ -64,29 +64,29 @@ public class ExplodeWorker extends Worker {
                     // TODO: Normal Update
                 }
 
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "explode", "explode");
+                ExceptionManager.getException(true, bodyResponse.code(), successBody, "explode", "explode");
                 ExplodeRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "explode", "explode");
+                ExceptionManager.getException(true, bodyResponse.code(), errorBody, "explode", "explode");
                 ExplodeRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "explode");
+            ExceptionManager.getException(false, 0, null, "SocketTimeoutException", "explode");
             ExplodeRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "JSONException", "explode");
+            ExceptionManager.getException(false, 0, null, "JSONException", "explode");
             ExplodeRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "IOException", "explode");
+            ExceptionManager.getException(false, 0, null, "IOException", "explode");
             ExplodeRepository.workState.postValue(0);
         }
     }

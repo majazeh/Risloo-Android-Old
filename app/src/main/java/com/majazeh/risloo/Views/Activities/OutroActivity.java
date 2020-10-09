@@ -245,7 +245,9 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
     private void saveFile() {
         viewModel.writeSampleAnswerToExternal(viewModel.readSampleAnswerFromCache(sampleId), sampleId);
         finish();
-        Toast.makeText(this, "جواب ها در پوشه Download ذخیره شد", Toast.LENGTH_SHORT).show();
+
+        ExceptionManager.getException(false, 0, null, "SavedToDownloadException", "sample");
+        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
     }
 
     private void observeWorkAnswer() {
@@ -261,11 +263,11 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
                 SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
             } else if (integer == 0){
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                 SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
             } else if (integer == -2) {
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                 SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
             }
         });
@@ -277,15 +279,15 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
                 finish();
 
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                 SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
             } else if (integer == 0){
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                 SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
             } else if (integer == -2) {
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                 SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
             }
         });

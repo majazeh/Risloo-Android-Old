@@ -317,14 +317,14 @@ public class AuthActivity extends AppCompatActivity {
                 AuthRepository.workState.removeObservers((LifecycleOwner) this);
             } else if (integer == -2) {
                 progressDialog.dismiss();
-                Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                 AuthRepository.workState.removeObservers((LifecycleOwner) this);
             }
         });
     }
 
     private void observeException() {
-        switch (ExceptionManager.current_exception) {
+        switch (ExceptionManager.exception) {
             case "auth":
                 if (AuthRepository.theory.equals("auth")) {
                     SerialFragment serialFragment = ((SerialFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
@@ -332,7 +332,7 @@ public class AuthActivity extends AppCompatActivity {
                         try {
                             if (!ExceptionManager.errors.isNull("authorized_key")) {
                                 serialFragment.serialEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                                Toast.makeText(this, "" + ExceptionManager.errors.getString("authorized_key"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, ExceptionManager.errors.getString("authorized_key"), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -344,7 +344,7 @@ public class AuthActivity extends AppCompatActivity {
                         try {
                             if (!ExceptionManager.errors.isNull("authorized_key")) {
                                 mobileFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                                Toast.makeText(this, "" + ExceptionManager.errors.getString("authorized_key"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, ExceptionManager.errors.getString("authorized_key"), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -359,7 +359,7 @@ public class AuthActivity extends AppCompatActivity {
                         try {
                             if (!ExceptionManager.errors.isNull("password")) {
                                 passwordFragment.passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                                Toast.makeText(this, "" + ExceptionManager.errors.getString("password"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, ExceptionManager.errors.getString("password"), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -371,7 +371,7 @@ public class AuthActivity extends AppCompatActivity {
                         try {
                             if (!ExceptionManager.errors.isNull("code")) {
                                 pinFragment.pinEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                                Toast.makeText(this, "" + ExceptionManager.errors.getString("code"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, ExceptionManager.errors.getString("code"), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -413,7 +413,7 @@ public class AuthActivity extends AppCompatActivity {
                                 exceptionToast += (" و " + ExceptionManager.errors.getString("password"));
                             }
                         }
-                        Toast.makeText(this, "" + exceptionToast, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -425,7 +425,7 @@ public class AuthActivity extends AppCompatActivity {
                     try {
                         if (!ExceptionManager.errors.isNull("mobile")) {
                             pinFragment.pinEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -438,7 +438,7 @@ public class AuthActivity extends AppCompatActivity {
                     try {
                         if (!ExceptionManager.errors.isNull("username")) {
                             mobileFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, "" + ExceptionManager.errors.getString("username"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, ExceptionManager.errors.getString("username"), Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

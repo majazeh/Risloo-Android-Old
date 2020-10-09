@@ -60,24 +60,24 @@ public class BitmapManager {
         return bitmap;
     }
 
-    public static Bitmap modifyOrientation(Bitmap bitmap, String path) {
+    public static Bitmap modifyOrientation(Bitmap image, String path) {
         try {
             ExifInterface exifInterface = new ExifInterface(path);
             int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
 
             switch (orientation) {
                 case ExifInterface.ORIENTATION_ROTATE_90:
-                    return rotateOrientation(bitmap, 90);
+                    return rotateOrientation(image, 90);
                 case ExifInterface.ORIENTATION_ROTATE_180:
-                    return rotateOrientation(bitmap, 180);
+                    return rotateOrientation(image, 180);
                 case ExifInterface.ORIENTATION_ROTATE_270:
-                    return rotateOrientation(bitmap, 270);
+                    return rotateOrientation(image, 270);
                 case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
-                    return flipOrientation(bitmap, true, false);
+                    return flipOrientation(image, true, false);
                 case ExifInterface.ORIENTATION_FLIP_VERTICAL:
-                    return flipOrientation(bitmap, false, true);
+                    return flipOrientation(image, false, true);
                 default:
-                    return bitmap;
+                    return image;
             }
 
         } catch (IOException e) {
@@ -86,16 +86,24 @@ public class BitmapManager {
         }
     }
 
-    public static Bitmap rotateOrientation(Bitmap bitmap, float degrees) {
+    public static Bitmap rotateOrientation(Bitmap image, float degrees) {
+        int imageWidth = image.getWidth();
+        int imageHeight = image.getHeight();
+
         Matrix matrix = new Matrix();
         matrix.postRotate(degrees);
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+        return Bitmap.createBitmap(image, 0, 0, imageWidth, imageHeight, matrix, true);
     }
 
-    public static Bitmap flipOrientation(Bitmap bitmap, boolean horizontal, boolean vertical) {
+    public static Bitmap flipOrientation(Bitmap image, boolean horizontal, boolean vertical) {
+        int imageWidth = image.getWidth();
+        int imageHeight = image.getHeight();
+
         Matrix matrix = new Matrix();
         matrix.preScale(horizontal ? -1 : 1, vertical ? -1 : 1);
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+        return Bitmap.createBitmap(image, 0, 0, imageWidth, imageHeight, matrix, true);
     }
 
 }

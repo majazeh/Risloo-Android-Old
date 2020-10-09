@@ -299,7 +299,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                         getData("getCases", room);
                     }
                 } else {
-                    Toast.makeText(this, "لطفا اول اتاق درمانی انتخاب کنید", Toast.LENGTH_SHORT).show();
+                    ExceptionManager.getException(false, 0, null, "SelectRoomFirstException", "sample");
+                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                 }
 
                 if (!countEditText.hasFocus()) {
@@ -320,7 +321,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                         getData("getReferences", room);
                     }
                 } else {
-                    Toast.makeText(this, "لطفا اول اتاق درمانی انتخاب کنید", Toast.LENGTH_SHORT).show();
+                    ExceptionManager.getException(false, 0, null, "SelectRoomFirstException", "sample");
+                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                 }
 
                 if (!countEditText.hasFocus()) {
@@ -474,7 +476,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                         inputHandler.select(countEditText);
                     }
                 } else {
-                    Toast.makeText(this, "لطفا اول اتاق درمانی انتخاب کنید", Toast.LENGTH_SHORT).show();
+                    ExceptionManager.getException(false, 0, null, "SelectRoomFirstException", "sample");
+                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                 }
             }
             return false;
@@ -820,7 +823,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         finish();
 
                         progressDialog.dismiss();
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     } else if (integer == 0) {
                         progressDialog.dismiss();
@@ -828,7 +831,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         progressDialog.dismiss();
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     }
                     break;
@@ -842,12 +845,12 @@ public class CreateSampleActivity extends AppCompatActivity {
                     } else if (integer == 0) {
                         scaleProgressBar.setVisibility(View.GONE);
                         scaleSpinner.setClickable(true);
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         scaleProgressBar.setVisibility(View.GONE);
                         scaleSpinner.setClickable(true);
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     }
                     break;
@@ -863,13 +866,13 @@ public class CreateSampleActivity extends AppCompatActivity {
                         roomProgressBar.setVisibility(View.GONE);
                         roomImageView.setVisibility(View.VISIBLE);
                         roomSpinner.setClickable(true);
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         roomProgressBar.setVisibility(View.GONE);
                         roomImageView.setVisibility(View.VISIBLE);
                         roomSpinner.setClickable(true);
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     }
                     break;
@@ -885,13 +888,13 @@ public class CreateSampleActivity extends AppCompatActivity {
                         caseProgressBar.setVisibility(View.GONE);
                         caseImageView.setVisibility(View.VISIBLE);
                         caseSpinner.setClickable(true);
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         caseProgressBar.setVisibility(View.GONE);
                         caseImageView.setVisibility(View.VISIBLE);
                         caseSpinner.setClickable(true);
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     }
                     break;
@@ -905,12 +908,12 @@ public class CreateSampleActivity extends AppCompatActivity {
                     } else if (integer == 0) {
                         roomReferenceProgressBar.setVisibility(View.GONE);
                         roomReferenceSpinner.setClickable(true);
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         roomReferenceProgressBar.setVisibility(View.GONE);
                         roomReferenceSpinner.setClickable(true);
-                        Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     }
                     break;
@@ -919,7 +922,7 @@ public class CreateSampleActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionManager.current_exception.equals("create")) {
+        if (ExceptionManager.exception.equals("create")) {
             try {
                 String exceptionToast = "";
 
@@ -968,7 +971,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         exceptionToast += (" و " + ExceptionManager.errors.getString("count"));
                     }
                 }
-                Toast.makeText(this, "" + exceptionToast, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

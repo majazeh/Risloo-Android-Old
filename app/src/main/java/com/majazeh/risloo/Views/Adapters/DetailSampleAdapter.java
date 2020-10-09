@@ -226,7 +226,7 @@ public class DetailSampleAdapter extends RecyclerView.Adapter<DetailSampleAdapte
 //                        holder.optionSpinner.setClickable(true);
 //                    }
 //
-//                    Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(activity, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
 //                    SampleRepository.workStateDetail.removeObservers((LifecycleOwner) this);
 //                } else if (integer == -2) {
 //                    if (type.equals("editText")) {
@@ -238,7 +238,7 @@ public class DetailSampleAdapter extends RecyclerView.Adapter<DetailSampleAdapte
 //                        holder.optionSpinner.setClickable(true);
 //                    }
 //
-//                    Toast.makeText(activity, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(activity, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
 //                    SampleRepository.workStateDetail.removeObservers((LifecycleOwner) this);
 //                }
 //            }

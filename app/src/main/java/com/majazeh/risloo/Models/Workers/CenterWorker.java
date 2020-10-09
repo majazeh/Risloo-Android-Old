@@ -127,29 +127,29 @@ public class CenterWorker extends Worker {
                     }
                 }
 
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "all", "center");
+                ExceptionManager.getException(true, bodyResponse.code(), successBody, "all", "center");
                 CenterRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "all", "center");
+                ExceptionManager.getException(true, bodyResponse.code(), errorBody, "all", "center");
                 CenterRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "center");
+            ExceptionManager.getException(false, 0, null, "SocketTimeoutException", "center");
             CenterRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "JSONException", "center");
+            ExceptionManager.getException(false, 0, null, "JSONException", "center");
             CenterRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "IOException", "center");
+            ExceptionManager.getException(false, 0, null, "IOException", "center");
             CenterRepository.workState.postValue(0);
         }
 
@@ -165,29 +165,29 @@ public class CenterWorker extends Worker {
 
                 FileManager.writeObjectToCache(context, successBody, "centers", "my");
 
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "my", "center");
+                ExceptionManager.getException(true, bodyResponse.code(), successBody, "my", "center");
                 CenterRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "my", "center");
+                ExceptionManager.getException(true, bodyResponse.code(), errorBody, "my", "center");
                 CenterRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "center");
+            ExceptionManager.getException(false, 0, null, "SocketTimeoutException", "center");
             CenterRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "JSONException", "center");
+            ExceptionManager.getException(false, 0, null, "JSONException", "center");
             CenterRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "IOException", "center");
+            ExceptionManager.getException(false, 0, null, "IOException", "center");
             CenterRepository.workState.postValue(0);
         }
 
@@ -232,29 +232,29 @@ public class CenterWorker extends Worker {
                     }
                 }
 
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "request", "center");
+                ExceptionManager.getException(true, bodyResponse.code(), successBody, "request", "center");
                 CenterRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "request", "center");
+                ExceptionManager.getException(true, bodyResponse.code(), errorBody, "request", "center");
                 CenterRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "center");
+            ExceptionManager.getException(false, 0, null, "SocketTimeoutException", "center");
             CenterRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "JSONException", "center");
+            ExceptionManager.getException(false, 0, null, "JSONException", "center");
             CenterRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "IOException", "center");
+            ExceptionManager.getException(false, 0, null, "IOException", "center");
             CenterRepository.workState.postValue(0);
         }
 
@@ -278,12 +278,12 @@ public class CenterWorker extends Worker {
 
                             FileManager.deleteBitmapFromCache(context, "image");
 
-                            ExceptionManager.getException(200, successBody, true, "create", "center");
+                            ExceptionManager.getException(true, 200, successBody, "create", "center");
                             CenterRepository.workState.postValue(1);
                         } catch (JSONException e) {
                             e.printStackTrace();
 
-                            ExceptionManager.getException(0, null, false, "JSONException", "center");
+                            ExceptionManager.getException(false, 0, null, "JSONException", "center");
                             CenterRepository.workState.postValue(0);
                         }
                     }
@@ -293,12 +293,12 @@ public class CenterWorker extends Worker {
                         try {
                             JSONObject errorBody = new JSONObject(error.getErrorBody());
 
-                            ExceptionManager.getException(error.getErrorCode(), errorBody, true, "create", "center");
+                            ExceptionManager.getException(true, error.getErrorCode(), errorBody, "create", "center");
                             CenterRepository.workState.postValue(0);
                         } catch (JSONException e) {
                             e.printStackTrace();
 
-                            ExceptionManager.getException(0, null, false, "JSONException", "center");
+                            ExceptionManager.getException(false, 0, null, "JSONException", "center");
                             CenterRepository.workState.postValue(0);
                         }
                     }
@@ -311,29 +311,29 @@ public class CenterWorker extends Worker {
 //            if (bodyResponse.isSuccessful()) {
 //                JSONObject successBody = new JSONObject(bodyResponse.body().string());
 //
-//                ExceptionManager.getException(bodyResponse.code(), successBody, true, "create", "center");
+//                ExceptionManager.getException(true, bodyResponse.code(), successBody, "create", "center");
 //                CenterRepository.workState.postValue(1);
 //            } else {
 //                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 //
-//                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "create", "center");
+//                ExceptionManager.getException(true, bodyResponse.code(), errorBody, "create", "center");
 //                CenterRepository.workState.postValue(0);
 //            }
 //
 //        } catch (SocketTimeoutException e) {
 //            e.printStackTrace();
 //
-//            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "center");
+//            ExceptionManager.getException(false, 0, null, "SocketTimeoutException", "center");
 //            CenterRepository.workState.postValue(0);
 //        } catch (JSONException e) {
 //            e.printStackTrace();
 //
-//            ExceptionManager.getException(0, null, false, "JSONException", "center");
+//            ExceptionManager.getException(false, 0, null, "JSONException", "center");
 //            CenterRepository.workState.postValue(0);
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //
-//            ExceptionManager.getException(0, null, false, "IOException", "center");
+//            ExceptionManager.getException(false, 0, null, "IOException", "center");
 //            CenterRepository.workState.postValue(0);
 //        }
 
@@ -350,29 +350,29 @@ public class CenterWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "edit", "center");
+                ExceptionManager.getException(true, bodyResponse.code(), successBody, "edit", "center");
                 CenterRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "edit", "center");
+                ExceptionManager.getException(true, bodyResponse.code(), errorBody, "edit", "center");
                 CenterRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "center");
+            ExceptionManager.getException(false, 0, null, "SocketTimeoutException", "center");
             CenterRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "JSONException", "center");
+            ExceptionManager.getException(false, 0, null, "JSONException", "center");
             CenterRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "IOException", "center");
+            ExceptionManager.getException(false, 0, null, "IOException", "center");
             CenterRepository.workState.postValue(0);
         }
 
@@ -394,29 +394,29 @@ public class CenterWorker extends Worker {
                     }
                 }
 
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "personalClinic", "center");
+                ExceptionManager.getException(true, bodyResponse.code(), successBody, "personalClinic", "center");
                 CenterRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "personalClinic", "center");
+                ExceptionManager.getException(true, bodyResponse.code(), errorBody, "personalClinic", "center");
                 CenterRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "center");
+            ExceptionManager.getException(false, 0, null, "SocketTimeoutException", "center");
             CenterRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "JSONException", "center");
+            ExceptionManager.getException(false, 0, null, "JSONException", "center");
             CenterRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "IOException", "center");
+            ExceptionManager.getException(false, 0, null, "IOException", "center");
             CenterRepository.workState.postValue(0);
         }
 
@@ -438,29 +438,29 @@ public class CenterWorker extends Worker {
                     }
                 }
 
-                ExceptionManager.getException(bodyResponse.code(), successBody, true, "counselingCenter", "center");
+                ExceptionManager.getException(true, bodyResponse.code(), successBody, "counselingCenter", "center");
                 CenterRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionManager.getException(bodyResponse.code(), errorBody, true, "counselingCenter", "center");
+                ExceptionManager.getException(true, bodyResponse.code(), errorBody, "counselingCenter", "center");
                 CenterRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "SocketTimeoutException", "center");
+            ExceptionManager.getException(false, 0, null, "SocketTimeoutException", "center");
             CenterRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "JSONException", "center");
+            ExceptionManager.getException(false, 0, null, "JSONException", "center");
             CenterRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(0, null, false, "IOException", "center");
+            ExceptionManager.getException(false, 0, null, "IOException", "center");
             CenterRepository.workState.postValue(0);
         }
 

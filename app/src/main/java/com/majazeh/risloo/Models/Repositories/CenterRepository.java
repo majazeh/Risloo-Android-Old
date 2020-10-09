@@ -191,7 +191,7 @@ public class CenterRepository extends MainRepository {
 
             WorkManager.getInstance(application).enqueue(workRequest);
         } else {
-            ExceptionManager.getException(0, null, false, "OffLine", "center");
+            ExceptionManager.getException(false, 0, null, "OffLineException", "center");
             workState.postValue(-2);
         }
     }

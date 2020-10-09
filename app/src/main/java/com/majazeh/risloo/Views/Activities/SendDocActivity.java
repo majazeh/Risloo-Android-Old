@@ -289,7 +289,7 @@ public class SendDocActivity extends AppCompatActivity {
                     finish();
 
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     progressDialog.dismiss();
@@ -297,7 +297,7 @@ public class SendDocActivity extends AppCompatActivity {
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 }
             }
@@ -305,7 +305,7 @@ public class SendDocActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionManager.current_exception.equals("sendDoc")) {
+        if (ExceptionManager.exception.equals("sendDoc")) {
             try {
                 String exceptionToast = "";
 
@@ -329,7 +329,7 @@ public class SendDocActivity extends AppCompatActivity {
                         exceptionToast += (" و " + ExceptionManager.errors.getString("attachment"));
                     }
                 }
-                Toast.makeText(this, "" + exceptionToast, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -384,8 +384,10 @@ public class SendDocActivity extends AppCompatActivity {
                 setFileWidgetsUi(attachment);
             }
         } else if (resultCode == RESULT_CANCELED) {
-            if (requestCode == 300)
-                Toast.makeText(this, "فایلی انتخاب نشده است.", Toast.LENGTH_SHORT).show();
+            if (requestCode == 300) {
+                ExceptionManager.getException(false, 0, null, "FileException", "auth");
+                Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

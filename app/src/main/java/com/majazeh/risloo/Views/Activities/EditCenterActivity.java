@@ -616,7 +616,7 @@ public class EditCenterActivity extends AppCompatActivity {
                     finish();
 
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     progressDialog.dismiss();
@@ -624,7 +624,7 @@ public class EditCenterActivity extends AppCompatActivity {
                     CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 }
             } else if (CenterRepository.work.equals("getCounselingCenter")) {
@@ -639,13 +639,13 @@ public class EditCenterActivity extends AppCompatActivity {
                     managerProgressBar.setVisibility(View.GONE);
                     managerImageView.setVisibility(View.VISIBLE);
                     managerSpinner.setClickable(true);
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     managerProgressBar.setVisibility(View.GONE);
                     managerImageView.setVisibility(View.VISIBLE);
                     managerSpinner.setClickable(true);
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 }
             }
@@ -653,7 +653,7 @@ public class EditCenterActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionManager.current_exception.equals("edit")) {
+        if (ExceptionManager.exception.equals("edit")) {
             try {
                 String exceptionToast = "";
 
@@ -693,7 +693,7 @@ public class EditCenterActivity extends AppCompatActivity {
                         exceptionToast += (" و " + ExceptionManager.errors.getString("phone_numbers"));
                     }
                 }
-                Toast.makeText(this, "" + exceptionToast, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

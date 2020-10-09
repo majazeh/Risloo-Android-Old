@@ -210,7 +210,7 @@ public class AuthRepository extends MainRepository {
 
             WorkManager.getInstance(application).enqueue(workRequest);
         } else {
-            ExceptionManager.getException(0, null, false, "OffLine", "auth");
+            ExceptionManager.getException(false, 0, null, "OffLineException", "auth");
             workState.postValue(-2);
         }
     }

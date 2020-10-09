@@ -277,7 +277,7 @@ public class CallUsActivity extends AppCompatActivity {
 //                    repeatDialog.show();
 //
 //                    progressDialog.dismiss();
-//                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
 //                    CallUsRepository.workState.removeObservers((LifecycleOwner) this);
 //                } else if (integer == 0) {
 //                    progressDialog.dismiss();
@@ -285,7 +285,7 @@ public class CallUsActivity extends AppCompatActivity {
 //                    CallUsRepository.workState.removeObservers((LifecycleOwner) this);
 //                } else if (integer == -2) {
 //                    progressDialog.dismiss();
-//                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
 //                    CallUsRepository.workState.removeObservers((LifecycleOwner) this);
 //                }
 //            }
@@ -293,7 +293,7 @@ public class CallUsActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionManager.current_exception.equals("callUs")) {
+        if (ExceptionManager.exception.equals("callUs")) {
             try {
                 String exceptionToast = "";
 
@@ -317,7 +317,7 @@ public class CallUsActivity extends AppCompatActivity {
                         exceptionToast += (" و " + ExceptionManager.errors.getString("message"));
                     }
                 }
-                Toast.makeText(this, "" + exceptionToast, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

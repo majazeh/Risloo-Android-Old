@@ -394,7 +394,8 @@ public class SampleActivity extends AppCompatActivity {
                     PrerequisiteFragment fragment = ((PrerequisiteFragment) getSupportFragmentManager().findFragmentById(R.id.activity_sample_frameLayout));
                     if (fragment != null) {
                         if (fragment.prerequisites().isEmpty()) {
-                            Toast.makeText(this, "لطفا یک پارامتری را پر نمایید", Toast.LENGTH_SHORT).show();
+                            ExceptionManager.getException(false, 0, null, "FillOneException", "sample");
+                            Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         } else {
                             if (fragment.adapter.inputHandler.getInput() != null && fragment.adapter.inputHandler.getInput().hasFocus()) {
                                 fragment.adapter.inputHandler.clear(this, fragment.adapter.inputHandler.getInput());
@@ -628,15 +629,15 @@ public class SampleActivity extends AppCompatActivity {
                     finish();
 
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                 }
             }
@@ -653,12 +654,12 @@ public class SampleActivity extends AppCompatActivity {
                 } else if (integer == 0) {
                     launchProcess("getSingle");
 
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     launchProcess("getSingle");
 
-                    Toast.makeText(this, "" + ExceptionManager.farsi_message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
                 }
             }
