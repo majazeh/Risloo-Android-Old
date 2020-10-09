@@ -628,9 +628,9 @@ public class EditAccountActivity extends AppCompatActivity {
 
                 Bitmap imageBitmap = BitmapFactory.decodeFile(imageFilePath, options);
 
-                selectedBitmap = BitmapManager.scaleToCenter(imageBitmap);
+                selectedBitmap = BitmapManager.modifyOrientation(BitmapManager.scaleToCenter(imageBitmap), imageFilePath);
 
-                avatarCircleImageView.setImageBitmap(BitmapManager.modifyOrientation(selectedBitmap, imageFilePath));
+                avatarCircleImageView.setImageBitmap(selectedBitmap);
             }
         } else if (resultCode == RESULT_CANCELED) {
             if (requestCode == 100)

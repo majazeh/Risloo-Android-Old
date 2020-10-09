@@ -956,7 +956,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
                 Bitmap imageBitmap = BitmapFactory.decodeFile(imageFilePath, options);
 
-                selectedBitmap = BitmapManager.scaleToCenter(imageBitmap);
+                selectedBitmap = BitmapManager.modifyOrientation(BitmapManager.scaleToCenter(imageBitmap), imageFilePath);
 
                 avatarTextView.setText(imageFilePath);
                 avatarTextView.setTextColor(getResources().getColor(R.color.Grey));
