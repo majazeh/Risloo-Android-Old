@@ -272,132 +272,135 @@ public class DetailSampleActivity extends AppCompatActivity {
         try {
             JSONObject data = viewModel.readSampleDetailFromCache(sampleId);
 
-            JSONObject scale = data.getJSONObject("scale");
-            scaleTitle = scale.getString("title");
-
-            scaleTextView.setText(scaleTitle);
-
             serialTextView.setText(data.getString("id"));
 
-            switch (data.getString("status")) {
-                case "seald":
-                    statusTextView.setText(getResources().getString(R.string.DetailSampleStatusSeald));
-                    statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
-                    ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+            if (data.has("scale") && !data.isNull("scale")) {
+                JSONObject scale = data.getJSONObject("scale");
 
-                    setButton(scoreTextView, false);
-                    setButton(closeTextView, true);
+                scaleTitle = scale.getString("title");
 
-                    showLoading = false;
-                    break;
-                case "open":
-                    statusTextView.setText(getResources().getString(R.string.DetailSampleStatusOpen));
-                    statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
-                    ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+                scaleTextView.setText(scaleTitle);
 
-                    setButton(scoreTextView, false);
-                    setButton(closeTextView, true);
+                switch (data.getString("status")) {
+                    case "seald":
+                        statusTextView.setText(getResources().getString(R.string.DetailSampleStatusSeald));
+                        statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
 
-                    showLoading = false;
-                    break;
-                case "closed":
-                    statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
-                    statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
-                    ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+                        setButton(scoreTextView, false);
+                        setButton(closeTextView, true);
 
-                    setButton(scoreTextView, true);
-                    setButton(closeTextView, false);
-
-                    showLoading = false;
-                    break;
-                case "scoring":
-                    statusTextView.setText(getResources().getString(R.string.DetailSampleStatusScoring));
-                    statusTextView.setTextColor(getResources().getColor(R.color.MoonYellow));
-                    ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
-
-                    setButton(scoreTextView, false);
-                    setButton(closeTextView, false);
-
-                    showLoading = true;
-                    break;
-                case "craeting_files":
-                    statusTextView.setText(getResources().getString(R.string.DetailSampleStatusCreatingFiles));
-                    statusTextView.setTextColor(getResources().getColor(R.color.MoonYellow));
-                    ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
-
-                    setButton(scoreTextView, false);
-                    setButton(closeTextView, false);
-
-                    showLoading = true;
-                    break;
-                case "done":
-                    statusTextView.setText(getResources().getString(R.string.DetailSampleStatusDone));
-                    statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
-                    ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Mischka));
-
-                    setButton(scoreTextView, false);
-                    setButton(closeTextView, false);
-
-                    if (viewModel.getSvgScore(sampleId) != null) {
-                        svgUrl = viewModel.getSvgScore(sampleId);
-                        showCardView = true;
-                    }
-                    if (viewModel.getPngScore(sampleId) != null) {
-                        pngUrl = viewModel.getPngScore(sampleId);
-                        Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultSquareImageView);
-                        showCardView = true;
-                    }
-                    if (viewModel.getHtmlScore(sampleId) != null) {
-                        htmlUrl = viewModel.getHtmlScore(sampleId);
-                        showCardView = true;
-                    }
-                    if (viewModel.getPdfScore(sampleId) != null) {
-                        pdfUrl = viewModel.getPdfScore(sampleId);
-                        showCardView = true;
-                    }
-
-                    if (showCardView) {
-                        resultCardView.setVisibility(View.VISIBLE);
                         showLoading = false;
-                    } else {
-                        showLoading = true;
-                    }
+                        break;
+                    case "open":
+                        statusTextView.setText(getResources().getString(R.string.DetailSampleStatusOpen));
+                        statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
 
-                    break;
-                default:
-                    statusTextView.setText(data.getString("status"));
-                    statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
-                    ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Mischka));
+                        setButton(scoreTextView, false);
+                        setButton(closeTextView, true);
 
-                    setButton(scoreTextView, false);
-                    setButton(closeTextView, false);
-
-                    if (viewModel.getSvgScore(sampleId) != null) {
-                        svgUrl = viewModel.getSvgScore(sampleId);
-                        showCardView = true;
-                    }
-                    if (viewModel.getPngScore(sampleId) != null) {
-                        pngUrl = viewModel.getPngScore(sampleId);
-                        Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultSquareImageView);
-                        showCardView = true;
-                    }
-                    if (viewModel.getHtmlScore(sampleId) != null) {
-                        htmlUrl = viewModel.getHtmlScore(sampleId);
-                        showCardView = true;
-                    }
-                    if (viewModel.getPdfScore(sampleId) != null) {
-                        pdfUrl = viewModel.getPdfScore(sampleId);
-                        showCardView = true;
-                    }
-
-                    if (showCardView) {
-                        resultCardView.setVisibility(View.VISIBLE);
                         showLoading = false;
-                    } else {
-                        showLoading = true;
-                    }
+                        break;
+                    case "closed":
+                        statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
+                        statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
 
-                    break;
+                        setButton(scoreTextView, true);
+                        setButton(closeTextView, false);
+
+                        showLoading = false;
+                        break;
+                    case "scoring":
+                        statusTextView.setText(getResources().getString(R.string.DetailSampleStatusScoring));
+                        statusTextView.setTextColor(getResources().getColor(R.color.MoonYellow));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
+
+                        setButton(scoreTextView, false);
+                        setButton(closeTextView, false);
+
+                        showLoading = true;
+                        break;
+                    case "craeting_files":
+                        statusTextView.setText(getResources().getString(R.string.DetailSampleStatusCreatingFiles));
+                        statusTextView.setTextColor(getResources().getColor(R.color.MoonYellow));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
+
+                        setButton(scoreTextView, false);
+                        setButton(closeTextView, false);
+
+                        showLoading = true;
+                        break;
+                    case "done":
+                        statusTextView.setText(getResources().getString(R.string.DetailSampleStatusDone));
+                        statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Mischka));
+
+                        setButton(scoreTextView, false);
+                        setButton(closeTextView, false);
+
+                        if (viewModel.getSvgScore(sampleId) != null) {
+                            svgUrl = viewModel.getSvgScore(sampleId);
+                            showCardView = true;
+                        }
+                        if (viewModel.getPngScore(sampleId) != null) {
+                            pngUrl = viewModel.getPngScore(sampleId);
+                            Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultSquareImageView);
+                            showCardView = true;
+                        }
+                        if (viewModel.getHtmlScore(sampleId) != null) {
+                            htmlUrl = viewModel.getHtmlScore(sampleId);
+                            showCardView = true;
+                        }
+                        if (viewModel.getPdfScore(sampleId) != null) {
+                            pdfUrl = viewModel.getPdfScore(sampleId);
+                            showCardView = true;
+                        }
+
+                        if (showCardView) {
+                            resultCardView.setVisibility(View.VISIBLE);
+                            showLoading = false;
+                        } else {
+                            showLoading = true;
+                        }
+
+                        break;
+                    default:
+                        statusTextView.setText(data.getString("status"));
+                        statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Mischka));
+
+                        setButton(scoreTextView, false);
+                        setButton(closeTextView, false);
+
+                        if (viewModel.getSvgScore(sampleId) != null) {
+                            svgUrl = viewModel.getSvgScore(sampleId);
+                            showCardView = true;
+                        }
+                        if (viewModel.getPngScore(sampleId) != null) {
+                            pngUrl = viewModel.getPngScore(sampleId);
+                            Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultSquareImageView);
+                            showCardView = true;
+                        }
+                        if (viewModel.getHtmlScore(sampleId) != null) {
+                            htmlUrl = viewModel.getHtmlScore(sampleId);
+                            showCardView = true;
+                        }
+                        if (viewModel.getPdfScore(sampleId) != null) {
+                            pdfUrl = viewModel.getPdfScore(sampleId);
+                            showCardView = true;
+                        }
+
+                        if (showCardView) {
+                            resultCardView.setVisibility(View.VISIBLE);
+                            showLoading = false;
+                        } else {
+                            showLoading = true;
+                        }
+
+                        break;
+                }
             }
 
             if (data.has("client") && !data.isNull("client")) {

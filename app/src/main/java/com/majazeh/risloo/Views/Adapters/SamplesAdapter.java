@@ -27,6 +27,7 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Views.Activities.SampleActivity;
 import com.majazeh.risloo.Views.Activities.DetailSampleActivity;
+import com.majazeh.risloo.Views.Activities.SamplesActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -78,69 +79,72 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
                 holder.startTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
             }
 
-            JSONObject scale = (JSONObject) model.get("scale");
-            holder.scaleTextView.setText(scale.get("title").toString());
-
             holder.serialTextView.setText(model.get("id").toString());
 
-            switch ((String) model.get("status")) {
-                case "seald":
-                    holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusSeald));
-                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
+            if (!model.attributes.isNull("scale")) {
+                JSONObject scale = (JSONObject) model.get("scale");
 
-                    if (access()) {
-                        holder.startTextView.setVisibility(View.VISIBLE);
-                    } else {
+                holder.scaleTextView.setText(scale.get("title").toString());
+
+                switch ((String) model.get("status")) {
+                    case "seald":
+                        holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusSeald));
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
+
+                        if (access()) {
+                            holder.startTextView.setVisibility(View.VISIBLE);
+                        } else {
+                            holder.startTextView.setVisibility(View.INVISIBLE);
+                        }
+                        break;
+                    case "open":
+                        holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusOpen));
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
+
+                        if (access()) {
+                            holder.startTextView.setVisibility(View.VISIBLE);
+                        } else {
+                            holder.startTextView.setVisibility(View.INVISIBLE);
+                        }
+                        break;
+                    case "closed":
+                        holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusClosed));
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
+
                         holder.startTextView.setVisibility(View.INVISIBLE);
-                    }
-                    break;
-                case "open":
-                    holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusOpen));
-                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
+                        break;
+                    case "scoring":
+                        holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusScoring));
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.MoonYellow));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.MoonYellow));
 
-                    if (access()) {
-                        holder.startTextView.setVisibility(View.VISIBLE);
-                    } else {
                         holder.startTextView.setVisibility(View.INVISIBLE);
-                    }
-                    break;
-                case "closed":
-                    holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusClosed));
-                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
+                        break;
+                    case "craeting_files":
+                        holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusCreatingFiles));
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.MoonYellow));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.MoonYellow));
 
-                    holder.startTextView.setVisibility(View.INVISIBLE);
-                    break;
-                case "scoring":
-                    holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusScoring));
-                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.MoonYellow));
-                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.MoonYellow));
+                        holder.startTextView.setVisibility(View.INVISIBLE);
+                        break;
+                    case "done":
+                        holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusDone));
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Mischka));
 
-                    holder.startTextView.setVisibility(View.INVISIBLE);
-                    break;
-                case "craeting_files":
-                    holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusCreatingFiles));
-                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.MoonYellow));
-                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.MoonYellow));
+                        holder.startTextView.setVisibility(View.INVISIBLE);
+                        break;
+                    default:
+                        holder.statusTextView.setText(model.get("status").toString());
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Mischka));
 
-                    holder.startTextView.setVisibility(View.INVISIBLE);
-                    break;
-                case "done":
-                    holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusDone));
-                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
-                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Mischka));
-
-                    holder.startTextView.setVisibility(View.INVISIBLE);
-                    break;
-                default:
-                    holder.statusTextView.setText(model.get("status").toString());
-                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
-                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Mischka));
-
-                    holder.startTextView.setVisibility(View.INVISIBLE);
-                    break;
+                        holder.startTextView.setVisibility(View.INVISIBLE);
+                        break;
+                }
             }
 
             if (!model.attributes.isNull("client")) {
@@ -184,6 +188,11 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
             handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
 
             try {
+                if (((SamplesActivity) Objects.requireNonNull(activity)).pagingProgressBar.isShown()) {
+                    ((SamplesActivity) Objects.requireNonNull(activity)).loading = false;
+                    ((SamplesActivity) Objects.requireNonNull(activity)).pagingProgressBar.setVisibility(View.GONE);
+                }
+
                 activity.startActivityForResult(new Intent(activity, DetailSampleActivity.class).putExtra("id", (String) model.get("id")),100);
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             } catch (JSONException e) {
@@ -271,6 +280,11 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
         try {
             editor.putString("sampleId", samples.get(position).get("id").toString());
             editor.apply();
+
+            if (((SamplesActivity) Objects.requireNonNull(activity)).pagingProgressBar.isShown()) {
+                ((SamplesActivity) Objects.requireNonNull(activity)).loading = false;
+                ((SamplesActivity) Objects.requireNonNull(activity)).pagingProgressBar.setVisibility(View.GONE);
+            }
 
             activity.startActivityForResult(new Intent(activity, SampleActivity.class),100);
         } catch (JSONException e) {

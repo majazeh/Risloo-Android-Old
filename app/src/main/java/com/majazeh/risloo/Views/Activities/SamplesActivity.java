@@ -45,7 +45,7 @@ public class SamplesActivity extends AppCompatActivity {
     private SamplesAdapter adapter;
 
     // Vars
-    private boolean loading = false;
+    public boolean loading = false;
 
     // Objects
     private Handler handler;
@@ -56,7 +56,7 @@ public class SamplesActivity extends AppCompatActivity {
     // Widgets
     private Toolbar toolbar;
     private RecyclerView samplesRecyclerView;
-    private ProgressBar pagingProgressBar;
+    public ProgressBar pagingProgressBar;
     private TextView retryTextView;
     private ImageView retryImageView;
     private FrameLayout mainLayout;
@@ -334,6 +334,11 @@ public class SamplesActivity extends AppCompatActivity {
 
         toolCreate = menu.findItem(R.id.tool_create);
         toolCreate.setOnMenuItemClickListener(menuItem -> {
+            if (pagingProgressBar.isShown()) {
+                loading = false;
+                pagingProgressBar.setVisibility(View.GONE);
+            }
+
             startActivityForResult(new Intent(this, CreateSampleActivity.class), 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             return false;
