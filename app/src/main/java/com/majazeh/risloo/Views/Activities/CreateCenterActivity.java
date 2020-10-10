@@ -692,7 +692,7 @@ public class CreateCenterActivity extends AppCompatActivity {
             description = descriptionEditText.getText().toString().trim();
             address = addressEditText.getText().toString().trim();
 
-            FileManager.writeBitmapToCache(this, selectedBitmap, "image");
+//            FileManager.writeBitmapToCache(this, selectedBitmap, "image");
 
             try {
                 progressDialog.show();

@@ -8,23 +8,17 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.Priority;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Apis.CenterApi;
 import com.majazeh.risloo.Models.Generators.RetroGenerator;
-import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 
@@ -261,82 +255,83 @@ public class CenterWorker extends Worker {
     }
 
     private void create() {
-        File avatar = new File(context.getCacheDir(), "image");
+        try {
+            Call<ResponseBody> call = centerApi.create(token(), CenterRepository.createData);
 
-        AndroidNetworking.upload("https://bapi.risloo.ir/api/centers")
-                .addHeaders("Authorization", token())
-                .addMultipartFile("avatar", avatar)
-                .addMultipartParameter(CenterRepository.createData)
-                .setPriority(Priority.HIGH)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONObject successBody = new JSONObject(response.toString());
+                ExceptionManager.getException(true, bodyResponse.code(), successBody, "create", "center");
+                CenterRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                            FileManager.deleteBitmapFromCache(context, "image");
+                ExceptionManager.getException(true, bodyResponse.code(), errorBody, "create", "center");
+                CenterRepository.workState.postValue(0);
+            }
 
-                            ExceptionManager.getException(true, 200, successBody, "create", "center");
-                            CenterRepository.workState.postValue(1);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
 
-                            ExceptionManager.getException(false, 0, null, "JSONException", "center");
-                            CenterRepository.workState.postValue(0);
-                        }
-                    }
+            ExceptionManager.getException(false, 0, null, "SocketTimeoutException", "center");
+            CenterRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
 
-                    @Override
-                    public void onError(ANError error) {
-                        try {
-                            JSONObject errorBody = new JSONObject(error.getErrorBody());
+            ExceptionManager.getException(false, 0, null, "JSONException", "center");
+            CenterRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
 
-                            ExceptionManager.getException(true, error.getErrorCode(), errorBody, "create", "center");
-                            CenterRepository.workState.postValue(0);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+            ExceptionManager.getException(false, 0, null, "IOException", "center");
+            CenterRepository.workState.postValue(0);
+        }
 
-                            ExceptionManager.getException(false, 0, null, "JSONException", "center");
-                            CenterRepository.workState.postValue(0);
-                        }
-                    }
-                });
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//        File avatar = new File(context.getCacheDir(), "image");
 //
-//        try {
-//            Call<ResponseBody> call = centerApi.create(token(), CenterRepository.createData);
+//        AndroidNetworking.upload("https://bapi.risloo.ir/api/centers")
+//                .addHeaders("Authorization", token())
+//                .addMultipartFile("avatar", avatar)
+//                .addMultipartParameter(CenterRepository.createData)
+//                .setPriority(Priority.HIGH)
+//                .build()
+//                .getAsJSONObject(new JSONObjectRequestListener() {
 //
-//            Response<ResponseBody> bodyResponse = call.execute();
-//            if (bodyResponse.isSuccessful()) {
-//                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        try {
+//                            JSONObject successBody = new JSONObject(response.toString());
 //
-//                ExceptionManager.getException(true, bodyResponse.code(), successBody, "create", "center");
-//                CenterRepository.workState.postValue(1);
-//            } else {
-//                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+//                            FileManager.deleteBitmapFromCache(context, "image");
 //
-//                ExceptionManager.getException(true, bodyResponse.code(), errorBody, "create", "center");
-//                CenterRepository.workState.postValue(0);
-//            }
+//                            ExceptionManager.getException(true, 200, successBody, "create", "center");
+//                            CenterRepository.workState.postValue(1);
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
 //
-//        } catch (SocketTimeoutException e) {
-//            e.printStackTrace();
+//                            ExceptionManager.getException(false, 0, null, "JSONException", "center");
+//                            CenterRepository.workState.postValue(0);
+//                        }
+//                    }
 //
-//            ExceptionManager.getException(false, 0, null, "SocketTimeoutException", "center");
-//            CenterRepository.workState.postValue(0);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
+//                    @Override
+//                    public void onError(ANError error) {
+//                        try {
+//                            JSONObject errorBody = new JSONObject(error.getErrorBody());
 //
-//            ExceptionManager.getException(false, 0, null, "JSONException", "center");
-//            CenterRepository.workState.postValue(0);
-//        } catch (IOException e) {
-//            e.printStackTrace();
+//                            ExceptionManager.getException(true, error.getErrorCode(), errorBody, "create", "center");
+//                            CenterRepository.workState.postValue(0);
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
 //
-//            ExceptionManager.getException(false, 0, null, "IOException", "center");
-//            CenterRepository.workState.postValue(0);
-//        }
-
+//                            ExceptionManager.getException(false, 0, null, "JSONException", "center");
+//                            CenterRepository.workState.postValue(0);
+//                        }
+//                    }
+//                });
     }
 
     private void edit() {
