@@ -13,18 +13,14 @@ import androidx.lifecycle.ViewModelProvider;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.widget.Button;
@@ -39,12 +35,12 @@ import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.InputHandler;
 import com.majazeh.risloo.Utils.IntentCaller;
+import com.majazeh.risloo.Utils.PathProvider;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 
 import org.json.JSONException;
 
-import java.io.File;
 import java.util.Objects;
 
 public class SendDocActivity extends AppCompatActivity {
@@ -61,6 +57,7 @@ public class SendDocActivity extends AppCompatActivity {
     private Handler handler;
     private IntentCaller intentCaller;
     private InputHandler inputHandler;
+    private PathProvider pathProvider;
 
     // Widgets
     private Toolbar toolbar;
@@ -99,6 +96,8 @@ public class SendDocActivity extends AppCompatActivity {
         intentCaller = new IntentCaller();
 
         inputHandler = new InputHandler();
+
+        pathProvider = new PathProvider();
 
         toolbar = findViewById(R.id.activity_send_doc_toolbar);
 
@@ -176,7 +175,7 @@ public class SendDocActivity extends AppCompatActivity {
             }
 
             if (attachmentPermissionsGranted) {
-                intentCaller.file(this, getResources().getString(R.string.SendDocAttachmentChooser));
+                intentCaller.file(this);
             } else {
                 checkFilePermission();
             }
@@ -344,13 +343,13 @@ public class SendDocActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 attachmentPermissionsGranted = true;
-                intentCaller.file(this, getResources().getString(R.string.SendDocAttachmentChooser));
+                intentCaller.file(this);
             } else {
                 ActivityCompat.requestPermissions(this, permissions, 300);
             }
         } else {
             attachmentPermissionsGranted = true;
-            intentCaller.file(this, getResources().getString(R.string.SendDocAttachmentChooser));
+            intentCaller.file(this);
         }
     }
 
@@ -366,26 +365,20 @@ public class SendDocActivity extends AppCompatActivity {
                     }
                 }
                 attachmentPermissionsGranted = true;
-                intentCaller.file(this, getResources().getString(R.string.SendDocAttachmentChooser));
+                intentCaller.file(this);
             }
         }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)     {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 300) {
                 Uri uri = Objects.requireNonNull(data).getData();
 
-//                Log.e("data", String.valueOf(new File(uri.getPath()).exists()));
-//                Log.e("data", String.valueOf(new File(uri.toString()).exists()));
-                Log.e("data", String.valueOf(new File(intentCaller.getPath(getApplicationContext(), uri)).exists()));
-
-                attachment = intentCaller.getPath(getApplicationContext(), uri);
-
-//                attachment = getRealPathFromURI(getApplicationContext(), uri);
+                attachment = pathProvider.getLocalPath(this, uri);
 
                 setFileWidgetsUi(attachment);
             }
@@ -401,21 +394,6 @@ public class SendDocActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
-    }
-
-    public String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = {MediaStore.Images.Media.DATA};
-            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
     }
 
 }

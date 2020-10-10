@@ -2,7 +2,6 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -26,7 +25,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -696,7 +694,6 @@ public class AuthWorker extends Worker {
                     @Override
                     public void onError(ANError error) {
                         try {
-                            Log.e("error", error.getErrorBody());
                             JSONObject errorBody = new JSONObject(error.getErrorBody());
 
                             ExceptionManager.getException(true, error.getErrorCode(), errorBody, "sendDoc", "auth");
