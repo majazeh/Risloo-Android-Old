@@ -24,6 +24,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.widget.Button;
@@ -43,6 +44,7 @@ import com.majazeh.risloo.ViewModels.AuthViewModel;
 
 import org.json.JSONException;
 
+import java.io.File;
 import java.util.Objects;
 
 public class SendDocActivity extends AppCompatActivity {
@@ -377,9 +379,13 @@ public class SendDocActivity extends AppCompatActivity {
             if (requestCode == 300) {
                 Uri uri = Objects.requireNonNull(data).getData();
 
-                attachment = Objects.requireNonNull(uri).getPath();
+//                Log.e("data", String.valueOf(new File(uri.getPath()).exists()));
+//                Log.e("data", String.valueOf(new File(uri.toString()).exists()));
+                Log.e("data", String.valueOf(new File(intentCaller.getPath(getApplicationContext(), uri)).exists()));
 
-                attachment = getRealPathFromURI(getApplicationContext(), uri);
+                attachment = intentCaller.getPath(getApplicationContext(), uri);
+
+//                attachment = getRealPathFromURI(getApplicationContext(), uri);
 
                 setFileWidgetsUi(attachment);
             }
