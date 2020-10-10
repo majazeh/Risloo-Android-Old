@@ -222,7 +222,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                 }
 
                 if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
-                    inputHandler.clear((Activity) getApplicationContext(), inputHandler.getInput());
+                    inputHandler.clear(CreateCenterActivity.this, inputHandler.getInput());
                 }
 
                 switch (tab.getPosition()) {

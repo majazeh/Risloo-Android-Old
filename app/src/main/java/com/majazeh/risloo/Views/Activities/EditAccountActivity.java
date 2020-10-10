@@ -236,7 +236,7 @@ public class EditAccountActivity extends AppCompatActivity {
                 }
 
                 if (nameEditText.hasFocus()) {
-                    inputHandler.clear((Activity) getApplicationContext(), nameEditText);
+                    inputHandler.clear(EditAccountActivity.this, nameEditText);
                 }
 
                 switch (tab.getPosition()) {

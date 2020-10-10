@@ -192,7 +192,7 @@ public class CreateSampleActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (!countEditText.hasFocus()) {
-                    inputHandler.clear((Activity) getApplicationContext(), countEditText);
+                    inputHandler.clear(CreateSampleActivity.this, countEditText);
                 }
 
                 switch (tab.getPosition()) {
