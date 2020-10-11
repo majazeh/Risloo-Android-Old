@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -68,7 +67,7 @@ public class EditAccountActivity extends AppCompatActivity {
     // Vars
     private String name = "", gender = "", birthday = "";
     private String imageFilePath = "";
-    private int Year, Month, Day;
+    private int year, month, day;
     private boolean genderException = false, birthdayException = false;
     public boolean galleryPermissionsGranted = false, cameraPermissionsGranted = false;
 
@@ -312,20 +311,20 @@ public class EditAccountActivity extends AppCompatActivity {
             handler.postDelayed(() -> dateDialogPositive.setClickable(true), 300);
             dateDialog.dismiss();
 
-            Year = yearNumberPicker.getValue();
-            Month = monthNumberPicker.getValue();
-            Day = dayNumberPicker.getValue();
+            year = yearNumberPicker.getValue();
+            month = monthNumberPicker.getValue();
+            day = dayNumberPicker.getValue();
 
-            if (Month < 10) {
-                if (Day < 10)
-                    birthday = Year + "-" + "0" + Month + "-" + "0" + Day;
+            if (month < 10) {
+                if (day < 10)
+                    birthday = year + "-" + "0" + month + "-" + "0" + day;
                 else
-                    birthday = Year + "-" + "0" + Month + "-" + Day;
+                    birthday = year + "-" + "0" + month + "-" + day;
             } else {
-                if (Day < 10)
-                    birthday = Year + "-" + Month + "-" + "0" + Day;
+                if (day < 10)
+                    birthday = year + "-" + month + "-" + "0" + day;
                 else
-                    birthday = Year + "-" + Month + "-" + Day;
+                    birthday = year + "-" + month + "-" + day;
             }
 
             birthdayTextView.setText(birthday);
@@ -336,17 +335,17 @@ public class EditAccountActivity extends AppCompatActivity {
             handler.postDelayed(() -> dateDialogNegative.setClickable(true), 300);
             dateDialog.dismiss();
 
-            yearNumberPicker.setValue(Year);
-            monthNumberPicker.setValue(Month);
-            dayNumberPicker.setValue(Day);
+            yearNumberPicker.setValue(year);
+            monthNumberPicker.setValue(month);
+            dayNumberPicker.setValue(day);
         });
 
         dateDialog.setOnCancelListener(dialog -> {
             dateDialog.dismiss();
 
-            yearNumberPicker.setValue(Year);
-            monthNumberPicker.setValue(Month);
-            dayNumberPicker.setValue(Day);
+            yearNumberPicker.setValue(year);
+            monthNumberPicker.setValue(month);
+            dayNumberPicker.setValue(day);
         });
     }
 
@@ -383,24 +382,24 @@ public class EditAccountActivity extends AppCompatActivity {
             birthdayTextView.setText(birthday);
         }
 
-        Year = Integer.parseInt(StringCustomizer.dateToString("yyyy", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
-        Month = Integer.parseInt(StringCustomizer.dateToString("MM", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
-        Day = Integer.parseInt(StringCustomizer.dateToString("dd", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
+        year = Integer.parseInt(StringCustomizer.dateToString("yyyy", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
+        month = Integer.parseInt(StringCustomizer.dateToString("MM", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
+        day = Integer.parseInt(StringCustomizer.dateToString("dd", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
     }
 
     private void setCustomPicker() {
         yearNumberPicker.setMinValue(1300);
         yearNumberPicker.setMaxValue(2100);
-        yearNumberPicker.setValue(Year);
+        yearNumberPicker.setValue(year);
 
         monthNumberPicker.setMinValue(1);
         monthNumberPicker.setMaxValue(12);
-        monthNumberPicker.setValue(Month);
+        monthNumberPicker.setValue(month);
         monthNumberPicker.setDisplayedValues(new String[]{"فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"});
 
         dayNumberPicker.setMinValue(1);
         dayNumberPicker.setMaxValue(31);
-        dayNumberPicker.setValue(Day);
+        dayNumberPicker.setValue(day);
     }
 
     private void errorException(String type) {
@@ -433,7 +432,7 @@ public class EditAccountActivity extends AppCompatActivity {
                     break;
                 case "edit":
                     name = nameEditText.getText().toString().trim();
-                    viewModel.edit(name, gender, birthday);
+                    viewModel.edit(name, gender, StringCustomizer.jalaliToGregorian(birthday));
                     break;
             }
             observeWork();
