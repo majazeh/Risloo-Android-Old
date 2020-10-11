@@ -92,7 +92,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
                         holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                         ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
 
-                        if (access()) {
+                        if (hasAccess()) {
                             holder.startTextView.setVisibility(View.VISIBLE);
                         } else {
                             holder.startTextView.setVisibility(View.INVISIBLE);
@@ -103,7 +103,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
                         holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                         ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
 
-                        if (access()) {
+                        if (hasAccess()) {
                             holder.startTextView.setVisibility(View.VISIBLE);
                         } else {
                             holder.startTextView.setVisibility(View.INVISIBLE);
@@ -292,8 +292,8 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
         }
     }
 
-    private boolean access() {
-        return sharedPreferences.getString("access", "").equals("true");
+    private boolean hasAccess() {
+        return sharedPreferences.getBoolean("hasAccess", false);
     }
 
     public class SamplesHolder extends RecyclerView.ViewHolder {

@@ -299,7 +299,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                     holder.requestTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary);
                 }
 
-                if (sharedPreferences.getString("access", "").equals("true")) {
+                if (sharedPreferences.getBoolean("hasAccess", false)) {
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                         holder.editImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude_ripple_quartz);
                     }
@@ -328,7 +328,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
 
                 holder.requestTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude);
 
-                if (sharedPreferences.getString("access", "").equals("true") || acceptation.getString("position").equals("manager")) {
+                if (sharedPreferences.getBoolean("hasAccess", false) || acceptation.getString("position").equals("manager")) {
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                         holder.editImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude_ripple_quartz);
                     }
