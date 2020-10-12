@@ -73,7 +73,7 @@ public class ImageActivity extends AppCompatActivity {
             } else {
                 imageView.setImageBitmap(BitmapManager.modifyOrientation(FileManager.readBitmapFromCache(this, "image"), path));
             }
-            FileManager.deleteBitmapFromCache(this, "image");
+            FileManager.deleteFileFromCache(this, "image");
         }
     }
 

@@ -3,6 +3,7 @@ package com.majazeh.risloo.Models.Managers;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 
@@ -12,12 +13,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -295,9 +298,35 @@ public class FileManager {
 
 
 
+    public static void writeUriToCache(Context context, Uri uri, String path) {
+        InputStream is = null;
+        FileOutputStream fos = null;
+        BufferedOutputStream bos = null;
 
+        try {
+            is = context.getContentResolver().openInputStream(uri);
+            fos = new FileOutputStream(path, false);
+            bos = new BufferedOutputStream(fos);
 
+            byte[] buf = new byte[1024];
 
+            is.read(buf);
+            do {
+                bos.write(buf);
+            } while (is.read(buf) != -1);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (is != null) is.close();
+                if (fos != null) fos.close();
+                if (bos != null) bos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -335,20 +364,39 @@ public class FileManager {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;
-        } catch (EOFException e) {
-            e.printStackTrace();
-            return null;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public static void deleteBitmapFromCache(Context context, String fileName) {
+    public static void deleteFolderFromCache(Context context, String fileName) {
+        File file = new File(context.getCacheDir(), fileName);
+        if (file.exists()) {
+            String[] children = file.list();
+            for (String child : children) {
+                File subFile = new File(file, child);
+                if (subFile.exists()) {
+                    subFile.delete();
+                }
+            }
+            file.delete();
+        }
+    }
+
+    public static void deleteFileFromCache(Context context, String fileName) {
         File file = new File(context.getCacheDir(), fileName);
         if (file.exists()) {
             file.delete();
         }
+    }
+
+    public static File getFileFromCache(Context context, String fileName) {
+        File file = new File(context.getCacheDir(), fileName);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        return file;
     }
 
 }

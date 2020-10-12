@@ -8,6 +8,12 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
+
+import com.majazeh.risloo.Models.Managers.FileManager;
+
+import java.io.File;
+import java.util.Objects;
 
 public class PathProvider {
 
@@ -16,9 +22,11 @@ public class PathProvider {
         // DocumentProvider
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DocumentsContract.isDocumentUri(context, uri)) {
 
+            // Local
             if (isLocalStorageDocument(uri)) {
                 return DocumentsContract.getDocumentId(uri);
 
+                // External
             } else if (isExternalStorageDocument(uri)) {
                 String documentId = DocumentsContract.getDocumentId(uri);
                 String[] split = documentId.split(":");
@@ -30,6 +38,7 @@ public class PathProvider {
                     return Environment.getExternalStorageDirectory() + "/documents/" + split[1];
                 }
 
+                // Downloads
             } else if (isDownloadsDocument(uri)) {
                 String documentId = DocumentsContract.getDocumentId(uri);
 
@@ -43,17 +52,29 @@ public class PathProvider {
                 };
 
                 for (String contentUriPrefix : contentUriPrefixesToTry) {
-                    Uri contentUri = ContentUris.withAppendedId(Uri.parse(contentUriPrefix), Long.parseLong(documentId));
-                    try {
-                        String path = getDataColumn(context, contentUri, null, null);
-                        if (path != null) {
-                            return path;
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    String[] split = documentId.split(":");
+
+                    Uri contentUri;
+                    if (Objects.requireNonNull(documentId).startsWith("msf:"))
+                        contentUri = ContentUris.withAppendedId(Uri.parse(contentUriPrefix), Long.parseLong(split[1]));
+                    else
+                        contentUri = ContentUris.withAppendedId(Uri.parse(contentUriPrefix), Long.parseLong(documentId));
+
+                    String path = getFileColumn(context, contentUri, null, null);
+                    if (path != null) {
+                        return path;
                     }
                 }
 
+                String fileName = getFileName(context, uri);
+                if (fileName != null) {
+                    File file = new File(FileManager.getFileFromCache(context, "documents"), fileName);
+                    String path = file.getAbsolutePath();
+                    FileManager.writeUriToCache(context, uri, path);
+                    return path;
+                }
+
+                // Media
             } else if (isMediaDocument(uri)) {
                 String documentId = DocumentsContract.getDocumentId(uri);
                 String[] split = documentId.split(":");
@@ -71,7 +92,7 @@ public class PathProvider {
                 String selection = "_id=?";
                 String[] selectionArgs = new String[] {split[1]};
 
-                return getDataColumn(context, contentUri, selection, selectionArgs);
+                return getFileColumn(context, contentUri, selection, selectionArgs);
 
             }
 
@@ -81,7 +102,7 @@ public class PathProvider {
                 return uri.getLastPathSegment();
             }
 
-            return getDataColumn(context, uri, null, null);
+            return getFileColumn(context, uri, null, null);
 
             // File
         } else if ("file".equalsIgnoreCase(uri.getScheme())) {
@@ -91,7 +112,26 @@ public class PathProvider {
         return null;
     }
 
-    private String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
+    private String getFileName(Context context, Uri uri) {
+        Cursor cursor = null;
+
+        try {
+            cursor = context.getContentResolver().query(uri, null, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                return cursor.getString(nameIndex);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+
+        return null;
+    }
+
+    private String getFileColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
         Cursor cursor = null;
 
         String column = MediaStore.Files.FileColumns.DATA;
@@ -103,12 +143,13 @@ public class PathProvider {
                 int columnIndex = cursor.getColumnIndexOrThrow(column);
                 return cursor.getString(columnIndex);
             }
-        }  catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (cursor != null)
                 cursor.close();
         }
+
         return null;
     }
 

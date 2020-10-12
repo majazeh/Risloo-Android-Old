@@ -326,7 +326,13 @@
     <string name="SendDocDescription">توضیحات</string>
     <string name="SendDocAttachment">فایل مدارک هویتی انتخاب کن</string>
 
-    <string name="SendDocAttachmentChooser">بخش انتخاب کنید</string>
+    <string name="SendDocSuffixPNG">PNG</string>
+    <string name="SendDocSuffixJPG">JPG</string>
+    <string name="SendDocSuffixJPEG">JPEG</string>
+    <string name="SendDocSuffixGIF">GIF</string>
+    <string name="SendDocSuffixDOC">DOC</string>
+    <string name="SendDocSuffixPDF">PDF</string>
+    <string name="SendDocSuffixMP4">MP4</string>
 
     <string name="SendDocSend">ارسال</string>
 

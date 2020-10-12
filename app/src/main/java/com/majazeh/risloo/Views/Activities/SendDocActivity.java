@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -22,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
+import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.InputHandler;
@@ -64,7 +65,7 @@ public class SendDocActivity extends AppCompatActivity {
     private EditText titleEditText, descriptionEditText;
     private LinearLayout attachmentLinearLayout;
     private ImageView attachmentImageView;
-    private TextView attachmentTextView;
+    private TextView suffixTextView, attachmentTextView;
     private Button sendButton;
     private Dialog progressDialog;
 
@@ -108,6 +109,7 @@ public class SendDocActivity extends AppCompatActivity {
 
         attachmentImageView = findViewById(R.id.activity_send_doc_attachment_imageView);
 
+        suffixTextView = findViewById(R.id.activity_send_doc_suffix_textView);
         attachmentTextView = findViewById(R.id.activity_send_doc_attachment_textView);
 
         sendButton = findViewById(R.id.activity_send_doc_send_button);
@@ -245,29 +247,35 @@ public class SendDocActivity extends AppCompatActivity {
         attachmentTextView.setText(title);
         attachmentTextView.setTextColor(getResources().getColor(R.color.Nero));
 
-        ImageViewCompat.setImageTintList(attachmentImageView, null);
-        attachmentImageView.setImageDrawable(getResources().getDrawable(R.drawable.soc_adobe));
+        attachmentImageView.setVisibility(View.GONE);
+        suffixTextView.setVisibility(View.VISIBLE);
 
-//        switch (suffix) {
-//            case "png":
-//
-//                break;
-//            case "jpg":
-//
-//                break;
-//            case "gif":
-//
-//                break;
-//            case "doc":
-//
-//                break;
-//            case "pdf":
-//
-//                break;
-//            default:
-//
-//                break;
-//        }
+        switch (suffix) {
+            case "png":
+                suffixTextView.setText(getResources().getString(R.string.SendDocSuffixPNG));
+                break;
+            case "jpg":
+                suffixTextView.setText(getResources().getString(R.string.SendDocSuffixJPG));
+                break;
+            case "jpeg":
+                suffixTextView.setText(getResources().getString(R.string.SendDocSuffixJPEG));
+                break;
+            case "gif":
+                suffixTextView.setText(getResources().getString(R.string.SendDocSuffixGIF));
+                break;
+            case "doc":
+                suffixTextView.setText(getResources().getString(R.string.SendDocSuffixDOC));
+                break;
+            case "pdf":
+                suffixTextView.setText(getResources().getString(R.string.SendDocSuffixPDF));
+                break;
+            case "mp4":
+                suffixTextView.setText(getResources().getString(R.string.SendDocSuffixMP4));
+                break;
+            default:
+                suffixTextView.setText(suffix);
+                break;
+        }
     }
 
     private void doWork() {
@@ -394,6 +402,8 @@ public class SendDocActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
+
+        FileManager.deleteFolderFromCache(this, "documents");
     }
 
 }

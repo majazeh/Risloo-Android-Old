@@ -23,28 +23,31 @@ public class ExceptionManager {
                         switch (exception) {
                             case "auth":
                             case "authTheory":
-                                fa_message_text = "درخواست ورود شما ارسال شد";
+                                fa_message_text = "درخواست ورود شما ارسال شد.";
                                 break;
                             case "register":
-                                fa_message_text = "درخواست ثبت نام شما ارسال شد";
+                                fa_message_text = "درخواست ثبت نام شما ارسال شد.";
                                 break;
                             case "verification":
-                                fa_message_text = "کد پیامکی به شما ارسال شد";
+                                fa_message_text = "کد پیامکی به شما ارسال شد.";
                                 break;
                             case "recovery":
-                                fa_message_text = "بازیابی رمز عبور انجام شد";
+                                fa_message_text = "بازیابی رمز عبور انجام شد.";
                                 break;
                             case "me":
-                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد";
+                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد.";
                                 break;
                             case "edit":
-                                fa_message_text = "ویرایش حساب شما انجام شد";
+                                fa_message_text = "ویرایش حساب شما انجام شد.";
                                 break;
                             case "avatar":
-                                fa_message_text = "ویرایش عکس شما انجام شد";
+                                fa_message_text = "ویرایش عکس شما انجام شد.";
                                 break;
                             case "logOut":
-                                fa_message_text = "خروج با موفقیت انجام شد";
+                                fa_message_text = "خروج با موفقیت انجام شد.";
+                                break;
+                            case "sendDoc":
+                                fa_message_text = "مدارک هویتی شما ارسال شد.";
                                 break;
                             default:
                                 fa_message_text = ".";
@@ -57,16 +60,16 @@ public class ExceptionManager {
                             case "my":
                             case "personalClinic":
                             case "counselingCenter":
-                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد";
+                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد.";
                                 break;
                             case "request":
-                                fa_message_text = "درخواست پذیرش شما ارسال شد";
+                                fa_message_text = "درخواست پذیرش شما ارسال شد.";
                                 break;
                             case "create":
-                                fa_message_text = "مرکز درمانی با موفقیت ساخته شد";
+                                fa_message_text = "مرکز درمانی با موفقیت ساخته شد.";
                                 break;
                             case "edit":
-                                fa_message_text = "مرکز درمانی با موفقیت اصلاح شد";
+                                fa_message_text = "مرکز درمانی با موفقیت اصلاح شد.";
                                 break;
                             default:
                                 fa_message_text = ".";
@@ -76,7 +79,7 @@ public class ExceptionManager {
                     case "explode":
                         switch (exception) {
                             case "explode":
-                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد";
+                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد.";
                                 break;
                             default:
                                 fa_message_text = ".";
@@ -93,22 +96,22 @@ public class ExceptionManager {
                             case "references":
                             case "cases":
                             case "generals":
-                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد";
+                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد.";
                                 break;
                             case "answers":
-                                fa_message_text = "پاسخ ها با موفقیت ارسال شد";
+                                fa_message_text = "پاسخ ها با موفقیت ارسال شد.";
                                 break;
                             case "prerequisite":
-                                fa_message_text = "پیش نیاز ها با موفقیت تکمیل شد";
+                                fa_message_text = "پیش نیاز ها با موفقیت تکمیل شد.";
                                 break;
                             case "create":
-                                fa_message_text = "نمونه با موفقیت ساخته شد";
+                                fa_message_text = "نمونه با موفقیت ساخته شد.";
                                 break;
                             case "close":
-                                fa_message_text = "نمونه با موفقیت بسته شد";
+                                fa_message_text = "نمونه با موفقیت بسته شد.";
                                 break;
                             case "score":
-                                fa_message_text = "نمونه با موفقیت نمره گذاری شد";
+                                fa_message_text = "نمونه با موفقیت نمره گذاری شد.";
                                 break;
                             default:
                                 fa_message_text = ".";
