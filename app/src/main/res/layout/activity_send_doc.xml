@@ -78,7 +78,7 @@
                     android:paddingRight="@dimen/_16sdp"
                     android:imeOptions="actionDone"
                     android:cursorVisible="false"
-                    android:inputType="text"
+                    android:inputType="textMultiLine"
                     android:hint="@string/SendDocDescription"
                     android:gravity="right"
                     android:textSize="@dimen/_12ssp"
