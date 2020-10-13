@@ -1,6 +1,7 @@
 package com.majazeh.risloo.Views.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -9,18 +10,21 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.R;
@@ -30,6 +34,7 @@ import com.majazeh.risloo.ViewModels.SampleViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Objects;
 
@@ -207,7 +212,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
     private void sendViaInternet() {
         try {
-            SampleRepository.cache = true;
+            //SampleRepository.cache = true;
 
             progressDialog.show();
             viewModel.sendAnswers(sampleId);
@@ -244,6 +249,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
     private void saveFile() {
         viewModel.writeSampleAnswerToExternal(viewModel.readSampleAnswerFromCache(sampleId), sampleId);
+        changeStatus();
         finish();
 
         ExceptionManager.getException(false, 0, null, "SavedToDownloadException", "sample");
@@ -254,6 +260,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         SampleRepository.workStateAnswer.observe(this, integer -> {
             if (integer == 1) {
                 try {
+                    changeStatus();
                     viewModel.close(sampleId);
                     observeWorkSample();
                 } catch (JSONException e) {
@@ -261,7 +268,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
                 }
 
                 SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
-            } else if (integer == 0){
+            } else if (integer == 0) {
                 progressDialog.dismiss();
                 Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                 SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
@@ -281,7 +288,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
                 progressDialog.dismiss();
                 Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                 SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-            } else if (integer == 0){
+            } else if (integer == 0) {
                 progressDialog.dismiss();
                 Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                 SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
@@ -291,6 +298,15 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
                 SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 100){
+            changeStatus();
+            finish();
+        }
     }
 
     private void checkStoragePermission() {
@@ -326,4 +342,15 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         }
     }
 
+    public void changeStatus() {
+        try {
+            JSONObject jsonObject = viewModel.readSampleFromCache(sampleId);
+            JSONObject data = jsonObject.getJSONObject("data");
+            data.put("status", "sent");
+            jsonObject.put("data", data);
+            FileManager.writeSampleAnswerToCache(this, jsonObject, sampleId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }

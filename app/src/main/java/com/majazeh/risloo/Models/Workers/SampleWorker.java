@@ -130,7 +130,11 @@ public class SampleWorker extends Worker {
                 FileManager.writePrerequisiteAnswerToCache(context, data.getJSONArray("prerequisites"), SampleRepository.sampleId);
 
                 ExceptionManager.getException(true, bodyResponse.code(), successBody, "single", "sample");
-                SampleRepository.workStateSample.postValue(1);
+                if (data.getString("status").equals("closed")){
+                    SampleRepository.workStateSample.postValue(-3);
+                }else {
+                    SampleRepository.workStateSample.postValue(1);
+                }
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 

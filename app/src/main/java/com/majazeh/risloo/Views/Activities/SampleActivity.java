@@ -612,6 +612,9 @@ public class SampleActivity extends AppCompatActivity {
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         }
                     }
+                }else if (integer == -3){
+                    finish();
+                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                 }
 
                 if (progressDialog.isShowing()) {

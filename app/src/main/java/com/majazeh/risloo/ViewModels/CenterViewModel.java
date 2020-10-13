@@ -27,7 +27,7 @@ public class CenterViewModel extends AndroidViewModel {
          ---------- Voids ----------
     */
 
-    public void centers() throws JSONException {
+    public void centers( ) throws JSONException {
         repository.centers();
     }
 

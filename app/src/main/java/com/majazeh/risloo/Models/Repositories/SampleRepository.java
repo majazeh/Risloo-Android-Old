@@ -3,6 +3,7 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Constraints;
@@ -145,7 +146,9 @@ public class SampleRepository extends MainRepository {
                     }
                 }
             } else {
+
                 if (remoteData.size() == 0) {
+
                     insertLocalToRemote();
 
                     SampleRepository.sampleId = sampleId;
@@ -604,14 +607,13 @@ public class SampleRepository extends MainRepository {
         if (list != null) {
             for (int i = 0; i < list.length; i++) {
                 if (readSampleAnswerFromCache(list[i].getName()) != null) {
+                    JSONObject sample = readSampleFromCache(list[i].getName());
+
                     JSONObject jsonObject = new JSONObject();
                     try {
                         jsonObject.put("serial", list[i].getName());
-                        if (answeredSize(list[i].getName()) < readSampleAnswerFromCache(list[i].getName()).length()) {
-                            jsonObject.put("status", "ناقص");
-                        } else {
-                            jsonObject.put("status", "کامل");
-                        }
+                        jsonObject.put("status", sample.getJSONObject("data").getString("status"));
+                        jsonObject.put("title", sample.getJSONObject("data").getJSONObject("scale").getString("title"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

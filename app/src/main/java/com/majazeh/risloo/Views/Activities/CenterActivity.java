@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +31,7 @@ import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.Views.Adapters.CenterTabAdapter;
+import com.majazeh.risloo.Views.Fragments.MyCenterFragment;
 
 import org.json.JSONException;
 
@@ -40,6 +43,11 @@ public class CenterActivity extends AppCompatActivity {
 
     // Adapters
     private CenterTabAdapter adapter;
+
+    private MyCenterFragment myFragment;
+
+    // Vars
+    public static boolean loadingMy = false, loadingAll = false;
 
     // Objects
     private MenuItem toolCreate;
@@ -76,7 +84,8 @@ public class CenterActivity extends AppCompatActivity {
     private void initializer() {
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         centerViewModel = new ViewModelProvider(this).get(CenterViewModel.class);
-
+        CenterRepository.allPage = 1;
+        CenterRepository.myPage = 1;
         if (!authViewModel.getToken().equals("")) {
             adapter = new CenterTabAdapter(getSupportFragmentManager(), 0, this, true);
         } else {
@@ -185,32 +194,39 @@ public class CenterActivity extends AppCompatActivity {
         launchProcess("getAll");
     }
 
-    private void observeWork() {
+    public void observeWork() {
         CenterRepository.workState.observe((LifecycleOwner) this, integer -> {
             if (CenterRepository.work.equals("getAll")) {
+                CenterActivity.loadingAll = true;
                 if (integer == 1) {
-                    if (!authViewModel.getToken().equals("")) {
-                        // Continue Get MyCenter
+                    if (CenterRepository.allPage == 1) {
+                        if (!authViewModel.getToken().equals("")) {
+                            // Continue Get MyCenter
 
-                        CenterRepository.workState.removeObservers((LifecycleOwner) this);
-                        launchProcess("getMy");
-                    } else {
-                        // Just Show AllCenter
-
-                        loadingLayout.setVisibility(View.GONE);
-                        retryLayout.setVisibility(View.GONE);
-                        mainLayout.setVisibility(View.VISIBLE);
-
-                        tabLayout.setVisibility(View.GONE);
-                        rtlViewPager.setAdapter(adapter);
-
-                        if (authViewModel.hasAccess()) {
-                            toolCreate.setVisible(true);
+                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                            launchProcess("getMy");
                         } else {
-                            toolCreate.setVisible(false);
-                        }
+                            // Just Show AllCenter
 
-                        CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                            loadingLayout.setVisibility(View.GONE);
+                            retryLayout.setVisibility(View.GONE);
+                            mainLayout.setVisibility(View.VISIBLE);
+
+                            tabLayout.setVisibility(View.GONE);
+                            rtlViewPager.setAdapter(adapter);
+
+                            if (authViewModel.hasAccess()) {
+                                toolCreate.setVisible(true);
+                            } else {
+                                toolCreate.setVisible(false);
+                            }
+                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                        }
+                        CenterActivity.loadingAll = false;
+                        CenterRepository.allPage++;
+                    } else {
+                        CenterActivity.loadingAll = false;
+                        CenterRepository.allPage++;
                     }
                 } else {
                     if (centerViewModel.getAll() == null) {
@@ -288,23 +304,36 @@ public class CenterActivity extends AppCompatActivity {
                     }
                 }
             } else if (CenterRepository.work.equals("getMy")) {
+                CenterActivity.loadingMy = true;
                 // Show Both AllCenter And MyCenter
 
-                if (integer != -1) {
-                    loadingLayout.setVisibility(View.GONE);
-                    retryLayout.setVisibility(View.GONE);
-                    mainLayout.setVisibility(View.VISIBLE);
+                if (CenterRepository.myPage == 1) {
+                    if (integer != -1) {
+                        loadingLayout.setVisibility(View.GONE);
+                        retryLayout.setVisibility(View.GONE);
+                        mainLayout.setVisibility(View.VISIBLE);
 
-                    tabLayout.setVisibility(View.VISIBLE);
-                    rtlViewPager.setAdapter(adapter);
+                        tabLayout.setVisibility(View.VISIBLE);
+                        rtlViewPager.setAdapter(adapter);
 
-                    if (authViewModel.hasAccess()) {
-                        toolCreate.setVisible(true);
-                    } else {
-                        toolCreate.setVisible(false);
+                        if (authViewModel.hasAccess()) {
+                            toolCreate.setVisible(true);
+                        } else {
+                            toolCreate.setVisible(false);
+                        }
+                        CenterRepository.myPage++;
+                        CenterActivity.loadingMy = false;
+                        CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
 
-                    CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                } else {
+                    if (integer == 1) {
+                        MyCenterFragment fragment = (MyCenterFragment) adapter.getItem(0);
+                        Log.e("test", String.valueOf(fragment.isAdded()));
+                        fragment.notifyRecycler();
+                        CenterActivity.loadingMy = false;
+                        CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                    }
                 }
             }
         });

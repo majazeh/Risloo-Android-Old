@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.majazeh.risloo.Entities.Model;
+import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 
 import org.json.JSONArray;
@@ -112,6 +113,10 @@ public class SampleViewModel extends AndroidViewModel {
     /*
          ---------- Read ----------
     */
+
+    public JSONObject readSampleFromCache(String fileName) {
+        return repository.readSampleFromCache(fileName);
+    }
 
     public JSONArray readSampleAnswerFromCache(String fileName) {
         return repository.readSampleAnswerFromCache(fileName);

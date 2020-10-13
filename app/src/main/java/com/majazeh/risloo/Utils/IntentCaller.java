@@ -69,12 +69,12 @@ public class IntentCaller {
         context.startActivity(intent);
     }
 
-    public void sendSMS(Context context, String number, String name, String value) {
+    public void sendSMS(Activity activity, String number, String name, String value) {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("smsto:" + number));
         intent.putExtra(name, value);
 
-        context.startActivity(intent);
+        activity.startActivityForResult(intent, 100);
     }
 
     public void email(Context context, String[] emails, String subject, String message, String chooser) {

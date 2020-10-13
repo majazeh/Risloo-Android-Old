@@ -76,16 +76,16 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
                 holder.continueTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
             }
 
-            holder.scaleTextView.setText("آزمون چند وجهی مینه سوتا");
+            holder.scaleTextView.setText(model.get("title").toString());
             holder.serialTextView.setText(model.get("serial").toString());
 
-            switch ((String) model.get("status")) {
-                case "ناقص":
+//            switch ((String) model.get("status")) {
+//                case "ناقص":
                     holder.statusTextView.setText(model.get("status").toString());
                     holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.MoonYellow));
                     ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.MoonYellow));
-                    break;
-            }
+//                    break;
+//            }
 
         } catch (JSONException e) {
             e.printStackTrace();
