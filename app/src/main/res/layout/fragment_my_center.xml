@@ -17,6 +17,19 @@
         android:layout_height="match_parent"
         android:overScrollMode="always" />
 
+    <ProgressBar
+        android:id="@+id/fragment_my_center_progressBar"
+        android:layout_width="@dimen/_32sdp"
+        android:layout_height="@dimen/_32sdp"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:elevation="@dimen/_1sdp"
+        android:padding="@dimen/_6sdp"
+        android:visibility="gone"
+        android:theme="@style/ProgressBarTheme"
+        android:background="@drawable/draw_oval_solid_white"
+        style="@style/Widget.AppCompat.ProgressBar"/>
+
     <LinearLayout
         android:id="@+id/fragment_my_center_emptyLayout"
         android:layout_width="match_parent"

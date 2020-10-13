@@ -146,9 +146,7 @@ public class SampleRepository extends MainRepository {
                     }
                 }
             } else {
-
                 if (remoteData.size() == 0) {
-
                     insertLocalToRemote();
 
                     SampleRepository.sampleId = sampleId;

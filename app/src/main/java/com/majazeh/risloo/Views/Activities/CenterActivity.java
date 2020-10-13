@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +30,7 @@ import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.Views.Adapters.CenterTabAdapter;
+import com.majazeh.risloo.Views.Fragments.AllCenterFragment;
 import com.majazeh.risloo.Views.Fragments.MyCenterFragment;
 
 import org.json.JSONException;
@@ -44,10 +44,8 @@ public class CenterActivity extends AppCompatActivity {
     // Adapters
     private CenterTabAdapter adapter;
 
-    private MyCenterFragment myFragment;
-
     // Vars
-    public static boolean loadingMy = false, loadingAll = false;
+    public boolean loadingAll = false, loadingMy = false;
 
     // Objects
     private MenuItem toolCreate;
@@ -84,8 +82,7 @@ public class CenterActivity extends AppCompatActivity {
     private void initializer() {
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         centerViewModel = new ViewModelProvider(this).get(CenterViewModel.class);
-        CenterRepository.allPage = 1;
-        CenterRepository.myPage = 1;
+
         if (!authViewModel.getToken().equals("")) {
             adapter = new CenterTabAdapter(getSupportFragmentManager(), 0, this, true);
         } else {
@@ -177,8 +174,10 @@ public class CenterActivity extends AppCompatActivity {
         try {
             if (method.equals("getAll")) {
                 centerViewModel.centers();
+                CenterRepository.allPage = 1;
             } else {
                 centerViewModel.myCenters();
+                CenterRepository.myPage = 1;
             }
             observeWork();
         } catch (JSONException e) {
@@ -197,7 +196,7 @@ public class CenterActivity extends AppCompatActivity {
     public void observeWork() {
         CenterRepository.workState.observe((LifecycleOwner) this, integer -> {
             if (CenterRepository.work.equals("getAll")) {
-                CenterActivity.loadingAll = true;
+                loadingAll = true;
                 if (integer == 1) {
                     if (CenterRepository.allPage == 1) {
                         if (!authViewModel.getToken().equals("")) {
@@ -222,12 +221,15 @@ public class CenterActivity extends AppCompatActivity {
                             }
                             CenterRepository.workState.removeObservers((LifecycleOwner) this);
                         }
-                        CenterActivity.loadingAll = false;
+
+                        loadingAll = false;
                         CenterRepository.allPage++;
+
                     } else {
-                        CenterActivity.loadingAll = false;
-                        CenterRepository.allPage++;
+                        Fragment fragment = adapter.allFragment;
+                        ((AllCenterFragment) fragment).notifyRecycler();
                     }
+
                 } else {
                     if (centerViewModel.getAll() == null) {
                         if (integer == 0) {
@@ -304,9 +306,8 @@ public class CenterActivity extends AppCompatActivity {
                     }
                 }
             } else if (CenterRepository.work.equals("getMy")) {
-                CenterActivity.loadingMy = true;
+                loadingMy = true;
                 // Show Both AllCenter And MyCenter
-
                 if (CenterRepository.myPage == 1) {
                     if (integer != -1) {
                         loadingLayout.setVisibility(View.GONE);
@@ -321,17 +322,18 @@ public class CenterActivity extends AppCompatActivity {
                         } else {
                             toolCreate.setVisible(false);
                         }
+
+                        loadingMy = false;
                         CenterRepository.myPage++;
-                        CenterActivity.loadingMy = false;
+
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
 
                 } else {
                     if (integer == 1) {
-                        MyCenterFragment fragment = (MyCenterFragment) adapter.getItem(0);
-                        Log.e("test", String.valueOf(fragment.isAdded()));
-                        fragment.notifyRecycler();
-                        CenterActivity.loadingMy = false;
+                        Fragment fragment = adapter.myFragment;
+                        ((MyCenterFragment) fragment).notifyRecycler();
+
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
                 }
@@ -356,6 +358,17 @@ public class CenterActivity extends AppCompatActivity {
 
         toolCreate = menu.findItem(R.id.tool_create);
         toolCreate.setOnMenuItemClickListener(menuItem -> {
+            Fragment allFragment = adapter.allFragment;
+            if (((AllCenterFragment) allFragment).pagingProgressBar.isShown()) {
+                loadingAll = false;
+                ((AllCenterFragment) allFragment).pagingProgressBar.setVisibility(View.GONE);
+            }
+            Fragment myFragment = adapter.myFragment;
+            if (((MyCenterFragment) myFragment).pagingProgressBar.isShown()) {
+                loadingMy = false;
+                ((MyCenterFragment) myFragment).pagingProgressBar.setVisibility(View.GONE);
+            }
+
             startActivityForResult(new Intent(this, CreateCenterActivity.class), 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             return false;

@@ -2,11 +2,11 @@ package com.majazeh.risloo.Views.Fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,13 +32,14 @@ public class MyCenterFragment extends Fragment {
 
     // Vars
     private HashMap<Integer, Boolean> expands;
-    private LinearLayoutManager layoutManager;
 
     // Objects
     private Activity activity;
+    private LinearLayoutManager layoutManager;
 
     // Widgets
     private RecyclerView recyclerView;
+    public ProgressBar pagingProgressBar;
     private LinearLayout emptyLayout;
 
     public MyCenterFragment(Activity activity) {
@@ -52,6 +53,8 @@ public class MyCenterFragment extends Fragment {
 
         initializer(view);
 
+        listener();
+
         setData();
 
         return view;
@@ -63,11 +66,18 @@ public class MyCenterFragment extends Fragment {
         adapter = new CenterAdapter(activity);
 
         layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+
         recyclerView = view.findViewById(R.id.fragment_my_center_recyclerView);
         recyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
+        pagingProgressBar = view.findViewById(R.id.fragment_my_center_progressBar);
+
+        emptyLayout = view.findViewById(R.id.fragment_my_center_emptyLayout);
+    }
+
+    private void listener() {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -80,9 +90,8 @@ public class MyCenterFragment extends Fragment {
 
                     if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
                         try {
-                            Log.e("loading", String.valueOf(CenterActivity.loadingMy));
-                            if (!CenterActivity.loadingMy) {
-                                //pagingProgressBar.setVisibility(View.VISIBLE);
+                            if (!((CenterActivity) Objects.requireNonNull(getActivity())).loadingMy) {
+                                pagingProgressBar.setVisibility(View.VISIBLE);
                                 ((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel.myCenters();
                                 ((CenterActivity) Objects.requireNonNull(getActivity())).observeWork();
                             }
@@ -93,9 +102,6 @@ public class MyCenterFragment extends Fragment {
                 }
             }
         });
-
-
-        emptyLayout = view.findViewById(R.id.fragment_my_center_emptyLayout);
     }
 
     private void setData() {
@@ -114,9 +120,18 @@ public class MyCenterFragment extends Fragment {
             emptyLayout.setVisibility(View.VISIBLE);
         }
     }
-    public void notifyRecycler(){
+
+    public void notifyRecycler() {
+        for (int i = (CenterRepository.myPage-1)*15; i <((CenterRepository.myPage-1)*15)+15; i++) {
+            expands.put(i, false);
+        }
+
         adapter.setCenter(((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel.getMy(), expands, "my", ((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel);
+
+        ((CenterActivity) Objects.requireNonNull(getActivity())).loadingMy = false;
         CenterRepository.myPage++;
+
+        pagingProgressBar.setVisibility(View.GONE);
     }
 
 }

@@ -157,7 +157,23 @@ public class CenterWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
-                FileManager.writeObjectToCache(context, successBody, "centers", "my");
+                if (CenterRepository.myPage == 1) {
+                    FileManager.writeObjectToCache(context, successBody, "centers", "my");
+                } else {
+                    JSONObject jsonObject = FileManager.readObjectFromCache(context, "centers", "my");
+                    JSONArray data;
+                    try {
+                        data = jsonObject.getJSONArray("data");
+                        for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
+                            JSONArray jsonArray = successBody.getJSONArray("data");
+                            data.put(jsonArray.getJSONObject(i));
+                        }
+                        jsonObject.put("data", data);
+                        FileManager.writeObjectToCache(context, jsonObject, "centers", "my");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 ExceptionManager.getException(true, bodyResponse.code(), successBody, "my", "center");
                 CenterRepository.workState.postValue(1);

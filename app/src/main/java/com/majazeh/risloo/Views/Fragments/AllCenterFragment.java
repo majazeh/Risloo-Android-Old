@@ -2,10 +2,10 @@ package com.majazeh.risloo.Views.Fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,13 +32,13 @@ public class AllCenterFragment extends Fragment {
     // Vars
     private HashMap<Integer, Boolean> expands;
 
-    private LinearLayoutManager layoutManager;
-
     // Objects
     private Activity activity;
+    private LinearLayoutManager layoutManager;
 
     // Widgets
     private RecyclerView recyclerView;
+    public ProgressBar pagingProgressBar;
 
     public AllCenterFragment(Activity activity) {
         this.activity = activity;
@@ -51,6 +51,8 @@ public class AllCenterFragment extends Fragment {
 
         initializer(view);
 
+        listener();
+
         setData();
 
         return view;
@@ -62,11 +64,16 @@ public class AllCenterFragment extends Fragment {
         adapter = new CenterAdapter(activity);
 
         layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+
         recyclerView = view.findViewById(R.id.fragment_all_center_recyclerView);
         recyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
+        pagingProgressBar = view.findViewById(R.id.fragment_all_center_progressBar);
+    }
+
+    private void listener() {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -79,9 +86,8 @@ public class AllCenterFragment extends Fragment {
 
                     if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
                         try {
-                            Log.e("loading", String.valueOf(CenterActivity.loadingAll));
-                            if (!CenterActivity.loadingAll) {
-                                //pagingProgressBar.setVisibility(View.VISIBLE);
+                            if (!((CenterActivity) Objects.requireNonNull(getActivity())).loadingAll) {
+                                pagingProgressBar.setVisibility(View.VISIBLE);
                                 ((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel.centers();
                                 ((CenterActivity) Objects.requireNonNull(getActivity())).observeWork();
                             }
@@ -104,8 +110,18 @@ public class AllCenterFragment extends Fragment {
             recyclerView.setAdapter(adapter);
         }
     }
+
     public void notifyRecycler(){
+        for (int i = (CenterRepository.allPage-1)*15; i <((CenterRepository.allPage-1)*15)+15; i++) {
+            expands.put(i, false);
+        }
+
         adapter.setCenter(((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel.getAll(), expands, "all", ((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel);
+
+        ((CenterActivity) Objects.requireNonNull(getActivity())).loadingAll = false;
         CenterRepository.allPage++;
+
+        pagingProgressBar.setVisibility(View.GONE);
     }
+
 }

@@ -299,15 +299,6 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 100){
-            changeStatus();
-            finish();
-        }
-    }
-
     private void checkStoragePermission() {
         String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
@@ -341,15 +332,31 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         }
     }
 
-    public void changeStatus() {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 400){
+                changeStatus();
+
+                finish();
+            }
+        }
+    }
+
+    private void changeStatus() {
         try {
             JSONObject jsonObject = viewModel.readSampleFromCache(sampleId);
             JSONObject data = jsonObject.getJSONObject("data");
+
             data.put("status", "sent");
             jsonObject.put("data", data);
+
             FileManager.writeSampleAnswerToCache(this, jsonObject, sampleId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
 }
