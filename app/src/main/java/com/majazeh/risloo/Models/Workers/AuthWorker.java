@@ -587,7 +587,7 @@ public class AuthWorker extends Worker {
                             editor.putString("avatar", medium.getString("url"));
                             editor.apply();
 
-                            FileManager.deleteBitmapFromCache(context, "image");
+                            FileManager.deleteFileFromCache(context, "image");
 
                             ExceptionManager.getException(true, 200, successBody, "avatar", "auth");
                             AuthRepository.workState.postValue(1);
@@ -667,9 +667,11 @@ public class AuthWorker extends Worker {
     }
 
     private void sendDoc() {
+        File attachment = new File(AuthRepository.filePath);
+
         AndroidNetworking.upload("https://bapi.risloo.ir/api/documents")
                 .addHeaders("Authorization", token())
-                .addMultipartFile("attachment", new File(AuthRepository.filePath))
+                .addMultipartFile("attachment", attachment)
                 .addMultipartParameter("title", AuthRepository.fileTitle)
                 .addMultipartParameter("description", AuthRepository.fileDescription)
                 .setPriority(Priority.HIGH)
@@ -680,6 +682,8 @@ public class AuthWorker extends Worker {
                     public void onResponse(JSONObject response) {
                         try {
                             JSONObject successBody = new JSONObject(response.toString());
+
+                            FileManager.deleteFolderFromCache(context, "documents");
 
                             ExceptionManager.getException(true, 200, successBody, "sendDoc", "auth");
                             AuthRepository.workState.postValue(1);
