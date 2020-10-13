@@ -345,8 +345,13 @@
 
     <string name="ArchiveCount">عدد</string>
 
-    <string name="ArchiveSerial">سریال نمونه</string>
-    <string name="ArchiveStatus">وضعیت</string>
+    <string name="ArchiveReference">مراجع</string>
+    <string name="ArchiveCode">کد</string>
+    <string name="ArchiveCase">پرونده</string>
+    <string name="ArchiveRoom">اتاق درمان</string>
+
+    <string name="ArchiveStatusOpen">باز شده</string>
+    <string name="ArchiveStatusNotSent">ارسال نشده</string>
 
     <string name="ArchiveContinue">تکمیل نمونه</string>
     <string name="ArchiveDelete">پاک کردن</string>

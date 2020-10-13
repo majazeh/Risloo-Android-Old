@@ -46,6 +46,14 @@ public class IntentCaller {
         activity.startActivityForResult(intent, 300);
     }
 
+    public void sendTo(Activity activity, String number, String name, String value) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("smsto:" + number));
+        intent.putExtra(name, value);
+
+        activity.startActivityForResult(intent, 400);
+    }
+
     public void mediaScan(Activity activity, File file) {
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         intent.setData(Uri.fromFile(file));
@@ -67,14 +75,6 @@ public class IntentCaller {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         context.startActivity(intent);
-    }
-
-    public void sendSMS(Activity activity, String number, String name, String value) {
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("smsto:" + number));
-        intent.putExtra(name, value);
-
-        activity.startActivityForResult(intent, 100);
     }
 
     public void email(Context context, String[] emails, String subject, String message, String chooser) {

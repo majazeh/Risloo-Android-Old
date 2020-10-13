@@ -65,6 +65,150 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:layoutDirection="rtl"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/single_item_archive_reference_linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layoutDirection="rtl">
+
+                    <ImageView
+                        android:id="@+id/single_item_archive_reference_hint_imageView"
+                        android:layout_width="@dimen/_9sdp"
+                        android:layout_height="@dimen/_9sdp"
+                        android:layout_marginLeft="@dimen/_4sdp"
+                        android:layout_gravity="center"
+                        app:tint="@color/Mischka" />
+
+                    <TextView
+                        android:id="@+id/single_item_archive_reference_hint_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|right"
+                        android:textSize="@dimen/_9ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Mischka"
+                        android:textAlignment="gravity" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/single_item_archive_reference_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|right"
+                    android:textSize="@dimen/_9ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Grey"
+                    android:textAlignment="gravity" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/single_item_archive_case_linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layoutDirection="rtl">
+
+                    <ImageView
+                        android:layout_width="@dimen/_9sdp"
+                        android:layout_height="@dimen/_9sdp"
+                        android:layout_marginLeft="@dimen/_4sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_case_light"
+                        app:tint="@color/Mischka" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|right"
+                        android:text="@string/ArchiveCase"
+                        android:textSize="@dimen/_9ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Mischka"
+                        android:textAlignment="gravity" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/single_item_archive_case_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|right"
+                    android:textSize="@dimen/_9ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Grey"
+                    android:textAlignment="gravity" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/single_item_archive_room_linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layoutDirection="rtl">
+
+                    <ImageView
+                        android:layout_width="@dimen/_9sdp"
+                        android:layout_height="@dimen/_9sdp"
+                        android:layout_marginLeft="@dimen/_4sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_hospital_light"
+                        app:tint="@color/Mischka" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|right"
+                        android:text="@string/ArchiveRoom"
+                        android:textSize="@dimen/_9ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Mischka"
+                        android:textAlignment="gravity" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/single_item_archive_room_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|right"
+                    android:textSize="@dimen/_9ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Grey"
+                    android:textAlignment="gravity" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_12sdp"
             android:layoutDirection="ltr"
             android:padding="@dimen/_4sdp"

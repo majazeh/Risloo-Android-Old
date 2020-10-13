@@ -608,17 +608,25 @@ public class SampleRepository extends MainRepository {
             for (int i = 0; i < list.length; i++) {
                 if (readSampleAnswerFromCache(list[i].getName()) != null) {
                     JSONObject sample = readSampleFromCache(list[i].getName());
-
-                    JSONObject jsonObject = new JSONObject();
                     try {
-                        jsonObject.put("serial", list[i].getName());
-                        jsonObject.put("status", sample.getJSONObject("data").getString("status"));
-                        jsonObject.put("title", sample.getJSONObject("data").getJSONObject("scale").getString("title"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        arrayList.add(new Model(jsonObject));
+                        if (sample.getJSONObject("data").getString("status").equals("open")) {
+                            JSONObject jsonObject = new JSONObject();
+                            if (!sample.getJSONObject("data").isNull("id"))
+                                jsonObject.put("id", sample.getJSONObject("data").getString("id"));
+                            if (!sample.getJSONObject("data").isNull("status"))
+                                jsonObject.put("status", sample.getJSONObject("data").getString("status"));
+                            if (!sample.getJSONObject("data").isNull("scale"))
+                                jsonObject.put("scale", sample.getJSONObject("data").getJSONObject("scale"));
+                            if (!sample.getJSONObject("data").isNull("client"))
+                                jsonObject.put("client", sample.getJSONObject("data").getJSONObject("client"));
+                            if (!sample.getJSONObject("data").isNull("code"))
+                                jsonObject.put("code", sample.getJSONObject("data").getString("code"));
+                            if (!sample.getJSONObject("data").isNull("case"))
+                                jsonObject.put("case", sample.getJSONObject("data").getJSONObject("case"));
+                            if (!sample.getJSONObject("data").isNull("room"))
+                                jsonObject.put("room", sample.getJSONObject("data").getJSONObject("room"));
+                            arrayList.add(new Model(jsonObject));
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

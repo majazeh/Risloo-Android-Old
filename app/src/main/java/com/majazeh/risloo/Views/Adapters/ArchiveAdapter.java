@@ -29,6 +29,7 @@ import com.majazeh.risloo.R;
 import com.majazeh.risloo.Views.Activities.SampleActivity;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -76,16 +77,66 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
                 holder.continueTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
             }
 
-            holder.scaleTextView.setText(model.get("title").toString());
-            holder.serialTextView.setText(model.get("serial").toString());
+            holder.serialTextView.setText(model.get("id").toString());
 
-//            switch ((String) model.get("status")) {
-//                case "ناقص":
-                    holder.statusTextView.setText(model.get("status").toString());
-                    holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.MoonYellow));
-                    ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.MoonYellow));
-//                    break;
-//            }
+            if (!model.attributes.isNull("scale")) {
+                JSONObject scale = (JSONObject) model.get("scale");
+
+                holder.scaleTextView.setText(scale.get("title").toString());
+
+                switch ((String) model.get("status")) {
+                    case "open":
+                        holder.statusTextView.setText(activity.getResources().getString(R.string.ArchiveStatusOpen));
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
+
+                        break;
+                    case "notSent":
+                        holder.statusTextView.setText(activity.getResources().getString(R.string.ArchiveStatusNotSent));
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.MoonYellow));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.MoonYellow));
+                        break;
+                    default:
+                        holder.statusTextView.setText(model.get("status").toString());
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Mischka));
+
+                        holder.continueTextView.setVisibility(View.INVISIBLE);
+                        break;
+                }
+            }
+
+            if (!model.attributes.isNull("client")) {
+                JSONObject client = (JSONObject) model.get("client");
+
+                holder.referenceHintTextView.setText(activity.getResources().getString(R.string.ArchiveReference));
+                holder.referenceHintImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_user_light));
+                holder.referenceTextView.setText(client.get("name").toString());
+            } else if (!model.attributes.isNull("code")){
+                holder.referenceHintTextView.setText(activity.getResources().getString(R.string.ArchiveCode));
+                holder.referenceHintImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_hashtag_light));
+                holder.referenceTextView.setText(model.get("code").toString());
+            } else {
+                holder.referenceLinearLayout.setVisibility(View.GONE);
+            }
+
+            if (!model.attributes.isNull("case")) {
+                JSONObject Case = (JSONObject) model.get("case");
+
+                holder.caseTextView.setText(Case.get("name").toString());
+            } else {
+                holder.caseLinearLayout.setVisibility(View.GONE);
+            }
+
+            if (!model.attributes.isNull("room")) {
+                JSONObject room = (JSONObject) model.get("room");
+                JSONObject center = (JSONObject) room.get("center");
+                JSONObject detail = (JSONObject) center.get("detail");
+
+                holder.roomTextView.setText(detail.get("title").toString());
+            } else {
+                holder.roomLinearLayout.setVisibility(View.GONE);
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -182,10 +233,10 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
 
     private void doWork(int position) {
         try {
-            editor.putString("sampleId", archives.get(position).get("serial").toString());
+            editor.putString("sampleId", archives.get(position).get("id").toString());
             editor.apply();
 
-            activity.startActivity(new Intent(activity, SampleActivity.class));
+            activity.startActivityForResult(new Intent(activity, SampleActivity.class),100);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -194,9 +245,9 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
     public class ArchiveHolder extends RecyclerView.ViewHolder {
 
         public FrameLayout backGroundView;
-        public LinearLayout foreGroundView;
-        public TextView scaleTextView, serialTextView, statusTextView, continueTextView;
-        public ImageView statusImageView;
+        public LinearLayout foreGroundView, referenceLinearLayout, caseLinearLayout, roomLinearLayout;
+        public TextView scaleTextView, serialTextView, statusTextView, continueTextView, referenceHintTextView, referenceTextView, caseTextView, roomTextView;
+        public ImageView statusImageView, referenceHintImageView;
 
         public ArchiveHolder(View view) {
             super(view);
@@ -207,6 +258,14 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
             statusTextView = view.findViewById(R.id.single_item_archive_status_textView);
             statusImageView = view.findViewById(R.id.single_item_archive_status_imageView);
             continueTextView = view.findViewById(R.id.single_item_archive_continue_textView);
+            referenceHintTextView = view.findViewById(R.id.single_item_archive_reference_hint_textView);
+            referenceHintImageView = view.findViewById(R.id.single_item_archive_reference_hint_imageView);
+            referenceTextView = view.findViewById(R.id.single_item_archive_reference_textView);
+            caseTextView = view.findViewById(R.id.single_item_archive_case_textView);
+            roomTextView = view.findViewById(R.id.single_item_archive_room_textView);
+            referenceLinearLayout = view.findViewById(R.id.single_item_archive_reference_linearLayout);
+            caseLinearLayout = view.findViewById(R.id.single_item_archive_case_linearLayout);
+            roomLinearLayout = view.findViewById(R.id.single_item_archive_room_linearLayout);
         }
     }
 

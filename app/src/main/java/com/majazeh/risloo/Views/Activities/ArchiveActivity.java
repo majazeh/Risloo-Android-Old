@@ -1,5 +1,6 @@
 package com.majazeh.risloo.Views.Activities;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -58,6 +60,8 @@ public class ArchiveActivity extends AppCompatActivity implements ItemHelper.Rec
         initializer();
 
         listener();
+
+        setData();
     }
 
     private void decorator() {
@@ -69,9 +73,6 @@ public class ArchiveActivity extends AppCompatActivity implements ItemHelper.Rec
         viewModel = new ViewModelProvider(this).get(SampleViewModel.class);
 
         adapter = new ArchiveAdapter(this);
-        if (hasArchive()) {
-            adapter.setArchive(viewModel.getArchive());
-        }
 
         handler = new Handler();
 
@@ -87,15 +88,11 @@ public class ArchiveActivity extends AppCompatActivity implements ItemHelper.Rec
         toolbar = findViewById(R.id.activity_archive_toolbar);
 
         countTextView = findViewById(R.id.activity_archive_count_textView);
-        if (hasArchive()) {
-            countTextView.setText(viewModel.getArchive().size() + " " + getResources().getString(R.string.ArchiveCount));
-        }
 
         archiveRecyclerView = findViewById(R.id.activity_archive_recyclerView);
         archiveRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
         archiveRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         archiveRecyclerView.setHasFixedSize(true);
-        archiveRecyclerView.setAdapter(adapter);
 
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(archiveRecyclerView);
@@ -108,16 +105,29 @@ public class ArchiveActivity extends AppCompatActivity implements ItemHelper.Rec
         });
     }
 
+    private void setData() {
+        if (hasArchive()) {
+            countTextView.setText(viewModel.getArchive().size() + " " + getResources().getString(R.string.ArchiveCount));
+
+            adapter.setArchive(viewModel.getArchive());
+            archiveRecyclerView.setAdapter(adapter);
+        } else {
+            finish();
+        }
+    }
+
     private boolean hasArchive() {
         return viewModel.getArchive() != null;
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        if (!hasArchive()) {
-            finish();
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 100) {
+                setData();
+            }
         }
     }
 

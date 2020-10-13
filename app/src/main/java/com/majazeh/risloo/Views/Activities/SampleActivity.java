@@ -613,6 +613,7 @@ public class SampleActivity extends AppCompatActivity {
                         }
                     }
                 }else if (integer == -3){
+                    setResult(RESULT_OK, null);
                     finish();
                     Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                 }
