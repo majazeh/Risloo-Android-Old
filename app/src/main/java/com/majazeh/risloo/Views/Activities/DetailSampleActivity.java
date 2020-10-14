@@ -70,7 +70,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
     // Widgets
     private Toolbar toolbar;
-    private TextView retryTextView, scaleTextView, serialTextView, statusTextView, referenceHintTextView, referenceTextView, caseTextView, roomTextView, scoreTextView, closeTextView, generalTextView, prerequisiteTextView, testTextView;
+    private TextView retryTextView, scaleTextView, serialTextView, statusTextView, referenceHintTextView, referenceTextView, caseTextView, roomTextView, actionTextView, generalTextView, prerequisiteTextView, testTextView;
     private ImageView retryImageView, statusImageView, referenceHintImageView, downloadImageView;
     private SquareImageView resultSquareImageView;
     private CheckBox editCheckbox;
@@ -127,8 +127,7 @@ public class DetailSampleActivity extends AppCompatActivity {
         referenceTextView = findViewById(R.id.activity_detail_sample_reference_textView);
         caseTextView = findViewById(R.id.activity_detail_sample_case_textView);
         roomTextView = findViewById(R.id.activity_detail_sample_room_textView);
-        scoreTextView = findViewById(R.id.activity_detail_sample_score_textView);
-        closeTextView = findViewById(R.id.activity_detail_sample_close_textView);
+        actionTextView = findViewById(R.id.activity_detail_sample_action_textView);
         generalTextView = findViewById(R.id.activity_detail_sample_general_textView);
         prerequisiteTextView = findViewById(R.id.activity_detail_sample_prerequisite_textView);
         testTextView = findViewById(R.id.activity_detail_sample_test_textView);
@@ -224,20 +223,20 @@ public class DetailSampleActivity extends AppCompatActivity {
             }
         });
 
-        scoreTextView.setOnClickListener(v -> {
-            statusTextView.setText(getResources().getString(R.string.DetailSampleStatusScoring));
-            statusTextView.setTextColor(getResources().getColor(R.color.MoonYellow));
-            ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
+        actionTextView.setOnClickListener(v -> {
+            if (actionTextView.getText().toString().equals(getResources().getString(R.string.DetailSampleClose))) {
+                setButton(actionTextView, false);
 
-            setButton(scoreTextView, false);
+                doWork("close");
+            } else if (actionTextView.getText().toString().equals(getResources().getString(R.string.DetailSampleScore))) {
+                statusTextView.setText(getResources().getString(R.string.DetailSampleStatusScoring));
+                statusTextView.setTextColor(getResources().getColor(R.color.MoonYellow));
+                ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
 
-            doWork("score");
-        });
+                setButton(actionTextView, false);
 
-        closeTextView.setOnClickListener(v -> {
-            setButton(closeTextView, false);
-
-            doWork("close");
+                doWork("score");
+            }
         });
     }
 
@@ -287,8 +286,8 @@ public class DetailSampleActivity extends AppCompatActivity {
                         statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
                         ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
 
-                        setButton(scoreTextView, false);
-                        setButton(closeTextView, true);
+                        actionTextView.setText(getResources().getString(R.string.DetailSampleClose));
+                        setButton(actionTextView, true);
 
                         showLoading = false;
                         break;
@@ -297,8 +296,8 @@ public class DetailSampleActivity extends AppCompatActivity {
                         statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
                         ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
 
-                        setButton(scoreTextView, false);
-                        setButton(closeTextView, true);
+                        actionTextView.setText(getResources().getString(R.string.DetailSampleClose));
+                        setButton(actionTextView, true);
 
                         showLoading = false;
                         break;
@@ -307,8 +306,8 @@ public class DetailSampleActivity extends AppCompatActivity {
                         statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
                         ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
 
-                        setButton(scoreTextView, true);
-                        setButton(closeTextView, false);
+                        actionTextView.setText(getResources().getString(R.string.DetailSampleScore));
+                        setButton(actionTextView, true);
 
                         showLoading = false;
                         break;
@@ -317,8 +316,7 @@ public class DetailSampleActivity extends AppCompatActivity {
                         statusTextView.setTextColor(getResources().getColor(R.color.MoonYellow));
                         ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
 
-                        setButton(scoreTextView, false);
-                        setButton(closeTextView, false);
+                        actionTextView.setVisibility(View.INVISIBLE);
 
                         showLoading = true;
                         break;
@@ -327,8 +325,7 @@ public class DetailSampleActivity extends AppCompatActivity {
                         statusTextView.setTextColor(getResources().getColor(R.color.MoonYellow));
                         ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
 
-                        setButton(scoreTextView, false);
-                        setButton(closeTextView, false);
+                        actionTextView.setVisibility(View.INVISIBLE);
 
                         showLoading = true;
                         break;
@@ -337,8 +334,7 @@ public class DetailSampleActivity extends AppCompatActivity {
                         statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
                         ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Mischka));
 
-                        setButton(scoreTextView, false);
-                        setButton(closeTextView, false);
+                        actionTextView.setVisibility(View.INVISIBLE);
 
                         if (viewModel.getSvgScore(sampleId) != null) {
                             svgUrl = viewModel.getSvgScore(sampleId);
@@ -371,8 +367,7 @@ public class DetailSampleActivity extends AppCompatActivity {
                         statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
                         ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Mischka));
 
-                        setButton(scoreTextView, false);
-                        setButton(closeTextView, false);
+                        actionTextView.setVisibility(View.INVISIBLE);
 
                         if (viewModel.getSvgScore(sampleId) != null) {
                             svgUrl = viewModel.getSvgScore(sampleId);
@@ -559,7 +554,8 @@ public class DetailSampleActivity extends AppCompatActivity {
                         statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
                         ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
 
-                        setButton(scoreTextView, true);
+                        actionTextView.setText(getResources().getString(R.string.DetailSampleScore));
+                        setButton(actionTextView, true);
 
                         loadingCardView.setVisibility(View.GONE);
                         loadingCardView.setAnimation(animFadeOut);
@@ -575,7 +571,8 @@ public class DetailSampleActivity extends AppCompatActivity {
                         statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
                         ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
 
-                        setButton(scoreTextView, true);
+                        actionTextView.setText(getResources().getString(R.string.DetailSampleScore));
+                        setButton(actionTextView, true);
 
                         loadingCardView.setVisibility(View.GONE);
                         loadingCardView.setAnimation(animFadeOut);
@@ -586,7 +583,8 @@ public class DetailSampleActivity extends AppCompatActivity {
                         statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
                         ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
 
-                        setButton(scoreTextView, true);
+                        actionTextView.setText(getResources().getString(R.string.DetailSampleScore));
+                        setButton(actionTextView, true);
 
                         loadingCardView.setVisibility(View.GONE);
                         loadingCardView.setAnimation(animFadeOut);
@@ -612,13 +610,15 @@ public class DetailSampleActivity extends AppCompatActivity {
                         Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer == 0) {
-                        setButton(closeTextView, true);
+                        actionTextView.setText(getResources().getString(R.string.DetailSampleClose));
+                        setButton(actionTextView, true);
 
                         progressDialog.dismiss();
                         Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
-                        setButton(closeTextView, true);
+                        actionTextView.setText(getResources().getString(R.string.DetailSampleClose));
+                        setButton(actionTextView, true);
 
                         progressDialog.dismiss();
                         Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();

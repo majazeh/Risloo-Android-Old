@@ -247,33 +247,15 @@
                                     android:background="@drawable/draw_8sdp_solid_primary5p">
 
                                     <TextView
-                                        android:id="@+id/activity_detail_sample_score_textView"
+                                        android:id="@+id/activity_detail_sample_action_textView"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:layout_marginRight="@dimen/_2sdp"
                                         android:paddingTop="@dimen/_3sdp"
                                         android:paddingBottom="@dimen/_3sdp"
                                         android:paddingLeft="@dimen/_8sdp"
                                         android:paddingRight="@dimen/_8sdp"
                                         android:gravity="center"
-                                        android:text="@string/DetailSampleScore"
-                                        android:textSize="@dimen/_9ssp"
-                                        android:textStyle="bold"
-                                        android:textAlignment="gravity" />
-
-                                    <TextView
-                                        android:id="@+id/activity_detail_sample_close_textView"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:layout_marginLeft="@dimen/_2sdp"
-                                        android:paddingTop="@dimen/_3sdp"
-                                        android:paddingBottom="@dimen/_3sdp"
-                                        android:paddingLeft="@dimen/_8sdp"
-                                        android:paddingRight="@dimen/_8sdp"
-                                        android:gravity="center"
-                                        android:text="@string/DetailSampleClose"
                                         android:textSize="@dimen/_9ssp"
                                         android:textStyle="bold"
                                         android:textAlignment="gravity" />
