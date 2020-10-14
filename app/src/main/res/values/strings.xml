@@ -351,7 +351,6 @@
     <string name="ArchiveRoom">اتاق درمان</string>
 
     <string name="ArchiveStatusOpen">باز شده</string>
-    <string name="ArchiveStatusNotSent">ارسال نشده</string>
 
     <string name="ArchiveContinue">تکمیل نمونه</string>
     <string name="ArchiveDelete">پاک کردن</string>

@@ -65,6 +65,7 @@ public class SampleActivity extends AppCompatActivity {
 
     // Vars
     public String sampleId = "";
+    private boolean showPreByAnswer = false;
 
     // Objects
     private Handler handler;
@@ -120,6 +121,8 @@ public class SampleActivity extends AppCompatActivity {
         editor.apply();
 
         sampleId = sharedPreferences.getString("sampleId", "");
+
+        showPreByAnswer = viewModel.answeredSize(sampleId) == 0;
 
         animSlideIn = AnimationUtils.loadAnimation(this, R.anim.slide_in_top);
         animSlideOut = AnimationUtils.loadAnimation(this, R.anim.slide_out_top);
@@ -418,8 +421,9 @@ public class SampleActivity extends AppCompatActivity {
             if (SampleRepository.work.equals("getSingle")) {
                 if (integer == 1) {
                     if (viewModel.hasPrerequisiteAnswerStorage(sampleId)) {
-                        if (viewModel.checkPrerequisiteAnswerStorage(sampleId)) {
+                        if (viewModel.checkPrerequisiteAnswerStorage(sampleId) || showPreByAnswer) {
                             // Show Description
+                            showPreByAnswer = false;
 
                             SampleRepository.theory = "description";
                             showFragment();

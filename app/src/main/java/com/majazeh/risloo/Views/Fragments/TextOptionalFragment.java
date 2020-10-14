@@ -66,7 +66,12 @@ public class TextOptionalFragment extends Fragment {
         answerRecyclerView.setAdapter(adapter);
 
         try {
-            questionTextView.setText(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getItem(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getIndex()).get("text").toString());
+            if (!((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getItem(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getIndex()).get("text").toString().equals("null")) {
+                questionTextView.setVisibility(View.VISIBLE);
+                questionTextView.setText(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getItem(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getIndex()).get("text").toString());
+            } else {
+                questionTextView.setVisibility(View.GONE);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

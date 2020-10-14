@@ -91,11 +91,6 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
                         ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
 
                         break;
-                    case "notSent":
-                        holder.statusTextView.setText(activity.getResources().getString(R.string.ArchiveStatusNotSent));
-                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.MoonYellow));
-                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.MoonYellow));
-                        break;
                     default:
                         holder.statusTextView.setText(model.get("status").toString());
                         holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
