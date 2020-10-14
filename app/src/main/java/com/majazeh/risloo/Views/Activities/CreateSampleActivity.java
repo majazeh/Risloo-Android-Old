@@ -923,58 +923,54 @@ public class CreateSampleActivity extends AppCompatActivity {
 
     private void observeException() {
         if (ExceptionManager.exception.equals("create")) {
-            try {
-                String exceptionToast = "";
+            String exceptionToast = "";
 
-                if (!ExceptionManager.errors.isNull("scale_id")) {
-                    errorException("scale");
-                    exceptionToast = ExceptionManager.errors.getString("scale_id");
-                }
-                if (!ExceptionManager.errors.isNull("room_id")) {
-                    errorException("room");
-                    if (exceptionToast.equals("")) {
-                        exceptionToast = ExceptionManager.errors.getString("room_id");
-                    } else {
-                        exceptionToast += (" و " + ExceptionManager.errors.getString("room_id"));
-                    }
-                }
-                if (!ExceptionManager.errors.isNull("case_id")) {
-                    errorException("case");
-                    if (exceptionToast.equals("")) {
-                        exceptionToast = ExceptionManager.errors.getString("case_id");
-                    } else {
-                        exceptionToast += (" و " + ExceptionManager.errors.getString("case_id"));
-                    }
-                }
-                if (!ExceptionManager.errors.isNull("client_id")) {
-                    if (typeTabLayout.getSelectedTabPosition() == 0) {
-                        errorException("roomReference");
-                        if (exceptionToast.equals("")) {
-                            exceptionToast = ExceptionManager.errors.getString("client_id");
-                        } else {
-                            exceptionToast += (" و " + ExceptionManager.errors.getString("client_id"));
-                        }
-                    } else if (typeTabLayout.getSelectedTabPosition() == 1) {
-                        errorException("caseReference");
-                        if (exceptionToast.equals("")) {
-                            exceptionToast = ExceptionManager.errors.getString("client_id");
-                        } else {
-                            exceptionToast += (" و " + ExceptionManager.errors.getString("client_id"));
-                        }
-                    }
-                }
-                if (!ExceptionManager.errors.isNull("count")) {
-                    countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    if (exceptionToast.equals("")) {
-                        exceptionToast = ExceptionManager.errors.getString("count");
-                    } else {
-                        exceptionToast += (" و " + ExceptionManager.errors.getString("count"));
-                    }
-                }
-                Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (!ExceptionManager.errors.isNull("scale_id")) {
+                errorException("scale");
+                exceptionToast = ExceptionManager.getErrorBody("scale_id");
             }
+            if (!ExceptionManager.errors.isNull("room_id")) {
+                errorException("room");
+                if (exceptionToast.equals("")) {
+                    exceptionToast = ExceptionManager.getErrorBody("room_id");
+                } else {
+                    exceptionToast += (" و " + ExceptionManager.getErrorBody("room_id"));
+                }
+            }
+            if (!ExceptionManager.errors.isNull("case_id")) {
+                errorException("case");
+                if (exceptionToast.equals("")) {
+                    exceptionToast = ExceptionManager.getErrorBody("case_id");
+                } else {
+                    exceptionToast += (" و " + ExceptionManager.getErrorBody("case_id"));
+                }
+            }
+            if (!ExceptionManager.errors.isNull("client_id")) {
+                if (typeTabLayout.getSelectedTabPosition() == 0) {
+                    errorException("roomReference");
+                    if (exceptionToast.equals("")) {
+                        exceptionToast = ExceptionManager.getErrorBody("client_id");
+                    } else {
+                        exceptionToast += (" و " + ExceptionManager.getErrorBody("client_id"));
+                    }
+                } else if (typeTabLayout.getSelectedTabPosition() == 1) {
+                    errorException("caseReference");
+                    if (exceptionToast.equals("")) {
+                        exceptionToast = ExceptionManager.getErrorBody("client_id");
+                    } else {
+                        exceptionToast += (" و " + ExceptionManager.getErrorBody("client_id"));
+                    }
+                }
+            }
+            if (!ExceptionManager.errors.isNull("count")) {
+                countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                if (exceptionToast.equals("")) {
+                    exceptionToast = ExceptionManager.getErrorBody("count");
+                } else {
+                    exceptionToast += (" و " + ExceptionManager.getErrorBody("count"));
+                }
+            }
+            Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
         }
     }
 

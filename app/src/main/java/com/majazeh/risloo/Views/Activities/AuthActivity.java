@@ -329,25 +329,17 @@ public class AuthActivity extends AppCompatActivity {
                 if (AuthRepository.theory.equals("auth")) {
                     SerialFragment serialFragment = ((SerialFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
                     if (serialFragment != null) {
-                        try {
-                            if (!ExceptionManager.errors.isNull("authorized_key")) {
-                                serialFragment.serialEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                                Toast.makeText(this, ExceptionManager.errors.getString("authorized_key"), Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        if (!ExceptionManager.errors.isNull("authorized_key")) {
+                            serialFragment.serialEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                            Toast.makeText(this, ExceptionManager.getErrorBody("authorized_key"), Toast.LENGTH_SHORT).show();
                         }
                     }
                 } else if (AuthRepository.theory.equals("mobile")) {
                     MobileFragment mobileFragment = ((MobileFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
                     if (mobileFragment != null) {
-                        try {
-                            if (!ExceptionManager.errors.isNull("authorized_key")) {
-                                mobileFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                                Toast.makeText(this, ExceptionManager.errors.getString("authorized_key"), Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        if (!ExceptionManager.errors.isNull("authorized_key")) {
+                            mobileFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                            Toast.makeText(this, ExceptionManager.getErrorBody("authorized_key"), Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -356,25 +348,17 @@ public class AuthActivity extends AppCompatActivity {
                 if (AuthRepository.theory.equals("password")) {
                     PasswordFragment passwordFragment = ((PasswordFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
                     if (passwordFragment != null) {
-                        try {
-                            if (!ExceptionManager.errors.isNull("password")) {
-                                passwordFragment.passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                                Toast.makeText(this, ExceptionManager.errors.getString("password"), Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        if (!ExceptionManager.errors.isNull("password")) {
+                            passwordFragment.passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                            Toast.makeText(this, ExceptionManager.getErrorBody("password"), Toast.LENGTH_SHORT).show();
                         }
                     }
                 } else if (AuthRepository.theory.equals("pin")) {
                     PinFragment pinFragment = ((PinFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
                     if (pinFragment != null) {
-                        try {
-                            if (!ExceptionManager.errors.isNull("code")) {
-                                pinFragment.pinEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                                Toast.makeText(this, ExceptionManager.errors.getString("code"), Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        if (!ExceptionManager.errors.isNull("code")) {
+                            pinFragment.pinEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                            Toast.makeText(this, ExceptionManager.getErrorBody("code"), Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -382,66 +366,54 @@ public class AuthActivity extends AppCompatActivity {
             case "register":
                 RegisterFragment registerFragment = ((RegisterFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
                 if (registerFragment != null) {
-                    try {
-                        String exceptionToast = "";
+                    String exceptionToast = "";
 
-                        if (!ExceptionManager.errors.isNull("name")) {
-                            registerFragment.nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            exceptionToast = ExceptionManager.errors.getString("name");
-                        }
-                        if (!ExceptionManager.errors.isNull("mobile")) {
-                            registerFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            if (exceptionToast.equals("")) {
-                                exceptionToast = ExceptionManager.errors.getString("mobile");
-                            } else {
-                                exceptionToast += (" و " + ExceptionManager.errors.getString("mobile"));
-                            }
-                        }
-                        if (!ExceptionManager.errors.isNull("gender")) {
-                            errorException();
-                            if (exceptionToast.equals("")) {
-                                exceptionToast = ExceptionManager.errors.getString("gender");
-                            } else {
-                                exceptionToast += (" و " + ExceptionManager.errors.getString("gender"));
-                            }
-                        }
-                        if (!ExceptionManager.errors.isNull("password")) {
-                            registerFragment.passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            if (exceptionToast.equals("")) {
-                                exceptionToast = ExceptionManager.errors.getString("password");
-                            } else {
-                                exceptionToast += (" و " + ExceptionManager.errors.getString("password"));
-                            }
-                        }
-                        Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    if (!ExceptionManager.errors.isNull("name")) {
+                        registerFragment.nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                        exceptionToast = ExceptionManager.getErrorBody("name");
                     }
+                    if (!ExceptionManager.errors.isNull("mobile")) {
+                        registerFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                        if (exceptionToast.equals("")) {
+                            exceptionToast = ExceptionManager.getErrorBody("mobile");
+                        } else {
+                            exceptionToast += (" و " + ExceptionManager.getErrorBody("mobile"));
+                        }
+                    }
+                    if (!ExceptionManager.errors.isNull("gender")) {
+                        errorException();
+                        if (exceptionToast.equals("")) {
+                            exceptionToast = ExceptionManager.getErrorBody("gender");
+                        } else {
+                            exceptionToast += (" و " + ExceptionManager.getErrorBody("gender"));
+                        }
+                    }
+                    if (!ExceptionManager.errors.isNull("password")) {
+                        registerFragment.passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                        if (exceptionToast.equals("")) {
+                            exceptionToast = ExceptionManager.getErrorBody("password");
+                        } else {
+                            exceptionToast += (" و " + ExceptionManager.getErrorBody("password"));
+                        }
+                    }
+                    Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
                 }
                 break;
             case "verification":
                 PinFragment pinFragment = ((PinFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
                 if (pinFragment != null) {
-                    try {
-                        if (!ExceptionManager.errors.isNull("mobile")) {
-                            pinFragment.pinEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, ExceptionManager.errors.getString("mobile"), Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    if (!ExceptionManager.errors.isNull("mobile")) {
+                        pinFragment.pinEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                        Toast.makeText(this, ExceptionManager.getErrorBody("mobile"), Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
             case "recovery":
                 MobileFragment mobileFragment = ((MobileFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
                 if (mobileFragment != null) {
-                    try {
-                        if (!ExceptionManager.errors.isNull("username")) {
-                            mobileFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, ExceptionManager.errors.getString("username"), Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    if (!ExceptionManager.errors.isNull("username")) {
+                        mobileFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                        Toast.makeText(this, ExceptionManager.getErrorBody("username"), Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;

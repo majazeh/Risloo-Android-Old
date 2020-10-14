@@ -315,33 +315,29 @@ public class SendDocActivity extends AppCompatActivity {
 
     private void observeException() {
         if (ExceptionManager.exception.equals("sendDoc")) {
-            try {
-                String exceptionToast = "";
+            String exceptionToast = "";
 
-                if (!ExceptionManager.errors.isNull("title")) {
-                    titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    exceptionToast = ExceptionManager.errors.getString("title");
-                }
-                if (!ExceptionManager.errors.isNull("description")) {
-                    descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    if (exceptionToast.equals("")) {
-                        exceptionToast = ExceptionManager.errors.getString("description");
-                    } else {
-                        exceptionToast += (" و " + ExceptionManager.errors.getString("description"));
-                    }
-                }
-                if (!ExceptionManager.errors.isNull("attachment")) {
-                    errorException();
-                    if (exceptionToast.equals("")) {
-                        exceptionToast = ExceptionManager.errors.getString("attachment");
-                    } else {
-                        exceptionToast += (" و " + ExceptionManager.errors.getString("attachment"));
-                    }
-                }
-                Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (!ExceptionManager.errors.isNull("title")) {
+                titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                exceptionToast = ExceptionManager.getErrorBody("title");
             }
+            if (!ExceptionManager.errors.isNull("description")) {
+                descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                if (exceptionToast.equals("")) {
+                    exceptionToast = ExceptionManager.getErrorBody("description");
+                } else {
+                    exceptionToast += (" و " + ExceptionManager.getErrorBody("description"));
+                }
+            }
+            if (!ExceptionManager.errors.isNull("attachment")) {
+                errorException();
+                if (exceptionToast.equals("")) {
+                    exceptionToast = ExceptionManager.getErrorBody("attachment");
+                } else {
+                    exceptionToast += (" و " + ExceptionManager.getErrorBody("attachment"));
+                }
+            }
+            Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
         }
     }
 

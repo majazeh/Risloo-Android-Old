@@ -294,33 +294,29 @@ public class CallUsActivity extends AppCompatActivity {
 
     private void observeException() {
         if (ExceptionManager.exception.equals("callUs")) {
-            try {
-                String exceptionToast = "";
+            String exceptionToast = "";
 
-                if (!ExceptionManager.errors.isNull("name")) {
-                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    exceptionToast = ExceptionManager.errors.getString("name");
-                }
-                if (!ExceptionManager.errors.isNull("mobile")) {
-                    mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    if (exceptionToast.equals("")) {
-                        exceptionToast = ExceptionManager.errors.getString("mobile");
-                    } else {
-                        exceptionToast += (" و " + ExceptionManager.errors.getString("mobile"));
-                    }
-                }
-                if (!ExceptionManager.errors.isNull("message")) {
-                    messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    if (exceptionToast.equals("")) {
-                        exceptionToast = ExceptionManager.errors.getString("message");
-                    } else {
-                        exceptionToast += (" و " + ExceptionManager.errors.getString("message"));
-                    }
-                }
-                Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (!ExceptionManager.errors.isNull("name")) {
+                nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                exceptionToast = ExceptionManager.getErrorBody("name");
             }
+            if (!ExceptionManager.errors.isNull("mobile")) {
+                mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                if (exceptionToast.equals("")) {
+                    exceptionToast = ExceptionManager.getErrorBody("mobile");
+                } else {
+                    exceptionToast += (" و " + ExceptionManager.getErrorBody("mobile"));
+                }
+            }
+            if (!ExceptionManager.errors.isNull("message")) {
+                messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                if (exceptionToast.equals("")) {
+                    exceptionToast = ExceptionManager.getErrorBody("message");
+                } else {
+                    exceptionToast += (" و " + ExceptionManager.getErrorBody("message"));
+                }
+            }
+            Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
         }
     }
 

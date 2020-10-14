@@ -775,65 +775,61 @@ public class CreateCenterActivity extends AppCompatActivity {
 
     private void observeException() {
         if (ExceptionManager.exception.equals("create")) {
-            try {
-                String exceptionToast = "";
+            String exceptionToast = "";
 
-                if (!ExceptionManager.errors.isNull("type")) {
-                    errorException("type");
-                    exceptionToast = ExceptionManager.errors.getString("type");
-                }
-                if (!ExceptionManager.errors.isNull("manager_id")) {
-                    errorException("manager");
-                    if (exceptionToast.equals("")) {
-                        exceptionToast = ExceptionManager.errors.getString("manager_id");
-                    } else {
-                        exceptionToast += (" و " + ExceptionManager.errors.getString("manager_id"));
-                    }
-                }
-                if (!ExceptionManager.errors.isNull("title")) {
-                    titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    if (exceptionToast.equals("")) {
-                        exceptionToast = ExceptionManager.errors.getString("title");
-                    } else {
-                        exceptionToast += (" و " + ExceptionManager.errors.getString("title"));
-                    }
-                }
-                if (!ExceptionManager.errors.isNull("avatar")) {
-                    errorException("avatar");
-                    if (exceptionToast.equals("")) {
-                        exceptionToast = ExceptionManager.errors.getString("avatar");
-                    } else {
-                        exceptionToast += (" و " + ExceptionManager.errors.getString("avatar"));
-                    }
-                }
-                if (!ExceptionManager.errors.isNull("description")) {
-                    descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    if (exceptionToast.equals("")) {
-                        exceptionToast = ExceptionManager.errors.getString("description");
-                    } else {
-                        exceptionToast += (" و " + ExceptionManager.errors.getString("description"));
-                    }
-                }
-                if (!ExceptionManager.errors.isNull("address")) {
-                    addressEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    if (exceptionToast.equals("")) {
-                        exceptionToast = ExceptionManager.errors.getString("address");
-                    } else {
-                        exceptionToast += (" و " + ExceptionManager.errors.getString("address"));
-                    }
-                }
-                if (!ExceptionManager.errors.isNull("phone_numbers")) {
-                    errorException("phone");
-                    if (exceptionToast.equals("")) {
-                        exceptionToast = ExceptionManager.errors.getString("phone_numbers");
-                    } else {
-                        exceptionToast += (" و " + ExceptionManager.errors.getString("phone_numbers"));
-                    }
-                }
-                Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (!ExceptionManager.errors.isNull("type")) {
+                errorException("type");
+                exceptionToast = ExceptionManager.getErrorBody("type");
             }
+            if (!ExceptionManager.errors.isNull("manager_id")) {
+                errorException("manager");
+                if (exceptionToast.equals("")) {
+                    exceptionToast = ExceptionManager.getErrorBody("manager_id");
+                } else {
+                    exceptionToast += (" و " + ExceptionManager.getErrorBody("manager_id"));
+                }
+            }
+            if (!ExceptionManager.errors.isNull("title")) {
+                titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                if (exceptionToast.equals("")) {
+                    exceptionToast = ExceptionManager.getErrorBody("title");
+                } else {
+                    exceptionToast += (" و " + ExceptionManager.getErrorBody("title"));
+                }
+            }
+            if (!ExceptionManager.errors.isNull("avatar")) {
+                errorException("avatar");
+                if (exceptionToast.equals("")) {
+                    exceptionToast = ExceptionManager.getErrorBody("avatar");
+                } else {
+                    exceptionToast += (" و " + ExceptionManager.getErrorBody("avatar"));
+                }
+            }
+            if (!ExceptionManager.errors.isNull("description")) {
+                descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                if (exceptionToast.equals("")) {
+                    exceptionToast = ExceptionManager.getErrorBody("description");
+                } else {
+                    exceptionToast += (" و " + ExceptionManager.getErrorBody("description"));
+                }
+            }
+            if (!ExceptionManager.errors.isNull("address")) {
+                addressEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                if (exceptionToast.equals("")) {
+                    exceptionToast = ExceptionManager.getErrorBody("address");
+                } else {
+                    exceptionToast += (" و " + ExceptionManager.getErrorBody("address"));
+                }
+            }
+            if (!ExceptionManager.errors.isNull("phone_numbers")) {
+                errorException("phone");
+                if (exceptionToast.equals("")) {
+                    exceptionToast = ExceptionManager.getErrorBody("phone_numbers");
+                } else {
+                    exceptionToast += (" و " + ExceptionManager.getErrorBody("phone_numbers"));
+                }
+            }
+            Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
         }
     }
 

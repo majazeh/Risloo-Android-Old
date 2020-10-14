@@ -479,33 +479,29 @@ public class EditAccountActivity extends AppCompatActivity {
 
     private void observeException() {
         if (ExceptionManager.exception.equals("edit")) {
-            try {
-                String exceptionToast = "";
+            String exceptionToast = "";
 
-                if (!ExceptionManager.errors.isNull("name")) {
-                    nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                    exceptionToast = ExceptionManager.errors.getString("name");
-                }
-                if (!ExceptionManager.errors.isNull("gender")) {
-                    errorException("gender");
-                    if (exceptionToast.equals("")) {
-                        exceptionToast = ExceptionManager.errors.getString("gender");
-                    } else {
-                        exceptionToast += (" و " + ExceptionManager.errors.getString("gender"));
-                    }
-                }
-                if (!ExceptionManager.errors.isNull("birthday")) {
-                    errorException("birthday");
-                    if (exceptionToast.equals("")) {
-                        exceptionToast = ExceptionManager.errors.getString("birthday");
-                    } else {
-                        exceptionToast += (" و " + ExceptionManager.errors.getString("birthday"));
-                    }
-                }
-                Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (!ExceptionManager.errors.isNull("name")) {
+                nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                exceptionToast = ExceptionManager.getErrorBody("name");
             }
+            if (!ExceptionManager.errors.isNull("gender")) {
+                errorException("gender");
+                if (exceptionToast.equals("")) {
+                    exceptionToast = ExceptionManager.getErrorBody("gender");
+                } else {
+                    exceptionToast += (" و " + ExceptionManager.getErrorBody("gender"));
+                }
+            }
+            if (!ExceptionManager.errors.isNull("birthday")) {
+                errorException("birthday");
+                if (exceptionToast.equals("")) {
+                    exceptionToast = ExceptionManager.getErrorBody("birthday");
+                } else {
+                    exceptionToast += (" و " + ExceptionManager.getErrorBody("birthday"));
+                }
+            }
+            Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
         }
     }
 

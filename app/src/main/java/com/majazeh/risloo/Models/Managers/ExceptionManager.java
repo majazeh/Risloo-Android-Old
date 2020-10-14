@@ -1,5 +1,6 @@
 package com.majazeh.risloo.Models.Managers;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -175,6 +176,22 @@ public class ExceptionManager {
                     break;
             }
         }
+    }
+
+    public static String getErrorBody(String type){
+        String exception = "";
+        try {
+            JSONArray data=errors.getJSONArray(type);
+            for (int i = 0; i < data.length(); i++) {
+                exception += data.get(i).toString();
+                if (i>0){
+                    exception += " و ";
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return exception;
     }
 
 }
