@@ -95,14 +95,6 @@
                     android:layout_marginBottom="@dimen/_8sdp"
                     android:background="@drawable/draw_16sdp_border_quartz">
 
-                    <Spinner
-                        android:id="@+id/activity_create_center_manager_spinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:singleLine="true"
-                        android:spinnerMode="dropdown"
-                        android:background="@null"/>
-
                     <TextView
                         android:id="@+id/activity_create_center_manager_textView"
                         android:layout_width="match_parent"

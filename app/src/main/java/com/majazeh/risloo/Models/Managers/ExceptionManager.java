@@ -179,19 +179,19 @@ public class ExceptionManager {
     }
 
     public static String getErrorBody(String type){
-        String exception = "";
+        StringBuilder exception = new StringBuilder();
         try {
             JSONArray data=errors.getJSONArray(type);
             for (int i = 0; i < data.length(); i++) {
-                exception += data.get(i).toString();
-                if (i>0){
-                    exception += " و ";
+                exception.append(data.get(i).toString());
+                if (i>0) {
+                    exception.append(" و ");
                 }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return exception;
+        return exception.toString();
     }
 
 }

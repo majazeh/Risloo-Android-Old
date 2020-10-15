@@ -35,7 +35,7 @@
         <EditText
             android:id="@+id/dialog_phone_editText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_36sdp"
             android:layout_marginBottom="@dimen/_12sdp"
             android:paddingTop="@dimen/_8sdp"
             android:paddingBottom="@dimen/_8sdp"

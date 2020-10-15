@@ -8,6 +8,8 @@
 
     <string name="ApiKey">ای پی آی کی</string>
 
+    <string name="AppSearch">جست و جو</string>
+
     <string name="AppLoading">در حال بارگذاری …</string>
     <string name="AppError">مشکل ارتباط با سرور! تلاش مجدد</string>
     <string name="AppConnection">انترنت وصل نیست! تلاش مجدد</string>
@@ -185,7 +187,7 @@
     <string name="SamplesStart">شروع نمونه</string>
 
     <string name="SamplesStartDialogTitle">شروع نمونه؟</string>
-    <string name="SamplesStartDialogDescription">با شروع نمونه شما می توانید ان را به پایان برسانید ویا در صورت موکول دادن آن به بعدن می توانید از قسمت بایگانی نمونه ها آن را ادامه دهید.</string>
+    <string name="SamplesStartDialogDescription">با شروع نمونه شما می توانید آن را به پایان برسانید ویا در صورت موکول دادن آن به بعدا می توانید از قسمت بایگانی نمونه ها آن را ادامه دهید.</string>
     <string name="SamplesStartDialogPositive">شروع نمونه</string>
     <string name="SamplesStartDialogNegative">بستن</string>
 

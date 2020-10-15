@@ -487,7 +487,7 @@ public class AuthWorker extends Worker {
                 else
                     editor.putString("birthday", "");
 
-                if (data.has("avatar")) {
+                if (data.has("avatar") && !data.isNull("avatar") && data.getJSONArray("avatar").length() != 0) {
                     JSONObject avatar = data.getJSONObject("avatar");
                     JSONObject medium = avatar.getJSONObject("medium");
 
