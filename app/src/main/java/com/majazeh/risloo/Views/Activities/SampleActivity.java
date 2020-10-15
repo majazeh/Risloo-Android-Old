@@ -21,7 +21,6 @@ import android.os.Handler;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -235,7 +234,7 @@ public class SampleActivity extends AppCompatActivity {
             handler.postDelayed(() -> closeDialogPositive.setClickable(true), 300);
             closeDialog.dismiss();
 
-            launchProcess("closeSample");
+            launchProcess("sendAnswers");
         });
 
         cancelDialogPositive.setOnClickListener(v -> {
@@ -384,7 +383,7 @@ public class SampleActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 break;
-            case "closeSample":
+            case "sendAnswers":
                 try {
                     progressDialog.show();
                     viewModel.sendAnswers(sampleId);
@@ -630,10 +629,6 @@ public class SampleActivity extends AppCompatActivity {
             } else if (SampleRepository.work.equals("close")) {
                 if (integer == 1) {
                     setResult(RESULT_OK, null);
-//                    Intent intent = (new Intent(this, OutroActivity.class));
-//                    intent.putExtra("sampleId", sampleId);
-//
-//                    startActivity(intent);
                     finish();
 
                     progressDialog.dismiss();
@@ -670,7 +665,7 @@ public class SampleActivity extends AppCompatActivity {
                     Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
                 }
-            }else if (SampleRepository.work.equals("sendAnswers")){
+            } else if (SampleRepository.work.equals("sendAnswers")) {
                 if (integer == 1){
                     try {
                         viewModel.close(sampleId);
@@ -679,19 +674,19 @@ public class SampleActivity extends AppCompatActivity {
                     }
                     observeWorkSample();
                 }else if (integer == -2){
-                    progressDialog.dismiss();
                     Intent intent = (new Intent(this, OutroActivity.class));
                     intent.putExtra("sampleId", sampleId);
 
                     startActivity(intent);
                     finish();
 
+                    progressDialog.dismiss();
                     SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
+                }
             }
-                }
             if (integer != -1){
-                    SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
-                }
+                SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
+            }
         });
     }
 

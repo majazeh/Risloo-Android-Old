@@ -2,7 +2,6 @@ package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
-import com.majazeh.risloo.Views.Activities.OutroActivity;
 import com.majazeh.risloo.Views.Activities.SampleActivity;
 
 import org.json.JSONArray;
@@ -157,8 +155,8 @@ public class OptionalAdapter extends RecyclerView.Adapter<OptionalAdapter.Option
 
             viewModel.insertToLocal(viewModel.getIndex(), position + 1);
             viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
-            ((SampleActivity) Objects.requireNonNull(activity)).showFragment();
 
+            ((SampleActivity) Objects.requireNonNull(activity)).showFragment();
         } catch (JSONException e) {
             e.printStackTrace();
         }

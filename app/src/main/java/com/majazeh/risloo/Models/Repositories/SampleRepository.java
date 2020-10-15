@@ -131,7 +131,6 @@ public class SampleRepository extends MainRepository {
     public void sendAnswers(String sampleId) throws JSONException {
         if (isNetworkConnected(application.getApplicationContext())) {
             if (SampleRepository.cache) {
-
                 localData.clear();
                 JSONArray jsonArray = readSampleAnswerFromCache(sampleId);
                 for (int i = 0; i < readSampleAnswerFromCache(sampleId).length(); i++) {
@@ -166,29 +165,26 @@ public class SampleRepository extends MainRepository {
         }
     }
 
-    public void sendAllAnswers(String sampleId) {
+    public void sendAllAnswers(String sampleId) throws JSONException {
         JSONArray jsonArray = readSampleAnswerFromCache(sampleId);
-            try {
         for (int i = 0; i < readSampleAnswerFromCache(sampleId).length(); i++) {
-                if (!jsonArray.getJSONObject(i).getString("index").equals("")) {
-                    if (!jsonArray.getJSONObject(i).getString("answer").equals("")) {
-                        ArrayList arrayList = new ArrayList<Integer>();
+            if (!jsonArray.getJSONObject(i).getString("index").equals("")) {
+                if (!jsonArray.getJSONObject(i).getString("answer").equals("")) {
+                    ArrayList arrayList = new ArrayList<Integer>();
 
-                        arrayList.add(jsonArray.getJSONObject(i).getString("index"));
-                        arrayList.add(jsonArray.getJSONObject(i).getString("answer"));
+                    arrayList.add(jsonArray.getJSONObject(i).getString("index"));
+                    arrayList.add(jsonArray.getJSONObject(i).getString("answer"));
 
-                        remoteData.add(arrayList);
-                    }
+                    remoteData.add(arrayList);
                 }
-        }
-                SampleRepository.sampleId = sampleId;
-                work = "sendAnswers";
-                workStateAnswer.setValue(-1);
-                workManager("sendAnswers");
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+        }
 
+        SampleRepository.sampleId = sampleId;
+
+        work = "sendAnswers";
+        workStateAnswer.setValue(-1);
+        workManager("sendAnswers");
     }
 
     public void sendPrerequisite(String sampleId, ArrayList prerequisites) throws JSONException {
@@ -675,7 +671,6 @@ public class SampleRepository extends MainRepository {
 
     private void workManager(String work) throws JSONException {
         if (isNetworkConnected(application.getApplicationContext())) {
-
             Constraints constraints = new Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build();
