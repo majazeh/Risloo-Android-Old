@@ -41,6 +41,9 @@ public class SampleViewModel extends AndroidViewModel {
     public void sendAnswers(String sampleId) throws JSONException {
         repository.sendAnswers(sampleId);
     }
+    public void sendAllAnswers(String sampleId){
+        repository.sendAllAnswers(sampleId);
+    }
 
     public void sendPrerequisite(String sampleId, ArrayList prerequisites) throws JSONException {
         repository.sendPrerequisite(sampleId, prerequisites);

@@ -17,6 +17,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -210,15 +211,11 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
     }
 
     private void sendViaInternet() {
-        try {
-            //SampleRepository.cache = true;
+        //SampleRepository.cache = true;
 
-            progressDialog.show();
-            viewModel.sendAnswers(sampleId);
-            observeWorkAnswer();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        progressDialog.show();
+        viewModel.sendAllAnswers(sampleId);
+        observeWorkAnswer();
     }
 
     private void sendViaSMS() {

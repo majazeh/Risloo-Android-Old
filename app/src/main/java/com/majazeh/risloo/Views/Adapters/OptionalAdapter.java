@@ -147,16 +147,18 @@ public class OptionalAdapter extends RecyclerView.Adapter<OptionalAdapter.Option
                     viewModel.insertToLocal(viewModel.getIndex() + 1, position + 1);
                     viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
 
+                    ((SampleActivity) Objects.requireNonNull(activity)).setProgress();
+
                     ((SampleActivity) Objects.requireNonNull(activity)).closeDialog.show();
                     return;
                 }
                 viewModel.setIndex(viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")));
             }
 
-            ((SampleActivity) Objects.requireNonNull(activity)).showFragment();
-
             viewModel.insertToLocal(viewModel.getIndex(), position + 1);
             viewModel.sendAnswers(sharedPreferences.getString("sampleId", ""));
+            ((SampleActivity) Objects.requireNonNull(activity)).showFragment();
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

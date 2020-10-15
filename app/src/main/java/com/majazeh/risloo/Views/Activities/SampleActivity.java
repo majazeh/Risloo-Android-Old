@@ -21,6 +21,7 @@ import android.os.Handler;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -337,7 +338,7 @@ public class SampleActivity extends AppCompatActivity {
         }
     }
 
-    private void setProgress() {
+    public void setProgress() {
         switch (SampleRepository.theory) {
             case "description":
             case "prerequisite":
@@ -386,8 +387,8 @@ public class SampleActivity extends AppCompatActivity {
             case "closeSample":
                 try {
                     progressDialog.show();
-                    viewModel.close(sampleId);
-                    observeWorkSample();
+                    viewModel.sendAnswers(sampleId);
+                    observeWorkAnswer();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -629,11 +630,10 @@ public class SampleActivity extends AppCompatActivity {
             } else if (SampleRepository.work.equals("close")) {
                 if (integer == 1) {
                     setResult(RESULT_OK, null);
-
-                    Intent intent = (new Intent(this, OutroActivity.class));
-                    intent.putExtra("sampleId", sampleId);
-
-                    startActivity(intent);
+//                    Intent intent = (new Intent(this, OutroActivity.class));
+//                    intent.putExtra("sampleId", sampleId);
+//
+//                    startActivity(intent);
                     finish();
 
                     progressDialog.dismiss();
@@ -670,7 +670,28 @@ public class SampleActivity extends AppCompatActivity {
                     Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
                 }
+            }else if (SampleRepository.work.equals("sendAnswers")){
+                if (integer == 1){
+                    try {
+                        viewModel.close(sampleId);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    observeWorkSample();
+                }else if (integer == -2){
+                    progressDialog.dismiss();
+                    Intent intent = (new Intent(this, OutroActivity.class));
+                    intent.putExtra("sampleId", sampleId);
+
+                    startActivity(intent);
+                    finish();
+
+                    SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
             }
+                }
+            if (integer != -1){
+                    SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
+                }
         });
     }
 
