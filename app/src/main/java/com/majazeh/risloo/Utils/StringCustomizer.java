@@ -77,6 +77,18 @@ public class StringCustomizer {
         }
     }
 
+    public static String substring(String value, char character) {
+        int position = 0;
+
+        for(int i=0; i<value.length(); i++) {
+            if (value.charAt(i) == character) {
+                position = i;
+            }
+        }
+
+        return value.substring(position + 1);
+    }
+
     public static String separate(String value) {
         DecimalFormat decimalFormat = new DecimalFormat("#,###,###");
         return decimalFormat.format(Double.parseDouble(value));

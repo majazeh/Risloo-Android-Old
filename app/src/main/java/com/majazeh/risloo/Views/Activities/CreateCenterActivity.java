@@ -78,6 +78,7 @@ public class CreateCenterActivity extends AppCompatActivity {
     private SpinnerAdapter phoneAdapter;
 
     // Vars
+    private int managerPosition = -1;
     private String type = "personal_clinic", manager = "", title = "", description = "", address = "";
     private String imageFilePath = "";
     private boolean typeException = false, managerException = false, avatarException = false, phoneException =false;
@@ -577,7 +578,7 @@ public class CreateCenterActivity extends AppCompatActivity {
             phoneAdapter.setValue(arrayList, type);
             recyclerView.setAdapter(phoneAdapter);
         } else {
-            searchAdapter.setValue(arrayList, type);
+            searchAdapter.setValue(arrayList, managerPosition,  type);
             recyclerView.setAdapter(searchAdapter);
         }
     }
@@ -715,7 +716,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                 case "getPersonalClinic":
                     if (integer == 1) {
                         searchDialog.show();
-                        setRecyclerView(CenterRepository.personalClinic, searchDialogRecyclerView, CenterRepository.work);
+                        setRecyclerView(CenterRepository.personalClinic, searchDialogRecyclerView, "createCenter");
 
                         managerProgressBar.setVisibility(View.GONE);
                         managerImageView.setVisibility(View.VISIBLE);
@@ -738,7 +739,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                 case "getCounselingCenter":
                     if (integer == 1) {
                         searchDialog.show();
-                        setRecyclerView(CenterRepository.counselingCenter, searchDialogRecyclerView, CenterRepository.work);
+                        setRecyclerView(CenterRepository.counselingCenter, searchDialogRecyclerView, "createCenter");
 
                         managerProgressBar.setVisibility(View.GONE);
                         managerImageView.setVisibility(View.VISIBLE);

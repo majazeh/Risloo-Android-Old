@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Views.Activities.CreateCenterActivity;
+import com.majazeh.risloo.Views.Activities.EditCenterActivity;
 
 import org.json.JSONException;
 
@@ -23,7 +24,7 @@ import java.util.Objects;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHolder> {
 
     // Vars
-    private int position = -1;
+    private int position;
     private String type;
     private ArrayList<Model> values;
 
@@ -71,8 +72,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
             position = i;
 
-            if (type.equals("getPersonalClinic") || type.equals("getCounselingCenter")) {
+            if (type.equals("createCenter")) {
                 ((CreateCenterActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), position);
+            } else if (type.equals("editCenter")){
+                ((EditCenterActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), position);
             }
 
             notifyDataSetChanged();
@@ -88,10 +91,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
         handler = new Handler();
     }
 
-    public void setValue(ArrayList<Model> values, String type) {
-        position = -1;
-
+    public void setValue(ArrayList<Model> values, int position, String type) {
         this.values = values;
+        this.position = position;
         this.type = type;
         notifyDataSetChanged();
     }

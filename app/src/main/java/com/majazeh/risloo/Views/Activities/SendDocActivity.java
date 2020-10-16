@@ -37,6 +37,7 @@ import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.InputHandler;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.PathProvider;
+import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 
@@ -230,27 +231,13 @@ public class SendDocActivity extends AppCompatActivity {
     }
 
     private void setFileWidgetsUi(String fileName) {
-        int slashPosition = 0;
-        int dotPosition = 0;
-
-        for(int i=0; i<fileName.length(); i++) {
-            if (fileName.charAt(i) == '/') {
-                slashPosition = i;
-            } else if (fileName.charAt(i) == '.') {
-                dotPosition = i;
-            }
-        }
-
-        String title = fileName.substring(slashPosition + 1);
-        String suffix = fileName.substring(dotPosition + 1);
-
-        attachmentTextView.setText(title);
+        attachmentTextView.setText(StringCustomizer.substring(fileName, '/'));
         attachmentTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         attachmentImageView.setVisibility(View.GONE);
         suffixTextView.setVisibility(View.VISIBLE);
 
-        switch (suffix) {
+        switch (StringCustomizer.substring(fileName, '.')) {
             case "png":
                 suffixTextView.setText(getResources().getString(R.string.SendDocSuffixPNG));
                 break;
@@ -273,7 +260,7 @@ public class SendDocActivity extends AppCompatActivity {
                 suffixTextView.setText(getResources().getString(R.string.SendDocSuffixMP4));
                 break;
             default:
-                suffixTextView.setText(suffix);
+                suffixTextView.setText(StringCustomizer.substring(fileName, '.'));
                 break;
         }
     }
