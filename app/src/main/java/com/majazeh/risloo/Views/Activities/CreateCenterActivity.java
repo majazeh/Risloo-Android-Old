@@ -74,7 +74,7 @@ public class CreateCenterActivity extends AppCompatActivity {
     private CenterViewModel viewModel;
 
     // Adapters
-    private SearchAdapter searchAdapter;
+    private SearchAdapter managerAdapter;
     private SpinnerAdapter phoneAdapter;
 
     // Vars
@@ -95,14 +95,14 @@ public class CreateCenterActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout typeTabLayout;
     public TextView managerTextView, selectTextView, avatarTextView, phoneTextView, phoneDialogPositive, phoneDialogNegative;
-    private EditText titleEditText, descriptionEditText, addressEditText, searchDialogEditText, phoneDialogEditText;
-    private RecyclerView phoneRecyclerView, searchDialogRecyclerView;
+    private EditText titleEditText, descriptionEditText, addressEditText, managerDialogEditText, phoneDialogEditText;
+    private RecyclerView phoneRecyclerView, managerDialogRecyclerView;
     private ProgressBar managerProgressBar;
     private ImageView managerImageView, phoneImageView;
     private LinearLayout avatarLinearLayout, phoneLinearLayout;
     private FrameLayout managerFrameLayout;
     private Button createButton;
-    private Dialog searchDialog, phoneDialog, progressDialog;
+    private Dialog managerDialog, phoneDialog, progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +127,7 @@ public class CreateCenterActivity extends AppCompatActivity {
     private void initializer() {
         viewModel = new ViewModelProvider(this).get(CenterViewModel.class);
 
-        searchAdapter = new SearchAdapter(this);
+        managerAdapter = new SearchAdapter(this);
         phoneAdapter = new SpinnerAdapter(this);
 
         handler = new Handler();
@@ -143,9 +143,9 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         typeTabLayout = findViewById(R.id.activity_create_center_type_tabLayout);
 
+        managerTextView = findViewById(R.id.activity_create_center_manager_textView);
         selectTextView = findViewById(R.id.activity_create_center_select_textView);
         avatarTextView = findViewById(R.id.activity_create_center_avatar_textView);
-        managerTextView = findViewById(R.id.activity_create_center_manager_textView);
         phoneTextView = findViewById(R.id.activity_create_center_phone_textView);
 
         titleEditText = findViewById(R.id.activity_create_center_title_editText);
@@ -169,11 +169,11 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         createButton = findViewById(R.id.activity_create_center_button);
 
-        searchDialog = new Dialog(this, R.style.DialogTheme);
-        Objects.requireNonNull(searchDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
-        searchDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        searchDialog.setContentView(R.layout.dialog_search);
-        searchDialog.setCancelable(true);
+        managerDialog = new Dialog(this, R.style.DialogTheme);
+        Objects.requireNonNull(managerDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+        managerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        managerDialog.setContentView(R.layout.dialog_search);
+        managerDialog.setCancelable(true);
         phoneDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(phoneDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         phoneDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -185,24 +185,24 @@ public class CreateCenterActivity extends AppCompatActivity {
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
 
-        WindowManager.LayoutParams layoutParams1 = new WindowManager.LayoutParams();
-        layoutParams1.copyFrom(searchDialog.getWindow().getAttributes());
-        layoutParams1.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams1.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        searchDialog.getWindow().setAttributes(layoutParams1);
-        WindowManager.LayoutParams layoutParams2 = new WindowManager.LayoutParams();
-        layoutParams2.copyFrom(phoneDialog.getWindow().getAttributes());
-        layoutParams2.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams2.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        phoneDialog.getWindow().setAttributes(layoutParams2);
+        WindowManager.LayoutParams layoutParamsManager = new WindowManager.LayoutParams();
+        layoutParamsManager.copyFrom(managerDialog.getWindow().getAttributes());
+        layoutParamsManager.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsManager.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        managerDialog.getWindow().setAttributes(layoutParamsManager);
+        WindowManager.LayoutParams layoutParamsPhone = new WindowManager.LayoutParams();
+        layoutParamsPhone.copyFrom(phoneDialog.getWindow().getAttributes());
+        layoutParamsPhone.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsPhone.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        phoneDialog.getWindow().setAttributes(layoutParamsPhone);
 
-        searchDialogEditText = searchDialog.findViewById(R.id.dialog_search_editText);
+        managerDialogEditText = managerDialog.findViewById(R.id.dialog_search_editText);
         phoneDialogEditText = phoneDialog.findViewById(R.id.dialog_phone_editText);
 
-        searchDialogRecyclerView = searchDialog.findViewById(R.id.dialog_search_recyclerView);
-        searchDialogRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
-        searchDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        searchDialogRecyclerView.setHasFixedSize(true);
+        managerDialogRecyclerView = managerDialog.findViewById(R.id.dialog_search_recyclerView);
+        managerDialogRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
+        managerDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        managerDialogRecyclerView.setHasFixedSize(true);
 
         phoneDialogPositive = phoneDialog.findViewById(R.id.dialog_phone_positive_textView);
         phoneDialogNegative = phoneDialog.findViewById(R.id.dialog_phone_negative_textView);
@@ -262,7 +262,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                         if (CenterRepository.counselingCenter.size() != 0) {
                             manager = "";
                             CenterRepository.counselingCenter.clear();
-                            searchDialogRecyclerView.setAdapter(null);
+                            managerDialogRecyclerView.setAdapter(null);
                             managerTextView.setText(getResources().getString(R.string.CreateCenterManager));
                             managerTextView.setTextColor(getResources().getColor(R.color.Mischka));
                         }
@@ -291,7 +291,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                         if (CenterRepository.personalClinic.size() != 0) {
                             manager = "";
                             CenterRepository.personalClinic.clear();
-                            searchDialogRecyclerView.setAdapter(null);
+                            managerDialogRecyclerView.setAdapter(null);
                             managerTextView.setText(getResources().getString(R.string.CreateCenterManager));
                             managerTextView.setTextColor(getResources().getColor(R.color.Mischka));
                         }
@@ -312,6 +312,9 @@ public class CreateCenterActivity extends AppCompatActivity {
         });
 
         managerTextView.setOnClickListener(v -> {
+            managerTextView.setClickable(false);
+            handler.postDelayed(() -> managerTextView.setClickable(true), 300);
+
             if (managerException) {
                 clearException("manager");
             }
@@ -324,13 +327,13 @@ public class CreateCenterActivity extends AppCompatActivity {
                 if (CenterRepository.personalClinic.size() == 0) {
                     getData("getPersonalClinic");
                 } else {
-                    searchDialog.show();
+                    managerDialog.show();
                 }
             } else {
                 if (CenterRepository.counselingCenter.size() == 0) {
                     getData("getCounselingCenter");
                 } else {
-                    searchDialog.show();
+                    managerDialog.show();
                 }
             }
         });
@@ -347,37 +350,6 @@ public class CreateCenterActivity extends AppCompatActivity {
                 }
             }
             return false;
-        });
-
-        selectTextView.setOnClickListener(v -> {
-            selectTextView.setClickable(false);
-            handler.postDelayed(() -> selectTextView.setClickable(true), 300);
-
-            if (avatarException) {
-                clearException("avatar");
-            }
-
-            imageDialog.show(this.getSupportFragmentManager(), "imageBottomSheet");
-        });
-
-        avatarTextView.setOnClickListener(v -> {
-            avatarTextView.setClickable(false);
-            handler.postDelayed(() -> avatarTextView.setClickable(true), 300);
-
-            if (selectedBitmap != null) {
-                Intent intent = (new Intent(this, ImageActivity.class));
-
-                intent.putExtra("title", "");
-                intent.putExtra("bitmap", true);
-                if (imageFilePath.equals("")) {
-                    intent.putExtra("path", "");
-                } else {
-                    intent.putExtra("path", imageFilePath);
-                }
-                FileManager.writeBitmapToCache(this, selectedBitmap, "image");
-
-                startActivity(intent);
-            }
         });
 
         descriptionEditText.setOnTouchListener((v, event) -> {
@@ -406,6 +378,45 @@ public class CreateCenterActivity extends AppCompatActivity {
                 }
             }
             return false;
+        });
+
+        selectTextView.setOnClickListener(v -> {
+            selectTextView.setClickable(false);
+            handler.postDelayed(() -> selectTextView.setClickable(true), 300);
+
+            if (avatarException) {
+                clearException("avatar");
+            }
+
+            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                inputHandler.clear(this, inputHandler.getInput());
+            }
+
+            imageDialog.show(this.getSupportFragmentManager(), "imageBottomSheet");
+        });
+
+        avatarTextView.setOnClickListener(v -> {
+            avatarTextView.setClickable(false);
+            handler.postDelayed(() -> avatarTextView.setClickable(true), 300);
+
+            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                inputHandler.clear(this, inputHandler.getInput());
+            }
+
+            if (selectedBitmap != null) {
+                Intent intent = (new Intent(this, ImageActivity.class));
+
+                intent.putExtra("title", "");
+                intent.putExtra("bitmap", true);
+                if (imageFilePath.equals("")) {
+                    intent.putExtra("path", "");
+                } else {
+                    intent.putExtra("path", imageFilePath);
+                }
+                FileManager.writeBitmapToCache(this, selectedBitmap, "image");
+
+                startActivity(intent);
+            }
         });
 
         createButton.setOnClickListener(v -> {
@@ -464,21 +475,21 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         });
 
-        searchDialogEditText.setOnTouchListener((v, event) -> {
+        managerDialogEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                if (!searchDialogEditText.hasFocus()) {
+                if (!managerDialogEditText.hasFocus()) {
                     if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
                         inputHandler.clear(this, inputHandler.getInput());
                     }
 
-                    inputHandler.focus(searchDialogEditText);
-                    inputHandler.select(searchDialogEditText);
+                    inputHandler.focus(managerDialogEditText);
+                    inputHandler.select(managerDialogEditText);
                 }
             }
             return false;
         });
 
-        searchDialogEditText.addTextChangedListener(new TextWatcher() {
+        managerDialogEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -498,16 +509,22 @@ public class CreateCenterActivity extends AppCompatActivity {
             }
         });
 
-        searchDialog.setOnCancelListener(dialog -> {
-            searchDialog.dismiss();
-
+        managerDialog.setOnCancelListener(dialog -> {
             if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
                 inputHandler.clear(this, inputHandler.getInput());
                 inputHandler.getInput().getText().clear();
             }
+
+            managerDialog.dismiss();
         });
 
-        phoneImageView.setOnClickListener(v -> phoneDialog.show());
+        phoneImageView.setOnClickListener(v -> {
+            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                inputHandler.clear(this, inputHandler.getInput());
+            }
+
+            phoneDialog.show();
+        });
 
         phoneDialogEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
@@ -541,12 +558,12 @@ public class CreateCenterActivity extends AppCompatActivity {
                     phoneTextView.setVisibility(View.GONE);
                 }
 
-                phoneDialog.dismiss();
-
                 if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
                     inputHandler.clear(this, inputHandler.getInput());
                     inputHandler.getInput().getText().clear();
                 }
+
+                phoneDialog.dismiss();
             } else {
                 errorView("phone");
             }
@@ -555,31 +572,32 @@ public class CreateCenterActivity extends AppCompatActivity {
         phoneDialogNegative.setOnClickListener(v -> {
             phoneDialogNegative.setClickable(false);
             handler.postDelayed(() -> phoneDialogNegative.setClickable(true), 300);
-            phoneDialog.dismiss();
 
             if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
                 inputHandler.clear(this, inputHandler.getInput());
                 inputHandler.getInput().getText().clear();
             }
+
+            phoneDialog.dismiss();
         });
 
         phoneDialog.setOnCancelListener(dialog -> {
-            phoneDialog.dismiss();
-
             if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
                 inputHandler.clear(this, inputHandler.getInput());
                 inputHandler.getInput().getText().clear();
             }
+
+            phoneDialog.dismiss();
         });
     }
 
-    private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String type) {
-        if ("phoneCreate".equals(type)) {
-            phoneAdapter.setValue(arrayList, type);
+    private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
+        if (method.equals("phoneCreate")) {
+            phoneAdapter.setValue(arrayList, method);
             recyclerView.setAdapter(phoneAdapter);
-        } else {
-            searchAdapter.setValue(arrayList, managerPosition,  type);
-            recyclerView.setAdapter(searchAdapter);
+        } else if (method.equals("getPersonalClinic") || method.equals("getCounselingCenter")) {
+            managerAdapter.setValue(arrayList, managerPosition, method, "CreateCenter");
+            recyclerView.setAdapter(managerAdapter);
         }
     }
 
@@ -715,8 +733,8 @@ public class CreateCenterActivity extends AppCompatActivity {
                     break;
                 case "getPersonalClinic":
                     if (integer == 1) {
-                        searchDialog.show();
-                        setRecyclerView(CenterRepository.personalClinic, searchDialogRecyclerView, "createCenter");
+                        managerDialog.show();
+                        setRecyclerView(CenterRepository.personalClinic, managerDialogRecyclerView, CenterRepository.work);
 
                         managerProgressBar.setVisibility(View.GONE);
                         managerImageView.setVisibility(View.VISIBLE);
@@ -738,8 +756,8 @@ public class CreateCenterActivity extends AppCompatActivity {
                     break;
                 case "getCounselingCenter":
                     if (integer == 1) {
-                        searchDialog.show();
-                        setRecyclerView(CenterRepository.counselingCenter, searchDialogRecyclerView, "createCenter");
+                        managerDialog.show();
+                        setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, CenterRepository.work);
 
                         managerProgressBar.setVisibility(View.GONE);
                         managerImageView.setVisibility(View.VISIBLE);
@@ -823,23 +841,23 @@ public class CreateCenterActivity extends AppCompatActivity {
         }
     }
 
-    public void observeSearchAdapter(String title, int position) {
+    public void observeSearchAdapter(String value, int position, String method) {
         try {
-            if (type.equals("personal_clinic")) {
+            if (method.equals("getPersonalClinic")) {
                 manager = String.valueOf(CenterRepository.personalClinic.get(position).get("id"));
-            } else {
+            } else if (method.equals("getCounselingCenter")) {
                 manager = String.valueOf(CenterRepository.counselingCenter.get(position).get("id"));
             }
 
-            managerTextView.setText(title);
+            managerTextView.setText(value);
             managerTextView.setTextColor(getResources().getColor(R.color.Grey));
-
-            searchDialog.dismiss();
 
             if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
                 inputHandler.clear(this, inputHandler.getInput());
                 inputHandler.getInput().getText().clear();
             }
+
+            managerDialog.dismiss();
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -25,7 +25,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
     // Vars
     private int position;
-    private String type;
+    private String method, theory;
     private ArrayList<Model> values;
 
     // Objects
@@ -72,10 +72,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
             position = i;
 
-            if (type.equals("createCenter")) {
-                ((CreateCenterActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), position);
-            } else if (type.equals("editCenter")){
-                ((EditCenterActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), position);
+            if (theory.equals("CreateCenter")) {
+                ((CreateCenterActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), position, method);
+            } else if (theory.equals("EditCenter")) {
+                ((EditCenterActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), position, method);
             }
 
             notifyDataSetChanged();
@@ -91,10 +91,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
         handler = new Handler();
     }
 
-    public void setValue(ArrayList<Model> values, int position, String type) {
+    public void setValue(ArrayList<Model> values, int position, String method, String theory) {
         this.values = values;
         this.position = position;
-        this.type = type;
+        this.method = method;
+        this.theory = theory;
         notifyDataSetChanged();
     }
 
