@@ -73,6 +73,9 @@ public class CenterWorker extends Worker {
                 case "getPersonalClinic":
                     getPersonalClinic();
                     break;
+                case "getPersonalClinicSearch":
+                    getPersonalClinicSearch();
+                    break;
                 case "getCounselingCenter":
                     getCounselingCenter();
                     break;
@@ -391,7 +394,7 @@ public class CenterWorker extends Worker {
 
     private void getPersonalClinic() {
         try {
-            Call<ResponseBody> call = centerApi.getPersonalClinic(token());
+            Call<ResponseBody> call = centerApi.getPersonalClinic(token(),"");
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -433,9 +436,53 @@ public class CenterWorker extends Worker {
 
     }
 
+    private void getPersonalClinicSearch() {
+        try {
+            Call<ResponseBody> call = centerApi.getPersonalClinic(token(),CenterRepository.personalClinicSearch);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONArray data = successBody.getJSONArray("data");
+
+                if (data.length() != 0) {
+                    for (int i = 0; i < data.length(); i++) {
+                        JSONObject object = data.getJSONObject(i);
+                        CenterRepository.personalClinicSearchArrayList.add(new Model(object));
+                    }
+                }
+
+                ExceptionManager.getException(true, bodyResponse.code(), successBody, "personalClinic", "center");
+                CenterRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionManager.getException(true, bodyResponse.code(), errorBody, "personalClinic", "center");
+                CenterRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(false, 0, null, "SocketTimeoutException", "center");
+            CenterRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(false, 0, null, "JSONException", "center");
+            CenterRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(false, 0, null, "IOException", "center");
+            CenterRepository.workState.postValue(0);
+        }
+
+    }
+
     private void getCounselingCenter() {
         try {
-            Call<ResponseBody> call = centerApi.getCounselingCenter(token());
+            Call<ResponseBody> call = centerApi.getCounselingCenter(token(),"");
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -446,6 +493,50 @@ public class CenterWorker extends Worker {
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
                         CenterRepository.counselingCenter.add(new Model(object));
+                    }
+                }
+
+                ExceptionManager.getException(true, bodyResponse.code(), successBody, "counselingCenter", "center");
+                CenterRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionManager.getException(true, bodyResponse.code(), errorBody, "counselingCenter", "center");
+                CenterRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(false, 0, null, "SocketTimeoutException", "center");
+            CenterRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(false, 0, null, "JSONException", "center");
+            CenterRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionManager.getException(false, 0, null, "IOException", "center");
+            CenterRepository.workState.postValue(0);
+        }
+
+    }
+
+    private void getCounselingCenterSearch() {
+        try {
+            Call<ResponseBody> call = centerApi.getCounselingCenter(token(),CenterRepository.counselingCenterSearch);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONArray data = successBody.getJSONArray("data");
+
+                if (data.length() != 0) {
+                    for (int i = 0; i < data.length(); i++) {
+                        JSONObject object = data.getJSONObject(i);
+                        CenterRepository.counselingCenterSearchArrayList.add(new Model(object));
                     }
                 }
 

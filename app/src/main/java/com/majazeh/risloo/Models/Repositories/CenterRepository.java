@@ -30,10 +30,14 @@ public class CenterRepository extends MainRepository {
     public static HashMap createData = new HashMap();
     public static HashMap editData = new HashMap();
     public static ArrayList<Model> personalClinic;
+    public static ArrayList<Model> personalClinicSearchArrayList;
     public static ArrayList<Model> counselingCenter;
+    public static ArrayList<Model> counselingCenterSearchArrayList;
     public static MutableLiveData<Integer> workState;
     public static String work = "";
     public static String clinicId = "";
+    public static String personalClinicSearch = "";
+    public static String counselingCenterSearch = "";
     public static int allPage = 1;
     public static int myPage = 1;
 
@@ -44,6 +48,8 @@ public class CenterRepository extends MainRepository {
         editData = new HashMap();
         personalClinic = new ArrayList<>();
         counselingCenter = new ArrayList<>();
+        personalClinicSearchArrayList = new ArrayList<>();
+        counselingCenterSearchArrayList = new ArrayList<>();
         workState = new MutableLiveData<>();
         workState.setValue(-1);
     }
@@ -116,6 +122,13 @@ public class CenterRepository extends MainRepository {
         work = "getPersonalClinic";
         workState.setValue(-1);
         workManager("getPersonalClinic");
+    }
+
+    public void personalClinic(String q) throws JSONException {
+        personalClinicSearch = q;
+        work = "getPersonalClinicSearch";
+        workState.setValue(-1);
+        workManager("getPersonalClinicSearch");
     }
 
     public void counselingCenter() throws JSONException {

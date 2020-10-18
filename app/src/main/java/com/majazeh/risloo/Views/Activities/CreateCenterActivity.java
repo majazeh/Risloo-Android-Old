@@ -127,6 +127,7 @@ public class CreateCenterActivity extends AppCompatActivity {
     private void initializer() {
         viewModel = new ViewModelProvider(this).get(CenterViewModel.class);
 
+
         managerAdapter = new SearchAdapter(this);
         phoneAdapter = new SpinnerAdapter(this);
 
