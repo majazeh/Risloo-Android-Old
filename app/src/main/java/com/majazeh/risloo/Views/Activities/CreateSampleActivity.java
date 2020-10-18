@@ -395,6 +395,8 @@ public class CreateSampleActivity extends AppCompatActivity {
             if (!room.isEmpty()) {
                 if (SampleRepository.references.size() == 0) {
                     getData("getReferences", room);
+                } else {
+                    roomReferenceDialog.show();
                 }
             } else {
                 ExceptionManager.getException(false, 0, null, "SelectRoomFirstException", "sample");

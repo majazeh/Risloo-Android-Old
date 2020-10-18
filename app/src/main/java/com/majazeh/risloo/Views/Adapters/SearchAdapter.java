@@ -99,6 +99,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
     }
 
     public void setValue(ArrayList<Model> values, String method, String theory) {
+        position = -1;
+
         this.values = values;
         this.method = method;
         this.theory = theory;
