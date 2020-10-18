@@ -1,5 +1,7 @@
 package com.majazeh.risloo.Models.Managers;
 
+import android.widget.Toast;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,112 +19,114 @@ public class ExceptionManager {
     public static JSONObject errors;
 
     public static void getException(boolean server, int code, JSONObject body, String exception, String module) {
+
         if (server) {
             if (code == 200) {
-                switch (module) {
-                    case "auth":
-                        switch (exception) {
-                            case "auth":
-                            case "authTheory":
-                                fa_message_text = "درخواست ورود شما ارسال شد.";
-                                break;
-                            case "register":
-                                fa_message_text = "درخواست ثبت نام شما ارسال شد.";
-                                break;
-                            case "verification":
-                                fa_message_text = "کد پیامکی به شما ارسال شد.";
-                                break;
-                            case "recovery":
-                                fa_message_text = "بازیابی رمز عبور انجام شد.";
-                                break;
-                            case "me":
-                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد.";
-                                break;
-                            case "edit":
-                                fa_message_text = "ویرایش حساب شما انجام شد.";
-                                break;
-                            case "avatar":
-                                fa_message_text = "ویرایش عکس شما انجام شد.";
-                                break;
-                            case "logOut":
-                                fa_message_text = "خروج با موفقیت انجام شد.";
-                                break;
-                            case "sendDoc":
-                                fa_message_text = "مدارک هویتی شما ارسال شد.";
-                                break;
-                            default:
-                                fa_message_text = ".";
-                                break;
-                        }
-                        break;
-                    case "center":
-                        switch (exception) {
-                            case "all":
-                            case "my":
-                            case "personalClinic":
-                            case "counselingCenter":
-                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد.";
-                                break;
-                            case "request":
-                                fa_message_text = "درخواست پذیرش شما ارسال شد.";
-                                break;
-                            case "create":
-                                fa_message_text = "مرکز درمانی با موفقیت ساخته شد.";
-                                break;
-                            case "edit":
-                                fa_message_text = "مرکز درمانی با موفقیت اصلاح شد.";
-                                break;
-                            default:
-                                fa_message_text = ".";
-                                break;
-                        }
-                        break;
-                    case "explode":
-                        switch (exception) {
-                            case "explode":
-                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد.";
-                                break;
-                            default:
-                                fa_message_text = ".";
-                                break;
-                        }
-                        break;
-                    case "sample":
-                        switch (exception) {
-                            case "single":
-                            case "all":
-                            case "scores":
-                            case "scales":
-                            case "rooms":
-                            case "references":
-                            case "cases":
-                            case "generals":
-                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد.";
-                                break;
-                            case "answers":
-                                fa_message_text = "پاسخ ها با موفقیت ارسال شد.";
-                                break;
-                            case "prerequisite":
-                                fa_message_text = "پیش نیاز ها با موفقیت تکمیل شد.";
-                                break;
-                            case "create":
-                                fa_message_text = "نمونه با موفقیت ساخته شد.";
-                                break;
-                            case "close":
-                                fa_message_text = "نمونه با موفقیت بسته شد.";
-                                break;
-                            case "score":
-                                fa_message_text = "نمونه با موفقیت نمره گذاری شد.";
-                                break;
-                            default:
-                                fa_message_text = ".";
-                                break;
-                        }
-                        break;
-                    default:
-                        fa_message_text = ".";
-                        break;
-                }
+                fa_message_text = message_text;
+//                switch (module) {
+//                    case "auth":
+//                        switch (exception) {
+//                            case "auth":
+//                            case "authTheory":
+//                                fa_message_text = "درخواست ورود شما ارسال شد.";
+//                                break;
+//                            case "register":
+//                                fa_message_text = "درخواست ثبت نام شما ارسال شد.";
+//                                break;
+//                            case "verification":
+//                                fa_message_text = "کد پیامکی به شما ارسال شد.";
+//                                break;
+//                            case "recovery":
+//                                fa_message_text = "بازیابی رمز عبور انجام شد.";
+//                                break;
+//                            case "me":
+//                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد.";
+//                                break;
+//                            case "edit":
+//                                fa_message_text = "ویرایش حساب شما انجام شد.";
+//                                break;
+//                            case "avatar":
+//                                fa_message_text = "ویرایش عکس شما انجام شد.";
+//                                break;
+//                            case "logOut":
+//                                fa_message_text = "خروج با موفقیت انجام شد.";
+//                                break;
+//                            case "sendDoc":
+//                                fa_message_text = "مدارک هویتی شما ارسال شد.";
+//                                break;
+//                            default:
+//                                fa_message_text = ".";
+//                                break;
+//                        }
+//                        break;
+//                    case "center":
+//                        switch (exception) {
+//                            case "all":
+//                            case "my":
+//                            case "personalClinic":
+//                            case "counselingCenter":
+//                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد.";
+//                                break;
+//                            case "request":
+//                                fa_message_text = "درخواست پذیرش شما ارسال شد.";
+//                                break;
+//                            case "create":
+//                                fa_message_text = "مرکز درمانی با موفقیت ساخته شد.";
+//                                break;
+//                            case "edit":
+//                                fa_message_text = "مرکز درمانی با موفقیت اصلاح شد.";
+//                                break;
+//                            default:
+//                                fa_message_text = ".";
+//                                break;
+//                        }
+//                        break;
+//                    case "explode":
+//                        switch (exception) {
+//                            case "explode":
+//                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد.";
+//                                break;
+//                            default:
+//                                fa_message_text = ".";
+//                                break;
+//                        }
+//                        break;
+//                    case "sample":
+//                        switch (exception) {
+//                            case "single":
+//                            case "all":
+//                            case "scores":
+//                            case "scales":
+//                            case "rooms":
+//                            case "references":
+//                            case "cases":
+//                            case "generals":
+//                                fa_message_text = "دریافت اطلاعات با موفقیت انجام شد.";
+//                                break;
+//                            case "answers":
+//                                fa_message_text = "پاسخ ها با موفقیت ارسال شد.";
+//                                break;
+//                            case "prerequisite":
+//                                fa_message_text = "پیش نیاز ها با موفقیت تکمیل شد.";
+//                                break;
+//                            case "create":
+//                                fa_message_text = "نمونه با موفقیت ساخته شد.";
+//                                break;
+//                            case "close":
+//                                fa_message_text = "نمونه با موفقیت بسته شد.";
+//                                break;
+//                            case "score":
+//                                fa_message_text = "نمونه با موفقیت نمره گذاری شد.";
+//                                break;
+//                            default:
+//                                fa_message_text = ".";
+//                                break;
+//                        }
+//                        break;
+//                    default:
+//                        fa_message_text = ".";
+//                        break;
+//                }
             } else {
                 try {
                     ExceptionManager.exception = exception;

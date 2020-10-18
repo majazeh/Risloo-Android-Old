@@ -41,19 +41,19 @@ public interface SampleApi {
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("$")
-    Call<ResponseBody> getScales(@Header("Authorization") String authorization);
+    Call<ResponseBody> getScales(@Header("Authorization") String authorization,@Query("q")String q);
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("rooms?my_management=1")
-    Call<ResponseBody> getRooms(@Header("Authorization") String authorization);
+    Call<ResponseBody> getRooms(@Header("Authorization") String authorization, @Query("q") String q);
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("cases")
-    Call<ResponseBody> getCases(@Header("Authorization") String authorization, @Query("room") String room);
+    Call<ResponseBody> getCases(@Header("Authorization") String authorization, @Query("room") String room,@Query("q")String q);
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("rooms/{room_id}/users?status=accepted")
-    Call<ResponseBody> getReferences(@Header("Authorization") String authorization, @Path("room_id") String roomId);
+    Call<ResponseBody> getReferences(@Header("Authorization") String authorization, @Path("room_id") String roomId,@Query("q")String q);
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("$/samples/{sample_id}")

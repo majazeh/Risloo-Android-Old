@@ -67,19 +67,35 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
     public void scales() throws JSONException {
-       repository.scales();
+        repository.scales();
+    }
+
+    public void scalesSearch() throws JSONException {
+        repository.scalesSearch();
     }
 
     public void rooms() throws JSONException {
         repository.rooms();
     }
 
+    public void roomsSearch(String q) throws JSONException {
+        repository.roomsSearch(q);
+    }
+
     public void cases(String roomId) throws JSONException {
         repository.cases(roomId);
     }
 
+    public void casesSearch(String roomId,String q) throws JSONException {
+        repository.casesSearch(roomId,q);
+    }
+
     public void references(String roomId) throws JSONException {
         repository.references(roomId);
+    }
+
+    public void referencesSearch(String roomId, String q) throws JSONException {
+        repository.referencesSearch(roomId, q);
     }
 
     public void general(String sampleId) throws JSONException {
@@ -150,7 +166,7 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.hasPrerequisiteAnswerStorage(fileName);
     }
 
-    public boolean checkPrerequisiteAnswerStorage(String fileName){
+    public boolean checkPrerequisiteAnswerStorage(String fileName) {
         return repository.checkPrerequisiteAnswerStorage(fileName);
     }
 
@@ -253,7 +269,7 @@ public class SampleViewModel extends AndroidViewModel {
          ---------- Arrays ----------
     */
 
-    public ArrayList<Model> getAll(){
+    public ArrayList<Model> getAll() {
         return repository.getAll();
     }
 
