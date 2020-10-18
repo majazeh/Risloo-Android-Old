@@ -136,21 +136,21 @@ public class AuthItems {
         if (!name().equals("")) {
             data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthName)).put("subTitle", name()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_user_light)));
         }
-        if (!type().equals("")) {
-            if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypePsychology))) {
-                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_stethoscope_light)));
-            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeClinicCenter))) {
-                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_hospital_light)));
-            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeOperator))) {
-                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset_light)));
-            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeAdmin))) {
-                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset_light)));
-            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeClient))) {
-                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_pills_light)));
-            } else {
-                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_pills_light)));
-            }
-        }
+//        if (!type().equals("")) {
+//            if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypePsychology))) {
+//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_stethoscope_light)));
+//            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeClinicCenter))) {
+//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_hospital_light)));
+//            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeOperator))) {
+//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset_light)));
+//            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeAdmin))) {
+//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset_light)));
+//            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeClient))) {
+//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_pills_light)));
+//            } else {
+//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_pills_light)));
+//            }
+//        }
         if (!mobile().equals("")) {
             data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthMobile)).put("subTitle", mobile()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_mobile_light)));
         }

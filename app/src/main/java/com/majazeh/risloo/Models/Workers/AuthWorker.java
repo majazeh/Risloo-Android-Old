@@ -2,6 +2,7 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -487,15 +488,15 @@ public class AuthWorker extends Worker {
                 else
                     editor.putString("birthday", "");
 
-                if (data.has("avatar") && !data.isNull("avatar") && data.getJSONArray("avatar").length() != 0) {
-                    JSONObject avatar = data.getJSONObject("avatar");
-                    JSONObject medium = avatar.getJSONObject("medium");
+                Log.e("ss", data.get("avatar").getClass().getName());
+                if (!data.isNull("avatar") &&data.get("avatar").getClass().getName().equals("org.json.JSONObject") ) {
+                        JSONObject avatar = data.getJSONObject("avatar");
+                        JSONObject medium = avatar.getJSONObject("medium");
 
-                    editor.putString("avatar", medium.getString("url"));
-                } else {
+                        editor.putString("avatar", medium.getString("url"));
+                }else{
                     editor.putString("avatar", "");
                 }
-
                 editor.apply();
 
                 ExceptionManager.getException(true, bodyResponse.code(), successBody, "me", "auth");
