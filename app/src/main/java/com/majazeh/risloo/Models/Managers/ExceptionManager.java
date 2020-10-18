@@ -1,9 +1,5 @@
 package com.majazeh.risloo.Models.Managers;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,8 +17,6 @@ public class ExceptionManager {
     public static JSONObject errors;
 
     public static void getException(boolean server, int code, JSONObject body, String exception, String module) {
-
-
         if (server) {
             if (code == 200) {
                 fa_message_text = message_text;
@@ -168,6 +162,12 @@ public class ExceptionManager {
                     break;
                 case "SelectRoomFirstException":
                     fa_message_text = "لطفا اول اتاق درمانی انتخاب کنید.";
+                    break;
+                case "EmptyCaseRoomFirstException":
+                    fa_message_text = "پرونده ی برای این اتاق درمانی موجود نیست.";
+                    break;
+                case "EmptyReferenceRoomFirstException":
+                    fa_message_text = "مراجعانی برای این اتاق درمانی موجود نیست.";
                     break;
                 case "SavedToDownloadException":
                     fa_message_text = "جواب ها در پوشه Download ذخیره شد.";

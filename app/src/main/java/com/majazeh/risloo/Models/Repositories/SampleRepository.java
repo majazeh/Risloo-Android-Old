@@ -3,7 +3,6 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Constraints;
@@ -12,7 +11,6 @@ import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
-import com.majazeh.risloo.Entities.Main;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Items.SampleItems;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
@@ -37,16 +35,16 @@ public class SampleRepository extends MainRepository {
     // Vars
     public static ArrayList<ArrayList<Integer>> localData;
     public static ArrayList<ArrayList<Integer>> remoteData;
-    public static ArrayList<Model> roomsSearchArrayList;
-    public static ArrayList<Model> referencesSearchArrayList;
-    public static ArrayList<Model> casesSearchArrayList;
-    public static ArrayList<Model> scalesSearchArrayList;
     public static ArrayList prerequisiteData;
     public static HashMap createData;
     public static ArrayList<Model> scales;
     public static ArrayList<Model> rooms;
     public static ArrayList<Model> cases;
     public static ArrayList<Model> references;
+    public static ArrayList<Model> scalesSearch;
+    public static ArrayList<Model> roomsSearch;
+    public static ArrayList<Model> casesSearch;
+    public static ArrayList<Model> referencesSearch;
     public static MutableLiveData<Integer> workStateSample;
     public static MutableLiveData<Integer> workStateAnswer;
     public static MutableLiveData<Integer> workStateCreate;
@@ -54,10 +52,10 @@ public class SampleRepository extends MainRepository {
     public static String theory = "sample";
     public static String sampleId = "";
     public static String roomId = "";
-    public static String roomsSearch = "";
-    public static String referencesSearch = "";
-    public static String casesSearch = "";
-    public static String scalesSearch = "";
+    public static String scalesQ = "";
+    public static String roomQ = "";
+    public static String casesQ = "";
+    public static String referencesQ = "";
     public static boolean cache = false;
     public static int samplesPage = 1;
 
@@ -69,13 +67,13 @@ public class SampleRepository extends MainRepository {
         prerequisiteData = new ArrayList();
         createData = new HashMap();
         scales = new ArrayList<>();
+        rooms = new ArrayList<>();
         cases = new ArrayList<>();
         references = new ArrayList<>();
-        casesSearchArrayList = new ArrayList<>();
-        referencesSearchArrayList = new ArrayList<>();
-        scalesSearchArrayList = new ArrayList<>();
-        rooms = new ArrayList<>();
-        roomsSearchArrayList = new ArrayList<>();
+        scalesSearch = new ArrayList<>();
+        roomsSearch = new ArrayList<>();
+        casesSearch = new ArrayList<>();
+        referencesSearch = new ArrayList<>();
         workStateSample = new MutableLiveData<>();
         workStateAnswer = new MutableLiveData<>();
         workStateCreate = new MutableLiveData<>();
@@ -249,61 +247,38 @@ public class SampleRepository extends MainRepository {
         FileManager.deleteCache(application.getApplicationContext(), "Answers", sampleId);
     }
 
-    public void scales() throws JSONException {
+    public void scales(String q) throws JSONException {
+        SampleRepository.scalesQ = q;
+
         work = "getScales";
         workStateCreate.setValue(-1);
         workManager("getScales");
     }
 
-    public void scalesSearch() throws JSONException {
-        work = "getScalesSearch";
-        workStateCreate.setValue(-1);
-        workManager("getScalesSearch");
-    }
+    public void rooms(String q) throws JSONException {
+        SampleRepository.roomQ = q;
 
-    public void rooms() throws JSONException {
         work = "getRooms";
         workStateCreate.setValue(-1);
         workManager("getRooms");
     }
 
-    public void roomsSearch(String q) throws JSONException {
-        roomsSearch = q;
-        work = "getRoomsSearch";
-        workStateCreate.setValue(-1);
-        workManager("getRoomsSearch");
-    }
-
-    public void cases(String roomId) throws JSONException {
+    public void cases(String roomId, String q) throws JSONException {
         SampleRepository.roomId = roomId;
+        SampleRepository.casesQ = q;
 
         work = "getCases";
         workStateCreate.setValue(-1);
         workManager("getCases");
     }
 
-    public void casesSearch(String roomId,String q) throws JSONException {
+    public void references(String roomId, String q) throws JSONException {
         SampleRepository.roomId = roomId;
-        SampleRepository.casesSearch = q;
+        SampleRepository.referencesQ = q;
 
-        work = "getCasesSearch";
-        workStateCreate.setValue(-1);
-        workManager("getCasesSearch");
-    }
-
-    public void references(String roomId) throws JSONException {
-        SampleRepository.roomId = roomId;
         work = "getReferences";
         workStateCreate.setValue(-1);
         workManager("getReferences");
-    }
-
-    public void referencesSearch(String roomId, String q) throws JSONException {
-        SampleRepository.roomId = roomId;
-        SampleRepository.referencesSearch = q;
-        work = "getReferencesSearch";
-        workStateCreate.setValue(-1);
-        workManager("getReferencesSearch");
     }
 
     public void general(String sampleId) throws JSONException {

@@ -47,16 +47,12 @@ public class CenterViewModel extends AndroidViewModel {
         repository.edit(id, manager, title, description, address, phones);
     }
 
-    public void personalClinic() throws JSONException {
-        repository.personalClinic();
-    }
-
-    public void personalClinicSearch(String q) throws JSONException {
+    public void personalClinic(String q) throws JSONException {
         repository.personalClinic(q);
     }
 
-    public void counselingCenter() throws JSONException {
-        repository.counselingCenter();
+    public void counselingCenter(String q) throws JSONException {
+        repository.counselingCenter(q);
     }
 
     /*

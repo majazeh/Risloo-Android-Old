@@ -62,27 +62,15 @@
                         android:layoutDirection="rtl"
                         android:background="@drawable/draw_16sdp_border_quartz">
 
-                        <FrameLayout
+                        <ImageView
+                            android:id="@+id/activity_create_sample_scale_imageView"
                             android:layout_width="@dimen/_36sdp"
-                            android:layout_height="match_parent">
-
-                            <Spinner
-                                android:id="@+id/activity_create_sample_scale_spinner"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:singleLine="true"
-                                android:spinnerMode="dropdown"
-                                android:background="@color/Primary5P" />
-
-                            <ImageView
-                                android:layout_width="@dimen/_16sdp"
-                                android:layout_height="@dimen/_16sdp"
-                                android:layout_marginRight="@dimen/_1sdp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_plus_light"
-                                app:tint="@color/Primary" />
-
-                        </FrameLayout>
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="@dimen/_1sdp"
+                            android:padding="@dimen/_9sdp"
+                            android:background="@color/Primary5P"
+                            android:src="@drawable/ic_plus_light"
+                            app:tint="@color/Primary" />
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -129,14 +117,6 @@
                     android:layout_height="@dimen/_36sdp"
                     android:layout_marginBottom="@dimen/_8sdp"
                     android:background="@drawable/draw_16sdp_border_quartz">
-
-                    <Spinner
-                        android:id="@+id/activity_create_sample_room_spinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:singleLine="true"
-                        android:spinnerMode="dropdown"
-                        android:background="@null"/>
 
                     <TextView
                         android:id="@+id/activity_create_sample_room_textView"
@@ -227,7 +207,7 @@
                         android:visibility="visible">
 
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/activity_create_sample_clinic_reference_cardView"
+                            android:id="@+id/activity_create_sample_room_reference_cardView"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_36sdp"
                             android:layout_marginBottom="@dimen/_8sdp"
@@ -236,47 +216,35 @@
                             app:cardElevation="0dp">
 
                             <LinearLayout
-                                android:id="@+id/activity_create_sample_clinic_reference_linearLayout"
+                                android:id="@+id/activity_create_sample_room_reference_linearLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:orientation="horizontal"
                                 android:layoutDirection="rtl"
                                 android:background="@drawable/draw_16sdp_border_quartz">
 
-                                <FrameLayout
+                                <ImageView
+                                    android:id="@+id/activity_create_sample_room_reference_imageView"
                                     android:layout_width="@dimen/_36sdp"
-                                    android:layout_height="match_parent">
-
-                                    <Spinner
-                                        android:id="@+id/activity_create_sample_clinic_reference_spinner"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:singleLine="true"
-                                        android:spinnerMode="dropdown"
-                                        android:background="@color/Primary5P" />
-
-                                    <ImageView
-                                        android:layout_width="@dimen/_16sdp"
-                                        android:layout_height="@dimen/_16sdp"
-                                        android:layout_marginRight="@dimen/_1sdp"
-                                        android:layout_gravity="center"
-                                        android:src="@drawable/ic_plus_light"
-                                        app:tint="@color/Primary" />
-
-                                </FrameLayout>
+                                    android:layout_height="match_parent"
+                                    android:layout_marginRight="@dimen/_1sdp"
+                                    android:padding="@dimen/_9sdp"
+                                    android:background="@color/Primary5P"
+                                    android:src="@drawable/ic_plus_light"
+                                    app:tint="@color/Primary" />
 
                                 <FrameLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent">
 
                                     <androidx.recyclerview.widget.RecyclerView
-                                        android:id="@+id/activity_create_sample_clinic_reference_recyclerView"
+                                        android:id="@+id/activity_create_sample_room_reference_recyclerView"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:overScrollMode="never" />
 
                                     <TextView
-                                        android:id="@+id/activity_create_sample_clinic_reference_textView"
+                                        android:id="@+id/activity_create_sample_room_reference_textView"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:paddingLeft="@dimen/_12sdp"
@@ -289,7 +257,7 @@
                                         android:textAlignment="gravity" />
 
                                     <ProgressBar
-                                        android:id="@+id/activity_create_sample_clinic_reference_progressBar"
+                                        android:id="@+id/activity_create_sample_room_reference_progressBar"
                                         android:layout_width="@dimen/_16sdp"
                                         android:layout_height="@dimen/_16sdp"
                                         android:layout_gravity="center|left"
@@ -339,14 +307,6 @@
                             android:layout_height="@dimen/_36sdp"
                             android:layout_marginBottom="@dimen/_8sdp"
                             android:background="@drawable/draw_16sdp_border_quartz">
-
-                            <Spinner
-                                android:id="@+id/activity_create_sample_case_spinner"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:singleLine="true"
-                                android:spinnerMode="dropdown"
-                                android:background="@null"/>
 
                             <TextView
                                 android:id="@+id/activity_create_sample_case_textView"

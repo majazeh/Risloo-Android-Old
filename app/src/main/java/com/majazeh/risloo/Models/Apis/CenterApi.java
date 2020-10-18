@@ -37,10 +37,10 @@ public interface CenterApi {
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("users?personal_clinic=no")
-    Call<ResponseBody> getPersonalClinic(@Header("Authorization") String authorization,@Query("q")String q);
+    Call<ResponseBody> getPersonalClinic(@Header("Authorization") String authorization, @Query("q") String q);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("users?personal_clinic=yes")
-    Call<ResponseBody> getCounselingCenter(@Header("Authorization") String authorization,@Query("q")String q);
+    Call<ResponseBody> getCounselingCenter(@Header("Authorization") String authorization, @Query("q") String q);
 
 }

@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 
 import org.json.JSONArray;
@@ -66,36 +65,20 @@ public class SampleViewModel extends AndroidViewModel {
         repository.delete(sampleId);
     }
 
-    public void scales() throws JSONException {
-        repository.scales();
+    public void scales(String q) throws JSONException {
+        repository.scales(q);
     }
 
-    public void scalesSearch() throws JSONException {
-        repository.scalesSearch();
+    public void rooms(String q) throws JSONException {
+        repository.rooms(q);
     }
 
-    public void rooms() throws JSONException {
-        repository.rooms();
+    public void cases(String roomId, String q) throws JSONException {
+        repository.cases(roomId, q);
     }
 
-    public void roomsSearch(String q) throws JSONException {
-        repository.roomsSearch(q);
-    }
-
-    public void cases(String roomId) throws JSONException {
-        repository.cases(roomId);
-    }
-
-    public void casesSearch(String roomId,String q) throws JSONException {
-        repository.casesSearch(roomId,q);
-    }
-
-    public void references(String roomId) throws JSONException {
-        repository.references(roomId);
-    }
-
-    public void referencesSearch(String roomId, String q) throws JSONException {
-        repository.referencesSearch(roomId, q);
+    public void references(String roomId, String q) throws JSONException {
+        repository.references(roomId, q);
     }
 
     public void general(String sampleId) throws JSONException {
@@ -248,12 +231,10 @@ public class SampleViewModel extends AndroidViewModel {
 
     public String getSvgScore(String sampleId) {
         return repository.getSvgScore(sampleId);
-
     }
 
     public String getPngScore(String sampleId) {
         return repository.getPngScore(sampleId);
-
     }
 
     public String getHtmlScore(String sampleId) {
@@ -262,7 +243,6 @@ public class SampleViewModel extends AndroidViewModel {
 
     public String getPdfScore(String sampleId) {
         return repository.getPdfScore(sampleId);
-
     }
 
     /*

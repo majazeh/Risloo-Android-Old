@@ -29,8 +29,9 @@ public class ExplodeWorker extends Worker {
 
     // Apis
     private ExplodeApi explodeApi;
-    private Context context;
 
+    // Objects
+    private Context context;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -38,13 +39,12 @@ public class ExplodeWorker extends Worker {
         super(context, workerParams);
         this.context = context;
 
+        explodeApi = RetroGenerator.getRetrofit().create(ExplodeApi.class);
 
         sharedPreferences = context.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
         editor = sharedPreferences.edit();
         editor.apply();
-
-        explodeApi = RetroGenerator.getRetrofit().create(ExplodeApi.class);
     }
 
     @NonNull
@@ -63,6 +63,13 @@ public class ExplodeWorker extends Worker {
         return Result.success();
     }
 
+    private String token() {
+        if (!sharedPreferences.getString("token", "").equals("")) {
+            return "Bearer " + sharedPreferences.getString("token", "");
+        }
+        return "";
+    }
+
     private void explode() {
         try {
             Call<ResponseBody> call = explodeApi.explode();
@@ -78,15 +85,14 @@ public class ExplodeWorker extends Worker {
                     // TODO: Normal Update
                 }
 
-                JSONObject data = successBody.getJSONObject("user");
+                JSONObject user = successBody.getJSONObject("user");
 
                 boolean hasAccess = false;
 
-
-                if (data.has("type") && data.getString("type").equals("admin")) {
+                if (user.has("type") && user.getString("type").equals("admin")) {
                     hasAccess = true;
                 } else {
-                    JSONArray centers = data.getJSONArray("centers");
+                    JSONArray centers = user.getJSONArray("centers");
                     for (int i = 0; i < centers.length(); i++) {
                         JSONObject jsonObject = centers.getJSONObject(i);
                         JSONObject acceptation = jsonObject.getJSONObject("acceptation");
@@ -103,45 +109,45 @@ public class ExplodeWorker extends Worker {
                     editor.putBoolean("hasAccess", false);
                 }
 
-                FileManager.writeObjectToCache(context, new JSONObject().put("data", data.getJSONArray("centers")), "centers", "my");
+                FileManager.writeObjectToCache(context, new JSONObject().put("data", user.getJSONArray("centers")), "centers", "my");
 
-                if (data.has("id"))
-                    editor.putString("userId", data.getString("id"));
+                if (user.has("id"))
+                    editor.putString("userId", user.getString("id"));
                 else
                     editor.putString("userId", "");
 
-                if (data.has("name"))
-                    editor.putString("name", data.getString("name"));
+                if (user.has("name"))
+                    editor.putString("name", user.getString("name"));
                 else
                     editor.putString("name", "");
 
-                if (data.has("type"))
-                    editor.putString("type", data.getString("type"));
+                if (user.has("type"))
+                    editor.putString("type", user.getString("type"));
                 else
                     editor.putString("type", "");
 
-                if (data.has("mobile"))
-                    editor.putString("mobile", data.getString("mobile"));
+                if (user.has("mobile"))
+                    editor.putString("mobile", user.getString("mobile"));
                 else
                     editor.putString("mobile", "");
 
-                if (data.has("email"))
-                    editor.putString("email", data.getString("email"));
+                if (user.has("email"))
+                    editor.putString("email", user.getString("email"));
                 else
                     editor.putString("email", "");
 
-                if (data.has("gender"))
-                    editor.putString("gender", data.getString("gender"));
+                if (user.has("gender"))
+                    editor.putString("gender", user.getString("gender"));
                 else
                     editor.putString("gender", "");
 
-                if (data.has("birthday"))
-                    editor.putString("birthday", data.getString("birthday"));
+                if (user.has("birthday"))
+                    editor.putString("birthday", user.getString("birthday"));
                 else
                     editor.putString("birthday", "");
 
-                if (data.has("avatar") && !data.isNull("avatar")) {
-                    JSONObject avatar = data.getJSONObject("avatar");
+                if (!user.isNull("avatar") &&user.get("avatar").getClass().getName().equals("org.json.JSONObject")) {
+                    JSONObject avatar = user.getJSONObject("avatar");
                     JSONObject medium = avatar.getJSONObject("medium");
 
                     editor.putString("avatar", medium.getString("url"));
@@ -150,7 +156,6 @@ public class ExplodeWorker extends Worker {
                 }
 
                 editor.apply();
-
 
                 ExceptionManager.getException(true, bodyResponse.code(), successBody, "explode", "explode");
                 ExplodeRepository.workState.postValue(1);

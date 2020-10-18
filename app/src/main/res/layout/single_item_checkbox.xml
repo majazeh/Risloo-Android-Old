@@ -13,7 +13,7 @@
     tools:ignore="UnusedAttribute, RtlHardcoded, RtlSymmetry">
 
     <CheckBox
-        android:id="@+id/single_item_checkbox_title_checkBox"
+        android:id="@+id/single_item_checkbox_checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/_6sdp"

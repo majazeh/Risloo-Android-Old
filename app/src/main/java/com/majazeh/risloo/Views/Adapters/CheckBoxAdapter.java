@@ -14,15 +14,15 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckBoxHolder> {
 
     // Vars
-    private ArrayList<Model> values;
-    private ArrayList<String> checks;
+    private String method, theory;
+    private ArrayList<Model> values = new ArrayList<>();
+    private ArrayList<String> checks = new ArrayList<>();
 
     // Objects
     private Activity activity;
@@ -47,28 +47,25 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
         Model model = values.get(i);
 
         try {
-            JSONObject user = (JSONObject) model.get("user");
-
-            holder.titleCheckBox.setText(user.getString("name"));
-
-            holder.titleCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                holder.itemView.setClickable(false);
-                handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
-
-                if (holder.titleCheckBox.isChecked()) {
-                    try {
-                        checks.add(user.getString("id"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    checks.remove(String.valueOf(i));
-                }
-
-            });
+            holder.titleCheckBox.setText(model.get("name").toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        holder.titleCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            holder.itemView.setClickable(false);
+            handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
+
+            try {
+                if (holder.titleCheckBox.isChecked()) {
+                    checks.add(model.get("id").toString());
+                } else {
+                    checks.remove(String.valueOf(i));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -78,16 +75,14 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
 
     private void initializer(View view) {
         handler = new Handler();
-        checks = new ArrayList<>();
     }
 
-    public void setValue(ArrayList<Model> values) {
+    public void setValue(ArrayList<Model> values, ArrayList<String> checks, String method, String theory) {
         this.values = values;
-        notifyDataSetChanged();
-    }
-
-    public void setChecks(ArrayList<String> checks){
         this.checks = checks;
+        this.method = method;
+        this.theory = theory;
+        notifyDataSetChanged();
     }
 
     public ArrayList<Model> getValues() {
@@ -104,7 +99,7 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
 
         public CheckBoxHolder(View view) {
             super(view);
-            titleCheckBox = view.findViewById(R.id.single_item_checkbox_title_checkBox);
+            titleCheckBox = view.findViewById(R.id.single_item_checkbox_checkBox);
         }
     }
 

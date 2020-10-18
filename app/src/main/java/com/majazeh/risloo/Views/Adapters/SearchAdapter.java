@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Views.Activities.CreateCenterActivity;
+import com.majazeh.risloo.Views.Activities.CreateSampleActivity;
 import com.majazeh.risloo.Views.Activities.EditCenterActivity;
 
 import org.json.JSONException;
@@ -24,7 +25,7 @@ import java.util.Objects;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHolder> {
 
     // Vars
-    private int position;
+    private int position = -1;
     private String method, theory;
     private ArrayList<Model> values;
 
@@ -72,10 +73,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
             position = i;
 
-            if (theory.equals("CreateCenter")) {
-                ((CreateCenterActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), position, method);
-            } else if (theory.equals("EditCenter")) {
-                ((EditCenterActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), position, method);
+            switch (theory) {
+                case "CreateCenter":
+                    ((CreateCenterActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), position, method);
+                    break;
+                case "EditCenter":
+                    ((EditCenterActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), position, method);
+                    break;
+                case "CreateSample":
+                    ((CreateSampleActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), position, method);
+                    break;
             }
 
             notifyDataSetChanged();
@@ -91,9 +98,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
         handler = new Handler();
     }
 
-    public void setValue(ArrayList<Model> values, int position, String method, String theory) {
+    public void setValue(ArrayList<Model> values, String method, String theory) {
         this.values = values;
-        this.position = position;
         this.method = method;
         this.theory = theory;
         notifyDataSetChanged();

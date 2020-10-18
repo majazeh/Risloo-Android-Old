@@ -53,11 +53,10 @@ public class EditCenterActivity extends AppCompatActivity {
     private CenterViewModel viewModel;
 
     // Adapters
-    private SearchAdapter managerAdapter;
-    private SpinnerAdapter phoneAdapter;
+    private SearchAdapter managerDialogAdapter;
+    private SpinnerAdapter phoneRecyclerViewAdapter;
 
     // Vars
-    private int managerPosition = -1;
     private String id = "", type = "", manager = "", managerId = "", title = "", description = "", address = "";
     private boolean managerException = false, phoneException = false;
 
@@ -103,8 +102,8 @@ public class EditCenterActivity extends AppCompatActivity {
     private void initializer() {
         viewModel = new ViewModelProvider(this).get(CenterViewModel.class);
 
-        managerAdapter = new SearchAdapter(this);
-        phoneAdapter = new SpinnerAdapter(this);
+        managerDialogAdapter = new SearchAdapter(this);
+        phoneRecyclerViewAdapter = new SpinnerAdapter(this);
 
         handler = new Handler();
 
@@ -343,6 +342,9 @@ public class EditCenterActivity extends AppCompatActivity {
         });
 
         phoneImageView.setOnClickListener(v -> {
+            phoneImageView.setClickable(false);
+            handler.postDelayed(() -> phoneImageView.setClickable(true), 300);
+
             if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
                 inputHandler.clear(this, inputHandler.getInput());
             }
@@ -369,16 +371,18 @@ public class EditCenterActivity extends AppCompatActivity {
             handler.postDelayed(() -> phoneDialogPositive.setClickable(true), 300);
 
             if (phoneDialogEditText.length() != 0) {
-                if (!phoneAdapter.getValues().contains(phoneDialogEditText.getText().toString().trim())) {
+                if (!phoneRecyclerViewAdapter.getIds().contains(phoneDialogEditText.getText().toString().trim())) {
                     try {
-                        phoneAdapter.getValues().add(new Model(new JSONObject().put("title", phoneDialogEditText.getText().toString().trim())));
-                        setRecyclerView(phoneAdapter.getValues(), phoneRecyclerView, "phoneEdit");
+                        JSONObject phone = new JSONObject().put("name", phoneDialogEditText.getText().toString().trim());
+
+                        phoneRecyclerViewAdapter.getValues().add(new Model(phone));
+                        setRecyclerView(phoneRecyclerViewAdapter.getValues(), phoneRecyclerView, "phones");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
 
-                if (phoneAdapter.getValues().size() == 1) {
+                if (phoneRecyclerViewAdapter.getValues().size() == 1) {
                     phoneTextView.setVisibility(View.GONE);
                 }
 
@@ -416,23 +420,21 @@ public class EditCenterActivity extends AppCompatActivity {
     }
 
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
-        if (method.equals("phoneEdit")) {
-            phoneAdapter.setValue(arrayList, method);
-
-            ArrayList<String> list = new ArrayList<>();
-            for (int i = 0; i < arrayList.size(); i++) {
-                try {
-                    list.add((String) arrayList.get(i).get("title"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        if (method.equals("phones")) {
+            try {
+                ArrayList<String> phones = new ArrayList<>();
+                for (int i = 0; i < arrayList.size(); i++) {
+                    phones.add(arrayList.get(i).get("name").toString());
                 }
-            }
 
-            phoneAdapter.setValuesId(list);
-            recyclerView.setAdapter(phoneAdapter);
+                phoneRecyclerViewAdapter.setValue(arrayList, phones, method, "EditCenter");
+                recyclerView.setAdapter(phoneRecyclerViewAdapter);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         } else if (method.equals("getCounselingCenter")) {
-            managerAdapter.setValue(arrayList, managerPosition, method, "EditCenter");
-            recyclerView.setAdapter(managerAdapter);
+            managerDialogAdapter.setValue(arrayList, method, "EditCenter");
+            recyclerView.setAdapter(managerDialogAdapter);
         }
     }
 
@@ -501,15 +503,17 @@ public class EditCenterActivity extends AppCompatActivity {
             if (extras.getString("phone_numbers") != null) {
                 try {
                     JSONArray phones = new JSONArray(extras.getString("phone_numbers"));
+
                     for (int i = 0; i < phones.length(); i++) {
-                        phoneAdapter.getValues().add(new Model(new JSONObject().put("title", phones.get(i))));
+                        JSONObject phone = new JSONObject().put("name", phones.get(i));
+                        phoneRecyclerViewAdapter.getValues().add(new Model(phone));
                     }
-                    setRecyclerView(phoneAdapter.getValues(), phoneRecyclerView, "phoneEdit");
+                    setRecyclerView(phoneRecyclerViewAdapter.getValues(), phoneRecyclerView, "phones");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                if (phoneAdapter.getValues().size() != 0) {
+                if (phoneRecyclerViewAdapter.getValues().size() != 0) {
                     phoneTextView.setVisibility(View.GONE);
                 }
             }
@@ -525,15 +529,17 @@ public class EditCenterActivity extends AppCompatActivity {
             if (extras.getString("phone_numbers") != null) {
                 try {
                     JSONArray phones = new JSONArray(extras.getString("phone_numbers"));
+
                     for (int i = 0; i < phones.length(); i++) {
-                        phoneAdapter.getValues().add(new Model(new JSONObject().put("title", phones.get(i))));
+                        JSONObject phone = new JSONObject().put("name", phones.get(i));
+                        phoneRecyclerViewAdapter.getValues().add(new Model(phone));
                     }
-                    setRecyclerView(phoneAdapter.getValues(), phoneRecyclerView, "phoneEdit");
+                    setRecyclerView(phoneRecyclerViewAdapter.getValues(), phoneRecyclerView, "phones");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                if (phoneAdapter.getValues().size() != 0) {
+                if (phoneRecyclerViewAdapter.getValues().size() != 0) {
                     phoneTextView.setVisibility(View.GONE);
                 }
             }
@@ -548,7 +554,7 @@ public class EditCenterActivity extends AppCompatActivity {
                     managerImageView.setVisibility(View.GONE);
                     managerTextView.setClickable(false);
 
-                    viewModel.counselingCenter();
+                    viewModel.counselingCenter("");
                     break;
             }
             observeWork();
@@ -564,7 +570,7 @@ public class EditCenterActivity extends AppCompatActivity {
 
             try {
                 progressDialog.show();
-                viewModel.edit(id, managerId, title, description, address, phoneAdapter.getValuesId());
+                viewModel.edit(id, managerId, title, description, address, phoneRecyclerViewAdapter.getIds());
                 observeWork();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -576,7 +582,7 @@ public class EditCenterActivity extends AppCompatActivity {
 
             try {
                 progressDialog.show();
-                viewModel.edit(id, managerId, title, description, address, phoneAdapter.getValuesId());
+                viewModel.edit(id, managerId, title, description, address, phoneRecyclerViewAdapter.getIds());
                 observeWork();
             } catch (JSONException e) {
                 e.printStackTrace();

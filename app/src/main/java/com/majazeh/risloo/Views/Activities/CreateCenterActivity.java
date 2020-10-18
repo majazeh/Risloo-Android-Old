@@ -74,11 +74,10 @@ public class CreateCenterActivity extends AppCompatActivity {
     private CenterViewModel viewModel;
 
     // Adapters
-    private SearchAdapter managerAdapter;
-    private SpinnerAdapter phoneAdapter;
+    private SearchAdapter managerDialogAdapter;
+    private SpinnerAdapter phoneRecyclerViewAdapter;
 
     // Vars
-    private int managerPosition = -1;
     private String type = "personal_clinic", manager = "", title = "", description = "", address = "";
     private String imageFilePath = "";
     private boolean typeException = false, managerException = false, avatarException = false, phoneException =false;
@@ -127,9 +126,8 @@ public class CreateCenterActivity extends AppCompatActivity {
     private void initializer() {
         viewModel = new ViewModelProvider(this).get(CenterViewModel.class);
 
-
-        managerAdapter = new SearchAdapter(this);
-        phoneAdapter = new SpinnerAdapter(this);
+        managerDialogAdapter = new SearchAdapter(this);
+        phoneRecyclerViewAdapter = new SpinnerAdapter(this);
 
         handler = new Handler();
 
@@ -520,6 +518,9 @@ public class CreateCenterActivity extends AppCompatActivity {
         });
 
         phoneImageView.setOnClickListener(v -> {
+            phoneImageView.setClickable(false);
+            handler.postDelayed(() -> phoneImageView.setClickable(true), 300);
+
             if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
                 inputHandler.clear(this, inputHandler.getInput());
             }
@@ -546,16 +547,18 @@ public class CreateCenterActivity extends AppCompatActivity {
             handler.postDelayed(() -> phoneDialogPositive.setClickable(true), 300);
 
             if (phoneDialogEditText.length() != 0) {
-                if (!phoneAdapter.getValues().contains(phoneDialogEditText.getText().toString().trim())) {
+                if (!phoneRecyclerViewAdapter.getIds().contains(phoneDialogEditText.getText().toString().trim())) {
                     try {
-                        phoneAdapter.getValues().add(new Model(new JSONObject().put("title", phoneDialogEditText.getText().toString().trim())));
-                        setRecyclerView(phoneAdapter.getValues(), phoneRecyclerView, "phoneCreate");
+                        JSONObject phone = new JSONObject().put("name", phoneDialogEditText.getText().toString().trim());
+
+                        phoneRecyclerViewAdapter.getValues().add(new Model(phone));
+                        setRecyclerView(phoneRecyclerViewAdapter.getValues(), phoneRecyclerView, "phones");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
 
-                if (phoneAdapter.getValues().size() == 1) {
+                if (phoneRecyclerViewAdapter.getValues().size() == 1) {
                     phoneTextView.setVisibility(View.GONE);
                 }
 
@@ -593,12 +596,21 @@ public class CreateCenterActivity extends AppCompatActivity {
     }
 
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
-        if (method.equals("phoneCreate")) {
-            phoneAdapter.setValue(arrayList, method);
-            recyclerView.setAdapter(phoneAdapter);
+        if (method.equals("phones")) {
+            try {
+                ArrayList<String> phones = new ArrayList<>();
+                for (int i = 0; i < arrayList.size(); i++) {
+                    phones.add(arrayList.get(i).get("name").toString());
+                }
+
+                phoneRecyclerViewAdapter.setValue(arrayList, phones, method, "CreateCenter");
+                recyclerView.setAdapter(phoneRecyclerViewAdapter);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         } else if (method.equals("getPersonalClinic") || method.equals("getCounselingCenter")) {
-            managerAdapter.setValue(arrayList, managerPosition, method, "CreateCenter");
-            recyclerView.setAdapter(managerAdapter);
+            managerDialogAdapter.setValue(arrayList, method, "CreateCenter");
+            recyclerView.setAdapter(managerDialogAdapter);
         }
     }
 
@@ -666,14 +678,14 @@ public class CreateCenterActivity extends AppCompatActivity {
                     managerImageView.setVisibility(View.GONE);
                     managerTextView.setClickable(false);
 
-                    viewModel.personalClinic();
+                    viewModel.personalClinic("");
                     break;
                 case "getCounselingCenter":
                     managerProgressBar.setVisibility(View.VISIBLE);
                     managerImageView.setVisibility(View.GONE);
                     managerTextView.setClickable(false);
 
-                    viewModel.counselingCenter();
+                    viewModel.counselingCenter("");
                     break;
             }
             observeWork();
@@ -689,7 +701,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
             try {
                 progressDialog.show();
-                viewModel.create(type, manager, "", "", address, description, phoneAdapter.getValuesId());
+                viewModel.create(type, manager, "", "", address, description, phoneRecyclerViewAdapter.getIds());
                 observeWork();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -703,7 +715,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
             try {
                 progressDialog.show();
-                viewModel.create(type, manager, title, "", address, description, phoneAdapter.getValuesId());
+                viewModel.create(type, manager, title, "", address, description, phoneRecyclerViewAdapter.getIds());
                 observeWork();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -845,9 +857,9 @@ public class CreateCenterActivity extends AppCompatActivity {
     public void observeSearchAdapter(String value, int position, String method) {
         try {
             if (method.equals("getPersonalClinic")) {
-                manager = String.valueOf(CenterRepository.personalClinic.get(position).get("id"));
+                manager = CenterRepository.personalClinic.get(position).get("id").toString();
             } else if (method.equals("getCounselingCenter")) {
-                manager = String.valueOf(CenterRepository.counselingCenter.get(position).get("id"));
+                manager = CenterRepository.counselingCenter.get(position).get("id").toString();
             }
 
             managerTextView.setText(value);
