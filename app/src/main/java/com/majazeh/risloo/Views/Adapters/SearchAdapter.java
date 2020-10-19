@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
+import com.majazeh.risloo.Models.Repositories.CenterRepository;
+import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Views.Activities.CreateCenterActivity;
 import com.majazeh.risloo.Views.Activities.CreateSampleActivity;
@@ -56,27 +58,63 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
             }
 
             holder.titleTextView.setText(model.get("name").toString());
+
+            switch (method) {
+                case "getPersonalClinic":
+                    if (((CreateCenterActivity) Objects.requireNonNull(activity)).manager.equals(model.get("id").toString())) {
+                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                    } else {
+                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                    }
+                    break;
+                case "getCounselingCenter":
+                    if (theory.equals("CreateCenter")) {
+                        if (((CreateCenterActivity) Objects.requireNonNull(activity)).manager.equals(model.get("id").toString())) {
+                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                        } else {
+                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                        }
+                    } else if (theory.equals("EditCenter")) {
+                        if (((EditCenterActivity) Objects.requireNonNull(activity)).managerId.equals(model.get("id").toString())) {
+                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                        } else {
+                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                        }
+                    }
+                    break;
+                case "getRooms":
+                    if (SampleRepository.roomsSearch.size() != 0) {
+                        if (((CreateSampleActivity) Objects.requireNonNull(activity)).room.equals(SampleRepository.roomsSearch.get(i).get("id").toString())) {
+                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                        } else {
+                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                        }
+                    } else {
+                        if (((CreateSampleActivity) Objects.requireNonNull(activity)).room.equals(SampleRepository.rooms.get(i).get("id").toString())) {
+                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                        } else {
+                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                        }
+                    }
+                    break;
+                case "getCases":
+                    if (SampleRepository.casesSearch.size() != 0) {
+                        if (((CreateSampleActivity) Objects.requireNonNull(activity)).casse.equals(SampleRepository.casesSearch.get(i).get("id").toString())) {
+                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                        } else {
+                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                        }
+                    } else {
+                        if (((CreateSampleActivity) Objects.requireNonNull(activity)).casse.equals(SampleRepository.cases.get(i).get("id").toString())) {
+                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                        } else {
+                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                        }
+                    }
+                    break;
+            }
         } catch (JSONException e) {
             e.printStackTrace();
-        }
-
-        switch (method) {
-            case "getPersonalClinic":
-            case "getCounselingCenter":
-                if (theory.equals("CreateCenter")) {
-                    if (((CreateCenterActivity) Objects.requireNonNull(activity)).managerTextView.getText().equals(holder.titleTextView.getText())) {
-                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                    } else {
-                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                    }
-                } else if (theory.equals("EditCenter")) {
-                    if (((EditCenterActivity) Objects.requireNonNull(activity)).managerTextView.getText().equals(holder.titleTextView.getText())) {
-                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                    } else {
-                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                    }
-                }
-                break;
         }
 
         holder.itemView.setOnClickListener(v -> {

@@ -78,7 +78,7 @@ public class CreateCenterActivity extends AppCompatActivity {
     private SpinnerAdapter phoneRecyclerViewAdapter;
 
     // Vars
-    private String type = "personal_clinic", manager = "", title = "", description = "", address = "";
+    public String type = "personal_clinic", manager = "", title = "", description = "", address = "";
     private String imageFilePath = "";
     private boolean typeException = false, managerException = false, avatarException = false, phoneException =false;
     public boolean galleryPermissionsGranted = false, cameraPermissionsGranted = false;

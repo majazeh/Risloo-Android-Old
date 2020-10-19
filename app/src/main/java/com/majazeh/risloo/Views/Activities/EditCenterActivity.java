@@ -57,7 +57,7 @@ public class EditCenterActivity extends AppCompatActivity {
     private SpinnerAdapter phoneRecyclerViewAdapter;
 
     // Vars
-    private String id = "", type = "", manager = "", managerId = "", title = "", description = "", address = "";
+    public String id = "", type = "", manager = "", managerId = "", title = "", description = "", address = "";
     private boolean managerException = false, phoneException = false;
 
     // Objects
@@ -733,7 +733,7 @@ public class EditCenterActivity extends AppCompatActivity {
         try {
             if (method.equals("getCounselingCenter")) {
                 manager = value;
-                managerId = String.valueOf(CenterRepository.counselingCenter.get(position).get("id"));
+                managerId = CenterRepository.counselingCenter.get(position).get("id").toString();
             }
 
             managerTextView.setText(manager);
