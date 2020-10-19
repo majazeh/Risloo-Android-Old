@@ -653,40 +653,12 @@ public class CreateSampleActivity extends AppCompatActivity {
     public void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
         switch (method) {
             case "scales":
-                try {
-                    ArrayList<Model> scales = new ArrayList<>();
-                    ArrayList<String> ids = new ArrayList<>();
-                    for (int i = 0; i < arrayList.size(); i++) {
-                        JSONObject scale = new JSONObject().put("name", arrayList.get(i).get("title"));
-                        scales.add(new Model(scale));
-
-                        String id = arrayList.get(i).get("id").toString();
-                        ids.add(id);
-                    }
-
-                    scaleRecyclerViewAdapter.setValue(scales, ids, method, "CreateSample");
-                    recyclerView.setAdapter(scaleRecyclerViewAdapter);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                scaleRecyclerViewAdapter.setValue(scaleRecyclerViewAdapter.getValues(), scaleRecyclerViewAdapter.getIds(), method, "CreateSample");
+                recyclerView.setAdapter(scaleRecyclerViewAdapter);
                 break;
             case "roomReferences":
-                try {
-                    ArrayList<Model> users = new ArrayList<>();
-                    ArrayList<String> ids = new ArrayList<>();
-                    for (int i = 0; i < arrayList.size(); i++) {
-                        JSONObject user = (JSONObject) arrayList.get(i).get("user");
-                        users.add(new Model(user));
-
-                        String id = arrayList.get(i).get("id").toString();
-                        ids.add(id);
-                    }
-
-                    roomReferenceRecyclerViewAdapter.setValue(users, ids, method, "CreateSample");
-                    recyclerView.setAdapter(roomReferenceRecyclerViewAdapter);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                roomReferenceRecyclerViewAdapter.setValue(roomReferenceRecyclerViewAdapter.getValues(), roomReferenceRecyclerViewAdapter.getIds(), method, "CreateSample");
+                recyclerView.setAdapter(roomReferenceRecyclerViewAdapter);
                 break;
             case "caseReferences":
                 caseReferenceRecyclerViewAdapter.setValue(arrayList, new ArrayList<>(), method, "CreateSample");
@@ -1051,9 +1023,14 @@ public class CreateSampleActivity extends AppCompatActivity {
         try {
             switch (method) {
                 case "getScales":
-                    if (!scaleRecyclerViewAdapter.getValues().contains(SampleRepository.scales.get(position))) {
-                        scaleRecyclerViewAdapter.getValues().add(SampleRepository.scales.get(position));
-                        setRecyclerView(scaleRecyclerViewAdapter.getValues(), scaleRecyclerView, "scales");
+                    Model scaleModel = SampleRepository.scales.get(position);
+
+                    if (!scaleRecyclerViewAdapter.getIds().contains((String) scaleModel.get("id"))) {
+                        JSONObject scale = new JSONObject().put("name", scaleModel.get("title"));
+
+                        scaleRecyclerViewAdapter.getValues().add(new Model(scale));
+                        scaleRecyclerViewAdapter.getIds().add((String) scaleModel.get("id"));
+                        setRecyclerView(null, scaleRecyclerView, "scales");
                     }
 
                     if (scaleRecyclerViewAdapter.getValues().size() == 1) {
@@ -1148,9 +1125,14 @@ public class CreateSampleActivity extends AppCompatActivity {
                     break;
 
                 case "getReferences":
-                    if (!roomReferenceRecyclerViewAdapter.getValues().contains(SampleRepository.references.get(position))) {
-                        roomReferenceRecyclerViewAdapter.getValues().add(SampleRepository.references.get(position));
-                        setRecyclerView(roomReferenceRecyclerViewAdapter.getValues(), roomReferenceRecyclerView, "roomReferences");
+                    Model referenceModel = SampleRepository.references.get(position);
+
+                    if (!roomReferenceRecyclerViewAdapter.getIds().contains((String) referenceModel.get("id"))) {
+                        JSONObject user = (JSONObject) referenceModel.get("user");
+
+                        roomReferenceRecyclerViewAdapter.getValues().add(new Model(user));
+                        roomReferenceRecyclerViewAdapter.getIds().add((String) referenceModel.get("id"));
+                        setRecyclerView(null, roomReferenceRecyclerView, "roomReferences");
                     }
 
                     if (roomReferenceRecyclerViewAdapter.getValues().size() == 1) {
