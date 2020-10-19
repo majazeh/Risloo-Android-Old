@@ -399,6 +399,10 @@ public class CenterWorker extends Worker {
                 JSONArray data = successBody.getJSONArray("data");
 
                 if (data.length() != 0) {
+                    if (CenterRepository.personalClinicSearch.size() != 0) {
+                        CenterRepository.personalClinicSearch.clear();
+                    }
+
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
                         if (CenterRepository.personalClinicQ.equals("")) {
@@ -447,6 +451,10 @@ public class CenterWorker extends Worker {
                 JSONArray data = successBody.getJSONArray("data");
 
                 if (data.length() != 0) {
+                    if (CenterRepository.counselingCenterSearch.size() != 0) {
+                        CenterRepository.counselingCenterSearch.clear();
+                    }
+
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
                         if (CenterRepository.counselingCenterQ.equals("")) {

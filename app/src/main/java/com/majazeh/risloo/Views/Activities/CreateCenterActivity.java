@@ -93,11 +93,11 @@ public class CreateCenterActivity extends AppCompatActivity {
     // Widgets
     private Toolbar toolbar;
     private TabLayout typeTabLayout;
-    public TextView managerTextView, selectTextView, avatarTextView, phoneTextView, phoneDialogPositive, phoneDialogNegative;
+    public TextView managerTextView, selectTextView, avatarTextView, phoneTextView, managerDialogTextView, phoneDialogPositive, phoneDialogNegative;
     private EditText titleEditText, descriptionEditText, addressEditText, managerDialogEditText, phoneDialogEditText;
     private RecyclerView phoneRecyclerView, managerDialogRecyclerView;
-    private ProgressBar managerProgressBar;
-    private ImageView managerImageView, phoneImageView;
+    private ProgressBar managerProgressBar, managerDialogProgressBar;
+    private ImageView managerImageView, phoneImageView, managerDialogImageView;
     private LinearLayout avatarLinearLayout, phoneLinearLayout;
     private FrameLayout managerFrameLayout;
     private Button createButton;
@@ -198,6 +198,12 @@ public class CreateCenterActivity extends AppCompatActivity {
         managerDialogEditText = managerDialog.findViewById(R.id.dialog_search_editText);
         phoneDialogEditText = phoneDialog.findViewById(R.id.dialog_phone_editText);
 
+        managerDialogImageView = managerDialog.findViewById(R.id.dialog_search_imageView);
+
+        managerDialogProgressBar = managerDialog.findViewById(R.id.dialog_search_progressBar);
+
+        managerDialogTextView = managerDialog.findViewById(R.id.dialog_search_textView);
+
         managerDialogRecyclerView = managerDialog.findViewById(R.id.dialog_search_recyclerView);
         managerDialogRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
         managerDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -261,6 +267,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                         if (CenterRepository.counselingCenter.size() != 0) {
                             manager = "";
                             CenterRepository.counselingCenter.clear();
+                            CenterRepository.counselingCenterSearch.clear();
                             managerDialogRecyclerView.setAdapter(null);
                             managerTextView.setText(getResources().getString(R.string.CreateCenterManager));
                             managerTextView.setTextColor(getResources().getColor(R.color.Mischka));
@@ -290,6 +297,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                         if (CenterRepository.personalClinic.size() != 0) {
                             manager = "";
                             CenterRepository.personalClinic.clear();
+                            CenterRepository.personalClinicSearch.clear();
                             managerDialogRecyclerView.setAdapter(null);
                             managerTextView.setText(getResources().getString(R.string.CreateCenterManager));
                             managerTextView.setTextColor(getResources().getColor(R.color.Mischka));
@@ -324,14 +332,16 @@ public class CreateCenterActivity extends AppCompatActivity {
 
             if (type.equals("personal_clinic")) {
                 if (CenterRepository.personalClinic.size() == 0) {
-                    getData("getPersonalClinic");
+                    getData("getPersonalClinic", "");
                 } else {
+                    setRecyclerView(CenterRepository.personalClinic, managerDialogRecyclerView, CenterRepository.work);
                     managerDialog.show();
                 }
             } else {
                 if (CenterRepository.counselingCenter.size() == 0) {
-                    getData("getCounselingCenter");
+                    getData("getCounselingCenter", "");
                 } else {
+                    setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, CenterRepository.work);
                     managerDialog.show();
                 }
             }
@@ -498,8 +508,26 @@ public class CreateCenterActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 handler.removeCallbacksAndMessages(null);
                 handler.postDelayed(() -> {
-                    // TODO : Reset SearchDialog
-                }, 1000);
+                    if (type.equals("personal_clinic")) {
+                        if (managerDialogEditText.length() == 0) {
+                            setRecyclerView(CenterRepository.personalClinic, managerDialogRecyclerView, CenterRepository.work);
+                        } else if (managerDialogEditText.length() == 1 || managerDialogEditText.length() == 2 ) {
+                            ExceptionManager.getException(false, 0, null, "MustBeThreeCharException", "center");
+                            Toast.makeText(CreateCenterActivity.this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                        } else {
+                            getData("getPersonalClinic", managerDialogEditText.getText().toString().trim());
+                        }
+                    } else {
+                        if (managerDialogEditText.length() == 0) {
+                            setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, CenterRepository.work);
+                        } else if (managerDialogEditText.length() == 1 || managerDialogEditText.length() == 2 ) {
+                            ExceptionManager.getException(false, 0, null, "MustBeThreeCharException", "center");
+                            Toast.makeText(CreateCenterActivity.this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                        } else {
+                            getData("getCounselingCenter", managerDialogEditText.getText().toString().trim());
+                        }
+                    }
+                }, 750);
             }
 
             @Override
@@ -509,6 +537,19 @@ public class CreateCenterActivity extends AppCompatActivity {
         });
 
         managerDialog.setOnCancelListener(dialog -> {
+            // Reset Manager Search
+            if (type.equals("personal_clinic")) {
+                if (CenterRepository.personalClinicSearch.size() != 0) {
+                    CenterRepository.personalClinicSearch.clear();
+                    managerDialogRecyclerView.setAdapter(null);
+                }
+            } else {
+                if (CenterRepository.counselingCenterSearch.size() != 0) {
+                    CenterRepository.counselingCenterSearch.clear();
+                    managerDialogRecyclerView.setAdapter(null);
+                }
+            }
+
             if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
                 inputHandler.clear(this, inputHandler.getInput());
                 inputHandler.getInput().getText().clear();
@@ -611,6 +652,14 @@ public class CreateCenterActivity extends AppCompatActivity {
         } else if (method.equals("getPersonalClinic") || method.equals("getCounselingCenter")) {
             managerDialogAdapter.setValue(arrayList, method, "CreateCenter");
             recyclerView.setAdapter(managerDialogAdapter);
+            
+            if (arrayList.size() == 0) {
+                managerDialogTextView.setVisibility(View.VISIBLE);
+            } else {
+                if (managerDialogTextView.getVisibility() == View.VISIBLE) {
+                    managerDialogTextView.setVisibility(View.GONE);
+                }
+            }
         }
     }
 
@@ -670,25 +719,35 @@ public class CreateCenterActivity extends AppCompatActivity {
         }
     }
 
-    private void getData(String method) {
+    private void getData(String method, String q) {
         try {
             switch (method) {
                 case "getPersonalClinic":
-                    managerProgressBar.setVisibility(View.VISIBLE);
-                    managerImageView.setVisibility(View.GONE);
-                    managerTextView.setClickable(false);
+                    if (q.equals("")) {
+                        managerProgressBar.setVisibility(View.VISIBLE);
+                        managerImageView.setVisibility(View.GONE);
+                        managerTextView.setClickable(false);
+                    } else {
+                        managerDialogProgressBar.setVisibility(View.VISIBLE);
+                        managerDialogImageView.setVisibility(View.GONE);
+                    }
 
-                    viewModel.personalClinic("");
+                    viewModel.personalClinic(q);
                     break;
                 case "getCounselingCenter":
-                    managerProgressBar.setVisibility(View.VISIBLE);
-                    managerImageView.setVisibility(View.GONE);
-                    managerTextView.setClickable(false);
+                    if (q.equals("")) {
+                        managerProgressBar.setVisibility(View.VISIBLE);
+                        managerImageView.setVisibility(View.GONE);
+                        managerTextView.setClickable(false);
+                    } else {
+                        managerDialogProgressBar.setVisibility(View.VISIBLE);
+                        managerDialogImageView.setVisibility(View.GONE);
+                    }
 
-                    viewModel.counselingCenter("");
+                    viewModel.counselingCenter(q);
                     break;
             }
-            observeWork();
+            observeWork(q);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -702,7 +761,7 @@ public class CreateCenterActivity extends AppCompatActivity {
             try {
                 progressDialog.show();
                 viewModel.create(type, manager, "", "", address, description, phoneRecyclerViewAdapter.getIds());
-                observeWork();
+                observeWork(null);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -716,14 +775,14 @@ public class CreateCenterActivity extends AppCompatActivity {
             try {
                 progressDialog.show();
                 viewModel.create(type, manager, title, "", address, description, phoneRecyclerViewAdapter.getIds());
-                observeWork();
+                observeWork(null);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void observeWork() {
+    private void observeWork(String q) {
         CenterRepository.workState.observe((LifecycleOwner) this, integer -> {
             switch (CenterRepository.work) {
                 case "create":
@@ -746,46 +805,80 @@ public class CreateCenterActivity extends AppCompatActivity {
                     break;
                 case "getPersonalClinic":
                     if (integer == 1) {
-                        managerDialog.show();
-                        setRecyclerView(CenterRepository.personalClinic, managerDialogRecyclerView, CenterRepository.work);
+                        if (q.equals("")) {
+                            setRecyclerView(CenterRepository.personalClinic, managerDialogRecyclerView, CenterRepository.work);
+                            managerDialog.show();
 
-                        managerProgressBar.setVisibility(View.GONE);
-                        managerImageView.setVisibility(View.VISIBLE);
-                        managerTextView.setClickable(true);
+                            managerProgressBar.setVisibility(View.GONE);
+                            managerImageView.setVisibility(View.VISIBLE);
+                            managerTextView.setClickable(true);
+                        } else {
+                            setRecyclerView(CenterRepository.personalClinicSearch, managerDialogRecyclerView, CenterRepository.work);
+
+                            managerDialogProgressBar.setVisibility(View.GONE);
+                            managerDialogImageView.setVisibility(View.VISIBLE);
+                        }
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     } else if (integer == 0) {
-                        managerProgressBar.setVisibility(View.GONE);
-                        managerImageView.setVisibility(View.VISIBLE);
-                        managerTextView.setClickable(true);
+                        if (q.equals("")) {
+                            managerProgressBar.setVisibility(View.GONE);
+                            managerImageView.setVisibility(View.VISIBLE);
+                            managerTextView.setClickable(true);
+                        } else {
+                            managerDialogProgressBar.setVisibility(View.GONE);
+                            managerDialogImageView.setVisibility(View.VISIBLE);
+                        }
                         Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
-                        managerProgressBar.setVisibility(View.GONE);
-                        managerImageView.setVisibility(View.VISIBLE);
-                        managerTextView.setClickable(true);
+                        if (q.equals("")) {
+                            managerProgressBar.setVisibility(View.GONE);
+                            managerImageView.setVisibility(View.VISIBLE);
+                            managerTextView.setClickable(true);
+                        } else {
+                            managerDialogProgressBar.setVisibility(View.GONE);
+                            managerDialogImageView.setVisibility(View.VISIBLE);
+                        }
                         Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
                     break;
                 case "getCounselingCenter":
                     if (integer == 1) {
-                        managerDialog.show();
-                        setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, CenterRepository.work);
+                        if (q.equals("")) {
+                            setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, CenterRepository.work);
+                            managerDialog.show();
 
-                        managerProgressBar.setVisibility(View.GONE);
-                        managerImageView.setVisibility(View.VISIBLE);
-                        managerTextView.setClickable(true);
+                            managerProgressBar.setVisibility(View.GONE);
+                            managerImageView.setVisibility(View.VISIBLE);
+                            managerTextView.setClickable(true);
+                        } else {
+                            setRecyclerView(CenterRepository.counselingCenterSearch, managerDialogRecyclerView, CenterRepository.work);
+
+                            managerDialogProgressBar.setVisibility(View.GONE);
+                            managerDialogImageView.setVisibility(View.VISIBLE);
+                        }
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     } else if (integer == 0) {
-                        managerProgressBar.setVisibility(View.GONE);
-                        managerImageView.setVisibility(View.VISIBLE);
-                        managerTextView.setClickable(true);
+                        if (q.equals("")) {
+                            managerProgressBar.setVisibility(View.GONE);
+                            managerImageView.setVisibility(View.VISIBLE);
+                            managerTextView.setClickable(true);
+                        } else {
+                            managerDialogProgressBar.setVisibility(View.GONE);
+                            managerDialogImageView.setVisibility(View.VISIBLE);
+                        }
                         Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
-                        managerProgressBar.setVisibility(View.GONE);
-                        managerImageView.setVisibility(View.VISIBLE);
-                        managerTextView.setClickable(true);
+                        if (q.equals("")) {
+                            managerProgressBar.setVisibility(View.GONE);
+                            managerImageView.setVisibility(View.VISIBLE);
+                            managerTextView.setClickable(true);
+                        } else {
+                            managerDialogProgressBar.setVisibility(View.GONE);
+                            managerDialogImageView.setVisibility(View.VISIBLE);
+                        }
                         Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
@@ -864,6 +957,19 @@ public class CreateCenterActivity extends AppCompatActivity {
 
             managerTextView.setText(value);
             managerTextView.setTextColor(getResources().getColor(R.color.Grey));
+
+            // Reset Manager Search
+            if (type.equals("personal_clinic")) {
+                if (CenterRepository.personalClinicSearch.size() != 0) {
+                    CenterRepository.personalClinicSearch.clear();
+                    managerDialogRecyclerView.setAdapter(null);
+                }
+            } else {
+                if (CenterRepository.counselingCenterSearch.size() != 0) {
+                    CenterRepository.counselingCenterSearch.clear();
+                    managerDialogRecyclerView.setAdapter(null);
+                }
+            }
 
             if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
                 inputHandler.clear(this, inputHandler.getInput());

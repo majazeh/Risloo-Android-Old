@@ -25,7 +25,6 @@ import java.util.Objects;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHolder> {
 
     // Vars
-    private int position = -1;
     private String method, theory;
     private ArrayList<Model> values;
 
@@ -61,27 +60,38 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
             e.printStackTrace();
         }
 
-        if (position == i) {
-            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-        } else {
-            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+        switch (method) {
+            case "getPersonalClinic":
+            case "getCounselingCenter":
+                if (theory.equals("CreateCenter")) {
+                    if (((CreateCenterActivity) Objects.requireNonNull(activity)).managerTextView.getText().equals(holder.titleTextView.getText())) {
+                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                    } else {
+                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                    }
+                } else if (theory.equals("EditCenter")) {
+                    if (((EditCenterActivity) Objects.requireNonNull(activity)).managerTextView.getText().equals(holder.titleTextView.getText())) {
+                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                    } else {
+                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                    }
+                }
+                break;
         }
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
             handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
 
-            position = i;
-
             switch (theory) {
                 case "CreateCenter":
-                    ((CreateCenterActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), position, method);
+                    ((CreateCenterActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), i, method);
                     break;
                 case "EditCenter":
-                    ((EditCenterActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), position, method);
+                    ((EditCenterActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), i, method);
                     break;
                 case "CreateSample":
-                    ((CreateSampleActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), position, method);
+                    ((CreateSampleActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), i, method);
                     break;
             }
 
@@ -99,8 +109,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
     }
 
     public void setValue(ArrayList<Model> values, String method, String theory) {
-        position = -1;
-
         this.values = values;
         this.method = method;
         this.theory = theory;
