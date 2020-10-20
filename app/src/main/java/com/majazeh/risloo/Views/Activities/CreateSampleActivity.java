@@ -71,7 +71,7 @@ public class CreateSampleActivity extends AppCompatActivity {
     // Widgets
     private Toolbar toolbar;
     private TabLayout typeTabLayout;
-    public TextView scaleTextView, roomTextView, caseTextView, roomReferenceTextView, caseReferenceTextView, scaleDialogTextView, roomDialogTextView, caseDialogTextView, roomReferenceDialogTextView;
+    public TextView scaleTextView, roomTextView, caseTextView, roomReferenceTextView, caseReferenceTextView, scaleDialogTextView, roomDialogTextView, caseDialogTextView, roomReferenceDialogTextView, scaleDialogConfirm, roomReferenceDialogConfirm;
     public EditText countEditText, scaleDialogEditText, roomDialogEditText, caseDialogEditText, roomReferenceDialogEditText;
     public RecyclerView scaleRecyclerView, roomReferenceRecyclerView, caseReferenceRecyclerView, scaleDialogRecyclerView, roomDialogRecyclerView, caseDialogRecyclerView, roomReferenceDialogRecyclerView;
     private ProgressBar scaleProgressBar, roomProgressBar, caseProgressBar, roomReferenceProgressBar, scaleDialogProgressBar, roomDialogProgressBar, caseDialogProgressBar, roomReferenceDialogProgressBar;
@@ -231,6 +231,11 @@ public class CreateSampleActivity extends AppCompatActivity {
         caseDialogTextView = caseDialog.findViewById(R.id.dialog_search_textView);
         roomReferenceDialogTextView = roomReferenceDialog.findViewById(R.id.dialog_search_textView);
 
+        scaleDialogConfirm = scaleDialog.findViewById(R.id.dialog_search_confirm_textView);
+        scaleDialogConfirm.setVisibility(View.VISIBLE);
+        roomReferenceDialogConfirm = roomReferenceDialog.findViewById(R.id.dialog_search_confirm_textView);
+        roomReferenceDialogConfirm.setVisibility(View.VISIBLE);
+
         scaleDialogRecyclerView = scaleDialog.findViewById(R.id.dialog_search_recyclerView);
         scaleDialogRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
         scaleDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -253,6 +258,9 @@ public class CreateSampleActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             scaleImageView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
             roomReferenceImageView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
+
+            scaleDialogConfirm.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            roomReferenceDialogConfirm.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
 
             createButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
         }
@@ -539,6 +547,24 @@ public class CreateSampleActivity extends AppCompatActivity {
             }
         });
 
+        scaleDialogConfirm.setOnClickListener(v -> {
+            scaleDialogConfirm.setClickable(false);
+            handler.postDelayed(() -> scaleDialogConfirm.setClickable(true), 300);
+
+            // Reset Scale Search
+            if (SampleRepository.scalesSearch.size() != 0) {
+                SampleRepository.scalesSearch.clear();
+                scaleDialogRecyclerView.setAdapter(null);
+            }
+
+            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                inputHandler.clear(this, inputHandler.getInput());
+                inputHandler.getInput().getText().clear();
+            }
+
+            scaleDialog.dismiss();
+        });
+
         scaleDialog.setOnCancelListener(dialog -> {
             // Reset Scale Search
             if (SampleRepository.scalesSearch.size() != 0) {
@@ -705,6 +731,24 @@ public class CreateSampleActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
 
             }
+        });
+
+        roomReferenceDialogConfirm.setOnClickListener(v -> {
+            roomReferenceDialogConfirm.setClickable(false);
+            handler.postDelayed(() -> roomReferenceDialogConfirm.setClickable(true), 300);
+
+            // Reset Reference Search
+            if (SampleRepository.referencesSearch.size() != 0) {
+                SampleRepository.referencesSearch.clear();
+                roomReferenceDialogRecyclerView.setAdapter(null);
+            }
+
+            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                inputHandler.clear(this, inputHandler.getInput());
+                inputHandler.getInput().getText().clear();
+            }
+
+            roomReferenceDialog.dismiss();
         });
 
         roomReferenceDialog.setOnCancelListener(dialog -> {
@@ -1171,19 +1215,6 @@ public class CreateSampleActivity extends AppCompatActivity {
                     if (scaleRecyclerViewAdapter.getValues().size() == 1) {
                         scaleTextView.setVisibility(View.GONE);
                     }
-
-                    // Reset Scale Search
-                    if (SampleRepository.scalesSearch.size() != 0) {
-                        SampleRepository.scalesSearch.clear();
-                        scaleDialogRecyclerView.setAdapter(null);
-                    }
-
-                    if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
-                        inputHandler.clear(this, inputHandler.getInput());
-                        inputHandler.getInput().getText().clear();
-                    }
-
-                    scaleDialog.dismiss();
                     break;
 
                 case "getRooms":
@@ -1307,19 +1338,6 @@ public class CreateSampleActivity extends AppCompatActivity {
                         roomReferenceTextView.setVisibility(View.GONE);
                         countEditText.setVisibility(View.GONE);
                     }
-
-                    // Reset Reference Search
-                    if (SampleRepository.referencesSearch.size() != 0) {
-                        SampleRepository.referencesSearch.clear();
-                        roomReferenceDialogRecyclerView.setAdapter(null);
-                    }
-
-                    if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
-                        inputHandler.clear(this, inputHandler.getInput());
-                        inputHandler.getInput().getText().clear();
-                    }
-
-                    roomReferenceDialog.dismiss();
                     break;
             }
         } catch (JSONException e) {

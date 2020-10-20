@@ -10,6 +10,7 @@
 
     <string name="AppSearch">جستجو</string>
     <string name="AppSearchEmpty">جستجوی یافت نشد</string>
+    <string name="AppSearchConfirm">ثبت</string>
 
     <string name="AppLoading">در حال بارگذاری …</string>
     <string name="AppError">مشکل ارتباط با سرور! تلاش مجدد</string>
