@@ -1,6 +1,6 @@
 package com.majazeh.risloo.Utils;
 
-import  android.app.Activity;
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
@@ -63,7 +64,7 @@ public class IntentCaller {
 
     public void phone(Context context, String number) {
         Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.fromParts("tel", number , null));
+        intent.setData(Uri.fromParts("tel", number, null));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         context.startActivity(intent);
@@ -71,7 +72,7 @@ public class IntentCaller {
 
     public void sms(Context context, String number) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.fromParts("sms", number , null));
+        intent.setData(Uri.fromParts("sms", number, null));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         context.startActivity(intent);
@@ -161,7 +162,7 @@ public class IntentCaller {
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.allowScanningByMediaScanner();
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, url);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, url.substring(url.lastIndexOf('/')));
 
         DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         Objects.requireNonNull(manager).enqueue(request);

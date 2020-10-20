@@ -487,7 +487,7 @@ public class AuthWorker extends Worker {
                 else
                     editor.putString("birthday", "");
 
-                if (!data.isNull("avatar") &&data.get("avatar").getClass().getName().equals("org.json.JSONObject")) {
+                if (!data.isNull("avatar") && data.get("avatar").getClass().getName().equals("org.json.JSONObject")) {
                     JSONObject avatar = data.getJSONObject("avatar");
                     JSONObject medium = avatar.getJSONObject("medium");
 
@@ -641,7 +641,26 @@ public class AuthWorker extends Worker {
 
                 ExceptionManager.getException(true, bodyResponse.code(), successBody, "logOut", "auth");
                 AuthRepository.workState.postValue(1);
-            } else {
+            } else if ( bodyResponse.code() == 401) {
+                JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
+
+                editor.remove("hasAccess");
+
+                editor.remove("token");
+                editor.remove("userId");
+                editor.remove("name");
+                editor.remove("type");
+                editor.remove("mobile");
+                editor.remove("email");
+                editor.remove("gender");
+                editor.remove("birthday");
+                editor.remove("avatar");
+
+                editor.apply();
+
+                ExceptionManager.getException(true, bodyResponse.code(), errorBody, "logOut", "auth");
+                AuthRepository.workState.postValue(1);
+            }else{
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
                 ExceptionManager.getException(true, bodyResponse.code(), errorBody, "logOut", "auth");

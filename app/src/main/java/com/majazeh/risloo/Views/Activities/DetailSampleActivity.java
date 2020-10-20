@@ -562,9 +562,13 @@ public class DetailSampleActivity extends AppCompatActivity {
                         Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
+
                     break;
                 case "score":
                     if (integer == 1) {
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+
+                        launchProcess("getGeneral");
                         setResult(RESULT_OK, null);
                     } else if (integer == 0) {
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
