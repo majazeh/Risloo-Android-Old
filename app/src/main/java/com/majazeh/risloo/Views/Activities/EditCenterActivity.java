@@ -57,7 +57,7 @@ public class EditCenterActivity extends AppCompatActivity {
     private SpinnerAdapter phoneRecyclerViewAdapter;
 
     // Vars
-    public String id = "", type = "", manager = "", managerId = "", title = "", description = "", address = "";
+    public String id = "", type = "", managerName = "", managerId = "", title = "", description = "", address = "";
     private boolean managerException = false, phoneException = false;
 
     // Objects
@@ -214,7 +214,7 @@ public class EditCenterActivity extends AppCompatActivity {
             if (CenterRepository.counselingCenter.size() == 0) {
                 getData("getCounselingCenter", "");
             } else {
-                setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, CenterRepository.work);
+                setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getCounselingCenter");
                 managerDialog.show();
             }
         });
@@ -267,7 +267,7 @@ public class EditCenterActivity extends AppCompatActivity {
             }
 
             if (type.equals("personal_clinic")) {
-                if (manager.isEmpty()) {
+                if (managerName.isEmpty()) {
                     errorView("manager");
                 }
 
@@ -278,11 +278,11 @@ public class EditCenterActivity extends AppCompatActivity {
                     clearException("phone");
                 }
 
-                if (!manager.isEmpty()) {
+                if (!managerName.isEmpty()) {
                     doWork();
                 }
             } else {
-                if (manager.isEmpty()) {
+                if (managerName.isEmpty()) {
                     errorView("manager");
                 }
                 if (titleEditText.length() == 0) {
@@ -296,7 +296,7 @@ public class EditCenterActivity extends AppCompatActivity {
                     clearException("phone");
                 }
 
-                if (!manager.isEmpty() && titleEditText.length() != 0) {
+                if (!managerName.isEmpty() && titleEditText.length() != 0) {
                     inputHandler.clear(this, titleEditText);
 
                     doWork();
@@ -330,7 +330,7 @@ public class EditCenterActivity extends AppCompatActivity {
                 handler.removeCallbacksAndMessages(null);
                 handler.postDelayed(() -> {
                     if (managerDialogEditText.length() == 0) {
-                        setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, CenterRepository.work);
+                        setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getCounselingCenter");
                     } else if (managerDialogEditText.length() == 1 || managerDialogEditText.length() == 2 ) {
                         ExceptionManager.getException(false, 0, null, "MustBeThreeCharException", "center");
                         Toast.makeText(EditCenterActivity.this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
@@ -509,7 +509,7 @@ public class EditCenterActivity extends AppCompatActivity {
     private void setData() {
         id = extras.getString("id");
         type = extras.getString("type");
-        manager = extras.getString("manager");
+        managerName = extras.getString("manager");
         managerId = extras.getString("manager_id");
 
         if (extras.getString("title") != null)
@@ -548,7 +548,7 @@ public class EditCenterActivity extends AppCompatActivity {
         } else {
             toolbar.setTitle(getResources().getString(R.string.EditCenterTitle));
 
-            managerTextView.setText(manager);
+            managerTextView.setText(managerName);
             titleEditText.setText(title);
 
             descriptionEditText.setText(description);
@@ -645,14 +645,14 @@ public class EditCenterActivity extends AppCompatActivity {
             } else if (CenterRepository.work.equals("getCounselingCenter")) {
                 if (integer == 1) {
                     if (q.equals("")) {
-                        setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, CenterRepository.work);
+                        setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getCounselingCenter");
                         managerDialog.show();
 
                         managerProgressBar.setVisibility(View.GONE);
                         managerImageView.setVisibility(View.VISIBLE);
                         managerTextView.setClickable(true);
                     } else {
-                        setRecyclerView(CenterRepository.counselingCenterSearch, managerDialogRecyclerView, CenterRepository.work);
+                        setRecyclerView(CenterRepository.counselingCenterSearch, managerDialogRecyclerView, "getCounselingCenter");
 
                         managerDialogProgressBar.setVisibility(View.GONE);
                         managerDialogImageView.setVisibility(View.VISIBLE);
@@ -729,14 +729,12 @@ public class EditCenterActivity extends AppCompatActivity {
         }
     }
 
-    public void observeSearchAdapter(String value, int position, String method) {
+    public void observeSearchAdapter(Model model, String method) {
         try {
-            if (method.equals("getCounselingCenter")) {
-                manager = value;
-                managerId = CenterRepository.counselingCenter.get(position).get("id").toString();
-            }
+            managerId = model.get("id").toString();
 
-            managerTextView.setText(manager);
+            managerName = model.get("name").toString();
+            managerTextView.setText(managerName);
 
             // Reset Manager Search
             if (CenterRepository.counselingCenterSearch.size() != 0) {

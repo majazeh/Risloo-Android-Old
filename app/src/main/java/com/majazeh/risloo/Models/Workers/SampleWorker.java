@@ -436,6 +436,10 @@ public class SampleWorker extends Worker {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONArray data = successBody.getJSONArray("data");
 
+                if (SampleRepository.scalesSearch.size() != 0) {
+                    SampleRepository.scalesSearch.clear();
+                }
+
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
@@ -476,12 +480,16 @@ public class SampleWorker extends Worker {
 
     private void getRooms() {
         try {
-            Call<ResponseBody> call = sampleApi.getRooms(token(),SampleRepository.roomQ);
+            Call<ResponseBody> call = sampleApi.getRooms(token(), SampleRepository.roomQ);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONArray data = successBody.getJSONArray("data");
+
+                if (SampleRepository.roomsSearch.size() != 0) {
+                    SampleRepository.roomsSearch.clear();
+                }
 
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
@@ -523,12 +531,16 @@ public class SampleWorker extends Worker {
 
     private void getReferences() {
         try {
-            Call<ResponseBody> call = sampleApi.getReferences(token(), SampleRepository.roomId,SampleRepository.referencesQ);
+            Call<ResponseBody> call = sampleApi.getReferences(token(), SampleRepository.roomId, SampleRepository.referencesQ);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONArray data = successBody.getJSONArray("data");
+
+                if (SampleRepository.referencesSearch.size() != 0) {
+                    SampleRepository.referencesSearch.clear();
+                }
 
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
@@ -576,6 +588,10 @@ public class SampleWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONArray data = successBody.getJSONArray("data");
+
+                if (SampleRepository.casesSearch.size() != 0) {
+                    SampleRepository.casesSearch.clear();
+                }
 
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {

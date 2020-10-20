@@ -334,14 +334,14 @@ public class CreateCenterActivity extends AppCompatActivity {
                 if (CenterRepository.personalClinic.size() == 0) {
                     getData("getPersonalClinic", "");
                 } else {
-                    setRecyclerView(CenterRepository.personalClinic, managerDialogRecyclerView, CenterRepository.work);
+                    setRecyclerView(CenterRepository.personalClinic, managerDialogRecyclerView, "getPersonalClinic");
                     managerDialog.show();
                 }
             } else {
                 if (CenterRepository.counselingCenter.size() == 0) {
                     getData("getCounselingCenter", "");
                 } else {
-                    setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, CenterRepository.work);
+                    setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getCounselingCenter");
                     managerDialog.show();
                 }
             }
@@ -510,7 +510,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                 handler.postDelayed(() -> {
                     if (type.equals("personal_clinic")) {
                         if (managerDialogEditText.length() == 0) {
-                            setRecyclerView(CenterRepository.personalClinic, managerDialogRecyclerView, CenterRepository.work);
+                            setRecyclerView(CenterRepository.personalClinic, managerDialogRecyclerView, "getPersonalClinic");
                         } else if (managerDialogEditText.length() == 1 || managerDialogEditText.length() == 2 ) {
                             ExceptionManager.getException(false, 0, null, "MustBeThreeCharException", "center");
                             Toast.makeText(CreateCenterActivity.this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
@@ -519,7 +519,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                         }
                     } else {
                         if (managerDialogEditText.length() == 0) {
-                            setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, CenterRepository.work);
+                            setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getCounselingCenter");
                         } else if (managerDialogEditText.length() == 1 || managerDialogEditText.length() == 2 ) {
                             ExceptionManager.getException(false, 0, null, "MustBeThreeCharException", "center");
                             Toast.makeText(CreateCenterActivity.this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
@@ -806,14 +806,14 @@ public class CreateCenterActivity extends AppCompatActivity {
                 case "getPersonalClinic":
                     if (integer == 1) {
                         if (q.equals("")) {
-                            setRecyclerView(CenterRepository.personalClinic, managerDialogRecyclerView, CenterRepository.work);
+                            setRecyclerView(CenterRepository.personalClinic, managerDialogRecyclerView, "getPersonalClinic");
                             managerDialog.show();
 
                             managerProgressBar.setVisibility(View.GONE);
                             managerImageView.setVisibility(View.VISIBLE);
                             managerTextView.setClickable(true);
                         } else {
-                            setRecyclerView(CenterRepository.personalClinicSearch, managerDialogRecyclerView, CenterRepository.work);
+                            setRecyclerView(CenterRepository.personalClinicSearch, managerDialogRecyclerView, "getPersonalClinic");
 
                             managerDialogProgressBar.setVisibility(View.GONE);
                             managerDialogImageView.setVisibility(View.VISIBLE);
@@ -846,14 +846,14 @@ public class CreateCenterActivity extends AppCompatActivity {
                 case "getCounselingCenter":
                     if (integer == 1) {
                         if (q.equals("")) {
-                            setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, CenterRepository.work);
+                            setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getCounselingCenter");
                             managerDialog.show();
 
                             managerProgressBar.setVisibility(View.GONE);
                             managerImageView.setVisibility(View.VISIBLE);
                             managerTextView.setClickable(true);
                         } else {
-                            setRecyclerView(CenterRepository.counselingCenterSearch, managerDialogRecyclerView, CenterRepository.work);
+                            setRecyclerView(CenterRepository.counselingCenterSearch, managerDialogRecyclerView, "getCounselingCenter");
 
                             managerDialogProgressBar.setVisibility(View.GONE);
                             managerDialogImageView.setVisibility(View.VISIBLE);
@@ -947,15 +947,11 @@ public class CreateCenterActivity extends AppCompatActivity {
         }
     }
 
-    public void observeSearchAdapter(String value, int position, String method) {
+    public void observeSearchAdapter(Model model, String method) {
         try {
-            if (method.equals("getPersonalClinic")) {
-                manager = CenterRepository.personalClinic.get(position).get("id").toString();
-            } else if (method.equals("getCounselingCenter")) {
-                manager = CenterRepository.counselingCenter.get(position).get("id").toString();
-            }
+            manager = model.get("id").toString();
 
-            managerTextView.setText(value);
+            managerTextView.setText(model.get("name").toString());
             managerTextView.setTextColor(getResources().getColor(R.color.Grey));
 
             // Reset Manager Search

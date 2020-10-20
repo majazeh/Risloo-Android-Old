@@ -12,14 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Repositories.CenterRepository;
-import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Views.Activities.CreateCenterActivity;
 import com.majazeh.risloo.Views.Activities.CreateSampleActivity;
 import com.majazeh.risloo.Views.Activities.EditCenterActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -57,60 +57,80 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                 holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz);
             }
 
-            holder.titleTextView.setText(model.get("name").toString());
-
             switch (method) {
                 case "getPersonalClinic":
-                    if (((CreateCenterActivity) Objects.requireNonNull(activity)).manager.equals(model.get("id").toString())) {
+                    holder.titleTextView.setText(model.get("name").toString());
+
+                    if (((CreateCenterActivity) Objects.requireNonNull(activity)).manager.equals(model.get("id").toString()))
                         holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                    } else {
+                    else
                         holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                    }
                     break;
                 case "getCounselingCenter":
+                    holder.titleTextView.setText(model.get("name").toString());
+
                     if (theory.equals("CreateCenter")) {
-                        if (((CreateCenterActivity) Objects.requireNonNull(activity)).manager.equals(model.get("id").toString())) {
+                        if (((CreateCenterActivity) Objects.requireNonNull(activity)).manager.equals(model.get("id").toString()))
                             holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                        } else {
+                         else
                             holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                        }
                     } else if (theory.equals("EditCenter")) {
-                        if (((EditCenterActivity) Objects.requireNonNull(activity)).managerId.equals(model.get("id").toString())) {
+                        if (((EditCenterActivity) Objects.requireNonNull(activity)).managerId.equals(model.get("id").toString()))
                             holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                        } else {
+                        else
                             holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                        }
                     }
+                    break;
+                case "getScales":
+                    holder.titleTextView.setText(model.get("title").toString());
+
+                    if (((CreateSampleActivity) Objects.requireNonNull(activity)).scaleRecyclerViewAdapter.getIds().contains(model.get("id").toString()))
+                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                    else
+                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
                     break;
                 case "getRooms":
-                    if (SampleRepository.roomsSearch.size() != 0) {
-                        if (((CreateSampleActivity) Objects.requireNonNull(activity)).room.equals(SampleRepository.roomsSearch.get(i).get("id").toString())) {
-                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                        } else {
-                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                        }
-                    } else {
-                        if (((CreateSampleActivity) Objects.requireNonNull(activity)).room.equals(SampleRepository.rooms.get(i).get("id").toString())) {
-                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                        } else {
-                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                        }
-                    }
+                    JSONObject manager = (JSONObject) model.get("manager");
+                    holder.titleTextView.setText(manager.get("name").toString());
+
+                    if (((CreateSampleActivity) Objects.requireNonNull(activity)).room.equals(model.get("id").toString()))
+                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                    else
+                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
                     break;
                 case "getCases":
-                    if (SampleRepository.casesSearch.size() != 0) {
-                        if (((CreateSampleActivity) Objects.requireNonNull(activity)).casse.equals(SampleRepository.casesSearch.get(i).get("id").toString())) {
-                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                        } else {
-                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                        }
-                    } else {
-                        if (((CreateSampleActivity) Objects.requireNonNull(activity)).casse.equals(SampleRepository.cases.get(i).get("id").toString())) {
-                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                        } else {
-                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                        }
+                    StringBuilder name = new StringBuilder();
+                    JSONArray client = (JSONArray) model.get("clients");
+
+                    for (int j = 0; j < client.length(); j++) {
+                        JSONObject object = client.getJSONObject(j);
+                        JSONObject user = object.getJSONObject("user");
+
+                        if (j == client.length() - 1)
+                            name.append(user.getString("name"));
+                        else
+                            name.append(user.getString("name")).append(" - ");
                     }
+
+                    if (!name.toString().equals("")) {
+                        JSONObject casse = new JSONObject().put("name", name);
+                        holder.titleTextView.setText(casse.get("name").toString());
+                    }
+
+                    if (((CreateSampleActivity) Objects.requireNonNull(activity)).casse.equals(model.get("id").toString()))
+                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                    else
+                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                    break;
+
+                case "getReferences":
+                    JSONObject user = (JSONObject) model.get("user");
+                    holder.titleTextView.setText(user.get("name").toString());
+
+                    if (((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceRecyclerViewAdapter.getIds().contains(model.get("id").toString()))
+                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                    else
+                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
                     break;
             }
         } catch (JSONException e) {
@@ -123,13 +143,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
             switch (theory) {
                 case "CreateCenter":
-                    ((CreateCenterActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), i, method);
+                    ((CreateCenterActivity) Objects.requireNonNull(activity)).observeSearchAdapter(model, method);
                     break;
                 case "EditCenter":
-                    ((EditCenterActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), i, method);
+                    ((EditCenterActivity) Objects.requireNonNull(activity)).observeSearchAdapter(model, method);
                     break;
                 case "CreateSample":
-                    ((CreateSampleActivity) Objects.requireNonNull(activity)).observeSearchAdapter(holder.titleTextView.getText().toString(), i, method);
+                    ((CreateSampleActivity) Objects.requireNonNull(activity)).observeSearchAdapter(model, method);
                     break;
             }
 
