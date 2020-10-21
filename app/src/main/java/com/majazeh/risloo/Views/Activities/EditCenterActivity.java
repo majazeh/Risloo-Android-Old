@@ -331,8 +331,8 @@ public class EditCenterActivity extends AppCompatActivity {
                 handler.postDelayed(() -> {
                     if (managerDialogEditText.length() == 0) {
                         setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getCounselingCenter");
-                    } else if (managerDialogEditText.length() == 1 || managerDialogEditText.length() == 2 ) {
-                        ExceptionManager.getException(false, 0, null, "MustBeThreeCharException", "center");
+                    } else if (managerDialogEditText.length() == 1) {
+                        ExceptionManager.getException(false, 0, null, "MustBeTwoCharException", "center");
                         Toast.makeText(EditCenterActivity.this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     } else {
                         getData("getCounselingCenter", managerDialogEditText.getText().toString().trim());

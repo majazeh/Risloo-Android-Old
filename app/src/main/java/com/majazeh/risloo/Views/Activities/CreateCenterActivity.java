@@ -511,8 +511,8 @@ public class CreateCenterActivity extends AppCompatActivity {
                     if (type.equals("personal_clinic")) {
                         if (managerDialogEditText.length() == 0) {
                             setRecyclerView(CenterRepository.personalClinic, managerDialogRecyclerView, "getPersonalClinic");
-                        } else if (managerDialogEditText.length() == 1 || managerDialogEditText.length() == 2 ) {
-                            ExceptionManager.getException(false, 0, null, "MustBeThreeCharException", "center");
+                        } else if (managerDialogEditText.length() == 1) {
+                            ExceptionManager.getException(false, 0, null, "MustBeTwoCharException", "center");
                             Toast.makeText(CreateCenterActivity.this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         } else {
                             getData("getPersonalClinic", managerDialogEditText.getText().toString().trim());
@@ -520,8 +520,8 @@ public class CreateCenterActivity extends AppCompatActivity {
                     } else {
                         if (managerDialogEditText.length() == 0) {
                             setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getCounselingCenter");
-                        } else if (managerDialogEditText.length() == 1 || managerDialogEditText.length() == 2 ) {
-                            ExceptionManager.getException(false, 0, null, "MustBeThreeCharException", "center");
+                        } else if (managerDialogEditText.length() == 1) {
+                            ExceptionManager.getException(false, 0, null, "MustBeTwoCharException", "center");
                             Toast.makeText(CreateCenterActivity.this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                         } else {
                             getData("getCounselingCenter", managerDialogEditText.getText().toString().trim());

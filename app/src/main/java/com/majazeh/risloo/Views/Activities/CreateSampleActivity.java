@@ -532,8 +532,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                 handler.postDelayed(() -> {
                     if (scaleDialogEditText.length() == 0) {
                         setRecyclerView(SampleRepository.scales, scaleDialogRecyclerView, "getScales");
-                    } else if (scaleDialogEditText.length() == 1 || scaleDialogEditText.length() == 2 ) {
-                        ExceptionManager.getException(false, 0, null, "MustBeThreeCharException", "sample");
+                    } else if (scaleDialogEditText.length() == 1) {
+                        ExceptionManager.getException(false, 0, null, "MustBeTwoCharException", "sample");
                         Toast.makeText(CreateSampleActivity.this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     } else {
                         getData("getScales", "", scaleDialogEditText.getText().toString().trim());
@@ -606,8 +606,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                 handler.postDelayed(() -> {
                     if (roomDialogEditText.length() == 0) {
                         setRecyclerView(SampleRepository.rooms, roomDialogRecyclerView, "getRooms");
-                    } else if (roomDialogEditText.length() == 1 || roomDialogEditText.length() == 2 ) {
-                        ExceptionManager.getException(false, 0, null, "MustBeThreeCharException", "sample");
+                    } else if (roomDialogEditText.length() == 1) {
+                        ExceptionManager.getException(false, 0, null, "MustBeTwoCharException", "sample");
                         Toast.makeText(CreateSampleActivity.this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     } else {
                         getData("getRooms", "", roomDialogEditText.getText().toString().trim());
@@ -662,8 +662,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                 handler.postDelayed(() -> {
                     if (caseDialogEditText.length() == 0) {
                         setRecyclerView(SampleRepository.cases, caseDialogRecyclerView, "getCases");
-                    } else if (caseDialogEditText.length() == 1 || caseDialogEditText.length() == 2 ) {
-                        ExceptionManager.getException(false, 0, null, "MustBeThreeCharException", "sample");
+                    } else if (caseDialogEditText.length() == 1) {
+                        ExceptionManager.getException(false, 0, null, "MustBeTwoCharException", "sample");
                         Toast.makeText(CreateSampleActivity.this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     } else {
                         getData("getCases", room, caseDialogEditText.getText().toString().trim());
@@ -718,8 +718,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                 handler.postDelayed(() -> {
                     if (roomReferenceDialogEditText.length() == 0) {
                         setRecyclerView(SampleRepository.references, roomReferenceDialogRecyclerView, "getReference");
-                    } else if (roomReferenceDialogEditText.length() == 1 || roomReferenceDialogEditText.length() == 2 ) {
-                        ExceptionManager.getException(false, 0, null, "MustBeThreeCharException", "sample");
+                    } else if (roomReferenceDialogEditText.length() == 1) {
+                        ExceptionManager.getException(false, 0, null, "MustBeTwoCharException", "sample");
                         Toast.makeText(CreateSampleActivity.this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
                     } else {
                         getData("getReference", room, roomReferenceDialogEditText.getText().toString().trim());
