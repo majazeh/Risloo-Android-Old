@@ -641,7 +641,7 @@ public class AuthWorker extends Worker {
 
                 ExceptionManager.getException(true, bodyResponse.code(), successBody, "logOut", "auth");
                 AuthRepository.workState.postValue(1);
-            } else if ( bodyResponse.code() == 401) {
+            } else if (bodyResponse.code() == 401) {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
                 editor.remove("hasAccess");
@@ -660,7 +660,7 @@ public class AuthWorker extends Worker {
 
                 ExceptionManager.getException(true, bodyResponse.code(), errorBody, "logOut", "auth");
                 AuthRepository.workState.postValue(1);
-            }else{
+            } else {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
                 ExceptionManager.getException(true, bodyResponse.code(), errorBody, "logOut", "auth");
