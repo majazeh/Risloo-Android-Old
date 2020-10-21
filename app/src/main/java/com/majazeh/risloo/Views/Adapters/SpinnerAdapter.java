@@ -60,7 +60,18 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                 holder.deleteImageView.setBackgroundResource(R.drawable.draw_rectangle_solid_snow_ripple_violetred);
             }
 
-            holder.titleTextView.setText(model.get("name").toString());
+            switch (method) {
+                case "scales":
+                    holder.titleTextView.setText(model.get("title").toString());
+                    break;
+                case "roomReferences":
+                    holder.titleTextView.setText(model.get("user").toString());
+                    break;
+                case "phones":
+                    holder.titleTextView.setText(model.get("name").toString());
+                    break;
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -78,15 +89,11 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                 switch (method) {
                     case "scales":
                         // Reset Scales
-                        ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleDialogRecyclerView.setAdapter(null);
                         ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleTextView.setVisibility(View.VISIBLE);
-                        ((CreateSampleActivity) Objects.requireNonNull(activity)).setRecyclerView(SampleRepository.scales, ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleDialogRecyclerView, "getScales");
                         break;
                     case "roomReferences":
                         // Reset RoomReferences
-                        ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceDialogRecyclerView.setAdapter(null);
                         ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceTextView.setVisibility(View.VISIBLE);
-                        ((CreateSampleActivity) Objects.requireNonNull(activity)).setRecyclerView(SampleRepository.references, ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceDialogRecyclerView, "getReferences");
 
                         // Reset Count
                         ((CreateSampleActivity) Objects.requireNonNull(activity)).count = "";

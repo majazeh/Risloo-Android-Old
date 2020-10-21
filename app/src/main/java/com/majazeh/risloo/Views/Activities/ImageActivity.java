@@ -68,11 +68,7 @@ public class ImageActivity extends AppCompatActivity {
             Picasso.get().load(image).placeholder(R.color.Nero).into(imageView);
         } else {
             path = extras.getString("path");
-            if (path.equals("")) {
-                imageView.setImageBitmap(FileManager.readBitmapFromCache(this, "image"));
-            } else {
-                imageView.setImageBitmap(BitmapManager.modifyOrientation(FileManager.readBitmapFromCache(this, "image"), path));
-            }
+            imageView.setImageBitmap(BitmapManager.modifyOrientation(FileManager.readBitmapFromCache(this, "image"), path));
             FileManager.deleteFileFromCache(this, "image");
         }
     }

@@ -50,6 +50,7 @@ import com.majazeh.risloo.Models.Managers.BitmapManager;
 import com.majazeh.risloo.Utils.InputHandler;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.ItemDecorator;
+import com.majazeh.risloo.Utils.PathProvider;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.Views.Adapters.SearchAdapter;
@@ -87,6 +88,7 @@ public class CreateCenterActivity extends AppCompatActivity {
     private Handler handler;
     private IntentCaller intentCaller;
     private InputHandler inputHandler;
+    private PathProvider pathProvider;
     private ImageDialog imageDialog;
     private Bitmap selectedBitmap;
 
@@ -134,6 +136,8 @@ public class CreateCenterActivity extends AppCompatActivity {
         intentCaller = new IntentCaller();
 
         inputHandler = new InputHandler();
+
+        pathProvider = new PathProvider();
 
         imageDialog = new ImageDialog(this);
         imageDialog.setType("createCenter");
@@ -417,11 +421,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
                 intent.putExtra("title", "");
                 intent.putExtra("bitmap", true);
-                if (imageFilePath.equals("")) {
-                    intent.putExtra("path", "");
-                } else {
-                    intent.putExtra("path", imageFilePath);
-                }
+                intent.putExtra("path", imageFilePath);
                 FileManager.writeBitmapToCache(this, selectedBitmap, "image");
 
                 startActivity(intent);
@@ -1076,9 +1076,9 @@ public class CreateCenterActivity extends AppCompatActivity {
                     InputStream imageStream = getContentResolver().openInputStream(Objects.requireNonNull(imageUri));
                     Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
 
-                    selectedBitmap = BitmapManager.scaleToCenter(imageBitmap);
+                    imageFilePath = pathProvider.getLocalPath(this, imageUri);
 
-                    imageFilePath = "";
+                    selectedBitmap = BitmapManager.scaleToCenter(imageBitmap);
 
                     avatarTextView.setText(imageUri.getPath());
                     avatarTextView.setTextColor(getResources().getColor(R.color.Grey));
@@ -1097,7 +1097,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
                 Bitmap imageBitmap = BitmapFactory.decodeFile(imageFilePath, options);
 
-                selectedBitmap = BitmapManager.modifyOrientation(BitmapManager.scaleToCenter(imageBitmap), imageFilePath);
+                selectedBitmap = BitmapManager.scaleToCenter(imageBitmap);
 
                 avatarTextView.setText(imageFilePath);
                 avatarTextView.setTextColor(getResources().getColor(R.color.Grey));

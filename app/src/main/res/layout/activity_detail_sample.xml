@@ -387,11 +387,20 @@
                                     android:layout_marginBottom="@dimen/_16sdp"
                                     android:background="@color/Quartz" />
 
-                                <com.majazeh.risloo.Utils.SquareImageView
-                                    android:id="@+id/activity_detail_sample_result_squareImageView"
+                                <com.jsibbold.zoomage.ZoomageView
+                                    android:id="@+id/activity_detail_sample_result_imageView"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:scaleType="fitXY" />
+                                    app:zoomage_restrictBounds="false"
+                                    app:zoomage_animateOnReset="false"
+                                    app:zoomage_autoResetMode="UNDER"
+                                    app:zoomage_autoCenter="true"
+                                    app:zoomage_minScale="0.5"
+                                    app:zoomage_maxScale="8"
+                                    app:zoomage_zoomable="false"
+                                    app:zoomage_translatable="false"
+                                    app:zoomage_doubleTapToZoom="false"
+                                    app:zoomage_doubleTapToZoomScaleFactor="3" />
 
                             </LinearLayout>
 

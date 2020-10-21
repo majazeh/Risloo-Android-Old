@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -1205,15 +1206,30 @@ public class CreateSampleActivity extends AppCompatActivity {
             switch (method) {
                 case "getScales":
                     if (!scaleRecyclerViewAdapter.getIds().contains(model.get("id").toString())) {
-                        JSONObject scale = new JSONObject().put("name", model.get("title"));
-
-                        scaleRecyclerViewAdapter.getValues().add(new Model(scale));
+                        scaleRecyclerViewAdapter.getValues().add(model);
                         scaleRecyclerViewAdapter.getIds().add(model.get("id").toString());
                         setRecyclerView(null, scaleRecyclerView, "scales");
+                    } else if (scaleRecyclerViewAdapter.getIds().contains(model.get("id").toString())) {
+                        for (int i=0; i<scaleRecyclerViewAdapter.getValues().size(); i++) {
+                            if (scaleRecyclerViewAdapter.getIds().get(i).equals(model.get("id").toString())) {
+                                scaleRecyclerViewAdapter.getValues().remove(model);
+                                scaleRecyclerViewAdapter.getIds().remove(model.get("id").toString());
+                                scaleRecyclerViewAdapter.notifyItemRemoved(i);
+                                scaleRecyclerViewAdapter.notifyItemChanged(i);
+
+                                scaleDialogAdapter.notifyDataSetChanged();
+
+                                break;
+                            }
+                        }
                     }
 
-                    if (scaleRecyclerViewAdapter.getValues().size() == 1) {
-                        scaleTextView.setVisibility(View.GONE);
+                    if (scaleRecyclerViewAdapter.getValues().size() == 0) {
+                        scaleTextView.setVisibility(View.VISIBLE);
+                    } else {
+                        if (scaleTextView.getVisibility() == View.VISIBLE) {
+                            scaleTextView.setVisibility(View.GONE);
+                        }
                     }
                     break;
 
@@ -1327,16 +1343,36 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                 case "getReferences":
                     if (!roomReferenceRecyclerViewAdapter.getIds().contains(model.get("id").toString())) {
-                        JSONObject user = (JSONObject) model.get("user");
-
-                        roomReferenceRecyclerViewAdapter.getValues().add(new Model(user));
+                        roomReferenceRecyclerViewAdapter.getValues().add(model);
                         roomReferenceRecyclerViewAdapter.getIds().add(model.get("id").toString());
                         setRecyclerView(null, roomReferenceRecyclerView, "roomReferences");
+                    } else if (roomReferenceRecyclerViewAdapter.getIds().contains(model.get("id").toString())) {
+                        for (int i=0; i<roomReferenceRecyclerViewAdapter.getValues().size(); i++) {
+                            if (roomReferenceRecyclerViewAdapter.getIds().get(i).equals(model.get("id").toString())) {
+                                roomReferenceRecyclerViewAdapter.getValues().remove(model);
+                                roomReferenceRecyclerViewAdapter.getIds().remove(model.get("id").toString());
+                                roomReferenceRecyclerViewAdapter.notifyItemRemoved(i);
+                                roomReferenceRecyclerViewAdapter.notifyItemChanged(i);
+
+                                roomReferenceDialogAdapter.notifyDataSetChanged();
+
+                                break;
+                            }
+                        }
                     }
 
-                    if (roomReferenceRecyclerViewAdapter.getValues().size() == 1) {
-                        roomReferenceTextView.setVisibility(View.GONE);
-                        countEditText.setVisibility(View.GONE);
+                    if (roomReferenceRecyclerViewAdapter.getValues().size() == 0) {
+                        roomReferenceTextView.setVisibility(View.VISIBLE);
+
+                        count = "";
+                        countEditText.getText().clear();
+                        countEditText.setVisibility(View.VISIBLE);
+                    } else {
+                        if (roomReferenceTextView.getVisibility() == View.VISIBLE) {
+                            roomReferenceTextView.setVisibility(View.GONE);
+
+                            countEditText.setVisibility(View.GONE);
+                        }
                     }
                     break;
             }

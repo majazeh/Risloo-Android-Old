@@ -32,11 +32,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jsibbold.zoomage.ZoomageView;
 import com.majazeh.risloo.Models.Managers.ExceptionManager;
 import com.majazeh.risloo.Models.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.SquareImageView;
 import com.majazeh.risloo.Utils.ItemDecorator;
 import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -72,7 +72,7 @@ public class DetailSampleActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView retryTextView, scaleTextView, serialTextView, statusTextView, referenceHintTextView, referenceTextView, caseTextView, roomTextView, actionTextView, generalTextView, prerequisiteTextView, testTextView;
     private ImageView retryImageView, statusImageView, referenceHintImageView, downloadImageView;
-    private SquareImageView resultSquareImageView;
+    private ZoomageView resultImageView;
     private CheckBox editCheckbox;
     private RecyclerView generalRecyclerView, prerequisiteRecyclerView, testRecyclerView;
     private Dialog progressDialog;
@@ -137,7 +137,7 @@ public class DetailSampleActivity extends AppCompatActivity {
         referenceHintImageView = findViewById(R.id.activity_detail_sample_reference_hint_imageView);
         downloadImageView = findViewById(R.id.activity_detail_sample_download_imageView);
 
-        resultSquareImageView = findViewById(R.id.activity_detail_sample_result_squareImageView);
+        resultImageView = findViewById(R.id.activity_detail_sample_result_imageView);
 
         editCheckbox = findViewById(R.id.activity_detail_sample_edit_checkbox);
 
@@ -203,7 +203,7 @@ public class DetailSampleActivity extends AppCompatActivity {
             downloadDialog.getUrls(svgUrl, pngUrl, htmlUrl, pdfUrl);
         });
 
-        resultSquareImageView.setOnClickListener(v -> {
+        resultImageView.setOnClickListener(v -> {
             Intent intent = (new Intent(this, ImageActivity.class));
 
             intent.putExtra("title", scaleTitle);
@@ -342,7 +342,7 @@ public class DetailSampleActivity extends AppCompatActivity {
                         }
                         if (viewModel.getPngScore(sampleId) != null) {
                             pngUrl = viewModel.getPngScore(sampleId);
-                            Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultSquareImageView);
+                            Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultImageView);
                             showCardView = true;
                         }
                         if (viewModel.getHtmlScore(sampleId) != null) {
@@ -375,7 +375,7 @@ public class DetailSampleActivity extends AppCompatActivity {
                         }
                         if (viewModel.getPngScore(sampleId) != null) {
                             pngUrl = viewModel.getPngScore(sampleId);
-                            Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultSquareImageView);
+                            Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultImageView);
                             showCardView = true;
                         }
                         if (viewModel.getHtmlScore(sampleId) != null) {

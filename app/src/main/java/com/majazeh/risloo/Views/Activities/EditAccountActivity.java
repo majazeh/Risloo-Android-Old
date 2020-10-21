@@ -41,6 +41,7 @@ import com.majazeh.risloo.Models.Managers.BitmapManager;
 import com.majazeh.risloo.Utils.CustomNumberPicker;
 import com.majazeh.risloo.Utils.InputHandler;
 import com.majazeh.risloo.Utils.IntentCaller;
+import com.majazeh.risloo.Utils.PathProvider;
 import com.majazeh.risloo.Utils.StringCustomizer;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
@@ -75,6 +76,7 @@ public class EditAccountActivity extends AppCompatActivity {
     private Handler handler;
     private IntentCaller intentCaller;
     private InputHandler inputHandler;
+    private PathProvider pathProvider;
     private ImageDialog imageDialog;
     private Bitmap selectedBitmap;
 
@@ -122,6 +124,8 @@ public class EditAccountActivity extends AppCompatActivity {
         intentCaller = new IntentCaller();
 
         inputHandler = new InputHandler();
+
+        pathProvider = new PathProvider();
 
         imageDialog = new ImageDialog(this);
         imageDialog.setType("editAccount");
@@ -195,11 +199,7 @@ public class EditAccountActivity extends AppCompatActivity {
                     intent.putExtra("image", viewModel.getAvatar());
                 } else {
                     intent.putExtra("bitmap", true);
-                    if (imageFilePath.equals("")) {
-                        intent.putExtra("path", "");
-                    } else {
-                        intent.putExtra("path", imageFilePath);
-                    }
+                    intent.putExtra("path", imageFilePath);
                     FileManager.writeBitmapToCache(this, selectedBitmap, "image");
                 }
 
@@ -427,7 +427,7 @@ public class EditAccountActivity extends AppCompatActivity {
             progressDialog.show();
             switch (method) {
                 case "avatar":
-                    FileManager.writeBitmapToCache(this, selectedBitmap, "image");
+                    FileManager.writeBitmapToCache(this, BitmapManager.modifyOrientation(selectedBitmap, imageFilePath), "image");
                     viewModel.avatar();
                     break;
                 case "edit":
@@ -603,11 +603,11 @@ public class EditAccountActivity extends AppCompatActivity {
                     InputStream imageStream = getContentResolver().openInputStream(Objects.requireNonNull(imageUri));
                     Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
 
+                    imageFilePath = pathProvider.getLocalPath(this, imageUri);
+
                     selectedBitmap = BitmapManager.scaleToCenter(imageBitmap);
 
-                    imageFilePath = "";
-
-                    avatarCircleImageView.setImageBitmap(selectedBitmap);
+                    avatarCircleImageView.setImageBitmap(BitmapManager.modifyOrientation(selectedBitmap, imageFilePath));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -623,9 +623,9 @@ public class EditAccountActivity extends AppCompatActivity {
 
                 Bitmap imageBitmap = BitmapFactory.decodeFile(imageFilePath, options);
 
-                selectedBitmap = BitmapManager.modifyOrientation(BitmapManager.scaleToCenter(imageBitmap), imageFilePath);
+                selectedBitmap = BitmapManager.scaleToCenter(imageBitmap);
 
-                avatarCircleImageView.setImageBitmap(selectedBitmap);
+                avatarCircleImageView.setImageBitmap(BitmapManager.modifyOrientation(selectedBitmap, imageFilePath));
             }
         } else if (resultCode == RESULT_CANCELED) {
             if (requestCode == 100) {

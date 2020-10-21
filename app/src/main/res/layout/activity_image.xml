@@ -21,11 +21,12 @@
         app:zoomage_animateOnReset="true"
         app:zoomage_autoResetMode="UNDER"
         app:zoomage_autoCenter="true"
+        app:zoomage_minScale="0.5"
+        app:zoomage_maxScale="8"
         app:zoomage_zoomable="true"
         app:zoomage_translatable="true"
         app:zoomage_doubleTapToZoom="true"
-        app:zoomage_minScale="0.5"
-        app:zoomage_maxScale="8" />
+        app:zoomage_doubleTapToZoomScaleFactor="3" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/activity_image_toolbar"
