@@ -267,7 +267,7 @@ public class EditCenterActivity extends AppCompatActivity {
             }
 
             if (type.equals("personal_clinic")) {
-                if (managerName.isEmpty()) {
+                if (managerId.equals("")) {
                     errorView("manager");
                 }
 
@@ -278,11 +278,11 @@ public class EditCenterActivity extends AppCompatActivity {
                     clearException("phone");
                 }
 
-                if (!managerName.isEmpty()) {
+                if (!managerId.equals("")) {
                     doWork();
                 }
             } else {
-                if (managerName.isEmpty()) {
+                if (managerId.equals("")) {
                     errorView("manager");
                 }
                 if (titleEditText.length() == 0) {
@@ -296,7 +296,7 @@ public class EditCenterActivity extends AppCompatActivity {
                     clearException("phone");
                 }
 
-                if (!managerName.isEmpty() && titleEditText.length() != 0) {
+                if (!managerId.equals("") && titleEditText.length() != 0) {
                     inputHandler.clear(this, titleEditText);
 
                     doWork();
@@ -347,11 +347,7 @@ public class EditCenterActivity extends AppCompatActivity {
         });
 
         managerDialog.setOnCancelListener(dialog -> {
-            // Reset Manager Search
-            if (CenterRepository.counselingCenterSearch.size() != 0) {
-                CenterRepository.counselingCenterSearch.clear();
-                managerDialogRecyclerView.setAdapter(null);
-            }
+            resetSearch("counselingCenter");
 
             if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
                 inputHandler.clear(this, inputHandler.getInput());
@@ -506,12 +502,26 @@ public class EditCenterActivity extends AppCompatActivity {
         }
     }
 
-    private void setData() {
-        id = extras.getString("id");
-        type = extras.getString("type");
-        managerName = extras.getString("manager");
-        managerId = extras.getString("manager_id");
+    private void resetSearch(String method) {
+        switch (method) {
+            case "counselingCenter":
+                if (CenterRepository.counselingCenterSearch.size() != 0) {
+                    CenterRepository.counselingCenterSearch.clear();
+                    managerDialogRecyclerView.setAdapter(null);
+                }
+                break;
+        }
+    }
 
+    private void setData() {
+        if (extras.getString("id") != null)
+            id = extras.getString("id");
+        if (extras.getString("type") != null)
+            type = extras.getString("type");
+        if (extras.getString("manager_id") != null)
+            managerId = extras.getString("manager_id");
+        if (extras.getString("manager") != null)
+            managerName = extras.getString("manager");
         if (extras.getString("title") != null)
             title = extras.getString("title");
         if (extras.getString("description") != null)
@@ -523,6 +533,7 @@ public class EditCenterActivity extends AppCompatActivity {
             toolbar.setTitle(getResources().getString(R.string.EditClinicTitle));
 
             managerFrameLayout.setVisibility(View.GONE);
+
             titleEditText.setVisibility(View.GONE);
 
             descriptionEditText.setText(description);
@@ -548,7 +559,14 @@ public class EditCenterActivity extends AppCompatActivity {
         } else {
             toolbar.setTitle(getResources().getString(R.string.EditCenterTitle));
 
-            managerTextView.setText(managerName);
+            if (managerId.equals("")) {
+                managerTextView.setText(getResources().getString(R.string.EditCenterManager));
+                managerTextView.setTextColor(getResources().getColor(R.color.Mischka));
+            } else {
+                managerTextView.setText(managerName);
+                managerTextView.setTextColor(getResources().getColor(R.color.Grey));
+            }
+
             titleEditText.setText(title);
 
             descriptionEditText.setText(description);
@@ -731,16 +749,21 @@ public class EditCenterActivity extends AppCompatActivity {
 
     public void observeSearchAdapter(Model model, String method) {
         try {
-            managerId = model.get("id").toString();
+            if (!managerId.equals(model.get("id").toString())) {
+                managerId = model.get("id").toString();
+                managerName = model.get("name").toString();
 
-            managerName = model.get("name").toString();
-            managerTextView.setText(managerName);
+                managerTextView.setText(managerName);
+                managerTextView.setTextColor(getResources().getColor(R.color.Grey));
+            } else if (managerId.equals(model.get("id").toString())) {
+                managerId = "";
+                managerName = "";
 
-            // Reset Manager Search
-            if (CenterRepository.counselingCenterSearch.size() != 0) {
-                CenterRepository.counselingCenterSearch.clear();
-                managerDialogRecyclerView.setAdapter(null);
+                managerTextView.setText(getResources().getString(R.string.EditCenterManager));
+                managerTextView.setTextColor(getResources().getColor(R.color.Mischka));
             }
+
+            resetSearch("counselingCenter");
 
             if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
                 inputHandler.clear(this, inputHandler.getInput());

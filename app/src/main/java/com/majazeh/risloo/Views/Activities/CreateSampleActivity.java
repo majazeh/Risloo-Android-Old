@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -286,48 +285,18 @@ public class CreateSampleActivity extends AppCompatActivity {
                         roomLinearLayout.setVisibility(View.VISIBLE);
                         caseLinearLayout.setVisibility(View.GONE);
 
-                        // Reset Case
-                        if (SampleRepository.cases.size() != 0) {
-                            casse = "";
-                            SampleRepository.cases.clear();
-                            SampleRepository.casesSearch.clear();
-                            caseDialogRecyclerView.setAdapter(null);
-                            caseTextView.setText(getResources().getString(R.string.CreateSampleCase));
-                            caseTextView.setTextColor(getResources().getColor(R.color.Mischka));
-                        }
+                        resetData("case");
 
-                        // Reset CaseReferences
-                        if (caseReferenceRecyclerViewAdapter.getValues() != null) {
-                            caseReferenceTextView.setVisibility(View.GONE);
-
-                            caseReferenceRecyclerViewAdapter.getValues().clear();
-                            caseReferenceRecyclerViewAdapter.getChecks().clear();
-                            caseReferenceRecyclerViewAdapter.notifyDataSetChanged();
-                        }
+                        resetData("caseReference");
 
                         break;
                     case 1:
                         roomLinearLayout.setVisibility(View.GONE);
                         caseLinearLayout.setVisibility(View.VISIBLE);
 
-                        // Reset RoomReferences
-                        if (SampleRepository.references.size() != 0) {
-                            SampleRepository.references.clear();
-                            SampleRepository.referencesSearch.clear();
-                            roomReferenceDialogRecyclerView.setAdapter(null);
-                            roomReferenceTextView.setVisibility(View.VISIBLE);
+                        resetData("roomReference");
 
-                            roomReferenceRecyclerViewAdapter.getValues().clear();
-                            roomReferenceRecyclerViewAdapter.getIds().clear();
-                            roomReferenceRecyclerViewAdapter.notifyDataSetChanged();
-                        }
-
-                        // Reset Count
-                        if (countEditText.length() != 0) {
-                            count = "";
-                            countEditText.getText().clear();
-                            countEditText.setVisibility(View.VISIBLE);
-                        }
+                        resetData("count");
 
                         break;
                 }
@@ -521,6 +490,48 @@ public class CreateSampleActivity extends AppCompatActivity {
             return false;
         });
 
+        roomDialogEditText.setOnTouchListener((v, event) -> {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
+                if (!roomDialogEditText.hasFocus()) {
+                    if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                        inputHandler.clear(this, inputHandler.getInput());
+                    }
+
+                    inputHandler.focus(roomDialogEditText);
+                    inputHandler.select(roomDialogEditText);
+                }
+            }
+            return false;
+        });
+
+        caseDialogEditText.setOnTouchListener((v, event) -> {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
+                if (!caseDialogEditText.hasFocus()) {
+                    if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                        inputHandler.clear(this, inputHandler.getInput());
+                    }
+
+                    inputHandler.focus(caseDialogEditText);
+                    inputHandler.select(caseDialogEditText);
+                }
+            }
+            return false;
+        });
+
+        roomReferenceDialogEditText.setOnTouchListener((v, event) -> {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
+                if (!roomReferenceDialogEditText.hasFocus()) {
+                    if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                        inputHandler.clear(this, inputHandler.getInput());
+                    }
+
+                    inputHandler.focus(roomReferenceDialogEditText);
+                    inputHandler.select(roomReferenceDialogEditText);
+                }
+            }
+            return false;
+        });
+
         scaleDialogEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -546,53 +557,6 @@ public class CreateSampleActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
 
             }
-        });
-
-        scaleDialogConfirm.setOnClickListener(v -> {
-            scaleDialogConfirm.setClickable(false);
-            handler.postDelayed(() -> scaleDialogConfirm.setClickable(true), 300);
-
-            // Reset Scale Search
-            if (SampleRepository.scalesSearch.size() != 0) {
-                SampleRepository.scalesSearch.clear();
-                scaleDialogRecyclerView.setAdapter(null);
-            }
-
-            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
-                inputHandler.clear(this, inputHandler.getInput());
-                inputHandler.getInput().getText().clear();
-            }
-
-            scaleDialog.dismiss();
-        });
-
-        scaleDialog.setOnCancelListener(dialog -> {
-            // Reset Scale Search
-            if (SampleRepository.scalesSearch.size() != 0) {
-                SampleRepository.scalesSearch.clear();
-                scaleDialogRecyclerView.setAdapter(null);
-            }
-
-            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
-                inputHandler.clear(this, inputHandler.getInput());
-                inputHandler.getInput().getText().clear();
-            }
-
-            scaleDialog.dismiss();
-        });
-
-        roomDialogEditText.setOnTouchListener((v, event) -> {
-            if (MotionEvent.ACTION_UP == event.getAction()) {
-                if (!roomDialogEditText.hasFocus()) {
-                    if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
-                        inputHandler.clear(this, inputHandler.getInput());
-                    }
-
-                    inputHandler.focus(roomDialogEditText);
-                    inputHandler.select(roomDialogEditText);
-                }
-            }
-            return false;
         });
 
         roomDialogEditText.addTextChangedListener(new TextWatcher() {
@@ -622,35 +586,6 @@ public class CreateSampleActivity extends AppCompatActivity {
             }
         });
 
-        roomDialog.setOnCancelListener(dialog -> {
-            // Reset Room Search
-            if (SampleRepository.roomsSearch.size() != 0) {
-                SampleRepository.roomsSearch.clear();
-                roomDialogRecyclerView.setAdapter(null);
-            }
-
-            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
-                inputHandler.clear(this, inputHandler.getInput());
-                inputHandler.getInput().getText().clear();
-            }
-
-            roomDialog.dismiss();
-        });
-
-        caseDialogEditText.setOnTouchListener((v, event) -> {
-            if (MotionEvent.ACTION_UP == event.getAction()) {
-                if (!caseDialogEditText.hasFocus()) {
-                    if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
-                        inputHandler.clear(this, inputHandler.getInput());
-                    }
-
-                    inputHandler.focus(caseDialogEditText);
-                    inputHandler.select(caseDialogEditText);
-                }
-            }
-            return false;
-        });
-
         caseDialogEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -676,35 +611,6 @@ public class CreateSampleActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
 
             }
-        });
-
-        caseDialog.setOnCancelListener(dialog -> {
-            // Reset Case Search
-            if (SampleRepository.casesSearch.size() != 0) {
-                SampleRepository.casesSearch.clear();
-                caseDialogRecyclerView.setAdapter(null);
-            }
-
-            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
-                inputHandler.clear(this, inputHandler.getInput());
-                inputHandler.getInput().getText().clear();
-            }
-
-            caseDialog.dismiss();
-        });
-
-        roomReferenceDialogEditText.setOnTouchListener((v, event) -> {
-            if (MotionEvent.ACTION_UP == event.getAction()) {
-                if (!roomReferenceDialogEditText.hasFocus()) {
-                    if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
-                        inputHandler.clear(this, inputHandler.getInput());
-                    }
-
-                    inputHandler.focus(roomReferenceDialogEditText);
-                    inputHandler.select(roomReferenceDialogEditText);
-                }
-            }
-            return false;
         });
 
         roomReferenceDialogEditText.addTextChangedListener(new TextWatcher() {
@@ -734,15 +640,25 @@ public class CreateSampleActivity extends AppCompatActivity {
             }
         });
 
+        scaleDialogConfirm.setOnClickListener(v -> {
+            scaleDialogConfirm.setClickable(false);
+            handler.postDelayed(() -> scaleDialogConfirm.setClickable(true), 300);
+
+            resetSearch("scales");
+
+            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                inputHandler.clear(this, inputHandler.getInput());
+                inputHandler.getInput().getText().clear();
+            }
+
+            scaleDialog.dismiss();
+        });
+
         roomReferenceDialogConfirm.setOnClickListener(v -> {
             roomReferenceDialogConfirm.setClickable(false);
             handler.postDelayed(() -> roomReferenceDialogConfirm.setClickable(true), 300);
 
-            // Reset Reference Search
-            if (SampleRepository.referencesSearch.size() != 0) {
-                SampleRepository.referencesSearch.clear();
-                roomReferenceDialogRecyclerView.setAdapter(null);
-            }
+            resetSearch("references");
 
             if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
                 inputHandler.clear(this, inputHandler.getInput());
@@ -752,12 +668,41 @@ public class CreateSampleActivity extends AppCompatActivity {
             roomReferenceDialog.dismiss();
         });
 
-        roomReferenceDialog.setOnCancelListener(dialog -> {
-            // Reset Reference Search
-            if (SampleRepository.referencesSearch.size() != 0) {
-                SampleRepository.referencesSearch.clear();
-                roomReferenceDialogRecyclerView.setAdapter(null);
+        scaleDialog.setOnCancelListener(dialog -> {
+            resetSearch("scales");
+
+            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                inputHandler.clear(this, inputHandler.getInput());
+                inputHandler.getInput().getText().clear();
             }
+
+            scaleDialog.dismiss();
+        });
+
+        roomDialog.setOnCancelListener(dialog -> {
+            resetSearch("rooms");
+
+            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                inputHandler.clear(this, inputHandler.getInput());
+                inputHandler.getInput().getText().clear();
+            }
+
+            roomDialog.dismiss();
+        });
+
+        caseDialog.setOnCancelListener(dialog -> {
+            resetSearch("cases");
+
+            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
+                inputHandler.clear(this, inputHandler.getInput());
+                inputHandler.getInput().getText().clear();
+            }
+
+            caseDialog.dismiss();
+        });
+
+        roomReferenceDialog.setOnCancelListener(dialog -> {
+            resetSearch("references");
 
             if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
                 inputHandler.clear(this, inputHandler.getInput());
@@ -887,6 +832,78 @@ public class CreateSampleActivity extends AppCompatActivity {
             case "caseReference":
                 caseReferenceException = false;
                 caseReferenceRecyclerView.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                break;
+        }
+    }
+
+    private void resetData(String method) {
+        switch (method) {
+            case "case":
+                if (SampleRepository.cases.size() != 0) {
+                    casse = "";
+                    SampleRepository.cases.clear();
+                    SampleRepository.casesSearch.clear();
+                    caseDialogRecyclerView.setAdapter(null);
+                    caseTextView.setText(getResources().getString(R.string.CreateSampleCase));
+                    caseTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                }
+                break;
+            case "roomReference":
+                if (SampleRepository.references.size() != 0) {
+                    SampleRepository.references.clear();
+                    SampleRepository.referencesSearch.clear();
+                    roomReferenceDialogRecyclerView.setAdapter(null);
+                    roomReferenceTextView.setVisibility(View.VISIBLE);
+
+                    roomReferenceRecyclerViewAdapter.getValues().clear();
+                    roomReferenceRecyclerViewAdapter.getIds().clear();
+                    roomReferenceRecyclerViewAdapter.notifyDataSetChanged();
+                }
+                break;
+            case "caseReference":
+                if (caseReferenceRecyclerViewAdapter.getValues() != null) {
+                    caseReferenceTextView.setVisibility(View.GONE);
+
+                    caseReferenceRecyclerViewAdapter.getValues().clear();
+                    caseReferenceRecyclerViewAdapter.getChecks().clear();
+                    caseReferenceRecyclerViewAdapter.notifyDataSetChanged();
+                }
+                break;
+            case "count":
+                if (countEditText.length() != 0) {
+                    count = "";
+                    countEditText.getText().clear();
+                    countEditText.setVisibility(View.VISIBLE);
+                }
+                break;
+        }
+    }
+
+    private void resetSearch(String method) {
+        switch (method) {
+            case "scales":
+                if (SampleRepository.scalesSearch.size() != 0) {
+                    SampleRepository.scalesSearch.clear();
+                    scaleDialogRecyclerView.setAdapter(null);
+                }
+                break;
+            case "rooms":
+                if (SampleRepository.roomsSearch.size() != 0) {
+                    SampleRepository.roomsSearch.clear();
+                    roomDialogRecyclerView.setAdapter(null);
+                }
+                break;
+            case "cases":
+                if (SampleRepository.casesSearch.size() != 0) {
+                    SampleRepository.casesSearch.clear();
+                    caseDialogRecyclerView.setAdapter(null);
+                }
+                break;
+            case "references":
+                if (SampleRepository.referencesSearch.size() != 0) {
+                    SampleRepository.referencesSearch.clear();
+                    roomReferenceDialogRecyclerView.setAdapter(null);
+                }
                 break;
         }
     }
@@ -1234,58 +1251,33 @@ public class CreateSampleActivity extends AppCompatActivity {
                     break;
 
                 case "getRooms":
-                    room = model.get("id").toString();
+                    if (!room.equals(model.get("id").toString())) {
+                        room = model.get("id").toString();
 
-                    JSONObject manager = (JSONObject) model.get("manager");
+                        JSONObject manager = (JSONObject) model.get("manager");
 
-                    roomTextView.setText(manager.get("name").toString());
-                    roomTextView.setTextColor(getResources().getColor(R.color.Grey));
+                        roomTextView.setText(manager.get("name").toString());
+                        roomTextView.setTextColor(getResources().getColor(R.color.Grey));
 
-                    countEditText.setFocusableInTouchMode(true);
+                        countEditText.setFocusableInTouchMode(true);
+                    } else if (room.equals(model.get("id").toString())) {
+                        room = "";
 
-                    // Reset Case
-                    if (SampleRepository.cases.size() != 0) {
-                        casse = "";
-                        SampleRepository.cases.clear();
-                        SampleRepository.casesSearch.clear();
-                        caseDialogRecyclerView.setAdapter(null);
-                        caseTextView.setText(getResources().getString(R.string.CreateSampleCase));
-                        caseTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        roomTextView.setText(getResources().getString(R.string.CreateSampleRoom));
+                        roomTextView.setTextColor(getResources().getColor(R.color.Mischka));
+
+                        countEditText.setFocusableInTouchMode(false);
                     }
 
-                    // Reset RoomReferences
-                    if (SampleRepository.references.size() != 0) {
-                        SampleRepository.references.clear();
-                        SampleRepository.referencesSearch.clear();
-                        roomReferenceDialogRecyclerView.setAdapter(null);
-                        roomReferenceTextView.setVisibility(View.VISIBLE);
+                    resetData("case");
 
-                        roomReferenceRecyclerViewAdapter.getValues().clear();
-                        roomReferenceRecyclerViewAdapter.getIds().clear();
-                        roomReferenceRecyclerViewAdapter.notifyDataSetChanged();
-                    }
+                    resetData("caseReference");
 
-                    // Reset CaseReferences
-                    if (caseReferenceRecyclerViewAdapter.getValues() != null) {
-                        caseReferenceTextView.setVisibility(View.GONE);
+                    resetData("roomReference");
 
-                        caseReferenceRecyclerViewAdapter.getValues().clear();
-                        caseReferenceRecyclerViewAdapter.getChecks().clear();
-                        caseReferenceRecyclerViewAdapter.notifyDataSetChanged();
-                    }
+                    resetData("count");
 
-                    // Reset Count
-                    if (countEditText.length() != 0) {
-                        count = "";
-                        countEditText.getText().clear();
-                        countEditText.setVisibility(View.VISIBLE);
-                    }
-
-                    // Reset Room Search
-                    if (SampleRepository.roomsSearch.size() != 0) {
-                        SampleRepository.roomsSearch.clear();
-                        roomDialogRecyclerView.setAdapter(null);
-                    }
+                    resetSearch("rooms");
 
                     if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
                         inputHandler.clear(this, inputHandler.getInput());
@@ -1296,42 +1288,50 @@ public class CreateSampleActivity extends AppCompatActivity {
                     break;
 
                 case "getCases":
-                    casse = model.get("id").toString();
+                    if (!casse.equals(model.get("id").toString())) {
+                        casse = model.get("id").toString();
 
-                    ArrayList<Model> cases = new ArrayList<>();
+                        ArrayList<Model> cases = new ArrayList<>();
 
-                    StringBuilder name = new StringBuilder();
-                    JSONArray client = (JSONArray) model.get("clients");
+                        StringBuilder name = new StringBuilder();
+                        JSONArray client = (JSONArray) model.get("clients");
 
-                    for (int j = 0; j < client.length(); j++) {
-                        JSONObject object = client.getJSONObject(j);
-                        JSONObject user = object.getJSONObject("user");
+                        for (int j = 0; j < client.length(); j++) {
+                            JSONObject object = client.getJSONObject(j);
+                            JSONObject user = object.getJSONObject("user");
 
-                        cases.add(new Model(user));
+                            cases.add(new Model(user));
 
-                        if (j == client.length() - 1)
-                            name.append(user.getString("name"));
-                        else
-                            name.append(user.getString("name")).append(" - ");
+                            if (j == client.length() - 1)
+                                name.append(user.getString("name"));
+                            else
+                                name.append(user.getString("name")).append(" - ");
+                        }
+
+                        if (!name.toString().equals("")) {
+                            JSONObject casse = new JSONObject().put("name", name);
+
+                            caseTextView.setText(casse.get("name").toString());
+                            caseTextView.setTextColor(getResources().getColor(R.color.Grey));
+
+                            setRecyclerView(cases, caseReferenceRecyclerView, "caseReferences");
+
+                            caseReferenceTextView.setVisibility(View.VISIBLE);
+                            caseReferenceRecyclerView.setVisibility(View.VISIBLE);
+                        }
+                    } else if (casse.equals(model.get("id").toString())) {
+                        casse = "";
+
+                        caseTextView.setText(getResources().getString(R.string.CreateSampleCase));
+                        caseTextView.setTextColor(getResources().getColor(R.color.Mischka));
+
+                        caseReferenceRecyclerView.setAdapter(null);
+
+                        caseReferenceTextView.setVisibility(View.GONE);
+                        caseReferenceRecyclerView.setVisibility(View.GONE);
                     }
 
-                    if (!name.toString().equals("")) {
-                        JSONObject casse = new JSONObject().put("name", name);
-
-                        caseTextView.setText(casse.get("name").toString());
-                        caseTextView.setTextColor(getResources().getColor(R.color.Grey));
-                    }
-
-                    setRecyclerView(cases, caseReferenceRecyclerView, "caseReferences");
-
-                    caseReferenceTextView.setVisibility(View.VISIBLE);
-                    caseReferenceRecyclerView.setVisibility(View.VISIBLE);
-
-                    // Reset Case Search
-                    if (SampleRepository.casesSearch.size() != 0) {
-                        SampleRepository.casesSearch.clear();
-                        caseDialogRecyclerView.setAdapter(null);
-                    }
+                    resetSearch("cases");
 
                     if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
                         inputHandler.clear(this, inputHandler.getInput());
@@ -1364,13 +1364,13 @@ public class CreateSampleActivity extends AppCompatActivity {
                     if (roomReferenceRecyclerViewAdapter.getValues().size() == 0) {
                         roomReferenceTextView.setVisibility(View.VISIBLE);
 
-                        count = "";
-                        countEditText.getText().clear();
                         countEditText.setVisibility(View.VISIBLE);
                     } else {
                         if (roomReferenceTextView.getVisibility() == View.VISIBLE) {
                             roomReferenceTextView.setVisibility(View.GONE);
 
+                            count = "";
+                            countEditText.getText().clear();
                             countEditText.setVisibility(View.GONE);
                         }
                     }
