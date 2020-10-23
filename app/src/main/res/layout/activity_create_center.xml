@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,43 +7,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
+    android:scrollbarSize="0dp"
+    android:overScrollMode="never"
+    android:fillViewport="true"
     android:fitsSystemWindows="true"
     android:background="@color/White"
     tools:context=".Views.Activities.CreateCenterActivity"
     tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded, TooDeepLayout">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/activity_create_center_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:theme="@style/ToolbarTheme"
-            android:background="@color/Snow"
-            app:title="@string/CreateCenterTitle"
-            app:titleTextAppearance="@style/ToolbarTextAppearanceLight"
-            app:navigationIcon="@drawable/tool_back_light"
-            app:contentInsetStartWithNavigation="0dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_1sdp"
-            android:background="@color/Quartz" />
-
-        <androidx.core.widget.NestedScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbarSize="0dp"
-            android:overScrollMode="never">
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/activity_create_center_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/ToolbarTheme"
+                android:background="@color/Snow"
+                app:title="@string/CreateCenterTitle"
+                app:titleTextAppearance="@style/ToolbarTextAppearanceLight"
+                app:navigationIcon="@drawable/tool_back_light"
+                app:contentInsetStartWithNavigation="0dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/Quartz" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="@dimen/_24sdp"
-                android:gravity="center"
                 android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
@@ -305,14 +305,14 @@
 
             </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
 
-    </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_gravity="bottom"
+            android:background="@color/Quartz" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_1sdp"
-        android:layout_gravity="bottom"
-        android:background="@color/Quartz" />
+    </FrameLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</ScrollView>
