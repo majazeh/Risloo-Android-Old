@@ -3,7 +3,6 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Constraints;
@@ -141,11 +140,8 @@ public class SampleRepository extends MainRepository {
     }
 
     public void sendAnswers(String sampleId) throws JSONException {
-        Log.e("local", String.valueOf(localData));
-        Log.e("remote", String.valueOf(remoteData));
-        Log.e("cache", String.valueOf(cache));
         if (isNetworkConnected(application.getApplicationContext())) {
-                cache = false;
+            cache = false;
             if (SampleRepository.cache) {
                 localData.clear();
                 JSONArray jsonArray = readSampleAnswerFromCache(sampleId);
@@ -168,10 +164,6 @@ public class SampleRepository extends MainRepository {
                     work = "sendAnswers";
                     workStateAnswer.setValue(-1);
                     workManager("sendAnswers");
-                } else {
-//
-//                    work = "sendAnswers";
-//                    workStateAnswer.setValue(1);
                 }
             }
         } else {
