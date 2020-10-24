@@ -33,11 +33,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jsibbold.zoomage.ZoomageView;
-import com.majazeh.risloo.Utils.ExceptionManager;
+import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.FileManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.ItemDecorator;
+import com.majazeh.risloo.Utils.Widgets.ItemDecorator;
 import com.majazeh.risloo.Utils.StringManager;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
@@ -559,7 +559,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                         loadingCardView.setVisibility(View.GONE);
                         loadingCardView.setAnimation(animFadeOut);
-                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
 
@@ -580,7 +580,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                         loadingCardView.setVisibility(View.GONE);
                         loadingCardView.setAnimation(animFadeOut);
-                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
@@ -592,7 +592,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                         loadingCardView.setVisibility(View.GONE);
                         loadingCardView.setAnimation(animFadeOut);
-                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
                     break;
@@ -611,21 +611,21 @@ public class DetailSampleActivity extends AppCompatActivity {
                         }
 
                         progressDialog.dismiss();
-                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer == 0) {
                         actionTextView.setText(getResources().getString(R.string.DetailSampleClose));
                         setButton(actionTextView, true);
 
                         progressDialog.dismiss();
-                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         actionTextView.setText(getResources().getString(R.string.DetailSampleClose));
                         setButton(actionTextView, true);
 
                         progressDialog.dismiss();
-                        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
                     break;

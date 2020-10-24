@@ -35,9 +35,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
-import com.majazeh.risloo.Utils.ExceptionManager;
+import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.ItemDecorator;
+import com.majazeh.risloo.Utils.Widgets.ItemDecorator;
 import com.majazeh.risloo.Utils.StringManager;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
@@ -397,8 +397,8 @@ public class SampleActivity extends AppCompatActivity {
                     PrerequisiteFragment fragment = ((PrerequisiteFragment) getSupportFragmentManager().findFragmentById(R.id.activity_sample_frameLayout));
                     if (fragment != null) {
                         if (fragment.prerequisites().isEmpty()) {
-                            ExceptionManager.getException(false, 0, null, "FillOneException", "sample");
-                            Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                            ExceptionGenerator.getException(false, 0, null, "FillOneException", "sample");
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                         } else {
                             if (fragment.adapter.inputHandler.getInput() != null && fragment.adapter.inputHandler.getInput().hasFocus()) {
                                 fragment.adapter.inputHandler.clear(this, fragment.adapter.inputHandler.getInput());
@@ -619,7 +619,7 @@ public class SampleActivity extends AppCompatActivity {
                 }else if (integer == -3){
                     setResult(RESULT_OK, null);
                     finish();
-                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                 }
 
                 if (progressDialog.isShowing()) {
@@ -632,15 +632,15 @@ public class SampleActivity extends AppCompatActivity {
                     finish();
 
                     progressDialog.dismiss();
-                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                 }
             }
@@ -657,12 +657,12 @@ public class SampleActivity extends AppCompatActivity {
                 } else if (integer == 0) {
                     launchProcess("getSingle");
 
-                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     launchProcess("getSingle");
 
-                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
                 }
             } else if (SampleRepository.work.equals("sendAnswers")) {

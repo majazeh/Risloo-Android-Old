@@ -20,9 +20,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.majazeh.risloo.Utils.ExceptionManager;
+import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.InputHandler;
+import com.majazeh.risloo.Utils.Widgets.InputHandler;
 import com.majazeh.risloo.Utils.WindowDecorator;
 
 import java.util.Objects;
@@ -291,27 +291,27 @@ public class CallUsActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionManager.exception.equals("callUs")) {
+        if (ExceptionGenerator.exception.equals("callUs")) {
             String exceptionToast = "";
 
-            if (!ExceptionManager.errors.isNull("name")) {
+            if (!ExceptionGenerator.errors.isNull("name")) {
                 nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                exceptionToast = ExceptionManager.getErrorBody("name");
+                exceptionToast = ExceptionGenerator.getErrorBody("name");
             }
-            if (!ExceptionManager.errors.isNull("mobile")) {
+            if (!ExceptionGenerator.errors.isNull("mobile")) {
                 mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 if (exceptionToast.equals("")) {
-                    exceptionToast = ExceptionManager.getErrorBody("mobile");
+                    exceptionToast = ExceptionGenerator.getErrorBody("mobile");
                 } else {
-                    exceptionToast += (" و " + ExceptionManager.getErrorBody("mobile"));
+                    exceptionToast += (" و " + ExceptionGenerator.getErrorBody("mobile"));
                 }
             }
-            if (!ExceptionManager.errors.isNull("message")) {
+            if (!ExceptionGenerator.errors.isNull("message")) {
                 messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 if (exceptionToast.equals("")) {
-                    exceptionToast = ExceptionManager.getErrorBody("message");
+                    exceptionToast = ExceptionGenerator.getErrorBody("message");
                 } else {
-                    exceptionToast += (" و " + ExceptionManager.getErrorBody("message"));
+                    exceptionToast += (" و " + ExceptionGenerator.getErrorBody("message"));
                 }
             }
             Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();

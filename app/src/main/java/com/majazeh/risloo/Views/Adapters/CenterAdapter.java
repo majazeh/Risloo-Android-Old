@@ -27,11 +27,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Utils.ExceptionManager;
+import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.FileManager;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.ItemDecorator;
+import com.majazeh.risloo.Utils.Widgets.ItemDecorator;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.Views.Activities.EditCenterActivity;
 import com.majazeh.risloo.Views.Activities.ImageActivity;
@@ -552,15 +552,15 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                         }
 
                         progressDialog.dismiss();
-                        Toast.makeText(activity, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                         CenterRepository.workState.removeObserver(this);
                     } else if (integer == 0) {
                         progressDialog.dismiss();
-                        Toast.makeText(activity, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                         CenterRepository.workState.removeObserver(this);
                     } else if (integer == -2) {
                         progressDialog.dismiss();
-                        Toast.makeText(activity, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                         CenterRepository.workState.removeObserver(this);
                     }
                 }

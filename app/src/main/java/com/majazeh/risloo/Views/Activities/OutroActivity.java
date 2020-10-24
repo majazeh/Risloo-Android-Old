@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.majazeh.risloo.Utils.FileManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
-import com.majazeh.risloo.Utils.ExceptionManager;
+import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.WindowDecorator;
@@ -249,8 +249,8 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         changeStatus();
         finish();
 
-        ExceptionManager.getException(false, 0, null, "SavedToDownloadException", "sample");
-        Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+        ExceptionGenerator.getException(false, 0, null, "SavedToDownloadException", "sample");
+        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
     }
 
     private void observeWorkAnswer() {
@@ -267,11 +267,11 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
                 SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
             } else if (integer == 0) {
                 progressDialog.dismiss();
-                Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                 SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
             } else if (integer == -2) {
                 progressDialog.dismiss();
-                Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                 SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
             }
         });
@@ -283,15 +283,15 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
                 finish();
 
                 progressDialog.dismiss();
-                Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                 SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
             } else if (integer == 0) {
                 progressDialog.dismiss();
-                Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                 SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
             } else if (integer == -2) {
                 progressDialog.dismiss();
-                Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                 SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
             }
         });

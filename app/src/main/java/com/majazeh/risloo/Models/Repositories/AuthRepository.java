@@ -13,7 +13,7 @@ import androidx.work.WorkManager;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Items.AuthItems;
-import com.majazeh.risloo.Utils.ExceptionManager;
+import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Models.Workers.AuthWorker;
 
 import org.json.JSONException;
@@ -210,7 +210,7 @@ public class AuthRepository extends MainRepository {
 
             WorkManager.getInstance(application).enqueue(workRequest);
         } else {
-            ExceptionManager.getException(false, 0, null, "OffLineException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "OffLineException", "auth");
             workState.postValue(-2);
         }
     }

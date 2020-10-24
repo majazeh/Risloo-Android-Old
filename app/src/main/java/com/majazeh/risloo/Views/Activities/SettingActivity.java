@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.ItemDecorator;
+import com.majazeh.risloo.Utils.Widgets.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SettingViewModel;
 import com.majazeh.risloo.Views.Adapters.SettingAdapter;

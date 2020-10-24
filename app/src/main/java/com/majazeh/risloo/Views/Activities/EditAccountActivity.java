@@ -33,13 +33,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
-import com.majazeh.risloo.Utils.ExceptionManager;
+import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.BitmapManager;
-import com.majazeh.risloo.Utils.CustomNumberPicker;
-import com.majazeh.risloo.Utils.InputHandler;
+import com.majazeh.risloo.Utils.Widgets.CustomNumberPicker;
+import com.majazeh.risloo.Utils.Widgets.InputHandler;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.PathProvider;
 import com.majazeh.risloo.Utils.StringManager;
@@ -449,11 +449,11 @@ public class EditAccountActivity extends AppCompatActivity {
                     doWork("edit");
                 } else if (integer == 0) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 }
             } else if (AuthRepository.work.equals("edit")) {
@@ -462,7 +462,7 @@ public class EditAccountActivity extends AppCompatActivity {
                     finish();
 
                     progressDialog.dismiss();
-                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     progressDialog.dismiss();
@@ -470,7 +470,7 @@ public class EditAccountActivity extends AppCompatActivity {
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 }
             }
@@ -478,27 +478,27 @@ public class EditAccountActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionManager.exception.equals("edit")) {
+        if (ExceptionGenerator.exception.equals("edit")) {
             String exceptionToast = "";
 
-            if (!ExceptionManager.errors.isNull("name")) {
+            if (!ExceptionGenerator.errors.isNull("name")) {
                 nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                exceptionToast = ExceptionManager.getErrorBody("name");
+                exceptionToast = ExceptionGenerator.getErrorBody("name");
             }
-            if (!ExceptionManager.errors.isNull("gender")) {
+            if (!ExceptionGenerator.errors.isNull("gender")) {
                 errorException("gender");
                 if (exceptionToast.equals("")) {
-                    exceptionToast = ExceptionManager.getErrorBody("gender");
+                    exceptionToast = ExceptionGenerator.getErrorBody("gender");
                 } else {
-                    exceptionToast += (" و " + ExceptionManager.getErrorBody("gender"));
+                    exceptionToast += (" و " + ExceptionGenerator.getErrorBody("gender"));
                 }
             }
-            if (!ExceptionManager.errors.isNull("birthday")) {
+            if (!ExceptionGenerator.errors.isNull("birthday")) {
                 errorException("birthday");
                 if (exceptionToast.equals("")) {
-                    exceptionToast = ExceptionManager.getErrorBody("birthday");
+                    exceptionToast = ExceptionGenerator.getErrorBody("birthday");
                 } else {
-                    exceptionToast += (" و " + ExceptionManager.getErrorBody("birthday"));
+                    exceptionToast += (" و " + ExceptionGenerator.getErrorBody("birthday"));
                 }
             }
             Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
@@ -629,11 +629,11 @@ public class EditAccountActivity extends AppCompatActivity {
             }
         } else if (resultCode == RESULT_CANCELED) {
             if (requestCode == 100) {
-                ExceptionManager.getException(false, 0, null, "GalleryException", "auth");
-                Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                ExceptionGenerator.getException(false, 0, null, "GalleryException", "auth");
+                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             } else if (requestCode == 200) {
-                ExceptionManager.getException(false, 0, null, "CameraException", "auth");
-                Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                ExceptionGenerator.getException(false, 0, null, "CameraException", "auth");
+                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             }
         }
     }

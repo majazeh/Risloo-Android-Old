@@ -26,7 +26,7 @@ import androidx.fragment.app.Fragment;
 
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.CustomEditText;
+import com.majazeh.risloo.Utils.Widgets.CustomEditText;
 import com.majazeh.risloo.Utils.StringManager;
 import com.majazeh.risloo.Views.Activities.AuthActivity;
 

@@ -23,7 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.InputHandler;
+import com.majazeh.risloo.Utils.Widgets.InputHandler;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 
 import org.json.JSONArray;

@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Utils;
+package com.majazeh.risloo.Utils.Widgets;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

@@ -30,11 +30,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Utils.ExceptionManager;
+import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.InputHandler;
-import com.majazeh.risloo.Utils.ItemDecorator;
+import com.majazeh.risloo.Utils.Widgets.InputHandler;
+import com.majazeh.risloo.Utils.Widgets.ItemDecorator;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.Views.Adapters.SearchAdapter;
@@ -332,8 +332,8 @@ public class EditCenterActivity extends AppCompatActivity {
                     if (managerDialogEditText.length() == 0) {
                         setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getCounselingCenter");
                     } else if (managerDialogEditText.length() == 1) {
-                        ExceptionManager.getException(false, 0, null, "MustBeTwoCharException", "center");
-                        Toast.makeText(EditCenterActivity.this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                        ExceptionGenerator.getException(false, 0, null, "MustBeTwoCharException", "center");
+                        Toast.makeText(EditCenterActivity.this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     } else {
                         getData("getCounselingCenter", managerDialogEditText.getText().toString().trim());
                     }
@@ -649,7 +649,7 @@ public class EditCenterActivity extends AppCompatActivity {
                     finish();
 
                     progressDialog.dismiss();
-                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     progressDialog.dismiss();
@@ -657,7 +657,7 @@ public class EditCenterActivity extends AppCompatActivity {
                     CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 }
             } else if (CenterRepository.work.equals("getCounselingCenter")) {
@@ -685,7 +685,7 @@ public class EditCenterActivity extends AppCompatActivity {
                         managerDialogProgressBar.setVisibility(View.GONE);
                         managerDialogImageView.setVisibility(View.VISIBLE);
                     }
-                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     if (q.equals("")) {
@@ -696,7 +696,7 @@ public class EditCenterActivity extends AppCompatActivity {
                         managerDialogProgressBar.setVisibility(View.GONE);
                         managerDialogImageView.setVisibility(View.VISIBLE);
                     }
-                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 }
             }
@@ -704,43 +704,43 @@ public class EditCenterActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionManager.exception.equals("edit")) {
+        if (ExceptionGenerator.exception.equals("edit")) {
             String exceptionToast = "";
 
-            if (!ExceptionManager.errors.isNull("manager_id")) {
+            if (!ExceptionGenerator.errors.isNull("manager_id")) {
                 errorException("manager");
-                exceptionToast = ExceptionManager.getErrorBody("manager_id");
+                exceptionToast = ExceptionGenerator.getErrorBody("manager_id");
             }
-            if (!ExceptionManager.errors.isNull("title")) {
+            if (!ExceptionGenerator.errors.isNull("title")) {
                 titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 if (exceptionToast.equals("")) {
-                    exceptionToast = ExceptionManager.getErrorBody("title");
+                    exceptionToast = ExceptionGenerator.getErrorBody("title");
                 } else {
-                    exceptionToast += (" و " + ExceptionManager.getErrorBody("title"));
+                    exceptionToast += (" و " + ExceptionGenerator.getErrorBody("title"));
                 }
             }
-            if (!ExceptionManager.errors.isNull("description")) {
+            if (!ExceptionGenerator.errors.isNull("description")) {
                 descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 if (exceptionToast.equals("")) {
-                    exceptionToast = ExceptionManager.getErrorBody("description");
+                    exceptionToast = ExceptionGenerator.getErrorBody("description");
                 } else {
-                    exceptionToast += (" و " + ExceptionManager.getErrorBody("description"));
+                    exceptionToast += (" و " + ExceptionGenerator.getErrorBody("description"));
                 }
             }
-            if (!ExceptionManager.errors.isNull("address")) {
+            if (!ExceptionGenerator.errors.isNull("address")) {
                 addressEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 if (exceptionToast.equals("")) {
-                    exceptionToast = ExceptionManager.getErrorBody("address");
+                    exceptionToast = ExceptionGenerator.getErrorBody("address");
                 } else {
-                    exceptionToast += (" و " + ExceptionManager.getErrorBody("address"));
+                    exceptionToast += (" و " + ExceptionGenerator.getErrorBody("address"));
                 }
             }
-            if (!ExceptionManager.errors.isNull("phone_numbers")) {
+            if (!ExceptionGenerator.errors.isNull("phone_numbers")) {
                 errorException("phone");
                 if (exceptionToast.equals("")) {
-                    exceptionToast = ExceptionManager.getErrorBody("phone_numbers");
+                    exceptionToast = ExceptionGenerator.getErrorBody("phone_numbers");
                 } else {
-                    exceptionToast += (" و " + ExceptionManager.getErrorBody("phone_numbers"));
+                    exceptionToast += (" و " + ExceptionGenerator.getErrorBody("phone_numbers"));
                 }
             }
             Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();

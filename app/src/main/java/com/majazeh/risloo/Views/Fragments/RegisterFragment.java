@@ -24,7 +24,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.tabs.TabLayout;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.CustomEditText;
+import com.majazeh.risloo.Utils.Widgets.CustomEditText;
 import com.majazeh.risloo.Views.Activities.AuthActivity;
 
 import org.json.JSONException;

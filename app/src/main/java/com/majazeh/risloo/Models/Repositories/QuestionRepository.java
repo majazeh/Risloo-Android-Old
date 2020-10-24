@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Generators.JSONGenerator;
+import com.majazeh.risloo.Utils.Generators.JSONGenerator;
 
 import org.json.JSONArray;
 import org.json.JSONException;

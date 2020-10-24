@@ -30,11 +30,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.majazeh.risloo.Utils.ExceptionManager;
+import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.InputHandler;
+import com.majazeh.risloo.Utils.Widgets.InputHandler;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.PathProvider;
 import com.majazeh.risloo.Utils.StringManager;
@@ -285,7 +285,7 @@ public class SendDocActivity extends AppCompatActivity {
                     finish();
 
                     progressDialog.dismiss();
-                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     progressDialog.dismiss();
@@ -293,7 +293,7 @@ public class SendDocActivity extends AppCompatActivity {
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     progressDialog.dismiss();
-                    Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     AuthRepository.workState.removeObservers((LifecycleOwner) this);
                 }
             }
@@ -301,27 +301,27 @@ public class SendDocActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionManager.exception.equals("sendDoc")) {
+        if (ExceptionGenerator.exception.equals("sendDoc")) {
             String exceptionToast = "";
 
-            if (!ExceptionManager.errors.isNull("title")) {
+            if (!ExceptionGenerator.errors.isNull("title")) {
                 titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                exceptionToast = ExceptionManager.getErrorBody("title");
+                exceptionToast = ExceptionGenerator.getErrorBody("title");
             }
-            if (!ExceptionManager.errors.isNull("description")) {
+            if (!ExceptionGenerator.errors.isNull("description")) {
                 descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 if (exceptionToast.equals("")) {
-                    exceptionToast = ExceptionManager.getErrorBody("description");
+                    exceptionToast = ExceptionGenerator.getErrorBody("description");
                 } else {
-                    exceptionToast += (" و " + ExceptionManager.getErrorBody("description"));
+                    exceptionToast += (" و " + ExceptionGenerator.getErrorBody("description"));
                 }
             }
-            if (!ExceptionManager.errors.isNull("attachment")) {
+            if (!ExceptionGenerator.errors.isNull("attachment")) {
                 errorException();
                 if (exceptionToast.equals("")) {
-                    exceptionToast = ExceptionManager.getErrorBody("attachment");
+                    exceptionToast = ExceptionGenerator.getErrorBody("attachment");
                 } else {
-                    exceptionToast += (" و " + ExceptionManager.getErrorBody("attachment"));
+                    exceptionToast += (" و " + ExceptionGenerator.getErrorBody("attachment"));
                 }
             }
             Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
@@ -375,8 +375,8 @@ public class SendDocActivity extends AppCompatActivity {
             }
         } else if (resultCode == RESULT_CANCELED) {
             if (requestCode == 300) {
-                ExceptionManager.getException(false, 0, null, "FileException", "auth");
-                Toast.makeText(this, ExceptionManager.fa_message_text, Toast.LENGTH_SHORT).show();
+                ExceptionGenerator.getException(false, 0, null, "FileException", "auth");
+                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             }
         }
     }

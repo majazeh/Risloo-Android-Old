@@ -8,8 +8,8 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.majazeh.risloo.Models.Apis.ExplodeApi;
-import com.majazeh.risloo.Models.Generators.RetroGenerator;
-import com.majazeh.risloo.Utils.ExceptionManager;
+import com.majazeh.risloo.Utils.Generators.RetroGenerator;
+import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.FileManager;
 import com.majazeh.risloo.Models.Repositories.ExplodeRepository;
 
@@ -157,29 +157,29 @@ public class ExplodeWorker extends Worker {
 
                 editor.apply();
 
-                ExceptionManager.getException(true, bodyResponse.code(), successBody, "explode", "explode");
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "explode", "explode");
                 ExplodeRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
-                ExceptionManager.getException(true, bodyResponse.code(), errorBody, "explode", "explode");
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "explode", "explode");
                 ExplodeRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(false, 0, null, "SocketTimeoutException", "explode");
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException", "explode");
             ExplodeRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(false, 0, null, "JSONException", "explode");
+            ExceptionGenerator.getException(false, 0, null, "JSONException", "explode");
             ExplodeRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            ExceptionManager.getException(false, 0, null, "IOException", "explode");
+            ExceptionGenerator.getException(false, 0, null, "IOException", "explode");
             ExplodeRepository.workState.postValue(0);
         }
     }

@@ -1,10 +1,10 @@
-package com.majazeh.risloo.Utils;
+package com.majazeh.risloo.Utils.Generators;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ExceptionManager {
+public class ExceptionGenerator {
 
     // Vars
     public static String exception;
@@ -132,7 +132,7 @@ public class ExceptionManager {
 //                            break;
 //                    }
                 } else {
-                    ExceptionManager.exception = exception;
+                    ExceptionGenerator.exception = exception;
 
                     if (!body.isNull("errors"))
                         errors = body.getJSONObject("errors");

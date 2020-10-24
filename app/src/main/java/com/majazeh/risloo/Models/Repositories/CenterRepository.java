@@ -12,7 +12,7 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Utils.ExceptionManager;
+import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.FileManager;
 import com.majazeh.risloo.Models.Workers.CenterWorker;
 
@@ -201,7 +201,7 @@ public class CenterRepository extends MainRepository {
 
             WorkManager.getInstance(application).enqueue(workRequest);
         } else {
-            ExceptionManager.getException(false, 0, null, "OffLineException", "center");
+            ExceptionGenerator.getException(false, 0, null, "OffLineException", "center");
             workState.postValue(-2);
         }
     }

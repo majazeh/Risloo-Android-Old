@@ -13,7 +13,7 @@ import androidx.work.WorkManager;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Items.SampleItems;
-import com.majazeh.risloo.Utils.ExceptionManager;
+import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.FileManager;
 import com.majazeh.risloo.Models.Workers.SampleWorker;
 
@@ -696,7 +696,7 @@ public class SampleRepository extends MainRepository {
 
             WorkManager.getInstance(application).enqueue(workRequest);
         } else {
-            ExceptionManager.getException(false, 0, null, "OffLineException", "sample");
+            ExceptionGenerator.getException(false, 0, null, "OffLineException", "sample");
             workStateSample.setValue(-2);
             workStateAnswer.setValue(-2);
             workStateCreate.setValue(-2);
