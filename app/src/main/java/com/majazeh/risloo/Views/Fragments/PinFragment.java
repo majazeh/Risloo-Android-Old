@@ -25,7 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Managers.StringManager;
+import com.majazeh.risloo.Utils.Managers.StringCustomizer;
 import com.majazeh.risloo.Views.Activities.AuthActivity;
 
 import org.json.JSONException;
@@ -97,8 +97,8 @@ public class PinFragment extends Fragment {
         pinEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!pinEditText.hasFocus()) {
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.focus(pinEditText);
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.select(pinEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.focus(pinEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.select(pinEditText);
                 }
             }
             return false;
@@ -113,7 +113,7 @@ public class PinFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (pinEditText.length() == 6) {
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.clear(getActivity(), pinEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.clear(getActivity(), pinEditText);
                     doWork("pin");
                 }
             }
@@ -126,9 +126,9 @@ public class PinFragment extends Fragment {
 
         pinButton.setOnClickListener(v -> {
             if (pinEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.error(getActivity(), pinEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.error(getActivity(), pinEditText);
             } else {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.clear(getActivity(), pinEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.clear(getActivity(), pinEditText);
                 doWork("pin");
             }
         });
@@ -164,7 +164,7 @@ public class PinFragment extends Fragment {
     }
 
     private void setText() {
-        pinLinkTextView.setText(StringManager.clickable(activity.getResources().getString(R.string.PinLink), 24, 34, pinLinkSpan));
+        pinLinkTextView.setText(StringCustomizer.clickable(activity.getResources().getString(R.string.PinLink), 24, 34, pinLinkSpan));
         pinCountDownTimer.start();
     }
 

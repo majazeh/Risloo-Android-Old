@@ -27,7 +27,7 @@ import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Managers.IntentCaller;
+import com.majazeh.risloo.Utils.Managers.IntentManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 
@@ -49,7 +49,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
     // Objects
     private Handler handler;
     private Bundle extras;
-    private IntentCaller intentCaller;
+    private IntentManager intentManager;
 
     // Widgets
     private Button internetButton, smsButton, downloadButton, laterButton;
@@ -97,7 +97,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
         extras = getIntent().getExtras();
 
-        intentCaller = new IntentCaller();
+        intentManager = new IntentManager();
 
         internetButton = findViewById(R.id.activity_outro_internet_button);
         smsButton = findViewById(R.id.activity_outro_sms_button);
@@ -233,7 +233,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
             }
         }
 
-        intentCaller.sendTo(this, number, body, result.toString());
+        intentManager.sendTo(this, number, body, result.toString());
     }
 
     private void downloadFile() {

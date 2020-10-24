@@ -34,10 +34,10 @@ import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Widgets.InputHandleEditText;
-import com.majazeh.risloo.Utils.Managers.IntentCaller;
+import com.majazeh.risloo.Utils.Widgets.InputEditText;
+import com.majazeh.risloo.Utils.Managers.IntentManager;
 import com.majazeh.risloo.Utils.Managers.PathProvider;
-import com.majazeh.risloo.Utils.Managers.StringManager;
+import com.majazeh.risloo.Utils.Managers.StringCustomizer;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 
@@ -57,8 +57,8 @@ public class SendDocActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
-    private IntentCaller intentCaller;
-    private InputHandleEditText inputHandleEditText;
+    private IntentManager intentManager;
+    private InputEditText inputEditText;
     private PathProvider pathProvider;
 
     // Widgets
@@ -95,9 +95,9 @@ public class SendDocActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        intentCaller = new IntentCaller();
+        intentManager = new IntentManager();
 
-        inputHandleEditText = new InputHandleEditText();
+        inputEditText = new InputEditText();
 
         pathProvider = new PathProvider();
 
@@ -140,12 +140,12 @@ public class SendDocActivity extends AppCompatActivity {
         titleEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
                 if (!titleEditText.hasFocus()) {
-                    if (inputHandleEditText.getInput() != null && inputHandleEditText.getInput().hasFocus()) {
-                        inputHandleEditText.clear(this, inputHandleEditText.getInput());
+                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
+                        inputEditText.clear(this, inputEditText.getInput());
                     }
 
-                    inputHandleEditText.focus(titleEditText);
-                    inputHandleEditText.select(titleEditText);
+                    inputEditText.focus(titleEditText);
+                    inputEditText.select(titleEditText);
                 }
             }
             return false;
@@ -154,12 +154,12 @@ public class SendDocActivity extends AppCompatActivity {
         descriptionEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
                 if (!descriptionEditText.hasFocus()) {
-                    if (inputHandleEditText.getInput() != null && inputHandleEditText.getInput().hasFocus()) {
-                        inputHandleEditText.clear(this, inputHandleEditText.getInput());
+                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
+                        inputEditText.clear(this, inputEditText.getInput());
                     }
 
-                    inputHandleEditText.focus(descriptionEditText);
-                    inputHandleEditText.select(descriptionEditText);
+                    inputEditText.focus(descriptionEditText);
+                    inputEditText.select(descriptionEditText);
                 }
             }
             return false;
@@ -173,27 +173,27 @@ public class SendDocActivity extends AppCompatActivity {
                 clearException();
             }
 
-            if (inputHandleEditText.getInput() != null && inputHandleEditText.getInput().hasFocus()) {
-                inputHandleEditText.clear(this, inputHandleEditText.getInput());
+            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
+                inputEditText.clear(this, inputEditText.getInput());
             }
 
             if (attachmentPermissionsGranted) {
-                intentCaller.file(this);
+                intentManager.file(this);
             } else {
                 checkFilePermission();
             }
         });
 
         sendButton.setOnClickListener(v -> {
-            if (inputHandleEditText.getInput() != null && inputHandleEditText.getInput().hasFocus()) {
-                inputHandleEditText.clear(this, inputHandleEditText.getInput());
+            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
+                inputEditText.clear(this, inputEditText.getInput());
             }
 
             if (titleEditText.length() == 0) {
-                inputHandleEditText.error(this, titleEditText);
+                inputEditText.error(this, titleEditText);
             }
             if (descriptionEditText.length() == 0) {
-                inputHandleEditText.error(this, descriptionEditText);
+                inputEditText.error(this, descriptionEditText);
             }
             if (attachment.equals("")) {
                 errorException();
@@ -204,8 +204,8 @@ public class SendDocActivity extends AppCompatActivity {
             }
 
             if (titleEditText.length() != 0 && descriptionEditText.length() != 0 && !attachment.equals("")) {
-                inputHandleEditText.clear(this, titleEditText);
-                inputHandleEditText.clear(this, descriptionEditText);
+                inputEditText.clear(this, titleEditText);
+                inputEditText.clear(this, descriptionEditText);
 
                 doWork();
             }
@@ -231,13 +231,13 @@ public class SendDocActivity extends AppCompatActivity {
     }
 
     private void setFileWidgetsUi(String fileName) {
-        attachmentTextView.setText(StringManager.substring(fileName, '/'));
+        attachmentTextView.setText(StringCustomizer.substring(fileName, '/'));
         attachmentTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         attachmentImageView.setVisibility(View.GONE);
         suffixTextView.setVisibility(View.VISIBLE);
 
-        switch (StringManager.substring(fileName, '.')) {
+        switch (StringCustomizer.substring(fileName, '.')) {
             case "png":
                 suffixTextView.setText(getResources().getString(R.string.SendDocSuffixPNG));
                 break;
@@ -260,7 +260,7 @@ public class SendDocActivity extends AppCompatActivity {
                 suffixTextView.setText(getResources().getString(R.string.SendDocSuffixMP4));
                 break;
             default:
-                suffixTextView.setText(StringManager.substring(fileName, '.'));
+                suffixTextView.setText(StringCustomizer.substring(fileName, '.'));
                 break;
         }
     }
@@ -334,13 +334,13 @@ public class SendDocActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 attachmentPermissionsGranted = true;
-                intentCaller.file(this);
+                intentManager.file(this);
             } else {
                 ActivityCompat.requestPermissions(this, permissions, 300);
             }
         } else {
             attachmentPermissionsGranted = true;
-            intentCaller.file(this);
+            intentManager.file(this);
         }
     }
 
@@ -356,7 +356,7 @@ public class SendDocActivity extends AppCompatActivity {
                     }
                 }
                 attachmentPermissionsGranted = true;
-                intentCaller.file(this);
+                intentManager.file(this);
             }
         }
     }

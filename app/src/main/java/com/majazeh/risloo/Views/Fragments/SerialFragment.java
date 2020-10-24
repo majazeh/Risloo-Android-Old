@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Managers.StringManager;
+import com.majazeh.risloo.Utils.Managers.StringCustomizer;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Activities.ArchiveActivity;
 import com.majazeh.risloo.Views.Activities.AuthActivity;
@@ -103,8 +103,8 @@ public class SerialFragment extends Fragment {
         serialEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!serialEditText.hasFocus()) {
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.focus(serialEditText);
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.select(serialEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.focus(serialEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.select(serialEditText);
                 }
             }
             return false;
@@ -112,9 +112,9 @@ public class SerialFragment extends Fragment {
 
         serialButton.setOnClickListener(v -> {
             if (serialEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.error(getActivity(), serialEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.error(getActivity(), serialEditText);
             } else {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.clear(getActivity(), serialEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.clear(getActivity(), serialEditText);
                 doWork();
             }
         });
@@ -168,7 +168,7 @@ public class SerialFragment extends Fragment {
         super.onResume();
 
         if (sampleViewModel.getArchive() != null ) {
-            serialIncompleteTextView.setText(StringManager.foregroundSize("شما" + " " + sampleViewModel.getArchive().size() + " " + "نمونه ناقص دارید!", 4, 6, getResources().getColor(R.color.MoonYellow), (int) getResources().getDimension(R.dimen._14ssp)));
+            serialIncompleteTextView.setText(StringCustomizer.foregroundSize("شما" + " " + sampleViewModel.getArchive().size() + " " + "نمونه ناقص دارید!", 4, 6, getResources().getColor(R.color.MoonYellow), (int) getResources().getDimension(R.dimen._14ssp)));
 
             serialArchiveLinearLayout.setVisibility(View.VISIBLE);
             serialArchiveLinearLayout.setAnimation(animSlideIn);

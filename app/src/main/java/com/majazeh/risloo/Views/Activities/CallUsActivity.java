@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Widgets.InputHandleEditText;
+import com.majazeh.risloo.Utils.Widgets.InputEditText;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 
 import java.util.Objects;
@@ -34,7 +34,7 @@ public class CallUsActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
-    private InputHandleEditText inputHandleEditText;
+    private InputEditText inputEditText;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -72,7 +72,7 @@ public class CallUsActivity extends AppCompatActivity {
     private void initializer() {
         handler = new Handler();
 
-        inputHandleEditText = new InputHandleEditText();
+        inputEditText = new InputEditText();
 
         toolbar = findViewById(R.id.activity_call_us_toolbar);
 
@@ -140,12 +140,12 @@ public class CallUsActivity extends AppCompatActivity {
         nameEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
                 if (!nameEditText.hasFocus()) {
-                    if (inputHandleEditText.getInput() != null && inputHandleEditText.getInput().hasFocus()) {
-                        inputHandleEditText.clear(this, inputHandleEditText.getInput());
+                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
+                        inputEditText.clear(this, inputEditText.getInput());
                     }
 
-                    inputHandleEditText.focus(nameEditText);
-                    inputHandleEditText.select(nameEditText);
+                    inputEditText.focus(nameEditText);
+                    inputEditText.select(nameEditText);
                 }
             }
             return false;
@@ -154,12 +154,12 @@ public class CallUsActivity extends AppCompatActivity {
         mobileEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
                 if (!mobileEditText.hasFocus()) {
-                    if (inputHandleEditText.getInput() != null && inputHandleEditText.getInput().hasFocus()) {
-                        inputHandleEditText.clear(this, inputHandleEditText.getInput());
+                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
+                        inputEditText.clear(this, inputEditText.getInput());
                     }
 
-                    inputHandleEditText.focus(mobileEditText);
-                    inputHandleEditText.select(mobileEditText);
+                    inputEditText.focus(mobileEditText);
+                    inputEditText.select(mobileEditText);
                 }
             }
             return false;
@@ -168,36 +168,36 @@ public class CallUsActivity extends AppCompatActivity {
         messageEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
                 if (!messageEditText.hasFocus()) {
-                    if (inputHandleEditText.getInput() != null && inputHandleEditText.getInput().hasFocus()) {
-                        inputHandleEditText.clear(this, inputHandleEditText.getInput());
+                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
+                        inputEditText.clear(this, inputEditText.getInput());
                     }
 
-                    inputHandleEditText.focus(messageEditText);
-                    inputHandleEditText.select(messageEditText);
+                    inputEditText.focus(messageEditText);
+                    inputEditText.select(messageEditText);
                 }
             }
             return false;
         });
 
         sendButton.setOnClickListener(v -> {
-            if (inputHandleEditText.getInput() != null && inputHandleEditText.getInput().hasFocus()) {
-                inputHandleEditText.clear(this, inputHandleEditText.getInput());
+            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
+                inputEditText.clear(this, inputEditText.getInput());
             }
 
             if (nameEditText.length() == 0) {
-                inputHandleEditText.error(this, nameEditText);
+                inputEditText.error(this, nameEditText);
             }
             if (mobileEditText.length() == 0) {
-                inputHandleEditText.error(this, mobileEditText);
+                inputEditText.error(this, mobileEditText);
             }
             if (messageEditText.length() == 0) {
-                inputHandleEditText.error(this, messageEditText);
+                inputEditText.error(this, messageEditText);
             }
 
             if (nameEditText.length() != 0 && mobileEditText.length() != 0 && messageEditText.length() != 0) {
-                inputHandleEditText.clear(this, nameEditText);
-                inputHandleEditText.clear(this, mobileEditText);
-                inputHandleEditText.clear(this, messageEditText);
+                inputEditText.clear(this, nameEditText);
+                inputEditText.clear(this, mobileEditText);
+                inputEditText.clear(this, messageEditText);
 
                 doWork();
             }

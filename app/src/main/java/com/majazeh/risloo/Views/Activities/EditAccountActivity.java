@@ -39,10 +39,10 @@ import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.BitmapManager;
 import com.majazeh.risloo.Utils.Widgets.CustomNumberPicker;
-import com.majazeh.risloo.Utils.Widgets.InputHandleEditText;
-import com.majazeh.risloo.Utils.Managers.IntentCaller;
+import com.majazeh.risloo.Utils.Widgets.InputEditText;
+import com.majazeh.risloo.Utils.Managers.IntentManager;
 import com.majazeh.risloo.Utils.Managers.PathProvider;
-import com.majazeh.risloo.Utils.Managers.StringManager;
+import com.majazeh.risloo.Utils.Managers.StringCustomizer;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Dialogs.ImageDialog;
@@ -74,8 +74,8 @@ public class EditAccountActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
-    private IntentCaller intentCaller;
-    private InputHandleEditText inputHandleEditText;
+    private IntentManager intentManager;
+    private InputEditText inputEditText;
     private PathProvider pathProvider;
     private ImageDialog imageDialog;
     private Bitmap selectedBitmap;
@@ -121,9 +121,9 @@ public class EditAccountActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        intentCaller = new IntentCaller();
+        intentManager = new IntentManager();
 
-        inputHandleEditText = new InputHandleEditText();
+        inputEditText = new InputEditText();
 
         pathProvider = new PathProvider();
 
@@ -212,7 +212,7 @@ public class EditAccountActivity extends AppCompatActivity {
             handler.postDelayed(() -> avatarImageView.setClickable(true), 300);
 
             if (nameEditText.hasFocus()) {
-                inputHandleEditText.clear(this, nameEditText);
+                inputEditText.clear(this, nameEditText);
             }
 
             imageDialog.show(this.getSupportFragmentManager(), "imageBottomSheet");
@@ -221,7 +221,7 @@ public class EditAccountActivity extends AppCompatActivity {
         nameEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!nameEditText.hasFocus()) {
-                    inputHandleEditText.select(nameEditText);
+                    inputEditText.select(nameEditText);
                 }
             }
             return false;
@@ -235,7 +235,7 @@ public class EditAccountActivity extends AppCompatActivity {
                 }
 
                 if (nameEditText.hasFocus()) {
-                    inputHandleEditText.clear(EditAccountActivity.this, nameEditText);
+                    inputEditText.clear(EditAccountActivity.this, nameEditText);
                 }
 
                 switch (tab.getPosition()) {
@@ -268,7 +268,7 @@ public class EditAccountActivity extends AppCompatActivity {
             }
 
             if (nameEditText.hasFocus()) {
-                inputHandleEditText.clear(this, nameEditText);
+                inputEditText.clear(this, nameEditText);
             }
 
             dateDialog.show();
@@ -287,9 +287,9 @@ public class EditAccountActivity extends AppCompatActivity {
 
         editButton.setOnClickListener(v -> {
             if (nameEditText.length() == 0) {
-                inputHandleEditText.error(this, nameEditText);
+                inputEditText.error(this, nameEditText);
             } else {
-                inputHandleEditText.clear(this, nameEditText);
+                inputEditText.clear(this, nameEditText);
 
                 if (genderException) {
                     clearException("gender");
@@ -382,9 +382,9 @@ public class EditAccountActivity extends AppCompatActivity {
             birthdayTextView.setText(birthday);
         }
 
-        year = Integer.parseInt(StringManager.dateToString("yyyy", StringManager.stringToDate("yyyy-MM-dd", birthday)));
-        month = Integer.parseInt(StringManager.dateToString("MM", StringManager.stringToDate("yyyy-MM-dd", birthday)));
-        day = Integer.parseInt(StringManager.dateToString("dd", StringManager.stringToDate("yyyy-MM-dd", birthday)));
+        year = Integer.parseInt(StringCustomizer.dateToString("yyyy", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
+        month = Integer.parseInt(StringCustomizer.dateToString("MM", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
+        day = Integer.parseInt(StringCustomizer.dateToString("dd", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
     }
 
     private void setCustomPicker() {
@@ -432,7 +432,7 @@ public class EditAccountActivity extends AppCompatActivity {
                     break;
                 case "edit":
                     name = nameEditText.getText().toString().trim();
-                    viewModel.edit(name, gender, StringManager.jalaliToGregorian(birthday));
+                    viewModel.edit(name, gender, StringCustomizer.jalaliToGregorian(birthday));
                     break;
             }
             observeWork();
@@ -521,13 +521,13 @@ public class EditAccountActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 galleryPermissionsGranted = true;
-                intentCaller.gallery(this);
+                intentManager.gallery(this);
             } else {
                 ActivityCompat.requestPermissions(this, permissions, 100);
             }
         } else {
             galleryPermissionsGranted = true;
-            intentCaller.gallery(this);
+            intentManager.gallery(this);
         }
     }
 
@@ -539,7 +539,7 @@ public class EditAccountActivity extends AppCompatActivity {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     cameraPermissionsGranted = true;
                     try {
-                        intentCaller.camera(this, createImageFile());
+                        intentManager.camera(this, createImageFile());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -552,7 +552,7 @@ public class EditAccountActivity extends AppCompatActivity {
         } else {
             cameraPermissionsGranted = true;
             try {
-                intentCaller.camera(this, createImageFile());
+                intentManager.camera(this, createImageFile());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -571,7 +571,7 @@ public class EditAccountActivity extends AppCompatActivity {
                     }
                 }
                 galleryPermissionsGranted = true;
-                intentCaller.gallery(this);
+                intentManager.gallery(this);
             }
         } else if (requestCode == 200) {
             cameraPermissionsGranted = false;
@@ -584,7 +584,7 @@ public class EditAccountActivity extends AppCompatActivity {
                 }
                 cameraPermissionsGranted = true;
                 try {
-                    intentCaller.camera(this, createImageFile());
+                    intentManager.camera(this, createImageFile());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -613,7 +613,7 @@ public class EditAccountActivity extends AppCompatActivity {
                 }
             } else if (requestCode == 200) {
                 File imageFile = new File(imageFilePath);
-                intentCaller.mediaScan(this, imageFile);
+                intentManager.mediaScan(this, imageFile);
 
                 int scaleFactor = Math.max(1, 2);
 

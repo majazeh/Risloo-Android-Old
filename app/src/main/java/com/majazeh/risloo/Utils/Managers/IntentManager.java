@@ -15,7 +15,7 @@ import androidx.core.content.FileProvider;
 import java.io.File;
 import java.util.Objects;
 
-public class IntentCaller {
+public class IntentManager {
 
     public void internet(Context context) {
         Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);

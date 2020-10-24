@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Managers.StringManager;
+import com.majazeh.risloo.Utils.Managers.StringCustomizer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -116,7 +116,7 @@ public class AuthItems {
 
     public String birthday() {
         if (!sharedPreferences.getString("birthday", "").equals("")) {
-            return StringManager.gregorianToJalali(sharedPreferences.getString("birthday", ""));
+            return StringCustomizer.gregorianToJalali(sharedPreferences.getString("birthday", ""));
         }
         return "";
     }

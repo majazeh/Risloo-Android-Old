@@ -21,7 +21,7 @@ import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Managers.IntentCaller;
+import com.majazeh.risloo.Utils.Managers.IntentManager;
 import com.majazeh.risloo.Views.Activities.CreateCenterActivity;
 import com.majazeh.risloo.Views.Activities.EditAccountActivity;
 
@@ -36,7 +36,7 @@ public class ImageDialog extends BottomSheetDialogFragment {
     // Objects
     private Activity activity;
     private Handler handler;
-    private IntentCaller intentCaller;
+    private IntentManager intentManager;
 
     // Widgets
     private LinearLayout galleryLinearLayout, cameraLinearLayout;
@@ -63,7 +63,7 @@ public class ImageDialog extends BottomSheetDialogFragment {
     private void initializer(View view) {
         handler = new Handler();
 
-        intentCaller = new IntentCaller();
+        intentManager = new IntentManager();
 
         galleryLinearLayout = view.findViewById(R.id.dialog_image_gallery_linearLayout);
         cameraLinearLayout = view.findViewById(R.id.dialog_image_camera_linearLayout);
@@ -85,13 +85,13 @@ public class ImageDialog extends BottomSheetDialogFragment {
 
             if (type.equals("editAccount")) {
                 if (((EditAccountActivity) Objects.requireNonNull(getActivity())).galleryPermissionsGranted) {
-                    intentCaller.gallery(activity);
+                    intentManager.gallery(activity);
                 } else {
                     ((EditAccountActivity) Objects.requireNonNull(getActivity())).checkGalleryPermission();
                 }
             } else if (type.equals("createCenter")) {
                 if (((CreateCenterActivity) Objects.requireNonNull(getActivity())).galleryPermissionsGranted) {
-                    intentCaller.gallery(activity);
+                    intentManager.gallery(activity);
                 } else {
                     ((CreateCenterActivity) Objects.requireNonNull(getActivity())).checkGalleryPermission();
                 }
@@ -106,7 +106,7 @@ public class ImageDialog extends BottomSheetDialogFragment {
             if (type.equals("editAccount")) {
                 if (((EditAccountActivity) Objects.requireNonNull(getActivity())).cameraPermissionsGranted) {
                     try {
-                        intentCaller.camera(activity, ((EditAccountActivity) Objects.requireNonNull(activity)).createImageFile());
+                        intentManager.camera(activity, ((EditAccountActivity) Objects.requireNonNull(activity)).createImageFile());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -116,7 +116,7 @@ public class ImageDialog extends BottomSheetDialogFragment {
             } else if (type.equals("createCenter")) {
                 if (((CreateCenterActivity) Objects.requireNonNull(getActivity())).cameraPermissionsGranted) {
                     try {
-                        intentCaller.camera(activity, ((CreateCenterActivity) Objects.requireNonNull(activity)).createImageFile());
+                        intentManager.camera(activity, ((CreateCenterActivity) Objects.requireNonNull(activity)).createImageFile());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

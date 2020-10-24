@@ -21,7 +21,7 @@ import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Managers.IntentCaller;
+import com.majazeh.risloo.Utils.Managers.IntentManager;
 
 public class DownloadDialog extends BottomSheetDialogFragment {
 
@@ -31,7 +31,7 @@ public class DownloadDialog extends BottomSheetDialogFragment {
     // Objects
     private Activity activity;
     private Handler handler;
-    private IntentCaller intentCaller;
+    private IntentManager intentManager;
 
     // Widgets
     private LinearLayout svgLinearLayout, pngLinearLayout, htmlLinearLayout, pdfLinearLayout;
@@ -58,7 +58,7 @@ public class DownloadDialog extends BottomSheetDialogFragment {
     private void initializer(View view) {
         handler = new Handler();
 
-        intentCaller = new IntentCaller();
+        intentManager = new IntentManager();
 
         svgLinearLayout = view.findViewById(R.id.dialog_download_svg_linearLayout);
         pngLinearLayout = view.findViewById(R.id.dialog_download_png_linearLayout);
@@ -80,7 +80,7 @@ public class DownloadDialog extends BottomSheetDialogFragment {
             handler.postDelayed(() -> svgLinearLayout.setClickable(true), 300);
             dismiss();
 
-            intentCaller.download(activity, svg);
+            intentManager.download(activity, svg);
         });
 
         pngLinearLayout.setOnClickListener(v -> {
@@ -88,7 +88,7 @@ public class DownloadDialog extends BottomSheetDialogFragment {
             handler.postDelayed(() -> pngLinearLayout.setClickable(true), 300);
             dismiss();
 
-            intentCaller.download(activity, png);
+            intentManager.download(activity, png);
         });
 
         htmlLinearLayout.setOnClickListener(v -> {
@@ -96,7 +96,7 @@ public class DownloadDialog extends BottomSheetDialogFragment {
             handler.postDelayed(() -> htmlLinearLayout.setClickable(true), 300);
             dismiss();
 
-            intentCaller.download(activity, html);
+            intentManager.download(activity, html);
         });
 
         pdfLinearLayout.setOnClickListener(v -> {
@@ -104,7 +104,7 @@ public class DownloadDialog extends BottomSheetDialogFragment {
             handler.postDelayed(() -> pdfLinearLayout.setClickable(true), 300);
             dismiss();
 
-            intentCaller.download(activity, pdf);
+            intentManager.download(activity, pdf);
         });
 
         closeTextView.setOnClickListener(v -> {

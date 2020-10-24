@@ -27,7 +27,7 @@ import androidx.fragment.app.Fragment;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.CutCopyPasteEditText;
-import com.majazeh.risloo.Utils.Managers.StringManager;
+import com.majazeh.risloo.Utils.Managers.StringCustomizer;
 import com.majazeh.risloo.Views.Activities.AuthActivity;
 
 import org.json.JSONException;
@@ -95,8 +95,8 @@ public class PasswordFragment extends Fragment {
         passwordEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!passwordEditText.hasFocus()) {
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.focus(passwordEditText);
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.select(passwordEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.focus(passwordEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.select(passwordEditText);
                 }
             }
             return false;
@@ -160,9 +160,9 @@ public class PasswordFragment extends Fragment {
 
         passwordButton.setOnClickListener(v -> {
             if (passwordEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.error(getActivity(), passwordEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.error(getActivity(), passwordEditText);
             } else {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.clear(getActivity(), passwordEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.clear(getActivity(), passwordEditText);
                 doWork();
             }
         });
@@ -183,7 +183,7 @@ public class PasswordFragment extends Fragment {
     }
 
     private void setText() {
-        passwordLinkTextView.setText(StringManager.clickable(activity.getResources().getString(R.string.PasswordLink), 26, 33, passwordLinkSpan));
+        passwordLinkTextView.setText(StringCustomizer.clickable(activity.getResources().getString(R.string.PasswordLink), 26, 33, passwordLinkSpan));
     }
 
     private void doWork() {

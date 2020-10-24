@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Managers.IntentCaller;
+import com.majazeh.risloo.Utils.Managers.IntentManager;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.PhoneHolder>
 
     // Objects
     private Activity activity;
-    private IntentCaller intentCaller;
+    private IntentManager intentManager;
     private Handler handler;
 
     public PhoneAdapter(Activity activity) {
@@ -53,7 +53,7 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.PhoneHolder>
             holder.itemView.setClickable(false);
             handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
 
-            intentCaller.phone(activity, phones.get(i));
+            intentManager.phone(activity, phones.get(i));
         });
     }
 
@@ -63,7 +63,7 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.PhoneHolder>
     }
 
     private void initializer(View view) {
-        intentCaller = new IntentCaller();
+        intentManager = new IntentManager();
 
         handler = new Handler();
     }

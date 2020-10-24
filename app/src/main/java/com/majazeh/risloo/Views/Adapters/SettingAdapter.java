@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Managers.IntentCaller;
+import com.majazeh.risloo.Utils.Managers.IntentManager;
 import com.majazeh.risloo.ViewModels.ExplodeViewModel;
 import com.majazeh.risloo.Views.Activities.AboutUsActivity;
 import com.majazeh.risloo.Views.Activities.CallUsActivity;
@@ -48,7 +48,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
     // Objects
     private Activity activity;
     private Handler handler;
-    private IntentCaller intentCaller;
+    private IntentManager intentManager;
     private SocialDialog socialDialog;
 
     // Widgets
@@ -116,7 +116,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
     private void initializer(View view) {
         viewModel = new ViewModelProvider((FragmentActivity) activity).get(ExplodeViewModel.class);
 
-        intentCaller = new IntentCaller();
+        intentManager = new IntentManager();
         socialDialog = new SocialDialog(activity);
 
         handler = new Handler();
@@ -149,10 +149,10 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
                 socialDialog.show(((SettingActivity)activity).getSupportFragmentManager(), "socialBottomSheet");
                 break;
             case 5:
-                intentCaller.share(activity, activity.getResources().getString(R.string.SettingShareLink), activity.getResources().getString(R.string.SettingShareChooser));
+                intentManager.share(activity, activity.getResources().getString(R.string.SettingShareLink), activity.getResources().getString(R.string.SettingShareChooser));
                 break;
             case 6:
-                intentCaller.googlePlay(activity);
+                intentManager.googlePlay(activity);
                 break;
             case 7:
                 initDialog();
@@ -228,7 +228,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
             handler.postDelayed(() -> availableUpdateDialogPositive.setClickable(true), 300);
             availableUpdateDialog.dismiss();
 
-            intentCaller.googlePlay(activity);
+            intentManager.googlePlay(activity);
         });
 
         availableUpdateDialogNegative.setOnClickListener(v -> {
