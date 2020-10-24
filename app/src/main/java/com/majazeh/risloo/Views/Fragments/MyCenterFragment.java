@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Widgets.ItemDecorator;
+import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Views.Activities.CenterActivity;
 import com.majazeh.risloo.Views.Adapters.CenterAdapter;
 
@@ -68,7 +68,7 @@ public class MyCenterFragment extends Fragment {
         layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
         recyclerView = view.findViewById(R.id.fragment_my_center_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
+        recyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 

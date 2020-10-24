@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Utils;
+package com.majazeh.risloo.Utils.Managers;
 
 import android.content.ContentUris;
 import android.content.Context;

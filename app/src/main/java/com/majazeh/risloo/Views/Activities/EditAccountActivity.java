@@ -34,16 +34,16 @@ import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
-import com.majazeh.risloo.Utils.FileManager;
+import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.BitmapManager;
+import com.majazeh.risloo.Utils.Managers.BitmapManager;
 import com.majazeh.risloo.Utils.Widgets.CustomNumberPicker;
-import com.majazeh.risloo.Utils.Widgets.InputHandler;
-import com.majazeh.risloo.Utils.IntentCaller;
-import com.majazeh.risloo.Utils.PathProvider;
-import com.majazeh.risloo.Utils.StringManager;
-import com.majazeh.risloo.Utils.WindowDecorator;
+import com.majazeh.risloo.Utils.Widgets.InputHandleEditText;
+import com.majazeh.risloo.Utils.Managers.IntentCaller;
+import com.majazeh.risloo.Utils.Managers.PathProvider;
+import com.majazeh.risloo.Utils.Managers.StringManager;
+import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Dialogs.ImageDialog;
 import com.squareup.picasso.Picasso;
@@ -75,7 +75,7 @@ public class EditAccountActivity extends AppCompatActivity {
     // Objects
     private Handler handler;
     private IntentCaller intentCaller;
-    private InputHandler inputHandler;
+    private InputHandleEditText inputHandleEditText;
     private PathProvider pathProvider;
     private ImageDialog imageDialog;
     private Bitmap selectedBitmap;
@@ -123,7 +123,7 @@ public class EditAccountActivity extends AppCompatActivity {
 
         intentCaller = new IntentCaller();
 
-        inputHandler = new InputHandler();
+        inputHandleEditText = new InputHandleEditText();
 
         pathProvider = new PathProvider();
 
@@ -212,7 +212,7 @@ public class EditAccountActivity extends AppCompatActivity {
             handler.postDelayed(() -> avatarImageView.setClickable(true), 300);
 
             if (nameEditText.hasFocus()) {
-                inputHandler.clear(this, nameEditText);
+                inputHandleEditText.clear(this, nameEditText);
             }
 
             imageDialog.show(this.getSupportFragmentManager(), "imageBottomSheet");
@@ -221,7 +221,7 @@ public class EditAccountActivity extends AppCompatActivity {
         nameEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!nameEditText.hasFocus()) {
-                    inputHandler.select(nameEditText);
+                    inputHandleEditText.select(nameEditText);
                 }
             }
             return false;
@@ -235,7 +235,7 @@ public class EditAccountActivity extends AppCompatActivity {
                 }
 
                 if (nameEditText.hasFocus()) {
-                    inputHandler.clear(EditAccountActivity.this, nameEditText);
+                    inputHandleEditText.clear(EditAccountActivity.this, nameEditText);
                 }
 
                 switch (tab.getPosition()) {
@@ -268,7 +268,7 @@ public class EditAccountActivity extends AppCompatActivity {
             }
 
             if (nameEditText.hasFocus()) {
-                inputHandler.clear(this, nameEditText);
+                inputHandleEditText.clear(this, nameEditText);
             }
 
             dateDialog.show();
@@ -287,9 +287,9 @@ public class EditAccountActivity extends AppCompatActivity {
 
         editButton.setOnClickListener(v -> {
             if (nameEditText.length() == 0) {
-                inputHandler.error(this, nameEditText);
+                inputHandleEditText.error(this, nameEditText);
             } else {
-                inputHandler.clear(this, nameEditText);
+                inputHandleEditText.clear(this, nameEditText);
 
                 if (genderException) {
                     clearException("gender");

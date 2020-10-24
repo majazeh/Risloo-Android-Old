@@ -115,7 +115,7 @@
             android:layout_height="@dimen/_36sdp"
             android:layout_marginBottom="@dimen/_24sdp">
 
-            <com.majazeh.risloo.Utils.Widgets.CustomEditText
+            <com.majazeh.risloo.Utils.Widgets.CutCopyPasteEditText
                 android:id="@+id/fragment_register_password_editText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

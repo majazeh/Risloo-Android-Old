@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.IntentCaller;
+import com.majazeh.risloo.Utils.Managers.IntentCaller;
 
 import java.util.ArrayList;
 

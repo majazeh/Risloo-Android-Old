@@ -17,8 +17,16 @@ public class CustomNumberPicker extends NumberPicker {
     // Objects
     private Typeface danaBold;
 
+    public CustomNumberPicker(Context context) {
+        super(context);
+    }
+
     public CustomNumberPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    public CustomNumberPicker(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
     }
 
     @Override

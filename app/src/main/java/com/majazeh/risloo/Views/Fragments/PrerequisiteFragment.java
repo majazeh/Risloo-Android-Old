@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Widgets.ItemDecorator;
+import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Views.Activities.SampleActivity;
 import com.majazeh.risloo.Views.Adapters.PrerequisiteAdapter;
 
@@ -51,7 +51,7 @@ public class PrerequisiteFragment extends Fragment {
         adapter = new PrerequisiteAdapter(activity);
 
         prerequisiteRecyclerView = view.findViewById(R.id.fragment_prerequisite_recyclerView);
-        prerequisiteRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._24sdp)));
+        prerequisiteRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._24sdp)));
         prerequisiteRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
         prerequisiteRecyclerView.setHasFixedSize(true);
     }

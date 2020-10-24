@@ -16,8 +16,8 @@ public class SquareImageView extends ImageView {
         super(context, attrs);
     }
 
-    public SquareImageView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    public SquareImageView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
     }
 
     @Override

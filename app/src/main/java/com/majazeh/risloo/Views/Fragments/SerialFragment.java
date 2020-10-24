@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.StringManager;
+import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Activities.ArchiveActivity;
 import com.majazeh.risloo.Views.Activities.AuthActivity;
@@ -103,8 +103,8 @@ public class SerialFragment extends Fragment {
         serialEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!serialEditText.hasFocus()) {
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.focus(serialEditText);
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.select(serialEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.focus(serialEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.select(serialEditText);
                 }
             }
             return false;
@@ -112,9 +112,9 @@ public class SerialFragment extends Fragment {
 
         serialButton.setOnClickListener(v -> {
             if (serialEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.error(getActivity(), serialEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.error(getActivity(), serialEditText);
             } else {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.clear(getActivity(), serialEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.clear(getActivity(), serialEditText);
                 doWork();
             }
         });

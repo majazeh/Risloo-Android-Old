@@ -29,8 +29,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Widgets.InputHandler;
-import com.majazeh.risloo.Utils.WindowDecorator;
+import com.majazeh.risloo.Utils.Widgets.InputHandleEditText;
+import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Fragments.MobileFragment;
 import com.majazeh.risloo.Views.Fragments.PasswordFragment;
@@ -55,7 +55,7 @@ public class AuthActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
-    public InputHandler inputHandler;
+    public InputHandleEditText inputHandleEditText;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -101,7 +101,7 @@ public class AuthActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        inputHandler = new InputHandler();
+        inputHandleEditText = new InputHandleEditText();
 
         callTimer = new MutableLiveData<>();
         callTimer.setValue(-1);
@@ -131,16 +131,16 @@ public class AuthActivity extends AppCompatActivity {
 
     private void listener() {
         titleToolbar.setNavigationOnClickListener(v -> {
-            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
-                inputHandler.clear(this, inputHandler.getInput());
+            if (inputHandleEditText.getInput() != null && inputHandleEditText.getInput().hasFocus()) {
+                inputHandleEditText.clear(this, inputHandleEditText.getInput());
             }
 
             drawerLayout.openDrawer(GravityCompat.START);
         });
 
         avatarCircleImageView.setOnClickListener(v -> {
-            if (inputHandler.getInput() != null && inputHandler.getInput().hasFocus()) {
-                inputHandler.clear(this, inputHandler.getInput());
+            if (inputHandleEditText.getInput() != null && inputHandleEditText.getInput().hasFocus()) {
+                inputHandleEditText.clear(this, inputHandleEditText.getInput());
             }
 
             startActivityForResult(new Intent(this, AccountActivity.class), 100);

@@ -28,10 +28,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
-import com.majazeh.risloo.Utils.FileManager;
+import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Widgets.ItemDecorator;
+import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.Views.Activities.EditCenterActivity;
 import com.majazeh.risloo.Views.Activities.ImageActivity;
@@ -276,7 +276,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                 adapter.setPhone(phones);
 
                 if (holder.phoneRecyclerView.getAdapter() == null) {
-                    holder.phoneRecyclerView.addItemDecoration(new ItemDecorator("horizontalLayout", (int) activity.getResources().getDimension(R.dimen._4sdp), (int) activity.getResources().getDimension(R.dimen._2sdp), (int) activity.getResources().getDimension(R.dimen._4sdp)));
+                    holder.phoneRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("horizontalLayout", (int) activity.getResources().getDimension(R.dimen._4sdp), (int) activity.getResources().getDimension(R.dimen._2sdp), (int) activity.getResources().getDimension(R.dimen._4sdp)));
                     holder.phoneRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
                     holder.phoneRecyclerView.setHasFixedSize(false);
                 }

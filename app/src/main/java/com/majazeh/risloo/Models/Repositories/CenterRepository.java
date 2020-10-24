@@ -13,7 +13,7 @@ import androidx.work.WorkManager;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
-import com.majazeh.risloo.Utils.FileManager;
+import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Workers.CenterWorker;
 
 import org.json.JSONArray;

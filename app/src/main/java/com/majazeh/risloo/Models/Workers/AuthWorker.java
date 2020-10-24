@@ -14,7 +14,7 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.majazeh.risloo.Models.Apis.AuthApi;
 import com.majazeh.risloo.Utils.Generators.RetroGenerator;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
-import com.majazeh.risloo.Utils.FileManager;
+import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 
 import org.json.JSONArray;

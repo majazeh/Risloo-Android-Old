@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Widgets.ItemDecorator;
-import com.majazeh.risloo.Utils.WindowDecorator;
+import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
+import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.QuestionViewModel;
 import com.majazeh.risloo.Views.Adapters.QuestionAdapter;
 
@@ -63,7 +63,7 @@ public class QuestionActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.activity_question_toolbar);
 
         questionRecyclerView = findViewById(R.id.activity_question_recyclerView);
-        questionRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
+        questionRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
         questionRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         questionRecyclerView.setHasFixedSize(true);
     }

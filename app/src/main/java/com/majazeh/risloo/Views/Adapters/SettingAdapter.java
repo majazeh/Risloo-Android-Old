@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.IntentCaller;
+import com.majazeh.risloo.Utils.Managers.IntentCaller;
 import com.majazeh.risloo.ViewModels.ExplodeViewModel;
 import com.majazeh.risloo.Views.Activities.AboutUsActivity;
 import com.majazeh.risloo.Views.Activities.CallUsActivity;

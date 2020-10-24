@@ -6,10 +6,10 @@ import androidx.appcompat.widget.Toolbar;
 import android.os.Bundle;
 
 import com.jsibbold.zoomage.ZoomageView;
-import com.majazeh.risloo.Utils.BitmapManager;
-import com.majazeh.risloo.Utils.FileManager;
+import com.majazeh.risloo.Utils.Managers.BitmapManager;
+import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.WindowDecorator;
+import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.squareup.picasso.Picasso;
 
 public class ImageActivity extends AppCompatActivity {

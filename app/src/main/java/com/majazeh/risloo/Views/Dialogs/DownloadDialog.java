@@ -21,7 +21,7 @@ import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.IntentCaller;
+import com.majazeh.risloo.Utils.Managers.IntentCaller;
 
 public class DownloadDialog extends BottomSheetDialogFragment {
 

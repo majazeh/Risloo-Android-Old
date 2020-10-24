@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".Utils.CustomApp"
+        android:name=".Entities.App"
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_logo"

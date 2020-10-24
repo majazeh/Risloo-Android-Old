@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Widgets.ItemDecorator;
-import com.majazeh.risloo.Utils.WindowDecorator;
+import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
+import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SettingViewModel;
 import com.majazeh.risloo.Views.Adapters.SettingAdapter;
 
@@ -56,7 +56,7 @@ public class SettingActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.activity_setting_toolbar);
 
         settingsRecyclerView = findViewById(R.id.activity_setting_recyclerView);
-        settingsRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", 0, 0, 0));
+        settingsRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", 0, 0, 0));
         settingsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         settingsRecyclerView.setHasFixedSize(true);
     }

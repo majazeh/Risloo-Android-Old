@@ -23,13 +23,13 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Widgets.ItemDecorator;
-import com.majazeh.risloo.Utils.Widgets.ItemHelper;
-import com.majazeh.risloo.Utils.WindowDecorator;
+import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
+import com.majazeh.risloo.Utils.Widgets.ItemTouchRecyclerView;
+import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.ArchiveAdapter;
 
-public class ArchiveActivity extends AppCompatActivity implements ItemHelper.RecyclerItemTouchHelperListener {
+public class ArchiveActivity extends AppCompatActivity implements ItemTouchRecyclerView.OnItemTouchListener {
 
     // ViewModels
     private SampleViewModel viewModel;
@@ -90,11 +90,11 @@ public class ArchiveActivity extends AppCompatActivity implements ItemHelper.Rec
         countTextView = findViewById(R.id.activity_archive_count_textView);
 
         archiveRecyclerView = findViewById(R.id.activity_archive_recyclerView);
-        archiveRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
+        archiveRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
         archiveRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         archiveRecyclerView.setHasFixedSize(true);
 
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemHelper(0, ItemTouchHelper.LEFT, this);
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchRecyclerView(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(archiveRecyclerView);
     }
 

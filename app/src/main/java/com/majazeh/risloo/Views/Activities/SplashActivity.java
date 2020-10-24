@@ -17,8 +17,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.IntentCaller;
-import com.majazeh.risloo.Utils.WindowDecorator;
+import com.majazeh.risloo.Utils.Managers.IntentCaller;
+import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.ExplodeViewModel;
 
 import java.util.Objects;

@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.StringManager;
+import com.majazeh.risloo.Utils.Managers.StringManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;

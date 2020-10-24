@@ -37,9 +37,9 @@ import android.widget.Toast;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Widgets.ItemDecorator;
-import com.majazeh.risloo.Utils.StringManager;
-import com.majazeh.risloo.Utils.WindowDecorator;
+import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
+import com.majazeh.risloo.Utils.Managers.StringManager;
+import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.IndexAdapter;
 import com.majazeh.risloo.Views.Fragments.DescriptionFragment;
@@ -130,7 +130,7 @@ public class SampleActivity extends AppCompatActivity {
         progressLinearLayout = findViewById(R.id.activity_sample_progress_linearLayout);
 
         indexRecyclerView = findViewById(R.id.activity_sample_recyclerView);
-        indexRecyclerView.addItemDecoration(new ItemDecorator("horizontalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._8sdp), (int) getResources().getDimension(R.dimen._16sdp)));
+        indexRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("horizontalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._8sdp), (int) getResources().getDimension(R.dimen._16sdp)));
         indexRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         indexRecyclerView.setHasFixedSize(true);
 
@@ -400,8 +400,8 @@ public class SampleActivity extends AppCompatActivity {
                             ExceptionGenerator.getException(false, 0, null, "FillOneException", "sample");
                             Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                         } else {
-                            if (fragment.adapter.inputHandler.getInput() != null && fragment.adapter.inputHandler.getInput().hasFocus()) {
-                                fragment.adapter.inputHandler.clear(this, fragment.adapter.inputHandler.getInput());
+                            if (fragment.adapter.inputHandleEditText.getInput() != null && fragment.adapter.inputHandleEditText.getInput().hasFocus()) {
+                                fragment.adapter.inputHandleEditText.clear(this, fragment.adapter.inputHandleEditText.getInput());
                             }
 
                             progressDialog.show();

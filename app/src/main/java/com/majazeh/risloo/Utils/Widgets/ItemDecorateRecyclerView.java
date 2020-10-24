@@ -6,13 +6,13 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ItemDecorator extends RecyclerView.ItemDecoration {
+public class ItemDecorateRecyclerView extends RecyclerView.ItemDecoration {
 
     // Vars
     private String layoutManager;
     private int marginOuter, marginInner, marginSide;
 
-    public ItemDecorator(String layoutManager, int marginOuter, int marginInner, int marginSide) {
+    public ItemDecorateRecyclerView(String layoutManager, int marginOuter, int marginInner, int marginSide) {
         this.layoutManager = layoutManager;
         this.marginOuter = marginOuter;
         this.marginInner = marginInner;

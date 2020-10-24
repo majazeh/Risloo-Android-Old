@@ -26,8 +26,8 @@ import androidx.fragment.app.Fragment;
 
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Widgets.CustomEditText;
-import com.majazeh.risloo.Utils.StringManager;
+import com.majazeh.risloo.Utils.Widgets.CutCopyPasteEditText;
+import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Views.Activities.AuthActivity;
 
 import org.json.JSONException;
@@ -46,7 +46,7 @@ public class PasswordFragment extends Fragment {
 
     // Widgets
     private TextView passwordDescriptionTextView;
-    public CustomEditText passwordEditText;
+    public CutCopyPasteEditText passwordEditText;
     private Button passwordButton;
     private ImageView passwordImageView;
     private TextView passwordLinkTextView;
@@ -95,8 +95,8 @@ public class PasswordFragment extends Fragment {
         passwordEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!passwordEditText.hasFocus()) {
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.focus(passwordEditText);
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.select(passwordEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.focus(passwordEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.select(passwordEditText);
                 }
             }
             return false;
@@ -123,7 +123,7 @@ public class PasswordFragment extends Fragment {
             }
         });
 
-        passwordEditText.setOnCutCopyPasteListener(new CustomEditText.OnCutCopyPasteListener() {
+        passwordEditText.setOnCutCopyPasteListener(new CutCopyPasteEditText.OnCutCopyPasteListener() {
             @Override
             public void onCut() {
                 
@@ -160,9 +160,9 @@ public class PasswordFragment extends Fragment {
 
         passwordButton.setOnClickListener(v -> {
             if (passwordEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.error(getActivity(), passwordEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.error(getActivity(), passwordEditText);
             } else {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandler.clear(getActivity(), passwordEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).inputHandleEditText.clear(getActivity(), passwordEditText);
                 doWork();
             }
         });

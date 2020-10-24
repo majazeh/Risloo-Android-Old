@@ -9,7 +9,7 @@ import com.majazeh.risloo.R;
 
 import java.util.Objects;
 
-public class InputHandler {
+public class InputHandleEditText {
 
     // Widgets
     private EditText inputEditText;

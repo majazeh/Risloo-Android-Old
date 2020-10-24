@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.duolingo.open.rtlviewpager.RtlViewPager;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.WindowDecorator;
+import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Views.Adapters.IntroAdapter;
 
 public class IntroActivity extends AppCompatActivity {

@@ -26,9 +26,9 @@ import android.widget.TextView;
 
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Widgets.ItemDecorator;
-import com.majazeh.risloo.Utils.StringManager;
-import com.majazeh.risloo.Utils.WindowDecorator;
+import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
+import com.majazeh.risloo.Utils.Managers.StringManager;
+import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.SamplesAdapter;
@@ -96,7 +96,7 @@ public class SamplesActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         samplesRecyclerView = findViewById(R.id.activity_samples_recyclerView);
-        samplesRecyclerView.addItemDecoration(new ItemDecorator("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
+        samplesRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
         samplesRecyclerView.setLayoutManager(layoutManager);
         samplesRecyclerView.setHasFixedSize(true);
 

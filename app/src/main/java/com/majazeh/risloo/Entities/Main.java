@@ -23,10 +23,10 @@ public class Main {
     }
 
     public Object get(String key) throws JSONException {
-        if (arrayMap.indexOf(key) >= 0) {
+        if (arrayMap.indexOf(key) >= 0)
             return this.attributes.get(key);
-        }
-        return null;
+        else
+            return null;
     }
 
 }

@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Widgets.ItemDecorator;
+import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Views.Activities.SampleActivity;
 import com.majazeh.risloo.Views.Adapters.PictoralAdapter;
 
@@ -57,7 +57,7 @@ public class TextPictoralFragment extends Fragment {
         questionTextView = view.findViewById(R.id.fragment_text_pictoral_question_textView);
 
         answerRecyclerView = view.findViewById(R.id.fragment_text_pictoral_answer_recyclerView);
-        answerRecyclerView.addItemDecoration(new ItemDecorator("gridLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._2sdp), (int) getResources().getDimension(R.dimen._24sdp)));
+        answerRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("gridLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._2sdp), (int) getResources().getDimension(R.dimen._24sdp)));
         answerRecyclerView.setLayoutManager(new GridLayoutManager(activity, 2, LinearLayoutManager.VERTICAL, false));
         answerRecyclerView.setHasFixedSize(true);
     }
