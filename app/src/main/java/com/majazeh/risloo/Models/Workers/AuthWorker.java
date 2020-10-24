@@ -13,8 +13,8 @@ import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.majazeh.risloo.Models.Apis.AuthApi;
 import com.majazeh.risloo.Models.Generators.RetroGenerator;
-import com.majazeh.risloo.Models.Managers.ExceptionManager;
-import com.majazeh.risloo.Models.Managers.FileManager;
+import com.majazeh.risloo.Utils.ExceptionManager;
+import com.majazeh.risloo.Utils.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 
 import org.json.JSONArray;

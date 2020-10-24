@@ -42,11 +42,11 @@ import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Managers.ExceptionManager;
-import com.majazeh.risloo.Models.Managers.FileManager;
+import com.majazeh.risloo.Utils.ExceptionManager;
+import com.majazeh.risloo.Utils.FileManager;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Models.Managers.BitmapManager;
+import com.majazeh.risloo.Utils.BitmapManager;
 import com.majazeh.risloo.Utils.InputHandler;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.ItemDecorator;

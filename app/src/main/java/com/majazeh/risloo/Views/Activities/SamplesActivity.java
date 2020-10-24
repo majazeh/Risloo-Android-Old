@@ -27,7 +27,7 @@ import android.widget.TextView;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;
-import com.majazeh.risloo.Utils.StringCustomizer;
+import com.majazeh.risloo.Utils.StringManager;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
@@ -161,10 +161,10 @@ public class SamplesActivity extends AppCompatActivity {
     private void setRetryLayout(String type) {
         if (type.equals("error")) {
             retryImageView.setImageResource(R.drawable.illu_error);
-            retryTextView.setText(StringCustomizer.clickable(getResources().getString(R.string.AppError), 21, 30, retrySpan));
+            retryTextView.setText(StringManager.clickable(getResources().getString(R.string.AppError), 21, 30, retrySpan));
         } else if (type.equals("connection")) {
             retryImageView.setImageResource(R.drawable.illu_connection);
-            retryTextView.setText(StringCustomizer.clickable(getResources().getString(R.string.AppConnection), 17, 26, retrySpan));
+            retryTextView.setText(StringManager.clickable(getResources().getString(R.string.AppConnection), 17, 26, retrySpan));
         }
     }
 

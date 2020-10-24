@@ -20,12 +20,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.majazeh.risloo.Models.Managers.ExceptionManager;
+import com.majazeh.risloo.Utils.ExceptionManager;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.InputHandler;
 import com.majazeh.risloo.Utils.WindowDecorator;
-
-import org.json.JSONException;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Models.Managers;
+package com.majazeh.risloo.Utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;

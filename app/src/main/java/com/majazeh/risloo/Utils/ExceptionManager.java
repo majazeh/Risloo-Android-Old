@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Models.Managers;
+package com.majazeh.risloo.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -187,7 +187,7 @@ public class ExceptionManager {
         }
     }
 
-    public static String getErrorBody(String type){
+    public static String getErrorBody(String type) {
         StringBuilder exception = new StringBuilder();
         try {
             JSONArray data=errors.getJSONArray(type);

@@ -33,16 +33,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
-import com.majazeh.risloo.Models.Managers.ExceptionManager;
-import com.majazeh.risloo.Models.Managers.FileManager;
+import com.majazeh.risloo.Utils.ExceptionManager;
+import com.majazeh.risloo.Utils.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Models.Managers.BitmapManager;
+import com.majazeh.risloo.Utils.BitmapManager;
 import com.majazeh.risloo.Utils.CustomNumberPicker;
 import com.majazeh.risloo.Utils.InputHandler;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.PathProvider;
-import com.majazeh.risloo.Utils.StringCustomizer;
+import com.majazeh.risloo.Utils.StringManager;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Dialogs.ImageDialog;
@@ -382,9 +382,9 @@ public class EditAccountActivity extends AppCompatActivity {
             birthdayTextView.setText(birthday);
         }
 
-        year = Integer.parseInt(StringCustomizer.dateToString("yyyy", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
-        month = Integer.parseInt(StringCustomizer.dateToString("MM", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
-        day = Integer.parseInt(StringCustomizer.dateToString("dd", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
+        year = Integer.parseInt(StringManager.dateToString("yyyy", StringManager.stringToDate("yyyy-MM-dd", birthday)));
+        month = Integer.parseInt(StringManager.dateToString("MM", StringManager.stringToDate("yyyy-MM-dd", birthday)));
+        day = Integer.parseInt(StringManager.dateToString("dd", StringManager.stringToDate("yyyy-MM-dd", birthday)));
     }
 
     private void setCustomPicker() {
@@ -432,7 +432,7 @@ public class EditAccountActivity extends AppCompatActivity {
                     break;
                 case "edit":
                     name = nameEditText.getText().toString().trim();
-                    viewModel.edit(name, gender, StringCustomizer.jalaliToGregorian(birthday));
+                    viewModel.edit(name, gender, StringManager.jalaliToGregorian(birthday));
                     break;
             }
             observeWork();

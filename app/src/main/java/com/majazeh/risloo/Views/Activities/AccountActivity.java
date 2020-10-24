@@ -22,7 +22,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.majazeh.risloo.Models.Managers.ExceptionManager;
+import com.majazeh.risloo.Utils.ExceptionManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.ItemDecorator;

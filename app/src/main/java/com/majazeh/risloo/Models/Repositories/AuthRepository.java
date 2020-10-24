@@ -13,7 +13,7 @@ import androidx.work.WorkManager;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Items.AuthItems;
-import com.majazeh.risloo.Models.Managers.ExceptionManager;
+import com.majazeh.risloo.Utils.ExceptionManager;
 import com.majazeh.risloo.Models.Workers.AuthWorker;
 
 import org.json.JSONException;

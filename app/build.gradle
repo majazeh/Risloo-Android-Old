@@ -37,7 +37,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0' // AppCompat
     implementation 'androidx.multidex:multidex:2.0.1' // MultiDex
     implementation 'androidx.cardview:cardview:1.0.0' // CardView
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1' // ConstraintLayout
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.2' // ConstraintLayout
     implementation 'androidx.recyclerview:recyclerview:1.1.0' // RecyclerView
     implementation 'androidx.viewpager:viewpager:1.0.0' // ViewPager
 

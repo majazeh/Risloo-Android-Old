@@ -13,8 +13,8 @@ import androidx.work.WorkManager;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Items.SampleItems;
-import com.majazeh.risloo.Models.Managers.ExceptionManager;
-import com.majazeh.risloo.Models.Managers.FileManager;
+import com.majazeh.risloo.Utils.ExceptionManager;
+import com.majazeh.risloo.Utils.FileManager;
 import com.majazeh.risloo.Models.Workers.SampleWorker;
 
 import org.json.JSONArray;

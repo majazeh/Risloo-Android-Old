@@ -27,7 +27,7 @@ import androidx.fragment.app.Fragment;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.CustomEditText;
-import com.majazeh.risloo.Utils.StringCustomizer;
+import com.majazeh.risloo.Utils.StringManager;
 import com.majazeh.risloo.Views.Activities.AuthActivity;
 
 import org.json.JSONException;
@@ -183,7 +183,7 @@ public class PasswordFragment extends Fragment {
     }
 
     private void setText() {
-        passwordLinkTextView.setText(StringCustomizer.clickable(activity.getResources().getString(R.string.PasswordLink), 26, 33, passwordLinkSpan));
+        passwordLinkTextView.setText(StringManager.clickable(activity.getResources().getString(R.string.PasswordLink), 26, 33, passwordLinkSpan));
     }
 
     private void doWork() {

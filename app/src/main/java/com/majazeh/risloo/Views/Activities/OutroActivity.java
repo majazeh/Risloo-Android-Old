@@ -23,9 +23,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.majazeh.risloo.Models.Managers.FileManager;
+import com.majazeh.risloo.Utils.FileManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
-import com.majazeh.risloo.Models.Managers.ExceptionManager;
+import com.majazeh.risloo.Utils.ExceptionManager;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.WindowDecorator;

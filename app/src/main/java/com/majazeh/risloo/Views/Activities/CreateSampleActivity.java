@@ -32,7 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Managers.ExceptionManager;
+import com.majazeh.risloo.Utils.ExceptionManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.InputHandler;

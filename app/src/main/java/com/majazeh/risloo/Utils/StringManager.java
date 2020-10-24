@@ -18,7 +18,7 @@ import java.util.Date;
 import saman.zamani.persiandate.PersianDate;
 
 @SuppressLint("SimpleDateFormat")
-public class StringCustomizer {
+public class StringManager {
 
     public static Date stringToDate(String pattern, String value) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);

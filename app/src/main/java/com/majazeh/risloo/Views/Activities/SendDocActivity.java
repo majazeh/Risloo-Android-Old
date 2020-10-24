@@ -30,14 +30,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.majazeh.risloo.Models.Managers.ExceptionManager;
-import com.majazeh.risloo.Models.Managers.FileManager;
+import com.majazeh.risloo.Utils.ExceptionManager;
+import com.majazeh.risloo.Utils.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.InputHandler;
 import com.majazeh.risloo.Utils.IntentCaller;
 import com.majazeh.risloo.Utils.PathProvider;
-import com.majazeh.risloo.Utils.StringCustomizer;
+import com.majazeh.risloo.Utils.StringManager;
 import com.majazeh.risloo.Utils.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 
@@ -231,13 +231,13 @@ public class SendDocActivity extends AppCompatActivity {
     }
 
     private void setFileWidgetsUi(String fileName) {
-        attachmentTextView.setText(StringCustomizer.substring(fileName, '/'));
+        attachmentTextView.setText(StringManager.substring(fileName, '/'));
         attachmentTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         attachmentImageView.setVisibility(View.GONE);
         suffixTextView.setVisibility(View.VISIBLE);
 
-        switch (StringCustomizer.substring(fileName, '.')) {
+        switch (StringManager.substring(fileName, '.')) {
             case "png":
                 suffixTextView.setText(getResources().getString(R.string.SendDocSuffixPNG));
                 break;
@@ -260,7 +260,7 @@ public class SendDocActivity extends AppCompatActivity {
                 suffixTextView.setText(getResources().getString(R.string.SendDocSuffixMP4));
                 break;
             default:
-                suffixTextView.setText(StringCustomizer.substring(fileName, '.'));
+                suffixTextView.setText(StringManager.substring(fileName, '.'));
                 break;
         }
     }

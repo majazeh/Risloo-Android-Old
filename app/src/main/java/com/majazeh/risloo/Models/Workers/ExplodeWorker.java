@@ -9,8 +9,8 @@ import androidx.work.WorkerParameters;
 
 import com.majazeh.risloo.Models.Apis.ExplodeApi;
 import com.majazeh.risloo.Models.Generators.RetroGenerator;
-import com.majazeh.risloo.Models.Managers.ExceptionManager;
-import com.majazeh.risloo.Models.Managers.FileManager;
+import com.majazeh.risloo.Utils.ExceptionManager;
+import com.majazeh.risloo.Utils.FileManager;
 import com.majazeh.risloo.Models.Repositories.ExplodeRepository;
 
 import org.json.JSONArray;

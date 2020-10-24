@@ -23,6 +23,7 @@ public class InputHandler {
     }
 
     public void select(EditText editText) {
+        editText.requestFocus();
         editText.setCursorVisible(true);
         editText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
     }

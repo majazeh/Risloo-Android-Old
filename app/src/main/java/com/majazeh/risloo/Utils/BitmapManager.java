@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Models.Managers;
+package com.majazeh.risloo.Utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -86,7 +86,7 @@ public class BitmapManager {
         }
     }
 
-    public static Bitmap rotateOrientation(Bitmap image, float degrees) {
+    private static Bitmap rotateOrientation(Bitmap image, float degrees) {
         int imageWidth = image.getWidth();
         int imageHeight = image.getHeight();
 
@@ -96,7 +96,7 @@ public class BitmapManager {
         return Bitmap.createBitmap(image, 0, 0, imageWidth, imageHeight, matrix, true);
     }
 
-    public static Bitmap flipOrientation(Bitmap image, boolean horizontal, boolean vertical) {
+    private static Bitmap flipOrientation(Bitmap image, boolean horizontal, boolean vertical) {
         int imageWidth = image.getWidth();
         int imageHeight = image.getHeight();
 
