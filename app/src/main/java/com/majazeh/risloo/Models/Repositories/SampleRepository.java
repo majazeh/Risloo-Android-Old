@@ -14,6 +14,7 @@ import androidx.work.WorkManager;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Items.SampleItems;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
+import com.majazeh.risloo.Utils.Generators.FilterGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Workers.SampleWorker;
 
@@ -27,7 +28,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class SampleRepository extends MainRepository {
-
+    private String Endpoit = "samples";
     // Objects
     private JSONObject sampleJson;
     private SampleItems sampleItems;
@@ -45,6 +46,9 @@ public class SampleRepository extends MainRepository {
     public static ArrayList<Model> roomsSearch;
     public static ArrayList<Model> casesSearch;
     public static ArrayList<Model> referencesSearch;
+    public static ArrayList<Model> scaleFilter;
+    public static ArrayList<Model> statusFilter;
+    public static ArrayList<Model> roomFilter;
     public static MutableLiveData<Integer> workStateSample;
     public static MutableLiveData<Integer> workStateAnswer;
     public static MutableLiveData<Integer> workStateCreate;
@@ -58,6 +62,8 @@ public class SampleRepository extends MainRepository {
     public static String referencesQ = "";
     public static boolean cache = false;
     public static int samplesPage = 1;
+    private FilterGenerator filterGenerator;
+
 
     public SampleRepository(Application application) throws JSONException {
         super(application);
@@ -74,12 +80,16 @@ public class SampleRepository extends MainRepository {
         roomsSearch = new ArrayList<>();
         casesSearch = new ArrayList<>();
         referencesSearch = new ArrayList<>();
+        scaleFilter = new ArrayList<>();
+        statusFilter = new ArrayList<>();
+        roomFilter = new ArrayList<>();
         workStateSample = new MutableLiveData<>();
         workStateAnswer = new MutableLiveData<>();
         workStateCreate = new MutableLiveData<>();
         workStateSample.setValue(-1);
         workStateAnswer.setValue(-1);
         workStateCreate.setValue(-1);
+        filterGenerator = new FilterGenerator();
     }
 
     public SampleRepository() {
@@ -257,6 +267,7 @@ public class SampleRepository extends MainRepository {
 
         work = "getRooms";
         workStateCreate.setValue(-1);
+        workStateSample.setValue(-1);
         workManager("getRooms");
     }
 
@@ -628,7 +639,9 @@ public class SampleRepository extends MainRepository {
                     Model model = new Model(data.getJSONObject(i));
                     arrayList.add(model);
                 }
-                return arrayList;
+                this.meta = jsonObject.getJSONObject("meta");
+                handlerFilters();
+                 return arrayList;
             } catch (JSONException e) {
                 e.printStackTrace();
                 return null;
@@ -636,6 +649,7 @@ public class SampleRepository extends MainRepository {
         } else {
             return null;
         }
+
     }
 
     public ArrayList<Model> getArchive() {

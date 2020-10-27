@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -13,6 +14,7 @@ import androidx.work.WorkerParameters;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Models.Apis.SampleApi;
+import com.majazeh.risloo.Utils.Generators.FilterGenerator;
 import com.majazeh.risloo.Utils.Generators.RetroGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
@@ -24,6 +26,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import okhttp3.ResponseBody;
@@ -39,6 +42,9 @@ public class SampleWorker extends Worker {
     // Repository
     private SampleRepository repository;
 
+    // Generators
+    private FilterGenerator filterGenerator;
+
     // Objects
     private Context context;
     private SharedPreferences sharedPreferences;
@@ -53,6 +59,8 @@ public class SampleWorker extends Worker {
         repository = new SampleRepository();
 
         sharedPreferences = context.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
+        filterGenerator = new FilterGenerator();
 
         editor = sharedPreferences.edit();
         editor.apply();
@@ -175,6 +183,7 @@ public class SampleWorker extends Worker {
 
                     if (SampleRepository.samplesPage == 1) {
                         FileManager.writeObjectToCache(context, successBody, "samples", "all");
+
                     } else {
                         JSONObject jsonObject = FileManager.readObjectFromCache(context, "samples", "all");
                         JSONArray data;
@@ -501,14 +510,15 @@ public class SampleWorker extends Worker {
                         }
                     }
                 }
-
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "rooms", "sample");
                 SampleRepository.workStateCreate.postValue(1);
+                SampleRepository.workStateSample.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "rooms", "sample");
                 SampleRepository.workStateCreate.postValue(0);
+                SampleRepository.workStateSample.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
@@ -516,16 +526,19 @@ public class SampleWorker extends Worker {
 
             ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException", "sample");
             SampleRepository.workStateCreate.postValue(0);
+            SampleRepository.workStateSample.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
             ExceptionGenerator.getException(false, 0, null, "IOException", "sample");
             SampleRepository.workStateCreate.postValue(0);
+            SampleRepository.workStateSample.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
             ExceptionGenerator.getException(false, 0, null, "JSONException", "sample");
             SampleRepository.workStateCreate.postValue(0);
+            SampleRepository.workStateSample.postValue(0);
         }
     }
 
