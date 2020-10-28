@@ -33,8 +33,8 @@ public class SampleViewModel extends AndroidViewModel {
         repository.sample(sampleId);
     }
 
-    public void samples() throws JSONException {
-        repository.samples();
+    public void samples(String scalesQ, String statusQ, String roomQ) throws JSONException {
+        repository.samples(scalesQ,statusQ,roomQ);
     }
 
     public void sendAnswers(String sampleId) throws JSONException {

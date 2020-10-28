@@ -3,6 +3,7 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Constraints;
@@ -14,7 +15,6 @@ import androidx.work.WorkManager;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Items.SampleItems;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
-import com.majazeh.risloo.Utils.Generators.FilterGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Workers.SampleWorker;
 
@@ -49,6 +49,7 @@ public class SampleRepository extends MainRepository {
     public static ArrayList<Model> scaleFilter;
     public static ArrayList<Model> statusFilter;
     public static ArrayList<Model> roomFilter;
+    public static ArrayList<Model> getAll;
     public static MutableLiveData<Integer> workStateSample;
     public static MutableLiveData<Integer> workStateAnswer;
     public static MutableLiveData<Integer> workStateCreate;
@@ -57,12 +58,12 @@ public class SampleRepository extends MainRepository {
     public static String sampleId = "";
     public static String roomId = "";
     public static String scalesQ = "";
+    public static String statusQ = "";
     public static String roomQ = "";
     public static String casesQ = "";
     public static String referencesQ = "";
     public static boolean cache = false;
     public static int samplesPage = 1;
-    private FilterGenerator filterGenerator;
 
 
     public SampleRepository(Application application) throws JSONException {
@@ -83,13 +84,13 @@ public class SampleRepository extends MainRepository {
         scaleFilter = new ArrayList<>();
         statusFilter = new ArrayList<>();
         roomFilter = new ArrayList<>();
+        getAll = new ArrayList<>();
         workStateSample = new MutableLiveData<>();
         workStateAnswer = new MutableLiveData<>();
         workStateCreate = new MutableLiveData<>();
         workStateSample.setValue(-1);
         workStateAnswer.setValue(-1);
         workStateCreate.setValue(-1);
-        filterGenerator = new FilterGenerator();
     }
 
     public SampleRepository() {
@@ -143,7 +144,11 @@ public class SampleRepository extends MainRepository {
         });
     }
 
-    public void samples() throws JSONException {
+    public void samples(String scalesQ, String statusQ, String roomQ) throws JSONException {
+        SampleRepository.scalesQ = scalesQ;
+        SampleRepository.statusQ = statusQ;
+        SampleRepository.roomQ = roomQ;
+
         work = "getAll";
         workStateSample.setValue(-1);
         workManager("getAll");
@@ -627,29 +632,60 @@ public class SampleRepository extends MainRepository {
     */
 
     public ArrayList<Model> getAll() {
-        ArrayList<Model> arrayList = new ArrayList<>();
-        if (FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all") != null) {
-            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all");
-            try {
-                JSONArray data = jsonObject.getJSONArray("data");
-                if (data.length() == 0) {
+        if (!SampleRepository.filter()) {
+            ArrayList<Model> arrayList = new ArrayList<>();
+            if (FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all") != null) {
+                // not filter and show
+                JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all");
+                try {
+                    JSONArray data = jsonObject.getJSONArray("data");
+                    if (data.length() == 0) {
+                        return null;
+                    }
+                    for (int i = 0; i < data.length(); i++) {
+                        Model model = new Model(data.getJSONObject(i));
+                        arrayList.add(model);
+                    }
+                    this.meta = jsonObject.getJSONObject("meta");
+                    handlerFilters();
+                    return arrayList;
+                } catch (JSONException e) {
+                    e.printStackTrace();
                     return null;
                 }
-                for (int i = 0; i < data.length(); i++) {
-                    Model model = new Model(data.getJSONObject(i));
-                    arrayList.add(model);
-                }
-                this.meta = jsonObject.getJSONObject("meta");
-                handlerFilters();
-                 return arrayList;
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } else {
+                // not filter and not show
                 return null;
             }
         } else {
-            return null;
-        }
+            if (isNetworkConnected(application.getApplicationContext())) {
+                // filter and show
+                handlerFilters();
+                return getAll;
+            } else {
+                if (FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all") != null) {
+                        // filter and show
+                    try {
+                        JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all");
+                        JSONArray data = jsonObject.getJSONArray("data");
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject object = data.getJSONObject(i);
+                            SampleRepository.getAll.add(new Model(object));
+                        }
+                        this.meta = jsonObject.getJSONObject("meta");
+                        handlerFilters();
+                        return getAll;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
 
+                } else {
+                    // filter and not show
+                    return null;
+                }
+            }
+        }
     }
 
     public ArrayList<Model> getArchive() {
@@ -690,6 +726,14 @@ public class SampleRepository extends MainRepository {
             return arrayList;
         } else {
             return null;
+        }
+    }
+
+    public static boolean filter() {
+        if (SampleRepository.scalesQ.equals("") && SampleRepository.statusQ.equals("") && SampleRepository.roomQ.equals(""))
+            return false;
+        else {
+            return true;
         }
     }
 

@@ -17,7 +17,7 @@ public class MainRepository {
     // Objects
     public Application application;
     private FilterGenerator filterGenerator;
-    public JSONObject meta;
+    public static JSONObject meta;
     public MainRepository(Application application) {
         this.application = application;
         filterGenerator = new FilterGenerator();

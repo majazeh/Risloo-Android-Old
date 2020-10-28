@@ -26,7 +26,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 import okhttp3.ResponseBody;
@@ -138,9 +137,9 @@ public class SampleWorker extends Worker {
                 FileManager.writePrerequisiteAnswerToCache(context, data.getJSONArray("prerequisites"), SampleRepository.sampleId);
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "single", "sample");
-                if (data.getString("status").equals("closed")){
+                if (data.getString("status").equals("closed")) {
                     SampleRepository.workStateSample.postValue(-3);
-                }else {
+                } else {
                     SampleRepository.workStateSample.postValue(1);
                 }
             } else {
@@ -170,34 +169,43 @@ public class SampleWorker extends Worker {
 
     private void getAll() {
         try {
-            Call<ResponseBody> call = sampleApi.getAll(token(), SampleRepository.samplesPage);
+            Call<ResponseBody> call = sampleApi.getAll(token(), SampleRepository.samplesPage, SampleRepository.scalesQ, SampleRepository.statusQ, SampleRepository.roomQ);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
                 if (successBody.getJSONArray("data").length() != 0) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        FileManager.deletePage(context, "samples", "all", SampleRepository.samplesPage, 15);
-                    }
-
-                    if (SampleRepository.samplesPage == 1) {
-                        FileManager.writeObjectToCache(context, successBody, "samples", "all");
-
-                    } else {
-                        JSONObject jsonObject = FileManager.readObjectFromCache(context, "samples", "all");
-                        JSONArray data;
-                        try {
-                            data = jsonObject.getJSONArray("data");
-                            for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
-                                JSONArray jsonArray = successBody.getJSONArray("data");
-                                data.put(jsonArray.getJSONObject(i));
-                            }
-                            jsonObject.put("data", data);
-                            FileManager.writeObjectToCache(context, jsonObject, "samples", "all");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    if (!SampleRepository.filter()) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            FileManager.deletePage(context, "samples", "all", SampleRepository.samplesPage, 15);
                         }
+
+                        if (SampleRepository.samplesPage == 1) {
+                            FileManager.writeObjectToCache(context, successBody, "samples", "all");
+
+                        } else {
+                            try {
+                                JSONObject jsonObject = FileManager.readObjectFromCache(context, "samples", "all");
+                                JSONArray data = jsonObject.getJSONArray("data");
+                                for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
+                                    JSONArray jsonArray = successBody.getJSONArray("data");
+                                    data.put(jsonArray.getJSONObject(i));
+                                }
+                                jsonObject.put("data", data);
+                                FileManager.writeObjectToCache(context, jsonObject, "samples", "all");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } else {
+                        Log.e("test", "filter");
+                        JSONArray data = successBody.getJSONArray("data");
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject = data.getJSONObject(i);
+                            SampleRepository.getAll.add(new Model(jsonObject));
+                        }
+                        SampleRepository.meta = successBody.getJSONObject("meta");
                     }
                 }
 

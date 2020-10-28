@@ -36,6 +36,8 @@ import com.majazeh.risloo.Views.Adapters.SamplesAdapter;
 
 import org.json.JSONException;
 
+import java.util.logging.Logger;
+
 public class SamplesActivity extends AppCompatActivity {
 
     // ViewModels
@@ -147,7 +149,7 @@ public class SamplesActivity extends AppCompatActivity {
                         try {
                             if (!loading) {
                                 pagingProgressBar.setVisibility(View.VISIBLE);
-                                sampleViewModel.samples();
+                                sampleViewModel.samples("", "", "");
                                 observeWork();
                             }
                         } catch (JSONException e) {
@@ -171,7 +173,7 @@ public class SamplesActivity extends AppCompatActivity {
 
     private void launchSamples() {
         try {
-            sampleViewModel.samples();
+            sampleViewModel.samples("", "", "");
             SampleRepository.samplesPage = 1;
             observeWork();
         } catch (JSONException e) {
