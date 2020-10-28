@@ -664,13 +664,26 @@ public class SampleRepository extends MainRepository {
                 return getAll;
             } else {
                 if (FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all") != null) {
-                        // filter and show
+                    // filter and show
                     try {
+                        getAll.clear();
                         JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all");
                         JSONArray data = jsonObject.getJSONArray("data");
                         for (int i = 0; i < data.length(); i++) {
                             JSONObject object = data.getJSONObject(i);
-                            SampleRepository.getAll.add(new Model(object));
+                            if (object.getString("status").equals(statusQ)) {
+                                SampleRepository.getAll.add(new Model(object));
+                            }
+                            JSONObject scale = object.getJSONObject("scale");
+                            if (scale.getString("id").equals(scalesQ)) {
+                                SampleRepository.getAll.add(new Model(object));
+                            }
+                            if (object.has("room") && !object.isNull("room")) {
+                                JSONObject room = object.getJSONObject("room");
+                                if (room.getString("id").equals(roomQ)) {
+                                    SampleRepository.getAll.add(new Model(object));
+                                }
+                            }
                         }
                         this.meta = jsonObject.getJSONObject("meta");
                         handlerFilters();
