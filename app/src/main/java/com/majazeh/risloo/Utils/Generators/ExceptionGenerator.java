@@ -165,8 +165,11 @@ public class ExceptionGenerator {
                     case "EmptyReferenceForRoomException":
                         fa_message_text = "مراجعانی برای این اتاق درمانی موجود نیست.";
                         break;
-                    case "MustBeTwoCharException":
-                        fa_message_text = "عبارت جستجو بايد حداقل شامل 2 حرف باشد.";
+                    case "EmptyScalesForFilterException":
+                        fa_message_text = "آزمونی برای انتخاب موجود نیست.";
+                        break;
+                    case "EmptyStatusForFilterException":
+                        fa_message_text = "وضعیتی برای انتخاب موجود نیست.";
                         break;
                     case "SavedToDownloadException":
                         fa_message_text = "جواب ها در پوشه Download ذخیره شد.";

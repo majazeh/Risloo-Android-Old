@@ -14,13 +14,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Views.Activities.CreateCenterActivity;
 import com.majazeh.risloo.Views.Activities.CreateSampleActivity;
 import com.majazeh.risloo.Views.Activities.EditCenterActivity;
+import com.majazeh.risloo.Views.Activities.SamplesActivity;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -70,6 +71,11 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                 case "phones":
                     holder.titleTextView.setText(model.get("name").toString());
                     break;
+                case "scalesFilter":
+                case "roomsFilter":
+                case "statusFilter":
+                    holder.titleTextView.setText(model.get("title").toString());
+                    break;
             }
 
         } catch (JSONException e) {
@@ -107,6 +113,34 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                         } else if (theory.equals("EditCenter")) {
                             ((EditCenterActivity) Objects.requireNonNull(activity)).phoneTextView.setVisibility(View.VISIBLE);
                         }
+                        break;
+                    case "scalesFilter":
+                        // Reset Filter
+                        ((SamplesActivity) Objects.requireNonNull(activity)).scale = "";
+                        ((SamplesActivity) Objects.requireNonNull(activity)).resetData("filter");
+                    case "roomsFilter":
+                        // Reset Filter
+                        ((SamplesActivity) Objects.requireNonNull(activity)).room = "";
+                        ((SamplesActivity) Objects.requireNonNull(activity)).resetData("filter");
+                    case "statusFilter":
+                        // Reset Filter
+                        ((SamplesActivity) Objects.requireNonNull(activity)).status = "";
+                        ((SamplesActivity) Objects.requireNonNull(activity)).resetData("filter");
+                        break;
+                }
+            } else {
+                switch (method) {
+                    case "scalesFilter":
+                        ((SamplesActivity) Objects.requireNonNull(activity)).scale = "";
+                        ((SamplesActivity) Objects.requireNonNull(activity)).resetData("filter");
+                        break;
+                    case "roomsFilter":
+                        ((SamplesActivity) Objects.requireNonNull(activity)).room = "";
+                        ((SamplesActivity) Objects.requireNonNull(activity)).resetData("filter");
+                        break;
+                    case "statusFilter":
+                        ((SamplesActivity) Objects.requireNonNull(activity)).status = "";
+                        ((SamplesActivity) Objects.requireNonNull(activity)).resetData("filter");
                         break;
                 }
             }

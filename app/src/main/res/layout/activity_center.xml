@@ -45,6 +45,64 @@
                 android:visibility="gone"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:id="@+id/activity_center_searchLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:layout_marginLeft="@dimen/_16sdp"
+                    android:layout_marginRight="@dimen/_16sdp"
+                    android:orientation="horizontal"
+                    android:layoutDirection="rtl"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="@string/CenterSearched"
+                        android:textSize="@dimen/_10ssp"
+                        android:textStyle="bold"
+                        android:textColor="@color/Mischka"
+                        android:textAlignment="gravity" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="@dimen/_12sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:paddingLeft="@dimen/_6sdp"
+                        android:paddingRight="@dimen/_4sdp"
+                        android:elevation="@dimen/_1sdp"
+                        android:gravity="center"
+                        android:layoutDirection="rtl"
+                        android:orientation="horizontal"
+                        android:background="@drawable/draw_4sdp_solid_snow">
+
+                        <ImageView
+                            android:id="@+id/activity_center_search_imageView"
+                            android:layout_width="@dimen/_14sdp"
+                            android:layout_height="@dimen/_14sdp"
+                            android:layout_marginLeft="@dimen/_4sdp"
+                            android:src="@drawable/ic_times"
+                            app:tint="@color/VioletRed"/>
+
+                        <TextView
+                            android:id="@+id/activity_center_search_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textSize="@dimen/_10ssp"
+                            android:textStyle="normal"
+                            android:textColor="@color/Grey"
+                            android:textAlignment="gravity" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
@@ -93,59 +151,9 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/activity_center_retryLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:visibility="gone"
-                android:orientation="vertical">
+            <include layout="@layout/layout_info" />
 
-                <ImageView
-                    android:id="@+id/activity_center_retry_imageView"
-                    android:layout_width="@dimen/_150sdp"
-                    android:layout_height="@dimen/_150sdp" />
-
-                <TextView
-                    android:id="@+id/activity_center_retry_textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_32sdp"
-                    android:gravity="center"
-                    android:textSize="@dimen/_11ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Mischka"
-                    android:textAlignment="gravity" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/activity_center_loadingLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:visibility="visible"
-                android:orientation="vertical">
-
-                <ProgressBar
-                    android:layout_width="@dimen/_32sdp"
-                    android:layout_height="@dimen/_32sdp"
-                    android:layout_marginBottom="@dimen/_16sdp"
-                    android:theme="@style/ProgressBarTheme"
-                    style="@style/Widget.AppCompat.ProgressBar"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="@string/AppLoading"
-                    android:textSize="@dimen/_11ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Grey"
-                    android:textAlignment="gravity" />
-
-            </LinearLayout>
+            <include layout="@layout/layout_loading" />
 
         </FrameLayout>
 

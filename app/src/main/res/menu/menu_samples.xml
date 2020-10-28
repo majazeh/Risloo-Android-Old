@@ -9,4 +9,11 @@
         android:visible="false"
         app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/tool_filter"
+        android:icon="@drawable/tool_filter_default"
+        android:title="@string/SamplesFilter"
+        android:visible="false"
+        app:showAsAction="ifRoom"/>
+
 </menu>

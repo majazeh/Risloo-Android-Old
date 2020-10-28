@@ -11,10 +11,7 @@
     tools:openDrawer="start"
     tools:ignore="UnusedAttribute">
 
-    <include
-        layout="@layout/activity_auth_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <include layout="@layout/activity_auth_content" />
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/activity_auth_navigationView"
@@ -34,11 +31,7 @@
         app:itemBackground="@drawable/sel_nav_draw"
         app:menu="@menu/menu_drawer">
 
-        <include
-            layout="@layout/activity_auth_footer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"/>
+        <include layout="@layout/activity_auth_footer" />
 
     </com.google.android.material.navigation.NavigationView>
 

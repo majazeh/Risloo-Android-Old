@@ -8,13 +8,14 @@
 
     <string name="ApiKey">ای پی آی کی</string>
 
-    <string name="AppSearch">جستجو</string>
-    <string name="AppSearchEmpty">جستجوی یافت نشد</string>
-    <string name="AppSearchConfirm">ثبت</string>
-
     <string name="AppLoading">در حال بارگذاری …</string>
     <string name="AppError">مشکل ارتباط با سرور! تلاش مجدد</string>
     <string name="AppConnection">انترنت وصل نیست! تلاش مجدد</string>
+    <string name="AppEmpty">فعلا موردی برای نمایش موجود نیست.</string>
+
+    <string name="AppSearchInput">جستجو</string>
+    <string name="AppSearchEmpty">موردی یافت نشد</string>
+    <string name="AppSearchConfirm">ثبت</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -171,6 +172,9 @@
     <string name="SamplesTitle">نمونه ها</string>
 
     <string name="SamplesCreate">ساخت جدید</string>
+    <string name="SamplesFilter">فیلتر کردن</string>
+
+    <string name="SamplesFilters">فیلترها:</string>
 
     <string name="SamplesEmpty">فعلا نمونه های موجود نیست</string>
 
@@ -192,6 +196,12 @@
     <string name="SamplesStartDialogDescription">با شروع نمونه شما می توانید آن را به پایان برسانید ویا در صورت موکول دادن آن به بعدا می توانید از قسمت بایگانی نمونه ها آن را ادامه دهید.</string>
     <string name="SamplesStartDialogPositive">شروع نمونه</string>
     <string name="SamplesStartDialogNegative">بستن</string>
+
+    <string name="SamplesFilterDialogTitle">فیلتر کردن نمونه ها براساس</string>
+    <string name="SamplesFilterDialogُScale">آزمون</string>
+    <string name="SamplesFilterDialogRoom">آتاق درمان</string>
+    <string name="SamplesFilterDialogStatus">وضعیت</string>
+    <string name="SamplesFilterDialogClose">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -377,6 +387,9 @@
     <string name="CenterMy">من</string>
 
     <string name="CenterCreate">ساخت جدید</string>
+    <string name="CenterSearch">جستجو کردن</string>
+
+    <string name="CenterSearched">جستجو:</string>
 
     <string name="CenterEmpty">فعلا مرکز درمانی برای شما نیست</string>
 
@@ -396,6 +409,11 @@
     <string name="CenterRequestDialogPositive">درخواست</string>
     <string name="CenterRequestDialogNegative">بستن</string>
 
+    <string name="CenterSearchDialogTitle">مرکز درمانی دلخواهی جستجو کنید.</string>
+    <string name="CenterSearchDialogInput">مرکز درمانی</string>
+    <string name="CenterSearchDialogPositive">جستجو</string>
+    <string name="CenterSearchDialogNegative">بستن</string>
+
     ////////////////////////////////////////////////////////////////////////////////
 
     // edit center strings
@@ -413,7 +431,7 @@
     <string name="EditCenterEdit">ویرایش</string>
 
     <string name="EditCenterPhoneDialogTitle">شماره تماس دلخواهی اضافه کنید.</string>
-    <string name="EditCenterPhoneDialogPhone">شماره تماس</string>
+    <string name="EditCenterPhoneDialogInput">شماره تماس</string>
     <string name="EditCenterPhoneDialogPositive">افزودن</string>
     <string name="EditCenterPhoneDialogNegative">بستن</string>
 
@@ -438,7 +456,7 @@
     <string name="CreateCenterCreate">ایجاد</string>
 
     <string name="CreateCenterPhoneDialogTitle">شماره تماس دلخواهی اضافه کنید.</string>
-    <string name="CreateCenterPhoneDialogPhone">شماره تماس</string>
+    <string name="CreateCenterPhoneDialogInput">شماره تماس</string>
     <string name="CreateCenterPhoneDialogPositive">افزودن</string>
     <string name="CreateCenterPhoneDialogNegative">بستن</string>
 

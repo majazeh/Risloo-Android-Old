@@ -9,4 +9,11 @@
         android:visible="false"
         app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/tool_search"
+        android:icon="@drawable/tool_search_default"
+        android:title="@string/CenterSearch"
+        android:visible="false"
+        app:showAsAction="ifRoom"/>
+
 </menu>

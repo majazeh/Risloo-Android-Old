@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,6 +42,9 @@ public class AllCenterFragment extends Fragment {
     // Widgets
     private RecyclerView recyclerView;
     public ProgressBar pagingProgressBar;
+    private LinearLayout infoLayout;
+    private ImageView infoImageView;
+    private TextView infoTextView;
 
     public AllCenterFragment(Activity activity) {
         this.activity = activity;
@@ -71,6 +77,11 @@ public class AllCenterFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         pagingProgressBar = view.findViewById(R.id.fragment_all_center_progressBar);
+
+        infoLayout = view.findViewById(R.id.layout_info);
+
+        infoImageView = view.findViewById(R.id.layout_info_imageView);
+        infoTextView = view.findViewById(R.id.layout_info_textView);
     }
 
     private void listener() {
@@ -108,10 +119,33 @@ public class AllCenterFragment extends Fragment {
 
             adapter.setCenter(((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel.getAll(), expands, "all", ((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel);
             recyclerView.setAdapter(adapter);
+
+            infoLayout.setVisibility(View.GONE);
+        } else {
+            infoLayout.setVisibility(View.VISIBLE);
+
+            if (((CenterActivity) Objects.requireNonNull(getActivity())).search.equals("")) {
+                setInfoLayout("empty");
+            } else {
+                setInfoLayout("search");
+            }
         }
     }
 
-    public void notifyRecycler(){
+    private void setInfoLayout(String type) {
+        switch (type) {
+            case "empty":
+                infoImageView.setImageResource(R.drawable.illu_empty);
+                infoTextView.setText(getResources().getString(R.string.AppEmpty));
+                break;
+            case "search":
+                infoImageView.setImageResource(R.drawable.illu_empty);
+                infoTextView.setText(getResources().getString(R.string.AppSearchEmpty));
+                break;
+        }
+    }
+
+    public void notifyRecycler() {
         for (int i = (CenterRepository.allPage-1)*15; i <((CenterRepository.allPage-1)*15)+15; i++) {
             expands.put(i, false);
         }

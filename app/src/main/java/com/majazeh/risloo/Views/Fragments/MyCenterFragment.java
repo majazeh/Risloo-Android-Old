@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,7 +42,9 @@ public class MyCenterFragment extends Fragment {
     // Widgets
     private RecyclerView recyclerView;
     public ProgressBar pagingProgressBar;
-    private LinearLayout emptyLayout;
+    private LinearLayout infoLayout;
+    private ImageView infoImageView;
+    private TextView infoTextView;
 
     public MyCenterFragment(Activity activity) {
         this.activity = activity;
@@ -74,7 +78,10 @@ public class MyCenterFragment extends Fragment {
 
         pagingProgressBar = view.findViewById(R.id.fragment_my_center_progressBar);
 
-        emptyLayout = view.findViewById(R.id.fragment_my_center_emptyLayout);
+        infoLayout = view.findViewById(R.id.layout_info);
+
+        infoImageView = view.findViewById(R.id.layout_info_imageView);
+        infoTextView = view.findViewById(R.id.layout_info_textView);
     }
 
     private void listener() {
@@ -113,11 +120,28 @@ public class MyCenterFragment extends Fragment {
             adapter.setCenter(((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel.getMy(), expands, "my", ((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel);
             recyclerView.setAdapter(adapter);
 
-            recyclerView.setVisibility(View.VISIBLE);
-            emptyLayout.setVisibility(View.GONE);
+            infoLayout.setVisibility(View.GONE);
         } else {
-            recyclerView.setVisibility(View.GONE);
-            emptyLayout.setVisibility(View.VISIBLE);
+            infoLayout.setVisibility(View.VISIBLE);
+
+            if (((CenterActivity) Objects.requireNonNull(getActivity())).search.equals("")) {
+                setInfoLayout("empty");
+            } else {
+                setInfoLayout("search");
+            }
+        }
+    }
+
+    private void setInfoLayout(String type) {
+        switch (type) {
+            case "empty":
+                infoImageView.setImageResource(R.drawable.illu_empty);
+                infoTextView.setText(getResources().getString(R.string.AppEmpty));
+                break;
+            case "search":
+                infoImageView.setImageResource(R.drawable.illu_empty);
+                infoTextView.setText(getResources().getString(R.string.AppSearchEmpty));
+                break;
         }
     }
 

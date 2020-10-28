@@ -25,6 +25,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -80,6 +81,7 @@ public class CreateSampleActivity extends AppCompatActivity {
     private LinearLayout scaleLinearLayout, roomLinearLayout, caseLinearLayout, roomReferenceLinearLayout;
     private FrameLayout roomFrameLayout, caseFrameLayout;
     private Button createButton;
+    private CoordinatorLayout scaleDialogSearchLayout, roomDialogSearchLayout, caseDialogSearchLayout, roomReferenceDialogSearchLayout;
     private Dialog scaleDialog, roomDialog, caseDialog, roomReferenceDialog, progressDialog;
 
     @Override
@@ -211,28 +213,35 @@ public class CreateSampleActivity extends AppCompatActivity {
         layoutParamsRoomReference.height = WindowManager.LayoutParams.WRAP_CONTENT;
         roomReferenceDialog.getWindow().setAttributes(layoutParamsRoomReference);
 
+        scaleDialogSearchLayout = scaleDialog.findViewById(R.id.dialog_search_coordinatorLayout);
+        scaleDialogSearchLayout.setVisibility(View.VISIBLE);
         scaleDialogEditText = scaleDialog.findViewById(R.id.dialog_search_editText);
-        roomDialogEditText = roomDialog.findViewById(R.id.dialog_search_editText);
-        caseDialogEditText = caseDialog.findViewById(R.id.dialog_search_editText);
-        roomReferenceDialogEditText = roomReferenceDialog.findViewById(R.id.dialog_search_editText);
-
-        scaleDialogImageView = scaleDialog.findViewById(R.id.dialog_search_imageView);
-        roomDialogImageView = roomDialog.findViewById(R.id.dialog_search_imageView);
-        caseDialogImageView = caseDialog.findViewById(R.id.dialog_search_imageView);
-        roomReferenceDialogImageView = roomReferenceDialog.findViewById(R.id.dialog_search_imageView);
-
-        scaleDialogProgressBar = scaleDialog.findViewById(R.id.dialog_search_progressBar);
-        roomDialogProgressBar = roomDialog.findViewById(R.id.dialog_search_progressBar);
-        caseDialogProgressBar = caseDialog.findViewById(R.id.dialog_search_progressBar);
-        roomReferenceDialogProgressBar = roomReferenceDialog.findViewById(R.id.dialog_search_progressBar);
-
         scaleDialogTextView = scaleDialog.findViewById(R.id.dialog_search_textView);
-        roomDialogTextView = roomDialog.findViewById(R.id.dialog_search_textView);
-        caseDialogTextView = caseDialog.findViewById(R.id.dialog_search_textView);
-        roomReferenceDialogTextView = roomReferenceDialog.findViewById(R.id.dialog_search_textView);
-
+        scaleDialogImageView = scaleDialog.findViewById(R.id.dialog_search_imageView);
+        scaleDialogProgressBar = scaleDialog.findViewById(R.id.dialog_search_progressBar);
         scaleDialogConfirm = scaleDialog.findViewById(R.id.dialog_search_confirm_textView);
         scaleDialogConfirm.setVisibility(View.VISIBLE);
+
+        roomDialogSearchLayout = roomDialog.findViewById(R.id.dialog_search_coordinatorLayout);
+        roomDialogSearchLayout.setVisibility(View.VISIBLE);
+        roomDialogEditText = roomDialog.findViewById(R.id.dialog_search_editText);
+        roomDialogTextView = roomDialog.findViewById(R.id.dialog_search_textView);
+        roomDialogImageView = roomDialog.findViewById(R.id.dialog_search_imageView);
+        roomDialogProgressBar = roomDialog.findViewById(R.id.dialog_search_progressBar);
+
+        caseDialogSearchLayout = caseDialog.findViewById(R.id.dialog_search_coordinatorLayout);
+        caseDialogSearchLayout.setVisibility(View.VISIBLE);
+        caseDialogEditText = caseDialog.findViewById(R.id.dialog_search_editText);
+        caseDialogTextView = caseDialog.findViewById(R.id.dialog_search_textView);
+        caseDialogImageView = caseDialog.findViewById(R.id.dialog_search_imageView);
+        caseDialogProgressBar = caseDialog.findViewById(R.id.dialog_search_progressBar);
+
+        roomReferenceDialogSearchLayout = roomReferenceDialog.findViewById(R.id.dialog_search_coordinatorLayout);
+        roomReferenceDialogSearchLayout.setVisibility(View.VISIBLE);
+        roomReferenceDialogEditText = roomReferenceDialog.findViewById(R.id.dialog_search_editText);
+        roomReferenceDialogTextView = roomReferenceDialog.findViewById(R.id.dialog_search_textView);
+        roomReferenceDialogImageView = roomReferenceDialog.findViewById(R.id.dialog_search_imageView);
+        roomReferenceDialogProgressBar = roomReferenceDialog.findViewById(R.id.dialog_search_progressBar);
         roomReferenceDialogConfirm = roomReferenceDialog.findViewById(R.id.dialog_search_confirm_textView);
         roomReferenceDialogConfirm.setVisibility(View.VISIBLE);
 
@@ -240,14 +249,17 @@ public class CreateSampleActivity extends AppCompatActivity {
         scaleDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
         scaleDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         scaleDialogRecyclerView.setHasFixedSize(true);
+
         roomDialogRecyclerView = roomDialog.findViewById(R.id.dialog_search_recyclerView);
         roomDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
         roomDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         roomDialogRecyclerView.setHasFixedSize(true);
+
         caseDialogRecyclerView = caseDialog.findViewById(R.id.dialog_search_recyclerView);
         caseDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
         caseDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         caseDialogRecyclerView.setHasFixedSize(true);
+
         roomReferenceDialogRecyclerView = roomReferenceDialog.findViewById(R.id.dialog_search_recyclerView);
         roomReferenceDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
         roomReferenceDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -544,9 +556,6 @@ public class CreateSampleActivity extends AppCompatActivity {
                 handler.postDelayed(() -> {
                     if (scaleDialogEditText.length() == 0) {
                         setRecyclerView(SampleRepository.scales, scaleDialogRecyclerView, "getScales");
-                    } else if (scaleDialogEditText.length() == 1) {
-                        ExceptionGenerator.getException(false, 0, null, "MustBeTwoCharException", "sample");
-                        Toast.makeText(CreateSampleActivity.this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     } else {
                         getData("getScales", "", scaleDialogEditText.getText().toString().trim());
                     }
@@ -571,9 +580,6 @@ public class CreateSampleActivity extends AppCompatActivity {
                 handler.postDelayed(() -> {
                     if (roomDialogEditText.length() == 0) {
                         setRecyclerView(SampleRepository.rooms, roomDialogRecyclerView, "getRooms");
-                    } else if (roomDialogEditText.length() == 1) {
-                        ExceptionGenerator.getException(false, 0, null, "MustBeTwoCharException", "sample");
-                        Toast.makeText(CreateSampleActivity.this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     } else {
                         getData("getRooms", "", roomDialogEditText.getText().toString().trim());
                     }
@@ -598,9 +604,6 @@ public class CreateSampleActivity extends AppCompatActivity {
                 handler.postDelayed(() -> {
                     if (caseDialogEditText.length() == 0) {
                         setRecyclerView(SampleRepository.cases, caseDialogRecyclerView, "getCases");
-                    } else if (caseDialogEditText.length() == 1) {
-                        ExceptionGenerator.getException(false, 0, null, "MustBeTwoCharException", "sample");
-                        Toast.makeText(CreateSampleActivity.this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     } else {
                         getData("getCases", room, caseDialogEditText.getText().toString().trim());
                     }
@@ -625,9 +628,6 @@ public class CreateSampleActivity extends AppCompatActivity {
                 handler.postDelayed(() -> {
                     if (roomReferenceDialogEditText.length() == 0) {
                         setRecyclerView(SampleRepository.references, roomReferenceDialogRecyclerView, "getReference");
-                    } else if (roomReferenceDialogEditText.length() == 1) {
-                        ExceptionGenerator.getException(false, 0, null, "MustBeTwoCharException", "sample");
-                        Toast.makeText(CreateSampleActivity.this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     } else {
                         getData("getReference", room, roomReferenceDialogEditText.getText().toString().trim());
                     }
@@ -713,7 +713,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         });
     }
 
-    public void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
+    private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
         switch (method) {
             case "scales":
                 scaleRecyclerViewAdapter.setValue(scaleRecyclerViewAdapter.getValues(), scaleRecyclerViewAdapter.getIds(), method, "CreateSample");

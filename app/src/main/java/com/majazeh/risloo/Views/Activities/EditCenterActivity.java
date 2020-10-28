@@ -2,6 +2,7 @@ package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
@@ -67,14 +69,15 @@ public class EditCenterActivity extends AppCompatActivity {
 
     // Widgets
     private Toolbar toolbar;
-    public TextView managerTextView, phoneTextView, managerDialogTextView, phoneDialogPositive, phoneDialogNegative;
-    private EditText titleEditText, descriptionEditText, addressEditText, managerDialogEditText, phoneDialogEditText;
+    public TextView managerTextView, phoneTextView, managerDialogTextView, phoneDialogTitle, phoneDialogPositive, phoneDialogNegative;
+    private EditText titleEditText, descriptionEditText, addressEditText, managerDialogEditText, phoneDialogInput;
     private RecyclerView phoneRecyclerView, managerDialogRecyclerView;
     private ProgressBar managerProgressBar, managerDialogProgressBar;
     private ImageView managerImageView, phoneImageView, managerDialogImageView;
     private LinearLayout phoneLinearLayout;
     private FrameLayout managerFrameLayout;
     private Button editButton;
+    private CoordinatorLayout managerDialogSearchLayout;
     private Dialog managerDialog, phoneDialog, progressDialog;
 
     @Override
@@ -144,7 +147,7 @@ public class EditCenterActivity extends AppCompatActivity {
         phoneDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(phoneDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         phoneDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        phoneDialog.setContentView(R.layout.dialog_phone);
+        phoneDialog.setContentView(R.layout.dialog_type);
         phoneDialog.setCancelable(true);
         progressDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
@@ -163,22 +166,28 @@ public class EditCenterActivity extends AppCompatActivity {
         layoutParamsPhone.height = WindowManager.LayoutParams.WRAP_CONTENT;
         phoneDialog.getWindow().setAttributes(layoutParamsPhone);
 
+        managerDialogSearchLayout = managerDialog.findViewById(R.id.dialog_search_coordinatorLayout);
+        managerDialogSearchLayout.setVisibility(View.VISIBLE);
         managerDialogEditText = managerDialog.findViewById(R.id.dialog_search_editText);
-        phoneDialogEditText = phoneDialog.findViewById(R.id.dialog_phone_editText);
-
-        managerDialogImageView = managerDialog.findViewById(R.id.dialog_search_imageView);
-
-        managerDialogProgressBar = managerDialog.findViewById(R.id.dialog_search_progressBar);
-
         managerDialogTextView = managerDialog.findViewById(R.id.dialog_search_textView);
+        managerDialogImageView = managerDialog.findViewById(R.id.dialog_search_imageView);
+        managerDialogProgressBar = managerDialog.findViewById(R.id.dialog_search_progressBar);
 
         managerDialogRecyclerView = managerDialog.findViewById(R.id.dialog_search_recyclerView);
         managerDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
         managerDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         managerDialogRecyclerView.setHasFixedSize(true);
 
-        phoneDialogPositive = phoneDialog.findViewById(R.id.dialog_phone_positive_textView);
-        phoneDialogNegative = phoneDialog.findViewById(R.id.dialog_phone_negative_textView);
+        phoneDialogTitle = phoneDialog.findViewById(R.id.dialog_type_title_textView);
+        phoneDialogTitle.setText(getResources().getString(R.string.EditCenterPhoneDialogTitle));
+        phoneDialogInput = phoneDialog.findViewById(R.id.dialog_type_input_editText);
+        phoneDialogInput.setHint(getResources().getString(R.string.EditCenterPhoneDialogInput));
+        phoneDialogInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_PHONE);
+        phoneDialogPositive = phoneDialog.findViewById(R.id.dialog_type_positive_textView);
+        phoneDialogPositive.setText(getResources().getString(R.string.EditCenterPhoneDialogPositive));
+        phoneDialogPositive.setTextColor(getResources().getColor(R.color.PrimaryDark));
+        phoneDialogNegative = phoneDialog.findViewById(R.id.dialog_type_negative_textView);
+        phoneDialogNegative.setText(getResources().getString(R.string.EditCenterPhoneDialogNegative));
     }
 
     private void detector() {
@@ -331,9 +340,6 @@ public class EditCenterActivity extends AppCompatActivity {
                 handler.postDelayed(() -> {
                     if (managerDialogEditText.length() == 0) {
                         setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getCounselingCenter");
-                    } else if (managerDialogEditText.length() == 1) {
-                        ExceptionGenerator.getException(false, 0, null, "MustBeTwoCharException", "center");
-                        Toast.makeText(EditCenterActivity.this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     } else {
                         getData("getCounselingCenter", managerDialogEditText.getText().toString().trim());
                     }
@@ -368,15 +374,15 @@ public class EditCenterActivity extends AppCompatActivity {
             phoneDialog.show();
         });
 
-        phoneDialogEditText.setOnTouchListener((v, event) -> {
+        phoneDialogInput.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                if (!phoneDialogEditText.hasFocus()) {
+                if (!phoneDialogInput.hasFocus()) {
                     if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
                         inputEditText.clear(this, inputEditText.getInput());
                     }
 
-                    inputEditText.focus(phoneDialogEditText);
-                    inputEditText.select(phoneDialogEditText);
+                    inputEditText.focus(phoneDialogInput);
+                    inputEditText.select(phoneDialogInput);
                 }
             }
             return false;
@@ -386,10 +392,10 @@ public class EditCenterActivity extends AppCompatActivity {
             phoneDialogPositive.setClickable(false);
             handler.postDelayed(() -> phoneDialogPositive.setClickable(true), 300);
 
-            if (phoneDialogEditText.length() != 0) {
-                if (!phoneRecyclerViewAdapter.getIds().contains(phoneDialogEditText.getText().toString().trim())) {
+            if (phoneDialogInput.length() != 0) {
+                if (!phoneRecyclerViewAdapter.getIds().contains(phoneDialogInput.getText().toString().trim())) {
                     try {
-                        JSONObject phone = new JSONObject().put("name", phoneDialogEditText.getText().toString().trim());
+                        JSONObject phone = new JSONObject().put("name", phoneDialogInput.getText().toString().trim());
 
                         phoneRecyclerViewAdapter.getValues().add(new Model(phone));
                         setRecyclerView(phoneRecyclerViewAdapter.getValues(), phoneRecyclerView, "phones");
@@ -471,7 +477,7 @@ public class EditCenterActivity extends AppCompatActivity {
                 titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
             case "phone":
-                phoneDialogEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                phoneDialogInput.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
         }
     }

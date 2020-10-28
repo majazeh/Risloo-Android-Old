@@ -35,7 +35,7 @@ public class FilterGenerator {
                 case "org.json.JSONArray":
                     for (int i = 0; i < allowed.getJSONArray(property).length(); i++) {
                         JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("id", "S" + i+1);
+                        jsonObject.put("id", allowed.getJSONArray(property).get(i));
                         jsonObject.put("title", allowed.getJSONArray(property).get(i));
                         arrayList.add(new Model(jsonObject));
                     }

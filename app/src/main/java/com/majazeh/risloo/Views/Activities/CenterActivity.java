@@ -9,14 +9,25 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.InputType;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,6 +38,7 @@ import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.StringCustomizer;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
+import com.majazeh.risloo.Utils.Widgets.InputEditText;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.Views.Adapters.CenterTabAdapter;
@@ -35,29 +47,40 @@ import com.majazeh.risloo.Views.Fragments.MyCenterFragment;
 
 import org.json.JSONException;
 
+import java.util.Objects;
+
 public class CenterActivity extends AppCompatActivity {
 
     // ViewModels
-    public AuthViewModel authViewModel;
+    private AuthViewModel authViewModel;
     public CenterViewModel centerViewModel;
 
     // Adapters
     private CenterTabAdapter adapter;
 
     // Vars
+    public String search = "";
     public boolean loadingAll = false, loadingMy = false;
 
     // Objects
-    private MenuItem toolCreate;
+    private Handler handler;
+    private InputEditText inputEditText;
+    private MenuItem toolCreate, toolSearch;
     private ClickableSpan retrySpan;
 
     // Widgets
     private Toolbar toolbar;
+    private LinearLayout mainLayout, infoLayout, loadingLayout;
+    private TextView infoTextView;
+    private ImageView infoImageView;
+    private LinearLayout searchLayout;
+    private ImageView searchImageView;
+    private TextView searchTextView;
     private TabLayout tabLayout;
     private RtlViewPager rtlViewPager;
-    private TextView retryTextView;
-    private ImageView retryImageView;
-    private LinearLayout mainLayout, retryLayout, loadingLayout;
+    private Dialog searchDialog;
+    private TextView searchDialogTitle, searchDialogPositive, searchDialogNegative;
+    private EditText searchDialogInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +91,8 @@ public class CenterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_center);
 
         initializer();
+
+        detector();
 
         listener();
 
@@ -89,27 +114,87 @@ public class CenterActivity extends AppCompatActivity {
             adapter = new CenterTabAdapter(getSupportFragmentManager(), 0, this, false);
         }
 
+        handler = new Handler();
+
+        inputEditText = new InputEditText();
+
         toolbar = findViewById(R.id.activity_center_toolbar);
         setSupportActionBar(toolbar);
+
+        mainLayout = findViewById(R.id.activity_center_mainLayout);
+        infoLayout = findViewById(R.id.layout_info);
+        loadingLayout = findViewById(R.id.layout_loading);
+
+        infoImageView = findViewById(R.id.layout_info_imageView);
+        infoTextView = findViewById(R.id.layout_info_textView);
+
+        searchLayout = findViewById(R.id.activity_center_searchLayout);
+
+        searchImageView = findViewById(R.id.activity_center_search_imageView);
+        searchTextView = findViewById(R.id.activity_center_search_textView);
 
         tabLayout = findViewById(R.id.activity_center_tabLayout);
 
         rtlViewPager = findViewById(R.id.activity_center_rtlViewPager);
 
-        retryImageView = findViewById(R.id.activity_center_retry_imageView);
+        searchDialog = new Dialog(this, R.style.DialogTheme);
+        Objects.requireNonNull(searchDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+        searchDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        searchDialog.setContentView(R.layout.dialog_type);
+        searchDialog.setCancelable(true);
 
-        retryTextView = findViewById(R.id.activity_center_retry_textView);
-        retryTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        WindowManager.LayoutParams layoutParamsSearch = new WindowManager.LayoutParams();
+        layoutParamsSearch.copyFrom(searchDialog.getWindow().getAttributes());
+        layoutParamsSearch.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsSearch.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        searchDialog.getWindow().setAttributes(layoutParamsSearch);
 
-        mainLayout = findViewById(R.id.activity_center_mainLayout);
-        retryLayout = findViewById(R.id.activity_center_retryLayout);
-        loadingLayout = findViewById(R.id.activity_center_loadingLayout);
+        searchDialogTitle = searchDialog.findViewById(R.id.dialog_type_title_textView);
+        searchDialogTitle.setText(getResources().getString(R.string.CenterSearchDialogTitle));
+        searchDialogInput = searchDialog.findViewById(R.id.dialog_type_input_editText);
+        searchDialogInput.setHint(getResources().getString(R.string.CenterSearchDialogInput));
+        searchDialogInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
+        searchDialogPositive = searchDialog.findViewById(R.id.dialog_type_positive_textView);
+        searchDialogPositive.setText(getResources().getString(R.string.CenterSearchDialogPositive));
+        searchDialogPositive.setTextColor(getResources().getColor(R.color.PrimaryDark));
+        searchDialogNegative = searchDialog.findViewById(R.id.dialog_type_negative_textView);
+        searchDialogNegative.setText(getResources().getString(R.string.CenterSearchDialogNegative));
     }
 
+    private void detector() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            infoLayout.setBackgroundResource(R.drawable.draw_4sdp_solid_snow_ripple_quartz);
+            infoImageView.setBackgroundResource(R.drawable.draw_rectangle_solid_snow_ripple_violetred);
+        }
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     private void listener() {
         toolbar.setNavigationOnClickListener(v -> {
             finish();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        searchLayout.setOnClickListener(v -> {
+            searchLayout.setClickable(false);
+            handler.postDelayed(() -> searchLayout.setClickable(true), 300);
+
+            searchDialog.show();
+        });
+
+        searchImageView.setOnClickListener(v -> {
+            searchImageView.setClickable(false);
+            handler.postDelayed(() -> searchImageView.setClickable(true), 300);
+
+            search = "";
+
+            searchTextView.setText(search);
+
+            resetData("search");
+
+            if (search.equals("")) inputEditText.getInput().getText().clear(); else inputEditText.getInput().setText(search);
+
+            searchDialog.dismiss();
         });
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -158,15 +243,98 @@ public class CenterActivity extends AppCompatActivity {
                 textPaint.setUnderlineText(false);
             }
         };
+
+        searchDialogInput.setOnTouchListener((v, event) -> {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
+                if (!searchDialogInput.hasFocus()) {
+                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
+                        inputEditText.clear(this, inputEditText.getInput());
+                    }
+
+                    inputEditText.focus(searchDialogInput);
+                    inputEditText.select(searchDialogInput);
+                }
+            }
+            return false;
+        });
+
+        searchDialogPositive.setOnClickListener(v -> {
+            searchDialogPositive.setClickable(false);
+            handler.postDelayed(() -> searchDialogPositive.setClickable(true), 300);
+
+            if (searchDialogInput.length() != 0) {
+                search = searchDialogInput.getText().toString().trim();
+
+                searchTextView.setText(search);
+
+                resetData("search");
+
+                if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
+                    inputEditText.clear(this, inputEditText.getInput());
+                    if (search.equals("")) inputEditText.getInput().getText().clear(); else inputEditText.getInput().setText(search);
+                }
+
+                searchDialog.dismiss();
+            } else {
+                errorView("search");
+            }
+        });
+
+        searchDialogNegative.setOnClickListener(v -> {
+            searchDialogNegative.setClickable(false);
+            handler.postDelayed(() -> searchDialogNegative.setClickable(true), 300);
+
+            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
+                inputEditText.clear(this, inputEditText.getInput());
+                if (search.equals("")) inputEditText.getInput().getText().clear(); else inputEditText.getInput().setText(search);
+            }
+
+            searchDialog.dismiss();
+        });
+
+        searchDialog.setOnCancelListener(dialog -> {
+            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
+                inputEditText.clear(this, inputEditText.getInput());
+                if (search.equals("")) inputEditText.getInput().getText().clear(); else inputEditText.getInput().setText(search);
+            }
+
+            searchDialog.dismiss();
+        });
     }
 
-    private void setRetryLayout(String type) {
-        if (type.equals("error")) {
-            retryImageView.setImageResource(R.drawable.illu_error);
-            retryTextView.setText(StringCustomizer.clickable(getResources().getString(R.string.AppError), 21, 30, retrySpan));
-        } else if (type.equals("connection")) {
-            retryImageView.setImageResource(R.drawable.illu_connection);
-            retryTextView.setText(StringCustomizer.clickable(getResources().getString(R.string.AppConnection), 17, 26, retrySpan));
+    private void setInfoLayout(String type) {
+        switch (type) {
+            case "error":
+                infoImageView.setImageResource(R.drawable.illu_error);
+                infoTextView.setMovementMethod(LinkMovementMethod.getInstance());
+                infoTextView.setText(StringCustomizer.clickable(getResources().getString(R.string.AppError), 21, 30, retrySpan));
+                break;
+            case "connection":
+                infoImageView.setImageResource(R.drawable.illu_connection);
+                infoTextView.setMovementMethod(LinkMovementMethod.getInstance());
+                infoTextView.setText(StringCustomizer.clickable(getResources().getString(R.string.AppConnection), 17, 26, retrySpan));
+                break;
+        }
+    }
+
+    private void resetData(String method) {
+        if ("search".equals(method)) {
+            if (search.equals("")) {
+                searchLayout.setVisibility(View.GONE);
+                toolSearch.setIcon(getResources().getDrawable(R.drawable.tool_search_default));
+            } else {
+                if (searchLayout.getVisibility() == View.GONE) {
+                    searchLayout.setVisibility(View.VISIBLE);
+                    toolSearch.setIcon(getResources().getDrawable(R.drawable.tool_search_active));
+                }
+            }
+            relaunchCenters();
+        }
+    }
+
+    private void errorView(String type) {
+        if ("search".equals(type)) {
+            searchDialogInput.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
         }
     }
 
@@ -187,7 +355,7 @@ public class CenterActivity extends AppCompatActivity {
 
     private void relaunchCenters() {
         loadingLayout.setVisibility(View.VISIBLE);
-        retryLayout.setVisibility(View.GONE);
+        infoLayout.setVisibility(View.GONE);
         mainLayout.setVisibility(View.GONE);
 
         launchProcess("getAll");
@@ -205,10 +373,10 @@ public class CenterActivity extends AppCompatActivity {
                             CenterRepository.workState.removeObservers((LifecycleOwner) this);
                             launchProcess("getMy");
                         } else {
-                            // Just Show AllCenter
+                            // Show Centers And Just AllCenters
 
                             loadingLayout.setVisibility(View.GONE);
-                            retryLayout.setVisibility(View.GONE);
+                            infoLayout.setVisibility(View.GONE);
                             mainLayout.setVisibility(View.VISIBLE);
 
                             tabLayout.setVisibility(View.GONE);
@@ -216,9 +384,12 @@ public class CenterActivity extends AppCompatActivity {
 
                             if (authViewModel.hasAccess()) {
                                 toolCreate.setVisible(true);
+                                toolSearch.setVisible(true);
                             } else {
                                 toolCreate.setVisible(false);
+                                toolSearch.setVisible(false);
                             }
+
                             CenterRepository.workState.removeObservers((LifecycleOwner) this);
                         }
 
@@ -226,92 +397,68 @@ public class CenterActivity extends AppCompatActivity {
                         CenterRepository.allPage++;
 
                     } else {
-                        Fragment fragment = adapter.allFragment;
-                        ((AllCenterFragment) fragment).notifyRecycler();
+                        Fragment allFragment = adapter.allFragment;
+                        ((AllCenterFragment) allFragment).notifyRecycler();
+
+                        CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
-
-                } else {
+                } else if (integer != -1) {
                     if (centerViewModel.getAll() == null) {
+                        // Centers is Empty
+
+                        loadingLayout.setVisibility(View.GONE);
+                        infoLayout.setVisibility(View.VISIBLE);
+                        mainLayout.setVisibility(View.GONE);
+
                         if (integer == 0) {
-                            // AllCenter is Empty And Error
-
-                            loadingLayout.setVisibility(View.GONE);
-                            retryLayout.setVisibility(View.VISIBLE);
-                            mainLayout.setVisibility(View.GONE);
-
-                            setRetryLayout("error");
-
-                            if (authViewModel.hasAccess()) {
-                                toolCreate.setVisible(true);
-                            } else {
-                                toolCreate.setVisible(false);
-                            }
-
-                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                            setInfoLayout("error"); // Show Error
                         } else if (integer == -2) {
-                            // AllCenter is Empty And Connection
-
-                            loadingLayout.setVisibility(View.GONE);
-                            retryLayout.setVisibility(View.VISIBLE);
-                            mainLayout.setVisibility(View.GONE);
-
-                            setRetryLayout("connection");
-
-                            if (authViewModel.hasAccess()) {
-                                toolCreate.setVisible(true);
-                            } else {
-                                toolCreate.setVisible(false);
-                            }
-
-                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                            setInfoLayout("connection"); // Show Connection
                         }
+
+                        if (authViewModel.hasAccess()) {
+                            toolCreate.setVisible(true);
+                            toolSearch.setVisible(true);
+                        } else {
+                            toolCreate.setVisible(false);
+                            toolSearch.setVisible(false);
+                        }
+
+                        CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     } else {
-                        if (integer != -1) {
-                            if (!authViewModel.getToken().equals("")) {
-                                // Show Both AllCenter And MyCenter
+                        // Show Centers
 
-                                loadingLayout.setVisibility(View.GONE);
-                                retryLayout.setVisibility(View.GONE);
-                                mainLayout.setVisibility(View.VISIBLE);
+                        loadingLayout.setVisibility(View.GONE);
+                        infoLayout.setVisibility(View.GONE);
+                        mainLayout.setVisibility(View.VISIBLE);
 
-                                tabLayout.setVisibility(View.VISIBLE);
-                                rtlViewPager.setAdapter(adapter);
-
-                                if (authViewModel.hasAccess()) {
-                                    toolCreate.setVisible(true);
-                                } else {
-                                    toolCreate.setVisible(false);
-                                }
-
-                                CenterRepository.workState.removeObservers((LifecycleOwner) this);
-                            } else {
-                                // Just Show AllCenter
-
-                                loadingLayout.setVisibility(View.GONE);
-                                retryLayout.setVisibility(View.GONE);
-                                mainLayout.setVisibility(View.VISIBLE);
-
-                                tabLayout.setVisibility(View.GONE);
-                                rtlViewPager.setAdapter(adapter);
-
-                                if (authViewModel.hasAccess()) {
-                                    toolCreate.setVisible(true);
-                                } else {
-                                    toolCreate.setVisible(false);
-                                }
-
-                                CenterRepository.workState.removeObservers((LifecycleOwner) this);
-                            }
+                        if (!authViewModel.getToken().equals("")) {
+                            tabLayout.setVisibility(View.VISIBLE); // Both AllCenters And MyCenters
+                            rtlViewPager.setAdapter(adapter);
+                        } else {
+                            tabLayout.setVisibility(View.GONE); // Just AllCenters
+                            rtlViewPager.setAdapter(adapter);
                         }
+
+                        if (authViewModel.hasAccess()) {
+                            toolCreate.setVisible(true);
+                            toolSearch.setVisible(true);
+                        } else {
+                            toolCreate.setVisible(false);
+                            toolSearch.setVisible(false);
+                        }
+
+                        CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
                 }
             } else if (CenterRepository.work.equals("getMy")) {
                 loadingMy = true;
-                // Show Both AllCenter And MyCenter
-                if (CenterRepository.myPage == 1) {
-                    if (integer != -1) {
+                if (integer == 1) {
+                    if (CenterRepository.myPage == 1) {
+                        // Show Centers And Both AllCenters And MyCenters
+
                         loadingLayout.setVisibility(View.GONE);
-                        retryLayout.setVisibility(View.GONE);
+                        infoLayout.setVisibility(View.GONE);
                         mainLayout.setVisibility(View.VISIBLE);
 
                         tabLayout.setVisibility(View.VISIBLE);
@@ -319,23 +466,41 @@ public class CenterActivity extends AppCompatActivity {
 
                         if (authViewModel.hasAccess()) {
                             toolCreate.setVisible(true);
+                            toolSearch.setVisible(true);
                         } else {
                             toolCreate.setVisible(false);
+                            toolSearch.setVisible(false);
                         }
 
                         loadingMy = false;
                         CenterRepository.myPage++;
 
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
-                    }
-
-                } else {
-                    if (integer == 1) {
-                        Fragment fragment = adapter.myFragment;
-                        ((MyCenterFragment) fragment).notifyRecycler();
+                    } else {
+                        Fragment myFragment = adapter.myFragment;
+                        ((MyCenterFragment) myFragment).notifyRecycler();
 
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
+                } else if (integer != -1) {
+                    // Show Centers And Both AllCenters And MyCenters
+
+                    loadingLayout.setVisibility(View.GONE);
+                    infoLayout.setVisibility(View.GONE);
+                    mainLayout.setVisibility(View.VISIBLE);
+
+                    tabLayout.setVisibility(View.VISIBLE);
+                    rtlViewPager.setAdapter(adapter);
+
+                    if (authViewModel.hasAccess()) {
+                        toolCreate.setVisible(true);
+                        toolSearch.setVisible(true);
+                    } else {
+                        toolCreate.setVisible(false);
+                        toolSearch.setVisible(false);
+                    }
+
+                    CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 }
             }
         });
@@ -371,6 +536,12 @@ public class CenterActivity extends AppCompatActivity {
 
             startActivityForResult(new Intent(this, CreateCenterActivity.class), 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+            return false;
+        });
+
+        toolSearch = menu.findItem(R.id.tool_search);
+        toolSearch.setOnMenuItemClickListener(menuItem -> {
+            searchDialog.show();
             return false;
         });
 

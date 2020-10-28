@@ -15,16 +15,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/_16sdp"
+        android:paddingTop="@dimen/_8sdp"
         android:paddingBottom="@dimen/_8sdp"
         android:paddingLeft="@dimen/_16sdp"
         android:paddingRight="@dimen/_16sdp"
         android:orientation="vertical">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/dialog_search_coordinatorLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_36sdp"
-            android:layout_marginBottom="@dimen/_12sdp">
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_4sdp"
+            android:visibility="gone">
 
             <com.majazeh.risloo.Utils.Widgets.CutCopyPasteEditText
                 android:id="@+id/dialog_search_editText"
@@ -36,7 +39,7 @@
                 android:cursorVisible="false"
                 android:inputType="text"
                 android:gravity="center|right"
-                android:hint="@string/AppSearch"
+                android:hint="@string/AppSearchInput"
                 android:textSize="@dimen/_12ssp"
                 android:textStyle="normal"
                 android:textColor="@color/Grey"
@@ -70,6 +73,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginBottom="@dimen/_8sdp"
             app:cardBackgroundColor="@color/Solitude"
             app:cardCornerRadius="@dimen/_16sdp"

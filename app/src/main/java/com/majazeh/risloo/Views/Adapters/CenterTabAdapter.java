@@ -30,15 +30,12 @@ public class CenterTabAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int i) {
         if (token) {
             if (i == 0) {
-                myFragment = new MyCenterFragment(activity);
-                return myFragment;
+                return myFragment = new MyCenterFragment(activity);
             } else {
-                allFragment = new AllCenterFragment(activity);
-                return allFragment;
+                return allFragment = new AllCenterFragment(activity);
             }
         } else {
-            allFragment = new AllCenterFragment(activity);
-            return allFragment;
+            return allFragment = new AllCenterFragment(activity);
         }
     }
 
