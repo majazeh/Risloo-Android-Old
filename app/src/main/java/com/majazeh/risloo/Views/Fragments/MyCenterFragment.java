@@ -99,7 +99,7 @@ public class MyCenterFragment extends Fragment {
                         try {
                             if (!((CenterActivity) Objects.requireNonNull(getActivity())).loadingMy) {
                                 pagingProgressBar.setVisibility(View.VISIBLE);
-                                ((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel.myCenters();
+                                ((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel.myCenters(((CenterActivity) Objects.requireNonNull(getActivity())).search);
                                 ((CenterActivity) Objects.requireNonNull(getActivity())).observeWork();
                             }
                         } catch (JSONException e) {

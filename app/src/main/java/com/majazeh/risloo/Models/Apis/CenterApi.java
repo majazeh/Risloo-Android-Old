@@ -17,11 +17,11 @@ public interface CenterApi {
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("centers")
-    Call<ResponseBody> getAll(@Header("Authorization") String authorization, @Query("page") int page);
+    Call<ResponseBody> getAll(@Header("Authorization") String authorization, @Query("page") int page, @Query("q") String q);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("centers?my=yes")
-    Call<ResponseBody> getMy(@Header("Authorization") String authorization, @Query("page") int page);
+    Call<ResponseBody> getMy(@Header("Authorization") String authorization, @Query("page") int page, @Query("q") String q);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @POST("centers/{center}/request")

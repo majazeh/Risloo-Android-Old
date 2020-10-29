@@ -330,7 +330,6 @@ public class CenterActivity extends AppCompatActivity {
                     toolSearch.setIcon(getResources().getDrawable(R.drawable.tool_search_active));
                 }
             }
-            relaunchCenters();
         }
     }
 
@@ -343,10 +342,10 @@ public class CenterActivity extends AppCompatActivity {
     private void launchProcess(String method) {
         try {
             if (method.equals("getAll")) {
-                centerViewModel.centers();
+                centerViewModel.centers(search);
                 CenterRepository.allPage = 1;
             } else {
-                centerViewModel.myCenters();
+                centerViewModel.myCenters(search);
                 CenterRepository.myPage = 1;
             }
             observeWork();

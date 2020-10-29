@@ -3,6 +3,7 @@ package com.majazeh.risloo.Models.Workers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -14,6 +15,7 @@ import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Apis.CenterApi;
 import com.majazeh.risloo.Utils.Generators.RetroGenerator;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
+import com.majazeh.risloo.Views.Activities.CenterActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +23,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -91,12 +94,13 @@ public class CenterWorker extends Worker {
 
     private void getAll() {
         try {
-            Call<ResponseBody> call = centerApi.getAll(token(), CenterRepository.allPage);
+            Call<ResponseBody> call = centerApi.getAll(token(), CenterRepository.allPage, CenterRepository.search);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
+                if (CenterRepository.search.equals("")){
                 if (successBody.getJSONArray("data").length() != 0) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                         FileManager.deletePage(context, "centers", "all", CenterRepository.allPage, 15);
@@ -120,6 +124,17 @@ public class CenterWorker extends Worker {
                         }
                     }
                 }
+                } else {
+                if (CenterRepository.allPage == 1){
+                    CenterRepository.getAll.clear();
+                }
+                JSONArray data = successBody.getJSONArray("data");
+
+                for (int i = 0; i < data.length(); i++) {
+                    CenterRepository.getAll.add(new Model(data.getJSONObject(i)));
+                }
+                    Log.e("all", String.valueOf(CenterRepository.getAll));
+            }
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "all", "center");
                 CenterRepository.workState.postValue(1);
@@ -151,30 +166,38 @@ public class CenterWorker extends Worker {
 
     private void getMy() {
         try {
-            Call<ResponseBody> call = centerApi.getMy(token(), CenterRepository.myPage);
+            Call<ResponseBody> call = centerApi.getMy(token(), CenterRepository.myPage, CenterRepository.search);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
-
-                if (CenterRepository.myPage == 1) {
-                    FileManager.writeObjectToCache(context, successBody, "centers", "my");
-                } else {
-                    JSONObject jsonObject = FileManager.readObjectFromCache(context, "centers", "my");
-                    JSONArray data;
-                    try {
-                        data = jsonObject.getJSONArray("data");
-                        for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
-                            JSONArray jsonArray = successBody.getJSONArray("data");
-                            data.put(jsonArray.getJSONObject(i));
+                if (CenterRepository.search.equals("")) {
+                    if (CenterRepository.myPage == 1) {
+                        FileManager.writeObjectToCache(context, successBody, "centers", "my");
+                    } else {
+                        JSONObject jsonObject = FileManager.readObjectFromCache(context, "centers", "my");
+                        JSONArray data;
+                        try {
+                            data = jsonObject.getJSONArray("data");
+                            for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
+                                JSONArray jsonArray = successBody.getJSONArray("data");
+                                data.put(jsonArray.getJSONObject(i));
+                            }
+                            jsonObject.put("data", data);
+                            FileManager.writeObjectToCache(context, jsonObject, "centers", "my");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                        jsonObject.put("data", data);
-                        FileManager.writeObjectToCache(context, jsonObject, "centers", "my");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    }
+                } else {
+                    if (CenterRepository.myPage == 1){
+                        CenterRepository.getMy.clear();
+                    }
+                        JSONArray data = successBody.getJSONArray("data");
+                    for (int i = 0; i < data.length(); i++) {
+                        CenterRepository.getMy.add(new Model(data.getJSONObject(i)));
                     }
                 }
-
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "my", "center");
                 CenterRepository.workState.postValue(1);
             } else {

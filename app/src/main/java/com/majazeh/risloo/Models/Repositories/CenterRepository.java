@@ -33,6 +33,8 @@ public class CenterRepository extends MainRepository {
     public static ArrayList<Model> counselingCenter;
     public static ArrayList<Model> personalClinicSearch;
     public static ArrayList<Model> counselingCenterSearch;
+    public static ArrayList<Model> getAll;
+    public static ArrayList<Model> getMy;
     public static MutableLiveData<Integer> workState;
     public static String work = "";
     public static String clinicId = "";
@@ -40,6 +42,7 @@ public class CenterRepository extends MainRepository {
     public static String counselingCenterQ = "";
     public static int allPage = 1;
     public static int myPage = 1;
+    public static String search = "";
 
     public CenterRepository(Application application) throws JSONException {
         super(application);
@@ -50,6 +53,8 @@ public class CenterRepository extends MainRepository {
         counselingCenter = new ArrayList<>();
         personalClinicSearch = new ArrayList<>();
         counselingCenterSearch = new ArrayList<>();
+        getAll = new ArrayList<>();
+        getMy = new ArrayList<>();
         workState = new MutableLiveData<>();
         workState.setValue(-1);
     }
@@ -58,13 +63,15 @@ public class CenterRepository extends MainRepository {
          ---------- Voids ----------
     */
 
-    public void centers() throws JSONException {
+    public void centers(String q) throws JSONException {
+        search = q;
         work = "getAll";
         workState.setValue(-1);
         workManager("getAll");
     }
 
-    public void myCenters() throws JSONException {
+    public void myCenters(String q) throws JSONException {
+        search = q;
         work = "getMy";
         workState.setValue(-1);
         workManager("getMy");
@@ -139,7 +146,8 @@ public class CenterRepository extends MainRepository {
     */
 
     public ArrayList<Model> getAll() {
-        ArrayList<Model> arrayList = new ArrayList<>();
+        if (search.equals("")){
+            ArrayList<Model> arrayList = new ArrayList<>();
         if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "all") != null) {
             JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "all");
             try {
@@ -159,29 +167,79 @@ public class CenterRepository extends MainRepository {
         } else {
             return null;
         }
+    }else{
+            if (isNetworkConnected(application.getApplicationContext())){
+                return getAll;
+            }else{
+                if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "all") != null) {
+                    JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "all");
+                    try {
+                        JSONArray data = jsonObject.getJSONArray("data");
+                        if (data.length() == 0) {
+                            return null;
+                        }
+                        for (int i = 0; i < data.length(); i++) {
+                           getAll.add(new Model(data.getJSONObject(0)));
+                        }
+                        return getAll;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
+            }
+        }
     }
 
     public ArrayList<Model> getMy() {
-        ArrayList<Model> arrayList = new ArrayList<>();
-        if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "my") != null) {
-            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "my");
-            try {
-                JSONArray data = jsonObject.getJSONArray("data");
-                if (data.length() == 0) {
+        if (search.equals("")) {
+            ArrayList<Model> arrayList = new ArrayList<>();
+            if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "my") != null) {
+                JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "my");
+                try {
+                    JSONArray data = jsonObject.getJSONArray("data");
+                    if (data.length() == 0) {
+                        return null;
+                    }
+                    for (int i = 0; i < data.length(); i++) {
+                        Model model = new Model(data.getJSONObject(i));
+                        arrayList.add(model);
+                    }
+                    return arrayList;
+                } catch (JSONException e) {
+                    e.printStackTrace();
                     return null;
                 }
-                for (int i = 0; i < data.length(); i++) {
-                    Model model = new Model(data.getJSONObject(i));
-                    arrayList.add(model);
-                }
-                return arrayList;
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } else {
                 return null;
             }
-        } else {
-            return null;
         }
+        else{
+        if (isNetworkConnected(application.getApplicationContext())){
+            return getMy;
+        }else{
+            if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "my") != null) {
+                JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "my");
+                try {
+                    JSONArray data = jsonObject.getJSONArray("data");
+                    if (data.length() == 0) {
+                        return null;
+                    }
+                    for (int i = 0; i < data.length(); i++) {
+                        getMy.add(new Model(data.getJSONObject(0)));
+                    }
+                    return getMy;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        }
+    }
     }
 
     /*

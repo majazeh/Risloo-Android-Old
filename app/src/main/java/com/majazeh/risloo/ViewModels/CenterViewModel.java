@@ -27,12 +27,12 @@ public class CenterViewModel extends AndroidViewModel {
          ---------- Voids ----------
     */
 
-    public void centers( ) throws JSONException {
-        repository.centers();
+    public void centers(String q ) throws JSONException {
+        repository.centers(q);
     }
 
-    public void myCenters() throws JSONException {
-        repository.myCenters();
+    public void myCenters(String q) throws JSONException {
+        repository.myCenters(q);
     }
 
     public void request(String clinicId) throws JSONException {
