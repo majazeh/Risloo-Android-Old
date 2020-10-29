@@ -66,6 +66,7 @@ public class CreateSampleActivity extends AppCompatActivity {
     private boolean scaleException = false, roomException = false, caseException = false, roomReferenceException = false, caseReferenceException = false;
 
     // Objects
+    private Bundle extras;
     private Handler handler;
     private InputEditText inputEditText;
 
@@ -114,6 +115,11 @@ public class CreateSampleActivity extends AppCompatActivity {
         scaleRecyclerViewAdapter = new SpinnerAdapter(this);
         roomReferenceRecyclerViewAdapter = new SpinnerAdapter(this);
         caseReferenceRecyclerViewAdapter = new CheckBoxAdapter(this);
+
+        extras = getIntent().getExtras();
+        if (!Objects.requireNonNull(extras).getBoolean("loaded")) {
+            setResult(RESULT_OK, null);
+        }
 
         handler = new Handler();
 

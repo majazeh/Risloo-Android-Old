@@ -61,7 +61,7 @@ public class CenterActivity extends AppCompatActivity {
 
     // Vars
     public String search = "";
-    public boolean loadingAll = false, loadingMy = false;
+    public boolean loadingAll = false, loadingMy = false, finished = false;
 
     // Objects
     private Handler handler;
@@ -366,6 +366,7 @@ public class CenterActivity extends AppCompatActivity {
     public void observeWork() {
         CenterRepository.workState.observe((LifecycleOwner) this, integer -> {
             if (CenterRepository.work.equals("getAll")) {
+                finished = false;
                 loadingAll = true;
                 if (integer == 1) {
                     if (CenterRepository.allPage == 1) {
@@ -385,14 +386,14 @@ public class CenterActivity extends AppCompatActivity {
                             rtlViewPager.setAdapter(adapter);
 
                             if (authViewModel.hasAccess()) {
-                                toolCreate.setVisible(true);
                                 toolSearch.setVisible(true);
                             } else {
-                                toolCreate.setVisible(false);
                                 toolSearch.setVisible(false);
                             }
 
                             resetData("search");
+
+                            finished = true;
 
                             CenterRepository.workState.removeObservers((LifecycleOwner) this);
                         }
@@ -423,14 +424,14 @@ public class CenterActivity extends AppCompatActivity {
                         }
 
                         if (authViewModel.hasAccess()) {
-                            toolCreate.setVisible(true);
                             toolSearch.setVisible(true);
                         } else {
-                            toolCreate.setVisible(false);
                             toolSearch.setVisible(false);
                         }
 
                         resetData("search");
+
+                        finished = true;
 
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     } else {
@@ -449,14 +450,14 @@ public class CenterActivity extends AppCompatActivity {
                         }
 
                         if (authViewModel.hasAccess()) {
-                            toolCreate.setVisible(true);
                             toolSearch.setVisible(true);
                         } else {
-                            toolCreate.setVisible(false);
                             toolSearch.setVisible(false);
                         }
 
                         resetData("search");
+
+                        finished = true;
 
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
@@ -475,10 +476,8 @@ public class CenterActivity extends AppCompatActivity {
                         rtlViewPager.setAdapter(adapter);
 
                         if (authViewModel.hasAccess()) {
-                            toolCreate.setVisible(true);
                             toolSearch.setVisible(true);
                         } else {
-                            toolCreate.setVisible(false);
                             toolSearch.setVisible(false);
                         }
 
@@ -486,6 +485,8 @@ public class CenterActivity extends AppCompatActivity {
                         CenterRepository.myPage++;
 
                         resetData("search");
+
+                        finished = true;
 
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     } else {
@@ -507,14 +508,14 @@ public class CenterActivity extends AppCompatActivity {
                     rtlViewPager.setAdapter(adapter);
 
                     if (authViewModel.hasAccess()) {
-                        toolCreate.setVisible(true);
                         toolSearch.setVisible(true);
                     } else {
-                        toolCreate.setVisible(false);
                         toolSearch.setVisible(false);
                     }
 
                     resetData("search");
+
+                    finished = true;
 
                     CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 }
@@ -539,18 +540,20 @@ public class CenterActivity extends AppCompatActivity {
 
         toolCreate = menu.findItem(R.id.tool_create);
         toolCreate.setOnMenuItemClickListener(menuItem -> {
-            Fragment allFragment = adapter.allFragment;
-            if (((AllCenterFragment) allFragment).pagingProgressBar.isShown()) {
-                loadingAll = false;
-                ((AllCenterFragment) allFragment).pagingProgressBar.setVisibility(View.GONE);
-            }
-            Fragment myFragment = adapter.myFragment;
-            if (((MyCenterFragment) myFragment).pagingProgressBar.isShown()) {
-                loadingMy = false;
-                ((MyCenterFragment) myFragment).pagingProgressBar.setVisibility(View.GONE);
+            if (finished) {
+                Fragment allFragment = adapter.allFragment;
+                if (((AllCenterFragment) allFragment).pagingProgressBar.isShown()) {
+                    loadingAll = false;
+                    ((AllCenterFragment) allFragment).pagingProgressBar.setVisibility(View.GONE);
+                }
+                Fragment myFragment = adapter.myFragment;
+                if (((MyCenterFragment) myFragment).pagingProgressBar.isShown()) {
+                    loadingMy = false;
+                    ((MyCenterFragment) myFragment).pagingProgressBar.setVisibility(View.GONE);
+                }
             }
 
-            startActivityForResult(new Intent(this, CreateCenterActivity.class), 100);
+            startActivityForResult(new Intent(this, CreateCenterActivity.class).putExtra("loaded", finished), 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             return false;
         });

@@ -87,6 +87,7 @@ public class CreateCenterActivity extends AppCompatActivity {
     public boolean galleryPermissionsGranted = false, cameraPermissionsGranted = false;
 
     // Objects
+    private Bundle extras;
     private Handler handler;
     private IntentManager intentManager;
     private InputEditText inputEditText;
@@ -133,6 +134,11 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         managerDialogAdapter = new SearchAdapter(this);
         phoneRecyclerViewAdapter = new SpinnerAdapter(this);
+
+        extras = getIntent().getExtras();
+        if (!Objects.requireNonNull(extras).getBoolean("loaded")) {
+            setResult(RESULT_OK, null);
+        }
 
         handler = new Handler();
 

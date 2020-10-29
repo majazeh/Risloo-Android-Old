@@ -71,7 +71,7 @@ public class SamplesActivity extends AppCompatActivity {
 
     // Vars
     public String scale = "", room = "", status = "";
-    public boolean loading = false;
+    public boolean loading = false, finished = false;
 
     // Objects
     private Handler handler;
@@ -505,6 +505,7 @@ public class SamplesActivity extends AppCompatActivity {
     private void observeWork(String q) {
         SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
             if (SampleRepository.work.equals("getAll")) {
+                finished = false;
                 loading = true;
                 if (integer == 1) {
                     if (sampleViewModel.getAll() != null) {
@@ -533,10 +534,8 @@ public class SamplesActivity extends AppCompatActivity {
                     }
 
                     if (authViewModel.hasAccess()) {
-                        toolCreate.setVisible(true);
                         toolFilter.setVisible(true);
                     } else {
-                        toolCreate.setVisible(false);
                         toolFilter.setVisible(false);
                     }
 
@@ -548,6 +547,8 @@ public class SamplesActivity extends AppCompatActivity {
                     SampleRepository.samplesPage++;
 
                     resetData("filter");
+
+                    finished = true;
 
                     SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer != -1) {
@@ -565,10 +566,8 @@ public class SamplesActivity extends AppCompatActivity {
                         }
 
                         if (authViewModel.hasAccess()) {
-                            toolCreate.setVisible(true);
                             toolFilter.setVisible(true);
                         } else {
-                            toolCreate.setVisible(false);
                             toolFilter.setVisible(false);
                         }
 
@@ -577,6 +576,8 @@ public class SamplesActivity extends AppCompatActivity {
                         }
 
                         resetData("filter");
+
+                        finished = true;
 
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else {
@@ -593,10 +594,8 @@ public class SamplesActivity extends AppCompatActivity {
 
                         handler.postDelayed(() -> {
                             if (authViewModel.hasAccess()) {
-                                toolCreate.setVisible(true);
                                 toolFilter.setVisible(true);
                             } else {
-                                toolCreate.setVisible(false);
                                 toolFilter.setVisible(false);
                             }
                         }, 300);
@@ -606,6 +605,8 @@ public class SamplesActivity extends AppCompatActivity {
                         }
 
                         resetData("filter");
+
+                        finished = true;
 
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
@@ -816,12 +817,14 @@ public class SamplesActivity extends AppCompatActivity {
 
         toolCreate = menu.findItem(R.id.tool_create);
         toolCreate.setOnMenuItemClickListener(menuItem -> {
-            if (pagingProgressBar.isShown()) {
-                loading = false;
-                pagingProgressBar.setVisibility(View.GONE);
+            if (finished) {
+                if (pagingProgressBar.isShown()) {
+                    loading = false;
+                    pagingProgressBar.setVisibility(View.GONE);
+                }
             }
 
-            startActivityForResult(new Intent(this, CreateSampleActivity.class), 100);
+            startActivityForResult(new Intent(this, CreateSampleActivity.class).putExtra("loaded", finished), 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             return false;
         });

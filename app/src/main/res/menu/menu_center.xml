@@ -3,17 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/tool_create"
-        android:icon="@drawable/tool_create"
-        android:title="@string/CenterCreate"
-        android:visible="false"
-        app:showAsAction="ifRoom"/>
-
-    <item
         android:id="@+id/tool_search"
         android:icon="@drawable/tool_search_default"
         android:title="@string/CenterSearch"
         android:visible="false"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/tool_create"
+        android:icon="@drawable/tool_create"
+        android:title="@string/CenterCreate"
         app:showAsAction="ifRoom"/>
 
 </menu>

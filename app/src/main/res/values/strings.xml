@@ -199,7 +199,7 @@
 
     <string name="SamplesFilterDialogTitle">فیلتر کردن نمونه ها براساس</string>
     <string name="SamplesFilterDialogُScale">آزمون</string>
-    <string name="SamplesFilterDialogRoom">آتاق درمان</string>
+    <string name="SamplesFilterDialogRoom">اتاق درمان</string>
     <string name="SamplesFilterDialogStatus">وضعیت</string>
     <string name="SamplesFilterDialogClose">بستن</string>
 
