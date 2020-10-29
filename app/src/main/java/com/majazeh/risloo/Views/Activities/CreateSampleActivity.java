@@ -75,8 +75,8 @@ public class CreateSampleActivity extends AppCompatActivity {
     public TextView scaleTextView, roomTextView, caseTextView, roomReferenceTextView, caseReferenceTextView, scaleDialogTextView, roomDialogTextView, caseDialogTextView, roomReferenceDialogTextView, scaleDialogConfirm, roomReferenceDialogConfirm;
     public EditText countEditText, scaleDialogEditText, roomDialogEditText, caseDialogEditText, roomReferenceDialogEditText;
     public RecyclerView scaleRecyclerView, roomReferenceRecyclerView, caseReferenceRecyclerView, scaleDialogRecyclerView, roomDialogRecyclerView, caseDialogRecyclerView, roomReferenceDialogRecyclerView;
-    private ProgressBar scaleProgressBar, roomProgressBar, caseProgressBar, roomReferenceProgressBar, scaleDialogProgressBar, roomDialogProgressBar, caseDialogProgressBar, roomReferenceDialogProgressBar;
-    private ImageView scaleImageView, roomImageView, caseImageView, roomReferenceImageView, scaleDialogImageView, roomDialogImageView, caseDialogImageView, roomReferenceDialogImageView;
+    private ProgressBar scaleDialogProgressBar, roomDialogProgressBar, caseDialogProgressBar, roomReferenceDialogProgressBar;
+    private ImageView scaleImageView, roomReferenceImageView, scaleDialogImageView, roomDialogImageView, caseDialogImageView, roomReferenceDialogImageView;
     private CardView roomReferenceCardView;
     private LinearLayout scaleLinearLayout, roomLinearLayout, caseLinearLayout, roomReferenceLinearLayout;
     private FrameLayout roomFrameLayout, caseFrameLayout;
@@ -144,14 +144,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         caseReferenceRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         caseReferenceRecyclerView.setHasFixedSize(true);
 
-        scaleProgressBar = findViewById(R.id.activity_create_sample_scale_progressBar);
-        roomProgressBar = findViewById(R.id.activity_create_sample_room_progressBar);
-        caseProgressBar = findViewById(R.id.activity_create_sample_case_progressBar);
-        roomReferenceProgressBar = findViewById(R.id.activity_create_sample_room_reference_progressBar);
-
         scaleImageView = findViewById(R.id.activity_create_sample_scale_imageView);
-        roomImageView = findViewById(R.id.activity_create_sample_room_imageView);
-        caseImageView = findViewById(R.id.activity_create_sample_case_imageView);
         roomReferenceImageView = findViewById(R.id.activity_create_sample_room_reference_imageView);
 
         roomReferenceCardView = findViewById(R.id.activity_create_sample_room_reference_cardView);
@@ -913,8 +906,7 @@ public class CreateSampleActivity extends AppCompatActivity {
             switch (method) {
                 case "getScales":
                     if (q.equals("")) {
-                        scaleProgressBar.setVisibility(View.VISIBLE);
-                        scaleImageView.setClickable(false);
+                        progressDialog.show();
                     } else {
                         scaleDialogProgressBar.setVisibility(View.VISIBLE);
                         scaleDialogImageView.setVisibility(View.GONE);
@@ -924,9 +916,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     break;
                 case "getRooms":
                     if (q.equals("")) {
-                        roomProgressBar.setVisibility(View.VISIBLE);
-                        roomImageView.setVisibility(View.GONE);
-                        roomTextView.setClickable(false);
+                        progressDialog.show();
                     } else {
                         roomDialogProgressBar.setVisibility(View.VISIBLE);
                         roomDialogImageView.setVisibility(View.GONE);
@@ -936,9 +926,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     break;
                 case "getCases":
                     if (q.equals("")) {
-                        caseProgressBar.setVisibility(View.VISIBLE);
-                        caseImageView.setVisibility(View.GONE);
-                        caseTextView.setClickable(false);
+                        progressDialog.show();
                     } else {
                         caseDialogProgressBar.setVisibility(View.VISIBLE);
                         caseDialogImageView.setVisibility(View.GONE);
@@ -948,8 +936,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     break;
                 case "getReferences":
                     if (q.equals("")) {
-                        roomReferenceProgressBar.setVisibility(View.VISIBLE);
-                        roomReferenceImageView.setClickable(false);
+                        progressDialog.show();
                     } else {
                         roomReferenceDialogProgressBar.setVisibility(View.VISIBLE);
                         roomReferenceDialogImageView.setVisibility(View.GONE);
@@ -1003,8 +990,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                             setRecyclerView(SampleRepository.scales, scaleDialogRecyclerView, "getScales");
                             scaleDialog.show();
 
-                            scaleProgressBar.setVisibility(View.GONE);
-                            scaleImageView.setClickable(true);
+                            progressDialog.dismiss();
                         } else {
                             setRecyclerView(SampleRepository.scalesSearch, scaleDialogRecyclerView, "getScales");
 
@@ -1014,8 +1000,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     } else if (integer == 0) {
                         if (q.equals("")) {
-                            scaleProgressBar.setVisibility(View.GONE);
-                            scaleImageView.setClickable(true);
+                            progressDialog.dismiss();
                         } else {
                             scaleDialogProgressBar.setVisibility(View.GONE);
                             scaleDialogImageView.setVisibility(View.VISIBLE);
@@ -1024,8 +1009,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         if (q.equals("")) {
-                            scaleProgressBar.setVisibility(View.GONE);
-                            scaleImageView.setClickable(true);
+                            progressDialog.dismiss();
                         } else {
                             scaleDialogProgressBar.setVisibility(View.GONE);
                             scaleDialogImageView.setVisibility(View.VISIBLE);
@@ -1040,9 +1024,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                             setRecyclerView(SampleRepository.rooms, roomDialogRecyclerView, "getRooms");
                             roomDialog.show();
 
-                            roomProgressBar.setVisibility(View.GONE);
-                            roomImageView.setVisibility(View.VISIBLE);
-                            roomTextView.setClickable(true);
+                            progressDialog.dismiss();
                         } else {
                             setRecyclerView(SampleRepository.roomsSearch, roomDialogRecyclerView, "getRooms");
 
@@ -1052,9 +1034,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     } else if (integer == 0) {
                         if (q.equals("")) {
-                            roomProgressBar.setVisibility(View.GONE);
-                            roomImageView.setVisibility(View.VISIBLE);
-                            roomTextView.setClickable(true);
+                            progressDialog.dismiss();
                         } else {
                             roomDialogProgressBar.setVisibility(View.GONE);
                             roomDialogImageView.setVisibility(View.VISIBLE);
@@ -1063,9 +1043,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         if (q.equals("")) {
-                            roomProgressBar.setVisibility(View.GONE);
-                            roomImageView.setVisibility(View.VISIBLE);
-                            roomTextView.setClickable(true);
+                            progressDialog.dismiss();
                         } else {
                             roomDialogProgressBar.setVisibility(View.GONE);
                             roomDialogImageView.setVisibility(View.VISIBLE);
@@ -1080,9 +1058,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                             setRecyclerView(SampleRepository.cases, caseDialogRecyclerView, "getCases");
                             caseDialog.show();
 
-                            caseProgressBar.setVisibility(View.GONE);
-                            caseImageView.setVisibility(View.VISIBLE);
-                            caseTextView.setClickable(true);
+                            progressDialog.dismiss();
                         } else {
                             setRecyclerView(SampleRepository.casesSearch, caseDialogRecyclerView, "getCases");
 
@@ -1092,9 +1068,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     } else if (integer == 0) {
                         if (q.equals("")) {
-                            caseProgressBar.setVisibility(View.GONE);
-                            caseImageView.setVisibility(View.VISIBLE);
-                            caseTextView.setClickable(true);
+                            progressDialog.dismiss();
                         } else {
                             caseDialogProgressBar.setVisibility(View.GONE);
                             caseDialogImageView.setVisibility(View.VISIBLE);
@@ -1103,9 +1077,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         if (q.equals("")) {
-                            caseProgressBar.setVisibility(View.GONE);
-                            caseImageView.setVisibility(View.VISIBLE);
-                            caseTextView.setClickable(true);
+                            progressDialog.dismiss();
                         } else {
                             caseDialogProgressBar.setVisibility(View.GONE);
                             caseDialogImageView.setVisibility(View.VISIBLE);
@@ -1120,8 +1092,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                             setRecyclerView(SampleRepository.references, roomReferenceDialogRecyclerView, "getReferences");
                             roomReferenceDialog.show();
 
-                            roomReferenceProgressBar.setVisibility(View.GONE);
-                            roomReferenceImageView.setClickable(true);
+                            progressDialog.dismiss();
                         } else {
                             setRecyclerView(SampleRepository.referencesSearch, roomReferenceDialogRecyclerView, "getReferences");
 
@@ -1131,8 +1102,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     } else if (integer == 0) {
                         if (q.equals("")) {
-                            roomReferenceProgressBar.setVisibility(View.GONE);
-                            roomReferenceImageView.setClickable(true);
+                            progressDialog.dismiss();
                         } else {
                             roomReferenceDialogProgressBar.setVisibility(View.GONE);
                             roomReferenceDialogImageView.setVisibility(View.VISIBLE);
@@ -1141,8 +1111,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         if (q.equals("")) {
-                            roomReferenceProgressBar.setVisibility(View.GONE);
-                            roomReferenceImageView.setClickable(true);
+                            progressDialog.dismiss();
                         } else {
                             roomReferenceDialogProgressBar.setVisibility(View.GONE);
                             roomReferenceDialogImageView.setVisibility(View.VISIBLE);

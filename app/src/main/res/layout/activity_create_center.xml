@@ -109,23 +109,12 @@
                         android:textAlignment="gravity" />
 
                     <ImageView
-                        android:id="@+id/activity_create_center_manager_imageView"
                         android:layout_width="@dimen/_12sdp"
                         android:layout_height="@dimen/_12sdp"
                         android:layout_marginLeft="@dimen/_12sdp"
                         android:layout_gravity="center|left"
                         android:src="@drawable/ic_chevron_down"
                         app:tint="@color/Mischka" />
-
-                    <ProgressBar
-                        android:id="@+id/activity_create_center_manager_progressBar"
-                        android:layout_width="@dimen/_16sdp"
-                        android:layout_height="@dimen/_16sdp"
-                        android:layout_gravity="center|left"
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:theme="@style/ProgressBarTheme"
-                        android:visibility="gone"
-                        style="@style/Widget.AppCompat.ProgressBar"/>
 
                 </FrameLayout>
 

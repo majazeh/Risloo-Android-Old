@@ -100,8 +100,8 @@ public class CreateCenterActivity extends AppCompatActivity {
     public TextView managerTextView, selectTextView, avatarTextView, phoneTextView, managerDialogTextView, phoneDialogTitle, phoneDialogPositive, phoneDialogNegative;
     private EditText titleEditText, descriptionEditText, addressEditText, managerDialogEditText, phoneDialogInput;
     private RecyclerView phoneRecyclerView, managerDialogRecyclerView;
-    private ProgressBar managerProgressBar, managerDialogProgressBar;
-    private ImageView managerImageView, phoneImageView, managerDialogImageView;
+    private ProgressBar managerDialogProgressBar;
+    private ImageView phoneImageView, managerDialogImageView;
     private LinearLayout avatarLinearLayout, phoneLinearLayout;
     private FrameLayout managerFrameLayout;
     private Button createButton;
@@ -163,9 +163,6 @@ public class CreateCenterActivity extends AppCompatActivity {
         phoneRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         phoneRecyclerView.setHasFixedSize(true);
 
-        managerProgressBar = findViewById(R.id.activity_create_center_manager_progressBar);
-
-        managerImageView = findViewById(R.id.activity_create_center_manager_imageView);
         phoneImageView = findViewById(R.id.activity_create_center_phone_imageView);
 
         avatarLinearLayout = findViewById(R.id.activity_create_center_avatar_linearLayout);
@@ -742,9 +739,7 @@ public class CreateCenterActivity extends AppCompatActivity {
             switch (method) {
                 case "getPersonalClinic":
                     if (q.equals("")) {
-                        managerProgressBar.setVisibility(View.VISIBLE);
-                        managerImageView.setVisibility(View.GONE);
-                        managerTextView.setClickable(false);
+                        progressDialog.show();
                     } else {
                         managerDialogProgressBar.setVisibility(View.VISIBLE);
                         managerDialogImageView.setVisibility(View.GONE);
@@ -754,9 +749,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                     break;
                 case "getCounselingCenter":
                     if (q.equals("")) {
-                        managerProgressBar.setVisibility(View.VISIBLE);
-                        managerImageView.setVisibility(View.GONE);
-                        managerTextView.setClickable(false);
+                        progressDialog.show();
                     } else {
                         managerDialogProgressBar.setVisibility(View.VISIBLE);
                         managerDialogImageView.setVisibility(View.GONE);
@@ -827,9 +820,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                             setRecyclerView(CenterRepository.personalClinic, managerDialogRecyclerView, "getPersonalClinic");
                             managerDialog.show();
 
-                            managerProgressBar.setVisibility(View.GONE);
-                            managerImageView.setVisibility(View.VISIBLE);
-                            managerTextView.setClickable(true);
+                            progressDialog.dismiss();
                         } else {
                             setRecyclerView(CenterRepository.personalClinicSearch, managerDialogRecyclerView, "getPersonalClinic");
 
@@ -839,9 +830,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     } else if (integer == 0) {
                         if (q.equals("")) {
-                            managerProgressBar.setVisibility(View.GONE);
-                            managerImageView.setVisibility(View.VISIBLE);
-                            managerTextView.setClickable(true);
+                            progressDialog.dismiss();
                         } else {
                             managerDialogProgressBar.setVisibility(View.GONE);
                             managerDialogImageView.setVisibility(View.VISIBLE);
@@ -850,9 +839,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         if (q.equals("")) {
-                            managerProgressBar.setVisibility(View.GONE);
-                            managerImageView.setVisibility(View.VISIBLE);
-                            managerTextView.setClickable(true);
+                            progressDialog.dismiss();
                         } else {
                             managerDialogProgressBar.setVisibility(View.GONE);
                             managerDialogImageView.setVisibility(View.VISIBLE);
@@ -867,9 +854,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                             setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getCounselingCenter");
                             managerDialog.show();
 
-                            managerProgressBar.setVisibility(View.GONE);
-                            managerImageView.setVisibility(View.VISIBLE);
-                            managerTextView.setClickable(true);
+                            progressDialog.dismiss();
                         } else {
                             setRecyclerView(CenterRepository.counselingCenterSearch, managerDialogRecyclerView, "getCounselingCenter");
 
@@ -879,9 +864,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     } else if (integer == 0) {
                         if (q.equals("")) {
-                            managerProgressBar.setVisibility(View.GONE);
-                            managerImageView.setVisibility(View.VISIBLE);
-                            managerTextView.setClickable(true);
+                            progressDialog.dismiss();
                         } else {
                             managerDialogProgressBar.setVisibility(View.GONE);
                             managerDialogImageView.setVisibility(View.VISIBLE);
@@ -890,9 +873,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         if (q.equals("")) {
-                            managerProgressBar.setVisibility(View.GONE);
-                            managerImageView.setVisibility(View.VISIBLE);
-                            managerTextView.setClickable(true);
+                            progressDialog.dismiss();
                         } else {
                             managerDialogProgressBar.setVisibility(View.GONE);
                             managerDialogImageView.setVisibility(View.VISIBLE);

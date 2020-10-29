@@ -95,16 +95,6 @@
                                 android:textColor="@color/Mischka"
                                 android:textAlignment="gravity" />
 
-                            <ProgressBar
-                                android:id="@+id/activity_create_sample_scale_progressBar"
-                                android:layout_width="@dimen/_16sdp"
-                                android:layout_height="@dimen/_16sdp"
-                                android:layout_gravity="center|left"
-                                android:layout_marginLeft="@dimen/_10sdp"
-                                android:visibility="gone"
-                                android:theme="@style/ProgressBarTheme"
-                                style="@style/Widget.AppCompat.ProgressBar"/>
-
                         </FrameLayout>
 
                     </LinearLayout>
@@ -132,23 +122,12 @@
                         android:textAlignment="gravity" />
 
                     <ImageView
-                        android:id="@+id/activity_create_sample_room_imageView"
                         android:layout_width="@dimen/_12sdp"
                         android:layout_height="@dimen/_12sdp"
                         android:layout_marginLeft="@dimen/_12sdp"
                         android:layout_gravity="center|left"
                         android:src="@drawable/ic_chevron_down"
                         app:tint="@color/Mischka" />
-
-                    <ProgressBar
-                        android:id="@+id/activity_create_sample_room_progressBar"
-                        android:layout_width="@dimen/_16sdp"
-                        android:layout_height="@dimen/_16sdp"
-                        android:layout_gravity="center|left"
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:visibility="gone"
-                        android:theme="@style/ProgressBarTheme"
-                        style="@style/Widget.AppCompat.ProgressBar"/>
 
                 </FrameLayout>
 
@@ -256,16 +235,6 @@
                                         android:textColor="@color/Mischka"
                                         android:textAlignment="gravity" />
 
-                                    <ProgressBar
-                                        android:id="@+id/activity_create_sample_room_reference_progressBar"
-                                        android:layout_width="@dimen/_16sdp"
-                                        android:layout_height="@dimen/_16sdp"
-                                        android:layout_gravity="center|left"
-                                        android:layout_marginLeft="@dimen/_10sdp"
-                                        android:visibility="gone"
-                                        android:theme="@style/ProgressBarTheme"
-                                        style="@style/Widget.AppCompat.ProgressBar"/>
-
                                 </FrameLayout>
 
                             </LinearLayout>
@@ -322,23 +291,12 @@
                                 android:textAlignment="gravity" />
 
                             <ImageView
-                                android:id="@+id/activity_create_sample_case_imageView"
                                 android:layout_width="@dimen/_12sdp"
                                 android:layout_height="@dimen/_12sdp"
                                 android:layout_marginLeft="@dimen/_12sdp"
                                 android:layout_gravity="center|left"
                                 android:src="@drawable/ic_chevron_down"
                                 app:tint="@color/Mischka" />
-
-                            <ProgressBar
-                                android:id="@+id/activity_create_sample_case_progressBar"
-                                android:layout_width="@dimen/_16sdp"
-                                android:layout_height="@dimen/_16sdp"
-                                android:layout_gravity="center|left"
-                                android:layout_marginLeft="@dimen/_10sdp"
-                                android:visibility="gone"
-                                android:theme="@style/ProgressBarTheme"
-                                style="@style/Widget.AppCompat.ProgressBar"/>
 
                         </FrameLayout>
 
