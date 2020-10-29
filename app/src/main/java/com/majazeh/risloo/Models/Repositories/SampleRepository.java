@@ -750,6 +750,14 @@ public class SampleRepository extends MainRepository {
         }
     }
 
+    public static boolean filterArraysExist(){
+        if (SampleRepository.scaleFilter.size() == 0){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     /*
          ---------- Work ----------
     */

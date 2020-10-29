@@ -201,6 +201,8 @@ public class SampleWorker extends Worker {
                     } else {
                         Log.e("test", "filter");
                         JSONArray data = successBody.getJSONArray("data");
+                        if (SampleRepository.samplesPage == 1)
+                            SampleRepository.getAll.clear();
                         for (int i = 0; i < data.length(); i++) {
                             JSONObject jsonObject = data.getJSONObject(i);
                             SampleRepository.getAll.add(new Model(jsonObject));
