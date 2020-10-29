@@ -1077,13 +1077,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                 case "getCases":
                     if (integer == 1) {
                         if (q.equals("")) {
-                            if (SampleRepository.cases.size() != 0) {
-                                setRecyclerView(SampleRepository.cases, caseDialogRecyclerView, "getCases");
-                                caseDialog.show();
-                            } else {
-                                ExceptionGenerator.getException(false, 0, null, "EmptyCaseForRoomException", "sample");
-                                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                            }
+                            setRecyclerView(SampleRepository.cases, caseDialogRecyclerView, "getCases");
+                            caseDialog.show();
 
                             caseProgressBar.setVisibility(View.GONE);
                             caseImageView.setVisibility(View.VISIBLE);
@@ -1122,13 +1117,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                 case "getReferences":
                     if (integer == 1) {
                         if (q.equals("")) {
-                            if (SampleRepository.references.size() != 0) {
-                                setRecyclerView(SampleRepository.references, roomReferenceDialogRecyclerView, "getReferences");
-                                roomReferenceDialog.show();
-                            } else {
-                                ExceptionGenerator.getException(false, 0, null, "EmptyReferenceForRoomException", "sample");
-                                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                            }
+                            setRecyclerView(SampleRepository.references, roomReferenceDialogRecyclerView, "getReferences");
+                            roomReferenceDialog.show();
 
                             roomReferenceProgressBar.setVisibility(View.GONE);
                             roomReferenceImageView.setClickable(true);
