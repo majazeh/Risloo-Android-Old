@@ -15,12 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.IntentManager;
 
 public class DownloadDialog extends BottomSheetDialogFragment {
@@ -80,7 +82,12 @@ public class DownloadDialog extends BottomSheetDialogFragment {
             handler.postDelayed(() -> svgLinearLayout.setClickable(true), 300);
             dismiss();
 
-            intentManager.download(activity, svg);
+            if (svg != null) {
+                intentManager.download(activity, svg);
+            } else {
+                ExceptionGenerator.getException(false, 0, null, "NoSuffixException", "sample");
+                Toast.makeText(activity, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+            }
         });
 
         pngLinearLayout.setOnClickListener(v -> {
@@ -88,7 +95,12 @@ public class DownloadDialog extends BottomSheetDialogFragment {
             handler.postDelayed(() -> pngLinearLayout.setClickable(true), 300);
             dismiss();
 
-            intentManager.download(activity, png);
+            if (png != null) {
+                intentManager.download(activity, png);
+            } else {
+                ExceptionGenerator.getException(false, 0, null, "NoSuffixException", "sample");
+                Toast.makeText(activity, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+            }
         });
 
         htmlLinearLayout.setOnClickListener(v -> {
@@ -96,7 +108,12 @@ public class DownloadDialog extends BottomSheetDialogFragment {
             handler.postDelayed(() -> htmlLinearLayout.setClickable(true), 300);
             dismiss();
 
-            intentManager.download(activity, html);
+            if (html != null) {
+                intentManager.download(activity, html);
+            } else {
+                ExceptionGenerator.getException(false, 0, null, "NoSuffixException", "sample");
+                Toast.makeText(activity, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+            }
         });
 
         pdfLinearLayout.setOnClickListener(v -> {
@@ -104,7 +121,12 @@ public class DownloadDialog extends BottomSheetDialogFragment {
             handler.postDelayed(() -> pdfLinearLayout.setClickable(true), 300);
             dismiss();
 
-            intentManager.download(activity, pdf);
+            if (pdf != null) {
+                intentManager.download(activity, pdf);
+            } else {
+                ExceptionGenerator.getException(false, 0, null, "NoSuffixException", "sample");
+                Toast.makeText(activity, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+            }
         });
 
         closeTextView.setOnClickListener(v -> {
@@ -149,25 +171,10 @@ public class DownloadDialog extends BottomSheetDialogFragment {
     }
 
     public void getUrls(String svg, String png, String html, String pdf) {
-        if (svg == null)
-            svgLinearLayout.setVisibility(View.GONE);
-        else
-            this.svg = svg;
-
-        if (png == null)
-            pngLinearLayout.setVisibility(View.GONE);
-        else
-            this.png = png;
-
-        if (html == null)
-            htmlLinearLayout.setVisibility(View.GONE);
-        else
-            this.html = html;
-
-        if (pdf == null)
-            pdfLinearLayout.setVisibility(View.GONE);
-        else
-            this.pdf = pdf;
+        this.svg = svg;
+        this.png = png;
+        this.html = html;
+        this.pdf = pdf;
     }
 
 }

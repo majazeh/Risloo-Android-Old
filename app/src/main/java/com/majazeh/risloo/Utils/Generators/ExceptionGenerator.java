@@ -168,6 +168,9 @@ public class ExceptionGenerator {
                     case "SavedToDownloadException":
                         fa_message_text = "جواب ها در پوشه Download ذخیره شد.";
                         break;
+                    case "NoSuffixException":
+                        fa_message_text = "این مورد برای دریافت موجود نیست.";
+                        break;
                     case "FileException":
                         fa_message_text = "فایلی انتخاب نشده است.";
                         break;
