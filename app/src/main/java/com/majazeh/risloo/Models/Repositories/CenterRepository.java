@@ -169,7 +169,11 @@ public class CenterRepository extends MainRepository {
         }
     }else{
             if (isNetworkConnected(application.getApplicationContext())){
-                return getAll;
+                if (getAll.size() == 0){
+                    return null;
+                }else {
+                    return getAll;
+                }
             }else{
                 if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "all") != null) {
                     JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "all");
@@ -181,7 +185,11 @@ public class CenterRepository extends MainRepository {
                         for (int i = 0; i < data.length(); i++) {
                            getAll.add(new Model(data.getJSONObject(0)));
                         }
-                        return getAll;
+                        if (getAll.size() == 0){
+                            return null;
+                        }else {
+                            return getAll;
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                         return null;
@@ -218,7 +226,11 @@ public class CenterRepository extends MainRepository {
         }
         else{
         if (isNetworkConnected(application.getApplicationContext())){
-            return getMy;
+            if (getMy.size() == 0){
+                return null;
+            }else {
+                return getMy;
+            }
         }else{
             if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "my") != null) {
                 JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "my");
@@ -230,7 +242,11 @@ public class CenterRepository extends MainRepository {
                     for (int i = 0; i < data.length(); i++) {
                         getMy.add(new Model(data.getJSONObject(0)));
                     }
-                    return getMy;
+                    if (getMy.size() == 0){
+                        return null;
+                    }else {
+                        return getMy;
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     return null;

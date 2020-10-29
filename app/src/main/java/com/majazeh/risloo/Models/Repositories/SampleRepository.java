@@ -661,7 +661,11 @@ public class SampleRepository extends MainRepository {
             if (isNetworkConnected(application.getApplicationContext())) {
                 // filter and show
                 handlerFilters();
-                return getAll;
+                if (getAll.size() == 0){
+                    return null;
+                }else {
+                    return getAll;
+                }
             } else {
                 if (FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all") != null) {
                     // filter and show
@@ -687,7 +691,11 @@ public class SampleRepository extends MainRepository {
                         }
                         this.meta = jsonObject.getJSONObject("meta");
                         handlerFilters();
-                        return getAll;
+                        if (getAll.size() == 0){
+                            return null;
+                        }else {
+                            return getAll;
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                         return null;
