@@ -159,12 +159,6 @@ public class ExceptionGenerator {
                     case "SelectRoomFirstException":
                         fa_message_text = "لطفا اول اتاق درمانی انتخاب کنید.";
                         break;
-                    case "EmptyCaseForRoomException":
-                        fa_message_text = "پرونده ی برای این اتاق درمانی موجود نیست.";
-                        break;
-                    case "EmptyReferenceForRoomException":
-                        fa_message_text = "مراجعانی برای این اتاق درمانی موجود نیست.";
-                        break;
                     case "EmptyScalesForFilterException":
                         fa_message_text = "آزمونی برای انتخاب موجود نیست.";
                         break;

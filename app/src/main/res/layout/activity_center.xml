@@ -34,78 +34,80 @@
             android:layout_height="@dimen/_1sdp"
             android:background="@color/Quartz" />
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/activity_center_mainLayout"
+                android:id="@+id/activity_center_searchLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginRight="@dimen/_16sdp"
                 android:visibility="gone"
-                android:orientation="vertical">
+                android:layoutDirection="rtl"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/CenterSearched"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Mischka"
+                    android:textAlignment="gravity" />
 
                 <LinearLayout
-                    android:id="@+id/activity_center_searchLayout"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:layout_marginLeft="@dimen/_16sdp"
-                    android:layout_marginRight="@dimen/_16sdp"
-                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_12sdp"
+                    android:layout_marginRight="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_2sdp"
+                    android:paddingBottom="@dimen/_2sdp"
+                    android:paddingLeft="@dimen/_6sdp"
+                    android:paddingRight="@dimen/_4sdp"
+                    android:elevation="@dimen/_1sdp"
+                    android:gravity="center"
                     android:layoutDirection="rtl"
-                    android:visibility="gone">
+                    android:orientation="horizontal"
+                    android:background="@drawable/draw_4sdp_solid_snow">
+
+                    <ImageView
+                        android:id="@+id/activity_center_search_imageView"
+                        android:layout_width="@dimen/_14sdp"
+                        android:layout_height="@dimen/_14sdp"
+                        android:layout_marginLeft="@dimen/_4sdp"
+                        android:src="@drawable/ic_times"
+                        app:tint="@color/VioletRed"/>
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="@string/CenterSearched"
-                        android:textSize="@dimen/_10ssp"
-                        android:textStyle="bold"
-                        android:textColor="@color/Mischka"
-                        android:textAlignment="gravity" />
-
-                    <LinearLayout
+                        android:id="@+id/activity_center_search_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="@dimen/_12sdp"
-                        android:paddingTop="@dimen/_2sdp"
-                        android:paddingBottom="@dimen/_2sdp"
-                        android:paddingLeft="@dimen/_6sdp"
-                        android:paddingRight="@dimen/_4sdp"
-                        android:elevation="@dimen/_1sdp"
                         android:gravity="center"
-                        android:layoutDirection="rtl"
-                        android:orientation="horizontal"
-                        android:background="@drawable/draw_4sdp_solid_snow">
-
-                        <ImageView
-                            android:id="@+id/activity_center_search_imageView"
-                            android:layout_width="@dimen/_14sdp"
-                            android:layout_height="@dimen/_14sdp"
-                            android:layout_marginLeft="@dimen/_4sdp"
-                            android:src="@drawable/ic_times"
-                            app:tint="@color/VioletRed"/>
-
-                        <TextView
-                            android:id="@+id/activity_center_search_textView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:textSize="@dimen/_10ssp"
-                            android:textStyle="normal"
-                            android:textColor="@color/Grey"
-                            android:textAlignment="gravity" />
-
-                    </LinearLayout>
+                        android:textSize="@dimen/_10ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Grey"
+                        android:textAlignment="gravity" />
 
                 </LinearLayout>
 
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/activity_center_mainLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/activity_center_tab_cardView"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
+                    android:layout_alignParentTop="true"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:layout_marginLeft="@dimen/_16sdp"
                     android:layout_marginRight="@dimen/_16sdp"
@@ -147,15 +149,16 @@
                     android:id="@+id/activity_center_rtlViewPager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_below="@id/activity_center_tab_cardView"
                     android:overScrollMode="always"/>
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <include layout="@layout/layout_info" />
 
             <include layout="@layout/layout_loading" />
 
-        </FrameLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -34,9 +34,38 @@
             android:layout_height="@dimen/_1sdp"
             android:background="@color/Quartz" />
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/activity_samples_filterLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginRight="@dimen/_16sdp"
+                android:visibility="gone"
+                android:layoutDirection="rtl"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/SamplesFilters"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Mischka"
+                    android:textAlignment="gravity" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activity_samples_filter_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never" />
+
+            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/activity_samples_mainLayout"
@@ -44,39 +73,10 @@
                 android:layout_height="match_parent"
                 android:visibility="gone">
 
-                <LinearLayout
-                    android:id="@+id/activity_samples_filterLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:layout_marginRight="@dimen/_16sdp"
-                    android:orientation="horizontal"
-                    android:layoutDirection="rtl"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="@string/SamplesFilters"
-                        android:textSize="@dimen/_10ssp"
-                        android:textStyle="bold"
-                        android:textColor="@color/Mischka"
-                        android:textAlignment="gravity" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/activity_samples_filter_recyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:overScrollMode="never" />
-
-                </LinearLayout>
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/activity_samples_recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@id/activity_samples_filterLayout"
                     android:overScrollMode="always" />
 
                 <ProgressBar
@@ -98,7 +98,7 @@
 
             <include layout="@layout/layout_loading" />
 
-        </FrameLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

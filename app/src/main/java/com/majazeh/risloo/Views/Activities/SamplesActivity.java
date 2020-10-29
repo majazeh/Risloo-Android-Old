@@ -64,8 +64,8 @@ public class SamplesActivity extends AppCompatActivity {
     private SampleViewModel sampleViewModel;
 
     // Adapters
-    private SamplesAdapter samplesRecyclerViewAdapter;
     private SpinnerAdapter filterRecyclerViewAdapter;
+    private SamplesAdapter samplesRecyclerViewAdapter;
     private SearchAdapter scaleDialogAdapter, roomDialogAdapter, statusDialogAdapter;
 
     // Vars
@@ -82,12 +82,12 @@ public class SamplesActivity extends AppCompatActivity {
 
     // Widgets
     private Toolbar toolbar;
+    private LinearLayout filterLayout;
     private RelativeLayout mainLayout;
     private LinearLayout infoLayout, loadingLayout;
     private ImageView infoImageView;
     private TextView infoTextView;
-    private LinearLayout filterLayout;
-    private RecyclerView samplesRecyclerView, filterRecyclerView;
+    private RecyclerView filterRecyclerView, samplesRecyclerView;
     public ProgressBar pagingProgressBar;
     private CoordinatorLayout roomDialogSearchLayout;
     private Dialog scaleDialog, roomDialog, statusDialog, progressDialog;
@@ -121,8 +121,8 @@ public class SamplesActivity extends AppCompatActivity {
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         sampleViewModel = new ViewModelProvider(this).get(SampleViewModel.class);
 
-        samplesRecyclerViewAdapter = new SamplesAdapter(this);
         filterRecyclerViewAdapter = new SpinnerAdapter(this);
+        samplesRecyclerViewAdapter = new SamplesAdapter(this);
         scaleDialogAdapter = new SearchAdapter(this);
         roomDialogAdapter = new SearchAdapter(this);
         statusDialogAdapter = new SearchAdapter(this);
@@ -138,6 +138,8 @@ public class SamplesActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.activity_samples_toolbar);
         setSupportActionBar(toolbar);
 
+        filterLayout = findViewById(R.id.activity_samples_filterLayout);
+
         mainLayout = findViewById(R.id.activity_samples_mainLayout);
         infoLayout = findViewById(R.id.layout_info);
         loadingLayout = findViewById(R.id.layout_loading);
@@ -145,16 +147,14 @@ public class SamplesActivity extends AppCompatActivity {
         infoImageView = findViewById(R.id.layout_info_imageView);
         infoTextView = findViewById(R.id.layout_info_textView);
 
-        filterLayout = findViewById(R.id.activity_samples_filterLayout);
-
-        samplesRecyclerView = findViewById(R.id.activity_samples_recyclerView);
-        samplesRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
-        samplesRecyclerView.setLayoutManager(layoutManager);
-        samplesRecyclerView.setHasFixedSize(true);
         filterRecyclerView = findViewById(R.id.activity_samples_filter_recyclerView);
         filterRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("horizontalLayout", 0, (int) getResources().getDimension(R.dimen._3sdp), (int) getResources().getDimension(R.dimen._12sdp)));
         filterRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         filterRecyclerView.setHasFixedSize(true);
+        samplesRecyclerView = findViewById(R.id.activity_samples_recyclerView);
+        samplesRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
+        samplesRecyclerView.setLayoutManager(layoutManager);
+        samplesRecyclerView.setHasFixedSize(true);
 
         pagingProgressBar = findViewById(R.id.activity_samples_progressBar);
 
@@ -368,8 +368,43 @@ public class SamplesActivity extends AppCompatActivity {
                     ExceptionGenerator.getException(false, 0, null, "EmptyStatusForFilterException", "sample");
                     Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                 } else {
-                    setRecyclerView(SampleRepository.statusFilter, statusDialogRecyclerView, "getStatusFilter");
-                    statusDialog.show();
+                    try {
+                        ArrayList<Model> translatedStatusFilter = new ArrayList<>();
+                        Model statusModel;
+
+                        for (int i = 0; i < SampleRepository.statusFilter.size(); i++) {
+                            switch (SampleRepository.statusFilter.get(i).get("title").toString()) {
+                                case "seald":
+                                    statusModel = new Model(new JSONObject().put("id", SampleRepository.statusFilter.get(i).get("id").toString()).put("title", getResources().getString(R.string.SamplesStatusSeald)));
+                                    break;
+                                case "open":
+                                    statusModel = new Model(new JSONObject().put("id", SampleRepository.statusFilter.get(i).get("id").toString()).put("title", getResources().getString(R.string.SamplesStatusOpen)));
+                                    break;
+                                case "closed":
+                                    statusModel = new Model(new JSONObject().put("id", SampleRepository.statusFilter.get(i).get("id").toString()).put("title", getResources().getString(R.string.SamplesStatusClosed)));
+                                    break;
+                                case "scoring":
+                                    statusModel = new Model(new JSONObject().put("id", SampleRepository.statusFilter.get(i).get("id").toString()).put("title", getResources().getString(R.string.SamplesStatusScoring)));
+                                    break;
+                                case "creating_files":
+                                    statusModel = new Model(new JSONObject().put("id", SampleRepository.statusFilter.get(i).get("id").toString()).put("title", getResources().getString(R.string.SamplesStatusCreatingFiles)));
+                                    break;
+                                case "done":
+                                    statusModel = new Model(new JSONObject().put("id", SampleRepository.statusFilter.get(i).get("id").toString()).put("title", getResources().getString(R.string.SamplesStatusDone)));
+                                    break;
+                                default:
+                                    statusModel = new Model(new JSONObject().put("id", SampleRepository.statusFilter.get(i).get("id").toString()).put("title", SampleRepository.statusFilter.get(i).get("title").toString()));
+                                    break;
+                            }
+
+                            translatedStatusFilter.add(statusModel);
+                        }
+
+                        setRecyclerView(translatedStatusFilter, statusDialogRecyclerView, "getStatusFilter");
+                        statusDialog.show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
         }
@@ -406,7 +441,7 @@ public class SamplesActivity extends AppCompatActivity {
         }
     }
 
-    public void resetData(String method) {
+    private void resetData(String method) {
         if ("filter".equals(method)) {
             if (filterRecyclerViewAdapter.getValues().size() == 0) {
                 filterLayout.setVisibility(View.GONE);
@@ -417,7 +452,6 @@ public class SamplesActivity extends AppCompatActivity {
                     toolFilter.setIcon(getResources().getDrawable(R.drawable.tool_filter_active));
                 }
             }
-            relaunchSamples();
         }
     }
 
@@ -458,7 +492,8 @@ public class SamplesActivity extends AppCompatActivity {
         }
     }
 
-    private void relaunchSamples() {
+    public void relaunchSamples() {
+        filterLayout.setVisibility(View.GONE);
         loadingLayout.setVisibility(View.VISIBLE);
         infoLayout.setVisibility(View.GONE);
         mainLayout.setVisibility(View.GONE);
@@ -511,6 +546,8 @@ public class SamplesActivity extends AppCompatActivity {
                     loading = false;
                     SampleRepository.samplesPage++;
 
+                    resetData("filter");
+
                     SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                 } else if (integer != -1) {
                     if (sampleViewModel.getAll() == null) {
@@ -538,6 +575,8 @@ public class SamplesActivity extends AppCompatActivity {
                             pagingProgressBar.setVisibility(View.GONE);
                         }
 
+                        resetData("filter");
+
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else {
                         // Show Samples
@@ -564,6 +603,8 @@ public class SamplesActivity extends AppCompatActivity {
                         if (pagingProgressBar.getVisibility() == View.VISIBLE) {
                             pagingProgressBar.setVisibility(View.GONE);
                         }
+
+                        resetData("filter");
 
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     }
@@ -648,7 +689,7 @@ public class SamplesActivity extends AppCompatActivity {
                         }
                     }
 
-                    resetData("filter");
+                    relaunchSamples();
 
                     scaleDialog.dismiss();
                     break;
@@ -697,7 +738,7 @@ public class SamplesActivity extends AppCompatActivity {
                         }
                     }
 
-                    resetData("filter");
+                    relaunchSamples();
 
                     if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
                         inputEditText.clear(this, inputEditText.getInput());
@@ -747,7 +788,7 @@ public class SamplesActivity extends AppCompatActivity {
                         }
                     }
 
-                    resetData("filter");
+                    relaunchSamples();
 
                     statusDialog.dismiss();
                     break;

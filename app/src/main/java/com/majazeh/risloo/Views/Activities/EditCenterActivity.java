@@ -72,8 +72,8 @@ public class EditCenterActivity extends AppCompatActivity {
     public TextView managerTextView, phoneTextView, managerDialogTextView, phoneDialogTitle, phoneDialogPositive, phoneDialogNegative;
     private EditText titleEditText, descriptionEditText, addressEditText, managerDialogEditText, phoneDialogInput;
     private RecyclerView phoneRecyclerView, managerDialogRecyclerView;
-    private ProgressBar managerProgressBar, managerDialogProgressBar;
-    private ImageView managerImageView, phoneImageView, managerDialogImageView;
+    private ProgressBar managerDialogProgressBar;
+    private ImageView phoneImageView, managerDialogImageView;
     private LinearLayout phoneLinearLayout;
     private FrameLayout managerFrameLayout;
     private Button editButton;
@@ -128,9 +128,6 @@ public class EditCenterActivity extends AppCompatActivity {
         phoneRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         phoneRecyclerView.setHasFixedSize(true);
 
-        managerProgressBar = findViewById(R.id.activity_edit_center_manager_progressBar);
-
-        managerImageView = findViewById(R.id.activity_edit_center_manager_imageView);
         phoneImageView = findViewById(R.id.activity_edit_center_phone_imageView);
 
         phoneLinearLayout = findViewById(R.id.activity_edit_center_phone_linearLayout);
@@ -603,9 +600,7 @@ public class EditCenterActivity extends AppCompatActivity {
             switch (method) {
                 case "getCounselingCenter":
                     if (q.equals("")) {
-                        managerProgressBar.setVisibility(View.VISIBLE);
-                        managerImageView.setVisibility(View.GONE);
-                        managerTextView.setClickable(false);
+                        progressDialog.show();
                     } else {
                         managerDialogProgressBar.setVisibility(View.VISIBLE);
                         managerDialogImageView.setVisibility(View.GONE);
@@ -672,9 +667,7 @@ public class EditCenterActivity extends AppCompatActivity {
                         setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getCounselingCenter");
                         managerDialog.show();
 
-                        managerProgressBar.setVisibility(View.GONE);
-                        managerImageView.setVisibility(View.VISIBLE);
-                        managerTextView.setClickable(true);
+                        progressDialog.dismiss();
                     } else {
                         setRecyclerView(CenterRepository.counselingCenterSearch, managerDialogRecyclerView, "getCounselingCenter");
 
@@ -684,9 +677,7 @@ public class EditCenterActivity extends AppCompatActivity {
                     CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     if (q.equals("")) {
-                        managerProgressBar.setVisibility(View.GONE);
-                        managerImageView.setVisibility(View.VISIBLE);
-                        managerTextView.setClickable(true);
+                        progressDialog.dismiss();
                     } else {
                         managerDialogProgressBar.setVisibility(View.GONE);
                         managerDialogImageView.setVisibility(View.VISIBLE);
@@ -695,9 +686,7 @@ public class EditCenterActivity extends AppCompatActivity {
                     CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     if (q.equals("")) {
-                        managerProgressBar.setVisibility(View.GONE);
-                        managerImageView.setVisibility(View.VISIBLE);
-                        managerTextView.setClickable(true);
+                        progressDialog.dismiss();
                     } else {
                         managerDialogProgressBar.setVisibility(View.GONE);
                         managerDialogImageView.setVisibility(View.VISIBLE);
