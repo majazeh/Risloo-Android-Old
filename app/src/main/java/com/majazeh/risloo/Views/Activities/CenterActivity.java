@@ -30,6 +30,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.duolingo.open.rtlviewpager.RtlViewPager;
@@ -70,10 +71,11 @@ public class CenterActivity extends AppCompatActivity {
 
     // Widgets
     private Toolbar toolbar;
-    private LinearLayout mainLayout, infoLayout, loadingLayout;
+    private LinearLayout searchLayout;
+    private RelativeLayout mainLayout;
+    private LinearLayout infoLayout, loadingLayout;
     private TextView infoTextView;
     private ImageView infoImageView;
-    private LinearLayout searchLayout;
     private ImageView searchImageView;
     private TextView searchTextView;
     private TabLayout tabLayout;
@@ -121,14 +123,14 @@ public class CenterActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.activity_center_toolbar);
         setSupportActionBar(toolbar);
 
+        searchLayout = findViewById(R.id.activity_center_searchLayout);
+
         mainLayout = findViewById(R.id.activity_center_mainLayout);
         infoLayout = findViewById(R.id.layout_info);
         loadingLayout = findViewById(R.id.layout_loading);
 
         infoImageView = findViewById(R.id.layout_info_imageView);
         infoTextView = findViewById(R.id.layout_info_textView);
-
-        searchLayout = findViewById(R.id.activity_center_searchLayout);
 
         searchImageView = findViewById(R.id.activity_center_search_imageView);
         searchTextView = findViewById(R.id.activity_center_search_textView);
@@ -190,7 +192,7 @@ public class CenterActivity extends AppCompatActivity {
 
             searchTextView.setText(search);
 
-            resetData("search");
+            relaunchCenters();
 
             if (search.equals("")) inputEditText.getInput().getText().clear(); else inputEditText.getInput().setText(search);
 
@@ -267,7 +269,7 @@ public class CenterActivity extends AppCompatActivity {
 
                 searchTextView.setText(search);
 
-                resetData("search");
+                relaunchCenters();
 
                 if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
                     inputEditText.clear(this, inputEditText.getInput());
@@ -354,6 +356,7 @@ public class CenterActivity extends AppCompatActivity {
     }
 
     private void relaunchCenters() {
+        searchLayout.setVisibility(View.GONE);
         loadingLayout.setVisibility(View.VISIBLE);
         infoLayout.setVisibility(View.GONE);
         mainLayout.setVisibility(View.GONE);
@@ -390,6 +393,8 @@ public class CenterActivity extends AppCompatActivity {
                                 toolSearch.setVisible(false);
                             }
 
+                            resetData("search");
+
                             CenterRepository.workState.removeObservers((LifecycleOwner) this);
                         }
 
@@ -399,6 +404,8 @@ public class CenterActivity extends AppCompatActivity {
                     } else {
                         Fragment allFragment = adapter.allFragment;
                         ((AllCenterFragment) allFragment).notifyRecycler();
+
+                        resetData("search");
 
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
@@ -424,6 +431,8 @@ public class CenterActivity extends AppCompatActivity {
                             toolSearch.setVisible(false);
                         }
 
+                        resetData("search");
+
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     } else {
                         // Show Centers
@@ -447,6 +456,8 @@ public class CenterActivity extends AppCompatActivity {
                             toolCreate.setVisible(false);
                             toolSearch.setVisible(false);
                         }
+
+                        resetData("search");
 
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
@@ -475,10 +486,14 @@ public class CenterActivity extends AppCompatActivity {
                         loadingMy = false;
                         CenterRepository.myPage++;
 
+                        resetData("search");
+
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     } else {
                         Fragment myFragment = adapter.myFragment;
                         ((MyCenterFragment) myFragment).notifyRecycler();
+
+                        resetData("search");
 
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     }
@@ -499,6 +514,8 @@ public class CenterActivity extends AppCompatActivity {
                         toolCreate.setVisible(false);
                         toolSearch.setVisible(false);
                     }
+
+                    resetData("search");
 
                     CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 }

@@ -117,30 +117,30 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                     case "scalesFilter":
                         // Reset Filter
                         ((SamplesActivity) Objects.requireNonNull(activity)).scale = "";
-                        ((SamplesActivity) Objects.requireNonNull(activity)).resetData("filter");
+                        ((SamplesActivity) Objects.requireNonNull(activity)).relaunchSamples();
                     case "roomsFilter":
                         // Reset Filter
                         ((SamplesActivity) Objects.requireNonNull(activity)).room = "";
-                        ((SamplesActivity) Objects.requireNonNull(activity)).resetData("filter");
+                        ((SamplesActivity) Objects.requireNonNull(activity)).relaunchSamples();
                     case "statusFilter":
                         // Reset Filter
                         ((SamplesActivity) Objects.requireNonNull(activity)).status = "";
-                        ((SamplesActivity) Objects.requireNonNull(activity)).resetData("filter");
+                        ((SamplesActivity) Objects.requireNonNull(activity)).relaunchSamples();
                         break;
                 }
             } else {
                 switch (method) {
                     case "scalesFilter":
                         ((SamplesActivity) Objects.requireNonNull(activity)).scale = "";
-                        ((SamplesActivity) Objects.requireNonNull(activity)).resetData("filter");
+                        ((SamplesActivity) Objects.requireNonNull(activity)).relaunchSamples();
                         break;
                     case "roomsFilter":
                         ((SamplesActivity) Objects.requireNonNull(activity)).room = "";
-                        ((SamplesActivity) Objects.requireNonNull(activity)).resetData("filter");
+                        ((SamplesActivity) Objects.requireNonNull(activity)).relaunchSamples();
                         break;
                     case "statusFilter":
                         ((SamplesActivity) Objects.requireNonNull(activity)).status = "";
-                        ((SamplesActivity) Objects.requireNonNull(activity)).resetData("filter");
+                        ((SamplesActivity) Objects.requireNonNull(activity)).relaunchSamples();
                         break;
                 }
             }
