@@ -181,6 +181,8 @@ public class CenterActivity extends AppCompatActivity {
             searchLayout.setClickable(false);
             handler.postDelayed(() -> searchLayout.setClickable(true), 300);
 
+            searchDialogInput.setText(search);
+
             searchDialog.show();
         });
 
@@ -193,8 +195,6 @@ public class CenterActivity extends AppCompatActivity {
             searchTextView.setText(search);
 
             relaunchCenters();
-
-            if (search.equals("")) inputEditText.getInput().getText().clear(); else inputEditText.getInput().setText(search);
 
             searchDialog.dismiss();
         });
@@ -273,7 +273,7 @@ public class CenterActivity extends AppCompatActivity {
 
                 if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
                     inputEditText.clear(this, inputEditText.getInput());
-                    if (search.equals("")) inputEditText.getInput().getText().clear(); else inputEditText.getInput().setText(search);
+                    inputEditText.getInput().getText().clear();
                 }
 
                 searchDialog.dismiss();
@@ -288,7 +288,7 @@ public class CenterActivity extends AppCompatActivity {
 
             if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
                 inputEditText.clear(this, inputEditText.getInput());
-                if (search.equals("")) inputEditText.getInput().getText().clear(); else inputEditText.getInput().setText(search);
+                inputEditText.getInput().getText().clear();
             }
 
             searchDialog.dismiss();
@@ -297,7 +297,7 @@ public class CenterActivity extends AppCompatActivity {
         searchDialog.setOnCancelListener(dialog -> {
             if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
                 inputEditText.clear(this, inputEditText.getInput());
-                if (search.equals("")) inputEditText.getInput().getText().clear(); else inputEditText.getInput().setText(search);
+                inputEditText.getInput().getText().clear();
             }
 
             searchDialog.dismiss();
@@ -560,6 +560,8 @@ public class CenterActivity extends AppCompatActivity {
 
         toolSearch = menu.findItem(R.id.tool_search);
         toolSearch.setOnMenuItemClickListener(menuItem -> {
+            searchDialogInput.setText(search);
+
             searchDialog.show();
             return false;
         });

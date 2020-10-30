@@ -21,7 +21,6 @@ import com.majazeh.risloo.Views.Activities.EditCenterActivity;
 import com.majazeh.risloo.Views.Activities.SamplesActivity;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -86,6 +85,18 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
             holder.deleteImageView.setClickable(false);
             handler.postDelayed(() -> holder.deleteImageView.setClickable(true), 300);
 
+            try {
+                if (model.get("id").toString().equals(((SamplesActivity) Objects.requireNonNull(activity)).scale)) {
+                    ((SamplesActivity) Objects.requireNonNull(activity)).scale = "";
+                } else if (model.get("id").toString().equals(((SamplesActivity) Objects.requireNonNull(activity)).room)) {
+                    ((SamplesActivity) Objects.requireNonNull(activity)).room = "";
+                } else if (model.get("id").toString().equals(((SamplesActivity) Objects.requireNonNull(activity)).status)) {
+                    ((SamplesActivity) Objects.requireNonNull(activity)).status = "";
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             values.remove(i);
             ids.remove(i);
             notifyItemRemoved(i);
@@ -115,31 +126,16 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                         }
                         break;
                     case "scalesFilter":
-                        // Reset Filter
-                        ((SamplesActivity) Objects.requireNonNull(activity)).scale = "";
-                        ((SamplesActivity) Objects.requireNonNull(activity)).relaunchSamples();
                     case "roomsFilter":
-                        // Reset Filter
-                        ((SamplesActivity) Objects.requireNonNull(activity)).room = "";
-                        ((SamplesActivity) Objects.requireNonNull(activity)).relaunchSamples();
                     case "statusFilter":
-                        // Reset Filter
-                        ((SamplesActivity) Objects.requireNonNull(activity)).status = "";
                         ((SamplesActivity) Objects.requireNonNull(activity)).relaunchSamples();
                         break;
                 }
             } else {
                 switch (method) {
                     case "scalesFilter":
-                        ((SamplesActivity) Objects.requireNonNull(activity)).scale = "";
-                        ((SamplesActivity) Objects.requireNonNull(activity)).relaunchSamples();
-                        break;
                     case "roomsFilter":
-                        ((SamplesActivity) Objects.requireNonNull(activity)).room = "";
-                        ((SamplesActivity) Objects.requireNonNull(activity)).relaunchSamples();
-                        break;
                     case "statusFilter":
-                        ((SamplesActivity) Objects.requireNonNull(activity)).status = "";
                         ((SamplesActivity) Objects.requireNonNull(activity)).relaunchSamples();
                         break;
                 }
