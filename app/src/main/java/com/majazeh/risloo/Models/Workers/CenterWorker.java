@@ -3,7 +3,6 @@ package com.majazeh.risloo.Models.Workers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -15,7 +14,6 @@ import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Apis.CenterApi;
 import com.majazeh.risloo.Utils.Generators.RetroGenerator;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
-import com.majazeh.risloo.Views.Activities.CenterActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +21,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
-import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -426,18 +423,14 @@ public class CenterWorker extends Worker {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONArray data = successBody.getJSONArray("data");
 
-                if (CenterRepository.personalClinicSearch.size() != 0) {
-                    CenterRepository.personalClinicSearch.clear();
+                if (CenterRepository.personalClinic.size() != 0) {
+                    CenterRepository.personalClinic.clear();
                 }
 
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
-                        if (CenterRepository.personalClinicQ.equals("")) {
-                            CenterRepository.personalClinic.add(new Model(object));
-                        } else {
-                            CenterRepository.personalClinicSearch.add(new Model(object));
-                        }
+                        CenterRepository.personalClinic.add(new Model(object));
                     }
                 }
 
@@ -478,18 +471,14 @@ public class CenterWorker extends Worker {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONArray data = successBody.getJSONArray("data");
 
-                if (CenterRepository.counselingCenterSearch.size() != 0) {
-                    CenterRepository.counselingCenterSearch.clear();
+                if (CenterRepository.counselingCenter.size() != 0) {
+                    CenterRepository.counselingCenter.clear();
                 }
 
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
-                        if (CenterRepository.counselingCenterQ.equals("")) {
-                            CenterRepository.counselingCenter.add(new Model(object));
-                        } else {
-                            CenterRepository.counselingCenterSearch.add(new Model(object));
-                        }
+                        CenterRepository.counselingCenter.add(new Model(object));
                     }
                 }
 

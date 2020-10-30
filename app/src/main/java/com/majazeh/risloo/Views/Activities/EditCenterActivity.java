@@ -69,16 +69,23 @@ public class EditCenterActivity extends AppCompatActivity {
 
     // Widgets
     private Toolbar toolbar;
-    public TextView managerTextView, phoneTextView, managerDialogTextView, phoneDialogTitle, phoneDialogPositive, phoneDialogNegative;
-    private EditText titleEditText, descriptionEditText, addressEditText, managerDialogEditText, phoneDialogInput;
-    private RecyclerView phoneRecyclerView, managerDialogRecyclerView;
-    private ProgressBar managerDialogProgressBar;
-    private ImageView phoneImageView, managerDialogImageView;
-    private LinearLayout phoneLinearLayout;
+    private EditText titleEditText, descriptionEditText, addressEditText;
     private FrameLayout managerFrameLayout;
+    private LinearLayout phoneLinearLayout;
+    public TextView managerTextView, phoneTextView;
+    private RecyclerView phoneRecyclerView;
+    private ImageView phoneImageView;
     private Button editButton;
-    private CoordinatorLayout managerDialogSearchLayout;
     private Dialog managerDialog, phoneDialog, progressDialog;
+    private TextView managerDialogTitleTextView;
+    private CoordinatorLayout managerDialogSearchLayout;
+    private EditText managerDialogEditText;
+    private ImageView managerDialogImageView;
+    private ProgressBar managerDialogProgressBar;
+    private TextView managerDialogTextView;
+    private RecyclerView managerDialogRecyclerView;
+    private TextView phoneDialogTitle, phoneDialogPositive, phoneDialogNegative;
+    private EditText phoneDialogInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,20 +115,24 @@ public class EditCenterActivity extends AppCompatActivity {
         managerDialogAdapter = new SearchAdapter(this);
         phoneRecyclerViewAdapter = new SpinnerAdapter(this);
 
-        handler = new Handler();
-
         extras = getIntent().getExtras();
+
+        handler = new Handler();
 
         inputEditText = new InputEditText();
 
         toolbar = findViewById(R.id.activity_edit_center_toolbar);
 
-        managerTextView = findViewById(R.id.activity_edit_center_manager_textView);
-        phoneTextView = findViewById(R.id.activity_edit_center_phone_textView);
-
         titleEditText = findViewById(R.id.activity_edit_center_title_editText);
         descriptionEditText = findViewById(R.id.activity_edit_center_description_editText);
         addressEditText = findViewById(R.id.activity_edit_center_address_editText);
+
+        managerFrameLayout = findViewById(R.id.activity_edit_center_manager_frameLayout);
+
+        phoneLinearLayout = findViewById(R.id.activity_edit_center_phone_linearLayout);
+
+        managerTextView = findViewById(R.id.activity_edit_center_manager_textView);
+        phoneTextView = findViewById(R.id.activity_edit_center_phone_textView);
 
         phoneRecyclerView = findViewById(R.id.activity_edit_center_phone_recyclerView);
         phoneRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("horizontalLayout", 0, (int) getResources().getDimension(R.dimen._3sdp), (int) getResources().getDimension(R.dimen._12sdp)));
@@ -129,10 +140,6 @@ public class EditCenterActivity extends AppCompatActivity {
         phoneRecyclerView.setHasFixedSize(true);
 
         phoneImageView = findViewById(R.id.activity_edit_center_phone_imageView);
-
-        phoneLinearLayout = findViewById(R.id.activity_edit_center_phone_linearLayout);
-
-        managerFrameLayout = findViewById(R.id.activity_edit_center_manager_frameLayout);
 
         editButton = findViewById(R.id.activity_edit_center_button);
 
@@ -163,12 +170,17 @@ public class EditCenterActivity extends AppCompatActivity {
         layoutParamsPhone.height = WindowManager.LayoutParams.WRAP_CONTENT;
         phoneDialog.getWindow().setAttributes(layoutParamsPhone);
 
+        managerDialogTitleTextView = managerDialog.findViewById(R.id.dialog_search_title_textView);
+        managerDialogTitleTextView.setText(getResources().getString(R.string.AppSearchTitle2));
+
         managerDialogSearchLayout = managerDialog.findViewById(R.id.dialog_search_coordinatorLayout);
         managerDialogSearchLayout.setVisibility(View.VISIBLE);
+
         managerDialogEditText = managerDialog.findViewById(R.id.dialog_search_editText);
-        managerDialogTextView = managerDialog.findViewById(R.id.dialog_search_textView);
         managerDialogImageView = managerDialog.findViewById(R.id.dialog_search_imageView);
         managerDialogProgressBar = managerDialog.findViewById(R.id.dialog_search_progressBar);
+
+        managerDialogTextView = managerDialog.findViewById(R.id.dialog_search_textView);
 
         managerDialogRecyclerView = managerDialog.findViewById(R.id.dialog_search_recyclerView);
         managerDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
@@ -217,12 +229,7 @@ public class EditCenterActivity extends AppCompatActivity {
                 inputEditText.clear(this, inputEditText.getInput());
             }
 
-            if (CenterRepository.counselingCenter.size() == 0) {
-                getData("getCounselingCenter", "");
-            } else {
-                setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getCounselingCenter");
-                managerDialog.show();
-            }
+            managerDialog.show();
         });
 
         titleEditText.setOnTouchListener((v, event) -> {
@@ -334,13 +341,7 @@ public class EditCenterActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 handler.removeCallbacksAndMessages(null);
-                handler.postDelayed(() -> {
-                    if (managerDialogEditText.length() == 0) {
-                        setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getCounselingCenter");
-                    } else {
-                        getData("getCounselingCenter", managerDialogEditText.getText().toString().trim());
-                    }
-                }, 750);
+                handler.postDelayed(() -> getData("getCounselingCenter", managerDialogEditText.getText().toString().trim()), 750);
             }
 
             @Override
@@ -350,11 +351,13 @@ public class EditCenterActivity extends AppCompatActivity {
         });
 
         managerDialog.setOnCancelListener(dialog -> {
-            resetSearch("counselingCenter");
+            resetData("manager");
 
             if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
                 inputEditText.clear(this, inputEditText.getInput());
                 inputEditText.getInput().getText().clear();
+
+                handler.removeCallbacksAndMessages(null);
             }
 
             managerDialog.dismiss();
@@ -505,17 +508,6 @@ public class EditCenterActivity extends AppCompatActivity {
         }
     }
 
-    private void resetSearch(String method) {
-        switch (method) {
-            case "counselingCenter":
-                if (CenterRepository.counselingCenterSearch.size() != 0) {
-                    CenterRepository.counselingCenterSearch.clear();
-                    managerDialogRecyclerView.setAdapter(null);
-                }
-                break;
-        }
-    }
-
     private void setData() {
         if (extras.getString("id") != null)
             id = extras.getString("id");
@@ -595,19 +587,24 @@ public class EditCenterActivity extends AppCompatActivity {
         }
     }
 
+    private void resetData(String method) {
+        if (method.equals("manager")) {
+            CenterRepository.counselingCenter.clear();
+            managerDialogRecyclerView.setAdapter(null);
+
+            if (managerDialogTextView.getVisibility() == View.VISIBLE) {
+                managerDialogTextView.setVisibility(View.GONE);
+            }
+        }
+    }
+
     private void getData(String method, String q) {
         try {
-            switch (method) {
-                case "getCounselingCenter":
-                    if (q.equals("")) {
-                        progressDialog.show();
-                    } else {
-                        managerDialogProgressBar.setVisibility(View.VISIBLE);
-                        managerDialogImageView.setVisibility(View.GONE);
-                    }
+            if (method.equals("getCounselingCenter")) {
+                managerDialogProgressBar.setVisibility(View.VISIBLE);
+                managerDialogImageView.setVisibility(View.GONE);
 
-                    viewModel.counselingCenter(q);
-                    break;
+                viewModel.counselingCenter(q);
             }
             observeWork(q);
         } catch (JSONException e) {
@@ -663,34 +660,19 @@ public class EditCenterActivity extends AppCompatActivity {
                 }
             } else if (CenterRepository.work.equals("getCounselingCenter")) {
                 if (integer == 1) {
-                    if (q.equals("")) {
-                        setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getCounselingCenter");
-                        managerDialog.show();
+                    setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getCounselingCenter");
 
-                        progressDialog.dismiss();
-                    } else {
-                        setRecyclerView(CenterRepository.counselingCenterSearch, managerDialogRecyclerView, "getCounselingCenter");
-
-                        managerDialogProgressBar.setVisibility(View.GONE);
-                        managerDialogImageView.setVisibility(View.VISIBLE);
-                    }
+                    managerDialogProgressBar.setVisibility(View.GONE);
+                    managerDialogImageView.setVisibility(View.VISIBLE);
                     CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
-                    if (q.equals("")) {
-                        progressDialog.dismiss();
-                    } else {
-                        managerDialogProgressBar.setVisibility(View.GONE);
-                        managerDialogImageView.setVisibility(View.VISIBLE);
-                    }
+                    managerDialogProgressBar.setVisibility(View.GONE);
+                    managerDialogImageView.setVisibility(View.VISIBLE);
                     Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
-                    if (q.equals("")) {
-                        progressDialog.dismiss();
-                    } else {
-                        managerDialogProgressBar.setVisibility(View.GONE);
-                        managerDialogImageView.setVisibility(View.VISIBLE);
-                    }
+                    managerDialogProgressBar.setVisibility(View.GONE);
+                    managerDialogImageView.setVisibility(View.VISIBLE);
                     Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     CenterRepository.workState.removeObservers((LifecycleOwner) this);
                 }
@@ -758,11 +740,13 @@ public class EditCenterActivity extends AppCompatActivity {
                 managerTextView.setTextColor(getResources().getColor(R.color.Mischka));
             }
 
-            resetSearch("counselingCenter");
+            resetData("manager");
 
             if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
                 inputEditText.clear(this, inputEditText.getInput());
                 inputEditText.getInput().getText().clear();
+
+                handler.removeCallbacksAndMessages(null);
             }
 
             managerDialog.dismiss();

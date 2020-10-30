@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -14,7 +13,6 @@ import androidx.work.WorkerParameters;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Models.Apis.SampleApi;
-import com.majazeh.risloo.Utils.Generators.FilterGenerator;
 import com.majazeh.risloo.Utils.Generators.RetroGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
@@ -41,9 +39,6 @@ public class SampleWorker extends Worker {
     // Repository
     private SampleRepository repository;
 
-    // Generators
-    private FilterGenerator filterGenerator;
-
     // Objects
     private Context context;
     private SharedPreferences sharedPreferences;
@@ -58,8 +53,6 @@ public class SampleWorker extends Worker {
         repository = new SampleRepository();
 
         sharedPreferences = context.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-
-        filterGenerator = new FilterGenerator();
 
         editor = sharedPreferences.edit();
         editor.apply();
@@ -458,18 +451,14 @@ public class SampleWorker extends Worker {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONArray data = successBody.getJSONArray("data");
 
-                if (SampleRepository.scalesSearch.size() != 0) {
-                    SampleRepository.scalesSearch.clear();
+                if (SampleRepository.scales.size() != 0) {
+                    SampleRepository.scales.clear();
                 }
 
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
-                        if (SampleRepository.scalesQ.equals("")) {
-                            SampleRepository.scales.add(new Model(object));
-                        } else {
-                            SampleRepository.scalesSearch.add(new Model(object));
-                        }
+                        SampleRepository.scales.add(new Model(object));
                     }
                 }
 
@@ -509,20 +498,17 @@ public class SampleWorker extends Worker {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONArray data = successBody.getJSONArray("data");
 
-                if (SampleRepository.roomsSearch.size() != 0) {
-                    SampleRepository.roomsSearch.clear();
+                if (SampleRepository.rooms.size() != 0) {
+                    SampleRepository.rooms.clear();
                 }
 
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
-                        if (SampleRepository.roomQ.equals("")) {
-                            SampleRepository.rooms.add(new Model(object));
-                        } else {
-                            SampleRepository.roomsSearch.add(new Model(object));
-                        }
+                        SampleRepository.rooms.add(new Model(object));
                     }
                 }
+
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "rooms", "sample");
                 SampleRepository.workStateCreate.postValue(1);
                 SampleRepository.workStateSample.postValue(1);
@@ -564,18 +550,14 @@ public class SampleWorker extends Worker {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONArray data = successBody.getJSONArray("data");
 
-                if (SampleRepository.referencesSearch.size() != 0) {
-                    SampleRepository.referencesSearch.clear();
+                if (SampleRepository.references.size() != 0) {
+                    SampleRepository.references.clear();
                 }
 
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
-                        if (SampleRepository.referencesQ.equals("")) {
-                            SampleRepository.references.add(new Model(object));
-                        } else {
-                            SampleRepository.referencesSearch.add(new Model(object));
-                        }
+                        SampleRepository.references.add(new Model(object));
                     }
                 }
 
@@ -615,18 +597,14 @@ public class SampleWorker extends Worker {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONArray data = successBody.getJSONArray("data");
 
-                if (SampleRepository.casesSearch.size() != 0) {
-                    SampleRepository.casesSearch.clear();
+                if (SampleRepository.cases.size() != 0) {
+                    SampleRepository.cases.clear();
                 }
 
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
-                        if (SampleRepository.casesQ.equals("")) {
-                            SampleRepository.cases.add(new Model(object));
-                        } else {
-                            SampleRepository.casesSearch.add(new Model(object));
-                        }
+                        SampleRepository.cases.add(new Model(object));
                     }
                 }
 

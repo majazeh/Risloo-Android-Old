@@ -29,12 +29,10 @@ public class CenterRepository extends MainRepository {
     // Vars
     public static HashMap createData = new HashMap();
     public static HashMap editData = new HashMap();
-    public static ArrayList<Model> personalClinic;
-    public static ArrayList<Model> counselingCenter;
-    public static ArrayList<Model> personalClinicSearch;
-    public static ArrayList<Model> counselingCenterSearch;
     public static ArrayList<Model> getAll;
     public static ArrayList<Model> getMy;
+    public static ArrayList<Model> personalClinic;
+    public static ArrayList<Model> counselingCenter;
     public static MutableLiveData<Integer> workState;
     public static String work = "";
     public static String clinicId = "";
@@ -49,12 +47,10 @@ public class CenterRepository extends MainRepository {
 
         createData = new HashMap();
         editData = new HashMap();
-        personalClinic = new ArrayList<>();
-        counselingCenter = new ArrayList<>();
-        personalClinicSearch = new ArrayList<>();
-        counselingCenterSearch = new ArrayList<>();
         getAll = new ArrayList<>();
         getMy = new ArrayList<>();
+        personalClinic = new ArrayList<>();
+        counselingCenter = new ArrayList<>();
         workState = new MutableLiveData<>();
         workState.setValue(-1);
     }

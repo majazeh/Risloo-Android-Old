@@ -22,7 +22,6 @@ import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -90,12 +89,13 @@ public class SamplesActivity extends AppCompatActivity {
     private TextView infoTextView;
     private RecyclerView filterRecyclerView, samplesRecyclerView;
     public ProgressBar pagingProgressBar;
+    private Dialog scaleDialog, roomDialog, statusDialog;
+    private TextView scaleDialogTitleTextView, roomDialogTitleTextView, statusDialogTitleTextView;
     private CoordinatorLayout roomDialogSearchLayout;
-    private Dialog scaleDialog, roomDialog, statusDialog, progressDialog;
     private EditText roomDialogEditText;
-    private TextView roomDialogTextView;
     private ImageView roomDialogImageView;
     private ProgressBar roomDialogProgressBar;
+    private TextView roomDialogTextView;
     private RecyclerView scaleDialogRecyclerView, roomDialogRecyclerView, statusDialogRecyclerView;
 
     @Override
@@ -174,11 +174,6 @@ public class SamplesActivity extends AppCompatActivity {
         statusDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         statusDialog.setContentView(R.layout.dialog_search);
         statusDialog.setCancelable(true);
-        progressDialog = new Dialog(this, R.style.DialogTheme);
-        Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
-        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        progressDialog.setContentView(R.layout.dialog_progress);
-        progressDialog.setCancelable(false);
 
         WindowManager.LayoutParams layoutParamsScale = new WindowManager.LayoutParams();
         layoutParamsScale.copyFrom(scaleDialog.getWindow().getAttributes());
@@ -196,12 +191,21 @@ public class SamplesActivity extends AppCompatActivity {
         layoutParamsStatus.height = WindowManager.LayoutParams.WRAP_CONTENT;
         statusDialog.getWindow().setAttributes(layoutParamsStatus);
 
+        scaleDialogTitleTextView = scaleDialog.findViewById(R.id.dialog_search_title_textView);
+        scaleDialogTitleTextView.setText(getResources().getString(R.string.AppSearchTitle1));
+        roomDialogTitleTextView = roomDialog.findViewById(R.id.dialog_search_title_textView);
+        roomDialogTitleTextView.setText(getResources().getString(R.string.AppSearchTitle2));
+        statusDialogTitleTextView = statusDialog.findViewById(R.id.dialog_search_title_textView);
+        statusDialogTitleTextView.setText(getResources().getString(R.string.AppSearchTitle1));
+
         roomDialogSearchLayout = roomDialog.findViewById(R.id.dialog_search_coordinatorLayout);
         roomDialogSearchLayout.setVisibility(View.VISIBLE);
+
         roomDialogEditText = roomDialog.findViewById(R.id.dialog_search_editText);
-        roomDialogTextView = roomDialog.findViewById(R.id.dialog_search_textView);
         roomDialogImageView = roomDialog.findViewById(R.id.dialog_search_imageView);
         roomDialogProgressBar = roomDialog.findViewById(R.id.dialog_search_progressBar);
+
+        roomDialogTextView = roomDialog.findViewById(R.id.dialog_search_textView);
 
         scaleDialogRecyclerView = scaleDialog.findViewById(R.id.dialog_search_recyclerView);
         scaleDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
@@ -285,13 +289,7 @@ public class SamplesActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 handler.removeCallbacksAndMessages(null);
-                handler.postDelayed(() -> {
-                    if (roomDialogEditText.length() == 0) {
-                        setRecyclerView(SampleRepository.rooms, roomDialogRecyclerView, "getRooms");
-                    } else {
-                        getData("getRooms", roomDialogEditText.getText().toString().trim());
-                    }
-                }, 750);
+                handler.postDelayed(() -> getData("getRooms", roomDialogEditText.getText().toString().trim()), 750);
             }
 
             @Override
@@ -303,11 +301,13 @@ public class SamplesActivity extends AppCompatActivity {
         scaleDialog.setOnCancelListener(dialog -> scaleDialog.dismiss());
 
         roomDialog.setOnCancelListener(dialog -> {
-            resetSearch("roomsFilter");
+            resetData("room");
 
             if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
                 inputEditText.clear(this, inputEditText.getInput());
                 inputEditText.getInput().getText().clear();
+
+                handler.removeCallbacksAndMessages(null);
             }
 
             roomDialog.dismiss();
@@ -357,12 +357,7 @@ public class SamplesActivity extends AppCompatActivity {
                 }
                 break;
             case "room":
-                if (SampleRepository.rooms.size() == 0) {
-                    getData("getRooms", "");
-                } else {
-                    setRecyclerView(SampleRepository.rooms, roomDialogRecyclerView, "getRooms");
-                    roomDialog.show();
-                }
+                roomDialog.show();
                 break;
             case "status":
                 if (SampleRepository.statusFilter.size() == 0) {
@@ -443,7 +438,9 @@ public class SamplesActivity extends AppCompatActivity {
     }
 
     private void resetData(String method) {
-        if ("filter".equals(method)) {
+        if (method.equals("filter")) {
+            toolFilter.setVisible(authViewModel.hasAccess());
+
             if (filterRecyclerViewAdapter.getValues().size() == 0) {
                 filterLayout.setVisibility(View.GONE);
                 toolFilter.setIcon(getResources().getDrawable(R.drawable.tool_filter_default));
@@ -453,27 +450,21 @@ public class SamplesActivity extends AppCompatActivity {
                     toolFilter.setIcon(getResources().getDrawable(R.drawable.tool_filter_active));
                 }
             }
-        }
-    }
+        } else if (method.equals("room")) {
+            SampleRepository.rooms.clear();
+            roomDialogRecyclerView.setAdapter(null);
 
-    private void resetSearch(String method) {
-        if ("rooms".equals(method)) {
-            if (SampleRepository.roomsSearch.size() != 0) {
-                SampleRepository.roomsSearch.clear();
-                roomDialogRecyclerView.setAdapter(null);
+            if (roomDialogTextView.getVisibility() == View.VISIBLE) {
+                roomDialogTextView.setVisibility(View.GONE);
             }
         }
     }
 
     private void getData(String method, String q) {
         try {
-            if ("getRooms".equals(method)) {
-                if (q.equals("")) {
-                    progressDialog.show();
-                } else {
-                    roomDialogProgressBar.setVisibility(View.VISIBLE);
-                    roomDialogImageView.setVisibility(View.GONE);
-                }
+            if (method.equals("getRooms")) {
+                roomDialogProgressBar.setVisibility(View.VISIBLE);
+                roomDialogImageView.setVisibility(View.GONE);
 
                 sampleViewModel.rooms(q);
             }
@@ -533,12 +524,6 @@ public class SamplesActivity extends AppCompatActivity {
                         }
                     }
 
-                    if (authViewModel.hasAccess()) {
-                        toolFilter.setVisible(true);
-                    } else {
-                        toolFilter.setVisible(false);
-                    }
-
                     if (pagingProgressBar.getVisibility() == View.VISIBLE) {
                         pagingProgressBar.setVisibility(View.GONE);
                     }
@@ -565,12 +550,6 @@ public class SamplesActivity extends AppCompatActivity {
                             setInfoLayout("connection"); // Show Connection
                         }
 
-                        if (authViewModel.hasAccess()) {
-                            toolFilter.setVisible(true);
-                        } else {
-                            toolFilter.setVisible(false);
-                        }
-
                         if (pagingProgressBar.getVisibility() == View.VISIBLE) {
                             pagingProgressBar.setVisibility(View.GONE);
                         }
@@ -592,14 +571,6 @@ public class SamplesActivity extends AppCompatActivity {
                             samplesRecyclerView.setAdapter(samplesRecyclerViewAdapter);
                         }
 
-                        handler.postDelayed(() -> {
-                            if (authViewModel.hasAccess()) {
-                                toolFilter.setVisible(true);
-                            } else {
-                                toolFilter.setVisible(false);
-                            }
-                        }, 300);
-
                         if (pagingProgressBar.getVisibility() == View.VISIBLE) {
                             pagingProgressBar.setVisibility(View.GONE);
                         }
@@ -613,34 +584,19 @@ public class SamplesActivity extends AppCompatActivity {
                 }
             } else if (SampleRepository.work.equals("getRooms")) {
                 if (integer == 1) {
-                    if (q.equals("")) {
-                        setRecyclerView(SampleRepository.rooms, roomDialogRecyclerView, "getRooms");
-                        roomDialog.show();
+                    setRecyclerView(SampleRepository.rooms, roomDialogRecyclerView, "getRooms");
 
-                        progressDialog.dismiss();
-                    } else {
-                        setRecyclerView(SampleRepository.roomsSearch, roomDialogRecyclerView, "getRooms");
-
-                        roomDialogProgressBar.setVisibility(View.GONE);
-                        roomDialogImageView.setVisibility(View.VISIBLE);
-                    }
+                    roomDialogProgressBar.setVisibility(View.GONE);
+                    roomDialogImageView.setVisibility(View.VISIBLE);
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
-                    if (q.equals("")) {
-                        progressDialog.dismiss();
-                    } else {
-                        roomDialogProgressBar.setVisibility(View.GONE);
-                        roomDialogImageView.setVisibility(View.VISIBLE);
-                    }
+                    roomDialogProgressBar.setVisibility(View.GONE);
+                    roomDialogImageView.setVisibility(View.VISIBLE);
                     Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
-                    if (q.equals("")) {
-                        progressDialog.dismiss();
-                    } else {
-                        roomDialogProgressBar.setVisibility(View.GONE);
-                        roomDialogImageView.setVisibility(View.VISIBLE);
-                    }
+                    roomDialogProgressBar.setVisibility(View.GONE);
+                    roomDialogImageView.setVisibility(View.VISIBLE);
                     Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 }
@@ -742,9 +698,13 @@ public class SamplesActivity extends AppCompatActivity {
 
                     relaunchSamples();
 
+                    resetData("room");
+
                     if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
                         inputEditText.clear(this, inputEditText.getInput());
                         inputEditText.getInput().getText().clear();
+
+                        handler.removeCallbacksAndMessages(null);
                     }
 
                     roomDialog.dismiss();

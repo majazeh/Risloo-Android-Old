@@ -320,7 +320,9 @@ public class CenterActivity extends AppCompatActivity {
     }
 
     private void resetData(String method) {
-        if ("search".equals(method)) {
+        if (method.equals("search")) {
+            toolSearch.setVisible(authViewModel.hasAccess());
+
             if (search.equals("")) {
                 searchLayout.setVisibility(View.GONE);
                 toolSearch.setIcon(getResources().getDrawable(R.drawable.tool_search_default));
@@ -334,7 +336,7 @@ public class CenterActivity extends AppCompatActivity {
     }
 
     private void errorView(String type) {
-        if ("search".equals(type)) {
+        if (type.equals("search")) {
             searchDialogInput.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
         }
     }
@@ -385,12 +387,6 @@ public class CenterActivity extends AppCompatActivity {
                             tabLayout.setVisibility(View.GONE);
                             rtlViewPager.setAdapter(adapter);
 
-                            if (authViewModel.hasAccess()) {
-                                toolSearch.setVisible(true);
-                            } else {
-                                toolSearch.setVisible(false);
-                            }
-
                             resetData("search");
 
                             finished = true;
@@ -423,12 +419,6 @@ public class CenterActivity extends AppCompatActivity {
                             setInfoLayout("connection"); // Show Connection
                         }
 
-                        if (authViewModel.hasAccess()) {
-                            toolSearch.setVisible(true);
-                        } else {
-                            toolSearch.setVisible(false);
-                        }
-
                         resetData("search");
 
                         finished = true;
@@ -447,12 +437,6 @@ public class CenterActivity extends AppCompatActivity {
                         } else {
                             tabLayout.setVisibility(View.GONE); // Just AllCenters
                             rtlViewPager.setAdapter(adapter);
-                        }
-
-                        if (authViewModel.hasAccess()) {
-                            toolSearch.setVisible(true);
-                        } else {
-                            toolSearch.setVisible(false);
                         }
 
                         resetData("search");
@@ -474,12 +458,6 @@ public class CenterActivity extends AppCompatActivity {
 
                         tabLayout.setVisibility(View.VISIBLE);
                         rtlViewPager.setAdapter(adapter);
-
-                        if (authViewModel.hasAccess()) {
-                            toolSearch.setVisible(true);
-                        } else {
-                            toolSearch.setVisible(false);
-                        }
 
                         loadingMy = false;
                         CenterRepository.myPage++;
@@ -506,12 +484,6 @@ public class CenterActivity extends AppCompatActivity {
 
                     tabLayout.setVisibility(View.VISIBLE);
                     rtlViewPager.setAdapter(adapter);
-
-                    if (authViewModel.hasAccess()) {
-                        toolSearch.setVisible(true);
-                    } else {
-                        toolSearch.setVisible(false);
-                    }
 
                     resetData("search");
 

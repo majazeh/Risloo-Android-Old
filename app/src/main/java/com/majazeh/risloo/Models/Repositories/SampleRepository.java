@@ -3,7 +3,6 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Constraints;
@@ -28,7 +27,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class SampleRepository extends MainRepository {
-    private String Endpoit = "samples";
+
     // Objects
     private JSONObject sampleJson;
     private SampleItems sampleItems;
@@ -38,18 +37,13 @@ public class SampleRepository extends MainRepository {
     public static ArrayList<ArrayList<Integer>> remoteData;
     public static ArrayList prerequisiteData;
     public static HashMap createData;
+    public static ArrayList<Model> getAll;
     public static ArrayList<Model> scales;
     public static ArrayList<Model> rooms;
     public static ArrayList<Model> cases;
     public static ArrayList<Model> references;
-    public static ArrayList<Model> scalesSearch;
-    public static ArrayList<Model> roomsSearch;
-    public static ArrayList<Model> casesSearch;
-    public static ArrayList<Model> referencesSearch;
     public static ArrayList<Model> scaleFilter;
     public static ArrayList<Model> statusFilter;
-    public static ArrayList<Model> roomFilter;
-    public static ArrayList<Model> getAll;
     public static MutableLiveData<Integer> workStateSample;
     public static MutableLiveData<Integer> workStateAnswer;
     public static MutableLiveData<Integer> workStateCreate;
@@ -58,13 +52,12 @@ public class SampleRepository extends MainRepository {
     public static String sampleId = "";
     public static String roomId = "";
     public static String scalesQ = "";
-    public static String statusQ = "";
     public static String roomQ = "";
     public static String casesQ = "";
     public static String referencesQ = "";
+    public static String statusQ = "";
     public static boolean cache = false;
     public static int samplesPage = 1;
-
 
     public SampleRepository(Application application) throws JSONException {
         super(application);
@@ -73,15 +66,11 @@ public class SampleRepository extends MainRepository {
         remoteData = new ArrayList<>();
         prerequisiteData = new ArrayList();
         createData = new HashMap();
+        getAll = new ArrayList<>();
         scales = new ArrayList<>();
         rooms = new ArrayList<>();
         cases = new ArrayList<>();
         references = new ArrayList<>();
-        scalesSearch = new ArrayList<>();
-        roomsSearch = new ArrayList<>();
-        casesSearch = new ArrayList<>();
-        referencesSearch = new ArrayList<>();
-        getAll = new ArrayList<>();
         workStateSample = new MutableLiveData<>();
         workStateAnswer = new MutableLiveData<>();
         workStateCreate = new MutableLiveData<>();
@@ -631,7 +620,6 @@ public class SampleRepository extends MainRepository {
     public ArrayList<Model> getAll() {
         scaleFilter = new ArrayList<>();
         statusFilter = new ArrayList<>();
-        roomFilter = new ArrayList<>();
         if (!SampleRepository.filter()) {
             ArrayList<Model> arrayList = new ArrayList<>();
             if (FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all") != null) {

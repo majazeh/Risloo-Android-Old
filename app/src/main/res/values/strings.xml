@@ -13,6 +13,8 @@
     <string name="AppConnection">انترنت وصل نیست! تلاش مجدد</string>
     <string name="AppEmpty">فعلا موردی برای نمایش موجود نیست.</string>
 
+    <string name="AppSearchTitle1">گزینه مورد نظر انتخاب کنید</string>
+    <string name="AppSearchTitle2">گزینه مورد نظر جستجو کنید</string>
     <string name="AppSearchInput">جستجو</string>
     <string name="AppSearchEmpty">موردی یافت نشد</string>
     <string name="AppSearchConfirm">ثبت</string>
