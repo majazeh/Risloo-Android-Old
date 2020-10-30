@@ -199,6 +199,9 @@ public class SampleWorker extends Worker {
                             }
                         }
                     } else {
+                        if (SampleRepository.samplesPage == 1){
+                            SampleRepository.getAll.clear();
+                        }
                         JSONArray data = successBody.getJSONArray("data");
 
                         for (int i = 0; i < data.length(); i++) {
@@ -207,7 +210,7 @@ public class SampleWorker extends Worker {
                         }
                         SampleRepository.meta = successBody.getJSONObject("meta");
                     }
-                }else{
+                }else if (SampleRepository.samplesPage == 1){
                     SampleRepository.getAll.clear();
                 }
 

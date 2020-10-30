@@ -81,9 +81,6 @@ public class SampleRepository extends MainRepository {
         roomsSearch = new ArrayList<>();
         casesSearch = new ArrayList<>();
         referencesSearch = new ArrayList<>();
-        scaleFilter = new ArrayList<>();
-        statusFilter = new ArrayList<>();
-        roomFilter = new ArrayList<>();
         getAll = new ArrayList<>();
         workStateSample = new MutableLiveData<>();
         workStateAnswer = new MutableLiveData<>();
@@ -632,6 +629,9 @@ public class SampleRepository extends MainRepository {
     */
 
     public ArrayList<Model> getAll() {
+        scaleFilter = new ArrayList<>();
+        statusFilter = new ArrayList<>();
+        roomFilter = new ArrayList<>();
         if (!SampleRepository.filter()) {
             ArrayList<Model> arrayList = new ArrayList<>();
             if (FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all") != null) {

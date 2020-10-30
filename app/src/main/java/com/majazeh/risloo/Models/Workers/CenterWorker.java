@@ -125,15 +125,17 @@ public class CenterWorker extends Worker {
                     }
                 }else{
 
+                    if (CenterRepository.myPage == 1){
+                        CenterRepository.getMy.clear();
+                    }
                 JSONArray data = successBody.getJSONArray("data");
 
                 for (int i = 0; i < data.length(); i++) {
                     CenterRepository.getAll.add(new Model(data.getJSONObject(i)));
                 }
-                    Log.e("all", String.valueOf(CenterRepository.getAll));
                 }
 
-                } else {
+                } else if (CenterRepository.allPage == 1){
                     CenterRepository.getAll.clear();
                 }
 
@@ -198,7 +200,7 @@ public class CenterWorker extends Worker {
                             CenterRepository.getMy.add(new Model(data.getJSONObject(i)));
                         }
                     }
-            }else{
+            }else if (CenterRepository.myPage == 1){
                     CenterRepository.getMy.clear();
                 }
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "my", "center");
