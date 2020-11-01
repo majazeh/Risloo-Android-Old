@@ -435,6 +435,9 @@ public class AuthActivity extends AppCompatActivity {
                     }
                 }
                 break;
+            default:
+                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 

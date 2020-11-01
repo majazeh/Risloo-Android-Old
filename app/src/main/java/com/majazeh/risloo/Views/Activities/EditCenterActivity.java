@@ -738,6 +738,8 @@ public class EditCenterActivity extends AppCompatActivity {
                 }
             }
             Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
         }
     }
 

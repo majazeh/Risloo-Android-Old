@@ -132,9 +132,7 @@ public class ExceptionGenerator {
 //                            break;
 //                    }
                 } else {
-                    if (exception != null) {
-                        ExceptionGenerator.exception = exception;
-                    }
+                    ExceptionGenerator.exception = exception;
 
                     if (!body.isNull("errors"))
                         errors = body.getJSONObject("errors");
@@ -142,6 +140,8 @@ public class ExceptionGenerator {
                         errors = new JSONObject();
                 }
             } else {
+                ExceptionGenerator.exception = "";
+
                 switch (exception) {
                     case "SocketTimeoutException":
                         fa_message_text = "مشکل ارتباط با سرور! دوباره تلاش کنید.";
