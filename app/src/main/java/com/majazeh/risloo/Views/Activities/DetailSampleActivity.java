@@ -3,7 +3,6 @@ package com.majazeh.risloo.Views.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.LifecycleOwner;
@@ -18,6 +17,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
@@ -29,6 +29,7 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,12 +65,15 @@ public class DetailSampleActivity extends AppCompatActivity {
 
     // Objects
     private Bundle extras;
+    private Handler handler;
     private ClickableSpan retrySpan;
     private DownloadDialog downloadDialog;
     private Animation animFadeIn, animFadeOut;
 
     // Widgets
-    private Toolbar toolbar;
+    private RelativeLayout toolbarLayout;
+    private ImageView toolbarImageView;
+    private TextView toolbarTextView;
     private TextView retryTextView, scaleTextView, serialTextView, statusTextView, referenceHintTextView, referenceTextView, caseTextView, roomTextView, actionTextView, generalTextView, prerequisiteTextView, testTextView;
     private ImageView retryImageView, statusImageView, referenceHintImageView, downloadImageView;
     private ZoomageView resultImageView;
@@ -109,13 +113,24 @@ public class DetailSampleActivity extends AppCompatActivity {
 
         downloadDialog = new DownloadDialog(this);
 
+        handler = new Handler();
+
         extras = getIntent().getExtras();
         sampleId = Objects.requireNonNull(extras).getString("id");
 
         animFadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         animFadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
 
-        toolbar = findViewById(R.id.activity_detail_sample_toolbar);
+        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
+
+        toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
+        toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+
+        toolbarTextView = findViewById(R.id.layout_toolbar_textView);
+        toolbarTextView.setText(getResources().getString(R.string.DetailSampleTitle));
+        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         retryTextView = findViewById(R.id.activity_detail_sample_retry_textView);
         retryTextView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -174,13 +189,18 @@ public class DetailSampleActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
+
             downloadImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
         }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void listener() {
-        toolbar.setNavigationOnClickListener(v -> {
+        toolbarImageView.setOnClickListener(v -> {
+            toolbarImageView.setClickable(false);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+
             finish();
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
         });

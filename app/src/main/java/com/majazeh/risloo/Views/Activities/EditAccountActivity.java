@@ -3,9 +3,10 @@ package com.majazeh.risloo.Views.Activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -29,6 +30,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -81,7 +83,9 @@ public class EditAccountActivity extends AppCompatActivity {
     private Bitmap selectedBitmap;
 
     // Widgets
-    private Toolbar toolbar;
+    private RelativeLayout toolbarLayout;
+    private ImageView toolbarImageView;
+    private TextView toolbarTextView;
     private CircleImageView avatarCircleImageView;
     private ImageView avatarImageView;
     private EditText nameEditText;
@@ -130,7 +134,16 @@ public class EditAccountActivity extends AppCompatActivity {
         imageDialog = new ImageDialog(this);
         imageDialog.setType("editAccount");
 
-        toolbar = findViewById(R.id.activity_edit_account_toolbar);
+        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
+
+        toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
+        toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+
+        toolbarTextView = findViewById(R.id.layout_toolbar_textView);
+        toolbarTextView.setText(getResources().getString(R.string.EditAccountTitle));
+        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         avatarCircleImageView = findViewById(R.id.activity_edit_account_avatar_circleImageView);
 
@@ -171,6 +184,8 @@ public class EditAccountActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
+
             avatarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_border_quartz_ripple_quartz);
             editButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
 
@@ -181,7 +196,10 @@ public class EditAccountActivity extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     private void listener() {
-        toolbar.setNavigationOnClickListener(v -> {
+        toolbarImageView.setOnClickListener(v -> {
+            toolbarImageView.setClickable(false);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+
             finish();
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
         });

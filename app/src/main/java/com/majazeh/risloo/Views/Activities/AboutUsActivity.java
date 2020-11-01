@@ -1,12 +1,18 @@
 package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
@@ -24,8 +30,13 @@ public class AboutUsActivity extends AppCompatActivity {
     // Adapters
     private ListAdapter adapter;
 
+    // Objects
+    private Handler handler;
+
     // Widgets
-    private Toolbar toolbar;
+    private RelativeLayout toolbarLayout;
+    private ImageView toolbarImageView;
+    private TextView toolbarTextView;
     private RecyclerView aboutUsRecyclerView;
 
     @Override
@@ -37,6 +48,8 @@ public class AboutUsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about_us);
 
         initializer();
+
+        detector();
 
         listener();
 
@@ -53,7 +66,18 @@ public class AboutUsActivity extends AppCompatActivity {
 
         adapter = new ListAdapter(this);
 
-        toolbar = findViewById(R.id.activity_about_us_toolbar);
+        handler = new Handler();
+
+        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
+
+        toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
+        toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+
+        toolbarTextView = findViewById(R.id.layout_toolbar_textView);
+        toolbarTextView.setText(getResources().getString(R.string.AboutUsTitle));
+        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         aboutUsRecyclerView = findViewById(R.id.activity_about_us_recyclerView);
         aboutUsRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._24sdp), (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._24sdp)));
@@ -61,8 +85,17 @@ public class AboutUsActivity extends AppCompatActivity {
         aboutUsRecyclerView.setHasFixedSize(true);
     }
 
+    private void detector() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
+        }
+    }
+
     private void listener() {
-        toolbar.setNavigationOnClickListener(v -> {
+        toolbarImageView.setOnClickListener(v -> {
+            toolbarImageView.setClickable(false);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+
             finish();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });

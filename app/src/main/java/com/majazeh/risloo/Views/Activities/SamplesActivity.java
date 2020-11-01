@@ -3,8 +3,9 @@ package com.majazeh.risloo.Views.Activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -22,8 +24,6 @@ import android.text.TextPaint;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -75,13 +75,14 @@ public class SamplesActivity extends AppCompatActivity {
     // Objects
     private Handler handler;
     private InputEditText inputEditText;
-    private MenuItem toolCreate, toolFilter;
     private LinearLayoutManager layoutManager;
     private ClickableSpan retrySpan;
     private FilterDialog filterDialog;
 
     // Widgets
-    private Toolbar toolbar;
+    private RelativeLayout toolbarLayout;
+    private ImageView toolbarImageView, toolbarCreateImageView, toolbarFilterImageView;
+    private TextView toolbarTextView;
     private LinearLayout filterLayout;
     private RelativeLayout mainLayout;
     private LinearLayout infoLayout, loadingLayout;
@@ -107,6 +108,8 @@ public class SamplesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_samples);
 
         initializer();
+
+        detector();
 
         listener();
 
@@ -136,14 +139,29 @@ public class SamplesActivity extends AppCompatActivity {
 
         filterDialog = new FilterDialog(this);
 
-        toolbar = findViewById(R.id.activity_samples_toolbar);
-        setSupportActionBar(toolbar);
+        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
+
+        toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
+        toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        toolbarCreateImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
+        toolbarCreateImageView.setVisibility(View.VISIBLE);
+        toolbarCreateImageView.setImageResource(R.drawable.ic_plus_light);
+        ImageViewCompat.setImageTintList(toolbarCreateImageView, AppCompatResources.getColorStateList(this, R.color.IslamicGreen));
+        toolbarFilterImageView = findViewById(R.id.layout_toolbar_thirdly_imageView);
+        toolbarFilterImageView.setImageResource(R.drawable.ic_filter_light);
+        ImageViewCompat.setImageTintList(toolbarFilterImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+
+        toolbarTextView = findViewById(R.id.layout_toolbar_textView);
+        toolbarTextView.setText(getResources().getString(R.string.SamplesTitle));
+        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         filterLayout = findViewById(R.id.activity_samples_filterLayout);
 
         mainLayout = findViewById(R.id.activity_samples_mainLayout);
-        infoLayout = findViewById(R.id.layout_info);
-        loadingLayout = findViewById(R.id.layout_loading);
+        infoLayout = findViewById(R.id.layout_info_linearLayout);
+        loadingLayout = findViewById(R.id.layout_loading_linearLayout);
 
         infoImageView = findViewById(R.id.layout_info_imageView);
         infoTextView = findViewById(R.id.layout_info_textView);
@@ -221,11 +239,44 @@ public class SamplesActivity extends AppCompatActivity {
         statusDialogRecyclerView.setHasFixedSize(true);
     }
 
+    private void detector() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
+            toolbarCreateImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
+            toolbarFilterImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
+        }
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     private void listener() {
-        toolbar.setNavigationOnClickListener(v -> {
+        toolbarImageView.setOnClickListener(v -> {
+            toolbarImageView.setClickable(false);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+
             finish();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        toolbarCreateImageView.setOnClickListener(v -> {
+            toolbarCreateImageView.setClickable(false);
+            handler.postDelayed(() -> toolbarCreateImageView.setClickable(true), 300);
+
+            if (finished) {
+                if (pagingProgressBar.isShown()) {
+                    loading = false;
+                    pagingProgressBar.setVisibility(View.GONE);
+                }
+            }
+
+            startActivityForResult(new Intent(this, CreateSampleActivity.class).putExtra("loaded", finished), 100);
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+        });
+
+        toolbarFilterImageView.setOnClickListener(v -> {
+            toolbarFilterImageView.setClickable(false);
+            handler.postDelayed(() -> toolbarFilterImageView.setClickable(true), 300);
+
+            filterDialog.show(this.getSupportFragmentManager(), "filterBottomSheet");
         });
 
         retrySpan = new ClickableSpan() {
@@ -439,15 +490,23 @@ public class SamplesActivity extends AppCompatActivity {
 
     private void resetData(String method) {
         if (method.equals("filter")) {
-            toolFilter.setVisible(authViewModel.hasAccess());
+            if (authViewModel.hasAccess()) {
+                toolbarFilterImageView.setVisibility(View.VISIBLE);
+            } else {
+                toolbarFilterImageView.setVisibility(View.GONE);
+            }
 
             if (filterRecyclerViewAdapter.getValues().size() == 0) {
                 filterLayout.setVisibility(View.GONE);
-                toolFilter.setIcon(getResources().getDrawable(R.drawable.tool_filter_default));
+
+                toolbarFilterImageView.setImageResource(R.drawable.ic_filter_light);
+                ImageViewCompat.setImageTintList(toolbarFilterImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
             } else {
                 if (filterLayout.getVisibility() == View.GONE) {
                     filterLayout.setVisibility(View.VISIBLE);
-                    toolFilter.setIcon(getResources().getDrawable(R.drawable.tool_filter_active));
+
+                    toolbarFilterImageView.setImageResource(R.drawable.ic_filter_solid);
+                    ImageViewCompat.setImageTintList(toolbarFilterImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
                 }
             }
         } else if (method.equals("room")) {
@@ -769,33 +828,6 @@ public class SamplesActivity extends AppCompatActivity {
                 relaunchSamples();
             }
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_samples, menu);
-
-        toolCreate = menu.findItem(R.id.tool_create);
-        toolCreate.setOnMenuItemClickListener(menuItem -> {
-            if (finished) {
-                if (pagingProgressBar.isShown()) {
-                    loading = false;
-                    pagingProgressBar.setVisibility(View.GONE);
-                }
-            }
-
-            startActivityForResult(new Intent(this, CreateSampleActivity.class).putExtra("loaded", finished), 100);
-            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
-            return false;
-        });
-
-        toolFilter = menu.findItem(R.id.tool_filter);
-        toolFilter.setOnMenuItemClickListener(item -> {
-            filterDialog.show(this.getSupportFragmentManager(), "filterBottomSheet");
-            return false;
-        });
-
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

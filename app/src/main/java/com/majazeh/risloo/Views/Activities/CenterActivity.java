@@ -3,7 +3,8 @@ package com.majazeh.risloo.Views.Activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
@@ -21,8 +22,6 @@ import android.text.InputType;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -66,11 +65,12 @@ public class CenterActivity extends AppCompatActivity {
     // Objects
     private Handler handler;
     private InputEditText inputEditText;
-    private MenuItem toolCreate, toolSearch;
     private ClickableSpan retrySpan;
 
     // Widgets
-    private Toolbar toolbar;
+    private RelativeLayout toolbarLayout;
+    private ImageView toolbarImageView, toolbarCreateImageView, toolbarSearchImageView;
+    private TextView toolbarTextView;
     private LinearLayout searchLayout;
     private RelativeLayout mainLayout;
     private LinearLayout infoLayout, loadingLayout;
@@ -120,14 +120,29 @@ public class CenterActivity extends AppCompatActivity {
 
         inputEditText = new InputEditText();
 
-        toolbar = findViewById(R.id.activity_center_toolbar);
-        setSupportActionBar(toolbar);
+        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
+
+        toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
+        toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        toolbarCreateImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
+        toolbarCreateImageView.setVisibility(View.VISIBLE);
+        toolbarCreateImageView.setImageResource(R.drawable.ic_plus_light);
+        ImageViewCompat.setImageTintList(toolbarCreateImageView, AppCompatResources.getColorStateList(this, R.color.IslamicGreen));
+        toolbarSearchImageView = findViewById(R.id.layout_toolbar_thirdly_imageView);
+        toolbarSearchImageView.setImageResource(R.drawable.ic_search_light);
+        ImageViewCompat.setImageTintList(toolbarSearchImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+
+        toolbarTextView = findViewById(R.id.layout_toolbar_textView);
+        toolbarTextView.setText(getResources().getString(R.string.CenterTitle));
+        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         searchLayout = findViewById(R.id.activity_center_searchLayout);
 
         mainLayout = findViewById(R.id.activity_center_mainLayout);
-        infoLayout = findViewById(R.id.layout_info);
-        loadingLayout = findViewById(R.id.layout_loading);
+        infoLayout = findViewById(R.id.layout_info_linearLayout);
+        loadingLayout = findViewById(R.id.layout_loading_linearLayout);
 
         infoImageView = findViewById(R.id.layout_info_imageView);
         infoTextView = findViewById(R.id.layout_info_textView);
@@ -165,6 +180,10 @@ public class CenterActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
+            toolbarCreateImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
+            toolbarSearchImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
+
             infoLayout.setBackgroundResource(R.drawable.draw_4sdp_solid_snow_ripple_quartz);
             infoImageView.setBackgroundResource(R.drawable.draw_rectangle_solid_snow_ripple_violetred);
         }
@@ -172,9 +191,42 @@ public class CenterActivity extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     private void listener() {
-        toolbar.setNavigationOnClickListener(v -> {
+        toolbarImageView.setOnClickListener(v -> {
+            toolbarImageView.setClickable(false);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+
             finish();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        toolbarCreateImageView.setOnClickListener(v -> {
+            toolbarCreateImageView.setClickable(false);
+            handler.postDelayed(() -> toolbarCreateImageView.setClickable(true), 300);
+
+            if (finished) {
+                Fragment allFragment = adapter.allFragment;
+                if (((AllCenterFragment) allFragment).pagingProgressBar.isShown()) {
+                    loadingAll = false;
+                    ((AllCenterFragment) allFragment).pagingProgressBar.setVisibility(View.GONE);
+                }
+                Fragment myFragment = adapter.myFragment;
+                if (((MyCenterFragment) myFragment).pagingProgressBar.isShown()) {
+                    loadingMy = false;
+                    ((MyCenterFragment) myFragment).pagingProgressBar.setVisibility(View.GONE);
+                }
+            }
+
+            startActivityForResult(new Intent(this, CreateCenterActivity.class).putExtra("loaded", finished), 100);
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+        });
+
+        toolbarSearchImageView.setOnClickListener(v -> {
+            toolbarSearchImageView.setClickable(false);
+            handler.postDelayed(() -> toolbarSearchImageView.setClickable(true), 300);
+
+            searchDialogInput.setText(search);
+
+            searchDialog.show();
         });
 
         searchLayout.setOnClickListener(v -> {
@@ -321,15 +373,23 @@ public class CenterActivity extends AppCompatActivity {
 
     private void resetData(String method) {
         if (method.equals("search")) {
-            toolSearch.setVisible(authViewModel.hasAccess());
+            if (authViewModel.hasAccess()) {
+                toolbarSearchImageView.setVisibility(View.VISIBLE);
+            } else {
+                toolbarSearchImageView.setVisibility(View.GONE);
+            }
 
             if (search.equals("")) {
                 searchLayout.setVisibility(View.GONE);
-                toolSearch.setIcon(getResources().getDrawable(R.drawable.tool_search_default));
+
+                toolbarSearchImageView.setImageResource(R.drawable.ic_search_light);
+                ImageViewCompat.setImageTintList(toolbarSearchImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
             } else {
                 if (searchLayout.getVisibility() == View.GONE) {
                     searchLayout.setVisibility(View.VISIBLE);
-                    toolSearch.setIcon(getResources().getDrawable(R.drawable.tool_search_active));
+
+                    toolbarSearchImageView.setImageResource(R.drawable.ic_search_solid);
+                    ImageViewCompat.setImageTintList(toolbarSearchImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
                 }
             }
         }
@@ -504,41 +564,6 @@ public class CenterActivity extends AppCompatActivity {
                 relaunchCenters();
             }
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_center, menu);
-
-        toolCreate = menu.findItem(R.id.tool_create);
-        toolCreate.setOnMenuItemClickListener(menuItem -> {
-            if (finished) {
-                Fragment allFragment = adapter.allFragment;
-                if (((AllCenterFragment) allFragment).pagingProgressBar.isShown()) {
-                    loadingAll = false;
-                    ((AllCenterFragment) allFragment).pagingProgressBar.setVisibility(View.GONE);
-                }
-                Fragment myFragment = adapter.myFragment;
-                if (((MyCenterFragment) myFragment).pagingProgressBar.isShown()) {
-                    loadingMy = false;
-                    ((MyCenterFragment) myFragment).pagingProgressBar.setVisibility(View.GONE);
-                }
-            }
-
-            startActivityForResult(new Intent(this, CreateCenterActivity.class).putExtra("loaded", finished), 100);
-            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
-            return false;
-        });
-
-        toolSearch = menu.findItem(R.id.tool_search);
-        toolSearch.setOnMenuItemClickListener(menuItem -> {
-            searchDialogInput.setText(search);
-
-            searchDialog.show();
-            return false;
-        });
-
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

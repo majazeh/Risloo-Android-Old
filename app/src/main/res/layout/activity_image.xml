@@ -28,15 +28,6 @@
         app:zoomage_doubleTapToZoom="true"
         app:zoomage_doubleTapToZoomScaleFactor="3" />
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/activity_image_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="top"
-        android:theme="@style/ToolbarTheme"
-        android:background="@color/Nero"
-        app:titleTextAppearance="@style/ToolbarTextAppearanceDark"
-        app:navigationIcon="@drawable/tool_back_dark"
-        app:contentInsetStartWithNavigation="0dp" />
+    <include layout="@layout/layout_toolbar" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

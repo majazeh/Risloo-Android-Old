@@ -2,10 +2,11 @@ package com.majazeh.risloo.Views.Activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,9 +16,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.TypedValue;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -45,7 +49,9 @@ public class ArchiveActivity extends AppCompatActivity implements ItemTouchRecyc
 
     // Widgets
     private CoordinatorLayout coordinatorLayout;
-    private Toolbar toolbar;
+    private RelativeLayout toolbarLayout;
+    private ImageView toolbarImageView;
+    private TextView toolbarTextView;
     private TextView countTextView;
     private RecyclerView archiveRecyclerView;
 
@@ -58,6 +64,8 @@ public class ArchiveActivity extends AppCompatActivity implements ItemTouchRecyc
         setContentView(R.layout.activity_archive);
 
         initializer();
+
+        detector();
 
         listener();
 
@@ -85,7 +93,16 @@ public class ArchiveActivity extends AppCompatActivity implements ItemTouchRecyc
 
         coordinatorLayout = findViewById(R.id.activity_archive);
 
-        toolbar = findViewById(R.id.activity_archive_toolbar);
+        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
+
+        toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
+        toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+
+        toolbarTextView = findViewById(R.id.layout_toolbar_textView);
+        toolbarTextView.setText(getResources().getString(R.string.ArchiveTitle));
+        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         countTextView = findViewById(R.id.activity_archive_count_textView);
 
@@ -98,8 +115,17 @@ public class ArchiveActivity extends AppCompatActivity implements ItemTouchRecyc
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(archiveRecyclerView);
     }
 
+    private void detector() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
+        }
+    }
+
     private void listener() {
-        toolbar.setNavigationOnClickListener(v -> {
+        toolbarImageView.setOnClickListener(v -> {
+            toolbarImageView.setClickable(false);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+
             finish();
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
         });

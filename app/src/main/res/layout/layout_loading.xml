@@ -1,29 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_loading"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_loading_linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:visibility="visible"
-    android:layoutDirection="rtl"
-    android:orientation="vertical"
-    tools:ignore="UnusedAttribute">
+    android:orientation="vertical">
 
     <ProgressBar
+        android:id="@+id/layout_loading_progressBar"
         android:layout_width="@dimen/_32sdp"
         android:layout_height="@dimen/_32sdp"
         android:layout_marginBottom="@dimen/_16sdp"
         android:theme="@style/ProgressBarTheme"
-        style="@style/Widget.AppCompat.ProgressBar"/>
+        style="@style/Widget.AppCompat.ProgressBar" />
 
     <TextView
+        android:id="@+id/layout_loading_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
         android:text="@string/AppLoading"
         android:textSize="@dimen/_11ssp"
         android:textStyle="bold"

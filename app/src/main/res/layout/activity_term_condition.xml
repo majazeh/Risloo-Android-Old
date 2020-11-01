@@ -18,16 +18,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/activity_term_condition_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:theme="@style/ToolbarTheme"
-            android:background="@color/Snow"
-            app:title="@string/TermConditionTitle"
-            app:titleTextAppearance="@style/ToolbarTextAppearanceLight"
-            app:navigationIcon="@drawable/tool_back_light"
-            app:contentInsetStartWithNavigation="0dp" />
+        <include layout="@layout/layout_toolbar" />
 
         <View
             android:layout_width="match_parent"

@@ -2,7 +2,8 @@ package com.majazeh.risloo.Views.Activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,10 +16,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,10 +49,11 @@ public class AccountActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
-    private MenuItem toolLogOut;
 
     // Widgets
-    private Toolbar toolbar;
+    private RelativeLayout toolbarLayout;
+    private ImageView toolbarImageView, toolbarLogOutImageView;
+    private TextView toolbarTextView;
     private CircleImageView avatarCircleImageView;
     private TextView nameTextView, editTextView, sendTextView;
     private RecyclerView accountRecyclerView;
@@ -86,8 +89,20 @@ public class AccountActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        toolbar = findViewById(R.id.activity_account_toolbar);
-        setSupportActionBar(toolbar);
+        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
+
+        toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
+        toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        toolbarLogOutImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
+        toolbarLogOutImageView.setVisibility(View.VISIBLE);
+        toolbarLogOutImageView.setImageResource(R.drawable.ic_power_light);
+        ImageViewCompat.setImageTintList(toolbarLogOutImageView, AppCompatResources.getColorStateList(this, R.color.VioletRed));
+
+        toolbarTextView = findViewById(R.id.layout_toolbar_textView);
+        toolbarTextView.setText(getResources().getString(R.string.AccountTitle));
+        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         avatarCircleImageView = findViewById(R.id.activity_account_avatar_circleImageView);
 
@@ -130,6 +145,9 @@ public class AccountActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
+            toolbarLogOutImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
+
             editTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
             sendTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
 
@@ -139,9 +157,19 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     private void listener() {
-        toolbar.setNavigationOnClickListener(v -> {
+        toolbarImageView.setOnClickListener(v -> {
+            toolbarImageView.setClickable(false);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+
             finish();
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
+        });
+
+        toolbarLogOutImageView.setOnClickListener(v -> {
+            toolbarLogOutImageView.setClickable(false);
+            handler.postDelayed(() -> toolbarLogOutImageView.setClickable(true), 300);
+
+            logOutDialog.show();
         });
 
         avatarCircleImageView.setOnClickListener(v -> {
@@ -247,19 +275,6 @@ public class AccountActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_account, menu);
-
-        toolLogOut = menu.findItem(R.id.tool_log_out);
-        toolLogOut.setOnMenuItemClickListener(item -> {
-            logOutDialog.show();
-            return false;
-        });
-
-        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

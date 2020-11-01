@@ -1,7 +1,8 @@
 package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.widget.ImageViewCompat;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -17,6 +18,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +42,9 @@ public class CallUsActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
 
     // Widgets
-    private Toolbar toolbar;
+    private RelativeLayout toolbarLayout;
+    private ImageView toolbarImageView;
+    private TextView toolbarTextView;
     private EditText nameEditText, mobileEditText, messageEditText;
     private Button sendButton;
     private Dialog infoDialog, repeatDialog, progressDialog;
@@ -74,7 +79,16 @@ public class CallUsActivity extends AppCompatActivity {
 
         inputEditText = new InputEditText();
 
-        toolbar = findViewById(R.id.activity_call_us_toolbar);
+        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
+
+        toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
+        toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+
+        toolbarTextView = findViewById(R.id.layout_toolbar_textView);
+        toolbarTextView.setText(getResources().getString(R.string.CallUsTitle));
+        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         nameEditText = findViewById(R.id.activity_call_us_name_editText);
         mobileEditText = findViewById(R.id.activity_call_us_mobile_editText);
@@ -122,6 +136,8 @@ public class CallUsActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
+
             sendButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
 
             infoDialogConfirm.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
@@ -132,7 +148,10 @@ public class CallUsActivity extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     private void listener() {
-        toolbar.setNavigationOnClickListener(v -> {
+        toolbarImageView.setOnClickListener(v -> {
+            toolbarImageView.setClickable(false);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+
             finish();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });

@@ -2,8 +2,9 @@ package com.majazeh.risloo.Views.Activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.view.GravityCompat;
+import androidx.core.widget.ImageViewCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -23,6 +24,9 @@ import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -63,7 +67,9 @@ public class AuthActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private FrameLayout navigationFooter;
-    private Toolbar titleToolbar;
+    private RelativeLayout toolbarLayout;
+    private ImageView toolbarImageView;
+    private TextView toolbarTextView;
     private CircleImageView avatarCircleImageView;
     public Dialog progressDialog;
 
@@ -112,7 +118,14 @@ public class AuthActivity extends AppCompatActivity {
 
         navigationFooter = navigationView.findViewById(R.id.activity_auth_footer);
 
-        titleToolbar = findViewById(R.id.activity_auth_toolbar);
+        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+
+        toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
+        toolbarImageView.setImageResource(R.drawable.ic_bars_light);
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+
+        toolbarTextView = findViewById(R.id.layout_toolbar_textView);
+        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         avatarCircleImageView = findViewById(R.id.activity_auth_avatar_circleImageView);
 
@@ -125,12 +138,17 @@ public class AuthActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_white_ripple_quartz);
+
             navigationFooter.setBackgroundResource(R.drawable.draw_rectangle_solid_white_ripple_quartz);
         }
     }
 
     private void listener() {
-        titleToolbar.setNavigationOnClickListener(v -> {
+        toolbarImageView.setOnClickListener(v -> {
+            toolbarImageView.setClickable(false);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+
             if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
                 inputEditText.clear(this, inputEditText.getInput());
             }
@@ -234,9 +252,9 @@ public class AuthActivity extends AppCompatActivity {
     private void launchAuth(int enterAnim, int exitAnim) {
         AuthRepository.theory = "auth";
         if (!viewModel.getToken().equals("")) {
-            titleToolbar.setTitle(getResources().getString(R.string.SerialTitleToken));
+            toolbarTextView.setText(getResources().getString(R.string.SerialTitleToken));
         } else {
-            titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
+            toolbarTextView.setText(getResources().getString(R.string.SerialTitle));
         }
         loadFragment(new SerialFragment(this), enterAnim, exitAnim);
     }
@@ -245,27 +263,27 @@ public class AuthActivity extends AppCompatActivity {
         switch (AuthRepository.theory) {
             case "auth":
                 if (!viewModel.getToken().equals("")) {
-                    titleToolbar.setTitle(getResources().getString(R.string.SerialTitleToken));
+                    toolbarTextView.setText(getResources().getString(R.string.SerialTitleToken));
                 } else {
-                    titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
+                    toolbarTextView.setText(getResources().getString(R.string.SerialTitle));
                 }
                 loadFragment(new SerialFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
                 break;
             case "password":
-                titleToolbar.setTitle(getResources().getString(R.string.PasswordTitle));
+                toolbarTextView.setText(getResources().getString(R.string.PasswordTitle));
                 loadFragment(new PasswordFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
                 break;
             case "mobileCode":
-                titleToolbar.setTitle(getResources().getString(R.string.PinTitle));
+                toolbarTextView.setText(getResources().getString(R.string.PinTitle));
                 loadFragment(new PinFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
                 break;
             case "register":
-                titleToolbar.setTitle(getResources().getString(R.string.RegisterTitle));
+                toolbarTextView.setText(getResources().getString(R.string.RegisterTitle));
                 loadFragment(new RegisterFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
                 break;
             case "mobile":
             case "recover":
-                titleToolbar.setTitle(getResources().getString(R.string.MobileTitle));
+                toolbarTextView.setText(getResources().getString(R.string.MobileTitle));
                 loadFragment(new MobileFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
                 break;
         }
@@ -429,7 +447,7 @@ public class AuthActivity extends AppCompatActivity {
                 String resultString = Objects.requireNonNull(data).getStringExtra("RESULT_STRING");
 
                 if (resultString.equals("logOut")) {
-                    titleToolbar.setTitle(getResources().getString(R.string.SerialTitle));
+                    toolbarTextView.setText(getResources().getString(R.string.SerialTitle));
 
                     avatarCircleImageView.setVisibility(View.GONE);
 

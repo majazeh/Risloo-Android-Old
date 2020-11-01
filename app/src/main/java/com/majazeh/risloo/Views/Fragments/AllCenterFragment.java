@@ -78,7 +78,7 @@ public class AllCenterFragment extends Fragment {
 
         pagingProgressBar = view.findViewById(R.id.fragment_all_center_progressBar);
 
-        infoLayout = view.findViewById(R.id.layout_info);
+        infoLayout = view.findViewById(R.id.layout_info_linearLayout);
 
         infoImageView = view.findViewById(R.id.layout_info_imageView);
         infoTextView = view.findViewById(R.id.layout_info_textView);

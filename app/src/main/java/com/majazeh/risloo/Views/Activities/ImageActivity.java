@@ -1,9 +1,15 @@
 package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.widget.ImageViewCompat;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.jsibbold.zoomage.ZoomageView;
 import com.majazeh.risloo.Utils.Managers.BitmapManager;
@@ -20,9 +26,12 @@ public class ImageActivity extends AppCompatActivity {
 
     // Objects
     private Bundle extras;
+    private Handler handler;
 
     // Widgets
-    private Toolbar toolbar;
+    private RelativeLayout toolbarLayout;
+    private ImageView toolbarImageView;
+    private TextView toolbarTextView;
     private ZoomageView imageView;
 
     @Override
@@ -34,6 +43,8 @@ public class ImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_image);
 
         initializer();
+
+        detector();
 
         listener();
 
@@ -48,20 +59,41 @@ public class ImageActivity extends AppCompatActivity {
     private void initializer() {
         extras = getIntent().getExtras();
 
-        toolbar = findViewById(R.id.activity_image_toolbar);
+        handler = new Handler();
+
+        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Nero));
+
+        toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
+        toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.White));
+
+        toolbarTextView = findViewById(R.id.layout_toolbar_textView);
+        toolbarTextView.setTextColor(getResources().getColor(R.color.White));
 
         imageView = findViewById(R.id.activity_image_imageView);
     }
 
+    private void detector() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_nero_ripple_white);
+        }
+    }
+
     private void listener() {
-        toolbar.setNavigationOnClickListener(v -> finish());
+        toolbarImageView.setOnClickListener(v -> {
+            toolbarImageView.setClickable(false);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+
+            finish();
+        });
     }
 
     private void setData() {
         title = extras.getString("title");
         bitmap = extras.getBoolean("bitmap");
 
-        toolbar.setTitle(title);
+        toolbarTextView.setText(title);
 
         if (!bitmap) {
             image = extras.getString("image");

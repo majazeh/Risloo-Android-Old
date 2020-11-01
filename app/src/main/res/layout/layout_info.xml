@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_info"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_info_linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:visibility="gone"
-    android:layoutDirection="rtl"
-    android:orientation="vertical"
-    tools:ignore="UnusedAttribute">
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/layout_info_imageView"
         android:layout_width="@dimen/_150sdp"
-        android:layout_height="@dimen/_150sdp" />
+        android:layout_height="@dimen/_150sdp"
+        android:contentDescription="@string/AppImageContent" />
 
     <TextView
         android:id="@+id/layout_info_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_32sdp"
-        android:gravity="center"
         android:textSize="@dimen/_11ssp"
         android:textStyle="bold"
         android:textColor="@color/Mischka"
