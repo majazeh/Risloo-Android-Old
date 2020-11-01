@@ -40,7 +40,7 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
-import com.majazeh.risloo.Utils.Widgets.InputEditText;
+import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Utils.Managers.StringCustomizer;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
@@ -74,7 +74,7 @@ public class SamplesActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
-    private InputEditText inputEditText;
+    private ControlEditText controlEditText;
     private LinearLayoutManager layoutManager;
     private ClickableSpan retrySpan;
     private FilterDialog filterDialog;
@@ -133,7 +133,7 @@ public class SamplesActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        inputEditText = new InputEditText();
+        controlEditText = new ControlEditText();
 
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
@@ -320,12 +320,12 @@ public class SamplesActivity extends AppCompatActivity {
         roomDialogEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!roomDialogEditText.hasFocus()) {
-                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                        inputEditText.clear(this, inputEditText.getInput());
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
                     }
 
-                    inputEditText.focus(roomDialogEditText);
-                    inputEditText.select(roomDialogEditText);
+                    controlEditText.focus(roomDialogEditText);
+                    controlEditText.select(roomDialogEditText);
                 }
             }
             return false;
@@ -354,9 +354,9 @@ public class SamplesActivity extends AppCompatActivity {
         roomDialog.setOnCancelListener(dialog -> {
             resetData("room");
 
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
-                inputEditText.getInput().getText().clear();
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+                controlEditText.input().getText().clear();
 
                 handler.removeCallbacksAndMessages(null);
             }
@@ -393,8 +393,8 @@ public class SamplesActivity extends AppCompatActivity {
     }
 
     public void setFilter(String method) {
-        if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-            inputEditText.clear(this, inputEditText.getInput());
+        if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+            controlEditText.clear(this, controlEditText.input());
         }
 
         switch (method) {
@@ -759,9 +759,9 @@ public class SamplesActivity extends AppCompatActivity {
 
                     resetData("room");
 
-                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                        inputEditText.clear(this, inputEditText.getInput());
-                        inputEditText.getInput().getText().clear();
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
+                        controlEditText.input().getText().clear();
 
                         handler.removeCallbacksAndMessages(null);
                     }

@@ -36,7 +36,7 @@ import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Widgets.InputEditText;
+import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Managers.IntentManager;
 import com.majazeh.risloo.Utils.Managers.PathProvider;
 import com.majazeh.risloo.Utils.Managers.StringCustomizer;
@@ -60,7 +60,7 @@ public class SendDocActivity extends AppCompatActivity {
     // Objects
     private Handler handler;
     private IntentManager intentManager;
-    private InputEditText inputEditText;
+    private ControlEditText controlEditText;
     private PathProvider pathProvider;
 
     // Widgets
@@ -101,7 +101,7 @@ public class SendDocActivity extends AppCompatActivity {
 
         intentManager = new IntentManager();
 
-        inputEditText = new InputEditText();
+        controlEditText = new ControlEditText();
 
         pathProvider = new PathProvider();
 
@@ -158,12 +158,12 @@ public class SendDocActivity extends AppCompatActivity {
         titleEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
                 if (!titleEditText.hasFocus()) {
-                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                        inputEditText.clear(this, inputEditText.getInput());
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
                     }
 
-                    inputEditText.focus(titleEditText);
-                    inputEditText.select(titleEditText);
+                    controlEditText.focus(titleEditText);
+                    controlEditText.select(titleEditText);
                 }
             }
             return false;
@@ -172,12 +172,12 @@ public class SendDocActivity extends AppCompatActivity {
         descriptionEditText.setOnTouchListener((v, event) -> {
             if(MotionEvent.ACTION_UP == event.getAction()) {
                 if (!descriptionEditText.hasFocus()) {
-                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                        inputEditText.clear(this, inputEditText.getInput());
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
                     }
 
-                    inputEditText.focus(descriptionEditText);
-                    inputEditText.select(descriptionEditText);
+                    controlEditText.focus(descriptionEditText);
+                    controlEditText.select(descriptionEditText);
                 }
             }
             return false;
@@ -191,8 +191,8 @@ public class SendDocActivity extends AppCompatActivity {
                 clearException();
             }
 
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
             }
 
             if (attachmentPermissionsGranted) {
@@ -203,15 +203,15 @@ public class SendDocActivity extends AppCompatActivity {
         });
 
         sendButton.setOnClickListener(v -> {
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
             }
 
             if (titleEditText.length() == 0) {
-                inputEditText.error(this, titleEditText);
+                controlEditText.error(this, titleEditText);
             }
             if (descriptionEditText.length() == 0) {
-                inputEditText.error(this, descriptionEditText);
+                controlEditText.error(this, descriptionEditText);
             }
             if (attachment.equals("")) {
                 errorException();
@@ -222,8 +222,8 @@ public class SendDocActivity extends AppCompatActivity {
             }
 
             if (titleEditText.length() != 0 && descriptionEditText.length() != 0 && !attachment.equals("")) {
-                inputEditText.clear(this, titleEditText);
-                inputEditText.clear(this, descriptionEditText);
+                controlEditText.clear(this, titleEditText);
+                controlEditText.clear(this, descriptionEditText);
 
                 doWork();
             }

@@ -81,8 +81,8 @@ public class MobileFragment extends Fragment {
         mobileEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!mobileEditText.hasFocus()) {
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.focus(mobileEditText);
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.select(mobileEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.focus(mobileEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.select(mobileEditText);
                 }
             }
             return false;
@@ -97,7 +97,7 @@ public class MobileFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (mobileEditText.length() == 11) {
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.clear(getActivity(), mobileEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.clear(getActivity(), mobileEditText);
                     doWork();
                 }
             }
@@ -110,9 +110,9 @@ public class MobileFragment extends Fragment {
 
         mobileButton.setOnClickListener(v -> {
             if (mobileEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.error(getActivity(), mobileEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.error(getActivity(), mobileEditText);
             } else {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.clear(getActivity(), mobileEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.clear(getActivity(), mobileEditText);
                 doWork();
             }
         });

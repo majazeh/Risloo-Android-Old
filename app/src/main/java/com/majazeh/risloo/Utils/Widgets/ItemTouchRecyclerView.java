@@ -13,11 +13,16 @@ import org.jetbrains.annotations.NotNull;
 public class ItemTouchRecyclerView extends ItemTouchHelper.SimpleCallback {
 
     // Objects
-    private OnItemTouchListener onItemTouchListener;
+    private final OnItemTouchListener onItemTouchListener;
 
     public ItemTouchRecyclerView(int dragDirs, int swipeDirs, OnItemTouchListener onItemTouchListener) {
         super(dragDirs, swipeDirs);
         this.onItemTouchListener = onItemTouchListener;
+    }
+
+    @Override
+    public void onSwiped(@NotNull RecyclerView.ViewHolder viewHolder, int direction) {
+        onItemTouchListener.onSwiped(viewHolder, direction, viewHolder.getAdapterPosition());
     }
 
     @Override
@@ -34,12 +39,6 @@ public class ItemTouchRecyclerView extends ItemTouchHelper.SimpleCallback {
     }
 
     @Override
-    public void onChildDrawOver(@NotNull Canvas canvas, @NotNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        View foregroundView = ((ArchiveAdapter.ArchiveHolder) viewHolder).foreGroundView;
-        getDefaultUIUtil().onDrawOver(canvas, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive);
-    }
-
-    @Override
     public void clearView(@NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder) {
         View foregroundView = ((ArchiveAdapter.ArchiveHolder) viewHolder).foreGroundView;
         getDefaultUIUtil().clearView(foregroundView);
@@ -52,8 +51,9 @@ public class ItemTouchRecyclerView extends ItemTouchHelper.SimpleCallback {
     }
 
     @Override
-    public void onSwiped(@NotNull RecyclerView.ViewHolder viewHolder, int direction) {
-        onItemTouchListener.onSwiped(viewHolder, direction, viewHolder.getAdapterPosition());
+    public void onChildDrawOver(@NotNull Canvas canvas, @NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+        View foregroundView = ((ArchiveAdapter.ArchiveHolder) viewHolder).foreGroundView;
+        getDefaultUIUtil().onDrawOver(canvas, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive);
     }
 
     @Override

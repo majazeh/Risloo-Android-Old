@@ -9,12 +9,12 @@ import com.majazeh.risloo.R;
 
 import java.util.Objects;
 
-public class InputEditText {
+public class ControlEditText {
 
     // Widgets
     private EditText inputEditText;
 
-    public EditText getInput() {
+    public EditText input() {
         return inputEditText;
     }
 

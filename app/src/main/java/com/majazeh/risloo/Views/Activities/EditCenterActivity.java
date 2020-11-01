@@ -37,7 +37,7 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Widgets.InputEditText;
+import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
@@ -67,7 +67,7 @@ public class EditCenterActivity extends AppCompatActivity {
     // Objects
     private Handler handler;
     private Bundle extras;
-    private InputEditText inputEditText;
+    private ControlEditText controlEditText;
 
     // Widgets
     private RelativeLayout toolbarLayout;
@@ -123,7 +123,7 @@ public class EditCenterActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        inputEditText = new InputEditText();
+        controlEditText = new ControlEditText();
 
         toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
@@ -242,8 +242,8 @@ public class EditCenterActivity extends AppCompatActivity {
                 clearException("manager");
             }
 
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
             }
 
             managerDialog.show();
@@ -252,12 +252,12 @@ public class EditCenterActivity extends AppCompatActivity {
         titleEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!titleEditText.hasFocus()) {
-                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                        inputEditText.clear(this, inputEditText.getInput());
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
                     }
 
-                    inputEditText.focus(titleEditText);
-                    inputEditText.select(titleEditText);
+                    controlEditText.focus(titleEditText);
+                    controlEditText.select(titleEditText);
                 }
             }
             return false;
@@ -266,12 +266,12 @@ public class EditCenterActivity extends AppCompatActivity {
         descriptionEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!descriptionEditText.hasFocus()) {
-                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                        inputEditText.clear(this, inputEditText.getInput());
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
                     }
 
-                    inputEditText.focus(descriptionEditText);
-                    inputEditText.select(descriptionEditText);
+                    controlEditText.focus(descriptionEditText);
+                    controlEditText.select(descriptionEditText);
                 }
             }
             return false;
@@ -280,20 +280,20 @@ public class EditCenterActivity extends AppCompatActivity {
         addressEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!addressEditText.hasFocus()) {
-                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                        inputEditText.clear(this, inputEditText.getInput());
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
                     }
 
-                    inputEditText.focus(addressEditText);
-                    inputEditText.select(addressEditText);
+                    controlEditText.focus(addressEditText);
+                    controlEditText.select(addressEditText);
                 }
             }
             return false;
         });
 
         editButton.setOnClickListener(v -> {
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
             }
 
             if (type.equals("personal_clinic")) {
@@ -327,7 +327,7 @@ public class EditCenterActivity extends AppCompatActivity {
                 }
 
                 if (!managerId.equals("") && titleEditText.length() != 0) {
-                    inputEditText.clear(this, titleEditText);
+                    controlEditText.clear(this, titleEditText);
 
                     doWork();
                 }
@@ -338,12 +338,12 @@ public class EditCenterActivity extends AppCompatActivity {
         managerDialogEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!managerDialogEditText.hasFocus()) {
-                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                        inputEditText.clear(this, inputEditText.getInput());
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
                     }
 
-                    inputEditText.focus(managerDialogEditText);
-                    inputEditText.select(managerDialogEditText);
+                    controlEditText.focus(managerDialogEditText);
+                    controlEditText.select(managerDialogEditText);
                 }
             }
             return false;
@@ -370,9 +370,9 @@ public class EditCenterActivity extends AppCompatActivity {
         managerDialog.setOnCancelListener(dialog -> {
             resetData("manager");
 
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
-                inputEditText.getInput().getText().clear();
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+                controlEditText.input().getText().clear();
 
                 handler.removeCallbacksAndMessages(null);
             }
@@ -384,8 +384,8 @@ public class EditCenterActivity extends AppCompatActivity {
             phoneImageView.setClickable(false);
             handler.postDelayed(() -> phoneImageView.setClickable(true), 300);
 
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
             }
 
             phoneDialog.show();
@@ -394,12 +394,12 @@ public class EditCenterActivity extends AppCompatActivity {
         phoneDialogInput.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!phoneDialogInput.hasFocus()) {
-                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                        inputEditText.clear(this, inputEditText.getInput());
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
                     }
 
-                    inputEditText.focus(phoneDialogInput);
-                    inputEditText.select(phoneDialogInput);
+                    controlEditText.focus(phoneDialogInput);
+                    controlEditText.select(phoneDialogInput);
                 }
             }
             return false;
@@ -425,9 +425,9 @@ public class EditCenterActivity extends AppCompatActivity {
                     phoneTextView.setVisibility(View.GONE);
                 }
 
-                if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                    inputEditText.clear(this, inputEditText.getInput());
-                    inputEditText.getInput().getText().clear();
+                if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                    controlEditText.clear(this, controlEditText.input());
+                    controlEditText.input().getText().clear();
                 }
 
                 phoneDialog.dismiss();
@@ -440,18 +440,18 @@ public class EditCenterActivity extends AppCompatActivity {
             phoneDialogNegative.setClickable(false);
             handler.postDelayed(() -> phoneDialogNegative.setClickable(true), 300);
 
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
-                inputEditText.getInput().getText().clear();
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+                controlEditText.input().getText().clear();
             }
 
             phoneDialog.dismiss();
         });
 
         phoneDialog.setOnCancelListener(dialog -> {
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
-                inputEditText.getInput().getText().clear();
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+                controlEditText.input().getText().clear();
             }
 
             phoneDialog.dismiss();
@@ -761,9 +761,9 @@ public class EditCenterActivity extends AppCompatActivity {
 
             resetData("manager");
 
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
-                inputEditText.getInput().getText().clear();
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+                controlEditText.input().getText().clear();
 
                 handler.removeCallbacksAndMessages(null);
             }

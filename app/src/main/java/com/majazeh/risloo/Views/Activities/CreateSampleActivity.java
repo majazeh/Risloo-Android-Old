@@ -38,7 +38,7 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Widgets.InputEditText;
+import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
@@ -70,7 +70,7 @@ public class CreateSampleActivity extends AppCompatActivity {
     // Objects
     private Bundle extras;
     private Handler handler;
-    private InputEditText inputEditText;
+    private ControlEditText controlEditText;
 
     // Widgets
     private RelativeLayout toolbarLayout;
@@ -132,7 +132,7 @@ public class CreateSampleActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        inputEditText = new InputEditText();
+        controlEditText = new ControlEditText();
 
         toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
@@ -321,8 +321,8 @@ public class CreateSampleActivity extends AppCompatActivity {
         typeTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                    inputEditText.clear(CreateSampleActivity.this, inputEditText.getInput());
+                if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                    controlEditText.clear(CreateSampleActivity.this, controlEditText.input());
                 }
 
                 switch (tab.getPosition()) {
@@ -366,8 +366,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                 clearException("scale");
             }
 
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
             }
 
             scaleDialog.show();
@@ -381,8 +381,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                 clearException("room");
             }
 
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
             }
 
             roomDialog.show();
@@ -396,8 +396,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                 clearException("case");
             }
 
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
             }
 
             if (!room.isEmpty()) {
@@ -416,8 +416,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                 clearException("roomReference");
             }
 
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
             }
 
             if (!room.isEmpty()) {
@@ -432,12 +432,12 @@ public class CreateSampleActivity extends AppCompatActivity {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!room.isEmpty()) {
                     if (!countEditText.hasFocus()) {
-                        if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                            inputEditText.clear(this, inputEditText.getInput());
+                        if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                            controlEditText.clear(this, controlEditText.input());
                         }
 
-                        inputEditText.focus(countEditText);
-                        inputEditText.select(countEditText);
+                        controlEditText.focus(countEditText);
+                        controlEditText.select(countEditText);
                     }
                 } else {
                     ExceptionGenerator.getException(false, 0, null, "SelectRoomFirstException", "sample");
@@ -469,8 +469,8 @@ public class CreateSampleActivity extends AppCompatActivity {
         });
 
         createButton.setOnClickListener(v -> {
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
             }
 
             if (scaleRecyclerViewAdapter.getValues().size() == 0) {
@@ -504,12 +504,12 @@ public class CreateSampleActivity extends AppCompatActivity {
         scaleDialogEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!scaleDialogEditText.hasFocus()) {
-                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                        inputEditText.clear(this, inputEditText.getInput());
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
                     }
 
-                    inputEditText.focus(scaleDialogEditText);
-                    inputEditText.select(scaleDialogEditText);
+                    controlEditText.focus(scaleDialogEditText);
+                    controlEditText.select(scaleDialogEditText);
                 }
             }
             return false;
@@ -518,12 +518,12 @@ public class CreateSampleActivity extends AppCompatActivity {
         roomDialogEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!roomDialogEditText.hasFocus()) {
-                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                        inputEditText.clear(this, inputEditText.getInput());
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
                     }
 
-                    inputEditText.focus(roomDialogEditText);
-                    inputEditText.select(roomDialogEditText);
+                    controlEditText.focus(roomDialogEditText);
+                    controlEditText.select(roomDialogEditText);
                 }
             }
             return false;
@@ -532,12 +532,12 @@ public class CreateSampleActivity extends AppCompatActivity {
         caseDialogEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!caseDialogEditText.hasFocus()) {
-                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                        inputEditText.clear(this, inputEditText.getInput());
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
                     }
 
-                    inputEditText.focus(caseDialogEditText);
-                    inputEditText.select(caseDialogEditText);
+                    controlEditText.focus(caseDialogEditText);
+                    controlEditText.select(caseDialogEditText);
                 }
             }
             return false;
@@ -546,12 +546,12 @@ public class CreateSampleActivity extends AppCompatActivity {
         roomReferenceDialogEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!roomReferenceDialogEditText.hasFocus()) {
-                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                        inputEditText.clear(this, inputEditText.getInput());
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
                     }
 
-                    inputEditText.focus(roomReferenceDialogEditText);
-                    inputEditText.select(roomReferenceDialogEditText);
+                    controlEditText.focus(roomReferenceDialogEditText);
+                    controlEditText.select(roomReferenceDialogEditText);
                 }
             }
             return false;
@@ -635,9 +635,9 @@ public class CreateSampleActivity extends AppCompatActivity {
 
             resetData("scaleDialog");
 
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
-                inputEditText.getInput().getText().clear();
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+                controlEditText.input().getText().clear();
 
                 handler.removeCallbacksAndMessages(null);
             }
@@ -651,9 +651,9 @@ public class CreateSampleActivity extends AppCompatActivity {
 
             resetData("roomReferenceDialog");
 
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
-                inputEditText.getInput().getText().clear();
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+                controlEditText.input().getText().clear();
 
                 handler.removeCallbacksAndMessages(null);
             }
@@ -664,9 +664,9 @@ public class CreateSampleActivity extends AppCompatActivity {
         scaleDialog.setOnCancelListener(dialog -> {
             resetData("scaleDialog");
 
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
-                inputEditText.getInput().getText().clear();
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+                controlEditText.input().getText().clear();
 
                 handler.removeCallbacksAndMessages(null);
             }
@@ -677,9 +677,9 @@ public class CreateSampleActivity extends AppCompatActivity {
         roomDialog.setOnCancelListener(dialog -> {
             resetData("roomDialog");
 
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
-                inputEditText.getInput().getText().clear();
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+                controlEditText.input().getText().clear();
 
                 handler.removeCallbacksAndMessages(null);
             }
@@ -690,9 +690,9 @@ public class CreateSampleActivity extends AppCompatActivity {
         caseDialog.setOnCancelListener(dialog -> {
             resetData("caseDialog");
 
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
-                inputEditText.getInput().getText().clear();
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+                controlEditText.input().getText().clear();
 
                 handler.removeCallbacksAndMessages(null);
             }
@@ -703,9 +703,9 @@ public class CreateSampleActivity extends AppCompatActivity {
         roomReferenceDialog.setOnCancelListener(dialog -> {
             resetData("roomReferenceDialog");
 
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
-                inputEditText.getInput().getText().clear();
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+                controlEditText.input().getText().clear();
 
                 handler.removeCallbacksAndMessages(null);
             }
@@ -1173,9 +1173,9 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                     resetData("roomDialog");
 
-                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                        inputEditText.clear(this, inputEditText.getInput());
-                        inputEditText.getInput().getText().clear();
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
+                        controlEditText.input().getText().clear();
 
                         handler.removeCallbacksAndMessages(null);
                     }
@@ -1229,9 +1229,9 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                     resetData("caseDialog");
 
-                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                        inputEditText.clear(this, inputEditText.getInput());
-                        inputEditText.getInput().getText().clear();
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
+                        controlEditText.input().getText().clear();
 
                         handler.removeCallbacksAndMessages(null);
                     }

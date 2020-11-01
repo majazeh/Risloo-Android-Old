@@ -33,7 +33,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Widgets.InputEditText;
+import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Fragments.MobileFragment;
@@ -59,7 +59,7 @@ public class AuthActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
-    public InputEditText inputEditText;
+    public ControlEditText controlEditText;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -107,7 +107,7 @@ public class AuthActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        inputEditText = new InputEditText();
+        controlEditText = new ControlEditText();
 
         callTimer = new MutableLiveData<>();
         callTimer.setValue(-1);
@@ -149,16 +149,16 @@ public class AuthActivity extends AppCompatActivity {
             toolbarImageView.setClickable(false);
             handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
 
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
             }
 
             drawerLayout.openDrawer(GravityCompat.START);
         });
 
         avatarCircleImageView.setOnClickListener(v -> {
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
             }
 
             startActivityForResult(new Intent(this, AccountActivity.class), 100);

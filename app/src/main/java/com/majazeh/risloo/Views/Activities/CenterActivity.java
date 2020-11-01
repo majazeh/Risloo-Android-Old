@@ -38,7 +38,7 @@ import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.StringCustomizer;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
-import com.majazeh.risloo.Utils.Widgets.InputEditText;
+import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.Views.Adapters.CenterTabAdapter;
@@ -64,7 +64,7 @@ public class CenterActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
-    private InputEditText inputEditText;
+    private ControlEditText controlEditText;
     private ClickableSpan retrySpan;
 
     // Widgets
@@ -118,7 +118,7 @@ public class CenterActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        inputEditText = new InputEditText();
+        controlEditText = new ControlEditText();
 
         toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
@@ -301,12 +301,12 @@ public class CenterActivity extends AppCompatActivity {
         searchDialogInput.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!searchDialogInput.hasFocus()) {
-                    if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                        inputEditText.clear(this, inputEditText.getInput());
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
                     }
 
-                    inputEditText.focus(searchDialogInput);
-                    inputEditText.select(searchDialogInput);
+                    controlEditText.focus(searchDialogInput);
+                    controlEditText.select(searchDialogInput);
                 }
             }
             return false;
@@ -323,9 +323,9 @@ public class CenterActivity extends AppCompatActivity {
 
                 relaunchCenters();
 
-                if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                    inputEditText.clear(this, inputEditText.getInput());
-                    inputEditText.getInput().getText().clear();
+                if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                    controlEditText.clear(this, controlEditText.input());
+                    controlEditText.input().getText().clear();
                 }
 
                 searchDialog.dismiss();
@@ -338,18 +338,18 @@ public class CenterActivity extends AppCompatActivity {
             searchDialogNegative.setClickable(false);
             handler.postDelayed(() -> searchDialogNegative.setClickable(true), 300);
 
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
-                inputEditText.getInput().getText().clear();
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+                controlEditText.input().getText().clear();
             }
 
             searchDialog.dismiss();
         });
 
         searchDialog.setOnCancelListener(dialog -> {
-            if (inputEditText.getInput() != null && inputEditText.getInput().hasFocus()) {
-                inputEditText.clear(this, inputEditText.getInput());
-                inputEditText.getInput().getText().clear();
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+                controlEditText.input().getText().clear();
             }
 
             searchDialog.dismiss();

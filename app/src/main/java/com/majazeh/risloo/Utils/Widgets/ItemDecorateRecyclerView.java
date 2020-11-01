@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ItemDecorateRecyclerView extends RecyclerView.ItemDecoration {
 
     // Vars
-    private String layoutManager;
-    private int marginOuter, marginInner, marginSide;
+    private final String layoutManager;
+    private final int marginOuter, marginInner, marginSide;
 
     public ItemDecorateRecyclerView(String layoutManager, int marginOuter, int marginInner, int marginSide) {
         this.layoutManager = layoutManager;

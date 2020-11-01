@@ -40,8 +40,8 @@ import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.BitmapManager;
-import com.majazeh.risloo.Utils.Widgets.CustomNumberPicker;
-import com.majazeh.risloo.Utils.Widgets.InputEditText;
+import com.majazeh.risloo.Utils.Widgets.SingleNumberPicker;
+import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Managers.IntentManager;
 import com.majazeh.risloo.Utils.Managers.PathProvider;
 import com.majazeh.risloo.Utils.Managers.StringCustomizer;
@@ -77,7 +77,7 @@ public class EditAccountActivity extends AppCompatActivity {
     // Objects
     private Handler handler;
     private IntentManager intentManager;
-    private InputEditText inputEditText;
+    private ControlEditText controlEditText;
     private PathProvider pathProvider;
     private ImageDialog imageDialog;
     private Bitmap selectedBitmap;
@@ -93,7 +93,7 @@ public class EditAccountActivity extends AppCompatActivity {
     private TextView birthdayTextView;
     private Button editButton;
     private Dialog dateDialog, progressDialog;
-    private CustomNumberPicker yearNumberPicker, monthNumberPicker, dayNumberPicker;
+    private SingleNumberPicker yearNumberPicker, monthNumberPicker, dayNumberPicker;
     private TextView dateDialogPositive, dateDialogNegative;
 
     @Override
@@ -127,7 +127,7 @@ public class EditAccountActivity extends AppCompatActivity {
 
         intentManager = new IntentManager();
 
-        inputEditText = new InputEditText();
+        controlEditText = new ControlEditText();
 
         pathProvider = new PathProvider();
 
@@ -230,7 +230,7 @@ public class EditAccountActivity extends AppCompatActivity {
             handler.postDelayed(() -> avatarImageView.setClickable(true), 300);
 
             if (nameEditText.hasFocus()) {
-                inputEditText.clear(this, nameEditText);
+                controlEditText.clear(this, nameEditText);
             }
 
             imageDialog.show(this.getSupportFragmentManager(), "imageBottomSheet");
@@ -239,7 +239,7 @@ public class EditAccountActivity extends AppCompatActivity {
         nameEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!nameEditText.hasFocus()) {
-                    inputEditText.select(nameEditText);
+                    controlEditText.select(nameEditText);
                 }
             }
             return false;
@@ -253,7 +253,7 @@ public class EditAccountActivity extends AppCompatActivity {
                 }
 
                 if (nameEditText.hasFocus()) {
-                    inputEditText.clear(EditAccountActivity.this, nameEditText);
+                    controlEditText.clear(EditAccountActivity.this, nameEditText);
                 }
 
                 switch (tab.getPosition()) {
@@ -286,7 +286,7 @@ public class EditAccountActivity extends AppCompatActivity {
             }
 
             if (nameEditText.hasFocus()) {
-                inputEditText.clear(this, nameEditText);
+                controlEditText.clear(this, nameEditText);
             }
 
             dateDialog.show();
@@ -305,9 +305,9 @@ public class EditAccountActivity extends AppCompatActivity {
 
         editButton.setOnClickListener(v -> {
             if (nameEditText.length() == 0) {
-                inputEditText.error(this, nameEditText);
+                controlEditText.error(this, nameEditText);
             } else {
-                inputEditText.clear(this, nameEditText);
+                controlEditText.clear(this, nameEditText);
 
                 if (genderException) {
                     clearException("gender");

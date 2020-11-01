@@ -39,7 +39,7 @@
             android:orientation="horizontal"
             android:layoutDirection="ltr">
 
-            <com.majazeh.risloo.Utils.Widgets.CustomNumberPicker
+            <com.majazeh.risloo.Utils.Widgets.SingleNumberPicker
                 android:id="@+id/dialog_date_year_NumberPicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
                 android:selectionDividerHeight="@dimen/_1sdp"
                 android:theme="@style/NumberPickerTheme"/>
 
-            <com.majazeh.risloo.Utils.Widgets.CustomNumberPicker
+            <com.majazeh.risloo.Utils.Widgets.SingleNumberPicker
                 android:id="@+id/dialog_date_month_NumberPicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
                 android:selectionDividerHeight="@dimen/_1sdp"
                 android:theme="@style/NumberPickerTheme"/>
 
-            <com.majazeh.risloo.Utils.Widgets.CustomNumberPicker
+            <com.majazeh.risloo.Utils.Widgets.SingleNumberPicker
                 android:id="@+id/dialog_date_day_NumberPicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

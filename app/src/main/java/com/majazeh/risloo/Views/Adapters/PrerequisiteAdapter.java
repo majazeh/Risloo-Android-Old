@@ -23,7 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Widgets.InputEditText;
+import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 
 import org.json.JSONArray;
@@ -46,7 +46,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
     // Objects
     private Activity activity;
-    public InputEditText inputEditText;
+    public ControlEditText controlEditText;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -82,12 +82,12 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                 holder.typeEditText.setOnTouchListener((v, event) -> {
                     if (MotionEvent.ACTION_UP == event.getAction()) {
                         if (!holder.typeEditText.hasFocus()) {
-                            if (inputEditText.getInput() != null && inputEditText.getInput() .hasFocus()) {
-                                inputEditText.clear(activity, inputEditText.getInput());
+                            if (controlEditText.input() != null && controlEditText.input() .hasFocus()) {
+                                controlEditText.clear(activity, controlEditText.input());
                             }
 
-                            inputEditText.focus(holder.typeEditText);
-                            inputEditText.select(holder.typeEditText);
+                            controlEditText.focus(holder.typeEditText);
+                            controlEditText.select(holder.typeEditText);
                         }
                     }
                     return false;
@@ -122,12 +122,12 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
                 holder.typeEditText.setOnTouchListener((v, event) -> {
                     if (MotionEvent.ACTION_UP == event.getAction()) {
                         if (!holder.typeEditText.hasFocus()) {
-                            if (inputEditText.getInput() != null && inputEditText.getInput() .hasFocus()) {
-                                inputEditText.clear(activity, inputEditText.getInput());
+                            if (controlEditText.input() != null && controlEditText.input() .hasFocus()) {
+                                controlEditText.clear(activity, controlEditText.input());
                             }
 
-                            inputEditText.focus(holder.typeEditText);
-                            inputEditText.select(holder.typeEditText);
+                            controlEditText.focus(holder.typeEditText);
+                            controlEditText.select(holder.typeEditText);
                         }
                     }
                     return false;
@@ -197,8 +197,8 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
                 holder.optionSpinner.setOnTouchListener((v, event) -> {
                     if (MotionEvent.ACTION_UP == event.getAction()) {
-                        if (inputEditText.getInput() != null && inputEditText.getInput() .hasFocus()) {
-                            inputEditText.clear(activity, inputEditText.getInput());
+                        if (controlEditText.input() != null && controlEditText.input() .hasFocus()) {
+                            controlEditText.clear(activity, controlEditText.input());
                         }
                     }
                     return false;
@@ -233,7 +233,7 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
     }
 
     private void initializer(View view) {
-        inputEditText = new InputEditText();
+        controlEditText = new ControlEditText();
 
         sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 

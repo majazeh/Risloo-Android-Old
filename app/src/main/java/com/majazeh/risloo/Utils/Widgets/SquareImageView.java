@@ -1,12 +1,9 @@
 package com.majazeh.risloo.Utils.Widgets;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
-@SuppressLint("AppCompatCustomView")
-public class SquareImageView extends ImageView {
+public class SquareImageView extends androidx.appcompat.widget.AppCompatImageView {
 
     public SquareImageView(Context context) {
         super(context);

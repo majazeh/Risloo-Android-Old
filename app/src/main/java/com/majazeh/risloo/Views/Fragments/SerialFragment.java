@@ -103,8 +103,8 @@ public class SerialFragment extends Fragment {
         serialEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!serialEditText.hasFocus()) {
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.focus(serialEditText);
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.select(serialEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.focus(serialEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.select(serialEditText);
                 }
             }
             return false;
@@ -112,9 +112,9 @@ public class SerialFragment extends Fragment {
 
         serialButton.setOnClickListener(v -> {
             if (serialEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.error(getActivity(), serialEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.error(getActivity(), serialEditText);
             } else {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.clear(getActivity(), serialEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.clear(getActivity(), serialEditText);
                 doWork();
             }
         });

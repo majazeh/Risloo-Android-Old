@@ -400,8 +400,8 @@ public class SampleActivity extends AppCompatActivity {
                             ExceptionGenerator.getException(false, 0, null, "FillOneException", "sample");
                             Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                         } else {
-                            if (fragment.adapter.inputEditText.getInput() != null && fragment.adapter.inputEditText.getInput().hasFocus()) {
-                                fragment.adapter.inputEditText.clear(this, fragment.adapter.inputEditText.getInput());
+                            if (fragment.adapter.controlEditText.input() != null && fragment.adapter.controlEditText.input().hasFocus()) {
+                                fragment.adapter.controlEditText.clear(this, fragment.adapter.controlEditText.input());
                             }
 
                             progressDialog.show();

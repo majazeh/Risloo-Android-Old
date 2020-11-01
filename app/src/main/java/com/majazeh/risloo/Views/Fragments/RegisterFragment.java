@@ -92,16 +92,16 @@ public class RegisterFragment extends Fragment {
         nameEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!nameEditText.hasFocus()) {
-                    if (((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.getInput() != null && ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.getInput().hasFocus()) {
-                        ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.clear(getActivity(), ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.getInput());
+                    if (((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.input() != null && ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.input().hasFocus()) {
+                        ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.clear(getActivity(), ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.input());
                     }
 
                     if (passwordImageView.getVisibility() == View.VISIBLE) {
                         passwordImageView.setVisibility(View.INVISIBLE);
                     }
 
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.focus(nameEditText);
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.select(nameEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.focus(nameEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.select(nameEditText);
                 }
             }
             return false;
@@ -110,16 +110,16 @@ public class RegisterFragment extends Fragment {
         mobileEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!mobileEditText.hasFocus()) {
-                    if (((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.getInput() != null && ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.getInput().hasFocus()) {
-                        ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.clear(getActivity(), ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.getInput());
+                    if (((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.input() != null && ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.input().hasFocus()) {
+                        ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.clear(getActivity(), ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.input());
                     }
 
                     if (passwordImageView.getVisibility() == View.VISIBLE) {
                         passwordImageView.setVisibility(View.INVISIBLE);
                     }
 
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.focus(mobileEditText);
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.select(mobileEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.focus(mobileEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.select(mobileEditText);
                 }
             }
             return false;
@@ -128,16 +128,16 @@ public class RegisterFragment extends Fragment {
         passwordEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!passwordEditText.hasFocus()) {
-                    if (((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.getInput() != null && ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.getInput().hasFocus()) {
-                        ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.clear(getActivity(), ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.getInput());
+                    if (((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.input() != null && ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.input().hasFocus()) {
+                        ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.clear(getActivity(), ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.input());
                     }
 
                     if (passwordEditText.length() != 0) {
                         passwordImageView.setVisibility(View.VISIBLE);
                     }
 
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.focus(passwordEditText);
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.select(passwordEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.focus(passwordEditText);
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.select(passwordEditText);
                 }
             }
             return false;
@@ -190,8 +190,8 @@ public class RegisterFragment extends Fragment {
                     ((AuthActivity) Objects.requireNonNull(getActivity())).clearException();
                 }
 
-                if (((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.getInput() != null && ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.getInput().hasFocus()) {
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.clear(getActivity(), ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.getInput());
+                if (((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.input() != null && ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.input().hasFocus()) {
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.clear(getActivity(), ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.input());
                 }
 
                 switch (tab.getPosition()) {
@@ -232,24 +232,24 @@ public class RegisterFragment extends Fragment {
         });
 
         registerButton.setOnClickListener(v -> {
-            if (((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.getInput() != null && ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.getInput().hasFocus()) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.clear(getActivity(), ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.getInput());
+            if (((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.input() != null && ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.input().hasFocus()) {
+                ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.clear(getActivity(), ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.input());
             }
 
             if (nameEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.error(getActivity(), nameEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.error(getActivity(), nameEditText);
             }
             if (mobileEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.error(getActivity(), mobileEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.error(getActivity(), mobileEditText);
             }
             if (passwordEditText.length() == 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.error(getActivity(), passwordEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.error(getActivity(), passwordEditText);
             }
 
             if (nameEditText.length() != 0 && mobileEditText.length() != 0 && passwordEditText.length() != 0) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.clear(getActivity(), nameEditText);
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.clear(getActivity(), mobileEditText);
-                ((AuthActivity) Objects.requireNonNull(getActivity())).inputEditText.clear(getActivity(), passwordEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.clear(getActivity(), nameEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.clear(getActivity(), mobileEditText);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.clear(getActivity(), passwordEditText);
 
                 if (genderException) {
                     ((AuthActivity) Objects.requireNonNull(getActivity())).clearException();

@@ -1,12 +1,9 @@
 package com.majazeh.risloo.Utils.Widgets;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.EditText;
 
-@SuppressLint("AppCompatCustomView")
-public class CutCopyPasteEditText extends EditText {
+public class CutCopyPasteEditText extends androidx.appcompat.widget.AppCompatEditText {
 
     // Objects
     private OnCutCopyPasteListener onCutCopyPasteListener;
@@ -31,13 +28,16 @@ public class CutCopyPasteEditText extends EditText {
     public boolean onTextContextMenuItem(int id) {
         switch (id) {
             case android.R.id.cut:
-                onCut();
+                if (onCutCopyPasteListener != null)
+                    onCutCopyPasteListener.onCut();
                 break;
             case android.R.id.copy:
-                onCopy();
+                if (onCutCopyPasteListener != null)
+                    onCutCopyPasteListener.onCopy();
                 break;
             case android.R.id.paste:
-                onPaste();
+                if (onCutCopyPasteListener != null)
+                    onCutCopyPasteListener.onPaste();
                 break;
         }
         return super.onTextContextMenuItem(id);
@@ -47,24 +47,6 @@ public class CutCopyPasteEditText extends EditText {
         void onCut();
         void onCopy();
         void onPaste();
-    }
-
-    private void onCut() {
-        if (onCutCopyPasteListener != null) {
-            onCutCopyPasteListener.onCut();
-        }
-    }
-
-    private void onCopy() {
-        if (onCutCopyPasteListener != null) {
-            onCutCopyPasteListener.onCopy();
-        }
-    }
-
-    private void onPaste() {
-        if (onCutCopyPasteListener != null) {
-            onCutCopyPasteListener.onPaste();
-        }
     }
 
 }
