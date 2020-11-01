@@ -17,7 +17,7 @@ allprojects {
         google()
         jcenter()
         maven { url "https://maven.google.com" } // Google Url Maven
-        maven { url "https://jitpack.io" } // Jitpack Url Maven
+        maven { url "https://jitpack.io" } // JitPack Url Maven
     }
 }
 

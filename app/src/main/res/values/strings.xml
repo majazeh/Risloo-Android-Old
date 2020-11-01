@@ -175,12 +175,7 @@
 
     <string name="SamplesTitle">نمونه ها</string>
 
-    <string name="SamplesCreate">ساخت جدید</string>
-    <string name="SamplesFilter">فیلتر کردن</string>
-
     <string name="SamplesFilters">فیلترها:</string>
-
-    <string name="SamplesEmpty">فعلا نمونه های موجود نیست</string>
 
     <string name="SamplesReference">مراجع</string>
     <string name="SamplesCode">کد</string>
@@ -298,8 +293,6 @@
 
     <string name="AccountTitle">حساب کاربری</string>
 
-    <string name="AccountLogOut">خروج از حساب</string>
-
     <string name="AccountEdit">ویرایش حساب</string>
     <string name="AccountSend">ارسال مدارک هویتی</string>
 
@@ -390,12 +383,7 @@
     <string name="CenterAll">همه</string>
     <string name="CenterMy">من</string>
 
-    <string name="CenterCreate">ساخت جدید</string>
-    <string name="CenterSearch">جستجو کردن</string>
-
     <string name="CenterSearched">جستجو:</string>
-
-    <string name="CenterEmpty">فعلا مرکز درمانی برای شما نیست</string>
 
     <string name="CenterDescription">توضیحات:</string>
     <string name="CenterManager">مدیر:</string>
