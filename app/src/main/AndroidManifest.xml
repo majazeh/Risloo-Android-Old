@@ -23,6 +23,7 @@
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:extractNativeLibs="false"
         android:windowSoftInputMode="adjustResize"
         tools:ignore="UnusedAttribute"
         tools:replace="android:label">

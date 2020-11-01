@@ -132,7 +132,9 @@ public class ExceptionGenerator {
 //                            break;
 //                    }
                 } else {
-                    ExceptionGenerator.exception = exception;
+                    if (exception != null) {
+                        ExceptionGenerator.exception = exception;
+                    }
 
                     if (!body.isNull("errors"))
                         errors = body.getJSONObject("errors");
