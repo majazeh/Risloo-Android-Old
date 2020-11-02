@@ -19,7 +19,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.Window;
@@ -51,10 +50,7 @@ import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -66,7 +62,7 @@ public class EditAccountActivity extends AppCompatActivity {
 
     // Vars
     private String name = "", gender = "", birthday = "";
-    private String imageFilePath = "";
+    public String imageFilePath = "";
     private int year, month, day;
     private boolean genderException = false, birthdayException = false;
 
@@ -518,16 +514,6 @@ public class EditAccountActivity extends AppCompatActivity {
         }
     }
 
-    @SuppressLint("SimpleDateFormat")
-    public File createImageFile() throws IOException {
-        String imageFileName = new SimpleDateFormat("yyyy-MM-dd:HH-mm-ss").format(new Date()) + "_";
-        String imageFileSuffix = ".jpg";
-        File imageStorageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File imageFile = File.createTempFile(imageFileName, imageFileSuffix, imageStorageDir);
-        imageFilePath = imageFile.getAbsolutePath();
-        return imageFile;
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == 300) {
@@ -546,11 +532,7 @@ public class EditAccountActivity extends AppCompatActivity {
                         return;
                     }
                 }
-                try {
-                    IntentManager.camera(this, createImageFile());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                imageFilePath = IntentManager.camera(this);
             }
         }
     }

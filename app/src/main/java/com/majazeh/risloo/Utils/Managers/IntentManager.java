@@ -1,5 +1,6 @@
 package com.majazeh.risloo.Utils.Managers;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
@@ -13,6 +14,9 @@ import android.provider.Settings;
 import androidx.core.content.FileProvider;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 public class IntentManager {
@@ -47,11 +51,25 @@ public class IntentManager {
         activity.startActivityForResult(intent, 300);
     }
 
-    public static void camera(Activity activity, File file) {
+    @SuppressLint("SimpleDateFormat")
+    public static String camera(Activity activity) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(activity, "com.majazeh.risloo.fileprovider", file));
+        try {
+            String imageFileName = new SimpleDateFormat("yyyy-MM-dd:HH-mm-ss").format(new Date()) + "_";
+            String imageFileSuffix = ".jpg";
+            File imageStorageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 
-        activity.startActivityForResult(intent, 400);
+            File imageFile = File.createTempFile(imageFileName, imageFileSuffix, imageStorageDir);
+            String fileProviderAuthority = "com.majazeh.risloo.fileprovider";
+
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(activity, fileProviderAuthority, imageFile));
+
+            activity.startActivityForResult(intent, 400);
+
+            return imageFile.getAbsolutePath();
+        } catch (IOException e) {
+            return  "";
+        }
     }
 
     public static void mediaScan(Activity activity, File file) {
