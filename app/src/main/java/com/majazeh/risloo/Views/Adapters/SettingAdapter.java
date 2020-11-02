@@ -48,7 +48,6 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
     // Objects
     private Activity activity;
     private Handler handler;
-    private IntentManager intentManager;
     private SocialDialog socialDialog;
 
     // Widgets
@@ -116,7 +115,6 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
     private void initializer(View view) {
         viewModel = new ViewModelProvider((FragmentActivity) activity).get(ExplodeViewModel.class);
 
-        intentManager = new IntentManager();
         socialDialog = new SocialDialog(activity);
 
         handler = new Handler();
@@ -149,10 +147,10 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
                 socialDialog.show(((SettingActivity)activity).getSupportFragmentManager(), "socialBottomSheet");
                 break;
             case 5:
-                intentManager.share(activity, activity.getResources().getString(R.string.SettingShareLink), activity.getResources().getString(R.string.SettingShareChooser));
+                IntentManager.share(activity, activity.getResources().getString(R.string.SettingShareLink), activity.getResources().getString(R.string.SettingShareChooser));
                 break;
             case 6:
-                intentManager.googlePlay(activity);
+                IntentManager.googlePlay(activity);
                 break;
             case 7:
                 initDialog();
@@ -228,7 +226,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
             handler.postDelayed(() -> availableUpdateDialogPositive.setClickable(true), 300);
             availableUpdateDialog.dismiss();
 
-            intentManager.googlePlay(activity);
+            IntentManager.googlePlay(activity);
         });
 
         availableUpdateDialogNegative.setOnClickListener(v -> {

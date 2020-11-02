@@ -33,7 +33,6 @@ public class DownloadDialog extends BottomSheetDialogFragment {
     // Objects
     private Activity activity;
     private Handler handler;
-    private IntentManager intentManager;
 
     // Widgets
     private LinearLayout svgLinearLayout, pngLinearLayout, htmlLinearLayout, pdfLinearLayout;
@@ -60,8 +59,6 @@ public class DownloadDialog extends BottomSheetDialogFragment {
     private void initializer(View view) {
         handler = new Handler();
 
-        intentManager = new IntentManager();
-
         svgLinearLayout = view.findViewById(R.id.dialog_download_svg_linearLayout);
         pngLinearLayout = view.findViewById(R.id.dialog_download_png_linearLayout);
         htmlLinearLayout = view.findViewById(R.id.dialog_download_html_linearLayout);
@@ -83,7 +80,7 @@ public class DownloadDialog extends BottomSheetDialogFragment {
             dismiss();
 
             if (svg != null) {
-                intentManager.download(activity, svg);
+                IntentManager.download(activity, svg);
             } else {
                 ExceptionGenerator.getException(false, 0, null, "NoSuffixException", "sample");
                 Toast.makeText(activity, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
@@ -96,7 +93,7 @@ public class DownloadDialog extends BottomSheetDialogFragment {
             dismiss();
 
             if (png != null) {
-                intentManager.download(activity, png);
+                IntentManager.download(activity, png);
             } else {
                 ExceptionGenerator.getException(false, 0, null, "NoSuffixException", "sample");
                 Toast.makeText(activity, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
@@ -109,7 +106,7 @@ public class DownloadDialog extends BottomSheetDialogFragment {
             dismiss();
 
             if (html != null) {
-                intentManager.download(activity, html);
+                IntentManager.download(activity, html);
             } else {
                 ExceptionGenerator.getException(false, 0, null, "NoSuffixException", "sample");
                 Toast.makeText(activity, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
@@ -122,7 +119,7 @@ public class DownloadDialog extends BottomSheetDialogFragment {
             dismiss();
 
             if (pdf != null) {
-                intentManager.download(activity, pdf);
+                IntentManager.download(activity, pdf);
             } else {
                 ExceptionGenerator.getException(false, 0, null, "NoSuffixException", "sample");
                 Toast.makeText(activity, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();

@@ -47,7 +47,6 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
     // Objects
     private Handler handler;
     private Bundle extras;
-    private IntentManager intentManager;
 
     // Widgets
     private Button internetButton, smsButton, downloadButton, laterButton;
@@ -94,8 +93,6 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         handler = new Handler();
 
         extras = getIntent().getExtras();
-
-        intentManager = new IntentManager();
 
         internetButton = findViewById(R.id.activity_outro_internet_button);
         smsButton = findViewById(R.id.activity_outro_sms_button);
@@ -231,7 +228,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
             }
         }
 
-        intentManager.sendTo(this, number, body, result.toString());
+        IntentManager.sendTo(this, number, body, result.toString());
     }
 
     private void downloadFile() {

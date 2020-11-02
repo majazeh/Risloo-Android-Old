@@ -17,14 +17,14 @@ import java.util.Objects;
 
 public class IntentManager {
 
-    public void internet(Context context) {
+    public static void internet(Context context) {
         Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         context.startActivity(intent);
     }
 
-    public void file(Activity activity) {
+    public static void file(Activity activity) {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.setType("*/*");
@@ -32,7 +32,7 @@ public class IntentManager {
         activity.startActivityForResult(intent, 100);
     }
 
-    public void sendTo(Activity activity, String number, String name, String value) {
+    public static void sendTo(Activity activity, String number, String name, String value) {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("smsto:" + number));
         intent.putExtra(name, value);
@@ -40,28 +40,28 @@ public class IntentManager {
         activity.startActivityForResult(intent, 200);
     }
 
-    public void gallery(Activity activity) {
+    public static void gallery(Activity activity) {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
 
         activity.startActivityForResult(intent, 300);
     }
 
-    public void camera(Activity activity, File file) {
+    public static void camera(Activity activity, File file) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(activity, "com.majazeh.risloo.fileprovider", file));
 
         activity.startActivityForResult(intent, 400);
     }
 
-    public void mediaScan(Activity activity, File file) {
+    public static void mediaScan(Activity activity, File file) {
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         intent.setData(Uri.fromFile(file));
 
         activity.sendBroadcast(intent);
     }
 
-    public void phone(Context context, String number) {
+    public static void phone(Context context, String number) {
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.fromParts("tel", number, null));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -69,7 +69,7 @@ public class IntentManager {
         context.startActivity(intent);
     }
 
-    public void sms(Context context, String number) {
+    public static void sms(Context context, String number) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.fromParts("sms", number, null));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -77,7 +77,7 @@ public class IntentManager {
         context.startActivity(intent);
     }
 
-    public void email(Context context, String[] emails, String subject, String message, String chooser) {
+    public static void email(Context context, String[] emails, String subject, String message, String chooser) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_EMAIL, emails);
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
@@ -88,7 +88,7 @@ public class IntentManager {
         context.startActivity(Intent.createChooser(intent, chooser));
     }
 
-    public void share(Context context, String content, String chooser) {
+    public static void share(Context context, String content, String chooser) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_TEXT, content);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -97,7 +97,7 @@ public class IntentManager {
         context.startActivity(Intent.createChooser(intent, chooser));
     }
 
-    public void googlePlay(Context context) {
+    public static void googlePlay(Context context) {
         Intent intent;
         try {
             intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + context.getPackageName()));
@@ -108,7 +108,7 @@ public class IntentManager {
         context.startActivity(intent);
     }
 
-    public void facebook(Context context, String facebookID) {
+    public static void facebook(Context context, String facebookID) {
         Intent intent;
         try {
             context.getPackageManager().getPackageInfo("com.facebook.katana", 0);
@@ -120,7 +120,7 @@ public class IntentManager {
         context.startActivity(intent);
     }
 
-    public void twitter(Context context, String twitterID) {
+    public static void twitter(Context context, String twitterID) {
         Intent intent;
         try {
             context.getPackageManager().getPackageInfo("com.twitter.android", 0);
@@ -132,7 +132,7 @@ public class IntentManager {
         context.startActivity(intent);
     }
 
-    public void telegram(Context context, String telegramID) {
+    public static void telegram(Context context, String telegramID) {
         Intent intent;
         try {
             context.getPackageManager().getPackageInfo("org.telegram.messenger", 0);
@@ -144,7 +144,7 @@ public class IntentManager {
         context.startActivity(intent);
     }
 
-    public void instagram(Context context, String instagramID) {
+    public static void instagram(Context context, String instagramID) {
         Intent intent;
         intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://instagram.com/_u/" + instagramID));
         intent.setPackage("com.instagram.android");
@@ -157,7 +157,7 @@ public class IntentManager {
         }
     }
 
-    public void download(Context context, String url) {
+    public static void download(Context context, String url) {
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.allowScanningByMediaScanner();
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);

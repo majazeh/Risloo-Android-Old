@@ -56,7 +56,6 @@ public class SendDocActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
-    private IntentManager intentManager;
     private ControlEditText controlEditText;
     private PathManager pathManager;
 
@@ -95,8 +94,6 @@ public class SendDocActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
         handler = new Handler();
-
-        intentManager = new IntentManager();
 
         controlEditText = new ControlEditText();
 
@@ -193,7 +190,7 @@ public class SendDocActivity extends AppCompatActivity {
             }
 
             if (PermissionManager.filePermission(this)) {
-                intentManager.file(this);
+                IntentManager.file(this);
             }
         });
 
@@ -352,7 +349,7 @@ public class SendDocActivity extends AppCompatActivity {
                         return;
                     }
                 }
-                intentManager.file(this);
+                IntentManager.file(this);
             }
         }
     }

@@ -37,7 +37,6 @@ public class ImageDialog extends BottomSheetDialogFragment {
     // Objects
     private Activity activity;
     private Handler handler;
-    private IntentManager intentManager;
 
     // Widgets
     private LinearLayout galleryLinearLayout, cameraLinearLayout;
@@ -64,8 +63,6 @@ public class ImageDialog extends BottomSheetDialogFragment {
     private void initializer(View view) {
         handler = new Handler();
 
-        intentManager = new IntentManager();
-
         galleryLinearLayout = view.findViewById(R.id.dialog_image_gallery_linearLayout);
         cameraLinearLayout = view.findViewById(R.id.dialog_image_camera_linearLayout);
 
@@ -85,7 +82,7 @@ public class ImageDialog extends BottomSheetDialogFragment {
             dismiss();
 
             if (PermissionManager.galleryPermission(activity)) {
-                intentManager.gallery(activity);
+                IntentManager.gallery(activity);
             }
         });
 
@@ -97,9 +94,9 @@ public class ImageDialog extends BottomSheetDialogFragment {
             if (PermissionManager.cameraPermission(activity)) {
                 try {
                     if (type.equals("editAccount")) {
-                        intentManager.camera(activity, ((EditAccountActivity) Objects.requireNonNull(activity)).createImageFile());
+                        IntentManager.camera(activity, ((EditAccountActivity) Objects.requireNonNull(activity)).createImageFile());
                     } else if (type.equals("createCenter")) {
-                        intentManager.camera(activity, ((CreateCenterActivity) Objects.requireNonNull(activity)).createImageFile());
+                        IntentManager.camera(activity, ((CreateCenterActivity) Objects.requireNonNull(activity)).createImageFile());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

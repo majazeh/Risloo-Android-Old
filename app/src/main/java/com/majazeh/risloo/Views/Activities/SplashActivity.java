@@ -30,7 +30,6 @@ public class SplashActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
-    private IntentManager intentManager;
 
     // Widgets
     private TextView versionTextView;
@@ -64,8 +63,6 @@ public class SplashActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(ExplodeViewModel.class);
 
         handler = new Handler();
-
-        intentManager = new IntentManager();
 
         versionTextView = findViewById(R.id.activity_splash_version_textView);
         versionTextView.setText(currentVersion());
@@ -104,7 +101,7 @@ public class SplashActivity extends AppCompatActivity {
             handler.postDelayed(() -> updateDialogPositive.setClickable(true), 300);
             updateDialog.dismiss();
 
-            intentManager.googlePlay(this);
+            IntentManager.googlePlay(this);
             finish();
         });
 

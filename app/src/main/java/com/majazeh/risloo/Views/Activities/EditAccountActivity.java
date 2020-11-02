@@ -72,7 +72,6 @@ public class EditAccountActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
-    private IntentManager intentManager;
     private ControlEditText controlEditText;
     private PathManager pathManager;
     private ImageDialog imageDialog;
@@ -120,8 +119,6 @@ public class EditAccountActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
         handler = new Handler();
-
-        intentManager = new IntentManager();
 
         controlEditText = new ControlEditText();
 
@@ -540,7 +537,7 @@ public class EditAccountActivity extends AppCompatActivity {
                         return;
                     }
                 }
-                intentManager.gallery(this);
+                IntentManager.gallery(this);
             }
         } else if (requestCode == 400) {
             if (grantResults.length > 0) {
@@ -550,7 +547,7 @@ public class EditAccountActivity extends AppCompatActivity {
                     }
                 }
                 try {
-                    intentManager.camera(this, createImageFile());
+                    IntentManager.camera(this, createImageFile());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -579,7 +576,7 @@ public class EditAccountActivity extends AppCompatActivity {
                 }
             } else if (requestCode == 400) {
                 File imageFile = new File(imageFilePath);
-                intentManager.mediaScan(this, imageFile);
+                IntentManager.mediaScan(this, imageFile);
 
                 int scaleFactor = Math.max(1, 2);
 

@@ -23,7 +23,6 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.PhoneHolder>
 
     // Objects
     private Activity activity;
-    private IntentManager intentManager;
     private Handler handler;
 
     public PhoneAdapter(Activity activity) {
@@ -53,7 +52,7 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.PhoneHolder>
             holder.itemView.setClickable(false);
             handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
 
-            intentManager.phone(activity, phones.get(i));
+            IntentManager.phone(activity, phones.get(i));
         });
     }
 
@@ -63,8 +62,6 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.PhoneHolder>
     }
 
     private void initializer(View view) {
-        intentManager = new IntentManager();
-
         handler = new Handler();
     }
 
