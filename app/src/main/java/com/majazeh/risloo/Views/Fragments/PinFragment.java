@@ -25,7 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Managers.StringCustomizer;
+import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Views.Activities.AuthActivity;
 
 import org.json.JSONException;
@@ -164,7 +164,7 @@ public class PinFragment extends Fragment {
     }
 
     private void setText() {
-        pinLinkTextView.setText(StringCustomizer.clickable(activity.getResources().getString(R.string.PinLink), 24, 34, pinLinkSpan));
+        pinLinkTextView.setText(StringManager.clickable(activity.getResources().getString(R.string.PinLink), 24, 34, pinLinkSpan));
         pinCountDownTimer.start();
     }
 

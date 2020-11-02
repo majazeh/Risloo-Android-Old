@@ -38,8 +38,8 @@ import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Managers.IntentManager;
-import com.majazeh.risloo.Utils.Managers.PathProvider;
-import com.majazeh.risloo.Utils.Managers.StringCustomizer;
+import com.majazeh.risloo.Utils.Managers.PathManager;
+import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 
@@ -61,7 +61,7 @@ public class SendDocActivity extends AppCompatActivity {
     private Handler handler;
     private IntentManager intentManager;
     private ControlEditText controlEditText;
-    private PathProvider pathProvider;
+    private PathManager pathManager;
 
     // Widgets
     private RelativeLayout toolbarLayout;
@@ -103,7 +103,7 @@ public class SendDocActivity extends AppCompatActivity {
 
         controlEditText = new ControlEditText();
 
-        pathProvider = new PathProvider();
+        pathManager = new PathManager();
 
         toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
@@ -249,13 +249,13 @@ public class SendDocActivity extends AppCompatActivity {
     }
 
     private void setFileWidgetsUi(String fileName) {
-        attachmentTextView.setText(StringCustomizer.substring(fileName, '/'));
+        attachmentTextView.setText(StringManager.substring(fileName, '/'));
         attachmentTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         attachmentImageView.setVisibility(View.GONE);
         suffixTextView.setVisibility(View.VISIBLE);
 
-        switch (StringCustomizer.substring(fileName, '.')) {
+        switch (StringManager.substring(fileName, '.')) {
             case "png":
                 suffixTextView.setText(getResources().getString(R.string.SendDocSuffixPNG));
                 break;
@@ -278,7 +278,7 @@ public class SendDocActivity extends AppCompatActivity {
                 suffixTextView.setText(getResources().getString(R.string.SendDocSuffixMP4));
                 break;
             default:
-                suffixTextView.setText(StringCustomizer.substring(fileName, '.'));
+                suffixTextView.setText(StringManager.substring(fileName, '.'));
                 break;
         }
     }
@@ -389,7 +389,7 @@ public class SendDocActivity extends AppCompatActivity {
             if (requestCode == 300) {
                 Uri uri = Objects.requireNonNull(data).getData();
 
-                attachment = pathProvider.getLocalPath(this, uri);
+                attachment = pathManager.getLocalPath(this, uri);
 
                 setFileWidgetsUi(attachment);
             }

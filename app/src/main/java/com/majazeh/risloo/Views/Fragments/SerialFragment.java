@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Managers.StringCustomizer;
+import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Activities.ArchiveActivity;
 import com.majazeh.risloo.Views.Activities.AuthActivity;
@@ -168,7 +168,7 @@ public class SerialFragment extends Fragment {
         super.onResume();
 
         if (sampleViewModel.getArchive() != null ) {
-            serialIncompleteTextView.setText(StringCustomizer.foregroundSize("شما" + " " + sampleViewModel.getArchive().size() + " " + "نمونه ناقص دارید!", 4, 6, getResources().getColor(R.color.MoonYellow), (int) getResources().getDimension(R.dimen._14ssp)));
+            serialIncompleteTextView.setText(StringManager.foregroundSize("شما" + " " + sampleViewModel.getArchive().size() + " " + "نمونه ناقص دارید!", 4, 6, getResources().getColor(R.color.MoonYellow), (int) getResources().getDimension(R.dimen._14ssp)));
 
             serialArchiveLinearLayout.setVisibility(View.VISIBLE);
             serialArchiveLinearLayout.setAnimation(animSlideIn);

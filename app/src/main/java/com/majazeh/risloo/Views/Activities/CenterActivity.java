@@ -36,7 +36,7 @@ import com.duolingo.open.rtlviewpager.RtlViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.Utils.Managers.StringCustomizer;
+import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
@@ -361,12 +361,12 @@ public class CenterActivity extends AppCompatActivity {
             case "error":
                 infoImageView.setImageResource(R.drawable.illu_error);
                 infoTextView.setMovementMethod(LinkMovementMethod.getInstance());
-                infoTextView.setText(StringCustomizer.clickable(getResources().getString(R.string.AppError), 21, 30, retrySpan));
+                infoTextView.setText(StringManager.clickable(getResources().getString(R.string.AppError), 21, 30, retrySpan));
                 break;
             case "connection":
                 infoImageView.setImageResource(R.drawable.illu_connection);
                 infoTextView.setMovementMethod(LinkMovementMethod.getInstance());
-                infoTextView.setText(StringCustomizer.clickable(getResources().getString(R.string.AppConnection), 17, 26, retrySpan));
+                infoTextView.setText(StringManager.clickable(getResources().getString(R.string.AppConnection), 17, 26, retrySpan));
                 break;
         }
     }

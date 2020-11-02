@@ -54,7 +54,7 @@ import com.majazeh.risloo.Utils.Managers.BitmapManager;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Managers.IntentManager;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
-import com.majazeh.risloo.Utils.Managers.PathProvider;
+import com.majazeh.risloo.Utils.Managers.PathManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.Views.Adapters.SearchAdapter;
@@ -93,7 +93,7 @@ public class CreateCenterActivity extends AppCompatActivity {
     private Handler handler;
     private IntentManager intentManager;
     private ControlEditText controlEditText;
-    private PathProvider pathProvider;
+    private PathManager pathManager;
     private ImageDialog imageDialog;
     private Bitmap selectedBitmap;
 
@@ -157,7 +157,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         controlEditText = new ControlEditText();
 
-        pathProvider = new PathProvider();
+        pathManager = new PathManager();
 
         imageDialog = new ImageDialog(this);
         imageDialog.setType("createCenter");
@@ -1042,7 +1042,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                     InputStream imageStream = getContentResolver().openInputStream(Objects.requireNonNull(imageUri));
                     Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
 
-                    imageFilePath = pathProvider.getLocalPath(this, imageUri);
+                    imageFilePath = pathManager.getLocalPath(this, imageUri);
 
                     selectedBitmap = BitmapManager.scaleToCenter(imageBitmap);
 

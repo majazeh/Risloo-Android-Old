@@ -38,7 +38,7 @@ import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
-import com.majazeh.risloo.Utils.Managers.StringCustomizer;
+import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.IndexAdapter;
@@ -314,10 +314,10 @@ public class SampleActivity extends AppCompatActivity {
     private void setRetryLayout(String type) {
         if (type.equals("error")) {
             retryImageView.setImageResource(R.drawable.illu_error);
-            retryTextView.setText(StringCustomizer.clickable(getResources().getString(R.string.AppError), 21, 30, retrySpan));
+            retryTextView.setText(StringManager.clickable(getResources().getString(R.string.AppError), 21, 30, retrySpan));
         } else if (type.equals("connection")) {
             retryImageView.setImageResource(R.drawable.illu_connection);
-            retryTextView.setText(StringCustomizer.clickable(getResources().getString(R.string.AppConnection), 17, 26, retrySpan));
+            retryTextView.setText(StringManager.clickable(getResources().getString(R.string.AppConnection), 17, 26, retrySpan));
         }
     }
 

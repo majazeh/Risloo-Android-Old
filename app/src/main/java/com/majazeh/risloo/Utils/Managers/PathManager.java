@@ -4,7 +4,6 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
@@ -13,19 +12,20 @@ import android.provider.OpenableColumns;
 import java.io.File;
 import java.util.Objects;
 
-public class PathProvider {
+public class PathManager {
 
     public String getLocalPath(Context context, Uri uri) {
 
         // DocumentProvider
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DocumentsContract.isDocumentUri(context, uri)) {
+        if (DocumentsContract.isDocumentUri(context, uri)) {
 
             // Local
             if (isLocalStorageDocument(uri)) {
                 return DocumentsContract.getDocumentId(uri);
+            }
 
-                // External
-            } else if (isExternalStorageDocument(uri)) {
+            // External
+            else if (isExternalStorageDocument(uri)) {
                 String documentId = DocumentsContract.getDocumentId(uri);
                 String[] split = documentId.split(":");
                 String type = split[0];
@@ -35,9 +35,10 @@ public class PathProvider {
                 } else if ("home".equalsIgnoreCase(type)) {
                     return Environment.getExternalStorageDirectory() + "/documents/" + split[1];
                 }
+            }
 
-                // Downloads
-            } else if (isDownloadsDocument(uri)) {
+            // Downloads
+            else if (isDownloadsDocument(uri)) {
                 String documentId = DocumentsContract.getDocumentId(uri);
 
                 if (documentId != null && documentId.startsWith("raw:")) {
@@ -53,10 +54,11 @@ public class PathProvider {
                     String[] split = documentId.split(":");
 
                     Uri contentUri;
-                    if (Objects.requireNonNull(documentId).startsWith("msf:"))
+                    if (Objects.requireNonNull(documentId).startsWith("msf:")) {
                         contentUri = ContentUris.withAppendedId(Uri.parse(contentUriPrefix), Long.parseLong(split[1]));
-                    else
+                    } else {
                         contentUri = ContentUris.withAppendedId(Uri.parse(contentUriPrefix), Long.parseLong(documentId));
+                    }
 
                     String path = getFileColumn(context, contentUri, null, null);
                     if (path != null) {
@@ -71,39 +73,44 @@ public class PathProvider {
                     FileManager.writeUriToCache(context, uri, path);
                     return path;
                 }
+            }
 
-                // Media
-            } else if (isMediaDocument(uri)) {
+            // Media
+            else if (isMediaDocument(uri)) {
                 String documentId = DocumentsContract.getDocumentId(uri);
                 String[] split = documentId.split(":");
                 String type = split[0];
 
-                Uri contentUri = null;
-                if ("image".equals(type)) {
+                Uri contentUri;
+                if (type.equals("image")) {
                     contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                } else if ("video".equals(type)) {
+                } else if (type.equals("video")) {
                     contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                } else if ("audio".equals(type)) {
+                } else if (type.equals("audio")) {
                     contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                } else {
+                    contentUri = null;
                 }
 
                 String selection = "_id=?";
                 String[] selectionArgs = new String[] {split[1]};
 
                 return getFileColumn(context, contentUri, selection, selectionArgs);
-
             }
 
-            // MediaStore
-        } else if ("content".equalsIgnoreCase(uri.getScheme())) {
+        }
+
+        // MediaStore
+        else if ("content".equalsIgnoreCase(uri.getScheme())) {
             if (isGooglePhotosUri(uri)) {
                 return uri.getLastPathSegment();
+            } else {
+                return getFileColumn(context, uri, null, null);
             }
+        }
 
-            return getFileColumn(context, uri, null, null);
-
-            // File
-        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+        // File
+        else if ("file".equalsIgnoreCase(uri.getScheme())) {
             return uri.getPath();
         }
 

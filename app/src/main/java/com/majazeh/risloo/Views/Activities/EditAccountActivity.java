@@ -36,6 +36,7 @@ import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
+import com.majazeh.risloo.Utils.Managers.DateManager;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
@@ -43,8 +44,7 @@ import com.majazeh.risloo.Utils.Managers.BitmapManager;
 import com.majazeh.risloo.Utils.Widgets.SingleNumberPicker;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Managers.IntentManager;
-import com.majazeh.risloo.Utils.Managers.PathProvider;
-import com.majazeh.risloo.Utils.Managers.StringCustomizer;
+import com.majazeh.risloo.Utils.Managers.PathManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Dialogs.ImageDialog;
@@ -78,7 +78,7 @@ public class EditAccountActivity extends AppCompatActivity {
     private Handler handler;
     private IntentManager intentManager;
     private ControlEditText controlEditText;
-    private PathProvider pathProvider;
+    private PathManager pathManager;
     private ImageDialog imageDialog;
     private Bitmap selectedBitmap;
 
@@ -129,7 +129,7 @@ public class EditAccountActivity extends AppCompatActivity {
 
         controlEditText = new ControlEditText();
 
-        pathProvider = new PathProvider();
+        pathManager = new PathManager();
 
         imageDialog = new ImageDialog(this);
         imageDialog.setType("editAccount");
@@ -400,9 +400,9 @@ public class EditAccountActivity extends AppCompatActivity {
             birthdayTextView.setText(birthday);
         }
 
-        year = Integer.parseInt(StringCustomizer.dateToString("yyyy", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
-        month = Integer.parseInt(StringCustomizer.dateToString("MM", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
-        day = Integer.parseInt(StringCustomizer.dateToString("dd", StringCustomizer.stringToDate("yyyy-MM-dd", birthday)));
+        year = Integer.parseInt(DateManager.dateToString("yyyy", DateManager.stringToDate("yyyy-MM-dd", birthday)));
+        month = Integer.parseInt(DateManager.dateToString("MM", DateManager.stringToDate("yyyy-MM-dd", birthday)));
+        day = Integer.parseInt(DateManager.dateToString("dd", DateManager.stringToDate("yyyy-MM-dd", birthday)));
     }
 
     private void setCustomPicker() {
@@ -450,7 +450,7 @@ public class EditAccountActivity extends AppCompatActivity {
                     break;
                 case "edit":
                     name = nameEditText.getText().toString().trim();
-                    viewModel.edit(name, gender, StringCustomizer.jalaliToGregorian(birthday));
+                    viewModel.edit(name, gender, DateManager.jalaliToGregorian(birthday));
                     break;
             }
             observeWork();
@@ -623,7 +623,7 @@ public class EditAccountActivity extends AppCompatActivity {
                     InputStream imageStream = getContentResolver().openInputStream(Objects.requireNonNull(imageUri));
                     Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
 
-                    imageFilePath = pathProvider.getLocalPath(this, imageUri);
+                    imageFilePath = pathManager.getLocalPath(this, imageUri);
 
                     selectedBitmap = BitmapManager.scaleToCenter(imageBitmap);
 
