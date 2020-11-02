@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.IntentManager;
+import com.majazeh.risloo.Utils.Managers.PermissionManager;
 import com.majazeh.risloo.Views.Activities.CreateCenterActivity;
 import com.majazeh.risloo.Views.Activities.EditAccountActivity;
 
@@ -83,18 +84,8 @@ public class ImageDialog extends BottomSheetDialogFragment {
             handler.postDelayed(() -> galleryLinearLayout.setClickable(true), 300);
             dismiss();
 
-            if (type.equals("editAccount")) {
-                if (((EditAccountActivity) Objects.requireNonNull(getActivity())).galleryPermissionsGranted) {
-                    intentManager.gallery(activity);
-                } else {
-                    ((EditAccountActivity) Objects.requireNonNull(getActivity())).checkGalleryPermission();
-                }
-            } else if (type.equals("createCenter")) {
-                if (((CreateCenterActivity) Objects.requireNonNull(getActivity())).galleryPermissionsGranted) {
-                    intentManager.gallery(activity);
-                } else {
-                    ((CreateCenterActivity) Objects.requireNonNull(getActivity())).checkGalleryPermission();
-                }
+            if (PermissionManager.galleryPermission(activity)) {
+                intentManager.gallery(activity);
             }
         });
 
@@ -103,28 +94,17 @@ public class ImageDialog extends BottomSheetDialogFragment {
             handler.postDelayed(() -> cameraLinearLayout.setClickable(true), 300);
             dismiss();
 
-            if (type.equals("editAccount")) {
-                if (((EditAccountActivity) Objects.requireNonNull(getActivity())).cameraPermissionsGranted) {
-                    try {
+            if (PermissionManager.cameraPermission(activity)) {
+                try {
+                    if (type.equals("editAccount")) {
                         intentManager.camera(activity, ((EditAccountActivity) Objects.requireNonNull(activity)).createImageFile());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    ((EditAccountActivity) Objects.requireNonNull(getActivity())).checkCameraPermission();
-                }
-            } else if (type.equals("createCenter")) {
-                if (((CreateCenterActivity) Objects.requireNonNull(getActivity())).cameraPermissionsGranted) {
-                    try {
+                    } else if (type.equals("createCenter")) {
                         intentManager.camera(activity, ((CreateCenterActivity) Objects.requireNonNull(activity)).createImageFile());
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
-                } else {
-                    ((CreateCenterActivity) Objects.requireNonNull(getActivity())).checkCameraPermission();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
-
         });
 
         closeTextView.setOnClickListener(v -> {

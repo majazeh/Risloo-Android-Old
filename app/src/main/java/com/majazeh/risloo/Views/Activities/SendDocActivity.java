@@ -4,13 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
@@ -36,6 +33,7 @@ import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.Managers.PermissionManager;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Managers.IntentManager;
 import com.majazeh.risloo.Utils.Managers.PathManager;
@@ -55,7 +53,6 @@ public class SendDocActivity extends AppCompatActivity {
     // Vars
     private String title = "", description = "", attachment = "";
     private boolean attachmentException = false;
-    private boolean attachmentPermissionsGranted = false;
 
     // Objects
     private Handler handler;
@@ -195,10 +192,8 @@ public class SendDocActivity extends AppCompatActivity {
                 controlEditText.clear(this, controlEditText.input());
             }
 
-            if (attachmentPermissionsGranted) {
+            if (PermissionManager.filePermission(this)) {
                 intentManager.file(this);
-            } else {
-                checkFilePermission();
             }
         });
 
@@ -348,34 +343,15 @@ public class SendDocActivity extends AppCompatActivity {
         }
     }
 
-    private void checkFilePermission() {
-        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                attachmentPermissionsGranted = true;
-                intentManager.file(this);
-            } else {
-                ActivityCompat.requestPermissions(this, permissions, 300);
-            }
-        } else {
-            attachmentPermissionsGranted = true;
-            intentManager.file(this);
-        }
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 300) {
-            attachmentPermissionsGranted = false;
-
+        if (requestCode == 100) {
             if (grantResults.length > 0) {
                 for (int grantResult : grantResults) {
                     if (grantResult != PackageManager.PERMISSION_GRANTED) {
                         return;
                     }
                 }
-                attachmentPermissionsGranted = true;
                 intentManager.file(this);
             }
         }
@@ -386,7 +362,7 @@ public class SendDocActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            if (requestCode == 300) {
+            if (requestCode == 100) {
                 Uri uri = Objects.requireNonNull(data).getData();
 
                 attachment = pathManager.getLocalPath(this, uri);
@@ -394,7 +370,7 @@ public class SendDocActivity extends AppCompatActivity {
                 setFileWidgetsUi(attachment);
             }
         } else if (resultCode == RESULT_CANCELED) {
-            if (requestCode == 300) {
+            if (requestCode == 100) {
                 ExceptionGenerator.getException(false, 0, null, "FileException", "auth");
                 Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             }

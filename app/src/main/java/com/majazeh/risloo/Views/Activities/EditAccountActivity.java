@@ -4,13 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
@@ -72,7 +69,6 @@ public class EditAccountActivity extends AppCompatActivity {
     private String imageFilePath = "";
     private int year, month, day;
     private boolean genderException = false, birthdayException = false;
-    public boolean galleryPermissionsGranted = false, cameraPermissionsGranted = false;
 
     // Objects
     private Handler handler;
@@ -535,74 +531,24 @@ public class EditAccountActivity extends AppCompatActivity {
         return imageFile;
     }
 
-    public void checkGalleryPermission() {
-        String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                galleryPermissionsGranted = true;
-                intentManager.gallery(this);
-            } else {
-                ActivityCompat.requestPermissions(this, permissions, 100);
-            }
-        } else {
-            galleryPermissionsGranted = true;
-            intentManager.gallery(this);
-        }
-    }
-
-    public void checkCameraPermission() {
-        String[] permissions = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    cameraPermissionsGranted = true;
-                    try {
-                        intentManager.camera(this, createImageFile());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    ActivityCompat.requestPermissions(this, permissions, 200);
-                }
-            } else {
-                ActivityCompat.requestPermissions(this, permissions, 200);
-            }
-        } else {
-            cameraPermissionsGranted = true;
-            try {
-                intentManager.camera(this, createImageFile());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 100) {
-            galleryPermissionsGranted = false;
-
+        if (requestCode == 300) {
             if (grantResults.length > 0) {
                 for (int grantResult : grantResults) {
                     if (grantResult != PackageManager.PERMISSION_GRANTED) {
                         return;
                     }
                 }
-                galleryPermissionsGranted = true;
                 intentManager.gallery(this);
             }
-        } else if (requestCode == 200) {
-            cameraPermissionsGranted = false;
-
+        } else if (requestCode == 400) {
             if (grantResults.length > 0) {
                 for (int grantResult : grantResults) {
                     if (grantResult != PackageManager.PERMISSION_GRANTED) {
                         return;
                     }
                 }
-                cameraPermissionsGranted = true;
                 try {
                     intentManager.camera(this, createImageFile());
                 } catch (IOException e) {
@@ -617,7 +563,7 @@ public class EditAccountActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            if (requestCode == 100) {
+            if (requestCode == 300) {
                 try {
                     Uri imageUri = Objects.requireNonNull(data).getData();
                     InputStream imageStream = getContentResolver().openInputStream(Objects.requireNonNull(imageUri));
@@ -631,7 +577,7 @@ public class EditAccountActivity extends AppCompatActivity {
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-            } else if (requestCode == 200) {
+            } else if (requestCode == 400) {
                 File imageFile = new File(imageFilePath);
                 intentManager.mediaScan(this, imageFile);
 
@@ -648,10 +594,10 @@ public class EditAccountActivity extends AppCompatActivity {
                 avatarCircleImageView.setImageBitmap(BitmapManager.modifyOrientation(selectedBitmap, imageFilePath));
             }
         } else if (resultCode == RESULT_CANCELED) {
-            if (requestCode == 100) {
+            if (requestCode == 300) {
                 ExceptionGenerator.getException(false, 0, null, "GalleryException", "auth");
                 Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-            } else if (requestCode == 200) {
+            } else if (requestCode == 400) {
                 ExceptionGenerator.getException(false, 0, null, "CameraException", "auth");
                 Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             }

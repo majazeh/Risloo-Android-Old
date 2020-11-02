@@ -176,6 +176,9 @@ public class ExceptionGenerator {
                     case "FileException":
                         fa_message_text = "فایلی انتخاب نشده است.";
                         break;
+                    case "SendToException":
+                        fa_message_text = "فایلی ارسال نشده است.";
+                        break;
                     case "GalleryException":
                         fa_message_text = "عکسی انتخاب نشده است.";
                         break;

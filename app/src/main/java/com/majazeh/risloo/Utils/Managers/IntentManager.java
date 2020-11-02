@@ -24,32 +24,32 @@ public class IntentManager {
         context.startActivity(intent);
     }
 
-    public void gallery(Activity activity) {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-
-        activity.startActivityForResult(intent, 100);
-    }
-
-    public void camera(Activity activity, File file) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(activity, "com.majazeh.risloo.fileprovider", file));
-
-        activity.startActivityForResult(intent, 200);
-    }
-
     public void file(Activity activity) {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.setType("*/*");
 
-        activity.startActivityForResult(intent, 300);
+        activity.startActivityForResult(intent, 100);
     }
 
     public void sendTo(Activity activity, String number, String name, String value) {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("smsto:" + number));
         intent.putExtra(name, value);
+
+        activity.startActivityForResult(intent, 200);
+    }
+
+    public void gallery(Activity activity) {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+
+        activity.startActivityForResult(intent, 300);
+    }
+
+    public void camera(Activity activity, File file) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(activity, "com.majazeh.risloo.fileprovider", file));
 
         activity.startActivityForResult(intent, 400);
     }

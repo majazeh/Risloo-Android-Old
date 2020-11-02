@@ -4,11 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -28,6 +26,7 @@ import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.IntentManager;
+import com.majazeh.risloo.Utils.Managers.PermissionManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 
@@ -44,7 +43,6 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
     // Vars
     private String sampleId = "", work = "";
-    private boolean storagePermissionsGranted = false;
 
     // Objects
     private Handler handler;
@@ -237,10 +235,8 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
     }
 
     private void downloadFile() {
-        if (storagePermissionsGranted) {
+        if (PermissionManager.storagePermission(this)) {
             saveFile();
-        } else {
-            checkStoragePermission();
         }
     }
 
@@ -297,34 +293,15 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         });
     }
 
-    private void checkStoragePermission() {
-        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                storagePermissionsGranted = true;
-                saveFile();
-            } else {
-                ActivityCompat.requestPermissions(this, permissions, 100);
-            }
-        } else {
-            storagePermissionsGranted = true;
-            saveFile();
-        }
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 100) {
-            storagePermissionsGranted = false;
-
+        if (requestCode == 200) {
             if (grantResults.length > 0) {
                 for (int grantResult : grantResults) {
                     if (grantResult != PackageManager.PERMISSION_GRANTED) {
                         return;
                     }
                 }
-                storagePermissionsGranted = true;
                 saveFile();
             }
         }
@@ -335,10 +312,15 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            if (requestCode == 400){
+            if (requestCode == 200) {
                 changeStatus();
 
                 finish();
+            }
+        } else if (resultCode == RESULT_CANCELED) {
+            if (requestCode == 200) {
+                ExceptionGenerator.getException(false, 0, null, "SendToException", "outro");
+                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             }
         }
     }
