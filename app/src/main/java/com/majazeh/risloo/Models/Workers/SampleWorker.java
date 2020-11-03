@@ -193,7 +193,7 @@ public class SampleWorker extends Worker {
 
     private void getAll() {
         try {
-            Call<ResponseBody> call = sampleApi.getAll(token(), SampleRepository.samplesPage, SampleRepository.scalesQ, SampleRepository.statusQ, SampleRepository.roomQ);
+            Call<ResponseBody> call = sampleApi.getAll(token(), SampleRepository.samplesPage, SampleRepository.scalesQ, SampleRepository.roomQ, SampleRepository.statusQ);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {

@@ -15,13 +15,13 @@ import retrofit2.http.Query;
 
 public interface SampleApi {
 
+    @Headers({"content-type: application/json", "Accept-Language:fa"})
+    @GET("$/samples")
+    Call<ResponseBody> getAll(@Header("Authorization") String authorization, @Query("page") int page, @Query("scale")String scale, @Query("room")String room, @Query("status")String status);
+
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("$/samples/{sample_id}")
     Call<ResponseBody> getSingle(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
-
-    @Headers({"content-type: application/json", "Accept-Language:fa"})
-    @GET("$/samples")
-    Call<ResponseBody> getAll(@Header("Authorization") String authorization, @Query("page") int page,@Query("scale")String scale,@Query("status")String status,@Query("room")String room);
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @POST("$/samples/{sample_id}/items")

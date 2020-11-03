@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.core.content.res.ResourcesCompat;
+
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.DateManager;
@@ -17,12 +19,12 @@ import java.util.ArrayList;
 public class AuthItems {
 
     // Vars
-    private ArrayList<Model> items = new ArrayList<>();
+    private final ArrayList<Model> items = new ArrayList<>();
 
     // Objects
-    private Application application;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
+    private final Application application;
+    private final SharedPreferences sharedPreferences;
+    private final SharedPreferences.Editor editor;
 
     public AuthItems(Application application) {
         this.application = application;
@@ -131,43 +133,43 @@ public class AuthItems {
     private JSONArray data() throws JSONException {
         JSONArray data = new JSONArray();
         if (!userId().equals("")) {
-            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthUserId)).put("subTitle", userId()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_code_light)));
+            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthUserId)).put("subTitle", userId()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_code_light, null)));
         }
         if (!name().equals("")) {
-            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthName)).put("subTitle", name()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_user_light)));
+            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthName)).put("subTitle", name()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_user_light, null)));
         }
 //        if (!type().equals("")) {
 //            if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypePsychology))) {
-//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_stethoscope_light)));
+//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image",ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_stethoscope_light, null)));
 //            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeClinicCenter))) {
-//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_hospital_light)));
+//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_hospital_light, null)));
 //            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeOperator))) {
-//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset_light)));
+//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_headset_light, null)));
 //            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeAdmin))) {
-//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_headset_light)));
+//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_headset_light, null)));
 //            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeClient))) {
-//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_pills_light)));
+//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_pills_light, null)));
 //            } else {
-//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_pills_light)));
+//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_pills_light, null)));
 //            }
 //        }
         if (!mobile().equals("")) {
-            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthMobile)).put("subTitle", mobile()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_mobile_light)));
+            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthMobile)).put("subTitle", mobile()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_mobile_light, null)));
         }
         if (!email().equals("")) {
-            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthEmail)).put("subTitle", email()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_email_light)));
+            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthEmail)).put("subTitle", email()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_email_light, null)));
         }
         if (!gender().equals("")) {
             if (gender().equals(application.getApplicationContext().getResources().getString(R.string.AuthGenderMale))) {
-                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthGender)).put("subTitle", gender()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_male_light)));
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthGender)).put("subTitle", gender()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_male_light, null)));
             } else if (gender().equals(application.getApplicationContext().getResources().getString(R.string.AuthGenderFemale))) {
-                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthGender)).put("subTitle", gender()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_female_light)));
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthGender)).put("subTitle", gender()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_female_light, null)));
             } else {
-                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthGender)).put("subTitle", gender()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_gender_light)));
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthGender)).put("subTitle", gender()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_gender_light, null)));
             }
         }
         if (!birthday().equals("")) {
-            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthBirthday)).put("subTitle", birthday()).put("image", application.getApplicationContext().getResources().getDrawable(R.drawable.ic_calendar_light)));
+            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthBirthday)).put("subTitle", birthday()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_calendar_light, null)));
         }
         return data;
     }

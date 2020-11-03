@@ -12,7 +12,7 @@ public class SampleItems {
 
     // Vars
     private int index = 0;
-    private ArrayList<Model> items = new ArrayList<>();
+    private final ArrayList<Model> items = new ArrayList<>();
 
     public SampleItems(JSONArray items) throws JSONException {
         for (int i = 0; i < items.length(); i++) {
@@ -29,7 +29,7 @@ public class SampleItems {
     }
 
     public Model next() {
-        if (index+1==size()){
+        if (index+1==size()) {
             return null;
         }
         index++;
@@ -49,7 +49,7 @@ public class SampleItems {
         return items.get(index);
     }
 
-    public void setIndex(int i){
+    public void setIndex(int i) {
         index = i;
     }
 
