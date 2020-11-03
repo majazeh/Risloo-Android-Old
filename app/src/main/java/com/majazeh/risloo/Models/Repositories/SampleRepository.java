@@ -97,17 +97,17 @@ public class SampleRepository extends MainRepository {
         workStateSample.observeForever(integer -> {
             if (integer == 1) {
                 try {
-                    JSONObject jsonObject = readSampleFromCache(sampleId);
+                    JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "Samples" + "/" + sampleId);
                     JSONObject data = jsonObject.getJSONObject("data");
 
                     sampleItems = new SampleItems(data.getJSONArray("items"));
                     checkSampleAnswerStorage(sampleId);
 
-                    if (readSampleAnswerFromCache(sampleId) != null) {
+                    if (FileManager.readArrayFromCache(application.getApplicationContext(), "Answers" + "/" + sampleId) != null) {
                         sampleItems.setIndex(firstUnAnswered(sampleId));
                     }
 
-                    sampleJson = readSampleFromCache(sampleId);
+                    sampleJson = FileManager.readObjectFromCache(application.getApplicationContext(), "Samples" + "/" + sampleId);
 
                     workStateSample.removeObserver(integer1 -> {
                     });
@@ -115,9 +115,9 @@ public class SampleRepository extends MainRepository {
                     e.printStackTrace();
                 }
             } else {
-                if (readSampleFromCache(sampleId) != null) {
+                if (FileManager.readObjectFromCache(application.getApplicationContext(), "Samples" + "/" + sampleId) != null) {
                     try {
-                        sampleJson = readSampleFromCache(sampleId);
+                        sampleJson = FileManager.readObjectFromCache(application.getApplicationContext(), "Samples" + "/" + sampleId);
                         JSONObject data = sampleJson.getJSONObject("data");
                         sampleItems = new SampleItems(data.getJSONArray("items"));
                     } catch (JSONException e) {
@@ -145,8 +145,8 @@ public class SampleRepository extends MainRepository {
             cache = false;
             if (SampleRepository.cache) {
                 localData.clear();
-                JSONArray jsonArray = readSampleAnswerFromCache(sampleId);
-                for (int i = 0; i < readSampleAnswerFromCache(sampleId).length(); i++) {
+                JSONArray jsonArray = FileManager.readArrayFromCache(application.getApplicationContext(), "Answers" + "/" + sampleId);
+                for (int i = 0; i < FileManager.readArrayFromCache(application.getApplicationContext(), "Answers" + "/" + sampleId).length(); i++) {
                     if (!jsonArray.getJSONObject(i).getString("index").equals("")) {
                         if (!jsonArray.getJSONObject(i).getString("answer").equals("")) {
                             ArrayList arrayList = new ArrayList<Integer>();
@@ -175,8 +175,8 @@ public class SampleRepository extends MainRepository {
     }
 
     public void sendAllAnswers(String sampleId) throws JSONException {
-        JSONArray jsonArray = readSampleAnswerFromCache(sampleId);
-        for (int i = 0; i < readSampleAnswerFromCache(sampleId).length(); i++) {
+        JSONArray jsonArray = FileManager.readArrayFromCache(application.getApplicationContext(), "Answers" + "/" + sampleId);
+        for (int i = 0; i < FileManager.readArrayFromCache(application.getApplicationContext(), "Answers" + "/" + sampleId).length(); i++) {
             if (!jsonArray.getJSONObject(i).getString("index").equals("")) {
                 if (!jsonArray.getJSONObject(i).getString("answer").equals("")) {
                     ArrayList arrayList = new ArrayList<Integer>();
@@ -242,7 +242,7 @@ public class SampleRepository extends MainRepository {
     }
 
     public void delete(String sampleId) {
-        FileManager.deleteCache(application.getApplicationContext(), "Answers", sampleId);
+        FileManager.deleteFileFromCache(application.getApplicationContext(), "Answers" + "/" + sampleId);
     }
 
     public void scales(String q) throws JSONException {
@@ -318,51 +318,11 @@ public class SampleRepository extends MainRepository {
     }
 
     /*
-         ---------- Write ----------
-    */
-
-    public boolean writeSampleAnswerToExternal(JSONArray jsonArray, String fileName) {
-        return FileManager.writeToExternal(application.getApplicationContext(), jsonArray, fileName);
-    }
-
-    public boolean writeSampleAnswerToCache(JSONArray jsonArray, String fileName) {
-        return FileManager.writeArrayToCache(application.getApplicationContext(), jsonArray, "Answers", fileName);
-    }
-
-    public boolean writePrerequisiteAnswerToCache(JSONArray jsonArray, String fileName) {
-        return FileManager.writeArrayToCache(application.getApplicationContext(), jsonArray, "prerequisitesAnswers", fileName);
-    }
-
-    /*
-         ---------- Read ----------
-    */
-
-    public JSONObject readSampleFromCache(String fileName) {
-        return FileManager.readObjectFromCache(application.getApplicationContext(), "Samples", fileName);
-    }
-
-    public JSONArray readSampleAnswerFromCache(String fileName) {
-        return FileManager.readArrayFromCache(application.getApplicationContext(), "Answers", fileName);
-    }
-
-    public JSONArray readPrerequisiteAnswerFromCache(String fileName) {
-        return FileManager.readArrayFromCache(application.getApplicationContext(), "prerequisitesAnswers", fileName);
-    }
-
-    public JSONObject readSampleDetailFromCache(String fileName) {
-        return FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetail", fileName);
-    }
-
-    /*
          ---------- Check ----------
     */
 
-    public boolean hasSampleAnswerStorage(String fileName) {
-        return FileManager.hasCache(application.getApplicationContext(), "Answers", fileName);
-    }
-
     public boolean checkSampleAnswerStorage(String fileName) {
-        if (!hasSampleAnswerStorage(fileName)) {
+        if (!FileManager.hasFileInCache(application.getApplicationContext(), "Answers" + "/" + fileName)) {
             JSONArray jsonArray = new JSONArray();
             for (int i = 0; i < sampleItems.size(); i++) {
                 try {
@@ -371,18 +331,14 @@ public class SampleRepository extends MainRepository {
                     e.printStackTrace();
                 }
             }
-            writeSampleAnswerToCache(jsonArray, fileName);
+            FileManager.writeArrayToCache(application.getApplicationContext(), jsonArray, "Answers" + "/" + fileName);
             return true;
         }
         return false;
     }
 
-    public boolean hasPrerequisiteAnswerStorage(String fileName) {
-        return FileManager.hasCache(application.getApplicationContext(), "Prerequisites", fileName);
-    }
-
     public boolean checkPrerequisiteAnswerStorage(String fileName) {
-        JSONArray jsonArray = readPrerequisiteAnswerFromCache(fileName);
+        JSONArray jsonArray = FileManager.readArrayFromCache(application.getApplicationContext(), "prerequisitesAnswers" + "/" + fileName);
 
         try {
             int size = 0;
@@ -508,7 +464,7 @@ public class SampleRepository extends MainRepository {
     }
 
     public int answeredPosition(String fileName, int index) {
-        JSONArray items = readSampleAnswerFromCache(fileName);
+        JSONArray items = FileManager.readArrayFromCache(application.getApplicationContext(), "Answers" + "/" + fileName);
         try {
             if (!items.getJSONObject(index).getString("answer").equals("")) {
                 return items.getJSONObject(index).getInt("answer");
@@ -522,7 +478,7 @@ public class SampleRepository extends MainRepository {
     }
 
     public int answeredSize(String fileName) {
-        JSONArray items = readSampleAnswerFromCache(fileName);
+        JSONArray items = FileManager.readArrayFromCache(application.getApplicationContext(), "Answers" + "/" + fileName);
         int size = 0;
         if (items != null) {
             for (int i = 0; i < items.length(); i++) {
@@ -539,7 +495,7 @@ public class SampleRepository extends MainRepository {
     }
 
     public int firstUnAnswered(String fileName) {
-        JSONArray items = readSampleAnswerFromCache(fileName);
+        JSONArray items = FileManager.readArrayFromCache(application.getApplicationContext(), "Answers" + "/" + fileName);
         if (items != null) {
             for (int i = 0; i < items.length(); i++) {
                 try {
@@ -559,8 +515,8 @@ public class SampleRepository extends MainRepository {
     */
 
     private String getUrlScore(String type) {
-        if (FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetailFiles", SampleRepository.sampleId) != null) {
-            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetailFiles", SampleRepository.sampleId);
+        if (FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetailFiles" + "/" + SampleRepository.sampleId) != null) {
+            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetailFiles" + "/" + SampleRepository.sampleId);
             try {
                 JSONObject profiles = jsonObject.getJSONObject("profiles");
                 if (profiles.has(type)) {
@@ -622,9 +578,9 @@ public class SampleRepository extends MainRepository {
         statusFilter = new ArrayList<>();
         if (!SampleRepository.filter()) {
             ArrayList<Model> arrayList = new ArrayList<>();
-            if (FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all") != null) {
+            if (FileManager.readObjectFromCache(application.getApplicationContext(), "samples" + "/" + "all") != null) {
                 // not filter and show
-                JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all");
+                JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "samples" + "/" + "all");
                 try {
                     JSONArray data = jsonObject.getJSONArray("data");
                     if (data.length() == 0) {
@@ -655,11 +611,11 @@ public class SampleRepository extends MainRepository {
                     return getAll;
                 }
             } else {
-                if (FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all") != null) {
+                if (FileManager.readObjectFromCache(application.getApplicationContext(), "samples" + "/" + "all") != null) {
                     // filter and show
                     try {
                         getAll.clear();
-                        JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "samples", "all");
+                        JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "samples" + "/" + "all");
                         JSONArray data = jsonObject.getJSONArray("data");
                         for (int i = 0; i < data.length(); i++) {
                             JSONObject object = data.getJSONObject(i);
@@ -703,8 +659,8 @@ public class SampleRepository extends MainRepository {
         File[] list = file.listFiles();
         if (list != null) {
             for (int i = 0; i < list.length; i++) {
-                if (readSampleAnswerFromCache(list[i].getName()) != null) {
-                    JSONObject sample = readSampleFromCache(list[i].getName());
+                if (FileManager.readArrayFromCache(application.getApplicationContext(), "Answers" + "/" + list[i].getName()) != null) {
+                    JSONObject sample = FileManager.readObjectFromCache(application.getApplicationContext(), "Samples" + "/" + list[i].getName());
                     try {
                         if (sample.getJSONObject("data").getString("status").equals("open")) {
                             JSONObject jsonObject = new JSONObject();

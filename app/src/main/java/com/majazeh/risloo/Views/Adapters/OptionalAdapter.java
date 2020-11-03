@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Activities.SampleActivity;
 
@@ -133,12 +134,13 @@ public class OptionalAdapter extends RecyclerView.Adapter<OptionalAdapter.Option
 
     private void doWork(int position) {
         try {
-            JSONArray jsonArray = viewModel.readSampleAnswerFromCache(sharedPreferences.getString("sampleId", ""));
+            JSONArray jsonArray = FileManager.readArrayFromCache(activity, "Answers" + "/" + sharedPreferences.getString("sampleId", ""));
 
             jsonArray.getJSONObject(viewModel.getIndex()).put("index", viewModel.getIndex());
             jsonArray.getJSONObject(viewModel.getIndex()).put("answer", position + 1);
 
-            viewModel.writeSampleAnswerToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
+            FileManager.writeArrayToCache(activity, jsonArray, "Answers" + "/" + sharedPreferences.getString("sampleId", ""));
+
 
             if (viewModel.getNext() == null) {
                 if (viewModel.firstUnAnswered(sharedPreferences.getString("sampleId", "")) == -1) {

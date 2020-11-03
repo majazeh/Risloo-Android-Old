@@ -23,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 
@@ -252,10 +253,10 @@ public class PrerequisiteAdapter extends RecyclerView.Adapter<PrerequisiteAdapte
 
     public void getAnswers(int index, String result) {
         try {
-            JSONArray jsonArray = viewModel.readPrerequisiteAnswerFromCache(sharedPreferences.getString("sampleId", ""));
+            JSONArray jsonArray = FileManager.readArrayFromCache(activity, "prerequisitesAnswers" + "/" + sharedPreferences.getString("sampleId", ""));
             jsonArray.put(index, new JSONArray().put(String.valueOf(index)).put(result));
 
-            viewModel.writePrerequisiteAnswerToCache(jsonArray, sharedPreferences.getString("sampleId", ""));
+            FileManager.writeArrayToCache(activity, jsonArray, "prerequisitesAnswers" + "/" + sharedPreferences.getString("sampleId", ""));
 
             answer.put(index,result);
         } catch (JSONException e) {

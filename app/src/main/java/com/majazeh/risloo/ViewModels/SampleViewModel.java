@@ -98,56 +98,8 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
     /*
-         ---------- Write ----------
-    */
-
-    public void writeSampleAnswerToExternal(JSONArray jsonArray, String fileName) {
-        repository.writeSampleAnswerToExternal(jsonArray, fileName);
-    }
-
-    public void writeSampleAnswerToCache(JSONArray jsonArray, String fileName) {
-        repository.writeSampleAnswerToCache(jsonArray, fileName);
-    }
-
-    public void writePrerequisiteAnswerToCache(JSONArray jsonArray, String fileName) {
-        repository.writePrerequisiteAnswerToCache(jsonArray, fileName);
-    }
-
-    /*
-         ---------- Read ----------
-    */
-
-    public JSONObject readSampleFromCache(String fileName) {
-        return repository.readSampleFromCache(fileName);
-    }
-
-    public JSONArray readSampleAnswerFromCache(String fileName) {
-        return repository.readSampleAnswerFromCache(fileName);
-    }
-
-    public JSONArray readPrerequisiteAnswerFromCache(String fileName) {
-        return repository.readPrerequisiteAnswerFromCache(fileName);
-    }
-
-    public JSONObject readSampleDetailFromCache(String fileName) {
-        return repository.readSampleDetailFromCache(fileName);
-    }
-
-    /*
          ---------- Check ----------
     */
-
-    public boolean hasSampleAnswerStorage(String fileName) {
-        return repository.hasSampleAnswerStorage(fileName);
-    }
-
-    public boolean checkSampleAnswerStorage(String fileName) {
-        return repository.checkSampleAnswerStorage(fileName);
-    }
-
-    public boolean hasPrerequisiteAnswerStorage(String fileName) {
-        return repository.hasPrerequisiteAnswerStorage(fileName);
-    }
 
     public boolean checkPrerequisiteAnswerStorage(String fileName) {
         return repository.checkPrerequisiteAnswerStorage(fileName);

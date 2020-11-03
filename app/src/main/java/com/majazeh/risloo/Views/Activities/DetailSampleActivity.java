@@ -289,8 +289,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
     private void setData() {
         try {
-            JSONObject data = viewModel.readSampleDetailFromCache(sampleId);
-
+            JSONObject data = FileManager.readObjectFromCache(this, "sampleDetail" + "/" + sampleId);
             serialTextView.setText(data.getString("id"));
 
             if (data.has("scale") && !data.isNull("scale")) {
@@ -521,7 +520,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                         setData();
                     } else if (integer != -1) {
-                        if (viewModel.readSampleDetailFromCache(sampleId) == null) {
+                        if (FileManager.readObjectFromCache(this, "sampleDetail" + "/" + sampleId) == null) {
                             if (integer == 0) {
                                 // General Detail is Empty And Error
 
@@ -621,9 +620,9 @@ public class DetailSampleActivity extends AppCompatActivity {
                         setResult(RESULT_OK, null);
 
                         try {
-                            JSONObject jsonObject = FileManager.readObjectFromCache(this, "sampleDetail", sampleId);
+                            JSONObject jsonObject = FileManager.readObjectFromCache(this, "sampleDetail" + "/" + sampleId);
                             Objects.requireNonNull(jsonObject).put("status", "closed");
-                            FileManager.writeObjectToCache(this, jsonObject, "sampleDetail", sampleId);
+                            FileManager.writeObjectToCache(this, jsonObject, "sampleDetail" + "/" + sampleId);
 
                             setData();
                         } catch (JSONException e) {

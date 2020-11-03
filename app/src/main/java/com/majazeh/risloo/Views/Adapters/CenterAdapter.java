@@ -519,7 +519,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                         Model item = centers.get(position);
 
                         if (check.equals("all")) {
-                            JSONObject jsonObject = FileManager.readObjectFromCache(activity.getApplicationContext(), "centers", "all");
+                            JSONObject jsonObject = FileManager.readObjectFromCache(activity.getApplicationContext(), "centers" + "/" + "all");
                             try {
                                 JSONArray data = jsonObject.getJSONArray("data");
                                 for (int i = 0; i < data.length(); i++) {
@@ -536,7 +536,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
                             }
 
                         } else {
-                            JSONObject jsonObject = FileManager.readObjectFromCache(activity.getApplicationContext(), "centers", "my");
+                            JSONObject jsonObject = FileManager.readObjectFromCache(activity.getApplicationContext(), "centers" + "/" + "my");
                             try {
                                 JSONArray data = jsonObject.getJSONArray("data");
                                 JSONObject acceptation = data.getJSONObject(data.length() - 1).getJSONObject("acceptation");

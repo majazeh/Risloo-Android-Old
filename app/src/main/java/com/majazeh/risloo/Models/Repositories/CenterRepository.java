@@ -144,8 +144,8 @@ public class CenterRepository extends MainRepository {
     public ArrayList<Model> getAll() {
         if (search.equals("")){
             ArrayList<Model> arrayList = new ArrayList<>();
-        if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "all") != null) {
-            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "all");
+        if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + "all") != null) {
+            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + "all");
             try {
                 JSONArray data = jsonObject.getJSONArray("data");
                 if (data.length() == 0) {
@@ -171,8 +171,8 @@ public class CenterRepository extends MainRepository {
                     return getAll;
                 }
             }else{
-                if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "all") != null) {
-                    JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "all");
+                if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + "all") != null) {
+                    JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + "all");
                     try {
                         JSONArray data = jsonObject.getJSONArray("data");
                         if (data.length() == 0) {
@@ -200,8 +200,8 @@ public class CenterRepository extends MainRepository {
     public ArrayList<Model> getMy() {
         if (search.equals("")) {
             ArrayList<Model> arrayList = new ArrayList<>();
-            if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "my") != null) {
-                JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "my");
+            if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + "my") != null) {
+                JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + "my");
                 try {
                     JSONArray data = jsonObject.getJSONArray("data");
                     if (data.length() == 0) {
@@ -228,8 +228,8 @@ public class CenterRepository extends MainRepository {
                 return getMy;
             }
         }else{
-            if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "my") != null) {
-                JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers", "my");
+            if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + "my") != null) {
+                JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + "my");
                 try {
                     JSONArray data = jsonObject.getJSONArray("data");
                     if (data.length() == 0) {

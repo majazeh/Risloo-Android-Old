@@ -219,7 +219,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         StringBuilder result = new StringBuilder();
         String number = "+989195934528";
 
-        JSONArray jsonArray = viewModel.readSampleAnswerFromCache(sampleId);
+        JSONArray jsonArray = FileManager.readArrayFromCache(this, "Answers" + "/" + sampleId);
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 result.append(jsonArray.getJSONObject(i).getString("answer"));
@@ -238,7 +238,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
     }
 
     private void saveFile() {
-        viewModel.writeSampleAnswerToExternal(viewModel.readSampleAnswerFromCache(sampleId), sampleId);
+        FileManager.writeAnswersToExternal(this, FileManager.readArrayFromCache(this, "Answers" + "/" + sampleId), sampleId);
         changeStatus();
         finish();
 
@@ -324,13 +324,26 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
 
     private void changeStatus() {
         try {
-            JSONObject jsonObject = viewModel.readSampleFromCache(sampleId);
+            JSONObject jsonObject = FileManager.readObjectFromCache(this, "Samples" + "/" + sampleId);
             JSONObject data = jsonObject.getJSONObject("data");
 
             data.put("status", "sent");
             jsonObject.put("data", data);
 
-            FileManager.writeSampleAnswerToCache(this, jsonObject, sampleId);
+
+            JSONArray jsonArray = new JSONArray();
+            JSONArray items = data.getJSONArray("items");
+            for (int i = 0; i < items.length(); i++) {
+                JSONArray jsonArray1 = new JSONArray();
+                jsonArray1.put(i);
+                if (items.getJSONObject(i).has("user_answered")) {
+                    jsonArray1.put(items.getJSONObject(i).getString("user_answered"));
+                } else {
+                    jsonArray.put("");
+                }
+            }
+
+            FileManager.writeObjectToCache(this, jsonObject, "Samples" + "/" + sampleId);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -4,20 +4,15 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
-
-import androidx.annotation.RequiresApi;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedOutputStream;
-import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,10 +21,9 @@ import java.io.ObjectOutputStream;
 
 public class FileManager {
 
-
-    public static boolean writeObjectToCache(Context context, JSONObject jsonObject, String fileName, String fileSubName) {
+    public static void writeObjectToCache(Context context, JSONObject jsonObject, String fileName) {
         try {
-            File file = new File(context.getCacheDir(), fileName + "/" + fileSubName);
+            File file = new File(context.getCacheDir(), fileName);
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }
@@ -39,19 +33,16 @@ public class FileManager {
             FileOutputStream fos = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(jsonObject.toString());
+            oos.flush();
             oos.close();
-            return true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
-    public static boolean writeArrayToCache(Context context, JSONArray jsonArray, String fileName, String fileSubName) {
+    public static void writeArrayToCache(Context context, JSONArray jsonArray, String fileName) {
         try {
-            File file = new File(context.getCacheDir(), fileName + "/" + fileSubName);
+            File file = new File(context.getCacheDir(), fileName);
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }
@@ -61,251 +52,64 @@ public class FileManager {
             FileOutputStream fos = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(jsonArray.toString());
+            oos.flush();
             oos.close();
-            return true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
-    public static boolean writeSampleAnswerToCache(Context context, JSONObject jsonObject, String fileName) {
+    public static void writeBitmapToCache(Context context, Bitmap bitmap, String fileName) {
         try {
-            File file = new File(context.getCacheDir(), "Samples/" + fileName);
+            File file = new File(context.getCacheDir(), fileName);
             if (!file.getParentFile().exists()) {
                 file.getParentFile().mkdirs();
             }
             if (!file.exists()) {
                 file.createNewFile();
             }
-
-            JSONArray jsonArray = new JSONArray();
-            JSONObject data = jsonObject.getJSONObject("data");
-            JSONArray items = data.getJSONArray("items");
-            for (int i = 0; i < items.length(); i++) {
-                JSONArray jsonArray1 = new JSONArray();
-                jsonArray1.put(i);
-                if (items.getJSONObject(i).has("user_answered")) {
-                    jsonArray1.put(items.getJSONObject(i).getString("user_answered"));
-                } else {
-                    jsonArray.put("");
-                }
-            }
-
             FileOutputStream fos = new FileOutputStream(file);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(jsonObject.toString());
-            oos.close();
-            return true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-        return false;
     }
 
-    public static boolean writePrerequisiteAnswerToCache(Context context, JSONArray jsonArray, String fileName) {
-        try {
-            File file = new File(context.getCacheDir(), "Prerequisites/" + fileName);
-            if (!file.getParentFile().exists()) {
-                file.getParentFile().mkdirs();
-            }
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-
-            JSONArray jsonArray1 = new JSONArray();
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONArray jsonArray2 = new JSONArray();
-                if (jsonArray.getJSONObject(i).has("user_answered")) {
-                    jsonArray2.put(String.valueOf(i + 1));
-                    jsonArray2.put(jsonArray.getJSONObject(i).getString("user_answered"));
-                } else {
-                    jsonArray2.put(String.valueOf(i + 1));
-                    jsonArray2.put("");
-                }
-                jsonArray1.put(jsonArray2);
-            }
-            writeArrayToCache(context, jsonArray1, "prerequisitesAnswers", fileName);
-
-            FileOutputStream fos = new FileOutputStream(file);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(jsonArray.toString());
-            oos.close();
-            return true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public static JSONObject readObjectFromCache(Context context, String fileName, String fileSubName) {
-        JSONObject jsonObject = null;
-        try {
-            File file = new File(context.getCacheDir(), fileName + "/" + fileSubName);
-            if (file.exists()) {
-                FileInputStream fis = new FileInputStream(file);
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                jsonObject = new JSONObject((String) ois.readObject());
-                ois.close();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (EOFException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return jsonObject;
-    }
-
-    public static JSONArray readArrayFromCache(Context context, String fileName, String fileSubName) {
-        JSONArray jsonArray = null;
-        try {
-            File file = new File(context.getCacheDir(), fileName + "/" + fileSubName);
-            if (file.exists()) {
-                FileInputStream fis = new FileInputStream(file);
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                jsonArray = new JSONArray((String) ois.readObject());
-                ois.close();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return jsonArray;
-    }
-
-    public static boolean hasCache(Context context, String fileName, String fileSubName) {
-        return new File(context.getCacheDir(), fileName + "/" + fileSubName).exists();
-    }
-
-    public static void deleteCache(Context context, String fileName, String fileSubName) {
-        new File(context.getCacheDir(), fileName + "/" + fileSubName).delete();
-    }
-
-    public static boolean writeToExternal(Context context, JSONArray jsonArray, String fileName) {
+    public static void writeAnswersToExternal(Context context, JSONArray jsonArray, String fileName) {
         try {
             File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName + ".csv");
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            if (!file.exists()) {
+                file.createNewFile();
+            }
             FileOutputStream fos = new FileOutputStream(file);
+
             for (int i = 0; i < jsonArray.length(); i++) {
                 fos.write(jsonArray.getJSONObject(i).getString("index").getBytes("UTF-8"));
                 fos.write(",".getBytes("UTF-8"));
                 fos.write(jsonArray.getJSONObject(i).getString("answer").getBytes("UTF-8"));
                 fos.write("\n".getBytes("UTF-8"));
             }
+
+            fos.flush();
             fos.close();
-            return true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
-    public static boolean writeToCSV(Context context, JSONArray jsonArray, String fileName) {
-        try {
-            FileOutputStream fos = context.openFileOutput(fileName + ".csv", Context.MODE_PRIVATE);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                fos.write(jsonArray.getJSONObject(i).getString("index").getBytes("UTF-8"));
-                fos.write(",".getBytes("UTF-8"));
-                fos.write(jsonArray.getJSONObject(i).getString("answer").getBytes("UTF-8"));
-                fos.write("\n".getBytes("UTF-8"));
-            }
-            fos.close();
-            return true;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public static File readFromCSV(Context context, String fileName) {
-        return new File(context.getCacheDir(), fileName + ".csv");
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static void deletePage(Context context, String fileName, String fileSubName, int page, int count){
-        File file = new File(context.getCacheDir(), fileName + "/" + fileSubName);
-        if (file.exists()){
-            FileInputStream fis = null;
-            try {
-                fis = new FileInputStream(file);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            JSONObject jsonObject = new JSONObject((String) ois.readObject());
-            JSONArray data = jsonObject.getJSONArray("data");
-                for (int i = (page-1)*count; i <page*count ; i++) {
-                    data.remove(i);
-                }
-            ois.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }else{
-            // it doesnt exist
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public static void writeUriToCache(Context context, Uri uri, String path) {
+    public static void writeUriToCache(Context context, Uri uri, String fileName) {
         InputStream is = null;
         FileOutputStream fos = null;
         BufferedOutputStream bos = null;
 
         try {
             is = context.getContentResolver().openInputStream(uri);
-            fos = new FileOutputStream(path, false);
+            fos = new FileOutputStream(fileName, false);
             bos = new BufferedOutputStream(fos);
 
             byte[] buf = new byte[1024];
@@ -328,60 +132,74 @@ public class FileManager {
         }
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    public static void writeBitmapToCache(Context context, Bitmap bitmap, String fileName) {
+    public static JSONObject readObjectFromCache(Context context, String fileName) {
         try {
             File file = new File(context.getCacheDir(), fileName);
             if (!file.getParentFile().exists()) {
-                file.getParentFile().mkdirs();
+                return null;
             }
             if (!file.exists()) {
-                file.createNewFile();
+                return null;
             }
-            FileOutputStream fos = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            fos.flush();
-            fos.close();
-        } catch (FileNotFoundException e) {
+            FileInputStream fis = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            JSONObject jsonObject = new JSONObject(ois.readObject().toString());
+            ois.close();
+            return jsonObject;
+        } catch (IOException | JSONException | ClassNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    public static JSONArray readArrayFromCache(Context context, String fileName) {
+        try {
+            File file = new File(context.getCacheDir(), fileName);
+            if (!file.getParentFile().exists()) {
+                return null;
+            }
+            if (!file.exists()) {
+                return null;
+            }
+            FileInputStream fis = new FileInputStream(file);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            JSONArray jsonArray = new JSONArray(ois.readObject().toString());
+            ois.close();
+            return jsonArray;
+        } catch (IOException | JSONException | ClassNotFoundException e) {
             e.printStackTrace();
+            return null;
         }
     }
 
     public static Bitmap readBitmapFromCache(Context context, String fileName) {
-        Bitmap bitmap;
         try {
             File file = new File(context.getCacheDir(), fileName);
+            if (!file.getParentFile().exists()) {
+                return null;
+            }
             if (!file.exists()) {
-               return null;
+                return null;
             }
             FileInputStream fis = new FileInputStream(file);
-            bitmap = BitmapFactory.decodeStream(fis);
+            Bitmap bitmap = BitmapFactory.decodeStream(fis);
             fis.close();
             return bitmap;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    public static void deleteFolderFromCache(Context context, String fileName) {
+    public static File readFileFromCache(Context context, String fileName) {
         File file = new File(context.getCacheDir(), fileName);
-        if (file.exists()) {
-            String[] children = file.list();
-            for (String child : children) {
-                File subFile = new File(file, child);
-                if (subFile.exists()) {
-                    subFile.delete();
-                }
-            }
-            file.delete();
+        if (!file.getParentFile().exists()) {
+            return null;
         }
+        if (!file.exists()) {
+            return null;
+        }
+        return file;
     }
 
     public static void deleteFileFromCache(Context context, String fileName) {
@@ -391,12 +209,45 @@ public class FileManager {
         }
     }
 
-    public static File getFileFromCache(Context context, String fileName) {
+    public static void deleteFolderFromCache(Context context, String fileName) {
         File file = new File(context.getCacheDir(), fileName);
-        if (!file.exists()) {
-            file.mkdirs();
+        if (file.exists()) {
+            String[] children = file.list();
+            if (children != null) {
+                for (String child : children) {
+                    File subFile = new File(file, child);
+                    if (subFile.exists()) {
+                        subFile.delete();
+                    }
+                }
+            }
+            file.delete();
         }
-        return file;
+    }
+
+    public static void deletePageFromCache(Context context, String fileName, int page, int count) {
+        try {
+            File file = new File(context.getCacheDir(), fileName);
+            if (file.exists()) {
+                FileInputStream fis = new FileInputStream(file);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+
+                JSONObject jsonObject = new JSONObject(ois.readObject().toString());
+                JSONArray data = jsonObject.getJSONArray("data");
+
+                for (int i = (page-1)*count; i <page*count ; i++) {
+                    data.remove(i);
+                }
+
+                ois.close();
+            }
+        } catch (IOException | JSONException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean hasFileInCache(Context context, String fileName) {
+        return new File(context.getCacheDir(), fileName).exists();
     }
 
 }

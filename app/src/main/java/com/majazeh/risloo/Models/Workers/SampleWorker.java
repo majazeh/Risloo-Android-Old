@@ -126,8 +126,39 @@ public class SampleWorker extends Worker {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONObject data = successBody.getJSONObject("data");
 
-                FileManager.writeSampleAnswerToCache(context, successBody, SampleRepository.sampleId);
-                FileManager.writePrerequisiteAnswerToCache(context, data.getJSONArray("prerequisites"), SampleRepository.sampleId);
+                ////////// Samples
+                JSONArray jsonArray2 = new JSONArray();
+                JSONArray items = data.getJSONArray("items");
+                for (int i = 0; i < items.length(); i++) {
+                    JSONArray jsonArray1 = new JSONArray();
+                    jsonArray1.put(i);
+                    if (items.getJSONObject(i).has("user_answered")) {
+                        jsonArray1.put(items.getJSONObject(i).getString("user_answered"));
+                    } else {
+                        jsonArray2.put("");
+                    }
+                }
+                FileManager.writeObjectToCache(context, successBody, "Samples" + "/" + SampleRepository.sampleId);
+                //////////
+
+                JSONArray jsonArray = data.getJSONArray("prerequisites");
+
+                ////////// Prerequisites
+                JSONArray jsonArray1 = new JSONArray();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONArray jsonArray3 = new JSONArray();
+                    if (jsonArray.getJSONObject(i).has("user_answered")) {
+                        jsonArray3.put(String.valueOf(i + 1));
+                        jsonArray3.put(jsonArray.getJSONObject(i).getString("user_answered"));
+                    } else {
+                        jsonArray3.put(String.valueOf(i + 1));
+                        jsonArray3.put("");
+                    }
+                    jsonArray1.put(jsonArray3);
+                }
+                FileManager.writeArrayToCache(context, jsonArray1, "prerequisitesAnswers" + "/" + SampleRepository.sampleId);
+                FileManager.writeArrayToCache(context, jsonArray, "Prerequisites" + "/" + SampleRepository.sampleId);
+                //////////
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "single", "sample");
                 if (data.getString("status").equals("closed")) {
@@ -171,22 +202,22 @@ public class SampleWorker extends Worker {
                 if (successBody.getJSONArray("data").length() != 0) {
                     if (!SampleRepository.filter()) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                            FileManager.deletePage(context, "samples", "all", SampleRepository.samplesPage, 15);
+                            FileManager.deletePageFromCache(context, "samples" + "/" + "all", SampleRepository.samplesPage, 15);
                         }
 
                         if (SampleRepository.samplesPage == 1) {
-                            FileManager.writeObjectToCache(context, successBody, "samples", "all");
+                            FileManager.writeObjectToCache(context, successBody, "samples" + "/" + "all");
 
                         } else {
                             try {
-                                JSONObject jsonObject = FileManager.readObjectFromCache(context, "samples", "all");
+                                JSONObject jsonObject = FileManager.readObjectFromCache(context, "samples" + "/" + "all");
                                 JSONArray data = jsonObject.getJSONArray("data");
                                 for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
                                     JSONArray jsonArray = successBody.getJSONArray("data");
                                     data.put(jsonArray.getJSONObject(i));
                                 }
                                 jsonObject.put("data", data);
-                                FileManager.writeObjectToCache(context, jsonObject, "samples", "all");
+                                FileManager.writeObjectToCache(context, jsonObject, "samples" + "/" + "all");
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -405,7 +436,7 @@ public class SampleWorker extends Worker {
                             JSONObject successBody = new JSONObject(response.body().string());
                             JSONObject data = successBody.getJSONObject("data");
 
-                            FileManager.writeObjectToCache(context, data, "sampleDetail", SampleRepository.sampleId);
+                            FileManager.writeObjectToCache(context, data, "sampleDetail" + "/" + SampleRepository.sampleId);
 
                             ExceptionGenerator.getException(true, response.code(), successBody, "score", "sample");
                             SampleRepository.workStateSample.postValue(1);
@@ -644,7 +675,7 @@ public class SampleWorker extends Worker {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONObject data = successBody.getJSONObject("data");
 
-                FileManager.writeObjectToCache(context, data, "sampleDetail", SampleRepository.sampleId);
+                FileManager.writeObjectToCache(context, data, "sampleDetail" + "/" + SampleRepository.sampleId);
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "generals", "sample");
                 SampleRepository.workStateSample.postValue(1);
@@ -688,7 +719,7 @@ public class SampleWorker extends Worker {
                             JSONObject successBody = new JSONObject(response.body().string());
                             JSONObject data = successBody.getJSONObject("data");
 
-                            FileManager.writeObjectToCache(context, data, "sampleDetailFiles", SampleRepository.sampleId);
+                            FileManager.writeObjectToCache(context, data, "sampleDetailFiles" + "/" + SampleRepository.sampleId);
                             ExceptionGenerator.getException(true, response.code(), successBody, "scores", "sample");
                             SampleRepository.workStateSample.postValue(1);
                         }

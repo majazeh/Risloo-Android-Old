@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Views.Activities.SampleActivity;
 import com.majazeh.risloo.Views.Adapters.PrerequisiteAdapter;
@@ -57,7 +58,7 @@ public class PrerequisiteFragment extends Fragment {
     }
 
     private void setData() {
-        adapter.setPrerequisite(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getPrerequisite(), ((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.readPrerequisiteAnswerFromCache(((SampleActivity) Objects.requireNonNull(getActivity())).sampleId), ((SampleActivity) Objects.requireNonNull(getActivity())).viewModel);
+        adapter.setPrerequisite(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getPrerequisite(), FileManager.readArrayFromCache(activity, "prerequisitesAnswers" + "/" + ((SampleActivity) Objects.requireNonNull(getActivity())).sampleId), ((SampleActivity) Objects.requireNonNull(getActivity())).viewModel);
         prerequisiteRecyclerView.setAdapter(adapter);
     }
 

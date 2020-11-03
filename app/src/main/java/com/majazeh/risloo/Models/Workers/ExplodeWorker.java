@@ -109,7 +109,7 @@ public class ExplodeWorker extends Worker {
                     editor.putBoolean("hasAccess", false);
                 }
 
-                FileManager.writeObjectToCache(context, new JSONObject().put("data", user.getJSONArray("centers")), "centers", "my");
+                FileManager.writeObjectToCache(context, new JSONObject().put("data", user.getJSONArray("centers")), "centers" + "/" + "my");
 
                 if (user.has("id"))
                     editor.putString("userId", user.getString("id"));

@@ -37,6 +37,7 @@ import android.widget.Toast;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
@@ -359,7 +360,7 @@ public class SampleActivity extends AppCompatActivity {
 
                 indexRecyclerView.scrollToPosition(viewModel.getIndex());
 
-                adapter.setIndex(viewModel.readSampleAnswerFromCache(sampleId), viewModel);
+                adapter.setIndex(FileManager.readArrayFromCache(this, "Answers" + "/" + sampleId), viewModel);
                 adapter.notifyDataSetChanged();
 
                 break;
@@ -367,7 +368,7 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     private void setRecyclerView() {
-        adapter.setIndex(viewModel.readSampleAnswerFromCache(sampleId), viewModel);
+        adapter.setIndex(FileManager.readArrayFromCache(this, "Answers" + "/" + sampleId), viewModel);
         indexRecyclerView.setAdapter(adapter);
 
         viewModel.setIndex(viewModel.firstUnAnswered(sampleId));
@@ -420,7 +421,7 @@ public class SampleActivity extends AppCompatActivity {
         SampleRepository.workStateSample.observe(this, integer -> {
             if (SampleRepository.work.equals("getSingle")) {
                 if (integer == 1) {
-                    if (viewModel.hasPrerequisiteAnswerStorage(sampleId)) {
+                    if (FileManager.hasFileInCache(this, "Prerequisites" + "/" + sampleId)) {
                         if (viewModel.checkPrerequisiteAnswerStorage(sampleId) || showPreByAnswer) {
                             // Show Description
                             showPreByAnswer = false;
@@ -488,7 +489,7 @@ public class SampleActivity extends AppCompatActivity {
                     }
                 } else if (integer == 0) {
                     if (viewModel.getItems() == null) {
-                        if (viewModel.hasPrerequisiteAnswerStorage(sampleId)) {
+                        if (FileManager.hasFileInCache(this, "Prerequisites" + "/" + sampleId)) {
                             if (viewModel.checkPrerequisiteAnswerStorage(sampleId)) {
                                 // Show Description
 
@@ -553,7 +554,7 @@ public class SampleActivity extends AppCompatActivity {
                     }
                 } else if (integer == -2) {
                     if (viewModel.getItems() == null) {
-                        if (viewModel.hasPrerequisiteAnswerStorage(sampleId)) {
+                        if (FileManager.hasFileInCache(this, "Prerequisites" + "/" + sampleId)) {
                             if (viewModel.checkPrerequisiteAnswerStorage(sampleId)) {
                                 // Show Description
 

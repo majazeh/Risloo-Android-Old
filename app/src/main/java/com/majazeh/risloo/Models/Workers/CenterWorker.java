@@ -100,13 +100,13 @@ public class CenterWorker extends Worker {
                 if (successBody.getJSONArray("data").length() != 0) {
                 if (CenterRepository.search.equals("")){
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        FileManager.deletePage(context, "centers", "all", CenterRepository.allPage, 15);
+                        FileManager.deletePageFromCache(context, "centers" + "/" + "all", CenterRepository.allPage, 15);
                     }
 
                     if (CenterRepository.allPage == 1) {
-                        FileManager.writeObjectToCache(context, successBody, "centers", "all");
+                        FileManager.writeObjectToCache(context, successBody, "centers" + "/" + "all");
                     } else {
-                        JSONObject jsonObject = FileManager.readObjectFromCache(context, "centers", "all");
+                        JSONObject jsonObject = FileManager.readObjectFromCache(context, "centers" + "/" + "all");
                         JSONArray data;
                         try {
                             data = jsonObject.getJSONArray("data");
@@ -115,7 +115,7 @@ public class CenterWorker extends Worker {
                                 data.put(jsonArray.getJSONObject(i));
                             }
                             jsonObject.put("data", data);
-                            FileManager.writeObjectToCache(context, jsonObject, "centers", "all");
+                            FileManager.writeObjectToCache(context, jsonObject, "centers" + "/" + "all");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -174,9 +174,9 @@ public class CenterWorker extends Worker {
                 if (successBody.getJSONArray("data").length() != 0){
                     if (CenterRepository.search.equals("")) {
                         if (CenterRepository.myPage == 1) {
-                            FileManager.writeObjectToCache(context, successBody, "centers", "my");
+                            FileManager.writeObjectToCache(context, successBody, "centers" + "/" + "my");
                         } else {
-                            JSONObject jsonObject = FileManager.readObjectFromCache(context, "centers", "my");
+                            JSONObject jsonObject = FileManager.readObjectFromCache(context, "centers" + "/" + "my");
                             JSONArray data;
                             try {
                                 data = jsonObject.getJSONArray("data");
@@ -185,7 +185,7 @@ public class CenterWorker extends Worker {
                                     data.put(jsonArray.getJSONObject(i));
                                 }
                                 jsonObject.put("data", data);
-                                FileManager.writeObjectToCache(context, jsonObject, "centers", "my");
+                                FileManager.writeObjectToCache(context, jsonObject, "centers" + "/" + "my");
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -239,7 +239,7 @@ public class CenterWorker extends Worker {
                 JSONObject response = successBody.getJSONObject("data");
                 JSONObject acceptation = response.getJSONObject("acceptation");
 
-                JSONObject data = FileManager.readObjectFromCache(context, "centers", "all");
+                JSONObject data = FileManager.readObjectFromCache(context, "centers" + "/" + "all");
                 JSONArray items = data.getJSONArray("data");
                 for (int i = 0; i < items.length(); i++) {
                     JSONObject item = (JSONObject) items.get(i);
@@ -252,18 +252,18 @@ public class CenterWorker extends Worker {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("data", items);
 
-                FileManager.writeObjectToCache(context, jsonObject, "centers", "all");
+                FileManager.writeObjectToCache(context, jsonObject, "centers" + "/" + "all");
 
                 if (acceptation.isNull("kicked_at")) {
                     if (!acceptation.isNull("accepted_at")) {
-                        JSONObject data2 = FileManager.readObjectFromCache(context, "centers", "my");
+                        JSONObject data2 = FileManager.readObjectFromCache(context, "centers" + "/" + "my");
                         JSONArray jsonArray = data2.getJSONArray("data");
                         jsonArray.put(response);
 
                         JSONObject json = new JSONObject();
                         json.put("data", jsonArray);
 
-                        FileManager.writeObjectToCache(context, json, "centers", "my");
+                        FileManager.writeObjectToCache(context, json, "centers" + "/" + "my");
                     }
                 }
 

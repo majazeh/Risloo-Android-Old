@@ -450,7 +450,7 @@ public class AuthWorker extends Worker {
                     editor.putBoolean("hasAccess", false);
                 }
 
-                FileManager.writeObjectToCache(context, new JSONObject().put("data", data.getJSONArray("centers")), "centers", "my");
+                FileManager.writeObjectToCache(context, new JSONObject().put("data", data.getJSONArray("centers")), "centers" + "/" + "my");
 
                 if (data.has("id"))
                     editor.putString("userId", data.getString("id"));
