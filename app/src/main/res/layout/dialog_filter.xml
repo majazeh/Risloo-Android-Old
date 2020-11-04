@@ -127,10 +127,13 @@
 
         <TextView
             android:id="@+id/dialog_filter_close_textView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:paddingTop="@dimen/_8sdp"
             android:paddingBottom="@dimen/_8sdp"
+            android:paddingLeft="@dimen/_32sdp"
+            android:paddingRight="@dimen/_32sdp"
             android:gravity="center"
             android:text="@string/SamplesFilterDialogClose"
             android:textSize="@dimen/_12ssp"
