@@ -311,7 +311,7 @@ public class SendDocActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionGenerator.exception.equals("sendDoc")) {
+        if (ExceptionGenerator.current_exception.equals("sendDoc")) {
             String exceptionToast = "";
 
             if (!ExceptionGenerator.errors.isNull("title")) {
@@ -368,7 +368,7 @@ public class SendDocActivity extends AppCompatActivity {
             }
         } else if (resultCode == RESULT_CANCELED) {
             if (requestCode == 100) {
-                ExceptionGenerator.getException(false, 0, null, "FileException", "auth");
+                ExceptionGenerator.getException(false, 0, null, "FileException");
                 Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             }
         }

@@ -242,7 +242,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
         changeStatus();
         finish();
 
-        ExceptionGenerator.getException(false, 0, null, "SavedToDownloadException", "sample");
+        ExceptionGenerator.getException(false, 0, null, "SavedToDownloadException");
         Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
     }
 
@@ -316,7 +316,7 @@ public class OutroActivity extends AppCompatActivity implements ActivityCompat.O
             }
         } else if (resultCode == RESULT_CANCELED) {
             if (requestCode == 200) {
-                ExceptionGenerator.getException(false, 0, null, "SendToException", "outro");
+                ExceptionGenerator.getException(false, 0, null, "SendToException");
                 Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             }
         }

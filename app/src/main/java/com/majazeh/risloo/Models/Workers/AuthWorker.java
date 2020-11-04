@@ -144,29 +144,29 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "auth", "auth");
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "auth");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "auth", "auth");
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "auth");
                 AuthRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
             AuthRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "JSONException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
             AuthRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "IOException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "IOException");
             AuthRepository.workState.postValue(0);
         }
     }
@@ -206,29 +206,29 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "authTheory", "auth");
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "authTheory");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "authTheory", "auth");
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "authTheory");
                 AuthRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
             AuthRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "JSONException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
             AuthRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "IOException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "IOException");
             AuthRepository.workState.postValue(0);
         }
     }
@@ -268,29 +268,29 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "register", "auth");
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "register");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "register", "auth");
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "register");
                 AuthRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
             AuthRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "JSONException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
             AuthRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "IOException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "IOException");
             AuthRepository.workState.postValue(0);
         }
     }
@@ -330,29 +330,29 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "verification", "auth");
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "verification");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "verification", "auth");
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "verification");
                 AuthRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
             AuthRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "JSONException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
             AuthRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "IOException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "IOException");
             AuthRepository.workState.postValue(0);
         }
     }
@@ -392,29 +392,29 @@ public class AuthWorker extends Worker {
                     me();
                 }
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "recovery", "auth");
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "recovery");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "recovery", "auth");
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "recovery");
                 AuthRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
             AuthRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "JSONException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
             AuthRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "IOException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "IOException");
             AuthRepository.workState.postValue(0);
         }
     }
@@ -498,29 +498,29 @@ public class AuthWorker extends Worker {
 
                 editor.apply();
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "me", "auth");
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "me");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "me", "auth");
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "me");
                 AuthRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
             AuthRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "JSONException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
             AuthRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "IOException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "IOException");
             AuthRepository.workState.postValue(0);
         }
     }
@@ -538,29 +538,29 @@ public class AuthWorker extends Worker {
                 editor.putString("birthday", AuthRepository.birthday);
                 editor.apply();
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "edit", "auth");
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "edit");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "edit", "auth");
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "edit");
                 AuthRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
             AuthRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "JSONException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
             AuthRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "IOException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "IOException");
             AuthRepository.workState.postValue(0);
         }
     }
@@ -589,12 +589,12 @@ public class AuthWorker extends Worker {
 
                             FileManager.deleteFileFromCache(context, "image");
 
-                            ExceptionGenerator.getException(true, 200, successBody, "avatar", "auth");
+                            ExceptionGenerator.getException(true, 200, successBody, "avatar");
                             AuthRepository.workState.postValue(1);
                         } catch (JSONException e) {
                             e.printStackTrace();
 
-                            ExceptionGenerator.getException(false, 0, null, "JSONException", "auth");
+                            ExceptionGenerator.getException(false, 0, null, "JSONException");
                             AuthRepository.workState.postValue(0);
                         }
                     }
@@ -604,12 +604,12 @@ public class AuthWorker extends Worker {
                         try {
                             JSONObject errorBody = new JSONObject(error.getErrorBody());
 
-                            ExceptionGenerator.getException(true, error.getErrorCode(), errorBody, "avatar", "auth");
+                            ExceptionGenerator.getException(true, error.getErrorCode(), errorBody, "avatar");
                             AuthRepository.workState.postValue(0);
                         } catch (JSONException e) {
                             e.printStackTrace();
 
-                            ExceptionGenerator.getException(false, 0, null, "JSONException", "auth");
+                            ExceptionGenerator.getException(false, 0, null, "JSONException");
                             AuthRepository.workState.postValue(0);
                         }
                     }
@@ -639,7 +639,7 @@ public class AuthWorker extends Worker {
 
                 editor.apply();
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "logOut", "auth");
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "logOut");
                 AuthRepository.workState.postValue(1);
             } else if (bodyResponse.code() == 401) {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
@@ -658,29 +658,29 @@ public class AuthWorker extends Worker {
 
                 editor.apply();
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "logOut", "auth");
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "logOut");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "logOut", "auth");
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "logOut");
                 AuthRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
             AuthRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "JSONException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
             AuthRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "IOException", "auth");
+            ExceptionGenerator.getException(false, 0, null, "IOException");
             AuthRepository.workState.postValue(0);
         }
     }
@@ -704,12 +704,12 @@ public class AuthWorker extends Worker {
 
                             FileManager.deleteFolderFromCache(context, "documents");
 
-                            ExceptionGenerator.getException(true, 200, successBody, "sendDoc", "auth");
+                            ExceptionGenerator.getException(true, 200, successBody, "sendDoc");
                             AuthRepository.workState.postValue(1);
                         } catch (JSONException e) {
                             e.printStackTrace();
 
-                            ExceptionGenerator.getException(false, 0, null, "JSONException", "auth");
+                            ExceptionGenerator.getException(false, 0, null, "JSONException");
                             AuthRepository.workState.postValue(0);
                         }
                     }
@@ -719,12 +719,12 @@ public class AuthWorker extends Worker {
                         try {
                             JSONObject errorBody = new JSONObject(error.getErrorBody());
 
-                            ExceptionGenerator.getException(true, error.getErrorCode(), errorBody, "sendDoc", "auth");
+                            ExceptionGenerator.getException(true, error.getErrorCode(), errorBody, "sendDoc");
                             AuthRepository.workState.postValue(0);
                         } catch (JSONException e) {
                             e.printStackTrace();
 
-                            ExceptionGenerator.getException(false, 0, null, "JSONException", "auth");
+                            ExceptionGenerator.getException(false, 0, null, "JSONException");
                             AuthRepository.workState.postValue(0);
                         }
                     }

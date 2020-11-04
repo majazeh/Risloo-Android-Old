@@ -342,7 +342,7 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        switch (ExceptionGenerator.exception) {
+        switch (ExceptionGenerator.current_exception) {
             case "auth":
                 if (AuthRepository.theory.equals("auth")) {
                     SerialFragment serialFragment = ((SerialFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));

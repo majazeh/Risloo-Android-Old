@@ -485,7 +485,7 @@ public class EditAccountActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionGenerator.exception.equals("edit")) {
+        if (ExceptionGenerator.current_exception.equals("edit")) {
             String exceptionToast = "";
 
             if (!ExceptionGenerator.errors.isNull("name")) {
@@ -574,10 +574,10 @@ public class EditAccountActivity extends AppCompatActivity {
             }
         } else if (resultCode == RESULT_CANCELED) {
             if (requestCode == 300) {
-                ExceptionGenerator.getException(false, 0, null, "GalleryException", "auth");
+                ExceptionGenerator.getException(false, 0, null, "GalleryException");
                 Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             } else if (requestCode == 400) {
-                ExceptionGenerator.getException(false, 0, null, "CameraException", "auth");
+                ExceptionGenerator.getException(false, 0, null, "CameraException");
                 Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             }
         }

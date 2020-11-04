@@ -82,7 +82,7 @@ public class DownloadDialog extends BottomSheetDialogFragment {
             if (svg != null) {
                 IntentManager.download(activity, svg);
             } else {
-                ExceptionGenerator.getException(false, 0, null, "NoSuffixException", "sample");
+                ExceptionGenerator.getException(false, 0, null, "NoSuffixException");
                 Toast.makeText(activity, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             }
         });
@@ -95,7 +95,7 @@ public class DownloadDialog extends BottomSheetDialogFragment {
             if (png != null) {
                 IntentManager.download(activity, png);
             } else {
-                ExceptionGenerator.getException(false, 0, null, "NoSuffixException", "sample");
+                ExceptionGenerator.getException(false, 0, null, "NoSuffixException");
                 Toast.makeText(activity, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             }
         });
@@ -108,7 +108,7 @@ public class DownloadDialog extends BottomSheetDialogFragment {
             if (html != null) {
                 IntentManager.download(activity, html);
             } else {
-                ExceptionGenerator.getException(false, 0, null, "NoSuffixException", "sample");
+                ExceptionGenerator.getException(false, 0, null, "NoSuffixException");
                 Toast.makeText(activity, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             }
         });
@@ -121,7 +121,7 @@ public class DownloadDialog extends BottomSheetDialogFragment {
             if (pdf != null) {
                 IntentManager.download(activity, pdf);
             } else {
-                ExceptionGenerator.getException(false, 0, null, "NoSuffixException", "sample");
+                ExceptionGenerator.getException(false, 0, null, "NoSuffixException");
                 Toast.makeText(activity, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             }
         });

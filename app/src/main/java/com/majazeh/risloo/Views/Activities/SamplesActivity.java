@@ -400,7 +400,7 @@ public class SamplesActivity extends AppCompatActivity {
         switch (method) {
             case "scale":
                 if (SampleRepository.scaleFilter.size() == 0) {
-                    ExceptionGenerator.getException(false, 0, null, "EmptyScalesForFilterException", "sample");
+                    ExceptionGenerator.getException(false, 0, null, "EmptyScalesForFilterException");
                     Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                 } else {
                     setRecyclerView(SampleRepository.scaleFilter, scaleDialogRecyclerView, "getScalesFilter");
@@ -412,7 +412,7 @@ public class SamplesActivity extends AppCompatActivity {
                 break;
             case "status":
                 if (SampleRepository.statusFilter.size() == 0) {
-                    ExceptionGenerator.getException(false, 0, null, "EmptyStatusForFilterException", "sample");
+                    ExceptionGenerator.getException(false, 0, null, "EmptyStatusForFilterException");
                     Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                 } else {
                     try {

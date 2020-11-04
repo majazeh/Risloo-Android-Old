@@ -698,7 +698,7 @@ public class EditCenterActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionGenerator.exception.equals("edit")) {
+        if (ExceptionGenerator.current_exception.equals("edit")) {
             String exceptionToast = "";
 
             if (!ExceptionGenerator.errors.isNull("manager_id")) {

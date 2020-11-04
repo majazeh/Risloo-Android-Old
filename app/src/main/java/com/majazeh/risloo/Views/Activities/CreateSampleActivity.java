@@ -403,7 +403,7 @@ public class CreateSampleActivity extends AppCompatActivity {
             if (!room.isEmpty()) {
                 caseDialog.show();
             } else {
-                ExceptionGenerator.getException(false, 0, null, "SelectRoomFirstException", "sample");
+                ExceptionGenerator.getException(false, 0, null, "SelectRoomFirstException");
                 Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             }
         });
@@ -423,7 +423,7 @@ public class CreateSampleActivity extends AppCompatActivity {
             if (!room.isEmpty()) {
                 roomReferenceDialog.show();
             } else {
-                ExceptionGenerator.getException(false, 0, null, "SelectRoomFirstException", "sample");
+                ExceptionGenerator.getException(false, 0, null, "SelectRoomFirstException");
                 Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             }
         });
@@ -440,7 +440,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         controlEditText.select(countEditText);
                     }
                 } else {
-                    ExceptionGenerator.getException(false, 0, null, "SelectRoomFirstException", "sample");
+                    ExceptionGenerator.getException(false, 0, null, "SelectRoomFirstException");
                     Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -1058,7 +1058,7 @@ public class CreateSampleActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionGenerator.exception.equals("create")) {
+        if (ExceptionGenerator.current_exception.equals("create")) {
             String exceptionToast = "";
 
             if (!ExceptionGenerator.errors.isNull("scale_id")) {

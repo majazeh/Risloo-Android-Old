@@ -843,7 +843,7 @@ public class CreateCenterActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionGenerator.exception.equals("create")) {
+        if (ExceptionGenerator.current_exception.equals("create")) {
             String exceptionToast = "";
 
             if (!ExceptionGenerator.errors.isNull("type")) {
@@ -995,10 +995,10 @@ public class CreateCenterActivity extends AppCompatActivity {
             }
         } else if (resultCode == RESULT_CANCELED) {
             if (requestCode == 300) {
-                ExceptionGenerator.getException(false, 0, null, "GalleryException", "center");
+                ExceptionGenerator.getException(false, 0, null, "GalleryException");
                 Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             } else if (requestCode == 400) {
-                ExceptionGenerator.getException(false, 0, null, "CameraException", "center");
+                ExceptionGenerator.getException(false, 0, null, "CameraException");
                 Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             }
         }

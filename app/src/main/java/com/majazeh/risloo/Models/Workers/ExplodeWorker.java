@@ -157,29 +157,29 @@ public class ExplodeWorker extends Worker {
 
                 editor.apply();
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "explode", "explode");
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "explode");
                 ExplodeRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "explode", "explode");
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "explode");
                 ExplodeRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException", "explode");
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
             ExplodeRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "JSONException", "explode");
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
             ExplodeRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
-            ExceptionGenerator.getException(false, 0, null, "IOException", "explode");
+            ExceptionGenerator.getException(false, 0, null, "IOException");
             ExplodeRepository.workState.postValue(0);
         }
     }

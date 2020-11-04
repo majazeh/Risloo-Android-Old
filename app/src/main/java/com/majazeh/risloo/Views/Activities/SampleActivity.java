@@ -398,7 +398,7 @@ public class SampleActivity extends AppCompatActivity {
                     PrerequisiteFragment fragment = ((PrerequisiteFragment) getSupportFragmentManager().findFragmentById(R.id.activity_sample_frameLayout));
                     if (fragment != null) {
                         if (fragment.prerequisites().isEmpty()) {
-                            ExceptionGenerator.getException(false, 0, null, "FillOneException", "sample");
+                            ExceptionGenerator.getException(false, 0, null, "FillOneException");
                             Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                         } else {
                             if (fragment.adapter.controlEditText.input() != null && fragment.adapter.controlEditText.input().hasFocus()) {

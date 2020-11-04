@@ -93,7 +93,7 @@ public class ExplodeRepository extends MainRepository {
 
             WorkManager.getInstance(application).enqueue(workRequest);
         } else {
-            ExceptionGenerator.getException(false, 0, null, "OffLineException", "explode");
+            ExceptionGenerator.getException(false, 0, null, "OffLineException");
             workState.postValue(-2);
         }
     }

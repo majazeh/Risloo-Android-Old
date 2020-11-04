@@ -310,7 +310,7 @@ public class CallUsActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionGenerator.exception.equals("callUs")) {
+        if (ExceptionGenerator.current_exception.equals("callUs")) {
             String exceptionToast = "";
 
             if (!ExceptionGenerator.errors.isNull("name")) {
