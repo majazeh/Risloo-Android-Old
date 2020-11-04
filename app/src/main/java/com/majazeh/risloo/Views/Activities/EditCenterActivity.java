@@ -183,7 +183,7 @@ public class EditCenterActivity extends AppCompatActivity {
         phoneDialog.getWindow().setAttributes(layoutParamsPhone);
 
         managerDialogTitleTextView = managerDialog.findViewById(R.id.dialog_search_title_textView);
-        managerDialogTitleTextView.setText(getResources().getString(R.string.AppSearchTitle2));
+        managerDialogTitleTextView.setText(getResources().getString(R.string.EditCenterManagerDialogTitle));
 
         managerDialogSearchLayout = managerDialog.findViewById(R.id.dialog_search_coordinatorLayout);
         managerDialogSearchLayout.setVisibility(View.VISIBLE);

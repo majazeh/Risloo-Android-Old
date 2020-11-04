@@ -215,7 +215,7 @@ public class CreateCenterActivity extends AppCompatActivity {
         phoneDialog.getWindow().setAttributes(layoutParamsPhone);
 
         managerDialogTitleTextView = managerDialog.findViewById(R.id.dialog_search_title_textView);
-        managerDialogTitleTextView.setText(getResources().getString(R.string.AppSearchTitle2));
+        managerDialogTitleTextView.setText(getResources().getString(R.string.CreateCenterManagerDialogTitle));
 
         managerDialogSearchLayout = managerDialog.findViewById(R.id.dialog_search_coordinatorLayout);
         managerDialogSearchLayout.setVisibility(View.VISIBLE);

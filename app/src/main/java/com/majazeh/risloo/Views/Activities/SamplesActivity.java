@@ -210,11 +210,11 @@ public class SamplesActivity extends AppCompatActivity {
         statusDialog.getWindow().setAttributes(layoutParamsStatus);
 
         scaleDialogTitleTextView = scaleDialog.findViewById(R.id.dialog_search_title_textView);
-        scaleDialogTitleTextView.setText(getResources().getString(R.string.AppSearchTitle1));
+        scaleDialogTitleTextView.setText(getResources().getString(R.string.SamplesScaleDialogTitle));
         roomDialogTitleTextView = roomDialog.findViewById(R.id.dialog_search_title_textView);
-        roomDialogTitleTextView.setText(getResources().getString(R.string.AppSearchTitle2));
+        roomDialogTitleTextView.setText(getResources().getString(R.string.SamplesRoomDialogTitle));
         statusDialogTitleTextView = statusDialog.findViewById(R.id.dialog_search_title_textView);
-        statusDialogTitleTextView.setText(getResources().getString(R.string.AppSearchTitle1));
+        statusDialogTitleTextView.setText(getResources().getString(R.string.SamplesStatusDialogTitle));
 
         roomDialogSearchLayout = roomDialog.findViewById(R.id.dialog_search_coordinatorLayout);
         roomDialogSearchLayout.setVisibility(View.VISIBLE);

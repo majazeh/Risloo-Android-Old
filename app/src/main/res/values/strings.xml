@@ -13,8 +13,6 @@
     <string name="AppConnection">انترنت وصل نیست! تلاش مجدد</string>
     <string name="AppEmpty">فعلا موردی برای نمایش موجود نیست.</string>
 
-    <string name="AppSearchTitle1">گزینه مورد نظر انتخاب کنید</string>
-    <string name="AppSearchTitle2">گزینه مورد نظر جستجو کنید</string>
     <string name="AppSearchInput">جستجو</string>
     <string name="AppSearchEmpty">موردی یافت نشد</string>
     <string name="AppSearchConfirm">ثبت</string>
@@ -202,6 +200,10 @@
     <string name="SamplesFilterDialogStatus">وضعیت</string>
     <string name="SamplesFilterDialogClose">بستن</string>
 
+    <string name="SamplesScaleDialogTitle">آزمون مورد نظر انتخاب کنید</string>
+    <string name="SamplesRoomDialogTitle">اتاق درمان مورد نظر جستجو کنید</string>
+    <string name="SamplesStatusDialogTitle">وضعیت مورد نظر انتخاب کنید</string>
+
     ////////////////////////////////////////////////////////////////////////////////
 
     // create sample strings
@@ -217,6 +219,11 @@
     <string name="CreateSampleCount">تعداد</string>
 
     <string name="CreateSampleCreate">ایجاد</string>
+
+    <string name="CreateSampleScaleDialogTitle">مقیاس های مورد نظر جستجو کنید</string>
+    <string name="CreateSampleRoomDialogTitle">اتاق درمان مورد نظر جستجو کنید</string>
+    <string name="CreateSampleCaseDialogTitle">پرونده مورد نظر جستجو کنید</string>
+    <string name="CreateSampleRoomReferenceDialogTitle">مراجعان مورد نظر جستجو کنید</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -427,6 +434,8 @@
     <string name="EditCenterPhoneDialogPositive">افزودن</string>
     <string name="EditCenterPhoneDialogNegative">بستن</string>
 
+    <string name="EditCenterManagerDialogTitle">مدیر مورد نظر جستجو کنید</string>
+
     ////////////////////////////////////////////////////////////////////////////////
 
     // create center strings
@@ -451,6 +460,8 @@
     <string name="CreateCenterPhoneDialogInput">شماره تماس</string>
     <string name="CreateCenterPhoneDialogPositive">افزودن</string>
     <string name="CreateCenterPhoneDialogNegative">بستن</string>
+
+    <string name="CreateCenterManagerDialogTitle">مدیر مورد نظر جستجو کنید</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

@@ -231,13 +231,13 @@ public class CreateSampleActivity extends AppCompatActivity {
         roomReferenceDialog.getWindow().setAttributes(layoutParamsRoomReference);
 
         scaleDialogTitleTextView = scaleDialog.findViewById(R.id.dialog_search_title_textView);
-        scaleDialogTitleTextView.setText(getResources().getString(R.string.AppSearchTitle2));
+        scaleDialogTitleTextView.setText(getResources().getString(R.string.CreateSampleScaleDialogTitle));
         roomDialogTitleTextView = roomDialog.findViewById(R.id.dialog_search_title_textView);
-        roomDialogTitleTextView.setText(getResources().getString(R.string.AppSearchTitle2));
+        roomDialogTitleTextView.setText(getResources().getString(R.string.CreateSampleRoomDialogTitle));
         caseDialogTitleTextView = caseDialog.findViewById(R.id.dialog_search_title_textView);
-        caseDialogTitleTextView.setText(getResources().getString(R.string.AppSearchTitle2));
+        caseDialogTitleTextView.setText(getResources().getString(R.string.CreateSampleCaseDialogTitle));
         roomReferenceDialogTitleTextView = roomReferenceDialog.findViewById(R.id.dialog_search_title_textView);
-        roomReferenceDialogTitleTextView.setText(getResources().getString(R.string.AppSearchTitle2));
+        roomReferenceDialogTitleTextView.setText(getResources().getString(R.string.CreateSampleRoomReferenceDialogTitle));
 
         scaleDialogConfirm = scaleDialog.findViewById(R.id.dialog_search_confirm_textView);
         scaleDialogConfirm.setVisibility(View.VISIBLE);
