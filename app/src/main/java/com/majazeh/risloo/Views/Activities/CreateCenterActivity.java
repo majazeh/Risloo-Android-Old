@@ -685,7 +685,6 @@ public class CreateCenterActivity extends AppCompatActivity {
                 if (titleEditText.length() != 0) {
                     title = "";
                     titleEditText.getText().clear();
-                    titleEditText.setFocusableInTouchMode(true);
                 }
                 break;
             case "avatar":
