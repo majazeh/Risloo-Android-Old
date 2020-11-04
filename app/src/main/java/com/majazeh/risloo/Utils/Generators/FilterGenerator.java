@@ -1,9 +1,6 @@
 package com.majazeh.risloo.Utils.Generators;
 
-import android.util.Log;
-
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Repositories.SampleRepository;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,12 +10,13 @@ import java.util.Iterator;
 
 public class FilterGenerator {
 
-    public Object filter(JSONObject filters, String property) {
-
+    public static Object filter(JSONObject filters, String property) {
         try {
             ArrayList<Model> arrayList = new ArrayList<>();
             JSONObject allowed = filters.getJSONObject("allowed");
+
             switch (allowed.get(property).getClass().getName()) {
+
                 case "org.json.JSONObject":
                     JSONObject data = allowed.getJSONObject(property);
                     Iterator<String> keys = data.keys();
@@ -41,11 +39,12 @@ public class FilterGenerator {
                     }
                     return arrayList;
 
+                default:
+                    return null;
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
+            return null;
         }
-        return null;
     }
 }
