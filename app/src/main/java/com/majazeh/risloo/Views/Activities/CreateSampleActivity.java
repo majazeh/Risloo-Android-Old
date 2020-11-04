@@ -620,7 +620,7 @@ public class CreateSampleActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 handler.removeCallbacksAndMessages(null);
-                handler.postDelayed(() -> getData("getReference", room, roomReferenceDialogEditText.getText().toString().trim()), 750);
+                handler.postDelayed(() -> getData("getReferences", room, roomReferenceDialogEditText.getText().toString().trim()), 750);
             }
 
             @Override

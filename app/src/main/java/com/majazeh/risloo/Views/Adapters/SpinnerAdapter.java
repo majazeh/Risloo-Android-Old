@@ -21,6 +21,7 @@ import com.majazeh.risloo.Views.Activities.EditCenterActivity;
 import com.majazeh.risloo.Views.Activities.SamplesActivity;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -65,7 +66,9 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                     holder.titleTextView.setText(model.get("title").toString());
                     break;
                 case "roomReferences":
-                    holder.titleTextView.setText(model.get("user").toString());
+                    JSONObject user = (JSONObject) model.get("user");
+                    
+                    holder.titleTextView.setText(user.get("name").toString());
                     break;
                 case "phones":
                     holder.titleTextView.setText(model.get("name").toString());
