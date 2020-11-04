@@ -86,12 +86,14 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
             handler.postDelayed(() -> holder.deleteImageView.setClickable(true), 300);
 
             try {
-                if (model.get("id").toString().equals(((SamplesActivity) Objects.requireNonNull(activity)).scale)) {
-                    ((SamplesActivity) Objects.requireNonNull(activity)).scale = "";
-                } else if (model.get("id").toString().equals(((SamplesActivity) Objects.requireNonNull(activity)).room)) {
-                    ((SamplesActivity) Objects.requireNonNull(activity)).room = "";
-                } else if (model.get("id").toString().equals(((SamplesActivity) Objects.requireNonNull(activity)).status)) {
-                    ((SamplesActivity) Objects.requireNonNull(activity)).status = "";
+                if (method.equals("scalesFilter") || method.equals("roomsFilter") || method.equals("statusFilter")) {
+                    if (model.get("id").toString().equals(((SamplesActivity) Objects.requireNonNull(activity)).scale)) {
+                        ((SamplesActivity) Objects.requireNonNull(activity)).scale = "";
+                    } else if (model.get("id").toString().equals(((SamplesActivity) Objects.requireNonNull(activity)).room)) {
+                        ((SamplesActivity) Objects.requireNonNull(activity)).room = "";
+                    } else if (model.get("id").toString().equals(((SamplesActivity) Objects.requireNonNull(activity)).status)) {
+                        ((SamplesActivity) Objects.requireNonNull(activity)).status = "";
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
