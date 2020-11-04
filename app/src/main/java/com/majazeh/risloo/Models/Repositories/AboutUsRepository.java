@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class AboutUsRepository extends MainRepository {
 
     // Objects
-    private JSONObject aboutUsJson;
-    private JSONArray aboutUsItems;
+    private final JSONObject aboutUsJson;
+    private final JSONArray aboutUsItems;
 
     public AboutUsRepository(Application application) throws JSONException {
         super(application);

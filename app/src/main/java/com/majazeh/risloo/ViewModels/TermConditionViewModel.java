@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class TermConditionViewModel extends AndroidViewModel {
 
     // Repositories
-    private TermConditionRepository repository;
+    private final TermConditionRepository repository;
 
     public TermConditionViewModel(@NonNull Application application) throws JSONException {
         super(application);

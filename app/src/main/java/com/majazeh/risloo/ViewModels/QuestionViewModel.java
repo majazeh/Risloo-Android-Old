@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class QuestionViewModel extends AndroidViewModel {
 
     // Repositories
-    private QuestionRepository repository;
+    private final QuestionRepository repository;
 
     public QuestionViewModel(@NonNull Application application) throws JSONException {
         super(application);

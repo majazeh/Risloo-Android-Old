@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class TermConditionRepository extends MainRepository {
 
     // Objects
-    private JSONObject termConditionJson;
-    private JSONArray termConditionItems;
+    private final JSONObject termConditionJson;
+    private final JSONArray termConditionItems;
 
     public TermConditionRepository(Application application) throws JSONException {
         super(application);

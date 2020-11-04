@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class SettingRepository extends MainRepository {
 
     // Objects
-    private SettingItems settingItems;
+    private final SettingItems settingItems;
 
     public SettingRepository(Application application) throws JSONException {
         super(application);

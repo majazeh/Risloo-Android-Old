@@ -16,8 +16,8 @@ import java.util.ArrayList;
 public class QuestionRepository extends MainRepository {
 
     // Objects
-    private JSONObject questionJson;
-    private JSONArray questionItems;
+    private final JSONObject questionJson;
+    private final JSONArray questionItems;
 
     public QuestionRepository(@NonNull Application application) throws JSONException {
         super(application);

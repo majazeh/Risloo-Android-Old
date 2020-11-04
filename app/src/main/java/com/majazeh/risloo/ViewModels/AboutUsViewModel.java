@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class AboutUsViewModel extends AndroidViewModel {
 
     // Repositories
-    private AboutUsRepository repository;
+    private final AboutUsRepository repository;
 
     public AboutUsViewModel(@NonNull Application application) throws JSONException {
         super(application);
