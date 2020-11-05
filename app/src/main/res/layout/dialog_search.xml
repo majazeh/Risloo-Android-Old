@@ -39,7 +39,7 @@
             android:layout_marginBottom="@dimen/_8sdp"
             android:visibility="gone">
 
-            <com.majazeh.risloo.Utils.Widgets.CutCopyPasteEditText
+            <EditText
                 android:id="@+id/dialog_search_editText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

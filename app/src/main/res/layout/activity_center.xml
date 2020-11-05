@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
-    android:fitsSystemWindows="true"
     android:background="@color/White"
+    android:fitsSystemWindows="true"
     android:descendantFocusability="blocksDescendants"
     tools:context=".Views.Activities.CenterActivity"
-    tools:ignore="UnusedAttribute, UseCompoundDrawables, ContentDescription, RtlHardcoded, RtlSymmetry">
+    tools:ignore="UnusedAttribute, UseCompoundDrawables, RtlHardcoded, RtlSymmetry">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,6 +70,7 @@
                         android:layout_width="@dimen/_14sdp"
                         android:layout_height="@dimen/_14sdp"
                         android:layout_marginLeft="@dimen/_4sdp"
+                        android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_times"
                         app:tint="@color/VioletRed"/>
 

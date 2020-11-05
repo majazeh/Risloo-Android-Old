@@ -76,8 +76,7 @@ public class CreateCenterActivity extends AppCompatActivity {
     private SpinnerAdapter phoneRecyclerViewAdapter;
 
     // Vars
-    public String type = "personal_clinic", manager = "", title = "", description = "", address = "";
-    public String imageFilePath = "";
+    public String type = "personal_clinic", manager = "", title = "", description = "", address = "", imageFilePath = "";
     private boolean typeException = false, managerException = false, avatarException = false, phoneException =false;
 
     // Objects
@@ -298,10 +297,6 @@ public class CreateCenterActivity extends AppCompatActivity {
                         titleEditText.setVisibility(View.VISIBLE);
                         avatarLinearLayout.setVisibility(View.VISIBLE);
 
-                        resetData("title");
-
-                        resetData("avatar");
-
                         resetData("personalClinic");
 
                         break;
@@ -506,7 +501,7 @@ public class CreateCenterActivity extends AppCompatActivity {
         });
 
         managerDialog.setOnCancelListener(dialog -> {
-            resetData("manager");
+            resetData("managerDialog");
 
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
@@ -570,7 +565,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
                 phoneDialog.dismiss();
             } else {
-                errorView("phone");
+                errorView("phoneDialog");
             }
         });
 
@@ -631,7 +626,7 @@ public class CreateCenterActivity extends AppCompatActivity {
             case "title":
                 titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
-            case "phone":
+            case "phoneDialog":
                 phoneDialogInput.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
         }
@@ -684,35 +679,26 @@ public class CreateCenterActivity extends AppCompatActivity {
             case "title":
                 if (titleEditText.length() != 0) {
                     title = "";
+
                     titleEditText.getText().clear();
                 }
                 break;
             case "avatar":
                 if (selectedBitmap != null) {
                     selectedBitmap = null;
+
                     avatarTextView.setText(getResources().getString(R.string.CreateCenterAvatar));
                     avatarTextView.setTextColor(getResources().getColor(R.color.Mischka));
                 }
                 break;
-            case "counselingCenter":
-                if (CenterRepository.counselingCenter.size() != 0) {
-                    manager = "";
-                    CenterRepository.counselingCenter.clear();
-                    managerDialogRecyclerView.setAdapter(null);
-                    managerTextView.setText(getResources().getString(R.string.CreateCenterManager));
-                    managerTextView.setTextColor(getResources().getColor(R.color.Mischka));
-                }
-                break;
             case "personalClinic":
-                if (CenterRepository.personalClinic.size() != 0) {
+            case "counselingCenter":
                     manager = "";
-                    CenterRepository.personalClinic.clear();
-                    managerDialogRecyclerView.setAdapter(null);
+
                     managerTextView.setText(getResources().getString(R.string.CreateCenterManager));
                     managerTextView.setTextColor(getResources().getColor(R.color.Mischka));
-                }
                 break;
-            case "manager":
+            case "managerDialog":
                 if (type.equals("personal_clinic")) {
                     CenterRepository.personalClinic.clear();
                 } else {
@@ -743,42 +729,45 @@ public class CreateCenterActivity extends AppCompatActivity {
                     viewModel.counselingCenter(q);
                     break;
             }
-            observeWork(q);
+            observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     private void doWork() {
-        if (type.equals("personal_clinic")) {
-            description = descriptionEditText.getText().toString().trim();
-            address = addressEditText.getText().toString().trim();
+        switch (type) {
+            case "personal_clinic":
+                description = descriptionEditText.getText().toString().trim();
+                address = addressEditText.getText().toString().trim();
 
-            try {
-                progressDialog.show();
-                viewModel.create(type, manager, "", "", address, description, phoneRecyclerViewAdapter.getIds());
-                observeWork(null);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else {
-            title = titleEditText.getText().toString().trim();
-            description = descriptionEditText.getText().toString().trim();
-            address = addressEditText.getText().toString().trim();
+                try {
+                    progressDialog.show();
+                    viewModel.create(type, manager, "", "", address, description, phoneRecyclerViewAdapter.getIds());
+                    observeWork();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "counseling_center":
+                title = titleEditText.getText().toString().trim();
+                description = descriptionEditText.getText().toString().trim();
+                address = addressEditText.getText().toString().trim();
 
 //            FileManager.writeBitmapToCache(this, selectedBitmap, "image");
 
-            try {
-                progressDialog.show();
-                viewModel.create(type, manager, title, "", address, description, phoneRecyclerViewAdapter.getIds());
-                observeWork(null);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+                try {
+                    progressDialog.show();
+                    viewModel.create(type, manager, title, "", address, description, phoneRecyclerViewAdapter.getIds());
+                    observeWork();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
     }
 
-    private void observeWork(String q) {
+    private void observeWork() {
         CenterRepository.workState.observe((LifecycleOwner) this, integer -> {
             switch (CenterRepository.work) {
                 case "create":
@@ -917,7 +906,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                 managerTextView.setTextColor(getResources().getColor(R.color.Mischka));
             }
 
-            resetData("manager");
+            resetData("managerDialog");
 
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());

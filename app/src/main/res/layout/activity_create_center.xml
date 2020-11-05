@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_create_center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
+    android:background="@color/White"
     android:scrollbarSize="0dp"
     android:overScrollMode="never"
     android:fillViewport="true"
     android:fitsSystemWindows="true"
-    android:background="@color/White"
     tools:context=".Views.Activities.CreateCenterActivity"
-    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded, TooDeepLayout">
+    tools:ignore="RtlHardcoded">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -104,6 +103,7 @@
                         android:layout_height="@dimen/_12sdp"
                         android:layout_marginLeft="@dimen/_12sdp"
                         android:layout_gravity="center|left"
+                        android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_chevron_down"
                         app:tint="@color/Mischka" />
 
@@ -136,8 +136,8 @@
                     android:layout_height="@dimen/_36sdp"
                     android:layout_marginBottom="@dimen/_8sdp"
                     android:visibility="gone"
-                    android:layoutDirection="rtl"
                     android:orientation="horizontal"
+                    android:layoutDirection="rtl"
                     android:background="@drawable/draw_16sdp_border_quartz">
 
                     <TextView
@@ -236,6 +236,7 @@
                             android:layout_width="@dimen/_36sdp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/_1sdp"
+                            android:contentDescription="@string/AppImageContent"
                             android:padding="@dimen/_9sdp"
                             android:background="@color/Primary5P"
                             android:src="@drawable/ic_plus_light"

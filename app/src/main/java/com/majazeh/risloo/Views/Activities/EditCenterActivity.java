@@ -65,8 +65,8 @@ public class EditCenterActivity extends AppCompatActivity {
     private boolean managerException = false, phoneException = false;
 
     // Objects
-    private Handler handler;
     private Bundle extras;
+    private Handler handler;
     private ControlEditText controlEditText;
 
     // Widgets
@@ -368,7 +368,7 @@ public class EditCenterActivity extends AppCompatActivity {
         });
 
         managerDialog.setOnCancelListener(dialog -> {
-            resetData("manager");
+            resetData("managerDialog");
 
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
@@ -432,7 +432,7 @@ public class EditCenterActivity extends AppCompatActivity {
 
                 phoneDialog.dismiss();
             } else {
-                errorView("phone");
+                errorView("phoneDialog");
             }
         });
 
@@ -493,7 +493,7 @@ public class EditCenterActivity extends AppCompatActivity {
             case "title":
                 titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
-            case "phone":
+            case "phoneDialog":
                 phoneDialogInput.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
         }
@@ -525,6 +525,17 @@ public class EditCenterActivity extends AppCompatActivity {
         }
     }
 
+    private void resetData(String method) {
+        if (method.equals("managerDialog")) {
+            CenterRepository.counselingCenter.clear();
+            managerDialogRecyclerView.setAdapter(null);
+
+            if (managerDialogTextView.getVisibility() == View.VISIBLE) {
+                managerDialogTextView.setVisibility(View.GONE);
+            }
+        }
+    }
+
     private void setData() {
         if (extras.getString("id") != null)
             id = extras.getString("id");
@@ -545,7 +556,6 @@ public class EditCenterActivity extends AppCompatActivity {
             toolbarTextView.setText(getResources().getString(R.string.EditClinicTitle));
 
             managerFrameLayout.setVisibility(View.GONE);
-
             titleEditText.setVisibility(View.GONE);
 
             descriptionEditText.setText(description);
@@ -604,59 +614,53 @@ public class EditCenterActivity extends AppCompatActivity {
         }
     }
 
-    private void resetData(String method) {
-        if (method.equals("manager")) {
-            CenterRepository.counselingCenter.clear();
-            managerDialogRecyclerView.setAdapter(null);
-
-            if (managerDialogTextView.getVisibility() == View.VISIBLE) {
-                managerDialogTextView.setVisibility(View.GONE);
-            }
-        }
-    }
-
     private void getData(String method, String q) {
         try {
-            if (method.equals("getCounselingCenter")) {
-                managerDialogProgressBar.setVisibility(View.VISIBLE);
-                managerDialogImageView.setVisibility(View.GONE);
+            switch (method) {
+                case "getCounselingCenter":
+                    managerDialogProgressBar.setVisibility(View.VISIBLE);
+                    managerDialogImageView.setVisibility(View.GONE);
 
-                viewModel.counselingCenter(q);
+                    viewModel.counselingCenter(q);
+                    break;
             }
-            observeWork(q);
+            observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     private void doWork() {
-        if (type.equals("personal_clinic")) {
-            description = descriptionEditText.getText().toString().trim();
-            address = addressEditText.getText().toString().trim();
+        switch (type) {
+            case "personal_clinic":
+                description = descriptionEditText.getText().toString().trim();
+                address = addressEditText.getText().toString().trim();
 
-            try {
-                progressDialog.show();
-                viewModel.edit(id, managerId, title, description, address, phoneRecyclerViewAdapter.getIds());
-                observeWork(null);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else {
-            title = titleEditText.getText().toString().trim();
-            description = descriptionEditText.getText().toString().trim();
-            address = addressEditText.getText().toString().trim();
+                try {
+                    progressDialog.show();
+                    viewModel.edit(id, managerId, title, description, address, phoneRecyclerViewAdapter.getIds());
+                    observeWork();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "counseling_center":
+                title = titleEditText.getText().toString().trim();
+                description = descriptionEditText.getText().toString().trim();
+                address = addressEditText.getText().toString().trim();
 
-            try {
-                progressDialog.show();
-                viewModel.edit(id, managerId, title, description, address, phoneRecyclerViewAdapter.getIds());
-                observeWork(null);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+                try {
+                    progressDialog.show();
+                    viewModel.edit(id, managerId, title, description, address, phoneRecyclerViewAdapter.getIds());
+                    observeWork();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
     }
 
-    private void observeWork(String q) {
+    private void observeWork() {
         CenterRepository.workState.observe((LifecycleOwner) this, integer -> {
             if (CenterRepository.work.equals("edit")) {
                 if (integer == 1) {
@@ -759,7 +763,7 @@ public class EditCenterActivity extends AppCompatActivity {
                 managerTextView.setTextColor(getResources().getColor(R.color.Mischka));
             }
 
-            resetData("manager");
+            resetData("managerDialog");
 
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());

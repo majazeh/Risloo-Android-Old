@@ -74,10 +74,8 @@ public class CenterActivity extends AppCompatActivity {
     private LinearLayout searchLayout;
     private RelativeLayout mainLayout;
     private LinearLayout infoLayout, loadingLayout;
-    private TextView infoTextView;
-    private ImageView infoImageView;
-    private ImageView searchImageView;
-    private TextView searchTextView;
+    private ImageView searchImageView, infoImageView;
+    private TextView searchTextView, infoTextView;
     private TabLayout tabLayout;
     private RtlViewPager rtlViewPager;
     private Dialog searchDialog;
@@ -184,8 +182,7 @@ public class CenterActivity extends AppCompatActivity {
             toolbarCreateImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
             toolbarSearchImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
 
-            infoLayout.setBackgroundResource(R.drawable.draw_4sdp_solid_snow_ripple_quartz);
-            infoImageView.setBackgroundResource(R.drawable.draw_rectangle_solid_snow_ripple_violetred);
+            searchImageView.setBackgroundResource(R.drawable.draw_rectangle_solid_snow_ripple_violetred);
         }
     }
 
@@ -229,9 +226,9 @@ public class CenterActivity extends AppCompatActivity {
             searchDialog.show();
         });
 
-        searchLayout.setOnClickListener(v -> {
-            searchLayout.setClickable(false);
-            handler.postDelayed(() -> searchLayout.setClickable(true), 300);
+        searchTextView.setOnClickListener(v -> {
+            searchTextView.setClickable(false);
+            handler.postDelayed(() -> searchTextView.setClickable(true), 300);
 
             searchDialogInput.setText(search);
 
@@ -330,7 +327,7 @@ public class CenterActivity extends AppCompatActivity {
 
                 searchDialog.dismiss();
             } else {
-                errorView("search");
+                errorView("searchDialog");
             }
         });
 
@@ -396,7 +393,7 @@ public class CenterActivity extends AppCompatActivity {
     }
 
     private void errorView(String type) {
-        if (type.equals("search")) {
+        if (type.equals("searchDialog")) {
             searchDialogInput.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
         }
     }
