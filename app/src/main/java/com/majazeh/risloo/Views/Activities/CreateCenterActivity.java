@@ -284,11 +284,11 @@ public class CreateCenterActivity extends AppCompatActivity {
                         titleEditText.setVisibility(View.GONE);
                         avatarLinearLayout.setVisibility(View.GONE);
 
+                        resetData("manager");
+
                         resetData("title");
 
                         resetData("avatar");
-
-                        resetData("counselingCenter");
 
                         break;
                     case 1:
@@ -297,7 +297,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                         titleEditText.setVisibility(View.VISIBLE);
                         avatarLinearLayout.setVisibility(View.VISIBLE);
 
-                        resetData("personalClinic");
+                        resetData("manager");
 
                         break;
                 }
@@ -676,6 +676,14 @@ public class CreateCenterActivity extends AppCompatActivity {
 
     private void resetData(String method) {
         switch (method) {
+            case "manager":
+                if (!manager.equals("")) {
+                    manager = "";
+
+                    managerTextView.setText(getResources().getString(R.string.CreateCenterManager));
+                    managerTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                }
+                break;
             case "title":
                 if (titleEditText.length() != 0) {
                     title = "";
@@ -690,13 +698,6 @@ public class CreateCenterActivity extends AppCompatActivity {
                     avatarTextView.setText(getResources().getString(R.string.CreateCenterAvatar));
                     avatarTextView.setTextColor(getResources().getColor(R.color.Mischka));
                 }
-                break;
-            case "personalClinic":
-            case "counselingCenter":
-                    manager = "";
-
-                    managerTextView.setText(getResources().getString(R.string.CreateCenterManager));
-                    managerTextView.setTextColor(getResources().getColor(R.color.Mischka));
                 break;
             case "managerDialog":
                 if (type.equals("personal_clinic")) {
