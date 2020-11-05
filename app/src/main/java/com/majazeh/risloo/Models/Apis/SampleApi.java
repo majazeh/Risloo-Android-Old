@@ -41,7 +41,7 @@ public interface SampleApi {
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("$")
-    Call<ResponseBody> getScales(@Header("Authorization") String authorization, @Query("q") String q);
+    Call<ResponseBody> getScales(@Header("Authorization") String authorization,@Query("page") int page, @Query("q") String q);
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("rooms?my_management=1")
@@ -62,5 +62,6 @@ public interface SampleApi {
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("$/samples/{sample_id}/scoring")
     Call<ResponseBody> getScore(@Header("Authorization") String authorization, @Path("sample_id") String sampleId);
+
 
 }

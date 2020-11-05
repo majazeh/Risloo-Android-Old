@@ -223,7 +223,7 @@ public class SampleWorker extends Worker {
                             }
                         }
                     } else {
-                        if (SampleRepository.samplesPage == 1){
+                        if (SampleRepository.samplesPage == 1) {
                             SampleRepository.getAll.clear();
                         }
                         JSONArray data = successBody.getJSONArray("data");
@@ -234,7 +234,7 @@ public class SampleWorker extends Worker {
                         }
                         SampleRepository.meta = successBody.getJSONObject("meta");
                     }
-                }else if (SampleRepository.samplesPage == 1){
+                } else if (SampleRepository.samplesPage == 1) {
                     SampleRepository.getAll.clear();
                 }
 
@@ -475,22 +475,37 @@ public class SampleWorker extends Worker {
 
     private void getScales() {
         try {
-            Call<ResponseBody> call = sampleApi.getScales(token(), SampleRepository.scalesQ);
+            Call<ResponseBody> call = sampleApi.getScales(token(), SampleRepository.scalesPage, SampleRepository.scalesQ);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONArray data = successBody.getJSONArray("data");
+                JSONObject jsonObject = FileManager.readObjectFromCache(context, "scales");
+
 
                 if (SampleRepository.scales.size() != 0) {
                     SampleRepository.scales.clear();
                 }
 
                 if (data.length() != 0) {
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject object = data.getJSONObject(i);
-                        SampleRepository.scales.add(new Model(object));
+                    if (SampleRepository.scalesPage == 0) {
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject object = data.getJSONObject(i);
+                            SampleRepository.scales.add(new Model(object));
+                        }
+                    } else if (SampleRepository.scalesPage == 1) {
+                        FileManager.writeObjectToCache(context, successBody, "scales");
+                    } else {
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONArray jsonArray = successBody.getJSONArray("data");
+                            data.put(jsonArray.getJSONObject(i));
+                        }
+                        jsonObject.put("data", data);
+                        FileManager.writeObjectToCache(context, jsonObject, "scales");
+
                     }
+
                 }
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "scales");

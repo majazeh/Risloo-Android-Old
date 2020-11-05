@@ -58,6 +58,7 @@ public class SampleRepository extends MainRepository {
     public static String statusQ = "";
     public static boolean cache = false;
     public static int samplesPage = 1;
+    public static int scalesPage = 1;
 
     public SampleRepository(Application application) throws JSONException {
         super(application);
@@ -245,8 +246,9 @@ public class SampleRepository extends MainRepository {
         FileManager.deleteFileFromCache(application.getApplicationContext(), "Answers" + "/" + sampleId);
     }
 
-    public void scales(String q) throws JSONException {
+    public void scales(String q,int page) throws JSONException {
         SampleRepository.scalesQ = q;
+        SampleRepository.scalesPage = page;
 
         work = "getScales";
         workStateCreate.setValue(-1);
