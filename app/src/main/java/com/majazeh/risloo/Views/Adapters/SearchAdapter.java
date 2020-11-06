@@ -56,69 +56,81 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
         try {
             switch (method) {
                 case "getPersonalClinic":
-                    holder.titleTextView.setText(model.get("name").toString());
+                    holder.nameTextView.setText(model.get("name").toString());
 
                     if (((CreateCenterActivity) Objects.requireNonNull(activity)).manager.equals(model.get("id").toString())) {
-                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
+                        holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
                     } else {
-                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                        holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
                     }
+
+                    holder.titleTextView.setVisibility(View.GONE);
                     break;
                 case "getCounselingCenter":
-                    holder.titleTextView.setText(model.get("name").toString());
+                    holder.nameTextView.setText(model.get("name").toString());
 
                     if (theory.equals("CreateCenter")) {
                         if (((CreateCenterActivity) Objects.requireNonNull(activity)).manager.equals(model.get("id").toString())) {
-                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
+                            holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
                         } else {
-                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                            holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
                         }
                     } else if (theory.equals("EditCenter")) {
                         if (((EditCenterActivity) Objects.requireNonNull(activity)).managerId.equals(model.get("id").toString())) {
-                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
+                            holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
                         } else {
-                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                            holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
                         }
                     }
+
+                    holder.titleTextView.setVisibility(View.GONE);
                     break;
                 case "getScales":
-                    holder.titleTextView.setText(model.get("title").toString());
+                    holder.nameTextView.setText(model.get("title").toString());
 
                     if (((CreateSampleActivity) Objects.requireNonNull(activity)).scaleRecyclerViewAdapter.getIds().contains(model.get("id").toString())) {
-                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
+                        holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
                     } else {
-                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                        holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
                     }
+
+                    holder.titleTextView.setVisibility(View.GONE);
                     break;
                 case "getRooms":
                     JSONObject manager = (JSONObject) model.get("manager");
-                    holder.titleTextView.setText(manager.get("name").toString());
+                    holder.nameTextView.setText(manager.get("name").toString());
 
                     if (theory.equals("CreateSample")) {
                         if (((CreateSampleActivity) Objects.requireNonNull(activity)).room.equals(model.get("id").toString())) {
-                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
+                            holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
                         } else {
-                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                            holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
                         }
                     } else if (theory.equals("Samples")) {
                         if (((SamplesActivity) Objects.requireNonNull(activity)).room.equals(model.get("id").toString())) {
-                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
+                            holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
                         } else {
-                            holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                            holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
                         }
                     }
+
+                    JSONObject center = (JSONObject) model.get("center");
+                    JSONObject detail = (JSONObject) center.get("detail");
+
+                    holder.titleTextView.setText(detail.get("title").toString());
+                    holder.titleTextView.setVisibility(View.VISIBLE);
                     break;
                 case "getCases":
                     StringBuilder name = new StringBuilder();
@@ -136,50 +148,58 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
                     if (!name.toString().equals("")) {
                         JSONObject casse = new JSONObject().put("name", name);
-                        holder.titleTextView.setText(casse.get("name").toString());
+                        holder.nameTextView.setText(casse.get("name").toString());
                     }
 
                     if (((CreateSampleActivity) Objects.requireNonNull(activity)).casse.equals(model.get("id").toString())) {
-                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
+                        holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
                     } else {
-                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                        holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
                     }
+
+                    holder.titleTextView.setVisibility(View.GONE);
                     break;
                 case "getReferences":
                     JSONObject user = (JSONObject) model.get("user");
-                    holder.titleTextView.setText(user.get("name").toString());
+                    holder.nameTextView.setText(user.get("name").toString());
 
                     if (((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceRecyclerViewAdapter.getIds().contains(model.get("id").toString())) {
-                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
+                        holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
                     } else {
-                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                        holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
                     }
+
+                    holder.titleTextView.setVisibility(View.GONE);
                     break;
                 case "getScalesFilter":
-                    holder.titleTextView.setText(model.get("title").toString());
+                    holder.nameTextView.setText(model.get("title").toString());
 
                     if (((SamplesActivity) Objects.requireNonNull(activity)).scale.equals(model.get("id").toString())) {
-                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
+                        holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
                     } else {
-                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                        holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
                     }
+
+                    holder.titleTextView.setVisibility(View.GONE);
                     break;
                 case "getStatusFilter":
-                    holder.titleTextView.setText(model.get("title").toString());
+                    holder.nameTextView.setText(model.get("title").toString());
 
                     if (((SamplesActivity) Objects.requireNonNull(activity)).status.equals(model.get("id").toString())) {
-                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
+                        holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
                     } else {
-                        holder.titleTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.titleTextView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                        holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
                     }
+
+                    holder.titleTextView.setVisibility(View.GONE);
                     break;
             }
         } catch (JSONException e) {
@@ -227,11 +247,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
     public class SearchHolder extends RecyclerView.ViewHolder {
 
-        public TextView titleTextView;
+        public TextView nameTextView, titleTextView;
 
         public SearchHolder(View view) {
             super(view);
-            titleTextView = view.findViewById(R.id.single_item_search_textView);
+            nameTextView = view.findViewById(R.id.single_item_search_name_textView);
+            titleTextView = view.findViewById(R.id.single_item_search_title_textView);
         }
     }
 

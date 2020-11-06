@@ -67,7 +67,6 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                     break;
                 case "roomReferences":
                     JSONObject user = (JSONObject) model.get("user");
-                    
                     holder.titleTextView.setText(user.get("name").toString());
                     break;
                 case "phones":

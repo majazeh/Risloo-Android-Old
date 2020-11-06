@@ -99,18 +99,40 @@
                     android:layout_marginBottom="@dimen/_8sdp"
                     android:background="@drawable/draw_16sdp_border_quartz">
 
-                    <TextView
-                        android:id="@+id/activity_create_sample_room_textView"
+                    <LinearLayout
+                        android:id="@+id/activity_create_sample_room_linearLayout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingLeft="@dimen/_16sdp"
                         android:paddingRight="@dimen/_16sdp"
-                        android:gravity="center|right"
-                        android:text="@string/CreateSampleRoom"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="normal"
-                        android:textColor="@color/Mischka"
-                        android:textAlignment="gravity" />
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/activity_create_sample_room_name_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="@string/CreateSampleRoom"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="normal"
+                            android:textColor="@color/Mischka"
+                            android:textAlignment="gravity" />
+
+                        <TextView
+                            android:id="@+id/activity_create_sample_room_title_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_minus4sdp"
+                            android:gravity="right"
+                            android:visibility="gone"
+                            android:text="@string/CreateSampleRoom"
+                            android:textSize="@dimen/_9ssp"
+                            android:textStyle="normal"
+                            android:textColor="@color/Mischka"
+                            android:textAlignment="gravity" />
+
+                    </LinearLayout>
 
                     <ImageView
                         android:layout_width="@dimen/_12sdp"

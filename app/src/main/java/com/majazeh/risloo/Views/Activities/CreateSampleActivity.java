@@ -76,10 +76,10 @@ public class CreateSampleActivity extends AppCompatActivity {
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
     private TabLayout typeTabLayout;
-    private LinearLayout scaleLinearLayout, roomReferenceLinearLayout;
+    private LinearLayout scaleLinearLayout, roomLinearLayout, roomReferenceLinearLayout;
     private FrameLayout roomFrameLayout, caseFrameLayout;
-    private LinearLayout caseLinearLayout, roomLinearLayout;
-    public TextView scaleTextView, roomTextView, caseTextView, roomReferenceTextView, caseReferenceTextView;
+    private LinearLayout caseLinearLayout, clinicLinearLayout;
+    public TextView scaleTextView, roomNameTextView, roomTitleTextView, caseTextView, roomReferenceTextView, caseReferenceTextView;
     public EditText countEditText;
     private RecyclerView scaleRecyclerView, roomReferenceRecyclerView, caseReferenceRecyclerView;
     private ImageView scaleImageView, roomReferenceImageView;
@@ -147,16 +147,18 @@ public class CreateSampleActivity extends AppCompatActivity {
         typeTabLayout = findViewById(R.id.activity_create_sample_type_tabLayout);
 
         scaleLinearLayout = findViewById(R.id.activity_create_sample_scale_linearLayout);
+        roomLinearLayout = findViewById(R.id.activity_create_sample_room_linearLayout);
         roomReferenceLinearLayout = findViewById(R.id.activity_create_sample_room_reference_linearLayout);
 
         roomFrameLayout = findViewById(R.id.activity_create_sample_room_frameLayout);
         caseFrameLayout = findViewById(R.id.activity_create_sample_case_frameLayout);
 
-        roomLinearLayout = findViewById(R.id.activity_create_sample_clinic_linearLayout);
+        clinicLinearLayout = findViewById(R.id.activity_create_sample_clinic_linearLayout);
         caseLinearLayout = findViewById(R.id.activity_create_sample_case_linearLayout);
 
         scaleTextView = findViewById(R.id.activity_create_sample_scale_textView);
-        roomTextView = findViewById(R.id.activity_create_sample_room_textView);
+        roomNameTextView = findViewById(R.id.activity_create_sample_room_name_textView);
+        roomTitleTextView = findViewById(R.id.activity_create_sample_room_title_textView);
         caseTextView = findViewById(R.id.activity_create_sample_case_textView);
         roomReferenceTextView = findViewById(R.id.activity_create_sample_room_reference_textView);
         caseReferenceTextView = findViewById(R.id.activity_create_sample_case_reference_textView);
@@ -317,7 +319,7 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                 switch (tab.getPosition()) {
                     case 0:
-                        roomLinearLayout.setVisibility(View.VISIBLE);
+                        clinicLinearLayout.setVisibility(View.VISIBLE);
                         caseLinearLayout.setVisibility(View.GONE);
 
                         resetData("case");
@@ -326,7 +328,7 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                         break;
                     case 1:
-                        roomLinearLayout.setVisibility(View.GONE);
+                        clinicLinearLayout.setVisibility(View.GONE);
                         caseLinearLayout.setVisibility(View.VISIBLE);
 
                         resetData("count");
@@ -363,9 +365,9 @@ public class CreateSampleActivity extends AppCompatActivity {
             scaleDialog.show();
         });
 
-        roomTextView.setOnClickListener(v -> {
-            roomTextView.setClickable(false);
-            handler.postDelayed(() -> roomTextView.setClickable(true), 300);
+        roomLinearLayout.setOnClickListener(v -> {
+            roomLinearLayout.setClickable(false);
+            handler.postDelayed(() -> roomLinearLayout.setClickable(true), 300);
 
             if (roomException) {
                 clearException("room");
@@ -1124,13 +1126,22 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                         JSONObject manager = (JSONObject) model.get("manager");
 
-                        roomTextView.setText(manager.get("name").toString());
-                        roomTextView.setTextColor(getResources().getColor(R.color.Grey));
+                        roomNameTextView.setText(manager.get("name").toString());
+                        roomNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+
+                        JSONObject center = (JSONObject) model.get("center");
+                        JSONObject detail = (JSONObject) center.get("detail");
+
+                        roomTitleTextView.setText(detail.get("title").toString());
+                        roomTitleTextView.setVisibility(View.VISIBLE);
                     } else if (room.equals(model.get("id").toString())) {
                         room = "";
 
-                        roomTextView.setText(getResources().getString(R.string.CreateSampleRoom));
-                        roomTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        roomNameTextView.setText(getResources().getString(R.string.CreateSampleRoom));
+                        roomNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+
+                        roomTitleTextView.setText("");
+                        roomTitleTextView.setVisibility(View.GONE);
                     }
 
                     resetData("count");
