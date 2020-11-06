@@ -161,7 +161,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
                     }
 
-                    holder.titleTextView.setVisibility(View.GONE);
+                    holder.titleTextView.setText(model.get("id").toString());
+                    holder.titleTextView.setVisibility(View.VISIBLE);
                     break;
                 case "getScalesFilter":
                     holder.nameTextView.setText(model.get("title").toString());
