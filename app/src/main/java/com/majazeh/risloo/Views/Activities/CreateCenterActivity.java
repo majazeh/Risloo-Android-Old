@@ -94,8 +94,8 @@ public class CreateCenterActivity extends AppCompatActivity {
     private TabLayout typeTabLayout;
     private EditText titleEditText, descriptionEditText, addressEditText;
     private FrameLayout managerFrameLayout;
-    private LinearLayout avatarLinearLayout, phoneLinearLayout;
-    public TextView managerTextView, selectTextView, avatarTextView, phoneTextView;
+    private LinearLayout managerLinearLayout, avatarLinearLayout, phoneLinearLayout;
+    public TextView managerNameTextView, managerIdTextView, selectTextView, avatarTextView, phoneTextView;
     private RecyclerView phoneRecyclerView;
     private ImageView phoneImageView;
     private Button createButton;
@@ -169,10 +169,12 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         managerFrameLayout = findViewById(R.id.activity_create_center_manager_frameLayout);
 
+        managerLinearLayout = findViewById(R.id.activity_create_center_manager_linearLayout);
         avatarLinearLayout = findViewById(R.id.activity_create_center_avatar_linearLayout);
         phoneLinearLayout = findViewById(R.id.activity_create_center_phone_linearLayout);
 
-        managerTextView = findViewById(R.id.activity_create_center_manager_textView);
+        managerNameTextView = findViewById(R.id.activity_create_center_manager_name_textView);
+        managerIdTextView = findViewById(R.id.activity_create_center_manager_id_textView);
         selectTextView = findViewById(R.id.activity_create_center_select_textView);
         avatarTextView = findViewById(R.id.activity_create_center_avatar_textView);
         phoneTextView = findViewById(R.id.activity_create_center_phone_textView);
@@ -314,9 +316,9 @@ public class CreateCenterActivity extends AppCompatActivity {
             }
         });
 
-        managerTextView.setOnClickListener(v -> {
-            managerTextView.setClickable(false);
-            handler.postDelayed(() -> managerTextView.setClickable(true), 300);
+        managerLinearLayout.setOnClickListener(v -> {
+            managerLinearLayout.setClickable(false);
+            handler.postDelayed(() -> managerLinearLayout.setClickable(true), 300);
 
             if (managerException) {
                 clearException("manager");
@@ -604,7 +606,7 @@ public class CreateCenterActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        } else if (method.equals("getPersonalClinic") || method.equals("getCounselingCenter")) {
+        } else if (method.equals("getManagers")) {
             managerDialogAdapter.setValue(arrayList, method, "CreateCenter");
             recyclerView.setAdapter(managerDialogAdapter);
             
@@ -680,8 +682,11 @@ public class CreateCenterActivity extends AppCompatActivity {
                 if (!manager.equals("")) {
                     manager = "";
 
-                    managerTextView.setText(getResources().getString(R.string.CreateCenterManager));
-                    managerTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                    managerNameTextView.setText(getResources().getString(R.string.CreateCenterManager));
+                    managerNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+
+                    managerIdTextView.setText(manager);
+                    managerIdTextView.setVisibility(View.GONE);
                 }
                 break;
             case "title":
@@ -791,7 +796,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                     break;
                 case "getPersonalClinic":
                     if (integer == 1) {
-                        setRecyclerView(CenterRepository.personalClinic, managerDialogRecyclerView, "getPersonalClinic");
+                        setRecyclerView(CenterRepository.personalClinic, managerDialogRecyclerView, "getManagers");
 
                         managerDialogProgressBar.setVisibility(View.GONE);
                         managerDialogImageView.setVisibility(View.VISIBLE);
@@ -810,7 +815,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                     break;
                 case "getCounselingCenter":
                     if (integer == 1) {
-                        setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getCounselingCenter");
+                        setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getManagers");
 
                         managerDialogProgressBar.setVisibility(View.GONE);
                         managerDialogImageView.setVisibility(View.VISIBLE);
@@ -898,13 +903,19 @@ public class CreateCenterActivity extends AppCompatActivity {
             if (!manager.equals(model.get("id").toString())) {
                 manager = model.get("id").toString();
 
-                managerTextView.setText(model.get("name").toString());
-                managerTextView.setTextColor(getResources().getColor(R.color.Grey));
+                managerNameTextView.setText(model.get("name").toString());
+                managerNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+
+                managerIdTextView.setText(manager);
+                managerIdTextView.setVisibility(View.VISIBLE);
             } else if (manager.equals(model.get("id").toString())) {
                 manager = "";
 
-                managerTextView.setText(getResources().getString(R.string.CreateCenterManager));
-                managerTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                managerNameTextView.setText(getResources().getString(R.string.CreateCenterManager));
+                managerNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+
+                managerIdTextView.setText(manager);
+                managerIdTextView.setVisibility(View.GONE);
             }
 
             resetData("managerDialog");

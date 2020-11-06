@@ -126,7 +126,6 @@
                             android:layout_marginTop="@dimen/_minus4sdp"
                             android:gravity="right"
                             android:visibility="gone"
-                            android:text="@string/CreateSampleRoom"
                             android:textSize="@dimen/_9ssp"
                             android:textStyle="normal"
                             android:textColor="@color/Mischka"

@@ -55,20 +55,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
         try {
             switch (method) {
-                case "getPersonalClinic":
-                    holder.nameTextView.setText(model.get("name").toString());
-
-                    if (((CreateCenterActivity) Objects.requireNonNull(activity)).manager.equals(model.get("id").toString())) {
-                        holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
-                    } else {
-                        holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
-                    }
-
-                    holder.titleTextView.setVisibility(View.GONE);
-                    break;
-                case "getCounselingCenter":
+                case "getManagers":
                     holder.nameTextView.setText(model.get("name").toString());
 
                     if (theory.equals("CreateCenter")) {
@@ -89,7 +76,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                         }
                     }
 
-                    holder.titleTextView.setVisibility(View.GONE);
+                    holder.titleTextView.setText(model.get("id").toString());
+                    holder.titleTextView.setVisibility(View.VISIBLE);
                     break;
                 case "getScales":
                     holder.nameTextView.setText(model.get("title").toString());
