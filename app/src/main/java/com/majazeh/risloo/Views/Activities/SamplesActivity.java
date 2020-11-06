@@ -10,6 +10,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -83,6 +84,7 @@ public class SamplesActivity extends AppCompatActivity {
     private RelativeLayout toolbarLayout;
     private ImageView toolbarImageView, toolbarCreateImageView, toolbarFilterImageView;
     private TextView toolbarTextView;
+    private SwipeRefreshLayout swipeLayout;
     private LinearLayout filterLayout;
     private RelativeLayout mainLayout;
     private LinearLayout infoLayout, loadingLayout;
@@ -156,6 +158,10 @@ public class SamplesActivity extends AppCompatActivity {
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.SamplesTitle));
         toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
+
+        swipeLayout = findViewById(R.id.activity_samples_swipeLayout);
+        swipeLayout.setColorSchemeResources(R.color.Primary);
+        swipeLayout.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.White));
 
         filterLayout = findViewById(R.id.activity_samples_filterLayout);
 
@@ -277,6 +283,11 @@ public class SamplesActivity extends AppCompatActivity {
             handler.postDelayed(() -> toolbarFilterImageView.setClickable(true), 300);
 
             filterDialog.show(this.getSupportFragmentManager(), "filterBottomSheet");
+        });
+
+        swipeLayout.setOnRefreshListener(() -> {
+            swipeLayout.setRefreshing(false);
+            relaunchSamples();
         });
 
         retrySpan = new ClickableSpan() {
