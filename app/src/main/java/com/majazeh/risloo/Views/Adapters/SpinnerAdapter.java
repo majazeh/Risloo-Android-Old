@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -57,7 +56,6 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
 
         try {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                holder.spinnerLinearLayout.setBackgroundResource(R.drawable.draw_4sdp_solid_snow_ripple_quartz);
                 holder.deleteImageView.setBackgroundResource(R.drawable.draw_rectangle_solid_snow_ripple_violetred);
             }
 
@@ -174,13 +172,11 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
 
     public class SpinnerHolder extends RecyclerView.ViewHolder {
 
-        public LinearLayout spinnerLinearLayout;
         public TextView titleTextView;
         public ImageView deleteImageView;
 
         public SpinnerHolder(View view) {
             super(view);
-            spinnerLinearLayout = view.findViewById(R.id.single_item_spinner_linearLayout);
             titleTextView = view.findViewById(R.id.single_item_spinner_textView);
             deleteImageView = view.findViewById(R.id.single_item_spinner_imageView);
         }

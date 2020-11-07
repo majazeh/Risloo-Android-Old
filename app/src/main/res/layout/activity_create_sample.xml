@@ -36,61 +36,36 @@
                 android:padding="@dimen/_24sdp"
                 android:orientation="vertical">
 
-                <androidx.cardview.widget.CardView
+                <FrameLayout
+                    android:id="@+id/activity_create_sample_scale_frameLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_36sdp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_8sdp"
-                    app:cardBackgroundColor="@null"
-                    app:cardCornerRadius="@dimen/_16sdp"
-                    app:cardElevation="0dp">
+                    android:paddingTop="@dimen/_6sdp"
+                    android:paddingBottom="@dimen/_6sdp"
+                    android:paddingLeft="@dimen/_12sdp"
+                    android:paddingRight="@dimen/_12sdp"
+                    android:background="@drawable/draw_16sdp_border_quartz">
 
-                    <LinearLayout
-                        android:id="@+id/activity_create_sample_scale_linearLayout"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/activity_create_sample_scale_recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="@dimen/_24sdp"
+                        android:overScrollMode="never" />
+
+                    <TextView
+                        android:id="@+id/activity_create_sample_scale_textView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:layoutDirection="rtl"
-                        android:background="@drawable/draw_16sdp_border_quartz">
+                        android:gravity="center|right"
+                        android:text="@string/CreateSampleScale"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Mischka"
+                        android:textAlignment="gravity" />
 
-                        <ImageView
-                            android:id="@+id/activity_create_sample_scale_imageView"
-                            android:layout_width="@dimen/_36sdp"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="@dimen/_1sdp"
-                            android:contentDescription="@string/AppImageContent"
-                            android:padding="@dimen/_9sdp"
-                            android:background="@color/Primary5P"
-                            android:src="@drawable/ic_plus_light"
-                            app:tint="@color/Primary" />
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/activity_create_sample_scale_recyclerView"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:overScrollMode="never" />
-
-                            <TextView
-                                android:id="@+id/activity_create_sample_scale_textView"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:paddingLeft="@dimen/_12sdp"
-                                android:paddingRight="@dimen/_12sdp"
-                                android:gravity="center|right"
-                                android:text="@string/CreateSampleScale"
-                                android:textSize="@dimen/_12ssp"
-                                android:textStyle="normal"
-                                android:textColor="@color/Mischka"
-                                android:textAlignment="gravity" />
-
-                        </FrameLayout>
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
+                </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/activity_create_sample_room_frameLayout"
@@ -198,61 +173,36 @@
                         android:orientation="vertical"
                         android:visibility="visible">
 
-                        <androidx.cardview.widget.CardView
+                        <FrameLayout
+                            android:id="@+id/activity_create_sample_room_reference_frameLayout"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_36sdp"
+                            android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/_8sdp"
-                            app:cardBackgroundColor="@null"
-                            app:cardCornerRadius="@dimen/_16sdp"
-                            app:cardElevation="0dp">
+                            android:paddingTop="@dimen/_6sdp"
+                            android:paddingBottom="@dimen/_6sdp"
+                            android:paddingLeft="@dimen/_12sdp"
+                            android:paddingRight="@dimen/_12sdp"
+                            android:background="@drawable/draw_16sdp_border_quartz">
 
-                            <LinearLayout
-                                android:id="@+id/activity_create_sample_room_reference_linearLayout"
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/activity_create_sample_room_reference_recyclerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:minHeight="@dimen/_24sdp"
+                                android:overScrollMode="never" />
+
+                            <TextView
+                                android:id="@+id/activity_create_sample_room_reference_textView"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:orientation="horizontal"
-                                android:layoutDirection="rtl"
-                                android:background="@drawable/draw_16sdp_border_quartz">
+                                android:gravity="center|right"
+                                android:text="@string/CreateSampleReference"
+                                android:textSize="@dimen/_12ssp"
+                                android:textStyle="normal"
+                                android:textColor="@color/Mischka"
+                                android:textAlignment="gravity" />
 
-                                <ImageView
-                                    android:id="@+id/activity_create_sample_room_reference_imageView"
-                                    android:layout_width="@dimen/_36sdp"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginRight="@dimen/_1sdp"
-                                    android:contentDescription="@string/AppImageContent"
-                                    android:padding="@dimen/_9sdp"
-                                    android:background="@color/Primary5P"
-                                    android:src="@drawable/ic_plus_light"
-                                    app:tint="@color/Primary" />
-
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent">
-
-                                    <androidx.recyclerview.widget.RecyclerView
-                                        android:id="@+id/activity_create_sample_room_reference_recyclerView"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:overScrollMode="never" />
-
-                                    <TextView
-                                        android:id="@+id/activity_create_sample_room_reference_textView"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:paddingLeft="@dimen/_12sdp"
-                                        android:paddingRight="@dimen/_12sdp"
-                                        android:gravity="center|right"
-                                        android:text="@string/CreateSampleReference"
-                                        android:textSize="@dimen/_12ssp"
-                                        android:textStyle="normal"
-                                        android:textColor="@color/Mischka"
-                                        android:textAlignment="gravity" />
-
-                                </FrameLayout>
-
-                            </LinearLayout>
-
-                        </androidx.cardview.widget.CardView>
+                        </FrameLayout>
 
                         <EditText
                             android:id="@+id/activity_create_sample_count_editText"

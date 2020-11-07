@@ -32,6 +32,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.material.tabs.TabLayout;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
@@ -70,19 +73,19 @@ public class CreateSampleActivity extends AppCompatActivity {
     private Bundle extras;
     private Handler handler;
     private ControlEditText controlEditText;
+    private FlexboxLayoutManager scaleLayoutManager, roomReferenceLayoutManager;
 
     // Widgets
     private RelativeLayout toolbarLayout;
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
     private TabLayout typeTabLayout;
-    private LinearLayout scaleLinearLayout, roomLinearLayout, roomReferenceLinearLayout;
-    private FrameLayout roomFrameLayout, caseFrameLayout;
+    private FrameLayout scaleFrameLayout, roomFrameLayout, caseFrameLayout, roomReferenceFrameLayout;
+    private LinearLayout roomLinearLayout;
     private LinearLayout caseLinearLayout, clinicLinearLayout;
     public TextView scaleTextView, roomNameTextView, roomTitleTextView, caseTextView, roomReferenceTextView, caseReferenceTextView;
     public EditText countEditText;
     private RecyclerView scaleRecyclerView, roomReferenceRecyclerView, caseReferenceRecyclerView;
-    private ImageView scaleImageView, roomReferenceImageView;
     private Button createButton;
     private Dialog scaleDialog, roomDialog, caseDialog, roomReferenceDialog, progressDialog;
     private TextView scaleDialogTitleTextView, roomDialogTitleTextView, caseDialogTitleTextView, roomReferenceDialogTitleTextView;
@@ -133,6 +136,13 @@ public class CreateSampleActivity extends AppCompatActivity {
 
         controlEditText = new ControlEditText();
 
+        scaleLayoutManager = new FlexboxLayoutManager(this);
+        scaleLayoutManager.setFlexDirection(FlexDirection.ROW);
+        scaleLayoutManager.setFlexWrap(FlexWrap.WRAP);
+        roomReferenceLayoutManager = new FlexboxLayoutManager(this);
+        roomReferenceLayoutManager.setFlexDirection(FlexDirection.ROW);
+        roomReferenceLayoutManager.setFlexWrap(FlexWrap.WRAP);
+
         toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
 
@@ -146,12 +156,12 @@ public class CreateSampleActivity extends AppCompatActivity {
 
         typeTabLayout = findViewById(R.id.activity_create_sample_type_tabLayout);
 
-        scaleLinearLayout = findViewById(R.id.activity_create_sample_scale_linearLayout);
-        roomLinearLayout = findViewById(R.id.activity_create_sample_room_linearLayout);
-        roomReferenceLinearLayout = findViewById(R.id.activity_create_sample_room_reference_linearLayout);
-
+        scaleFrameLayout = findViewById(R.id.activity_create_sample_scale_frameLayout);
         roomFrameLayout = findViewById(R.id.activity_create_sample_room_frameLayout);
         caseFrameLayout = findViewById(R.id.activity_create_sample_case_frameLayout);
+        roomReferenceFrameLayout = findViewById(R.id.activity_create_sample_room_reference_frameLayout);
+
+        roomLinearLayout = findViewById(R.id.activity_create_sample_room_linearLayout);
 
         clinicLinearLayout = findViewById(R.id.activity_create_sample_clinic_linearLayout);
         caseLinearLayout = findViewById(R.id.activity_create_sample_case_linearLayout);
@@ -166,20 +176,15 @@ public class CreateSampleActivity extends AppCompatActivity {
         countEditText = findViewById(R.id.activity_create_sample_count_editText);
 
         scaleRecyclerView = findViewById(R.id.activity_create_sample_scale_recyclerView);
-        scaleRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("horizontalLayout", 0, (int) getResources().getDimension(R.dimen._3sdp), (int) getResources().getDimension(R.dimen._12sdp)));
-        scaleRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        scaleRecyclerView.setHasFixedSize(true);
+        scaleRecyclerView.setLayoutManager(scaleLayoutManager);
+        scaleRecyclerView.setHasFixedSize(false);
         roomReferenceRecyclerView = findViewById(R.id.activity_create_sample_room_reference_recyclerView);
-        roomReferenceRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("horizontalLayout", 0, (int) getResources().getDimension(R.dimen._3sdp), (int) getResources().getDimension(R.dimen._12sdp)));
-        roomReferenceRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        roomReferenceRecyclerView.setHasFixedSize(true);
+        roomReferenceRecyclerView.setLayoutManager(roomReferenceLayoutManager);
+        roomReferenceRecyclerView.setHasFixedSize(false);
         caseReferenceRecyclerView = findViewById(R.id.activity_create_sample_case_reference_recyclerView);
         caseReferenceRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._12sdp), (int) getResources().getDimension(R.dimen._3sdp), (int) getResources().getDimension(R.dimen._12sdp)));
         caseReferenceRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         caseReferenceRecyclerView.setHasFixedSize(true);
-
-        scaleImageView = findViewById(R.id.activity_create_sample_scale_imageView);
-        roomReferenceImageView = findViewById(R.id.activity_create_sample_room_reference_imageView);
 
         createButton = findViewById(R.id.activity_create_sample_button);
 
@@ -293,9 +298,6 @@ public class CreateSampleActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
 
-            scaleImageView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
-            roomReferenceImageView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
-
             createButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
         }
     }
@@ -350,19 +352,19 @@ public class CreateSampleActivity extends AppCompatActivity {
             }
         });
 
-        scaleImageView.setOnClickListener(v -> {
-            scaleImageView.setClickable(false);
-            handler.postDelayed(() -> scaleImageView.setClickable(true), 300);
+        scaleRecyclerView.setOnTouchListener((v, event) -> {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
+                if (scaleException) {
+                    clearException("scale");
+                }
 
-            if (scaleException) {
-                clearException("scale");
+                if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                    controlEditText.clear(this, controlEditText.input());
+                }
+
+                scaleDialog.show();
             }
-
-            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
-                controlEditText.clear(this, controlEditText.input());
-            }
-
-            scaleDialog.show();
+            return false;
         });
 
         roomLinearLayout.setOnClickListener(v -> {
@@ -400,24 +402,24 @@ public class CreateSampleActivity extends AppCompatActivity {
             }
         });
 
-        roomReferenceImageView.setOnClickListener(v -> {
-            roomReferenceImageView.setClickable(false);
-            handler.postDelayed(() -> roomReferenceImageView.setClickable(true), 300);
+        roomReferenceRecyclerView.setOnTouchListener((v, event) -> {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
+                if (roomReferenceException) {
+                    clearException("roomReference");
+                }
 
-            if (roomReferenceException) {
-                clearException("roomReference");
-            }
+                if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                    controlEditText.clear(this, controlEditText.input());
+                }
 
-            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
-                controlEditText.clear(this, controlEditText.input());
+                if (!room.isEmpty()) {
+                    roomReferenceDialog.show();
+                } else {
+                    ExceptionGenerator.getException(false, 0, null, "SelectRoomFirstException");
+                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                }
             }
-
-            if (!room.isEmpty()) {
-                roomReferenceDialog.show();
-            } else {
-                ExceptionGenerator.getException(false, 0, null, "SelectRoomFirstException");
-                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-            }
+            return false;
         });
 
         countEditText.setOnTouchListener((v, event) -> {
@@ -448,11 +450,13 @@ public class CreateSampleActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (countEditText.length() == 1) {
-                    roomReferenceLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude_border_quartz);
-                    roomReferenceImageView.setClickable(false);
+                    roomReferenceFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude_border_quartz);
+                    roomReferenceRecyclerView.setEnabled(false);
+                    roomReferenceRecyclerView.setClickable(false);
                 } else if (countEditText.length() == 0) {
-                    roomReferenceLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-                    roomReferenceImageView.setClickable(true);
+                    roomReferenceFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                    roomReferenceRecyclerView.setEnabled(true);
+                    roomReferenceRecyclerView.setClickable(true);
                 }
             }
 
@@ -743,7 +747,7 @@ public class CreateSampleActivity extends AppCompatActivity {
 
     private void errorView(String type) {
         if (type.equals("scale")) {
-            scaleLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+            scaleFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
         } else if (type.equals("room")) {
             roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
         }
@@ -753,7 +757,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         switch (type) {
             case "scale":
                 scaleException = true;
-                scaleLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                scaleFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
             case "room":
                 roomException = true;
@@ -765,7 +769,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 break;
             case "roomReference":
                 roomReferenceException = true;
-                roomReferenceLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                roomReferenceFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
             case "caseReference":
                 caseReferenceException = true;
@@ -778,7 +782,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         switch (type) {
             case "scale":
                 scaleException = false;
-                scaleLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                scaleFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 break;
             case "room":
                 roomException = false;
@@ -790,7 +794,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 break;
             case "roomReference":
                 roomReferenceException = false;
-                roomReferenceLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                roomReferenceFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 break;
             case "caseReference":
                 caseReferenceException = false;
@@ -817,8 +821,9 @@ public class CreateSampleActivity extends AppCompatActivity {
                 break;
             case "roomReference":
                 if (countEditText.length() != 0) {
-                    roomReferenceLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-                    roomReferenceImageView.setClickable(true);
+                    roomReferenceFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                    roomReferenceRecyclerView.setEnabled(true);
+                    roomReferenceRecyclerView.setClickable(true);
                 }
 
                 if (roomReferenceRecyclerViewAdapter.getValues().size() != 0) {
