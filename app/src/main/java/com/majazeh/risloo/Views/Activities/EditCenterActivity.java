@@ -75,8 +75,8 @@ public class EditCenterActivity extends AppCompatActivity {
     private TextView toolbarTextView;
     private EditText titleEditText, descriptionEditText, addressEditText;
     private FrameLayout managerFrameLayout;
-    private LinearLayout phoneLinearLayout;
-    public TextView managerTextView, phoneTextView;
+    private LinearLayout managerLinearLayout, phoneLinearLayout;
+    public TextView managerNameTextView, managerIdTextView, phoneTextView;
     private RecyclerView phoneRecyclerView;
     private ImageView phoneImageView;
     private Button editButton;
@@ -141,9 +141,11 @@ public class EditCenterActivity extends AppCompatActivity {
 
         managerFrameLayout = findViewById(R.id.activity_edit_center_manager_frameLayout);
 
+        managerLinearLayout = findViewById(R.id.activity_edit_center_manager_linearLayout);
         phoneLinearLayout = findViewById(R.id.activity_edit_center_phone_linearLayout);
 
-        managerTextView = findViewById(R.id.activity_edit_center_manager_textView);
+        managerNameTextView = findViewById(R.id.activity_edit_center_manager_name_textView);
+        managerIdTextView = findViewById(R.id.activity_edit_center_manager_id_textView);
         phoneTextView = findViewById(R.id.activity_edit_center_phone_textView);
 
         phoneRecyclerView = findViewById(R.id.activity_edit_center_phone_recyclerView);
@@ -234,9 +236,9 @@ public class EditCenterActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
         });
 
-        managerTextView.setOnClickListener(v -> {
-            managerTextView.setClickable(false);
-            handler.postDelayed(() -> managerTextView.setClickable(true), 300);
+        managerLinearLayout.setOnClickListener(v -> {
+            managerLinearLayout.setClickable(false);
+            handler.postDelayed(() -> managerLinearLayout.setClickable(true), 300);
 
             if (managerException) {
                 clearException("manager");
@@ -471,7 +473,7 @@ public class EditCenterActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        } else if (method.equals("getCounselingCenter")) {
+        } else if (method.equals("getManagers")) {
             managerDialogAdapter.setValue(arrayList, method, "EditCenter");
             recyclerView.setAdapter(managerDialogAdapter);
 
@@ -582,11 +584,17 @@ public class EditCenterActivity extends AppCompatActivity {
             toolbarTextView.setText(getResources().getString(R.string.EditCenterTitle));
 
             if (managerId.equals("")) {
-                managerTextView.setText(getResources().getString(R.string.EditCenterManager));
-                managerTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                managerNameTextView.setText(getResources().getString(R.string.EditCenterManager));
+                managerNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+
+                managerIdTextView.setText(managerId);
+                managerIdTextView.setVisibility(View.GONE);
             } else {
-                managerTextView.setText(managerName);
-                managerTextView.setTextColor(getResources().getColor(R.color.Grey));
+                managerNameTextView.setText(managerName);
+                managerNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+
+                managerIdTextView.setText(managerId);
+                managerIdTextView.setVisibility(View.VISIBLE);
             }
 
             titleEditText.setText(title);
@@ -681,7 +689,7 @@ public class EditCenterActivity extends AppCompatActivity {
                 }
             } else if (CenterRepository.work.equals("getCounselingCenter")) {
                 if (integer == 1) {
-                    setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getCounselingCenter");
+                    setRecyclerView(CenterRepository.counselingCenter, managerDialogRecyclerView, "getManagers");
 
                     managerDialogProgressBar.setVisibility(View.GONE);
                     managerDialogImageView.setVisibility(View.VISIBLE);
@@ -753,14 +761,20 @@ public class EditCenterActivity extends AppCompatActivity {
                 managerId = model.get("id").toString();
                 managerName = model.get("name").toString();
 
-                managerTextView.setText(managerName);
-                managerTextView.setTextColor(getResources().getColor(R.color.Grey));
+                managerNameTextView.setText(managerName);
+                managerNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+
+                managerIdTextView.setText(managerId);
+                managerIdTextView.setVisibility(View.VISIBLE);
             } else if (managerId.equals(model.get("id").toString())) {
                 managerId = "";
                 managerName = "";
 
-                managerTextView.setText(getResources().getString(R.string.EditCenterManager));
-                managerTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                managerNameTextView.setText(getResources().getString(R.string.EditCenterManager));
+                managerNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+
+                managerIdTextView.setText(managerId);
+                managerIdTextView.setVisibility(View.GONE);
             }
 
             resetData("managerDialog");

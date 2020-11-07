@@ -67,7 +67,6 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                     break;
                 case "roomReferences":
                     JSONObject user = (JSONObject) model.get("user");
-                    
                     holder.titleTextView.setText(user.get("name").toString());
                     break;
                 case "phones":
@@ -118,9 +117,9 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                         ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceTextView.setVisibility(View.VISIBLE);
 
                         // Reset Count
-                        ((CreateSampleActivity) Objects.requireNonNull(activity)).count = "";
-                        ((CreateSampleActivity) Objects.requireNonNull(activity)).countEditText.getText().clear();
-                        ((CreateSampleActivity) Objects.requireNonNull(activity)).countEditText.setVisibility(View.VISIBLE);
+                        ((CreateSampleActivity) Objects.requireNonNull(activity)).countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                        ((CreateSampleActivity) Objects.requireNonNull(activity)).countEditText.setEnabled(true);
+                        ((CreateSampleActivity) Objects.requireNonNull(activity)).countEditText.setFocusableInTouchMode(true);
                         break;
                     case "phones":
                         // Reset Phones

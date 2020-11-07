@@ -10,6 +10,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -75,14 +76,15 @@ public class SamplesActivity extends AppCompatActivity {
     // Objects
     private Handler handler;
     private ControlEditText controlEditText;
+    private FilterDialog filterDialog;
     private LinearLayoutManager layoutManager;
     private ClickableSpan retrySpan;
-    private FilterDialog filterDialog;
 
     // Widgets
     private RelativeLayout toolbarLayout;
     private ImageView toolbarImageView, toolbarCreateImageView, toolbarFilterImageView;
     private TextView toolbarTextView;
+    private SwipeRefreshLayout swipeLayout;
     private LinearLayout filterLayout;
     private RelativeLayout mainLayout;
     private LinearLayout infoLayout, loadingLayout;
@@ -135,9 +137,9 @@ public class SamplesActivity extends AppCompatActivity {
 
         controlEditText = new ControlEditText();
 
-        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-
         filterDialog = new FilterDialog(this);
+
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
         toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
@@ -156,6 +158,10 @@ public class SamplesActivity extends AppCompatActivity {
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.SamplesTitle));
         toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
+
+        swipeLayout = findViewById(R.id.activity_samples_swipeLayout);
+        swipeLayout.setColorSchemeResources(R.color.Primary);
+        swipeLayout.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.White));
 
         filterLayout = findViewById(R.id.activity_samples_filterLayout);
 
@@ -279,6 +285,11 @@ public class SamplesActivity extends AppCompatActivity {
             filterDialog.show(this.getSupportFragmentManager(), "filterBottomSheet");
         });
 
+        swipeLayout.setOnRefreshListener(() -> {
+            swipeLayout.setRefreshing(false);
+            relaunchSamples();
+        });
+
         retrySpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
@@ -307,7 +318,7 @@ public class SamplesActivity extends AppCompatActivity {
                             if (!loading) {
                                 pagingProgressBar.setVisibility(View.VISIBLE);
                                 sampleViewModel.samples(scale, status, room);
-                                observeWork(null);
+                                observeWork();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -352,7 +363,7 @@ public class SamplesActivity extends AppCompatActivity {
         scaleDialog.setOnCancelListener(dialog -> scaleDialog.dismiss());
 
         roomDialog.setOnCancelListener(dialog -> {
-            resetData("room");
+            resetData("roomDialog");
 
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
@@ -509,7 +520,7 @@ public class SamplesActivity extends AppCompatActivity {
                     ImageViewCompat.setImageTintList(toolbarFilterImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
                 }
             }
-        } else if (method.equals("room")) {
+        } else if (method.equals("roomDialog")) {
             SampleRepository.rooms.clear();
             roomDialogRecyclerView.setAdapter(null);
 
@@ -527,7 +538,7 @@ public class SamplesActivity extends AppCompatActivity {
 
                 sampleViewModel.rooms(q);
             }
-            observeWork(q);
+            observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -537,7 +548,7 @@ public class SamplesActivity extends AppCompatActivity {
         try {
             sampleViewModel.samples(scale, status, room);
             SampleRepository.samplesPage = 1;
-            observeWork(null);
+            observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -552,7 +563,7 @@ public class SamplesActivity extends AppCompatActivity {
         launchSamples();
     }
 
-    private void observeWork(String q) {
+    private void observeWork() {
         SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
             if (SampleRepository.work.equals("getAll")) {
                 finished = false;
@@ -757,7 +768,7 @@ public class SamplesActivity extends AppCompatActivity {
 
                     relaunchSamples();
 
-                    resetData("room");
+                    resetData("roomDialog");
 
                     if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                         controlEditText.clear(this, controlEditText.input());

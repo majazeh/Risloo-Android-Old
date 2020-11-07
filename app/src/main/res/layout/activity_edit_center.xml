@@ -43,18 +43,39 @@
                     android:layout_marginBottom="@dimen/_8sdp"
                     android:background="@drawable/draw_16sdp_border_quartz">
 
-                    <TextView
-                        android:id="@+id/activity_edit_center_manager_textView"
+                    <LinearLayout
+                        android:id="@+id/activity_edit_center_manager_linearLayout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingLeft="@dimen/_16sdp"
                         android:paddingRight="@dimen/_16sdp"
-                        android:gravity="center|right"
-                        android:text="@string/EditCenterManager"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="normal"
-                        android:textColor="@color/Mischka"
-                        android:textAlignment="gravity" />
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/activity_edit_center_manager_name_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="@string/EditCenterManager"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="normal"
+                            android:textColor="@color/Mischka"
+                            android:textAlignment="gravity" />
+
+                        <TextView
+                            android:id="@+id/activity_edit_center_manager_id_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_minus4sdp"
+                            android:gravity="right"
+                            android:visibility="gone"
+                            android:textSize="@dimen/_9ssp"
+                            android:textStyle="normal"
+                            android:textColor="@color/Mischka"
+                            android:textAlignment="gravity" />
+
+                    </LinearLayout>
 
                     <ImageView
                         android:layout_width="@dimen/_12sdp"
