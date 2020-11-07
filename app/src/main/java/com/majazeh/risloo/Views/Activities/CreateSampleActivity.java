@@ -83,7 +83,7 @@ public class CreateSampleActivity extends AppCompatActivity {
     private FrameLayout scaleFrameLayout, roomFrameLayout, caseFrameLayout, roomReferenceFrameLayout;
     private LinearLayout roomLinearLayout;
     private LinearLayout caseLinearLayout, clinicLinearLayout;
-    public TextView scaleTextView, roomNameTextView, roomTitleTextView, caseTextView, roomReferenceTextView, caseReferenceTextView;
+    public TextView scaleTextView, scaleCountTextView, roomNameTextView, roomTitleTextView, caseTextView, roomReferenceTextView, caseReferenceTextView;
     public EditText countEditText;
     private RecyclerView scaleRecyclerView, roomReferenceRecyclerView, caseReferenceRecyclerView;
     private Button createButton;
@@ -167,6 +167,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         caseLinearLayout = findViewById(R.id.activity_create_sample_case_linearLayout);
 
         scaleTextView = findViewById(R.id.activity_create_sample_scale_textView);
+        scaleCountTextView = findViewById(R.id.activity_create_sample_scale_count_textView);
         roomNameTextView = findViewById(R.id.activity_create_sample_room_name_textView);
         roomTitleTextView = findViewById(R.id.activity_create_sample_room_title_textView);
         caseTextView = findViewById(R.id.activity_create_sample_case_textView);
@@ -898,7 +899,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     scaleDialogProgressBar.setVisibility(View.VISIBLE);
                     scaleDialogImageView.setVisibility(View.GONE);
 
-                    viewModel.scales(q);
+                    viewModel.scales(q, 0);
                     break;
                 case "getRooms":
                     roomDialogProgressBar.setVisibility(View.VISIBLE);
@@ -1118,9 +1119,17 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                     if (scaleRecyclerViewAdapter.getValues().size() == 0) {
                         scaleTextView.setVisibility(View.VISIBLE);
+
+                        scaleCountTextView.setText("");
+                        scaleCountTextView.setVisibility(View.GONE);
                     } else {
                         if (scaleTextView.getVisibility() == View.VISIBLE) {
                             scaleTextView.setVisibility(View.GONE);
+                        }
+
+                        scaleCountTextView.setText(String.valueOf(scaleRecyclerViewAdapter.getValues().size()));
+                        if (scaleCountTextView.getVisibility() == View.GONE) {
+                            scaleCountTextView.setVisibility(View.VISIBLE);
                         }
                     }
                     break;

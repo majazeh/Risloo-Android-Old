@@ -109,6 +109,9 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                     case "scales":
                         // Reset Scales
                         ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleTextView.setVisibility(View.VISIBLE);
+
+                        ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleCountTextView.setText("");
+                        ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleCountTextView.setVisibility(View.GONE);
                         break;
                     case "roomReferences":
                         // Reset RoomReferences
@@ -135,6 +138,9 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                 }
             } else {
                 switch (method) {
+                    case "scales":
+                        ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleCountTextView.setText(String.valueOf(values.size()));
+                        break;
                     case "scalesFilter":
                     case "roomsFilter":
                     case "statusFilter":
