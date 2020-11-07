@@ -2,6 +2,7 @@ package com.majazeh.risloo.Models.Repositories;
 
 import android.app.Application;
 import android.content.Context;
+import android.icu.text.Edits;
 import android.net.ConnectivityManager;
 
 import androidx.lifecycle.MutableLiveData;
@@ -24,6 +25,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Objects;
 
 public class SampleRepository extends MainRepository {
@@ -246,7 +248,7 @@ public class SampleRepository extends MainRepository {
         FileManager.deleteFileFromCache(application.getApplicationContext(), "Answers" + "/" + sampleId);
     }
 
-    public void scales(String q,int page) throws JSONException {
+    public void scales(String q, int page) throws JSONException {
         SampleRepository.scalesQ = q;
         SampleRepository.scalesPage = page;
 
@@ -516,6 +518,31 @@ public class SampleRepository extends MainRepository {
          ---------- Urls ----------
     */
 
+    public ArrayList<Model> getAllPngPics() {
+        try {
+            ArrayList<Model> arrayList = new ArrayList<>();
+            if (FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetailFiles" + "/" + SampleRepository.sampleId) != null) {
+                JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetailFiles" + "/" + SampleRepository.sampleId);
+                JSONObject profiles = jsonObject.getJSONObject("profiles");
+                Iterator<String> keys = profiles.keys();
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    if (key.endsWith("png")) {
+                        JSONObject object = new JSONObject();
+                        object.put("url", profiles.getJSONObject(key).getString("url"));
+                        arrayList.add(new Model(object));
+                    }
+                }
+                return arrayList;
+            } else {
+                return null;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private String getUrlScore(String type) {
         if (FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetailFiles" + "/" + SampleRepository.sampleId) != null) {
             JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetailFiles" + "/" + SampleRepository.sampleId);
@@ -607,9 +634,9 @@ public class SampleRepository extends MainRepository {
             if (isNetworkConnected(application.getApplicationContext())) {
                 // filter and show
                 handlerFilters();
-                if (getAll.size() == 0){
+                if (getAll.size() == 0) {
                     return null;
-                }else {
+                } else {
                     return getAll;
                 }
             } else {
@@ -637,9 +664,9 @@ public class SampleRepository extends MainRepository {
                         }
                         this.meta = jsonObject.getJSONObject("meta");
                         handlerFilters();
-                        if (getAll.size() == 0){
+                        if (getAll.size() == 0) {
                             return null;
-                        }else {
+                        } else {
                             return getAll;
                         }
                     } catch (JSONException e) {
@@ -704,10 +731,10 @@ public class SampleRepository extends MainRepository {
         }
     }
 
-    public static boolean filterArraysExist(){
-        if (SampleRepository.scaleFilter.size() == 0){
+    public static boolean filterArraysExist() {
+        if (SampleRepository.scaleFilter.size() == 0) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }

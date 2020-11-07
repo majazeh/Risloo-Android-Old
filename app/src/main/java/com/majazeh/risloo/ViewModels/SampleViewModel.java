@@ -34,7 +34,7 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
     public void samples(String scalesQ, String statusQ, String roomQ) throws JSONException {
-        repository.samples(scalesQ,statusQ,roomQ);
+        repository.samples(scalesQ, statusQ, roomQ);
     }
 
     public void sendAnswers(String sampleId) throws JSONException {
@@ -195,6 +195,10 @@ public class SampleViewModel extends AndroidViewModel {
 
     public String getPdfScore(String sampleId) {
         return repository.getPdfScore(sampleId);
+    }
+
+    public ArrayList<Model> getAllPngPics() {
+        return repository.getAllPngPics();
     }
 
     /*
