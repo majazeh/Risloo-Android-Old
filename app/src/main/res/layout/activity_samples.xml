@@ -83,6 +83,7 @@
                         android:layout_marginBottom="@dimen/_16sdp"
                         android:elevation="@dimen/_1sdp"
                         android:padding="@dimen/_6sdp"
+                        android:visibility="gone"
                         android:theme="@style/ProgressBarTheme"
                         android:background="@drawable/draw_oval_solid_white"
                         style="@style/Widget.AppCompat.ProgressBar"/>

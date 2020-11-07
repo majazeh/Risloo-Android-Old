@@ -92,6 +92,7 @@
     <string name="AuthSampleTitle">نمونه</string>
     <string name="AuthSampleStart">شروع نمونه</string>
     <string name="AuthSampleList">نمونه ها</string>
+    <string name="AuthScaleList">مقیاس ها</string>
 
     <string name="AuthReserveTitle">رزرواسیون</string>
     <string name="AuthReserveConstruct">ایجاد رزرواسیون</string>
@@ -263,6 +264,13 @@
     <string name="DetailDownloadDialogHtml">HTML</string>
     <string name="DetailDownloadDialogPdf">PDF</string>
     <string name="DetailDownloadDialogClose">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // scales strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="ScalesTitle">مقیاس ها</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
