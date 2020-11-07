@@ -88,7 +88,7 @@ public class CreateSampleActivity extends AppCompatActivity {
     private RecyclerView scaleRecyclerView, roomReferenceRecyclerView, caseReferenceRecyclerView;
     private Button createButton;
     private Dialog scaleDialog, roomDialog, caseDialog, roomReferenceDialog, progressDialog;
-    private TextView scaleDialogTitleTextView, roomDialogTitleTextView, caseDialogTitleTextView, roomReferenceDialogTitleTextView;
+    private TextView scaleDialogTitleTextView, roomDialogTitleTextView, caseDialogTitleTextView, roomReferenceDialogTitleTextView, scaleDialogConfirm, roomReferenceDialogConfirm;;
     private CoordinatorLayout scaleDialogSearchLayout, roomDialogSearchLayout, caseDialogSearchLayout, roomReferenceDialogSearchLayout;
     private EditText scaleDialogEditText, roomDialogEditText, caseDialogEditText, roomReferenceDialogEditText;
     private ImageView scaleDialogImageView, roomDialogImageView, caseDialogImageView, roomReferenceDialogImageView;
@@ -245,6 +245,9 @@ public class CreateSampleActivity extends AppCompatActivity {
         roomReferenceDialogTitleTextView = roomReferenceDialog.findViewById(R.id.dialog_search_title_textView);
         roomReferenceDialogTitleTextView.setText(getResources().getString(R.string.CreateSampleRoomReferenceDialogTitle));
 
+        scaleDialogConfirm = scaleDialog.findViewById(R.id.dialog_search_confirm_textView);
+        roomReferenceDialogConfirm = roomReferenceDialog.findViewById(R.id.dialog_search_confirm_textView);
+
         scaleDialogSearchLayout = scaleDialog.findViewById(R.id.dialog_search_coordinatorLayout);
         scaleDialogSearchLayout.setVisibility(View.VISIBLE);
         roomDialogSearchLayout = roomDialog.findViewById(R.id.dialog_search_coordinatorLayout);
@@ -298,6 +301,9 @@ public class CreateSampleActivity extends AppCompatActivity {
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
+
+            scaleDialogConfirm.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            roomReferenceDialogConfirm.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
 
             createButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
         }
@@ -628,6 +634,32 @@ public class CreateSampleActivity extends AppCompatActivity {
             }
         });
 
+        scaleDialogConfirm.setOnClickListener(v -> {
+            resetData("scaleDialog");
+
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+                controlEditText.input().getText().clear();
+
+                handler.removeCallbacksAndMessages(null);
+            }
+
+            scaleDialog.dismiss();
+        });
+
+        roomReferenceDialogConfirm.setOnClickListener(v -> {
+            resetData("roomReferenceDialog");
+
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+                controlEditText.input().getText().clear();
+
+                handler.removeCallbacksAndMessages(null);
+            }
+
+            roomReferenceDialog.dismiss();
+        });
+
         scaleDialog.setOnCancelListener(dialog -> {
             resetData("scaleDialog");
 
@@ -861,6 +893,10 @@ public class CreateSampleActivity extends AppCompatActivity {
                 SampleRepository.scales.clear();
                 scaleDialogRecyclerView.setAdapter(null);
 
+                if (scaleDialogConfirm.getVisibility() == View.VISIBLE) {
+                    scaleDialogConfirm.setVisibility(View.GONE);
+                }
+
                 if (scaleDialogTextView.getVisibility() == View.VISIBLE) {
                     scaleDialogTextView.setVisibility(View.GONE);
                 }
@@ -884,6 +920,10 @@ public class CreateSampleActivity extends AppCompatActivity {
             case "roomReferenceDialog":
                 SampleRepository.references.clear();
                 roomReferenceDialogRecyclerView.setAdapter(null);
+
+                if (roomReferenceDialogConfirm.getVisibility() == View.VISIBLE) {
+                    roomReferenceDialogConfirm.setVisibility(View.GONE);
+                }
 
                 if (roomReferenceDialogTextView.getVisibility() == View.VISIBLE) {
                     roomReferenceDialogTextView.setVisibility(View.GONE);
@@ -1122,6 +1162,8 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                         scaleCountTextView.setText("");
                         scaleCountTextView.setVisibility(View.GONE);
+
+                        scaleDialogConfirm.setVisibility(View.GONE);
                     } else {
                         if (scaleTextView.getVisibility() == View.VISIBLE) {
                             scaleTextView.setVisibility(View.GONE);
@@ -1130,6 +1172,10 @@ public class CreateSampleActivity extends AppCompatActivity {
                         scaleCountTextView.setText(String.valueOf(scaleRecyclerViewAdapter.getValues().size()));
                         if (scaleCountTextView.getVisibility() == View.GONE) {
                             scaleCountTextView.setVisibility(View.VISIBLE);
+                        }
+
+                        if (scaleDialogConfirm.getVisibility() == View.GONE) {
+                            scaleDialogConfirm.setVisibility(View.VISIBLE);
                         }
                     }
                     break;
@@ -1264,6 +1310,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                         countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                         countEditText.setEnabled(true);
                         countEditText.setFocusableInTouchMode(true);
+
+                        roomReferenceDialogConfirm.setVisibility(View.GONE);
                     } else {
                         if (roomReferenceTextView.getVisibility() == View.VISIBLE) {
                             roomReferenceTextView.setVisibility(View.GONE);
@@ -1271,6 +1319,10 @@ public class CreateSampleActivity extends AppCompatActivity {
                             countEditText.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude_border_quartz);
                             countEditText.setEnabled(false);
                             countEditText.setFocusableInTouchMode(false);
+
+                            if (roomReferenceDialogConfirm.getVisibility() == View.GONE) {
+                                roomReferenceDialogConfirm.setVisibility(View.VISIBLE);
+                            }
                         }
                     }
                     break;
