@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -33,7 +32,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jsibbold.zoomage.ZoomageView;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
@@ -43,8 +41,8 @@ import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.DetailSampleAdapter;
+import com.majazeh.risloo.Views.Adapters.ZoomageAdapter;
 import com.majazeh.risloo.Views.Dialogs.DownloadDialog;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,10 +55,11 @@ public class DetailSampleActivity extends AppCompatActivity {
     private SampleViewModel viewModel;
 
     // Adapters
-    private DetailSampleAdapter adapter;
+    private DetailSampleAdapter detailSampleAdapter;
+    private ZoomageAdapter zoomageAdapter;
 
     // Vars
-    private String sampleId = "", scaleTitle = "", svgUrl = "", pngUrl = "", htmlUrl = "", pdfUrl = "";
+    public String sampleId = "", scaleTitle = "", svgUrl = "", pngUrl = "", htmlUrl = "", pdfUrl = "";
     private boolean showLoading = false, showCardView = false;
 
     // Objects
@@ -76,9 +75,8 @@ public class DetailSampleActivity extends AppCompatActivity {
     private TextView toolbarTextView;
     private TextView retryTextView, scaleTextView, serialTextView, statusTextView, referenceHintTextView, referenceTextView, caseTextView, roomTextView, actionTextView, generalTextView, prerequisiteTextView, testTextView;
     private ImageView retryImageView, statusImageView, referenceHintImageView, downloadImageView;
-    private ZoomageView resultImageView;
     private CheckBox editCheckbox;
-    private RecyclerView generalRecyclerView, prerequisiteRecyclerView, testRecyclerView;
+    private RecyclerView resultRecyclerView, generalRecyclerView, prerequisiteRecyclerView, testRecyclerView;
     private Dialog progressDialog;
     private FrameLayout mainLayout;
     private LinearLayout retryLayout, loadingLayout, referenceLinearLayout, caseLinearLayout, roomLinearLayout;
@@ -109,7 +107,8 @@ public class DetailSampleActivity extends AppCompatActivity {
     private void initializer() {
         viewModel = new ViewModelProvider(this).get(SampleViewModel.class);
 
-        adapter = new DetailSampleAdapter(this);
+        detailSampleAdapter = new DetailSampleAdapter(this);
+        zoomageAdapter = new ZoomageAdapter(this);
 
         downloadDialog = new DownloadDialog(this);
 
@@ -152,10 +151,12 @@ public class DetailSampleActivity extends AppCompatActivity {
         referenceHintImageView = findViewById(R.id.activity_detail_sample_reference_hint_imageView);
         downloadImageView = findViewById(R.id.activity_detail_sample_download_imageView);
 
-        resultImageView = findViewById(R.id.activity_detail_sample_result_imageView);
-
         editCheckbox = findViewById(R.id.activity_detail_sample_edit_checkbox);
 
+        resultRecyclerView = findViewById(R.id.activity_detail_sample_result_recyclerView);
+        resultRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", 0, (int) getResources().getDimension(R.dimen._4sdp), 0));
+        resultRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        resultRecyclerView.setHasFixedSize(false);
         generalRecyclerView = findViewById(R.id.activity_detail_sample_general_recyclerView);
         generalRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", 0, (int) getResources().getDimension(R.dimen._4sdp), 0));
         generalRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -223,23 +224,13 @@ public class DetailSampleActivity extends AppCompatActivity {
             downloadDialog.getUrls(svgUrl, pngUrl, htmlUrl, pdfUrl);
         });
 
-        resultImageView.setOnClickListener(v -> {
-            Intent intent = (new Intent(this, ImageActivity.class));
-
-            intent.putExtra("title", scaleTitle);
-            intent.putExtra("bitmap", false);
-            intent.putExtra("image", pngUrl);
-
-            startActivity(intent);
-        });
-
         editCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 editCheckbox.setTextColor(getResources().getColor(R.color.Nero));
-                adapter.setEditable(true);
+                detailSampleAdapter.setEditable(true);
             } else {
                 editCheckbox.setTextColor(getResources().getColor(R.color.Mischka));
-                adapter.setEditable(false);
+                detailSampleAdapter.setEditable(false);
             }
         });
 
@@ -359,9 +350,10 @@ public class DetailSampleActivity extends AppCompatActivity {
                             svgUrl = viewModel.getSvgScore(sampleId);
                             showCardView = true;
                         }
-                        if (viewModel.getPngScore(sampleId) != null) {
-                            pngUrl = viewModel.getPngScore(sampleId);
-                            Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultImageView);
+                        if (viewModel.getAllPngPics() != null) {
+                            pngUrl = viewModel.getAllPngPics().get(0).get("url").toString();
+                            zoomageAdapter.setZoomages(viewModel.getAllPngPics());
+                            resultRecyclerView.setAdapter(zoomageAdapter);
                             showCardView = true;
                         }
                         if (viewModel.getHtmlScore(sampleId) != null) {
@@ -392,9 +384,10 @@ public class DetailSampleActivity extends AppCompatActivity {
                             svgUrl = viewModel.getSvgScore(sampleId);
                             showCardView = true;
                         }
-                        if (viewModel.getPngScore(sampleId) != null) {
-                            pngUrl = viewModel.getPngScore(sampleId);
-                            Picasso.get().load(pngUrl).placeholder(R.color.Solitude).into(resultImageView);
+                        if (viewModel.getAllPngPics() != null) {
+                            pngUrl = viewModel.getAllPngPics().get(0).get("url").toString();
+                            zoomageAdapter.setZoomages(viewModel.getAllPngPics());
+                            resultRecyclerView.setAdapter(zoomageAdapter);
                             showCardView = true;
                         }
                         if (viewModel.getHtmlScore(sampleId) != null) {
