@@ -29,6 +29,65 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/activity_scales_searchLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginRight="@dimen/_16sdp"
+                android:visibility="gone"
+                android:layoutDirection="rtl"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/ScalesSearched"
+                    android:textSize="@dimen/_10ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Mischka"
+                    android:textAlignment="gravity" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_12sdp"
+                    android:layout_marginRight="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_2sdp"
+                    android:paddingBottom="@dimen/_2sdp"
+                    android:paddingLeft="@dimen/_6sdp"
+                    android:paddingRight="@dimen/_4sdp"
+                    android:elevation="@dimen/_1sdp"
+                    android:gravity="center"
+                    android:layoutDirection="rtl"
+                    android:orientation="horizontal"
+                    android:background="@drawable/draw_4sdp_solid_snow">
+
+                    <ImageView
+                        android:id="@+id/activity_scales_search_imageView"
+                        android:layout_width="@dimen/_14sdp"
+                        android:layout_height="@dimen/_14sdp"
+                        android:layout_marginLeft="@dimen/_4sdp"
+                        android:contentDescription="@string/AppImageContent"
+                        android:src="@drawable/ic_times"
+                        app:tint="@color/VioletRed"/>
+
+                    <TextView
+                        android:id="@+id/activity_scales_search_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="@dimen/_10ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Grey"
+                        android:textAlignment="gravity" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
             <RelativeLayout
                 android:id="@+id/activity_scales_mainLayout"
                 android:layout_width="match_parent"

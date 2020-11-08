@@ -92,7 +92,7 @@
     <string name="AuthSampleTitle">نمونه</string>
     <string name="AuthSampleStart">شروع نمونه</string>
     <string name="AuthSampleList">نمونه ها</string>
-    <string name="AuthScaleList">مقیاس ها</string>
+    <string name="AuthScaleList">ارزیابی ها</string>
 
     <string name="AuthReserveTitle">رزرواسیون</string>
     <string name="AuthReserveConstruct">ایجاد رزرواسیون</string>
@@ -270,7 +270,19 @@
     // scales strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="ScalesTitle">مقیاس ها</string>
+    <string name="ScalesTitle">ارزیابی ها</string>
+
+    <string name="ScalesEdit">ویرایش</string>
+    <string name="ScalesVersion">نسخه</string>
+
+    <string name="ScalesCreate">ساختن نمونه</string>
+
+    <string name="ScalesSearched">جستجو:</string>
+
+    <string name="ScalesSearchDialogTitle">مقیاس دلخواهی جستجو کنید.</string>
+    <string name="ScalesSearchDialogInput">مقیاس</string>
+    <string name="ScalesSearchDialogPositive">جستجو</string>
+    <string name="ScalesSearchDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
