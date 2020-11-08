@@ -101,6 +101,7 @@
     <string name="AuthTreatmentTitle">درمان</string>
     <string name="AuthTreatmentPsychologist">مشاوران</string>
     <string name="AuthTreatmentCenter">مراکز درمان</string>
+    <string name="AuthTreatmentRoom">اتاق های درمان</string>
 
     <string name="AuthHeader">ریسلو</string>
     <string name="AuthFooter">مطالب دیگر</string>
@@ -399,6 +400,23 @@
     <string name="ArchiveContinueDialogDescription">شما می توانید روند کار را از نمونه خود ادامه دهید و آن را به اتمام برسانید و به ریسلو تحویل دهید.</string>
     <string name="ArchiveContinueDialogPositive">تکمیل نمونه</string>
     <string name="ArchiveContinueDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // rooms strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="RoomsTitle">اتاق های درمان</string>
+
+    <string name="RoomsPersonalClinic">کلینیک شخصی</string>
+    <string name="RoomsCounselingCenter">مرکز مشاوره</string>
+
+    <string name="RoomsSearched">جستجو:</string>
+
+    <string name="RoomsSearchDialogTitle">اتاق درمان دلخواهی جستجو کنید.</string>
+    <string name="RoomsSearchDialogInput">اتاق درمان</string>
+    <string name="RoomsSearchDialogPositive">جستجو</string>
+    <string name="RoomsSearchDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

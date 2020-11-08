@@ -50,6 +50,10 @@
                     android:id="@+id/tool_treatment_center"
                     android:icon="@drawable/ic_hospital_light"
                     android:title="@string/AuthTreatmentCenter"/>
+                <item
+                    android:id="@+id/tool_treatment_room"
+                    android:icon="@drawable/ic_room_light"
+                    android:title="@string/AuthTreatmentRoom"/>
             </group>
         </menu>
     </item>

@@ -200,10 +200,14 @@ public class AuthActivity extends AppCompatActivity {
                 handler.postDelayed(() -> {
 
                 }, 50);
-
             } else if (id == R.id.tool_treatment_center) {
                 handler.postDelayed(() -> {
                     startActivity(new Intent(this, CenterActivity.class));
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                }, 50);
+            } else if (id == R.id.tool_treatment_room) {
+                handler.postDelayed(() -> {
+                    startActivity(new Intent(this, RoomsActivity.class));
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }, 50);
             }
