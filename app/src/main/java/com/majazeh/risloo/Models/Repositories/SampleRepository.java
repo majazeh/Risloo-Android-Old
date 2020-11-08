@@ -61,6 +61,7 @@ public class SampleRepository extends MainRepository {
     public static boolean cache = false;
     public static int samplesPage = 1;
     public static int scalesPage = 1;
+    public static int roomsPage = 1;
 
     public SampleRepository(Application application) throws JSONException {
         super(application);
@@ -257,8 +258,9 @@ public class SampleRepository extends MainRepository {
         workManager("getScales");
     }
 
-    public void rooms(String q) throws JSONException {
+    public void rooms(String q, int page) throws JSONException {
         SampleRepository.roomQ = q;
+        SampleRepository.roomsPage = page;
 
         work = "getRooms";
         workStateCreate.setValue(-1);
@@ -723,6 +725,25 @@ public class SampleRepository extends MainRepository {
         }
     }
 
+    public ArrayList<Model> getScales(){
+        try {
+            if (FileManager.readObjectFromCache(application.getApplicationContext(), "scales") != null) {
+                ArrayList<Model> arrayList = new ArrayList<>();
+                JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "scales");
+                JSONArray data = jsonObject.getJSONArray("data");
+                for (int i = 0; i < data.length(); i++) {
+                    arrayList.add(new Model(data.getJSONObject(i)));
+                }
+            return arrayList;
+            }else{
+                return null;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static boolean filter() {
         if (SampleRepository.scalesQ.equals("") && SampleRepository.statusQ.equals("") && SampleRepository.roomQ.equals(""))
             return false;
@@ -768,7 +789,7 @@ public class SampleRepository extends MainRepository {
         return Objects.requireNonNull(cm).getActiveNetworkInfo() != null && Objects.requireNonNull(cm.getActiveNetworkInfo()).isConnected();
     }
 
-    private Data data(String work) throws JSONException {
+    private Data data(String work) {
         return new Data.Builder()
                 .putString("work", work)
                 .build();

@@ -537,21 +537,33 @@ public class SampleWorker extends Worker {
 
     private void getRooms() {
         try {
-            Call<ResponseBody> call = sampleApi.getRooms(token(), SampleRepository.roomQ);
+            Call<ResponseBody> call = sampleApi.getRooms(token(),SampleRepository.roomsPage, SampleRepository.roomQ);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONArray data = successBody.getJSONArray("data");
+                JSONObject jsonObject = FileManager.readObjectFromCache(context, "rooms");
 
                 if (SampleRepository.rooms.size() != 0) {
                     SampleRepository.rooms.clear();
                 }
 
                 if (data.length() != 0) {
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject object = data.getJSONObject(i);
-                        SampleRepository.rooms.add(new Model(object));
+                    if (SampleRepository.roomsPage == 0) {
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject object = data.getJSONObject(i);
+                            SampleRepository.rooms.add(new Model(object));
+                        }
+                    }else if (SampleRepository.roomsPage == 1){
+                        FileManager.writeObjectToCache(context, successBody, "rooms");
+                    }else{
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONArray jsonArray = successBody.getJSONArray("data");
+                            data.put(jsonArray.getJSONObject(i));
+                        }
+                        jsonObject.put("data", data);
+                        FileManager.writeObjectToCache(context, jsonObject, "rooms");
                     }
                 }
 

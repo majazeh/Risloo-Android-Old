@@ -17,7 +17,7 @@ public interface SampleApi {
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("$/samples")
-    Call<ResponseBody> getAll(@Header("Authorization") String authorization, @Query("page") int page, @Query("scale")String scale, @Query("room")String room, @Query("status")String status);
+    Call<ResponseBody> getAll(@Header("Authorization") String authorization, @Query("page") int page, @Query("scale") String scale, @Query("room") String room, @Query("status") String status);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("$/samples/{sample_id}")
@@ -41,11 +41,11 @@ public interface SampleApi {
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("$")
-    Call<ResponseBody> getScales(@Header("Authorization") String authorization,@Query("page") int page, @Query("q") String q);
+    Call<ResponseBody> getScales(@Header("Authorization") String authorization, @Query("page") int page, @Query("q") String q);
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("rooms?my_management=1")
-    Call<ResponseBody> getRooms(@Header("Authorization") String authorization, @Query("q") String q);
+    Call<ResponseBody> getRooms(@Header("Authorization") String authorization, @Query("page") int page, @Query("q") String q);
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("cases")
