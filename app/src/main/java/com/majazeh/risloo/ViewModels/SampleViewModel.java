@@ -65,12 +65,12 @@ public class SampleViewModel extends AndroidViewModel {
         repository.delete(sampleId);
     }
 
-    public void scales(String q, int page) throws JSONException {
-        repository.scales(q, page);
+    public void scales(String q) throws JSONException {
+        repository.scales(q);
     }
 
-    public void rooms(String q,int page) throws JSONException {
-        repository.rooms(q,page);
+    public void rooms(String q) throws JSONException {
+        repository.rooms(q);
     }
 
     public void cases(String roomId, String q) throws JSONException {

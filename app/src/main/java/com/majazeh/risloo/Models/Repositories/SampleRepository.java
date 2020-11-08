@@ -249,18 +249,16 @@ public class SampleRepository extends MainRepository {
         FileManager.deleteFileFromCache(application.getApplicationContext(), "Answers" + "/" + sampleId);
     }
 
-    public void scales(String q, int page) throws JSONException {
+    public void scales(String q) throws JSONException {
         SampleRepository.scalesQ = q;
-        SampleRepository.scalesPage = page;
 
         work = "getScales";
         workStateCreate.setValue(-1);
         workManager("getScales");
     }
 
-    public void rooms(String q, int page) throws JSONException {
+    public void rooms(String q) throws JSONException {
         SampleRepository.roomQ = q;
-        SampleRepository.roomsPage = page;
 
         work = "getRooms";
         workStateCreate.setValue(-1);
