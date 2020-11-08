@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.jsibbold.zoomage.ZoomageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/single_item_zoomage"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:zoomage_restrictBounds="false"
+    app:zoomage_animateOnReset="false"
+    app:zoomage_autoResetMode="UNDER"
+    app:zoomage_autoCenter="true"
+    app:zoomage_minScale="0.5"
+    app:zoomage_maxScale="8"
+    app:zoomage_zoomable="false"
+    app:zoomage_translatable="false"
+    app:zoomage_doubleTapToZoom="false"
+    app:zoomage_doubleTapToZoomScaleFactor="3" />
