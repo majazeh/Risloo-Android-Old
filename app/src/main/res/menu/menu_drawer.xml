@@ -13,6 +13,10 @@
                     android:id="@+id/tool_sample_list"
                     android:icon="@drawable/ic_folders_light"
                     android:title="@string/AuthSampleList"/>
+                <item
+                    android:id="@+id/tool_scale_list"
+                    android:icon="@drawable/ic_ruler_light"
+                    android:title="@string/AuthScaleList"/>
             </group>
         </menu>
     </item>

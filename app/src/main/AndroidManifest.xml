@@ -13,6 +13,7 @@
     <application
         android:name=".Entities.App"
         android:allowBackup="false"
+        android:extractNativeLibs="false"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_logo"
         android:label="@string/AppName"
@@ -23,7 +24,6 @@
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:extractNativeLibs="false"
         android:windowSoftInputMode="adjustResize"
         tools:ignore="UnusedAttribute"
         tools:replace="android:label">
@@ -69,6 +69,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.SamplesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.ScalesActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.CreateSampleActivity"

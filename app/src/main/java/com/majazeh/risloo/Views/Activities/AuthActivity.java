@@ -183,6 +183,11 @@ public class AuthActivity extends AppCompatActivity {
                     startActivity(new Intent(this, SamplesActivity.class));
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }, 50);
+            } else if (id == R.id.tool_scale_list) {
+                handler.postDelayed(() -> {
+                    startActivity(new Intent(this, ScalesActivity.class));
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                }, 50);
             } else if (id == R.id.tool_reserve_construct) {
                 handler.postDelayed(() -> {
 
