@@ -725,16 +725,51 @@ public class SampleRepository extends MainRepository {
 
     public ArrayList<Model> getScales(){
         try {
-            if (FileManager.readObjectFromCache(application.getApplicationContext(), "scales") != null) {
-                ArrayList<Model> arrayList = new ArrayList<>();
-                JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "scales");
-                JSONArray data = jsonObject.getJSONArray("data");
-                for (int i = 0; i < data.length(); i++) {
-                    arrayList.add(new Model(data.getJSONObject(i)));
+            if (scalesQ.equals("")) {
+                if (FileManager.readObjectFromCache(application.getApplicationContext(), "scales") != null) {
+                    ArrayList<Model> arrayList = new ArrayList<>();
+                    JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "scales");
+                    JSONArray data = jsonObject.getJSONArray("data");
+                    for (int i = 0; i < data.length(); i++) {
+                        arrayList.add(new Model(data.getJSONObject(i)));
+                    }
+                    return arrayList;
+                } else {
+                    return null;
                 }
-            return arrayList;
             }else{
-                return null;
+                if (scales.size() == 0){
+                    return null;
+                }else{
+                    return scales;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public ArrayList<Model> getRooms(){
+        try {
+            if (roomQ.equals("")) {
+                if (FileManager.readObjectFromCache(application.getApplicationContext(), "rooms") != null) {
+                    ArrayList<Model> arrayList = new ArrayList<>();
+                    JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "rooms");
+                    JSONArray data = jsonObject.getJSONArray("data");
+                    for (int i = 0; i < data.length(); i++) {
+                        arrayList.add(new Model(data.getJSONObject(i)));
+                    }
+                    return arrayList;
+                } else {
+                    return null;
+                }
+            }else{
+                if (rooms.size() == 0){
+                    return null;
+                }else{
+                    return rooms;
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();

@@ -122,8 +122,8 @@ public class CenterWorker extends Worker {
                     }
                 }else{
 
-                    if (CenterRepository.myPage == 1){
-                        CenterRepository.getMy.clear();
+                    if (CenterRepository.allPage == 1){
+                        CenterRepository.getAll.clear();
                     }
                 JSONArray data = successBody.getJSONArray("data");
 

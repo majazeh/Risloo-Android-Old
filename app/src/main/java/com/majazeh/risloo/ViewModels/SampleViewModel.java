@@ -217,4 +217,8 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.getScales();
     }
 
+    public ArrayList<Model> getRooms() {
+        return repository.getRooms();
+    }
+
 }

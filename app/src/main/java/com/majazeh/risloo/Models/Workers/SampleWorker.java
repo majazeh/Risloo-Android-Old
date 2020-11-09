@@ -483,29 +483,31 @@ public class SampleWorker extends Worker {
                 JSONArray data = successBody.getJSONArray("data");
                 JSONObject jsonObject = FileManager.readObjectFromCache(context, "scales");
 
-
-                if (SampleRepository.scales.size() != 0) {
-                    SampleRepository.scales.clear();
-                }
-
                 if (data.length() != 0) {
-                    if (SampleRepository.scalesPage == 0) {
+
+                    if (SampleRepository.scalesQ.equals("")) {
+                        if (SampleRepository.scalesPage == 1) {
+                            FileManager.writeObjectToCache(context, successBody, "scales");
+                        } else {
+                            for (int i = 0; i < data.length(); i++) {
+                                JSONArray jsonArray = successBody.getJSONArray("data");
+                                data.put(jsonArray.getJSONObject(i));
+                            }
+                            jsonObject.put("data", data);
+                            FileManager.writeObjectToCache(context, jsonObject, "scales");
+
+                        }
+                    } else {
+                        if (SampleRepository.scalesPage == 1) {
+                            SampleRepository.scales.clear();
+                        }
                         for (int i = 0; i < data.length(); i++) {
                             JSONObject object = data.getJSONObject(i);
                             SampleRepository.scales.add(new Model(object));
                         }
-                    } else if (SampleRepository.scalesPage == 1) {
-                        FileManager.writeObjectToCache(context, successBody, "scales");
-                    } else {
-                        for (int i = 0; i < data.length(); i++) {
-                            JSONArray jsonArray = successBody.getJSONArray("data");
-                            data.put(jsonArray.getJSONObject(i));
-                        }
-                        jsonObject.put("data", data);
-                        FileManager.writeObjectToCache(context, jsonObject, "scales");
-
                     }
-
+                } else if (SampleRepository.scalesPage == 1) {
+                    SampleRepository.scales.clear();
                 }
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "scales");
@@ -537,7 +539,7 @@ public class SampleWorker extends Worker {
 
     private void getRooms() {
         try {
-            Call<ResponseBody> call = sampleApi.getRooms(token(),SampleRepository.roomsPage, SampleRepository.roomQ);
+            Call<ResponseBody> call = sampleApi.getRooms(token(), SampleRepository.roomsPage, SampleRepository.roomQ);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -545,19 +547,11 @@ public class SampleWorker extends Worker {
                 JSONArray data = successBody.getJSONArray("data");
                 JSONObject jsonObject = FileManager.readObjectFromCache(context, "rooms");
 
-                if (SampleRepository.rooms.size() != 0) {
-                    SampleRepository.rooms.clear();
-                }
-
                 if (data.length() != 0) {
-                    if (SampleRepository.roomsPage == 0) {
-                        for (int i = 0; i < data.length(); i++) {
-                            JSONObject object = data.getJSONObject(i);
-                            SampleRepository.rooms.add(new Model(object));
-                        }
-                    }else if (SampleRepository.roomsPage == 1){
+                if (SampleRepository.roomQ.equals("")){
+                    if (SampleRepository.roomsPage == 1) {
                         FileManager.writeObjectToCache(context, successBody, "rooms");
-                    }else{
+                    } else {
                         for (int i = 0; i < data.length(); i++) {
                             JSONArray jsonArray = successBody.getJSONArray("data");
                             data.put(jsonArray.getJSONObject(i));
@@ -565,6 +559,18 @@ public class SampleWorker extends Worker {
                         jsonObject.put("data", data);
                         FileManager.writeObjectToCache(context, jsonObject, "rooms");
                     }
+                }else{
+                    if (SampleRepository.roomsPage == 1) {
+                        SampleRepository.rooms.clear();
+                    }
+                    for (int i = 0; i < data.length(); i++) {
+                        JSONObject object = data.getJSONObject(i);
+                        SampleRepository.rooms.add(new Model(object));
+                    }
+                }
+
+                }else if (SampleRepository.roomsPage == 1) {
+                    SampleRepository.rooms.clear();
                 }
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "rooms");
