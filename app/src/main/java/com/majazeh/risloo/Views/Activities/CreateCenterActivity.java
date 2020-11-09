@@ -123,6 +123,8 @@ public class CreateCenterActivity extends AppCompatActivity {
         detector();
 
         listener();
+
+        setData();
     }
 
     private void decorator() {
@@ -137,9 +139,6 @@ public class CreateCenterActivity extends AppCompatActivity {
         phoneRecyclerViewAdapter = new SpinnerAdapter(this);
 
         extras = getIntent().getExtras();
-        if (!Objects.requireNonNull(extras).getBoolean("loaded")) {
-            setResult(RESULT_OK, null);
-        }
 
         handler = new Handler();
 
@@ -591,6 +590,12 @@ public class CreateCenterActivity extends AppCompatActivity {
 
             phoneDialog.dismiss();
         });
+    }
+
+    private void setData() {
+        if (!Objects.requireNonNull(extras).getBoolean("loaded")) {
+            setResult(RESULT_OK, null);
+        }
     }
 
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {

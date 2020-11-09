@@ -55,10 +55,14 @@ public class ScalesAdapter extends RecyclerView.Adapter<ScalesAdapter.ScalesHold
                 holder.createTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
             }
 
+            Intent createSampleIntent = (new Intent(activity, CreateSampleActivity.class));
+
             holder.serialTextView.setText(model.get("id").toString());
+            createSampleIntent.putExtra("id", model.get("id").toString());
 
             if (!model.get("title").toString().equals("")) {
                 holder.scaleTextView.setText(model.get("title").toString());
+                createSampleIntent.putExtra("title", model.get("title").toString());
             }
 
             if (!model.get("edition").toString().equals("")) {
@@ -75,18 +79,17 @@ public class ScalesAdapter extends RecyclerView.Adapter<ScalesAdapter.ScalesHold
                 holder.versionLinearLayout.setVisibility(View.GONE);
             }
 
+
+            holder.createTextView.setOnClickListener(v -> {
+                holder.createTextView.setClickable(false);
+                handler.postDelayed(() -> holder.createTextView.setClickable(true), 300);
+
+                activity.startActivity(createSampleIntent.putExtra("loaded", ((ScalesActivity) Objects.requireNonNull(activity)).finished));
+                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        holder.createTextView.setOnClickListener(v -> {
-            holder.createTextView.setClickable(false);
-            handler.postDelayed(() -> holder.createTextView.setClickable(true), 300);
-
-            activity.startActivity(new Intent(activity, CreateSampleActivity.class).putExtra("loaded", ((ScalesActivity) Objects.requireNonNull(activity)).finished));
-            activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
-        });
-
     }
 
     @Override

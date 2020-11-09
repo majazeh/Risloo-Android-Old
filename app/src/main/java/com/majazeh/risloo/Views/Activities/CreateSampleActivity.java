@@ -109,6 +109,8 @@ public class CreateSampleActivity extends AppCompatActivity {
         detector();
 
         listener();
+
+        setData();
     }
 
     private void decorator() {
@@ -128,9 +130,6 @@ public class CreateSampleActivity extends AppCompatActivity {
         caseReferenceRecyclerViewAdapter = new CheckBoxAdapter(this);
 
         extras = getIntent().getExtras();
-        if (!Objects.requireNonNull(extras).getBoolean("loaded")) {
-            setResult(RESULT_OK, null);
-        }
 
         handler = new Handler();
 
@@ -711,6 +710,21 @@ public class CreateSampleActivity extends AppCompatActivity {
 
             roomReferenceDialog.dismiss();
         });
+    }
+
+    private void setData() {
+        if (!Objects.requireNonNull(extras).getBoolean("loaded")) {
+            setResult(RESULT_OK, null);
+        }
+
+        if (extras.getString("id") != null && extras.getString("title") != null) {
+            try {
+                Model model = new Model(new JSONObject().put("id", extras.getString("id")).put("title", extras.getString("title")));
+                observeSearchAdapter(model, "getScales");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
