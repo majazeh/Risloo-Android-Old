@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder> {
+public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomHolder> {
 
     // Vars
     private ArrayList<Model> rooms;
@@ -33,22 +33,22 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
     private Activity activity;
     private Handler handler;
 
-    public RoomsAdapter(Activity activity) {
+    public RoomAdapter(Activity activity) {
         this.activity = activity;
     }
 
     @NonNull
     @Override
-    public RoomsHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_rooms, viewGroup, false);
+    public RoomHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_room, viewGroup, false);
 
         initializer(view);
 
-        return new RoomsHolder(view);
+        return new RoomHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RoomsHolder holder, int i) {
+    public void onBindViewHolder(@NonNull RoomHolder holder, int i) {
         Model model = rooms.get(i);
 
         try {
@@ -119,7 +119,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
 
             if (!details.isNull("title")) {
                 if (center.getString("type").equals("personal_clinic")) {
-                    holder.typeTextView.setText(activity.getResources().getString(R.string.RoomsPersonalClinic));
+                    holder.typeTextView.setText(activity.getResources().getString(R.string.RoomPersonalClinic));
                 } else {
                     holder.typeTextView.setText(details.getString("title"));
                 }
@@ -172,25 +172,25 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
         handler = new Handler();
     }
 
-    public void setRooms(ArrayList<Model> rooms) {
+    public void setRoom(ArrayList<Model> rooms) {
         this.rooms = rooms;
         notifyDataSetChanged();
     }
 
-    public class RoomsHolder extends RecyclerView.ViewHolder {
+    public class RoomHolder extends RecyclerView.ViewHolder {
 
         public CircleImageView avatarImageView;
         public TextView titleTextView, subTitleTextView, typeTextView;
         public ImageView gradientImageView, peopleImageView;
 
-        public RoomsHolder(View view) {
+        public RoomHolder(View view) {
             super(view);
-            gradientImageView = view.findViewById(R.id.single_item_rooms_gradient_imageView);
-            avatarImageView = view.findViewById(R.id.single_item_rooms_avatar_imageView);
-            titleTextView = view.findViewById(R.id.single_item_rooms_title_textView);
-            subTitleTextView = view.findViewById(R.id.single_item_rooms_subtitle_textView);
-            typeTextView = view.findViewById(R.id.single_item_rooms_type_textView);
-            peopleImageView = view.findViewById(R.id.single_item_rooms_people_imageView);
+            gradientImageView = view.findViewById(R.id.single_item_room_gradient_imageView);
+            avatarImageView = view.findViewById(R.id.single_item_room_avatar_imageView);
+            titleTextView = view.findViewById(R.id.single_item_room_title_textView);
+            subTitleTextView = view.findViewById(R.id.single_item_room_subtitle_textView);
+            typeTextView = view.findViewById(R.id.single_item_room_type_textView);
+            peopleImageView = view.findViewById(R.id.single_item_room_people_imageView);
         }
     }
 

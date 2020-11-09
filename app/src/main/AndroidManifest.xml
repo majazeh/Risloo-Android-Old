@@ -86,7 +86,7 @@
             android:name=".Views.Activities.ArchiveActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Views.Activities.RoomsActivity"
+            android:name=".Views.Activities.RoomActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.CenterActivity"

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_my_room"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:background="@null"
+    tools:context=".Views.Fragments.MyRoomFragment"
+    tools:ignore="UnusedAttribute">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragment_my_room_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="always" />
+
+    <ProgressBar
+        android:id="@+id/fragment_my_room_progressBar"
+        android:layout_width="@dimen/_32sdp"
+        android:layout_height="@dimen/_32sdp"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:elevation="@dimen/_1sdp"
+        android:padding="@dimen/_6sdp"
+        android:visibility="gone"
+        android:theme="@style/ProgressBarTheme"
+        android:background="@drawable/draw_oval_solid_white"
+        style="@style/Widget.AppCompat.ProgressBar"/>
+
+    <include layout="@layout/layout_info" />
+
+</FrameLayout>

@@ -403,20 +403,23 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // rooms strings
+    // room strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="RoomsTitle">اتاق های درمان</string>
+    <string name="RoomTitle">اتاق های درمان</string>
 
-    <string name="RoomsPersonalClinic">کلینیک شخصی</string>
-    <string name="RoomsCounselingCenter">مرکز مشاوره</string>
+    <string name="RoomAll">همه</string>
+    <string name="RoomMy">من</string>
 
-    <string name="RoomsSearched">جستجو:</string>
+    <string name="RoomSearched">جستجو:</string>
 
-    <string name="RoomsSearchDialogTitle">اتاق درمان دلخواهی جستجو کنید.</string>
-    <string name="RoomsSearchDialogInput">اتاق درمان</string>
-    <string name="RoomsSearchDialogPositive">جستجو</string>
-    <string name="RoomsSearchDialogNegative">بستن</string>
+    <string name="RoomPersonalClinic">کلینیک شخصی</string>
+    <string name="RoomCounselingCenter">مرکز مشاوره</string>
+
+    <string name="RoomSearchDialogTitle">اتاق درمان دلخواهی جستجو کنید.</string>
+    <string name="RoomSearchDialogInput">اتاق درمان</string>
+    <string name="RoomSearchDialogPositive">جستجو</string>
+    <string name="RoomSearchDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

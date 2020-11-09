@@ -18,7 +18,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,42 +25,42 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.widget.ImageViewCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.majazeh.risloo.Models.Repositories.SampleRepository;
+import com.duolingo.open.rtlviewpager.RtlViewPager;
+import com.google.android.material.tabs.TabLayout;
+import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
-import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
-import com.majazeh.risloo.ViewModels.SampleViewModel;
-import com.majazeh.risloo.Views.Adapters.RoomsAdapter;
+import com.majazeh.risloo.Views.Adapters.RoomTabAdapter;
+import com.majazeh.risloo.Views.Fragments.AllRoomFragment;
+import com.majazeh.risloo.Views.Fragments.MyRoomFragment;
 
 import org.json.JSONException;
 
 import java.util.Objects;
 
-public class RoomsActivity extends AppCompatActivity {
+public class RoomActivity extends AppCompatActivity {
 
     // ViewModels
     private AuthViewModel authViewModel;
-    private SampleViewModel sampleViewModel;
+    public RoomViewModel roomViewModel;
 
     // Adapters
-    private RoomsAdapter roomsRecyclerViewAdapter;
+    private RoomTabAdapter adapter;
 
     // Vars
-    private String search = "";
-    private boolean loading = false;
+    public String search = "";
+    public boolean loadingAll = false, loadingMy = false;
 
     // Objects
     private Handler handler;
     private ControlEditText controlEditText;
-    private LinearLayoutManager layoutManager;
     private ClickableSpan retrySpan;
 
     // Widgets
@@ -73,8 +72,8 @@ public class RoomsActivity extends AppCompatActivity {
     private LinearLayout infoLayout, loadingLayout;
     private ImageView searchImageView, infoImageView;
     private TextView searchTextView, infoTextView;
-    private RecyclerView roomsRecyclerView;
-    private ProgressBar pagingProgressBar;
+    private TabLayout tabLayout;
+    private RtlViewPager rtlViewPager;
     private Dialog searchDialog;
     private TextView searchDialogTitle, searchDialogPositive, searchDialogNegative;
     private EditText searchDialogInput;
@@ -85,7 +84,7 @@ public class RoomsActivity extends AppCompatActivity {
 
         decorator();
 
-        setContentView(R.layout.activity_rooms);
+        setContentView(R.layout.activity_room);
 
         initializer();
 
@@ -93,7 +92,7 @@ public class RoomsActivity extends AppCompatActivity {
 
         listener();
 
-        launchRooms();
+        launchProcess("getAll");
     }
 
     private void decorator() {
@@ -103,15 +102,17 @@ public class RoomsActivity extends AppCompatActivity {
 
     private void initializer() {
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
-        sampleViewModel = new ViewModelProvider(this).get(SampleViewModel.class);
+        roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
 
-        roomsRecyclerViewAdapter = new RoomsAdapter(this);
+        if (!authViewModel.getToken().equals("")) {
+            adapter = new RoomTabAdapter(getSupportFragmentManager(), 0, this, true);
+        } else {
+            adapter = new RoomTabAdapter(getSupportFragmentManager(), 0, this, false);
+        }
 
         handler = new Handler();
 
         controlEditText = new ControlEditText();
-
-        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
         toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
@@ -124,27 +125,24 @@ public class RoomsActivity extends AppCompatActivity {
         ImageViewCompat.setImageTintList(toolbarSearchImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
-        toolbarTextView.setText(getResources().getString(R.string.RoomsTitle));
+        toolbarTextView.setText(getResources().getString(R.string.RoomTitle));
         toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
-        searchLayout = findViewById(R.id.activity_rooms_searchLayout);
+        searchLayout = findViewById(R.id.activity_room_searchLayout);
 
-        mainLayout = findViewById(R.id.activity_rooms_mainLayout);
+        mainLayout = findViewById(R.id.activity_room_mainLayout);
         infoLayout = findViewById(R.id.layout_info_linearLayout);
         loadingLayout = findViewById(R.id.layout_loading_linearLayout);
 
         infoImageView = findViewById(R.id.layout_info_imageView);
         infoTextView = findViewById(R.id.layout_info_textView);
 
-        searchImageView = findViewById(R.id.activity_rooms_search_imageView);
-        searchTextView = findViewById(R.id.activity_rooms_search_textView);
+        searchImageView = findViewById(R.id.activity_room_search_imageView);
+        searchTextView = findViewById(R.id.activity_room_search_textView);
 
-        roomsRecyclerView = findViewById(R.id.activity_rooms_recyclerView);
-        roomsRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
-        roomsRecyclerView.setLayoutManager(layoutManager);
-        roomsRecyclerView.setHasFixedSize(true);
+        tabLayout = findViewById(R.id.activity_room_tabLayout);
 
-        pagingProgressBar = findViewById(R.id.activity_rooms_progressBar);
+        rtlViewPager = findViewById(R.id.activity_room_rtlViewPager);
 
         searchDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(searchDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
@@ -159,9 +157,9 @@ public class RoomsActivity extends AppCompatActivity {
         searchDialog.getWindow().setAttributes(layoutParamsSearch);
 
         searchDialogTitle = searchDialog.findViewById(R.id.dialog_type_title_textView);
-        searchDialogTitle.setText(getResources().getString(R.string.RoomsSearchDialogTitle));
+        searchDialogTitle.setText(getResources().getString(R.string.RoomSearchDialogTitle));
         searchDialogInput = searchDialog.findViewById(R.id.dialog_type_input_editText);
-        searchDialogInput.setHint(getResources().getString(R.string.RoomsSearchDialogInput));
+        searchDialogInput.setHint(getResources().getString(R.string.RoomSearchDialogInput));
         searchDialogInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
         searchDialogPositive = searchDialog.findViewById(R.id.dialog_type_positive_textView);
         searchDialogPositive.setText(getResources().getString(R.string.ScalesSearchDialogPositive));
@@ -233,31 +231,6 @@ public class RoomsActivity extends AppCompatActivity {
             }
         };
 
-        roomsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0) {
-
-                    int visibleItemCount = layoutManager.getChildCount();
-                    int totalItemCount = layoutManager.getItemCount();
-                    int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
-
-                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
-                        try {
-                            if (!loading) {
-                                pagingProgressBar.setVisibility(View.VISIBLE);
-                                sampleViewModel.rooms(search);
-                                observeWork();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        });
-
         searchDialogInput.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!searchDialogInput.hasFocus()) {
@@ -328,16 +301,6 @@ public class RoomsActivity extends AppCompatActivity {
                 infoTextView.setMovementMethod(LinkMovementMethod.getInstance());
                 infoTextView.setText(StringManager.clickable(getResources().getString(R.string.AppConnection), 17, 26, retrySpan));
                 break;
-            case "empty":
-                infoImageView.setImageResource(R.drawable.illu_empty);
-                infoTextView.setMovementMethod(null);
-                infoTextView.setText(getResources().getString(R.string.AppEmpty));
-                break;
-            case "search":
-                infoImageView.setImageResource(R.drawable.illu_empty);
-                infoTextView.setMovementMethod(null);
-                infoTextView.setText(getResources().getString(R.string.AppSearchEmpty));
-                break;
         }
     }
 
@@ -373,8 +336,13 @@ public class RoomsActivity extends AppCompatActivity {
 
     private void launchRooms() {
         try {
-            sampleViewModel.rooms(search);
-            SampleRepository.roomsPage = 1;
+            if (method.equals("getAll")) {
+               roomViewModel.rooms(search);
+                CenterRepository.allPage = 1;
+            } else {
+                roomViewModel.myRooms(search);
+                CenterRepository.myPage = 1;
+            }
             observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -387,51 +355,48 @@ public class RoomsActivity extends AppCompatActivity {
         infoLayout.setVisibility(View.GONE);
         mainLayout.setVisibility(View.GONE);
 
-        launchRooms();
+        launchProcess("getAll");
     }
 
-    private void observeWork() {
-        SampleRepository.workStateCreate.observe((LifecycleOwner) this, integer -> {
-            if (SampleRepository.work.equals("getRooms")) {
-                loading = true;
+    public void observeWork() {
+        RoomRepository.workState.observe((LifecycleOwner) this, integer -> {
+            if (RoomRepository.work.equals("getAll")) {
+                loadingAll = true;
                 if (integer == 1) {
-                    if (sampleViewModel.getRooms() != null) {
-                        // Show Rooms
+                    if (RoomRepository.allPage == 1) {
+                        if (!authViewModel.getToken().equals("")) {
+                            // Continue Get MyRooms
 
-                        loadingLayout.setVisibility(View.GONE);
-                        infoLayout.setVisibility(View.GONE);
-                        mainLayout.setVisibility(View.VISIBLE);
-
-                        roomsRecyclerViewAdapter.setRooms(sampleViewModel.getRooms());
-                        if (SampleRepository.roomsPage == 1) {
-                            roomsRecyclerView.setAdapter(roomsRecyclerViewAdapter);
-                        }
-                    } else {
-                        // Rooms is Empty
-
-                        loadingLayout.setVisibility(View.GONE);
-                        infoLayout.setVisibility(View.VISIBLE);
-                        mainLayout.setVisibility(View.GONE);
-
-                        if (search.equals("")) {
-                            setInfoLayout("empty"); // Show Empty
+                            RoomRepository.workState.removeObservers((LifecycleOwner) this);
+                            launchProcess("getMy");
                         } else {
-                            setInfoLayout("search"); // Show Search
+                            // Show Rooms And Just AllRooms
+
+                            loadingLayout.setVisibility(View.GONE);
+                            infoLayout.setVisibility(View.GONE);
+                            mainLayout.setVisibility(View.VISIBLE);
+
+                            tabLayout.setVisibility(View.GONE);
+                            rtlViewPager.setAdapter(adapter);
+
+                            resetData("search");
+
+                            RoomRepository.workState.removeObservers((LifecycleOwner) this);
                         }
+
+                        loadingAll = false;
+                        RoomRepository.allPage++;
+
+                    } else {
+                        Fragment allFragment = adapter.allFragment;
+                        ((AllRoomFragment) allFragment).notifyRecycler();
+
+                        resetData("search");
+
+                        RoomRepository.workState.removeObservers((LifecycleOwner) this);
                     }
-
-                    if (pagingProgressBar.getVisibility() == View.VISIBLE) {
-                        pagingProgressBar.setVisibility(View.GONE);
-                    }
-
-                    loading = false;
-                    SampleRepository.roomsPage++;
-
-                    resetData("search");
-
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 } else if (integer != -1) {
-                    if (sampleViewModel.getRooms() == null) {
+                    if (roomViewModel.getAll() == null) {
                         // Rooms is Empty
 
                         loadingLayout.setVisibility(View.GONE);
@@ -444,13 +409,9 @@ public class RoomsActivity extends AppCompatActivity {
                             setInfoLayout("connection"); // Show Connection
                         }
 
-                        if (pagingProgressBar.getVisibility() == View.VISIBLE) {
-                            pagingProgressBar.setVisibility(View.GONE);
-                        }
-
                         resetData("search");
 
-                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                        RoomRepository.workState.removeObservers((LifecycleOwner) this);
                     } else {
                         // Show Rooms
 
@@ -458,19 +419,59 @@ public class RoomsActivity extends AppCompatActivity {
                         infoLayout.setVisibility(View.GONE);
                         mainLayout.setVisibility(View.VISIBLE);
 
-                        roomsRecyclerViewAdapter.setRooms(sampleViewModel.getRooms());
-                        if (SampleRepository.roomsPage == 1) {
-                            roomsRecyclerView.setAdapter(roomsRecyclerViewAdapter);
-                        }
-
-                        if (pagingProgressBar.getVisibility() == View.VISIBLE) {
-                            pagingProgressBar.setVisibility(View.GONE);
+                        if (!authViewModel.getToken().equals("")) {
+                            tabLayout.setVisibility(View.VISIBLE); // Both AllRooms And MyRooms
+                            rtlViewPager.setAdapter(adapter);
+                        } else {
+                            tabLayout.setVisibility(View.GONE); // Just AllRooms
+                            rtlViewPager.setAdapter(adapter);
                         }
 
                         resetData("search");
 
-                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                        RoomRepository.workState.removeObservers((LifecycleOwner) this);
                     }
+                }
+            } else if (RoomRepository.work.equals("getMy")) {
+                loadingMy = true;
+                if (integer == 1) {
+                    if (RoomRepository.myPage == 1) {
+                        // Show Rooms And Both AllRooms And MyRooms
+
+                        loadingLayout.setVisibility(View.GONE);
+                        infoLayout.setVisibility(View.GONE);
+                        mainLayout.setVisibility(View.VISIBLE);
+
+                        tabLayout.setVisibility(View.VISIBLE);
+                        rtlViewPager.setAdapter(adapter);
+
+                        loadingMy = false;
+                        RoomRepository.myPage++;
+
+                        resetData("search");
+
+                        RoomRepository.workState.removeObservers((LifecycleOwner) this);
+                    } else {
+                        Fragment myFragment = adapter.myFragment;
+                        ((MyRoomFragment) myFragment).notifyRecycler();
+
+                        resetData("search");
+
+                        RoomRepository.workState.removeObservers((LifecycleOwner) this);
+                    }
+                } else if (integer != -1) {
+                    // Show Rooms And Both AllRooms And MyRooms
+
+                    loadingLayout.setVisibility(View.GONE);
+                    infoLayout.setVisibility(View.GONE);
+                    mainLayout.setVisibility(View.VISIBLE);
+
+                    tabLayout.setVisibility(View.VISIBLE);
+                    rtlViewPager.setAdapter(adapter);
+
+                    resetData("search");
+
+                    RoomRepository.workState.removeObservers((LifecycleOwner) this);
                 }
             }
         });

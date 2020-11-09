@@ -207,7 +207,7 @@ public class AuthActivity extends AppCompatActivity {
                 }, 50);
             } else if (id == R.id.tool_treatment_room) {
                 handler.postDelayed(() -> {
-                    startActivity(new Intent(this, RoomsActivity.class));
+                    startActivity(new Intent(this, RoomActivity.class));
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }, 50);
             }
