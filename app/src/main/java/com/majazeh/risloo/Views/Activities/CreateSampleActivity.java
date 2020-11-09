@@ -939,12 +939,14 @@ public class CreateSampleActivity extends AppCompatActivity {
                     scaleDialogProgressBar.setVisibility(View.VISIBLE);
                     scaleDialogImageView.setVisibility(View.GONE);
 
+                    SampleRepository.scalesPage = 1;
                     viewModel.scales(q);
                     break;
                 case "getRooms":
                     roomDialogProgressBar.setVisibility(View.VISIBLE);
                     roomDialogImageView.setVisibility(View.GONE);
 
+                    SampleRepository.roomsPage = 1;
                     viewModel.rooms(q);
                     break;
                 case "getCases":

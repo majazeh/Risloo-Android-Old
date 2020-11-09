@@ -536,6 +536,7 @@ public class SamplesActivity extends AppCompatActivity {
                 roomDialogProgressBar.setVisibility(View.VISIBLE);
                 roomDialogImageView.setVisibility(View.GONE);
 
+                SampleRepository.roomsPage = 1;
                 sampleViewModel.rooms(q);
             }
             observeWork();

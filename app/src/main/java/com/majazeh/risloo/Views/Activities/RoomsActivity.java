@@ -391,89 +391,89 @@ public class RoomsActivity extends AppCompatActivity {
     }
 
     private void observeWork() {
-//        SampleRepository.workStateCreate.observe((LifecycleOwner) this, integer -> {
-//            if (SampleRepository.work.equals("getRooms")) {
-//                loading = true;
-//                if (integer == 1) {
-//                    if (sampleViewModel.getRooms() != null) {
-//                        // Show Rooms
+        SampleRepository.workStateCreate.observe((LifecycleOwner) this, integer -> {
+            if (SampleRepository.work.equals("getRooms")) {
+                loading = true;
+                if (integer == 1) {
+                    if (sampleViewModel.getRooms() != null) {
+                        // Show Rooms
 
                         loadingLayout.setVisibility(View.GONE);
                         infoLayout.setVisibility(View.GONE);
                         mainLayout.setVisibility(View.VISIBLE);
 
-//                        roomsRecyclerViewAdapter.setRooms(sampleViewModel.getRooms());
-//                        if (SampleRepository.roomsPage == 1) {
-//                            roomsRecyclerView.setAdapter(roomsRecyclerViewAdapter);
-//                        }
-//                    } else {
-//                        // Rooms is Empty
-//
-//                        loadingLayout.setVisibility(View.GONE);
-//                        infoLayout.setVisibility(View.VISIBLE);
-//                        mainLayout.setVisibility(View.GONE);
-//
-//                        if (search.equals("")) {
-//                            setInfoLayout("empty"); // Show Empty
-//                        } else {
-//                            setInfoLayout("search"); // Show Search
-//                        }
-//                    }
-//
-//                    if (pagingProgressBar.getVisibility() == View.VISIBLE) {
-//                        pagingProgressBar.setVisibility(View.GONE);
-//                    }
-//
-//                    loading = false;
-//                    SampleRepository.roomsPage++;
-//
-//                    resetData("search");
-//
-//                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-//                } else if (integer != -1) {
-//                    if (sampleViewModel.getRooms() == null) {
-//                        // Rooms is Empty
-//
-//                        loadingLayout.setVisibility(View.GONE);
-//                        infoLayout.setVisibility(View.VISIBLE);
-//                        mainLayout.setVisibility(View.GONE);
-//
-//                        if (integer == 0) {
-//                            setInfoLayout("error"); // Show Error
-//                        } else if (integer == -2) {
-//                            setInfoLayout("connection"); // Show Connection
-//                        }
-//
-//                        if (pagingProgressBar.getVisibility() == View.VISIBLE) {
-//                            pagingProgressBar.setVisibility(View.GONE);
-//                        }
-//
-//                        resetData("search");
-//
-//                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-//                    } else {
-//                        // Show Rooms
-//
-//                        loadingLayout.setVisibility(View.GONE);
-//                        infoLayout.setVisibility(View.GONE);
-//                        mainLayout.setVisibility(View.VISIBLE);
-//
-//                        roomsRecyclerViewAdapter.setRooms(sampleViewModel.getRooms());
-//                        if (SampleRepository.roomsPage == 1) {
-//                            roomsRecyclerView.setAdapter(roomsRecyclerViewAdapter);
-//                        }
-//
-//                        if (pagingProgressBar.getVisibility() == View.VISIBLE) {
-//                            pagingProgressBar.setVisibility(View.GONE);
-//                        }
-//
-//                        resetData("search");
-//
-//                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-//                    }
-//                }
-//            }
-//        });
+                        roomsRecyclerViewAdapter.setRooms(sampleViewModel.getRooms());
+                        if (SampleRepository.roomsPage == 1) {
+                            roomsRecyclerView.setAdapter(roomsRecyclerViewAdapter);
+                        }
+                    } else {
+                        // Rooms is Empty
+
+                        loadingLayout.setVisibility(View.GONE);
+                        infoLayout.setVisibility(View.VISIBLE);
+                        mainLayout.setVisibility(View.GONE);
+
+                        if (search.equals("")) {
+                            setInfoLayout("empty"); // Show Empty
+                        } else {
+                            setInfoLayout("search"); // Show Search
+                        }
+                    }
+
+                    if (pagingProgressBar.getVisibility() == View.VISIBLE) {
+                        pagingProgressBar.setVisibility(View.GONE);
+                    }
+
+                    loading = false;
+                    SampleRepository.roomsPage++;
+
+                    resetData("search");
+
+                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                } else if (integer != -1) {
+                    if (sampleViewModel.getRooms() == null) {
+                        // Rooms is Empty
+
+                        loadingLayout.setVisibility(View.GONE);
+                        infoLayout.setVisibility(View.VISIBLE);
+                        mainLayout.setVisibility(View.GONE);
+
+                        if (integer == 0) {
+                            setInfoLayout("error"); // Show Error
+                        } else if (integer == -2) {
+                            setInfoLayout("connection"); // Show Connection
+                        }
+
+                        if (pagingProgressBar.getVisibility() == View.VISIBLE) {
+                            pagingProgressBar.setVisibility(View.GONE);
+                        }
+
+                        resetData("search");
+
+                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                    } else {
+                        // Show Rooms
+
+                        loadingLayout.setVisibility(View.GONE);
+                        infoLayout.setVisibility(View.GONE);
+                        mainLayout.setVisibility(View.VISIBLE);
+
+                        roomsRecyclerViewAdapter.setRooms(sampleViewModel.getRooms());
+                        if (SampleRepository.roomsPage == 1) {
+                            roomsRecyclerView.setAdapter(roomsRecyclerViewAdapter);
+                        }
+
+                        if (pagingProgressBar.getVisibility() == View.VISIBLE) {
+                            pagingProgressBar.setVisibility(View.GONE);
+                        }
+
+                        resetData("search");
+
+                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                    }
+                }
+            }
+        });
     }
 
     @Override
