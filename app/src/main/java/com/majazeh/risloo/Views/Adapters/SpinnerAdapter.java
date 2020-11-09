@@ -99,10 +99,7 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                 e.printStackTrace();
             }
 
-            values.remove(i);
-            ids.remove(i);
-            notifyItemRemoved(i);
-            notifyItemChanged(i);
+            removeValue(i);
 
             if (values.size() == 0) {
                 switch (method) {
@@ -174,6 +171,24 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
 
     public ArrayList<String> getIds(){
         return ids;
+    }
+
+    public void removeValue(int position) {
+        values.remove(position);
+        ids.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, getItemCount());
+    }
+
+    public void replaceValue(int position, Model model) {
+        try {
+            values.set(position, model);
+            ids.set(position, model.get("id").toString());
+            notifyItemChanged(position);
+            notifyItemRangeChanged(position, getItemCount());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public class SpinnerHolder extends RecyclerView.ViewHolder {

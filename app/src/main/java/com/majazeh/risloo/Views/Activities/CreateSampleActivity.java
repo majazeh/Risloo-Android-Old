@@ -1154,23 +1154,17 @@ public class CreateSampleActivity extends AppCompatActivity {
         try {
             switch (method) {
                 case "getScales":
-                    if (!scaleRecyclerViewAdapter.getIds().contains(model.get("id").toString())) {
+                    int scalePosition = scaleRecyclerViewAdapter.getIds().indexOf(model.get("id").toString());
+
+                    if (scalePosition == -1) {
                         scaleRecyclerViewAdapter.getValues().add(model);
                         scaleRecyclerViewAdapter.getIds().add(model.get("id").toString());
+
                         setRecyclerView(null, scaleRecyclerView, "scales");
-                    } else if (scaleRecyclerViewAdapter.getIds().contains(model.get("id").toString())) {
-                        for (int i=0; i<scaleRecyclerViewAdapter.getValues().size(); i++) {
-                            if (scaleRecyclerViewAdapter.getIds().get(i).equals(model.get("id").toString())) {
-                                scaleRecyclerViewAdapter.getValues().remove(model);
-                                scaleRecyclerViewAdapter.getIds().remove(model.get("id").toString());
-                                scaleRecyclerViewAdapter.notifyItemRemoved(i);
-                                scaleRecyclerViewAdapter.notifyItemChanged(i);
+                    } else if (scalePosition != -1) {
+                        scaleRecyclerViewAdapter.removeValue(scalePosition);
 
-                                scaleDialogAdapter.notifyDataSetChanged();
-
-                                break;
-                            }
-                        }
+                        scaleDialogAdapter.notifyDataSetChanged();
                     }
 
                     if (scaleRecyclerViewAdapter.getValues().size() == 0) {
@@ -1301,23 +1295,17 @@ public class CreateSampleActivity extends AppCompatActivity {
                     break;
 
                 case "getReferences":
-                    if (!roomReferenceRecyclerViewAdapter.getIds().contains(model.get("id").toString())) {
+                    int roomReferencePosition = roomReferenceRecyclerViewAdapter.getIds().indexOf(model.get("id").toString());
+
+                    if (roomReferencePosition == -1) {
                         roomReferenceRecyclerViewAdapter.getValues().add(model);
                         roomReferenceRecyclerViewAdapter.getIds().add(model.get("id").toString());
+
                         setRecyclerView(null, roomReferenceRecyclerView, "roomReferences");
-                    } else if (roomReferenceRecyclerViewAdapter.getIds().contains(model.get("id").toString())) {
-                        for (int i=0; i<roomReferenceRecyclerViewAdapter.getValues().size(); i++) {
-                            if (roomReferenceRecyclerViewAdapter.getIds().get(i).equals(model.get("id").toString())) {
-                                roomReferenceRecyclerViewAdapter.getValues().remove(model);
-                                roomReferenceRecyclerViewAdapter.getIds().remove(model.get("id").toString());
-                                roomReferenceRecyclerViewAdapter.notifyItemRemoved(i);
-                                roomReferenceRecyclerViewAdapter.notifyItemChanged(i);
+                    } else if (roomReferencePosition != -1) {
+                        scaleRecyclerViewAdapter.removeValue(roomReferencePosition);
 
-                                roomReferenceDialogAdapter.notifyDataSetChanged();
-
-                                break;
-                            }
-                        }
+                        roomReferenceDialogAdapter.notifyDataSetChanged();
                     }
 
                     if (roomReferenceRecyclerViewAdapter.getValues().size() == 0) {

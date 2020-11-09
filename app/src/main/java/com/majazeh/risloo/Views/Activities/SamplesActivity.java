@@ -685,18 +685,14 @@ public class SamplesActivity extends AppCompatActivity {
 
                             filterRecyclerViewAdapter.getValues().add(model);
                             filterRecyclerViewAdapter.getIds().add(model.get("id").toString());
+
                             setRecyclerView(null, filterRecyclerView, "scalesFilter");
                         } else {
                             scale = model.get("id").toString();
 
                             for (int i = 0; i< filterRecyclerViewAdapter.getValues().size(); i++) {
                                 if (filterRecyclerViewAdapter.getIds().get(i).charAt(0) == model.get("id").toString().charAt(0)) {
-                                    filterRecyclerViewAdapter.getValues().set(i, model);
-                                    filterRecyclerViewAdapter.getIds().set(i, model.get("id").toString());
-                                    filterRecyclerViewAdapter.notifyItemChanged(i);
-
-                                    filterRecyclerViewAdapter.notifyDataSetChanged();
-
+                                    filterRecyclerViewAdapter.replaceValue(i, model);
                                     break;
                                 }
                             }
@@ -706,13 +702,7 @@ public class SamplesActivity extends AppCompatActivity {
 
                         for (int i = 0; i< filterRecyclerViewAdapter.getValues().size(); i++) {
                             if (filterRecyclerViewAdapter.getIds().get(i).equals(model.get("id").toString())) {
-                                filterRecyclerViewAdapter.getValues().remove(model);
-                                filterRecyclerViewAdapter.getIds().remove(model.get("id").toString());
-                                filterRecyclerViewAdapter.notifyItemRemoved(i);
-                                filterRecyclerViewAdapter.notifyItemChanged(i);
-
-                                filterRecyclerViewAdapter.notifyDataSetChanged();
-
+                                filterRecyclerViewAdapter.removeValue(i);
                                 break;
                             }
                         }
@@ -734,18 +724,14 @@ public class SamplesActivity extends AppCompatActivity {
 
                             filterRecyclerViewAdapter.getValues().add(roomModel);
                             filterRecyclerViewAdapter.getIds().add(roomModel.get("id").toString());
+
                             setRecyclerView(null, filterRecyclerView, "roomsFilter");
                         } else {
                             room = roomModel.get("id").toString();
 
                             for (int i = 0; i< filterRecyclerViewAdapter.getValues().size(); i++) {
                                 if (filterRecyclerViewAdapter.getIds().get(i).charAt(0) == model.get("id").toString().charAt(0)) {
-                                    filterRecyclerViewAdapter.getValues().set(i, roomModel);
-                                    filterRecyclerViewAdapter.getIds().set(i, roomModel.get("id").toString());
-                                    filterRecyclerViewAdapter.notifyItemChanged(i);
-
-                                    filterRecyclerViewAdapter.notifyDataSetChanged();
-
+                                    filterRecyclerViewAdapter.replaceValue(i, roomModel);
                                     break;
                                 }
                             }
@@ -755,13 +741,7 @@ public class SamplesActivity extends AppCompatActivity {
 
                         for (int i = 0; i< filterRecyclerViewAdapter.getValues().size(); i++) {
                             if (filterRecyclerViewAdapter.getIds().get(i).equals(roomModel.get("id").toString())) {
-                                filterRecyclerViewAdapter.getValues().remove(roomModel);
-                                filterRecyclerViewAdapter.getIds().remove(roomModel.get("id").toString());
-                                filterRecyclerViewAdapter.notifyItemRemoved(i);
-                                filterRecyclerViewAdapter.notifyItemChanged(i);
-
-                                filterRecyclerViewAdapter.notifyDataSetChanged();
-
+                                filterRecyclerViewAdapter.removeValue(i);
                                 break;
                             }
                         }
@@ -788,18 +768,14 @@ public class SamplesActivity extends AppCompatActivity {
 
                             filterRecyclerViewAdapter.getValues().add(model);
                             filterRecyclerViewAdapter.getIds().add(model.get("id").toString());
+
                             setRecyclerView(null, filterRecyclerView, "statusFilter");
                         } else {
                             status = model.get("id").toString();
 
                             for (int i = 0; i< filterRecyclerViewAdapter.getValues().size(); i++) {
                                 if (filterRecyclerViewAdapter.getIds().get(i).charAt(0) != 'R' && filterRecyclerViewAdapter.getIds().get(i).charAt(0) != '$') {
-                                    filterRecyclerViewAdapter.getValues().set(i, model);
-                                    filterRecyclerViewAdapter.getIds().set(i, model.get("id").toString());
-                                    filterRecyclerViewAdapter.notifyItemChanged(i);
-
-                                    filterRecyclerViewAdapter.notifyDataSetChanged();
-
+                                    filterRecyclerViewAdapter.replaceValue(i, model);
                                     break;
                                 }
                             }
@@ -809,13 +785,7 @@ public class SamplesActivity extends AppCompatActivity {
 
                         for (int i = 0; i< filterRecyclerViewAdapter.getValues().size(); i++) {
                             if (filterRecyclerViewAdapter.getIds().get(i).equals(model.get("id").toString())) {
-                                filterRecyclerViewAdapter.getValues().remove(model);
-                                filterRecyclerViewAdapter.getIds().remove(model.get("id").toString());
-                                filterRecyclerViewAdapter.notifyItemRemoved(i);
-                                filterRecyclerViewAdapter.notifyItemChanged(i);
-
-                                filterRecyclerViewAdapter.notifyDataSetChanged();
-
+                                filterRecyclerViewAdapter.removeValue(i);
                                 break;
                             }
                         }
