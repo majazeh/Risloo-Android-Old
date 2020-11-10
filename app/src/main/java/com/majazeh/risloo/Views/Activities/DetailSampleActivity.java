@@ -22,6 +22,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
@@ -32,21 +33,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.Managers.IntentManager;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.DetailSampleAdapter;
+import com.majazeh.risloo.Views.Adapters.SearchAdapter;
 import com.majazeh.risloo.Views.Adapters.ZoomageAdapter;
-import com.majazeh.risloo.Views.Dialogs.DownloadDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class DetailSampleActivity extends AppCompatActivity {
@@ -57,16 +61,16 @@ public class DetailSampleActivity extends AppCompatActivity {
     // Adapters
     private DetailSampleAdapter detailSampleAdapter;
     private ZoomageAdapter zoomageAdapter;
+    private SearchAdapter downloadDialogAdapter;
 
     // Vars
-    public String sampleId = "", scaleTitle = "", svgUrl = "", pngUrl = "", htmlUrl = "", pdfUrl = "";
+    public String sampleId = "", scaleTitle = "";
     private boolean showLoading = false, showCardView = false;
 
     // Objects
     private Bundle extras;
     private Handler handler;
     private ClickableSpan retrySpan;
-    private DownloadDialog downloadDialog;
     private Animation animFadeIn, animFadeOut;
 
     // Widgets
@@ -81,6 +85,9 @@ public class DetailSampleActivity extends AppCompatActivity {
     private FrameLayout mainLayout;
     private LinearLayout retryLayout, loadingLayout, referenceLinearLayout, caseLinearLayout, roomLinearLayout;
     private CardView loadingCardView, resultCardView, componentCardView;
+    private Dialog downloadDialog;
+    private TextView downloadDialogTitleTextView;
+    private RecyclerView downloadDialogRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,8 +116,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
         detailSampleAdapter = new DetailSampleAdapter(this);
         zoomageAdapter = new ZoomageAdapter(this);
-
-        downloadDialog = new DownloadDialog(this);
+        downloadDialogAdapter = new SearchAdapter(this);
 
         handler = new Handler();
 
@@ -186,6 +192,26 @@ public class DetailSampleActivity extends AppCompatActivity {
         loadingCardView = findViewById(R.id.activity_detail_sample_loading_cardView);
         resultCardView = findViewById(R.id.activity_detail_sample_result_cardView);
         componentCardView = findViewById(R.id.activity_detail_sample_component_cardView);
+
+        downloadDialog = new Dialog(this, R.style.DialogTheme);
+        Objects.requireNonNull(downloadDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+        downloadDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        downloadDialog.setContentView(R.layout.dialog_search);
+        downloadDialog.setCancelable(true);
+
+        WindowManager.LayoutParams layoutParamsDownload = new WindowManager.LayoutParams();
+        layoutParamsDownload.copyFrom(downloadDialog.getWindow().getAttributes());
+        layoutParamsDownload.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsDownload.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        downloadDialog.getWindow().setAttributes(layoutParamsDownload);
+
+        downloadDialogTitleTextView = downloadDialog.findViewById(R.id.dialog_search_title_textView);
+        downloadDialogTitleTextView.setText(getResources().getString(R.string.DetailDownloadDialogTitle));
+
+        downloadDialogRecyclerView = downloadDialog.findViewById(R.id.dialog_search_recyclerView);
+        downloadDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
+        downloadDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        downloadDialogRecyclerView.setHasFixedSize(true);
     }
 
     private void detector() {
@@ -219,21 +245,6 @@ public class DetailSampleActivity extends AppCompatActivity {
             }
         };
 
-        downloadImageView.setOnClickListener(v -> {
-            downloadDialog.show(this.getSupportFragmentManager(), "downloadBottomSheet");
-            downloadDialog.getUrls(svgUrl, pngUrl, htmlUrl, pdfUrl);
-        });
-
-        editCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                editCheckbox.setTextColor(getResources().getColor(R.color.Nero));
-                detailSampleAdapter.setEditable(true);
-            } else {
-                editCheckbox.setTextColor(getResources().getColor(R.color.Mischka));
-                detailSampleAdapter.setEditable(false);
-            }
-        });
-
         actionTextView.setOnClickListener(v -> {
             if (actionTextView.getText().toString().equals(getResources().getString(R.string.DetailSampleClose))) {
                 setButton(actionTextView, false);
@@ -249,6 +260,25 @@ public class DetailSampleActivity extends AppCompatActivity {
                 doWork("score");
             }
         });
+
+        editCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                editCheckbox.setTextColor(getResources().getColor(R.color.Nero));
+                detailSampleAdapter.setEditable(true);
+            } else {
+                editCheckbox.setTextColor(getResources().getColor(R.color.Mischka));
+                detailSampleAdapter.setEditable(false);
+            }
+        });
+
+        downloadImageView.setOnClickListener(v -> {
+            downloadImageView.setClickable(false);
+            handler.postDelayed(() -> downloadImageView.setClickable(true), 300);
+
+            downloadDialog.show();
+        });
+
+        downloadDialog.setOnCancelListener(dialog -> downloadDialog.dismiss());
     }
 
     private void setRetryLayout(String type) {
@@ -275,6 +305,19 @@ public class DetailSampleActivity extends AppCompatActivity {
             button.setClickable(false);
             button.setTextColor(getResources().getColor(R.color.Mischka));
             button.setBackgroundResource(R.drawable.draw_8sdp_border_quartz);
+        }
+    }
+
+    private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
+        switch (method) {
+            case "getURLs":
+                downloadDialogAdapter.setValue(arrayList, method, "DetailSample");
+                recyclerView.setAdapter(downloadDialogAdapter);
+                break;
+            case "getPNGs":
+                zoomageAdapter.setZoomages(arrayList);
+                recyclerView.setAdapter(zoomageAdapter);
+                break;
         }
     }
 
@@ -346,22 +389,9 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                         actionTextView.setVisibility(View.INVISIBLE);
 
-                        if (viewModel.getSvgScore(sampleId) != null) {
-                            svgUrl = viewModel.getSvgScore(sampleId);
-                            showCardView = true;
-                        }
                         if (viewModel.getAllPngPics() != null) {
-                            pngUrl = viewModel.getAllPngPics().get(0).get("url").toString();
-                            zoomageAdapter.setZoomages(viewModel.getAllPngPics());
-                            resultRecyclerView.setAdapter(zoomageAdapter);
-                            showCardView = true;
-                        }
-                        if (viewModel.getHtmlScore(sampleId) != null) {
-                            htmlUrl = viewModel.getHtmlScore(sampleId);
-                            showCardView = true;
-                        }
-                        if (viewModel.getPdfScore(sampleId) != null) {
-                            pdfUrl = viewModel.getPdfScore(sampleId);
+                            setRecyclerView(viewModel.getAllPngPics(), downloadDialogRecyclerView, "getURLs");
+                            setRecyclerView(viewModel.getAllPngPics(), resultRecyclerView, "getPNGs");
                             showCardView = true;
                         }
 
@@ -380,22 +410,9 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                         actionTextView.setVisibility(View.INVISIBLE);
 
-                        if (viewModel.getSvgScore(sampleId) != null) {
-                            svgUrl = viewModel.getSvgScore(sampleId);
-                            showCardView = true;
-                        }
                         if (viewModel.getAllPngPics() != null) {
-                            pngUrl = viewModel.getAllPngPics().get(0).get("url").toString();
-                            zoomageAdapter.setZoomages(viewModel.getAllPngPics());
-                            resultRecyclerView.setAdapter(zoomageAdapter);
-                            showCardView = true;
-                        }
-                        if (viewModel.getHtmlScore(sampleId) != null) {
-                            htmlUrl = viewModel.getHtmlScore(sampleId);
-                            showCardView = true;
-                        }
-                        if (viewModel.getPdfScore(sampleId) != null) {
-                            pdfUrl = viewModel.getPdfScore(sampleId);
+                            setRecyclerView(viewModel.getAllPngPics(), downloadDialogRecyclerView, "getURLs");
+                            setRecyclerView(viewModel.getAllPngPics(), resultRecyclerView, "getPNGs");
                             showCardView = true;
                         }
 
@@ -643,6 +660,20 @@ public class DetailSampleActivity extends AppCompatActivity {
                     break;
             }
         });
+    }
+
+    public void observeSearchAdapter(Model model, String method) {
+        try {
+            switch (method) {
+                case "getURLs":
+                    IntentManager.download(this, model.get("url").toString());
+
+                    downloadDialog.dismiss();
+                    break;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

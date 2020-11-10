@@ -15,6 +15,7 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Views.Activities.CreateCenterActivity;
 import com.majazeh.risloo.Views.Activities.CreateSampleActivity;
+import com.majazeh.risloo.Views.Activities.DetailSampleActivity;
 import com.majazeh.risloo.Views.Activities.EditCenterActivity;
 import com.majazeh.risloo.Views.Activities.SamplesActivity;
 
@@ -190,6 +191,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
                     holder.titleTextView.setVisibility(View.GONE);
                     break;
+                case "getURLs":
+                    holder.nameTextView.setText(model.get("url").toString());
+
+                    holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+
+                    holder.titleTextView.setVisibility(View.GONE);
+                    break;
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -211,6 +220,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                     break;
                 case "Samples":
                     ((SamplesActivity) Objects.requireNonNull(activity)).observeSearchAdapter(model, method);
+                    break;
+                case "DetailSample":
+                    ((DetailSampleActivity) Objects.requireNonNull(activity)).observeSearchAdapter(model, method);
                     break;
             }
 

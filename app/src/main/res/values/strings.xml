@@ -260,11 +260,6 @@
     <string name="DetailSampleTest">گویه‌ها</string>
 
     <string name="DetailDownloadDialogTitle">کدام فرمت می خوای دریافت کنید</string>
-    <string name="DetailDownloadDialogSvg">SVG</string>
-    <string name="DetailDownloadDialogPng">PNG</string>
-    <string name="DetailDownloadDialogHtml">HTML</string>
-    <string name="DetailDownloadDialogPdf">PDF</string>
-    <string name="DetailDownloadDialogClose">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
