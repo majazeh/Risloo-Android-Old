@@ -38,6 +38,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.majazeh.risloo.Entities.Model;
+import com.majazeh.risloo.Models.Repositories.RoomRepository;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
@@ -46,6 +47,7 @@ import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
+import com.majazeh.risloo.ViewModels.RoomViewModel;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.SamplesAdapter;
 import com.majazeh.risloo.Views.Adapters.SearchAdapter;
@@ -63,6 +65,7 @@ public class SamplesActivity extends AppCompatActivity {
     // ViewModels
     private AuthViewModel authViewModel;
     private SampleViewModel sampleViewModel;
+    private RoomViewModel roomViewModel;
 
     // Adapters
     private SpinnerAdapter filterRecyclerViewAdapter;
@@ -126,6 +129,7 @@ public class SamplesActivity extends AppCompatActivity {
     private void initializer() {
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         sampleViewModel = new ViewModelProvider(this).get(SampleViewModel.class);
+        roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
 
         filterRecyclerViewAdapter = new SpinnerAdapter(this);
         samplesRecyclerViewAdapter = new SamplesAdapter(this);
@@ -318,7 +322,7 @@ public class SamplesActivity extends AppCompatActivity {
                             if (!loading) {
                                 pagingProgressBar.setVisibility(View.VISIBLE);
                                 sampleViewModel.samples(scale, status, room);
-                                observeWork();
+                                observeWork("sampleViewModel");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -521,7 +525,7 @@ public class SamplesActivity extends AppCompatActivity {
                 }
             }
         } else if (method.equals("roomDialog")) {
-            SampleRepository.rooms.clear();
+            RoomRepository.rooms.clear();
             roomDialogRecyclerView.setAdapter(null);
 
             if (roomDialogTextView.getVisibility() == View.VISIBLE) {
@@ -536,10 +540,10 @@ public class SamplesActivity extends AppCompatActivity {
                 roomDialogProgressBar.setVisibility(View.VISIBLE);
                 roomDialogImageView.setVisibility(View.GONE);
 
-                SampleRepository.roomsPage = 1;
-                sampleViewModel.rooms(q);
+                RoomRepository.allPage = 1;
+                roomViewModel.rooms(q);
             }
-            observeWork();
+            observeWork("roomViewModel");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -549,7 +553,7 @@ public class SamplesActivity extends AppCompatActivity {
         try {
             sampleViewModel.samples(scale, status, room);
             SampleRepository.samplesPage = 1;
-            observeWork();
+            observeWork("sampleViewModel");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -564,115 +568,121 @@ public class SamplesActivity extends AppCompatActivity {
         launchSamples();
     }
 
-    private void observeWork() {
-        SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
-            if (SampleRepository.work.equals("getAll")) {
-                finished = false;
-                loading = true;
-                if (integer == 1) {
-                    if (sampleViewModel.getAll() != null) {
-                        // Show Samples
+    private void observeWork(String method) {
+        if (method.equals("sampleViewModel")) {
+            SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
+                if (SampleRepository.work.equals("getAll")) {
+                    finished = false;
+                    loading = true;
+                    if (integer == 1) {
+                        if (sampleViewModel.getAll() != null) {
+                            // Show Samples
 
-                        loadingLayout.setVisibility(View.GONE);
-                        infoLayout.setVisibility(View.GONE);
-                        mainLayout.setVisibility(View.VISIBLE);
+                            loadingLayout.setVisibility(View.GONE);
+                            infoLayout.setVisibility(View.GONE);
+                            mainLayout.setVisibility(View.VISIBLE);
 
-                        samplesRecyclerViewAdapter.setSamples(sampleViewModel.getAll());
-                        if (SampleRepository.samplesPage == 1) {
-                            samplesRecyclerView.setAdapter(samplesRecyclerViewAdapter);
-                        }
-                    } else {
-                        // Samples is Empty
-
-                        loadingLayout.setVisibility(View.GONE);
-                        infoLayout.setVisibility(View.VISIBLE);
-                        mainLayout.setVisibility(View.GONE);
-
-                        if (scale.equals("") && room.equals("") && status.equals("")) {
-                            setInfoLayout("empty"); // Show Empty
+                            samplesRecyclerViewAdapter.setSamples(sampleViewModel.getAll());
+                            if (SampleRepository.samplesPage == 1) {
+                                samplesRecyclerView.setAdapter(samplesRecyclerViewAdapter);
+                            }
                         } else {
-                            setInfoLayout("search"); // Show Search
-                        }
-                    }
+                            // Samples is Empty
 
-                    if (pagingProgressBar.getVisibility() == View.VISIBLE) {
-                        pagingProgressBar.setVisibility(View.GONE);
-                    }
+                            loadingLayout.setVisibility(View.GONE);
+                            infoLayout.setVisibility(View.VISIBLE);
+                            mainLayout.setVisibility(View.GONE);
 
-                    loading = false;
-                    SampleRepository.samplesPage++;
-
-                    resetData("filter");
-
-                    finished = true;
-
-                    SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                } else if (integer != -1) {
-                    if (sampleViewModel.getAll() == null) {
-                        // Samples is Empty
-
-                        loadingLayout.setVisibility(View.GONE);
-                        infoLayout.setVisibility(View.VISIBLE);
-                        mainLayout.setVisibility(View.GONE);
-
-                        if (integer == 0) {
-                            setInfoLayout("error"); // Show Error
-                        } else if (integer == -2) {
-                            setInfoLayout("connection"); // Show Connection
+                            if (scale.equals("") && room.equals("") && status.equals("")) {
+                                setInfoLayout("empty"); // Show Empty
+                            } else {
+                                setInfoLayout("search"); // Show Search
+                            }
                         }
 
                         if (pagingProgressBar.getVisibility() == View.VISIBLE) {
                             pagingProgressBar.setVisibility(View.GONE);
                         }
 
-                        resetData("filter");
-
-                        finished = true;
-
-                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                    } else {
-                        // Show Samples
-
-                        loadingLayout.setVisibility(View.GONE);
-                        infoLayout.setVisibility(View.GONE);
-                        mainLayout.setVisibility(View.VISIBLE);
-
-                        samplesRecyclerViewAdapter.setSamples(sampleViewModel.getAll());
-                        if (SampleRepository.samplesPage == 1) {
-                            samplesRecyclerView.setAdapter(samplesRecyclerViewAdapter);
-                        }
-
-                        if (pagingProgressBar.getVisibility() == View.VISIBLE) {
-                            pagingProgressBar.setVisibility(View.GONE);
-                        }
+                        loading = false;
+                        SampleRepository.samplesPage++;
 
                         resetData("filter");
 
                         finished = true;
 
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    } else if (integer != -1) {
+                        if (sampleViewModel.getAll() == null) {
+                            // Samples is Empty
+
+                            loadingLayout.setVisibility(View.GONE);
+                            infoLayout.setVisibility(View.VISIBLE);
+                            mainLayout.setVisibility(View.GONE);
+
+                            if (integer == 0) {
+                                setInfoLayout("error"); // Show Error
+                            } else if (integer == -2) {
+                                setInfoLayout("connection"); // Show Connection
+                            }
+
+                            if (pagingProgressBar.getVisibility() == View.VISIBLE) {
+                                pagingProgressBar.setVisibility(View.GONE);
+                            }
+
+                            resetData("filter");
+
+                            finished = true;
+
+                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                        } else {
+                            // Show Samples
+
+                            loadingLayout.setVisibility(View.GONE);
+                            infoLayout.setVisibility(View.GONE);
+                            mainLayout.setVisibility(View.VISIBLE);
+
+                            samplesRecyclerViewAdapter.setSamples(sampleViewModel.getAll());
+                            if (SampleRepository.samplesPage == 1) {
+                                samplesRecyclerView.setAdapter(samplesRecyclerViewAdapter);
+                            }
+
+                            if (pagingProgressBar.getVisibility() == View.VISIBLE) {
+                                pagingProgressBar.setVisibility(View.GONE);
+                            }
+
+                            resetData("filter");
+
+                            finished = true;
+
+                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                        }
                     }
                 }
-            } else if (SampleRepository.work.equals("getRooms")) {
-                if (integer == 1) {
-                    setRecyclerView(SampleRepository.rooms, roomDialogRecyclerView, "getRooms");
+            });
+        } else if (method.equals("roomViewModel")) {
+            RoomRepository.workState.observe((LifecycleOwner) this, integer -> {
+                if (RoomRepository.work.equals("getAll")) {
+                    if (integer == 1) {
+                        setRecyclerView(RoomRepository.rooms, roomDialogRecyclerView, "getRooms");
 
-                    roomDialogProgressBar.setVisibility(View.GONE);
-                    roomDialogImageView.setVisibility(View.VISIBLE);
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                } else if (integer == 0) {
-                    roomDialogProgressBar.setVisibility(View.GONE);
-                    roomDialogImageView.setVisibility(View.VISIBLE);
-                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                } else if (integer == -2) {
-                    roomDialogProgressBar.setVisibility(View.GONE);
-                    roomDialogImageView.setVisibility(View.VISIBLE);
-                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                    SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                        roomDialogProgressBar.setVisibility(View.GONE);
+                        roomDialogImageView.setVisibility(View.VISIBLE);
+                        RoomRepository.workState.removeObservers((LifecycleOwner) this);
+                    } else if (integer == 0) {
+                        roomDialogProgressBar.setVisibility(View.GONE);
+                        roomDialogImageView.setVisibility(View.VISIBLE);
+                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                        RoomRepository.workState.removeObservers((LifecycleOwner) this);
+                    } else if (integer == -2) {
+                        roomDialogProgressBar.setVisibility(View.GONE);
+                        roomDialogImageView.setVisibility(View.VISIBLE);
+                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                        RoomRepository.workState.removeObservers((LifecycleOwner) this);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     public void observeSearchAdapter(Model model, String method) {

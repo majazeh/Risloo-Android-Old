@@ -37,12 +37,14 @@ import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.material.tabs.TabLayout;
 import com.majazeh.risloo.Entities.Model;
+import com.majazeh.risloo.Models.Repositories.RoomRepository;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
+import com.majazeh.risloo.ViewModels.RoomViewModel;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.CheckBoxAdapter;
 import com.majazeh.risloo.Views.Adapters.SearchAdapter;
@@ -58,7 +60,8 @@ import java.util.Objects;
 public class CreateSampleActivity extends AppCompatActivity {
 
     // ViewModels
-    private SampleViewModel viewModel;
+    private SampleViewModel sampleViewModel;
+    private RoomViewModel roomViewModel;
 
     // Adapters
     private SearchAdapter scaleDialogAdapter, roomDialogAdapter, caseDialogAdapter, roomReferenceDialogAdapter;
@@ -119,7 +122,8 @@ public class CreateSampleActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = new ViewModelProvider(this).get(SampleViewModel.class);
+        sampleViewModel = new ViewModelProvider(this).get(SampleViewModel.class);
+        roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
 
         scaleDialogAdapter = new SearchAdapter(this);
         roomDialogAdapter = new SearchAdapter(this);
@@ -916,7 +920,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 }
                 break;
             case "roomDialog":
-                SampleRepository.rooms.clear();
+                RoomRepository.rooms.clear();
                 roomDialogRecyclerView.setAdapter(null);
 
                 if (roomDialogTextView.getVisibility() == View.VISIBLE) {
@@ -954,29 +958,32 @@ public class CreateSampleActivity extends AppCompatActivity {
                     scaleDialogImageView.setVisibility(View.GONE);
 
                     SampleRepository.scalesPage = 1;
-                    viewModel.scales(q);
+                    sampleViewModel.scales(q);
                     break;
                 case "getRooms":
                     roomDialogProgressBar.setVisibility(View.VISIBLE);
                     roomDialogImageView.setVisibility(View.GONE);
 
-                    SampleRepository.roomsPage = 1;
-                    viewModel.rooms(q);
+                    RoomRepository.allPage = 1;
+                    roomViewModel.rooms(q);
                     break;
                 case "getCases":
                     caseDialogProgressBar.setVisibility(View.VISIBLE);
                     caseDialogImageView.setVisibility(View.GONE);
 
-                    viewModel.cases(roomId, q);
+                    sampleViewModel.cases(roomId, q);
                     break;
                 case "getReferences":
                     roomReferenceDialogProgressBar.setVisibility(View.VISIBLE);
                     roomReferenceDialogImageView.setVisibility(View.GONE);
 
-                    viewModel.references(roomId, q);
+                    sampleViewModel.references(roomId, q);
                     break;
             }
-            observeWork();
+            if (method.equals("getRooms"))
+                observeWork("roomViewModel");
+            else
+                observeWork("sampleViewModel");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -987,56 +994,99 @@ public class CreateSampleActivity extends AppCompatActivity {
 
         try {
             progressDialog.show();
-            viewModel.create(scaleRecyclerViewAdapter.getIds(), room, casse, roomReferenceRecyclerViewAdapter.getIds(), caseReferenceRecyclerViewAdapter.getChecks(), count);
-            observeWork();
+            sampleViewModel.create(scaleRecyclerViewAdapter.getIds(), room, casse, roomReferenceRecyclerViewAdapter.getIds(), caseReferenceRecyclerViewAdapter.getChecks(), count);
+            observeWork("sampleViewModel");
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private void observeWork() {
-        SampleRepository.workStateCreate.observe((LifecycleOwner) this, integer -> {
-            switch (SampleRepository.work) {
-                case "create":
-                    if (integer == 1) {
-                        setResult(RESULT_OK, null);
-                        finish();
+    private void observeWork(String method) {
+        if (method.equals("sampleViewModel")) {
+            SampleRepository.workStateCreate.observe((LifecycleOwner) this, integer -> {
+                switch (SampleRepository.work) {
+                    case "create":
+                        if (integer == 1) {
+                            setResult(RESULT_OK, null);
+                            finish();
 
-                        progressDialog.dismiss();
-                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                    } else if (integer == 0) {
-                        progressDialog.dismiss();
-                        observeException();
-                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                    } else if (integer == -2) {
-                        progressDialog.dismiss();
-                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                    }
-                    break;
-                case "getScales":
-                    if (integer == 1) {
-                        setRecyclerView(SampleRepository.scales, scaleDialogRecyclerView, "getScales");
+                            progressDialog.dismiss();
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                        } else if (integer == 0) {
+                            progressDialog.dismiss();
+                            observeException();
+                            SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                        } else if (integer == -2) {
+                            progressDialog.dismiss();
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                        }
+                        break;
+                    case "getScales":
+                        if (integer == 1) {
+                            setRecyclerView(SampleRepository.scales, scaleDialogRecyclerView, "getScales");
 
-                        scaleDialogProgressBar.setVisibility(View.GONE);
-                        scaleDialogImageView.setVisibility(View.VISIBLE);
-                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                    } else if (integer == 0) {
-                        scaleDialogProgressBar.setVisibility(View.GONE);
-                        scaleDialogImageView.setVisibility(View.VISIBLE);
-                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                    } else if (integer == -2) {
-                        scaleDialogProgressBar.setVisibility(View.GONE);
-                        scaleDialogImageView.setVisibility(View.VISIBLE);
-                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                    }
-                    break;
-                case "getRooms":
+                            scaleDialogProgressBar.setVisibility(View.GONE);
+                            scaleDialogImageView.setVisibility(View.VISIBLE);
+                            SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                        } else if (integer == 0) {
+                            scaleDialogProgressBar.setVisibility(View.GONE);
+                            scaleDialogImageView.setVisibility(View.VISIBLE);
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                        } else if (integer == -2) {
+                            scaleDialogProgressBar.setVisibility(View.GONE);
+                            scaleDialogImageView.setVisibility(View.VISIBLE);
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                        }
+                        break;
+                    case "getCases":
+                        if (integer == 1) {
+                            setRecyclerView(SampleRepository.cases, caseDialogRecyclerView, "getCases");
+
+                            caseDialogProgressBar.setVisibility(View.GONE);
+                            caseDialogImageView.setVisibility(View.VISIBLE);
+                            SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                        } else if (integer == 0) {
+                            caseDialogProgressBar.setVisibility(View.GONE);
+                            caseDialogImageView.setVisibility(View.VISIBLE);
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                        } else if (integer == -2) {
+                            caseDialogProgressBar.setVisibility(View.GONE);
+                            caseDialogImageView.setVisibility(View.VISIBLE);
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                        }
+                        break;
+                    case "getReferences":
+                        if (integer == 1) {
+                            setRecyclerView(SampleRepository.references, roomReferenceDialogRecyclerView, "getReferences");
+
+                            roomReferenceDialogProgressBar.setVisibility(View.GONE);
+                            roomReferenceDialogImageView.setVisibility(View.VISIBLE);
+                            SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                        } else if (integer == 0) {
+                            roomReferenceDialogProgressBar.setVisibility(View.GONE);
+                            roomReferenceDialogImageView.setVisibility(View.VISIBLE);
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                        } else if (integer == -2) {
+                            roomReferenceDialogProgressBar.setVisibility(View.GONE);
+                            roomReferenceDialogImageView.setVisibility(View.VISIBLE);
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                        }
+                        break;
+                }
+            });
+        } else if (method.equals("roomViewModel")) {
+            RoomRepository.workState.observe((LifecycleOwner) this, integer -> {
+                if (RoomRepository.work.equals("getAll")) {
                     if (integer == 1) {
-                        setRecyclerView(SampleRepository.rooms, roomDialogRecyclerView, "getRooms");
+                        setRecyclerView(RoomRepository.rooms, roomDialogRecyclerView, "getRooms");
 
                         roomDialogProgressBar.setVisibility(View.GONE);
                         roomDialogImageView.setVisibility(View.VISIBLE);
@@ -1052,47 +1102,9 @@ public class CreateSampleActivity extends AppCompatActivity {
                         Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     }
-                    break;
-                case "getCases":
-                    if (integer == 1) {
-                        setRecyclerView(SampleRepository.cases, caseDialogRecyclerView, "getCases");
-
-                        caseDialogProgressBar.setVisibility(View.GONE);
-                        caseDialogImageView.setVisibility(View.VISIBLE);
-                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                    } else if (integer == 0) {
-                        caseDialogProgressBar.setVisibility(View.GONE);
-                        caseDialogImageView.setVisibility(View.VISIBLE);
-                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                    } else if (integer == -2) {
-                        caseDialogProgressBar.setVisibility(View.GONE);
-                        caseDialogImageView.setVisibility(View.VISIBLE);
-                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                    }
-                    break;
-                case "getReferences":
-                    if (integer == 1) {
-                        setRecyclerView(SampleRepository.references, roomReferenceDialogRecyclerView, "getReferences");
-
-                        roomReferenceDialogProgressBar.setVisibility(View.GONE);
-                        roomReferenceDialogImageView.setVisibility(View.VISIBLE);
-                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                    } else if (integer == 0) {
-                        roomReferenceDialogProgressBar.setVisibility(View.GONE);
-                        roomReferenceDialogImageView.setVisibility(View.VISIBLE);
-                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                    } else if (integer == -2) {
-                        roomReferenceDialogProgressBar.setVisibility(View.GONE);
-                        roomReferenceDialogImageView.setVisibility(View.VISIBLE);
-                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
-                    }
-                    break;
-            }
-        });
+                }
+            });
+        }
     }
 
     private void observeException() {
