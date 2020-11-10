@@ -215,7 +215,6 @@
                                 android:paddingLeft="@dimen/_16sdp"
                                 android:paddingRight="@dimen/_16sdp"
                                 android:imeOptions="actionDone"
-                                android:cursorVisible="false"
                                 android:inputType="number"
                                 android:hint="@string/CreateSampleCount"
                                 android:gravity="center|right"

@@ -50,7 +50,6 @@
                 android:paddingLeft="@dimen/_16sdp"
                 android:paddingRight="@dimen/_16sdp"
                 android:imeOptions="actionDone"
-                android:cursorVisible="false"
                 android:inputType="textMultiLine"
                 android:gravity="right"
                 android:hint="@string/SampleHint"

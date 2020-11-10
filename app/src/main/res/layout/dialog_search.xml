@@ -46,7 +46,6 @@
                 android:paddingLeft="@dimen/_32sdp"
                 android:paddingRight="@dimen/_16sdp"
                 android:imeOptions="actionDone"
-                android:cursorVisible="false"
                 android:inputType="text"
                 android:gravity="center|right"
                 android:hint="@string/AppSearchInput"

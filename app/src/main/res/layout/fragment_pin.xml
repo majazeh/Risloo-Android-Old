@@ -38,7 +38,6 @@
             android:paddingLeft="@dimen/_16sdp"
             android:paddingRight="@dimen/_16sdp"
             android:imeOptions="actionDone"
-            android:cursorVisible="false"
             android:inputType="number"
             android:maxLength="6"
             android:gravity="center"

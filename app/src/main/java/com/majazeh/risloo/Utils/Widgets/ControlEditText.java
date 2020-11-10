@@ -24,29 +24,26 @@ public class ControlEditText {
 
     public void select(EditText editText) {
         editText.requestFocus();
-        editText.setCursorVisible(true);
         editText.setBackgroundResource(R.drawable.draw_16sdp_border_primary);
     }
 
     public void error(Activity activity, EditText editText) {
         editText.clearFocus();
-        editText.setCursorVisible(false);
         editText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
 
-        hideKeyboard(activity);
+        hideKeyboard(activity, editText);
     }
 
     public void clear(Activity activity, EditText editText) {
         editText.clearFocus();
-        editText.setCursorVisible(false);
         editText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
 
-        hideKeyboard(activity);
+        hideKeyboard(activity, editText);
     }
 
-    private void hideKeyboard(Activity activity) {
+    private void hideKeyboard(Activity activity, EditText editText) {
         InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-        Objects.requireNonNull(inputMethodManager).hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
+        Objects.requireNonNull(inputMethodManager).hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
 }
