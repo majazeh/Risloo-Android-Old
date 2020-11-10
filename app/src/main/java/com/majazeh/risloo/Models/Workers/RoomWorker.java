@@ -59,10 +59,10 @@ public class RoomWorker extends Worker {
 
         if (work != null) {
             switch (work) {
-                case "getRooms":
+                case "getAll":
                     getAll();
                     break;
-                case "getMyRooms":
+                case "getMy":
                     getMy();
                     break;
             }

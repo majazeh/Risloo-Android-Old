@@ -47,17 +47,17 @@ public class RoomRepository extends MainRepository {
     public void rooms(String q) throws JSONException {
         roomQ = q;
 
-        work = "getRooms";
+        work = "getAll";
         workState.setValue(-1);
-        workManager("getRooms");
+        workManager("getAll");
     }
 
     public void myRooms(String q) throws JSONException {
         roomQ = q;
 
-        work = "getMyRooms";
+        work = "getMy";
         workState.setValue(-1);
-        workManager("getMyRooms");
+        workManager("getMy");
     }
 
     public ArrayList<Model> getAll(){
