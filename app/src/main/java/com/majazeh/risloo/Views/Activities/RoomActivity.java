@@ -32,7 +32,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.duolingo.open.rtlviewpager.RtlViewPager;
 import com.google.android.material.tabs.TabLayout;
-import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.StringManager;
@@ -374,11 +373,11 @@ public class RoomActivity extends AppCompatActivity {
     private void launchProcess(String method) {
         try {
             if (method.equals("getAll")) {
-               roomViewModel.rooms(search);
-                CenterRepository.allPage = 1;
+                roomViewModel.rooms(search);
+                RoomRepository.allPage = 1;
             } else {
                 roomViewModel.myRooms(search);
-                CenterRepository.myPage = 1;
+                RoomRepository.myPage = 1;
             }
             observeWork();
         } catch (JSONException e) {
