@@ -10,7 +10,7 @@ import java.util.Iterator;
 
 public class FilterGenerator {
 
-    public static Object filter(JSONObject filters, String property) {
+    public static Object getFilter(JSONObject filters, String property) {
         try {
             ArrayList<Model> arrayList = new ArrayList<>();
             JSONObject allowed = filters.getJSONObject("allowed");
