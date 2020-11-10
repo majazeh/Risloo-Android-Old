@@ -355,7 +355,14 @@ public class SamplesActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 handler.removeCallbacksAndMessages(null);
-                handler.postDelayed(() -> getData("getRooms", roomDialogEditText.getText().toString().trim()), 750);
+                handler.postDelayed(() -> {
+                    if (roomDialogEditText.length() != 0) {
+                        getData("getRooms", roomDialogEditText.getText().toString().trim());
+                    } else {
+                        ExceptionGenerator.getException(false, 0, null, "EmptyInputException");
+                        Toast.makeText(SamplesActivity.this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                    }
+                }, 750);
             }
 
             @Override

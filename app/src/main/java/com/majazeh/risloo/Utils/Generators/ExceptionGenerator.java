@@ -54,6 +54,9 @@ public class ExceptionGenerator {
                     case "FillOneException":
                         fa_message_text = "لطفا یک پارامتری را پر نمایید.";
                         break;
+                    case "EmptyInputException":
+                        fa_message_text = "عبارت جستجو موجود نیست.";
+                        break;
                     case "SelectRoomFirstException":
                         fa_message_text = "لطفا اول اتاق درمانی انتخاب کنید.";
                         break;

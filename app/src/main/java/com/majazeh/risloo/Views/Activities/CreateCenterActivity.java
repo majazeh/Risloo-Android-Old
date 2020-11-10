@@ -487,10 +487,15 @@ public class CreateCenterActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 handler.removeCallbacksAndMessages(null);
                 handler.postDelayed(() -> {
-                    if (type.equals("personal_clinic")) {
-                        getData("getPersonalClinic", managerDialogEditText.getText().toString().trim());
+                    if (managerDialogEditText.length() != 0) {
+                        if (type.equals("personal_clinic")) {
+                            getData("getPersonalClinic", managerDialogEditText.getText().toString().trim());
+                        } else {
+                            getData("getCounselingCenter", managerDialogEditText.getText().toString().trim());
+                        }
                     } else {
-                        getData("getCounselingCenter", managerDialogEditText.getText().toString().trim());
+                        ExceptionGenerator.getException(false, 0, null, "EmptyInputException");
+                        Toast.makeText(CreateCenterActivity.this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     }
                 }, 750);
             }

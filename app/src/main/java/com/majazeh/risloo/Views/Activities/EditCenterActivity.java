@@ -360,7 +360,14 @@ public class EditCenterActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 handler.removeCallbacksAndMessages(null);
-                handler.postDelayed(() -> getData("getCounselingCenter", managerDialogEditText.getText().toString().trim()), 750);
+                handler.postDelayed(() -> {
+                    if (managerDialogEditText.length() != 0) {
+                        getData("getCounselingCenter", managerDialogEditText.getText().toString().trim());
+                    } else {
+                        ExceptionGenerator.getException(false, 0, null, "EmptyInputException");
+                        Toast.makeText(EditCenterActivity.this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                    }
+                }, 750);
             }
 
             @Override

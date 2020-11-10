@@ -574,7 +574,14 @@ public class CreateSampleActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 handler.removeCallbacksAndMessages(null);
-                handler.postDelayed(() -> getData("getScales", "", scaleDialogEditText.getText().toString().trim()), 750);
+                handler.postDelayed(() -> {
+                    if (scaleDialogEditText.length() != 0) {
+                        getData("getScales", "", scaleDialogEditText.getText().toString().trim());
+                    } else {
+                        ExceptionGenerator.getException(false, 0, null, "EmptyInputException");
+                        Toast.makeText(CreateSampleActivity.this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                    }
+                }, 750);
             }
 
             @Override
@@ -592,7 +599,14 @@ public class CreateSampleActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 handler.removeCallbacksAndMessages(null);
-                handler.postDelayed(() -> getData("getRooms", "", roomDialogEditText.getText().toString().trim()), 750);
+                handler.postDelayed(() -> {
+                    if (roomDialogEditText.length() != 0) {
+                        getData("getRooms", "", roomDialogEditText.getText().toString().trim());
+                    } else {
+                        ExceptionGenerator.getException(false, 0, null, "EmptyInputException");
+                        Toast.makeText(CreateSampleActivity.this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                    }
+                }, 750);
             }
 
             @Override
@@ -610,7 +624,14 @@ public class CreateSampleActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 handler.removeCallbacksAndMessages(null);
-                handler.postDelayed(() -> getData("getCases", room, caseDialogEditText.getText().toString().trim()), 750);
+                handler.postDelayed(() -> {
+                    if (caseDialogEditText.length() != 0) {
+                        getData("getCases", room, caseDialogEditText.getText().toString().trim());
+                    } else {
+                        ExceptionGenerator.getException(false, 0, null, "EmptyInputException");
+                        Toast.makeText(CreateSampleActivity.this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                    }
+                }, 750);
             }
 
             @Override
@@ -628,7 +649,14 @@ public class CreateSampleActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 handler.removeCallbacksAndMessages(null);
-                handler.postDelayed(() -> getData("getReferences", room, roomReferenceDialogEditText.getText().toString().trim()), 750);
+                handler.postDelayed(() -> {
+                    if (roomReferenceDialogEditText.length() != 0) {
+                        getData("getReferences", room, roomReferenceDialogEditText.getText().toString().trim());
+                    } else {
+                        ExceptionGenerator.getException(false, 0, null, "EmptyInputException");
+                        Toast.makeText(CreateSampleActivity.this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                    }
+                }, 750);
             }
 
             @Override
