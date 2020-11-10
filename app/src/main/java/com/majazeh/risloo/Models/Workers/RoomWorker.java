@@ -109,7 +109,7 @@ public class RoomWorker extends Worker {
                         }
                     }
 
-                }else if (SampleRepository.roomsPage == 1) {
+                }else if (RoomRepository.allPage == 1) {
                     RoomRepository.rooms.clear();
                 }
 
