@@ -28,6 +28,7 @@ import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager.widget.ViewPager;
 
 import com.duolingo.open.rtlviewpager.RtlViewPager;
 import com.google.android.material.tabs.TabLayout;
@@ -220,6 +221,40 @@ public class RoomActivity extends AppCompatActivity {
             searchDialog.dismiss();
         });
 
+                tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                rtlViewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        rtlViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.getTabAt(position).select();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         retrySpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
@@ -351,7 +386,7 @@ public class RoomActivity extends AppCompatActivity {
         }
     }
 
-    public void relaunchRooms() {
+    private void relaunchRooms() {
         searchLayout.setVisibility(View.GONE);
         loadingLayout.setVisibility(View.VISIBLE);
         infoLayout.setVisibility(View.GONE);
