@@ -7,6 +7,7 @@ import androidx.core.widget.ImageViewCompat;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.jsibbold.zoomage.ZoomageView;
 import com.majazeh.risloo.Utils.Managers.BitmapManager;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.Managers.IntentManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.squareup.picasso.Picasso;
 
@@ -30,7 +32,7 @@ public class ImageActivity extends AppCompatActivity {
 
     // Widgets
     private RelativeLayout toolbarLayout;
-    private ImageView toolbarImageView;
+    private ImageView toolbarImageView, toolbarDownloadImageView;
     private TextView toolbarTextView;
     private ZoomageView imageView;
 
@@ -67,6 +69,9 @@ public class ImageActivity extends AppCompatActivity {
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.White));
+        toolbarDownloadImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
+        toolbarDownloadImageView.setImageResource(R.drawable.ic_download_light);
+        ImageViewCompat.setImageTintList(toolbarDownloadImageView, AppCompatResources.getColorStateList(this, R.color.White));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setTextColor(getResources().getColor(R.color.White));
@@ -77,6 +82,7 @@ public class ImageActivity extends AppCompatActivity {
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_nero_ripple_white);
+            toolbarDownloadImageView.setBackgroundResource(R.drawable.draw_oval_solid_nero_ripple_white);
         }
     }
 
@@ -86,6 +92,13 @@ public class ImageActivity extends AppCompatActivity {
             handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
 
             finish();
+        });
+
+        toolbarDownloadImageView.setOnClickListener(v -> {
+            toolbarDownloadImageView.setClickable(false);
+            handler.postDelayed(() -> toolbarDownloadImageView.setClickable(true), 300);
+
+            IntentManager.download(this, image);
         });
     }
 
@@ -98,6 +111,7 @@ public class ImageActivity extends AppCompatActivity {
         if (!bitmap) {
             image = extras.getString("image");
             Picasso.get().load(image).placeholder(R.color.Nero).into(imageView);
+            toolbarDownloadImageView.setVisibility(View.VISIBLE);
         } else {
             path = extras.getString("path");
             imageView.setImageBitmap(BitmapManager.modifyOrientation(FileManager.readBitmapFromCache(this, "image"), path));

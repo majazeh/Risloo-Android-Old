@@ -356,7 +356,7 @@
                                         android:layout_width="@dimen/_26sdp"
                                         android:layout_height="@dimen/_26sdp"
                                         android:padding="@dimen/_6sdp"
-                                        android:src="@drawable/ic_download"
+                                        android:src="@drawable/ic_download_light"
                                         app:tint="@color/Grey" />
 
                                     <TextView
