@@ -41,7 +41,6 @@ public class SampleRepository extends MainRepository {
     public static HashMap createData;
     public static ArrayList<Model> getAll;
     public static ArrayList<Model> scales;
-    public static ArrayList<Model> rooms;
     public static ArrayList<Model> cases;
     public static ArrayList<Model> references;
     public static ArrayList<Model> scaleFilter;
@@ -61,7 +60,6 @@ public class SampleRepository extends MainRepository {
     public static boolean cache = false;
     public static int samplesPage = 1;
     public static int scalesPage = 1;
-    public static int roomsPage = 1;
 
     public SampleRepository(Application application) throws JSONException {
         super(application);
@@ -72,7 +70,6 @@ public class SampleRepository extends MainRepository {
         createData = new HashMap();
         getAll = new ArrayList<>();
         scales = new ArrayList<>();
-        rooms = new ArrayList<>();
         cases = new ArrayList<>();
         references = new ArrayList<>();
         workStateSample = new MutableLiveData<>();
@@ -257,14 +254,6 @@ public class SampleRepository extends MainRepository {
         workManager("getScales");
     }
 
-    public void rooms(String q) throws JSONException {
-        SampleRepository.roomQ = q;
-
-        work = "getRooms";
-        workStateCreate.setValue(-1);
-        workStateSample.setValue(-1);
-        workManager("getRooms");
-    }
 
     public void cases(String roomId, String q) throws JSONException {
         SampleRepository.roomId = roomId;
@@ -750,32 +739,6 @@ public class SampleRepository extends MainRepository {
         }
     }
 
-    public ArrayList<Model> getRooms(){
-        try {
-            if (roomQ.equals("")) {
-                if (FileManager.readObjectFromCache(application.getApplicationContext(), "rooms") != null) {
-                    ArrayList<Model> arrayList = new ArrayList<>();
-                    JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "rooms");
-                    JSONArray data = jsonObject.getJSONArray("data");
-                    for (int i = 0; i < data.length(); i++) {
-                        arrayList.add(new Model(data.getJSONObject(i)));
-                    }
-                    return arrayList;
-                } else {
-                    return null;
-                }
-            }else{
-                if (rooms.size() == 0){
-                    return null;
-                }else{
-                    return rooms;
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     public static boolean filter() {
         if (SampleRepository.scalesQ.equals("") && SampleRepository.statusQ.equals("") && SampleRepository.roomQ.equals(""))

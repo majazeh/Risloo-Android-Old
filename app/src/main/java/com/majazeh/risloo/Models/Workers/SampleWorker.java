@@ -92,9 +92,6 @@ public class SampleWorker extends Worker {
                 case "getScales":
                     getScales();
                     break;
-                case "getRooms":
-                    getRooms();
-                    break;
                 case "getReferences":
                     getReferences();
                     break;
@@ -537,73 +534,7 @@ public class SampleWorker extends Worker {
         }
     }
 
-    private void getRooms() {
-        try {
-            Call<ResponseBody> call = sampleApi.getRooms(token(), SampleRepository.roomsPage, SampleRepository.roomQ);
 
-            Response<ResponseBody> bodyResponse = call.execute();
-            if (bodyResponse.isSuccessful()) {
-                JSONObject successBody = new JSONObject(bodyResponse.body().string());
-                JSONArray data = successBody.getJSONArray("data");
-                JSONObject jsonObject = FileManager.readObjectFromCache(context, "rooms");
-
-                if (data.length() != 0) {
-                if (SampleRepository.roomQ.equals("")){
-                    if (SampleRepository.roomsPage == 1) {
-                        FileManager.writeObjectToCache(context, successBody, "rooms");
-                    } else {
-                        for (int i = 0; i < data.length(); i++) {
-                            JSONArray jsonArray = successBody.getJSONArray("data");
-                            data.put(jsonArray.getJSONObject(i));
-                        }
-                        jsonObject.put("data", data);
-                        FileManager.writeObjectToCache(context, jsonObject, "rooms");
-                    }
-                }else{
-                    if (SampleRepository.roomsPage == 1) {
-                        SampleRepository.rooms.clear();
-                    }
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject object = data.getJSONObject(i);
-                        SampleRepository.rooms.add(new Model(object));
-                    }
-                }
-
-                }else if (SampleRepository.roomsPage == 1) {
-                    SampleRepository.rooms.clear();
-                }
-
-                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "rooms");
-                SampleRepository.workStateCreate.postValue(1);
-                SampleRepository.workStateSample.postValue(1);
-            } else {
-                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-
-                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "rooms");
-                SampleRepository.workStateCreate.postValue(0);
-                SampleRepository.workStateSample.postValue(0);
-            }
-
-        } catch (SocketTimeoutException e) {
-            e.printStackTrace();
-
-            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
-            SampleRepository.workStateCreate.postValue(0);
-            SampleRepository.workStateSample.postValue(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            ExceptionGenerator.getException(false, 0, null, "IOException");
-            SampleRepository.workStateCreate.postValue(0);
-            SampleRepository.workStateSample.postValue(0);
-        } catch (JSONException e) {
-            e.printStackTrace();
-
-            ExceptionGenerator.getException(false, 0, null, "JSONException");
-            SampleRepository.workStateCreate.postValue(0);
-            SampleRepository.workStateSample.postValue(0);
-        }
-    }
 
     private void getReferences() {
         try {

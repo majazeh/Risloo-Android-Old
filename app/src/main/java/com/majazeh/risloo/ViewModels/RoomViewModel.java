@@ -29,11 +29,11 @@ public class RoomViewModel extends AndroidViewModel {
         repository.myRooms(q);
     }
 
-    public ArrayList<Model> getRooms() {
-        return repository.getRooms();
+    public ArrayList<Model> getAll() {
+        return repository.getAll();
     }
 
-    public ArrayList<Model> getMyRooms() {
-        return repository.getMyRooms();
+    public ArrayList<Model> getMy() {
+        return repository.getMy();
     }
 }

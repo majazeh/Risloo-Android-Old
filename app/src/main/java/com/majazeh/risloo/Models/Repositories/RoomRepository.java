@@ -28,19 +28,17 @@ public class RoomRepository extends MainRepository {
     public static ArrayList<Model> rooms;
     public static ArrayList<Model> myRooms;
     public static String roomQ = "";
-    public static int roomsPage = 1;
-    public static int myRoomsPage = 1;
-    public static MutableLiveData<Integer> workStateSample;
-    public static MutableLiveData<Integer> workStateCreate;
+    public static int allPage = 1;
+    public static int myPage = 1;
+    public static MutableLiveData<Integer> workState;
 
     public RoomRepository(Application application) {
         super(application);
         rooms = new ArrayList<>();
         myRooms = new ArrayList<>();
-        workStateSample = new MutableLiveData<>();
-        workStateCreate = new MutableLiveData<>();
-        workStateSample.setValue(-1);
-        workStateCreate.setValue(-1);
+        workState = new MutableLiveData<>();
+
+        workState.setValue(-1);
     }
 
     public RoomRepository() {
@@ -50,8 +48,7 @@ public class RoomRepository extends MainRepository {
         roomQ = q;
 
         work = "getRooms";
-        workStateCreate.setValue(-1);
-        workStateSample.setValue(-1);
+        workState.setValue(-1);
         workManager("getRooms");
     }
 
@@ -59,12 +56,11 @@ public class RoomRepository extends MainRepository {
         roomQ = q;
 
         work = "getMyRooms";
-        workStateCreate.setValue(-1);
-        workStateSample.setValue(-1);
+        workState.setValue(-1);
         workManager("getMyRooms");
     }
 
-    public ArrayList<Model> getRooms(){
+    public ArrayList<Model> getAll(){
         try {
             if (roomQ.equals("")) {
                 if (FileManager.readObjectFromCache(application.getApplicationContext(), "rooms") != null) {
@@ -91,7 +87,7 @@ public class RoomRepository extends MainRepository {
         }
     }
 
-    public ArrayList<Model> getMyRooms(){
+    public ArrayList<Model> getMy(){
         try {
             if (roomQ.equals("")) {
                 if (FileManager.readObjectFromCache(application.getApplicationContext(), "myRooms") != null) {
@@ -132,8 +128,7 @@ public class RoomRepository extends MainRepository {
             WorkManager.getInstance(application).enqueue(workRequest);
         } else {
             ExceptionGenerator.getException(false, 0, null, "OffLineException");
-            workStateSample.setValue(-2);
-            workStateCreate.setValue(-2);
+            workState.setValue(-2);
         }
     }
 

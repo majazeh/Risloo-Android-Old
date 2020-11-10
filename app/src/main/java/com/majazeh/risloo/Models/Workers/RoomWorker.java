@@ -9,7 +9,6 @@ import androidx.work.WorkerParameters;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Apis.RoomApi;
-import com.majazeh.risloo.Models.Apis.SampleApi;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
@@ -61,10 +60,10 @@ public class RoomWorker extends Worker {
         if (work != null) {
             switch (work) {
                 case "getRooms":
-                    getRooms();
+                    getAll();
                     break;
                 case "getMyRooms":
-                    getMyRooms();
+                    getMy();
                     break;
             }
         }
@@ -78,9 +77,9 @@ public class RoomWorker extends Worker {
         return "";
     }
 
-    private void getRooms() {
+    private void getAll() {
         try {
-            Call<ResponseBody> call = roomApi.getRooms(token(), RoomRepository.roomsPage, RoomRepository.roomQ);
+            Call<ResponseBody> call = roomApi.getRooms(token(), RoomRepository.allPage, RoomRepository.roomQ);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -90,7 +89,7 @@ public class RoomWorker extends Worker {
 
                 if (data.length() != 0) {
                     if (RoomRepository.roomQ.equals("")){
-                        if (RoomRepository.roomsPage == 1) {
+                        if (RoomRepository.allPage == 1) {
                             FileManager.writeObjectToCache(context, successBody, "rooms");
                         } else {
                             for (int i = 0; i < data.length(); i++) {
@@ -101,7 +100,7 @@ public class RoomWorker extends Worker {
                             FileManager.writeObjectToCache(context, jsonObject, "rooms");
                         }
                     }else{
-                        if (RoomRepository.roomsPage == 1) {
+                        if (RoomRepository.allPage == 1) {
                             RoomRepository.rooms.clear();
                         }
                         for (int i = 0; i < data.length(); i++) {
@@ -115,39 +114,34 @@ public class RoomWorker extends Worker {
                 }
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "rooms");
-                RoomRepository.workStateCreate.postValue(1);
-                RoomRepository.workStateSample.postValue(1);
+                RoomRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "rooms");
-                RoomRepository.workStateCreate.postValue(0);
-                RoomRepository.workStateSample.postValue(0);
+                RoomRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
             ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
-            RoomRepository.workStateCreate.postValue(0);
-            RoomRepository.workStateSample.postValue(0);
+            RoomRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
             ExceptionGenerator.getException(false, 0, null, "IOException");
-            RoomRepository.workStateCreate.postValue(0);
-            RoomRepository.workStateSample.postValue(0);
+            RoomRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
             ExceptionGenerator.getException(false, 0, null, "JSONException");
-            RoomRepository.workStateCreate.postValue(0);
-            RoomRepository.workStateSample.postValue(0);
+            RoomRepository.workState.postValue(0);
         }
     }
-    private void getMyRooms() {
+    private void getMy() {
         try {
-            Call<ResponseBody> call = roomApi.getMyRooms(token(), RoomRepository.myRoomsPage, RoomRepository.roomQ);
+            Call<ResponseBody> call = roomApi.getMyRooms(token(), RoomRepository.myPage, RoomRepository.roomQ);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -157,7 +151,7 @@ public class RoomWorker extends Worker {
 
                 if (data.length() != 0) {
                     if (RoomRepository.roomQ.equals("")){
-                        if (RoomRepository.myRoomsPage == 1) {
+                        if (RoomRepository.myPage == 1) {
                             FileManager.writeObjectToCache(context, successBody, "myRooms");
                         } else {
                             for (int i = 0; i < data.length(); i++) {
@@ -168,7 +162,7 @@ public class RoomWorker extends Worker {
                             FileManager.writeObjectToCache(context, jsonObject, "myRooms");
                         }
                     }else{
-                        if (RoomRepository.myRoomsPage == 1) {
+                        if (RoomRepository.myPage == 1) {
                             RoomRepository.myRooms.clear();
                         }
                         for (int i = 0; i < data.length(); i++) {
@@ -177,39 +171,34 @@ public class RoomWorker extends Worker {
                         }
                     }
 
-                }else if (RoomRepository.myRoomsPage == 1) {
+                }else if (RoomRepository.myPage == 1) {
                     RoomRepository.myRooms.clear();
                 }
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "rooms");
-                RoomRepository.workStateCreate.postValue(1);
-                RoomRepository.workStateSample.postValue(1);
+                RoomRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "rooms");
-                RoomRepository.workStateCreate.postValue(0);
-                RoomRepository.workStateSample.postValue(0);
+                RoomRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
             ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
-            RoomRepository.workStateCreate.postValue(0);
-            RoomRepository.workStateSample.postValue(0);
+            RoomRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
             ExceptionGenerator.getException(false, 0, null, "IOException");
-            RoomRepository.workStateCreate.postValue(0);
-            RoomRepository.workStateSample.postValue(0);
+            RoomRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
             ExceptionGenerator.getException(false, 0, null, "JSONException");
-            RoomRepository.workStateCreate.postValue(0);
-            RoomRepository.workStateSample.postValue(0);
+            RoomRepository.workState.postValue(0);
         }
     }
 

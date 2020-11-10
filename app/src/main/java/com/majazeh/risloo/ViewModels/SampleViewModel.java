@@ -69,9 +69,6 @@ public class SampleViewModel extends AndroidViewModel {
         repository.scales(q);
     }
 
-    public void rooms(String q) throws JSONException {
-        repository.rooms(q);
-    }
 
     public void cases(String roomId, String q) throws JSONException {
         repository.cases(roomId, q);
@@ -217,8 +214,5 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.getScales();
     }
 
-    public ArrayList<Model> getRooms() {
-        return repository.getRooms();
-    }
 
 }
