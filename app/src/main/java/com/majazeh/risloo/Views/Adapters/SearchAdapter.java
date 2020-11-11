@@ -192,7 +192,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                     holder.titleTextView.setVisibility(View.GONE);
                     break;
                 case "getURLs":
-                    holder.nameTextView.setText(model.get("url").toString());
+                    holder.nameTextView.setText(model.get("title").toString());
 
                     holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);

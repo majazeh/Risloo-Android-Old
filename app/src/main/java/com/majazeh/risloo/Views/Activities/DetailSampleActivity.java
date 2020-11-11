@@ -389,9 +389,12 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                         actionTextView.setVisibility(View.INVISIBLE);
 
-                        if (viewModel.getAllPngPics() != null) {
-                            setRecyclerView(viewModel.getAllPngPics(), downloadDialogRecyclerView, "getURLs");
-                            setRecyclerView(viewModel.getAllPngPics(), resultRecyclerView, "getPNGs");
+                        if (viewModel.getAllURLs() != null) {
+                            setRecyclerView(viewModel.getAllURLs(), downloadDialogRecyclerView, "getURLs");
+                            showCardView = true;
+                        }
+                        if (viewModel.getAllPNGs() != null) {
+                            setRecyclerView(viewModel.getAllPNGs(), resultRecyclerView, "getPNGs");
                             showCardView = true;
                         }
 
@@ -410,9 +413,12 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                         actionTextView.setVisibility(View.INVISIBLE);
 
-                        if (viewModel.getAllPngPics() != null) {
-                            setRecyclerView(viewModel.getAllPngPics(), downloadDialogRecyclerView, "getURLs");
-                            setRecyclerView(viewModel.getAllPngPics(), resultRecyclerView, "getPNGs");
+                        if (viewModel.getAllURLs() != null) {
+                            setRecyclerView(viewModel.getAllURLs(), downloadDialogRecyclerView, "getURLs");
+                            showCardView = true;
+                        }
+                        if (viewModel.getAllPNGs() != null) {
+                            setRecyclerView(viewModel.getAllPNGs(), resultRecyclerView, "getPNGs");
                             showCardView = true;
                         }
 
