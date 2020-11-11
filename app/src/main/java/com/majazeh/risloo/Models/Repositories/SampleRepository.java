@@ -521,6 +521,10 @@ public class SampleRepository extends MainRepository {
                     String key = keys.next();
                     if (key.endsWith("png")) {
                         JSONObject object = new JSONObject();
+                        String title = key.substring(key.indexOf('_')+1);
+                        title = title.replace('_', ' ');
+                        title = title.toUpperCase();
+                        object.put("title", title);
                         object.put("url", profiles.getJSONObject(key).getString("url"));
                         arrayList.add(new Model(object));
                     }
