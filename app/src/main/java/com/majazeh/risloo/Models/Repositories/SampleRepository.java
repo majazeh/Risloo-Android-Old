@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.icu.text.Edits;
 import android.net.ConnectivityManager;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Constraints;
@@ -15,6 +16,7 @@ import androidx.work.WorkManager;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Items.SampleItems;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
+import com.majazeh.risloo.Utils.Generators.JSONGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Workers.SampleWorker;
 
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public class SampleRepository extends MainRepository {
 
@@ -507,7 +510,7 @@ public class SampleRepository extends MainRepository {
          ---------- Urls ----------
     */
 
-    public ArrayList<Model> getAllPngPics() {
+    public ArrayList<Model> getAllPNGs() {
         try {
             ArrayList<Model> arrayList = new ArrayList<>();
             if (FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetailFiles" + "/" + SampleRepository.sampleId) != null) {
@@ -521,6 +524,34 @@ public class SampleRepository extends MainRepository {
                         object.put("url", profiles.getJSONObject(key).getString("url"));
                         arrayList.add(new Model(object));
                     }
+                }
+                return arrayList;
+            } else {
+                return null;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public ArrayList<Model> getAllURLs() {
+        try {
+            ArrayList<Model> arrayList = new ArrayList<>();
+            if (FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetailFiles" + "/" + SampleRepository.sampleId) != null) {
+                JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "sampleDetailFiles" + "/" + SampleRepository.sampleId);
+                JSONObject profiles = jsonObject.getJSONObject("profiles");
+                Iterator<String> keys = profiles.keys();
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                        JSONObject object = new JSONObject();
+                        String title = key.substring(key.indexOf('_')+1);
+                        title = title.replace('_', ' ');
+                        title = title.toUpperCase();
+                        object.put("title", title);
+                        object.put("url", profiles.getJSONObject(key).getString("url"));
+                        arrayList.add(new Model(object));
+
                 }
                 return arrayList;
             } else {
@@ -733,6 +764,21 @@ public class SampleRepository extends MainRepository {
                     return scales;
                 }
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public ArrayList<Model> getLocalScales(){
+        try {
+            JSONArray data = new JSONArray( JSONGenerator.getJSON(application.getApplicationContext(), "localScales.json"));
+            ArrayList<Model> arrayList = new ArrayList<>();
+            for (int i = 0; i < data.length(); i++) {
+                arrayList.add(new Model(data.getJSONObject(i)));
+            }
+            Log.e("arra", String.valueOf(arrayList.get(0).attributes));
+            return arrayList;
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

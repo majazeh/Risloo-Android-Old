@@ -194,10 +194,17 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.getPdfScore(sampleId);
     }
 
-    public ArrayList<Model> getAllPngPics() {
-        return repository.getAllPngPics();
+    public ArrayList<Model> getAllPNGs() {
+        return repository.getAllPNGs();
     }
 
+    public ArrayList<Model> getAllURLs() {
+        return repository.getAllURLs();
+    }
+
+    public ArrayList<Model> getLocalScales(){
+        return repository.getLocalScales();
+    }
     /*
          ---------- Arrays ----------
     */
