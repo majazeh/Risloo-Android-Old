@@ -177,6 +177,7 @@ public class IntentManager {
 
     public static void download(Context context, String url) {
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+
         request.allowScanningByMediaScanner();
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, url.substring(url.lastIndexOf('/')));

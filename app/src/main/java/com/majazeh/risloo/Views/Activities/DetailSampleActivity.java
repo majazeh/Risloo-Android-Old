@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -39,6 +40,7 @@ import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.IntentManager;
+import com.majazeh.risloo.Utils.Managers.PermissionManager;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
@@ -64,7 +66,7 @@ public class DetailSampleActivity extends AppCompatActivity {
     private SearchAdapter downloadDialogAdapter;
 
     // Vars
-    public String sampleId = "", scaleTitle = "";
+    public String sampleId = "", scaleTitle = "", downloadUrl = "";
     private boolean showLoading = false, showCardView = false;
 
     // Objects
@@ -672,13 +674,31 @@ public class DetailSampleActivity extends AppCompatActivity {
         try {
             switch (method) {
                 case "getURLs":
-                    IntentManager.download(this, model.get("url").toString());
+                    downloadUrl = model.get("url").toString();
 
-                    downloadDialog.dismiss();
+                    if (PermissionManager.storagePermission(this)) {
+                        IntentManager.download(this, downloadUrl);
+                        downloadDialog.dismiss();
+                    }
                     break;
             }
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 200) {
+            if (grantResults.length > 0) {
+                for (int grantResult : grantResults) {
+                    if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+                }
+                IntentManager.download(this, downloadUrl);
+                downloadDialog.dismiss();
+            }
         }
     }
 

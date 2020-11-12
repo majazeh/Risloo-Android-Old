@@ -1,9 +1,11 @@
 package com.majazeh.risloo.Views.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.widget.ImageViewCompat;
 
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +19,7 @@ import com.majazeh.risloo.Utils.Managers.BitmapManager;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.IntentManager;
+import com.majazeh.risloo.Utils.Managers.PermissionManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.squareup.picasso.Picasso;
 
@@ -98,7 +101,9 @@ public class ImageActivity extends AppCompatActivity {
             toolbarDownloadImageView.setClickable(false);
             handler.postDelayed(() -> toolbarDownloadImageView.setClickable(true), 300);
 
-            IntentManager.download(this, image);
+            if (PermissionManager.storagePermission(this)) {
+                IntentManager.download(this, image);
+            }
         });
     }
 
@@ -116,6 +121,20 @@ public class ImageActivity extends AppCompatActivity {
             path = extras.getString("path");
             imageView.setImageBitmap(BitmapManager.modifyOrientation(FileManager.readBitmapFromCache(this, "image"), path));
             FileManager.deleteFileFromCache(this, "image");
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 200) {
+            if (grantResults.length > 0) {
+                for (int grantResult : grantResults) {
+                    if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+                }
+                IntentManager.download(this, image);
+            }
         }
     }
 
