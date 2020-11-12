@@ -372,6 +372,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                     controlEditText.clear(this, controlEditText.input());
                 }
 
+                setRecyclerView(sampleViewModel.getLocalScales(), scaleDialogRecyclerView, "getScales");
+
                 scaleDialog.show();
             }
             return false;
@@ -578,8 +580,11 @@ public class CreateSampleActivity extends AppCompatActivity {
                     if (scaleDialogEditText.length() != 0) {
                         getData("getScales", "", scaleDialogEditText.getText().toString().trim());
                     } else {
-                        ExceptionGenerator.getException(false, 0, null, "EmptyInputException");
-                        Toast.makeText(CreateSampleActivity.this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                        setRecyclerView(sampleViewModel.getLocalScales(), scaleDialogRecyclerView, "getScales");
+
+                        if (scaleDialogTextView.getVisibility() == View.VISIBLE) {
+                            scaleDialogTextView.setVisibility(View.GONE);
+                        }
                     }
                 }, 750);
             }
@@ -603,8 +608,11 @@ public class CreateSampleActivity extends AppCompatActivity {
                     if (roomDialogEditText.length() != 0) {
                         getData("getRooms", "", roomDialogEditText.getText().toString().trim());
                     } else {
-                        ExceptionGenerator.getException(false, 0, null, "EmptyInputException");
-                        Toast.makeText(CreateSampleActivity.this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                        roomDialogRecyclerView.setAdapter(null);
+
+                        if (roomDialogTextView.getVisibility() == View.VISIBLE) {
+                            roomDialogTextView.setVisibility(View.GONE);
+                        }
                     }
                 }, 750);
             }
@@ -628,8 +636,11 @@ public class CreateSampleActivity extends AppCompatActivity {
                     if (caseDialogEditText.length() != 0) {
                         getData("getCases", room, caseDialogEditText.getText().toString().trim());
                     } else {
-                        ExceptionGenerator.getException(false, 0, null, "EmptyInputException");
-                        Toast.makeText(CreateSampleActivity.this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                        caseDialogRecyclerView.setAdapter(null);
+
+                        if (caseDialogTextView.getVisibility() == View.VISIBLE) {
+                            caseDialogTextView.setVisibility(View.GONE);
+                        }
                     }
                 }, 750);
             }
@@ -653,8 +664,11 @@ public class CreateSampleActivity extends AppCompatActivity {
                     if (roomReferenceDialogEditText.length() != 0) {
                         getData("getReferences", room, roomReferenceDialogEditText.getText().toString().trim());
                     } else {
-                        ExceptionGenerator.getException(false, 0, null, "EmptyInputException");
-                        Toast.makeText(CreateSampleActivity.this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                        roomReferenceDialogRecyclerView.setAdapter(null);
+
+                        if (roomReferenceDialogTextView.getVisibility() == View.VISIBLE) {
+                            roomReferenceDialogTextView.setVisibility(View.GONE);
+                        }
                     }
                 }, 750);
             }

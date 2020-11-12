@@ -494,8 +494,11 @@ public class CreateCenterActivity extends AppCompatActivity {
                             getData("getCounselingCenter", managerDialogEditText.getText().toString().trim());
                         }
                     } else {
-                        ExceptionGenerator.getException(false, 0, null, "EmptyInputException");
-                        Toast.makeText(CreateCenterActivity.this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                        managerDialogRecyclerView.setAdapter(null);
+
+                        if (managerDialogTextView.getVisibility() == View.VISIBLE) {
+                            managerDialogTextView.setVisibility(View.GONE);
+                        }
                     }
                 }, 750);
             }

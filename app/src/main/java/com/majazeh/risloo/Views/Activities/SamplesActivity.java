@@ -359,8 +359,11 @@ public class SamplesActivity extends AppCompatActivity {
                     if (roomDialogEditText.length() != 0) {
                         getData("getRooms", roomDialogEditText.getText().toString().trim());
                     } else {
-                        ExceptionGenerator.getException(false, 0, null, "EmptyInputException");
-                        Toast.makeText(SamplesActivity.this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                        roomDialogRecyclerView.setAdapter(null);
+
+                        if (roomDialogTextView.getVisibility() == View.VISIBLE) {
+                            roomDialogTextView.setVisibility(View.GONE);
+                        }
                     }
                 }, 750);
             }
