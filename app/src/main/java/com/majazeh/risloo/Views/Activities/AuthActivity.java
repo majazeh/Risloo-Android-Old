@@ -94,7 +94,9 @@ public class AuthActivity extends AppCompatActivity {
 
     private void decorator() {
         WindowDecorator windowDecorator = new WindowDecorator();
-        windowDecorator.lightTransparentWindow(this, R.color.Snow);
+
+        windowDecorator.lightShowSystemUI(this);
+        windowDecorator.lightSetSystemUIColor(this, Color.TRANSPARENT, getResources().getColor(R.color.Snow));
     }
 
     private void initializer() {

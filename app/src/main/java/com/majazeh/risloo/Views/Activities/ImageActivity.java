@@ -58,7 +58,9 @@ public class ImageActivity extends AppCompatActivity {
 
     private void decorator() {
         WindowDecorator windowDecorator = new WindowDecorator();
-        windowDecorator.defaultWindow(this, R.color.Nero, R.color.Nero);
+
+        windowDecorator.darkShowSystemUI(this);
+        windowDecorator.darkSetSystemUIColor(this, getResources().getColor(R.color.Nero), getResources().getColor(R.color.Nero));
     }
 
     private void initializer() {

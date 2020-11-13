@@ -87,7 +87,9 @@ public class SendDocActivity extends AppCompatActivity {
 
     private void decorator() {
         WindowDecorator windowDecorator = new WindowDecorator();
-        windowDecorator.lightWindow(this, R.color.Snow, R.color.Snow);
+
+        windowDecorator.lightShowSystemUI(this);
+        windowDecorator.lightSetSystemUIColor(this, getResources().getColor(R.color.Snow), getResources().getColor(R.color.Snow));
     }
 
     private void initializer() {
