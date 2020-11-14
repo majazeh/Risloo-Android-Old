@@ -212,6 +212,11 @@ public class AuthActivity extends AppCompatActivity {
                     startActivity(new Intent(this, RoomActivity.class));
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }, 50);
+            } else if (id == R.id.tool_treatment_case) {
+                handler.postDelayed(() -> {
+//                    startActivity(new Intent(this, CasesActivity.class));
+//                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                }, 50);
             }
             drawerLayout.closeDrawer(GravityCompat.START);
             return false;

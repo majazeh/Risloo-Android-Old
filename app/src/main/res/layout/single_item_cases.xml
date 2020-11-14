@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/single_item_cases"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:cardBackgroundColor="@color/Snow"
+    app:cardCornerRadius="@dimen/_16sdp"
+    tools:context=".Views.Activities.CasesActivity"
+    tools:ignore="UnusedAttribute, UseCompoundDrawables, ContentDescription, RtlHardcoded">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_12sdp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/single_item_cases_serial_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_6sdp"
+            android:gravity="right"
+            android:textSize="@dimen/_14ssp"
+            android:textStyle="bold"
+            android:textColor="@color/Nero"
+            android:textAlignment="gravity" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:layoutDirection="rtl"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/single_item_cases_room_linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layoutDirection="rtl">
+
+                    <ImageView
+                        android:layout_width="@dimen/_9sdp"
+                        android:layout_height="@dimen/_9sdp"
+                        android:layout_marginLeft="@dimen/_4sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_room_light"
+                        app:tint="@color/Mischka" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|right"
+                        android:text="@string/CasesRoom"
+                        android:textSize="@dimen/_9ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Mischka"
+                        android:textAlignment="gravity" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/single_item_cases_room_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|right"
+                    android:textSize="@dimen/_9ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Grey"
+                    android:textAlignment="gravity" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/single_item_cases_references_linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layoutDirection="rtl">
+
+                    <ImageView
+                        android:layout_width="@dimen/_9sdp"
+                        android:layout_height="@dimen/_9sdp"
+                        android:layout_marginLeft="@dimen/_4sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_user_light"
+                        app:tint="@color/Mischka" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|right"
+                        android:text="@string/CasesReferences"
+                        android:textSize="@dimen/_9ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Mischka"
+                        android:textAlignment="gravity" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/single_item_cases_references_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

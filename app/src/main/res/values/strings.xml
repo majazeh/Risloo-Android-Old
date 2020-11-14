@@ -102,6 +102,7 @@
     <string name="AuthTreatmentPsychologist">مشاوران</string>
     <string name="AuthTreatmentCenter">مراکز درمان</string>
     <string name="AuthTreatmentRoom">اتاق های درمان</string>
+    <string name="AuthTreatmentCase">پرونده های درمان</string>
 
     <string name="AuthHeader">ریسلو</string>
     <string name="AuthFooter">مطالب دیگر</string>
@@ -279,6 +280,23 @@
     <string name="ScalesSearchDialogInput">مقیاس</string>
     <string name="ScalesSearchDialogPositive">جستجو</string>
     <string name="ScalesSearchDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // cases strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="CasesTitle">پرونده های درمان</string>
+
+    <string name="CasesRoom">اتاق درمان</string>
+    <string name="CasesReferences">مراجعان</string>
+
+    <string name="CasesSearched">جستجو:</string>
+
+    <string name="CasesSearchDialogTitle">پرونده درمان دلخواهی جستجو کنید.</string>
+    <string name="CasesSearchDialogInput">پرونده درمان</string>
+    <string name="CasesSearchDialogPositive">جستجو</string>
+    <string name="CasesSearchDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
