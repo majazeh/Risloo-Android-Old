@@ -1134,17 +1134,17 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                         roomDialogProgressBar.setVisibility(View.GONE);
                         roomDialogImageView.setVisibility(View.VISIBLE);
-                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                        RoomRepository.workState.removeObservers((LifecycleOwner) this);
                     } else if (integer == 0) {
                         roomDialogProgressBar.setVisibility(View.GONE);
                         roomDialogImageView.setVisibility(View.VISIBLE);
                         Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                        RoomRepository.workState.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         roomDialogProgressBar.setVisibility(View.GONE);
                         roomDialogImageView.setVisibility(View.VISIBLE);
                         Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                        SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                        RoomRepository.workState.removeObservers((LifecycleOwner) this);
                     }
                 }
             });
@@ -1359,7 +1359,7 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                         setRecyclerView(null, roomReferenceRecyclerView, "roomReferences");
                     } else if (roomReferencePosition != -1) {
-                        scaleRecyclerViewAdapter.removeValue(roomReferencePosition);
+                        roomReferenceRecyclerViewAdapter.removeValue(roomReferencePosition);
 
                         roomReferenceDialogAdapter.notifyDataSetChanged();
                     }
@@ -1375,14 +1375,14 @@ public class CreateSampleActivity extends AppCompatActivity {
                     } else {
                         if (roomReferenceTextView.getVisibility() == View.VISIBLE) {
                             roomReferenceTextView.setVisibility(View.GONE);
+                        }
 
-                            countEditText.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude_border_quartz);
-                            countEditText.setEnabled(false);
-                            countEditText.setFocusableInTouchMode(false);
+                        countEditText.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude_border_quartz);
+                        countEditText.setEnabled(false);
+                        countEditText.setFocusableInTouchMode(false);
 
-                            if (roomReferenceDialogConfirm.getVisibility() == View.GONE) {
-                                roomReferenceDialogConfirm.setVisibility(View.VISIBLE);
-                            }
+                        if (roomReferenceDialogConfirm.getVisibility() == View.GONE) {
+                            roomReferenceDialogConfirm.setVisibility(View.VISIBLE);
                         }
                     }
                     break;

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Views.Activities.CreateCaseActivity;
 import com.majazeh.risloo.Views.Activities.CreateCenterActivity;
 import com.majazeh.risloo.Views.Activities.CreateSampleActivity;
 import com.majazeh.risloo.Views.Activities.DetailSampleActivity;
@@ -105,6 +106,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                             holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
                             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
                         }
+                    } else if (theory.equals("CreateCase")) {
+                        if (((CreateCaseActivity) Objects.requireNonNull(activity)).room.equals(model.get("id").toString())) {
+                            holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
+                        } else {
+                            holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                        }
                     } else if (theory.equals("Samples")) {
                         if (((SamplesActivity) Objects.requireNonNull(activity)).room.equals(model.get("id").toString())) {
                             holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
@@ -154,12 +163,22 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                     JSONObject user = (JSONObject) model.get("user");
                     holder.nameTextView.setText(user.get("name").toString());
 
-                    if (((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceRecyclerViewAdapter.getIds().contains(model.get("id").toString())) {
-                        holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
-                    } else {
-                        holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                    if (theory.equals("CreateSample")) {
+                        if (((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceRecyclerViewAdapter.getIds().contains(model.get("id").toString())) {
+                            holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
+                        } else {
+                            holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                        }
+                    } else if (theory.equals("CreateCase")) {
+                        if (((CreateCaseActivity) Objects.requireNonNull(activity)).referenceRecyclerViewAdapter.getIds().contains(model.get("id").toString())) {
+                            holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
+                        } else {
+                            holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                        }
                     }
 
                     holder.titleTextView.setText(model.get("id").toString());
@@ -217,6 +236,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                     break;
                 case "CreateSample":
                     ((CreateSampleActivity) Objects.requireNonNull(activity)).observeSearchAdapter(model, method);
+                    break;
+                case "CreateCase":
+                    ((CreateCaseActivity) Objects.requireNonNull(activity)).observeSearchAdapter(model, method);
                     break;
                 case "Samples":
                     ((SamplesActivity) Objects.requireNonNull(activity)).observeSearchAdapter(model, method);

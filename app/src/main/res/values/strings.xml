@@ -301,6 +301,22 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // create case strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="CreateCaseTitle">ایجاد پرونده درمان</string>
+
+    <string name="CreateCaseRoom">اتاق درمان</string>
+    <string name="CreateCaseReference">مراجع</string>
+    <string name="CreateCaseComplaint">شکایت اصلی</string>
+
+    <string name="CreateCaseCreate">ایجاد</string>
+
+    <string name="CreateCaseRoomDialogTitle">اتاق درمان مورد نظر جستجو کنید</string>
+    <string name="CreateCaseReferenceDialogTitle">مراجعان مورد نظر جستجو کنید</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     // sessions strings
     ////////////////////////////////////////////////////////////////////////////////
 
