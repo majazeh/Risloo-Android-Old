@@ -51,6 +51,10 @@
                     android:icon="@drawable/ic_hospital_light"
                     android:title="@string/AuthTreatmentCenter"/>
                 <item
+                    android:id="@+id/tool_treatment_session"
+                    android:icon="@drawable/ic_stethoscope_light"
+                    android:title="@string/AuthTreatmentSession"/>
+                <item
                     android:id="@+id/tool_treatment_room"
                     android:icon="@drawable/ic_room_light"
                     android:title="@string/AuthTreatmentRoom"/>

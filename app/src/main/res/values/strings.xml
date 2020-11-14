@@ -101,6 +101,7 @@
     <string name="AuthTreatmentTitle">درمان</string>
     <string name="AuthTreatmentPsychologist">مشاوران</string>
     <string name="AuthTreatmentCenter">مراکز درمان</string>
+    <string name="AuthTreatmentSession">جلسات درمان</string>
     <string name="AuthTreatmentRoom">اتاق های درمان</string>
     <string name="AuthTreatmentCase">پرونده های درمان</string>
 
@@ -297,6 +298,29 @@
     <string name="CasesSearchDialogInput">پرونده درمان</string>
     <string name="CasesSearchDialogPositive">جستجو</string>
     <string name="CasesSearchDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // sessions strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="SessionsTitle">جلسات درمان</string>
+
+    <string name="SessionsRoom">اتاق درمان</string>
+    <string name="SessionsCase">پرونده</string>
+    <string name="SessionsReference">مراجع</string>
+    <string name="SessionsStart">زمان شروع</string>
+    <string name="SessionsPeriod">مدت‌زمان جلسه</string>
+    <string name="SessionsStatus">وضعیت</string>
+
+    <string name="SessionsEdit">ویرایش</string>
+
+    <string name="SessionsSearched">جستجو:</string>
+
+    <string name="SessionsSearchDialogTitle">جلسه درمان دلخواهی جستجو کنید.</string>
+    <string name="SessionsSearchDialogInput">جلسه درمان</string>
+    <string name="SessionsSearchDialogPositive">جستجو</string>
+    <string name="SessionsSearchDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
