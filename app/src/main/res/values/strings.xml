@@ -340,6 +340,26 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // create session strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="CreateSessionTitle">ایجاد جلسه درمان</string>
+
+    <string name="CreateSessionRoom">اتاق درمان</string>
+    <string name="CreateSessionCase">پرونده</string>
+    <string name="CreateSessionStartTime">ساعت شروع</string>
+    <string name="CreateSessionStartDate">تاریخ شروع</string>
+    <string name="CreateSessionPeriod">مدت‌زمان جلسه (دقیقه)</string>
+    <string name="CreateSessionStatus">وضعیت</string>
+
+    <string name="CreateSessionCreate">ایجاد</string>
+
+    <string name="CreateSessionRoomDialogTitle">اتاق درمان مورد نظر جستجو کنید</string>
+    <string name="CreateSessionCaseDialogTitle">پرونده مورد نظر جستجو کنید</string>
+    <string name="CreateSessionStatusDialogTitle">وضعیت مورد نظر جستجو کنید</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     // outro strings
     ////////////////////////////////////////////////////////////////////////////////
 
