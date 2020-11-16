@@ -358,6 +358,14 @@
     <string name="CreateSessionCaseDialogTitle">پرونده مورد نظر جستجو کنید</string>
     <string name="CreateSessionStatusDialogTitle">وضعیت مورد نظر جستجو کنید</string>
 
+    <string name="CreateSessionTimeDialogTitle">ساعت شروع مورد نظر انتخاب کنید</string>
+    <string name="CreateSessionTimeDialogPositive">ثبت</string>
+    <string name="CreateSessionTimeDialogNegative">بستن</string>
+
+    <string name="CreateSessionDateDialogTitle">تاریخ شروع مورد نظر انتخاب کنید</string>
+    <string name="CreateSessionDateDialogPositive">ثبت</string>
+    <string name="CreateSessionDateDialogNegative">بستن</string>
+
     ////////////////////////////////////////////////////////////////////////////////
 
     // outro strings

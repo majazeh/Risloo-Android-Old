@@ -186,11 +186,11 @@
 //        layoutParamsRoom.width = WindowManager.LayoutParams.MATCH_PARENT;
 //        layoutParamsRoom.height = WindowManager.LayoutParams.WRAP_CONTENT;
 //        roomDialog.getWindow().setAttributes(layoutParamsRoom);
-//        WindowManager.LayoutParams layoutParamsRoomReference = new WindowManager.LayoutParams();
-//        layoutParamsRoomReference.copyFrom(referenceDialog.getWindow().getAttributes());
-//        layoutParamsRoomReference.width = WindowManager.LayoutParams.MATCH_PARENT;
-//        layoutParamsRoomReference.height = WindowManager.LayoutParams.WRAP_CONTENT;
-//        referenceDialog.getWindow().setAttributes(layoutParamsRoomReference);
+//        WindowManager.LayoutParams layoutParamsReference = new WindowManager.LayoutParams();
+//        layoutParamsReference.copyFrom(referenceDialog.getWindow().getAttributes());
+//        layoutParamsReference.width = WindowManager.LayoutParams.MATCH_PARENT;
+//        layoutParamsReference.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//        referenceDialog.getWindow().setAttributes(layoutParamsReference);
 //
 //        roomDialogTitleTextView = roomDialog.findViewById(R.id.dialog_search_title_textView);
 //        roomDialogTitleTextView.setText(getResources().getString(R.string.CreateCaseRoomDialogTitle));
