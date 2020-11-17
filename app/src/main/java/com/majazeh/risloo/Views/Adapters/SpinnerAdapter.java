@@ -138,7 +138,11 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                         break;
                     case "references":
                         // Reset References
-                        ((CreateCaseActivity) Objects.requireNonNull(activity)).referenceTextView.setVisibility(View.VISIBLE);
+                        if (theory.equals("CreateCaser")) {
+                            ((CreateCaseActivity) Objects.requireNonNull(activity)).referenceTextView.setVisibility(View.VISIBLE);
+                        } else if (theory.equals("EditCase")) {
+                            ((EditCaseActivity) Objects.requireNonNull(activity)).referenceTextView.setVisibility(View.VISIBLE);
+                        }
                         break;
                 }
             } else {
