@@ -60,7 +60,7 @@ public class IntroActivity extends AppCompatActivity {
     private void decorator() {
         WindowDecorator windowDecorator = new WindowDecorator();
 
-        windowDecorator.lightShowSystemUI(this);
+        windowDecorator.lightNavShowSystemUI(this);
         windowDecorator.lightSetSystemUIColor(this, Color.TRANSPARENT, getResources().getColor(R.color.Snow));
     }
 

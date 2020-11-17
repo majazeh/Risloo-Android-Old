@@ -95,7 +95,7 @@ public class AuthActivity extends AppCompatActivity {
     private void decorator() {
         WindowDecorator windowDecorator = new WindowDecorator();
 
-        windowDecorator.lightShowSystemUI(this);
+        windowDecorator.lightNavShowSystemUI(this);
         windowDecorator.lightSetSystemUIColor(this, Color.TRANSPARENT, getResources().getColor(R.color.Snow));
     }
 
@@ -178,29 +178,17 @@ public class AuthActivity extends AppCompatActivity {
 
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == R.id.tool_sample_start) {
+            if (id == R.id.tool_sample_single) {
                 drawerLayout.closeDrawer(GravityCompat.START);
-            } else if (id == R.id.tool_sample_list) {
+            } else if (id == R.id.tool_sample_samples) {
                 handler.postDelayed(() -> {
                     startActivity(new Intent(this, SamplesActivity.class));
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }, 50);
-            } else if (id == R.id.tool_scale_list) {
+            } else if (id == R.id.tool_sample_scales) {
                 handler.postDelayed(() -> {
                     startActivity(new Intent(this, ScalesActivity.class));
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                }, 50);
-            } else if (id == R.id.tool_reserve_construct) {
-                handler.postDelayed(() -> {
-
-                }, 50);
-            } else if (id == R.id.tool_reserve_request) {
-                handler.postDelayed(() -> {
-
-                }, 50);
-            } else if (id == R.id.tool_treatment_psychologist) {
-                handler.postDelayed(() -> {
-
                 }, 50);
             } else if (id == R.id.tool_treatment_center) {
                 handler.postDelayed(() -> {
@@ -230,8 +218,12 @@ public class AuthActivity extends AppCompatActivity {
 
     private void setData() {
         if (!viewModel.getToken().equals("")) {
-            navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(true);
+            navigationView.getMenu().findItem(R.id.tool_sample_samples).setVisible(true);
+            navigationView.getMenu().findItem(R.id.tool_sample_scales).setVisible(true);
             navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(true);
+            navigationView.getMenu().findItem(R.id.tool_treatment_session).setVisible(true);
+            navigationView.getMenu().findItem(R.id.tool_treatment_room).setVisible(true);
+            navigationView.getMenu().findItem(R.id.tool_treatment_case).setVisible(true);
 
             avatarCircleImageView.setVisibility(View.VISIBLE);
             if (viewModel.getAvatar().equals("")) {
@@ -240,8 +232,12 @@ public class AuthActivity extends AppCompatActivity {
                 Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarCircleImageView);
             }
         } else {
-            navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_sample_samples).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_sample_scales).setVisible(false);
             navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_treatment_session).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_treatment_room).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_treatment_case).setVisible(false);
 
             avatarCircleImageView.setVisibility(View.GONE);
         }
@@ -473,10 +469,7 @@ public class AuthActivity extends AppCompatActivity {
                 if (resultString.equals("logOut")) {
                     toolbarTextView.setText(getResources().getString(R.string.SerialTitle));
 
-                    avatarCircleImageView.setVisibility(View.GONE);
-
-                    navigationView.getMenu().findItem(R.id.tool_sample_list).setVisible(false);
-                    navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
+                    setData();
 
                     SerialFragment fragment = ((SerialFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
                     if (fragment != null) {

@@ -16,6 +16,13 @@ public class WindowDecorator {
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 
+    public void darkNavShowSystemUI(Activity activity) {
+        activity.getWindow().getDecorView().setSystemUiVisibility(
+                // Codes For Making The Content Appear Under System Bars.
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
+
     public void darkSetSystemUIColor(Activity activity, int statusColor, int navColor) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             activity.getWindow().setStatusBarColor(statusColor);
@@ -46,6 +53,30 @@ public class WindowDecorator {
                     // Codes For Making The Content Appear Under System Bars.
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
+    }
+
+    public void lightNavShowSystemUI(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            activity.getWindow().getDecorView().setSystemUiVisibility(
+                    // Codes For Making The Content Appear Under System Bars.
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            // Codes For Making The Status And Navigation Bars Icons Light.
+                            | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                            | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            activity.getWindow().getDecorView().setSystemUiVisibility(
+                    // Codes For Making The Content Appear Under System Bars.
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            // Codes For Making The Status Bars Icons Light.
+                            | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        } else {
+            activity.getWindow().getDecorView().setSystemUiVisibility(
+                    // Codes For Making The Content Appear Under System Bars.
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
     }
