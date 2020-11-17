@@ -11,6 +11,7 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.majazeh.risloo.Entities.Model;
+import com.majazeh.risloo.Models.Repositories.RoomRepository;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Models.Apis.SampleApi;
 import com.majazeh.risloo.Utils.Generators.RetroGenerator;
@@ -91,12 +92,6 @@ public class SampleWorker extends Worker {
                     break;
                 case "getScales":
                     getScales();
-                    break;
-                case "getReferences":
-                    getReferences();
-                    break;
-                case "getCases":
-                    getCases();
                     break;
                 case "getGeneral":
                     getGeneral();
@@ -190,7 +185,7 @@ public class SampleWorker extends Worker {
 
     private void getAll() {
         try {
-            Call<ResponseBody> call = sampleApi.getAll(token(), SampleRepository.samplesPage, SampleRepository.scalesQ, SampleRepository.roomQ, SampleRepository.statusQ);
+            Call<ResponseBody> call = sampleApi.getAll(token(), SampleRepository.samplesPage, SampleRepository.scalesQ, RoomRepository.roomQ, SampleRepository.statusQ);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -534,101 +529,6 @@ public class SampleWorker extends Worker {
         }
     }
 
-
-
-    private void getReferences() {
-        try {
-            Call<ResponseBody> call = sampleApi.getReferences(token(), SampleRepository.roomId, SampleRepository.referencesQ);
-
-            Response<ResponseBody> bodyResponse = call.execute();
-            if (bodyResponse.isSuccessful()) {
-                JSONObject successBody = new JSONObject(bodyResponse.body().string());
-                JSONArray data = successBody.getJSONArray("data");
-
-                if (SampleRepository.references.size() != 0) {
-                    SampleRepository.references.clear();
-                }
-
-                if (data.length() != 0) {
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject object = data.getJSONObject(i);
-                        SampleRepository.references.add(new Model(object));
-                    }
-                }
-
-                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "references");
-                SampleRepository.workStateCreate.postValue(1);
-            } else {
-                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-
-                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "references");
-                SampleRepository.workStateCreate.postValue(0);
-            }
-
-        } catch (SocketTimeoutException e) {
-            e.printStackTrace();
-
-            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
-            SampleRepository.workStateCreate.postValue(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            ExceptionGenerator.getException(false, 0, null, "IOException");
-            SampleRepository.workStateCreate.postValue(0);
-        } catch (JSONException e) {
-            e.printStackTrace();
-
-            ExceptionGenerator.getException(false, 0, null, "JSONException");
-            SampleRepository.workStateCreate.postValue(0);
-        }
-    }
-
-    private void getCases() {
-        try {
-            Call<ResponseBody> call = sampleApi.getCases(token(), SampleRepository.roomId, SampleRepository.casesQ);
-
-            Response<ResponseBody> bodyResponse = call.execute();
-            if (bodyResponse.isSuccessful()) {
-                JSONObject successBody = new JSONObject(bodyResponse.body().string());
-                JSONArray data = successBody.getJSONArray("data");
-
-                if (SampleRepository.cases.size() != 0) {
-                    SampleRepository.cases.clear();
-                }
-
-                if (data.length() != 0) {
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject object = data.getJSONObject(i);
-                        SampleRepository.cases.add(new Model(object));
-                    }
-                }
-
-                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "cases");
-                SampleRepository.workStateCreate.postValue(1);
-            } else {
-                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-
-                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "cases");
-                SampleRepository.workStateCreate.postValue(0);
-            }
-
-        } catch (SocketTimeoutException e) {
-            e.printStackTrace();
-
-            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
-            SampleRepository.workStateCreate.postValue(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            ExceptionGenerator.getException(false, 0, null, "IOException");
-            SampleRepository.workStateCreate.postValue(0);
-        } catch (JSONException e) {
-            e.printStackTrace();
-
-            ExceptionGenerator.getException(false, 0, null, "JSONException");
-            SampleRepository.workStateCreate.postValue(0);
-        }
-    }
 
     private void getGeneral() {
         try {

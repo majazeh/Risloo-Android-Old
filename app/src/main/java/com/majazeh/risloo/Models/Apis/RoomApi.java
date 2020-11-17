@@ -5,6 +5,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RoomApi {
@@ -16,4 +17,11 @@ public interface RoomApi {
     @GET("rooms?my=yes")
     Call<ResponseBody> getMyRooms(@Header("Authorization") String authorization, @Query("page") int page, @Query("q") String q);
 
+    @Headers({"content-type: application/json", "Accept-Language:fa"})
+    @GET("rooms?my_management=1")
+    Call<ResponseBody> getMyRoomsManagement(@Header("Authorization") String authorization, @Query("page") int page, @Query("q") String q);
+
+    @Headers({"content-type: application/json", "Accept-Language:fa"})
+    @GET("rooms/{room_id}/users?status=accepted")
+    Call<ResponseBody> getReferences(@Header("Authorization") String authorization, @Path("room_id") String roomId, @Query("q") String q);
 }

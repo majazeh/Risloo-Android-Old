@@ -65,6 +65,12 @@ public class RoomWorker extends Worker {
                 case "getMy":
                     getMy();
                     break;
+                case "getMyManagement":
+                    getMyManagement();
+                    break;
+                case "getReferences":
+                    getReferences();
+                    break;
             }
         }
         return Result.success();
@@ -202,4 +208,100 @@ public class RoomWorker extends Worker {
         }
     }
 
+    private void getMyManagement() {
+        try {
+            Call<ResponseBody> call = roomApi.getMyRoomsManagement(token(), RoomRepository.myPage, RoomRepository.roomQ);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONArray data = successBody.getJSONArray("data");
+
+                if (data.length() != 0) {
+                        if (RoomRepository.myManagementPage == 1) {
+                            RoomRepository.myManagementRooms.clear();
+                        }
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject object = data.getJSONObject(i);
+                            RoomRepository.myManagementRooms.add(new Model(object));
+                        }
+
+
+                }else if (RoomRepository.myManagementPage == 1) {
+                    RoomRepository.myManagementRooms.clear();
+                }
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "rooms");
+                RoomRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "rooms");
+                RoomRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
+            RoomRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "IOException");
+            RoomRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
+            RoomRepository.workState.postValue(0);
+        }
+    }
+
+    private void getReferences() {
+        try {
+            Call<ResponseBody> call = roomApi.getReferences(token(), RoomRepository.roomId, RoomRepository.referencesQ);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONArray data = successBody.getJSONArray("data");
+
+                if (RoomRepository.references.size() != 0) {
+                    RoomRepository.references.clear();
+                }
+
+                if (data.length() != 0) {
+                    for (int i = 0; i < data.length(); i++) {
+                        JSONObject object = data.getJSONObject(i);
+                        RoomRepository.references.add(new Model(object));
+                    }
+                }
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "references");
+                RoomRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "references");
+                RoomRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
+            RoomRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "IOException");
+            RoomRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
+            RoomRepository.workState.postValue(0);
+        }
+    }
 }

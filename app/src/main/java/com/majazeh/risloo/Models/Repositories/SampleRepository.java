@@ -44,8 +44,6 @@ public class SampleRepository extends MainRepository {
     public static HashMap createData;
     public static ArrayList<Model> getAll;
     public static ArrayList<Model> scales;
-    public static ArrayList<Model> cases;
-    public static ArrayList<Model> references;
     public static ArrayList<Model> scaleFilter;
     public static ArrayList<Model> statusFilter;
     public static MutableLiveData<Integer> workStateSample;
@@ -54,11 +52,7 @@ public class SampleRepository extends MainRepository {
     public static String work = "";
     public static String theory = "sample";
     public static String sampleId = "";
-    public static String roomId = "";
     public static String scalesQ = "";
-    public static String roomQ = "";
-    public static String casesQ = "";
-    public static String referencesQ = "";
     public static String statusQ = "";
     public static boolean cache = false;
     public static int samplesPage = 1;
@@ -73,8 +67,6 @@ public class SampleRepository extends MainRepository {
         createData = new HashMap();
         getAll = new ArrayList<>();
         scales = new ArrayList<>();
-        cases = new ArrayList<>();
-        references = new ArrayList<>();
         workStateSample = new MutableLiveData<>();
         workStateAnswer = new MutableLiveData<>();
         workStateCreate = new MutableLiveData<>();
@@ -137,7 +129,7 @@ public class SampleRepository extends MainRepository {
     public void samples(String scalesQ, String statusQ, String roomQ) throws JSONException {
         SampleRepository.scalesQ = scalesQ;
         SampleRepository.statusQ = statusQ;
-        SampleRepository.roomQ = roomQ;
+        RoomRepository.roomQ = roomQ;
 
         work = "getAll";
         workStateSample.setValue(-1);
@@ -258,23 +250,6 @@ public class SampleRepository extends MainRepository {
     }
 
 
-    public void cases(String roomId, String q) throws JSONException {
-        SampleRepository.roomId = roomId;
-        SampleRepository.casesQ = q;
-
-        work = "getCases";
-        workStateCreate.setValue(-1);
-        workManager("getCases");
-    }
-
-    public void references(String roomId, String q) throws JSONException {
-        SampleRepository.roomId = roomId;
-        SampleRepository.referencesQ = q;
-
-        work = "getReferences";
-        workStateCreate.setValue(-1);
-        workManager("getReferences");
-    }
 
     public void general(String sampleId) throws JSONException {
         SampleRepository.sampleId = sampleId;
@@ -681,7 +656,7 @@ public class SampleRepository extends MainRepository {
                             }
                             if (object.has("room") && !object.isNull("room")) {
                                 JSONObject room = object.getJSONObject("room");
-                                if (room.getString("id").equals(roomQ)) {
+                                if (room.getString("id").equals(RoomRepository.roomQ)) {
                                     SampleRepository.getAll.add(new Model(object));
                                 }
                             }
@@ -781,7 +756,6 @@ public class SampleRepository extends MainRepository {
             for (int i = 0; i < data.length(); i++) {
                 arrayList.add(new Model(data.getJSONObject(i)));
             }
-            Log.e("arra", String.valueOf(arrayList.get(0).attributes));
             return arrayList;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -791,7 +765,7 @@ public class SampleRepository extends MainRepository {
 
 
     public static boolean filter() {
-        if (SampleRepository.scalesQ.equals("") && SampleRepository.statusQ.equals("") && SampleRepository.roomQ.equals(""))
+        if (SampleRepository.scalesQ.equals("") && SampleRepository.statusQ.equals("") && RoomRepository.roomQ.equals(""))
             return false;
         else {
             return true;

@@ -70,13 +70,6 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
 
-    public void cases(String roomId, String q) throws JSONException {
-        repository.cases(roomId, q);
-    }
-
-    public void references(String roomId, String q) throws JSONException {
-        repository.references(roomId, q);
-    }
 
     public void general(String sampleId) throws JSONException {
         repository.general(sampleId);

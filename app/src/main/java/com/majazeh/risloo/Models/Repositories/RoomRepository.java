@@ -27,15 +27,23 @@ public class RoomRepository extends MainRepository {
     public static String work = "";
     public static ArrayList<Model> rooms;
     public static ArrayList<Model> myRooms;
+    public static ArrayList<Model> myManagementRooms;
     public static String roomQ = "";
     public static int allPage = 1;
     public static int myPage = 1;
+    public static int myManagementPage = 1;
     public static MutableLiveData<Integer> workState;
+    public static String roomId = "";
+    public static String referencesQ = "";
+    public static ArrayList<Model> references;
+
 
     public RoomRepository(Application application) {
         super(application);
         rooms = new ArrayList<>();
         myRooms = new ArrayList<>();
+        myManagementRooms = new ArrayList<>();
+        references = new ArrayList<>();
         workState = new MutableLiveData<>();
 
         workState.setValue(-1);
@@ -58,6 +66,23 @@ public class RoomRepository extends MainRepository {
         work = "getMy";
         workState.setValue(-1);
         workManager("getMy");
+    }
+
+    public void myManagementRooms(String q) throws JSONException {
+        roomQ = q;
+
+        work = "getMyManagement";
+        workState.setValue(-1);
+        workManager("getMyManagement");
+    }
+
+    public void references(String roomId, String q) throws JSONException {
+        RoomRepository.roomId = roomId;
+        RoomRepository.referencesQ = q;
+
+        work = "getReferences";
+        workState.setValue(-1);
+        workManager("getReferences");
     }
 
     public ArrayList<Model> getAll(){
