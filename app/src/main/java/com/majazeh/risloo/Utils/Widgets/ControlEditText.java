@@ -12,14 +12,14 @@ import java.util.Objects;
 public class ControlEditText {
 
     // Widgets
-    private EditText inputEditText;
+    private EditText editText;
 
     public EditText input() {
-        return inputEditText;
+        return editText;
     }
 
     public void focus(EditText editText) {
-        this.inputEditText = editText;
+        this.editText = editText;
     }
 
     public void select(EditText editText) {

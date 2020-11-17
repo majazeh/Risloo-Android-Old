@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/dialog_date"
+    android:id="@+id/dialog_time"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/_16sdp"
@@ -22,12 +22,11 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/dialog_date_title_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_12sdp"
             android:gravity="right"
-            android:text="@string/EditAccountDateDialogTitle"
+            android:text="@string/CreateSessionTimeDialogTitle"
             android:textSize="@dimen/_14ssp"
             android:textStyle="bold"
             android:textColor="@color/Nero"
@@ -41,7 +40,7 @@
             android:layoutDirection="ltr">
 
             <com.majazeh.risloo.Utils.Widgets.SingleNumberPicker
-                android:id="@+id/dialog_date_year_NumberPicker"
+                android:id="@+id/dialog_time_hour_NumberPicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -49,15 +48,7 @@
                 android:theme="@style/NumberPickerTheme"/>
 
             <com.majazeh.risloo.Utils.Widgets.SingleNumberPicker
-                android:id="@+id/dialog_date_month_NumberPicker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:selectionDividerHeight="@dimen/_1sdp"
-                android:theme="@style/NumberPickerTheme"/>
-
-            <com.majazeh.risloo.Utils.Widgets.SingleNumberPicker
-                android:id="@+id/dialog_date_day_NumberPicker"
+                android:id="@+id/dialog_time_minute_NumberPicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -74,7 +65,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/dialog_date_positive_textView"
+                android:id="@+id/dialog_time_positive_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/_12sdp"
@@ -83,14 +74,14 @@
                 android:paddingLeft="@dimen/_32sdp"
                 android:paddingRight="@dimen/_32sdp"
                 android:gravity="center"
-                android:text="@string/EditAccountDateDialogPositive"
+                android:text="@string/CreateSessionTimeDialogPositive"
                 android:textSize="@dimen/_12ssp"
                 android:textStyle="bold"
                 android:textColor="@color/PrimaryDark"
                 android:textAlignment="gravity" />
 
             <TextView
-                android:id="@+id/dialog_date_negative_textView"
+                android:id="@+id/dialog_time_negative_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/_12sdp"
@@ -99,7 +90,7 @@
                 android:paddingLeft="@dimen/_32sdp"
                 android:paddingRight="@dimen/_32sdp"
                 android:gravity="center"
-                android:text="@string/EditAccountDateDialogNegative"
+                android:text="@string/CreateSessionTimeDialogNegative"
                 android:textSize="@dimen/_12ssp"
                 android:textStyle="bold"
                 android:textColor="@color/Mischka"

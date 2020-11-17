@@ -11,7 +11,7 @@
                     android:checked="true"/>
                 <item
                     android:id="@+id/tool_sample_list"
-                    android:icon="@drawable/ic_folders_light"
+                    android:icon="@drawable/ic_flask_light"
                     android:title="@string/AuthSampleList"/>
                 <item
                     android:id="@+id/tool_scale_list"
@@ -51,9 +51,17 @@
                     android:icon="@drawable/ic_hospital_light"
                     android:title="@string/AuthTreatmentCenter"/>
                 <item
+                    android:id="@+id/tool_treatment_session"
+                    android:icon="@drawable/ic_stethoscope_light"
+                    android:title="@string/AuthTreatmentSession"/>
+                <item
                     android:id="@+id/tool_treatment_room"
                     android:icon="@drawable/ic_room_light"
                     android:title="@string/AuthTreatmentRoom"/>
+                <item
+                    android:id="@+id/tool_treatment_case"
+                    android:icon="@drawable/ic_case_light"
+                    android:title="@string/AuthTreatmentCase"/>
             </group>
         </menu>
     </item>

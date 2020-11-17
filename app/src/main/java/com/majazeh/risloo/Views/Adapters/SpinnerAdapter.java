@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Views.Activities.CreateCaseActivity;
 import com.majazeh.risloo.Views.Activities.CreateCenterActivity;
 import com.majazeh.risloo.Views.Activities.CreateSampleActivity;
 import com.majazeh.risloo.Views.Activities.EditCenterActivity;
@@ -75,6 +76,9 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                 case "statusFilter":
                     holder.titleTextView.setText(model.get("title").toString());
                     break;
+                case "references":
+
+                    break;
             }
 
         } catch (JSONException e) {
@@ -131,6 +135,10 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                     case "roomsFilter":
                     case "statusFilter":
                         ((SamplesActivity) Objects.requireNonNull(activity)).relaunchSamples();
+                        break;
+                    case "references":
+                        // Reset References
+                        ((CreateCaseActivity) Objects.requireNonNull(activity)).referenceTextView.setVisibility(View.VISIBLE);
                         break;
                 }
             } else {

@@ -101,7 +101,9 @@
     <string name="AuthTreatmentTitle">درمان</string>
     <string name="AuthTreatmentPsychologist">مشاوران</string>
     <string name="AuthTreatmentCenter">مراکز درمان</string>
+    <string name="AuthTreatmentSession">جلسات درمان</string>
     <string name="AuthTreatmentRoom">اتاق های درمان</string>
+    <string name="AuthTreatmentCase">پرونده های درمان</string>
 
     <string name="AuthHeader">ریسلو</string>
     <string name="AuthFooter">مطالب دیگر</string>
@@ -279,6 +281,90 @@
     <string name="ScalesSearchDialogInput">مقیاس</string>
     <string name="ScalesSearchDialogPositive">جستجو</string>
     <string name="ScalesSearchDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // cases strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="CasesTitle">پرونده های درمان</string>
+
+    <string name="CasesRoom">اتاق درمان</string>
+    <string name="CasesReferences">مراجعان</string>
+
+    <string name="CasesSearched">جستجو:</string>
+
+    <string name="CasesSearchDialogTitle">پرونده درمان دلخواهی جستجو کنید.</string>
+    <string name="CasesSearchDialogInput">پرونده درمان</string>
+    <string name="CasesSearchDialogPositive">جستجو</string>
+    <string name="CasesSearchDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // create case strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="CreateCaseTitle">ایجاد پرونده درمان</string>
+
+    <string name="CreateCaseRoom">اتاق درمان</string>
+    <string name="CreateCaseReference">مراجع</string>
+    <string name="CreateCaseComplaint">شکایت اصلی</string>
+
+    <string name="CreateCaseCreate">ایجاد</string>
+
+    <string name="CreateCaseRoomDialogTitle">اتاق درمان مورد نظر جستجو کنید</string>
+    <string name="CreateCaseReferenceDialogTitle">مراجعان مورد نظر جستجو کنید</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // sessions strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="SessionsTitle">جلسات درمان</string>
+
+    <string name="SessionsRoom">اتاق درمان</string>
+    <string name="SessionsCase">پرونده</string>
+    <string name="SessionsReference">مراجع</string>
+    <string name="SessionsStart">زمان شروع</string>
+    <string name="SessionsPeriod">مدت‌زمان جلسه</string>
+    <string name="SessionsStatus">وضعیت</string>
+
+    <string name="SessionsEdit">ویرایش</string>
+
+    <string name="SessionsSearched">جستجو:</string>
+
+    <string name="SessionsSearchDialogTitle">جلسه درمان دلخواهی جستجو کنید.</string>
+    <string name="SessionsSearchDialogInput">جلسه درمان</string>
+    <string name="SessionsSearchDialogPositive">جستجو</string>
+    <string name="SessionsSearchDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // create session strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="CreateSessionTitle">ایجاد جلسه درمان</string>
+
+    <string name="CreateSessionRoom">اتاق درمان</string>
+    <string name="CreateSessionCase">پرونده</string>
+    <string name="CreateSessionStartTime">ساعت شروع</string>
+    <string name="CreateSessionStartDate">تاریخ شروع</string>
+    <string name="CreateSessionPeriod">مدت‌زمان جلسه (دقیقه)</string>
+    <string name="CreateSessionStatus">وضعیت</string>
+
+    <string name="CreateSessionCreate">ایجاد</string>
+
+    <string name="CreateSessionRoomDialogTitle">اتاق درمان مورد نظر جستجو کنید</string>
+    <string name="CreateSessionCaseDialogTitle">پرونده مورد نظر جستجو کنید</string>
+    <string name="CreateSessionStatusDialogTitle">وضعیت مورد نظر جستجو کنید</string>
+
+    <string name="CreateSessionTimeDialogTitle">ساعت شروع مورد نظر انتخاب کنید</string>
+    <string name="CreateSessionTimeDialogPositive">ثبت</string>
+    <string name="CreateSessionTimeDialogNegative">بستن</string>
+
+    <string name="CreateSessionDateDialogTitle">تاریخ شروع مورد نظر انتخاب کنید</string>
+    <string name="CreateSessionDateDialogPositive">ثبت</string>
+    <string name="CreateSessionDateDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
