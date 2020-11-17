@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_edit_session"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:background="@color/White"
+    android:scrollbarSize="0dp"
+    android:overScrollMode="never"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    tools:context=".Views.Activities.editSessionActivity"
+    tools:ignore="RtlHardcoded">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/layout_toolbar" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/Quartz" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_24sdp"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/activity_edit_session_room_frameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_36sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:background="@drawable/draw_16sdp_border_quartz">
+
+                    <LinearLayout
+                        android:id="@+id/activity_edit_session_room_linearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="@dimen/_16sdp"
+                        android:paddingRight="@dimen/_16sdp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/activity_edit_session_room_name_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="@string/EditSessionRoom"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="normal"
+                            android:textColor="@color/Mischka"
+                            android:textAlignment="gravity" />
+
+                        <TextView
+                            android:id="@+id/activity_edit_session_room_title_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_minus4sdp"
+                            android:gravity="right"
+                            android:visibility="gone"
+                            android:textSize="@dimen/_9ssp"
+                            android:textStyle="normal"
+                            android:textColor="@color/Mischka"
+                            android:textAlignment="gravity" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_marginLeft="@dimen/_12sdp"
+                        android:layout_gravity="center|left"
+                        android:contentDescription="@string/AppImageContent"
+                        android:src="@drawable/ic_chevron_down"
+                        app:tint="@color/Mischka" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/activity_edit_session_case_frameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_36sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:background="@drawable/draw_16sdp_border_quartz">
+
+                    <TextView
+                        android:id="@+id/activity_edit_session_case_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="@dimen/_16sdp"
+                        android:paddingRight="@dimen/_16sdp"
+                        android:gravity="center|right"
+                        android:text="@string/EditSessionCase"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Mischka"
+                        android:textAlignment="gravity" />
+
+                    <ImageView
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_marginLeft="@dimen/_12sdp"
+                        android:layout_gravity="center|left"
+                        android:contentDescription="@string/AppImageContent"
+                        android:src="@drawable/ic_chevron_down"
+                        app:tint="@color/Mischka" />
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_36sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:baselineAligned="false"
+                    android:layoutDirection="rtl"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/activity_edit_session_start_time_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/_4sdp"
+                        android:layout_weight="0.6"
+                        android:gravity="center"
+                        android:text="@string/EditSessionStartTime"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Mischka"
+                        android:textAlignment="gravity"
+                        android:background="@drawable/draw_16sdp_border_quartz"/>
+
+                    <TextView
+                        android:id="@+id/activity_edit_session_start_date_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/_4sdp"
+                        android:layout_weight="0.4"
+                        android:gravity="center"
+                        android:text="@string/EditSessionStartDate"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Mischka"
+                        android:textAlignment="gravity"
+                        android:background="@drawable/draw_16sdp_border_quartz"/>
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/activity_edit_session_period_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_36sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:paddingLeft="@dimen/_16sdp"
+                    android:paddingRight="@dimen/_16sdp"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:hint="@string/EditSessionPeriod"
+                    android:gravity="center|right"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="normal"
+                    android:textColor="@color/Grey"
+                    android:textColorHint="@color/Mischka"
+                    android:textAlignment="gravity"
+                    android:importantForAutofill="no"
+                    android:background="@drawable/draw_16sdp_border_quartz" />
+
+                <FrameLayout
+                    android:id="@+id/activity_edit_session_status_frameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_36sdp"
+                    android:layout_marginBottom="@dimen/_24sdp"
+                    android:background="@drawable/draw_16sdp_border_quartz">
+
+                    <TextView
+                        android:id="@+id/activity_edit_session_status_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="@dimen/_16sdp"
+                        android:paddingRight="@dimen/_16sdp"
+                        android:gravity="center|right"
+                        android:text="@string/EditSessionStatus"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Mischka"
+                        android:textAlignment="gravity" />
+
+                    <ImageView
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_marginLeft="@dimen/_12sdp"
+                        android:layout_gravity="center|left"
+                        android:contentDescription="@string/AppImageContent"
+                        android:src="@drawable/ic_chevron_down"
+                        app:tint="@color/Mischka" />
+
+                </FrameLayout>
+
+                <Button
+                    android:id="@+id/activity_edit_session_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_36sdp"
+                    android:gravity="center"
+                    android:text="@string/EditSessionEdit"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/White"
+                    android:textAlignment="gravity"
+                    android:background="@drawable/draw_16sdp_solid_primary"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_gravity="bottom"
+            android:background="@color/Quartz" />
+
+    </FrameLayout>
+
+</ScrollView>

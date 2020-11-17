@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_edit_case"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:background="@color/White"
+    android:scrollbarSize="0dp"
+    android:overScrollMode="never"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    tools:context=".Views.Activities.EditCaseActivity"
+    tools:ignore="RtlHardcoded">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/layout_toolbar" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/Quartz" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/_24sdp"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/activity_edit_case_room_frameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_36sdp"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:background="@drawable/draw_16sdp_border_quartz">
+
+                    <LinearLayout
+                        android:id="@+id/activity_edit_case_room_linearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="@dimen/_16sdp"
+                        android:paddingRight="@dimen/_16sdp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/activity_edit_case_room_name_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:text="@string/EditCaseRoom"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="normal"
+                            android:textColor="@color/Mischka"
+                            android:textAlignment="gravity" />
+
+                        <TextView
+                            android:id="@+id/activity_edit_case_room_title_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_minus4sdp"
+                            android:gravity="right"
+                            android:visibility="gone"
+                            android:textSize="@dimen/_9ssp"
+                            android:textStyle="normal"
+                            android:textColor="@color/Mischka"
+                            android:textAlignment="gravity" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/_12sdp"
+                        android:layout_height="@dimen/_12sdp"
+                        android:layout_marginLeft="@dimen/_12sdp"
+                        android:layout_gravity="center|left"
+                        android:contentDescription="@string/AppImageContent"
+                        android:src="@drawable/ic_chevron_down"
+                        app:tint="@color/Mischka" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/activity_edit_case_reference_frameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:paddingTop="@dimen/_6sdp"
+                    android:paddingBottom="@dimen/_6sdp"
+                    android:paddingLeft="@dimen/_12sdp"
+                    android:paddingRight="@dimen/_12sdp"
+                    android:background="@drawable/draw_16sdp_border_quartz">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/activity_edit_case_reference_recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="@dimen/_24sdp"
+                        android:overScrollMode="never" />
+
+                    <TextView
+                        android:id="@+id/activity_edit_case_reference_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center|right"
+                        android:text="@string/EditCaseReference"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Mischka"
+                        android:textAlignment="gravity" />
+
+                </FrameLayout>
+
+                <EditText
+                    android:id="@+id/activity_edit_case_complaint_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_24sdp"
+                    android:minHeight="@dimen/_36sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:paddingLeft="@dimen/_16sdp"
+                    android:paddingRight="@dimen/_16sdp"
+                    android:imeOptions="actionDone"
+                    android:inputType="textMultiLine"
+                    android:hint="@string/EditCaseComplaint"
+                    android:gravity="center|right"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="normal"
+                    android:textColor="@color/Grey"
+                    android:textColorHint="@color/Mischka"
+                    android:textAlignment="gravity"
+                    android:importantForAutofill="no"
+                    android:background="@drawable/draw_16sdp_border_quartz" />
+
+                <Button
+                    android:id="@+id/activity_edit_case_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_36sdp"
+                    android:gravity="center"
+                    android:text="@string/EditCaseEdit"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/White"
+                    android:textAlignment="gravity"
+                    android:background="@drawable/draw_16sdp_solid_primary"
+                    style="?android:attr/borderlessButtonStyle"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_gravity="bottom"
+            android:background="@color/Quartz" />
+
+    </FrameLayout>
+
+</ScrollView>
