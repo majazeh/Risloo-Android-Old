@@ -1,6 +1,7 @@
 package com.majazeh.risloo.Views.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.widget.ImageViewCompat;
@@ -208,8 +209,8 @@ public class CasesActivity extends AppCompatActivity {
                 }
             }
 
-//            startActivityForResult(new Intent(this, CreateCaseActivity.class).putExtra("loaded", finished), 100);
-//            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+            startActivityForResult(new Intent(this, CreateCaseActivity.class).putExtra("loaded", finished), 100);
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
 
         toolbarSearchImageView.setOnClickListener(v -> {
@@ -404,7 +405,7 @@ public class CasesActivity extends AppCompatActivity {
         }
     }
 
-    public void relaunchCases() {
+    private void relaunchCases() {
         searchLayout.setVisibility(View.GONE);
         loadingLayout.setVisibility(View.VISIBLE);
         infoLayout.setVisibility(View.GONE);
@@ -504,6 +505,17 @@ public class CasesActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 100) {
+                relaunchCases();
+            }
+        }
     }
 
     @Override

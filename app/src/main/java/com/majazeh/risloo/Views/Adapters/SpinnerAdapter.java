@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Views.Activities.CreateCaseActivity;
 import com.majazeh.risloo.Views.Activities.CreateCenterActivity;
 import com.majazeh.risloo.Views.Activities.CreateSampleActivity;
 import com.majazeh.risloo.Views.Activities.EditCenterActivity;
@@ -64,6 +65,7 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                     holder.titleTextView.setText(model.get("title").toString());
                     break;
                 case "roomReferences":
+                case "references":
                     JSONObject user = (JSONObject) model.get("user");
                     holder.titleTextView.setText(user.get("name").toString());
                     break;
@@ -74,9 +76,6 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                 case "roomsFilter":
                 case "statusFilter":
                     holder.titleTextView.setText(model.get("title").toString());
-                    break;
-                case "references":
-
                     break;
             }
 
@@ -136,10 +135,11 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                         ((SamplesActivity) Objects.requireNonNull(activity)).relaunchSamples();
                         break;
                     case "references":
-//                        // Reset References
-//                        if (theory.equals("CreateCaser")) {
-//                            ((CreateCaseActivity) Objects.requireNonNull(activity)).referenceTextView.setVisibility(View.VISIBLE);
-//                        } else if (theory.equals("EditCase")) {
+                        // Reset References
+                        if (theory.equals("CreateCase")) {
+                            ((CreateCaseActivity) Objects.requireNonNull(activity)).referenceTextView.setVisibility(View.VISIBLE);
+                        }
+//                        else if (theory.equals("EditCase")) {
 //                            ((EditCaseActivity) Objects.requireNonNull(activity)).referenceTextView.setVisibility(View.VISIBLE);
 //                        }
                         break;
