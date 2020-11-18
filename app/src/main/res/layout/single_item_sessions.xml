@@ -21,7 +21,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_6sdp"
             android:baselineAligned="false"
             android:layoutDirection="ltr"
             android:orientation="horizontal">

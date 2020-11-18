@@ -79,7 +79,6 @@ public class ScalesAdapter extends RecyclerView.Adapter<ScalesAdapter.ScalesHold
                 holder.versionLinearLayout.setVisibility(View.GONE);
             }
 
-
             holder.createTextView.setOnClickListener(v -> {
                 holder.createTextView.setClickable(false);
                 handler.postDelayed(() -> holder.createTextView.setClickable(true), 300);

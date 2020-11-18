@@ -292,6 +292,8 @@
     <string name="CasesRoom">اتاق درمان</string>
     <string name="CasesReferences">مراجعان</string>
 
+    <string name="CasesEdit">ویرایش</string>
+
     <string name="CasesSearched">جستجو:</string>
 
     <string name="CasesSearchDialogTitle">پرونده درمان دلخواهی جستجو کنید.</string>
