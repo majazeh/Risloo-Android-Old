@@ -90,9 +90,9 @@
     <string name="AuthBirthdayDefault">1400-01-01</string>
 
     <string name="AuthSampleTitle">نمونه</string>
-    <string name="AuthSampleStart">شروع نمونه</string>
-    <string name="AuthSampleList">نمونه ها</string>
-    <string name="AuthScaleList">ارزیابی ها</string>
+    <string name="AuthSampleSingle">شروع نمونه</string>
+    <string name="AuthSampleSamples">نمونه ها</string>
+    <string name="AuthSampleScales">ارزیابی ها</string>
 
     <string name="AuthReserveTitle">رزرواسیون</string>
     <string name="AuthReserveConstruct">ایجاد رزرواسیون</string>
@@ -317,6 +317,22 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // edit case strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="EditCaseTitle">ویرایش پرونده درمان</string>
+
+    <string name="EditCaseRoom">اتاق درمان</string>
+    <string name="EditCaseReference">مراجع</string>
+    <string name="EditCaseComplaint">شکایت اصلی</string>
+
+    <string name="EditCaseEdit">ویرایش</string>
+
+    <string name="EditCaseRoomDialogTitle">اتاق درمان مورد نظر جستجو کنید</string>
+    <string name="EditCaseReferenceDialogTitle">مراجعان مورد نظر جستجو کنید</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     // sessions strings
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -365,6 +381,34 @@
     <string name="CreateSessionDateDialogTitle">تاریخ شروع مورد نظر انتخاب کنید</string>
     <string name="CreateSessionDateDialogPositive">ثبت</string>
     <string name="CreateSessionDateDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // edit session strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="EditSessionTitle">ویرایش جلسه درمان</string>
+
+    <string name="EditSessionRoom">اتاق درمان</string>
+    <string name="EditSessionCase">پرونده</string>
+    <string name="EditSessionStartTime">ساعت شروع</string>
+    <string name="EditSessionStartDate">تاریخ شروع</string>
+    <string name="EditSessionPeriod">مدت‌زمان جلسه (دقیقه)</string>
+    <string name="EditSessionStatus">وضعیت</string>
+
+    <string name="EditSessionEdit">ویرایش </string>
+
+    <string name="EditSessionRoomDialogTitle">اتاق درمان مورد نظر جستجو کنید</string>
+    <string name="EditSessionCaseDialogTitle">پرونده مورد نظر جستجو کنید</string>
+    <string name="EditSessionStatusDialogTitle">وضعیت مورد نظر جستجو کنید</string>
+
+    <string name="EditSessionTimeDialogTitle">ساعت شروع مورد نظر انتخاب کنید</string>
+    <string name="EditSessionTimeDialogPositive">ثبت</string>
+    <string name="EditSessionTimeDialogNegative">بستن</string>
+
+    <string name="EditSessionDateDialogTitle">تاریخ شروع مورد نظر انتخاب کنید</string>
+    <string name="EditSessionDateDialogPositive">ثبت</string>
+    <string name="EditSessionDateDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

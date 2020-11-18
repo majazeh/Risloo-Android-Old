@@ -5,18 +5,18 @@
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/tool_sample_start"
+                    android:id="@+id/tool_sample_single"
                     android:icon="@drawable/ic_code_light"
-                    android:title="@string/AuthSampleStart"
+                    android:title="@string/AuthSampleSingle"
                     android:checked="true"/>
                 <item
-                    android:id="@+id/tool_sample_list"
+                    android:id="@+id/tool_sample_samples"
                     android:icon="@drawable/ic_flask_light"
-                    android:title="@string/AuthSampleList"/>
+                    android:title="@string/AuthSampleSamples"/>
                 <item
-                    android:id="@+id/tool_scale_list"
+                    android:id="@+id/tool_sample_scales"
                     android:icon="@drawable/ic_ruler_light"
-                    android:title="@string/AuthScaleList"/>
+                    android:title="@string/AuthSampleScales"/>
             </group>
         </menu>
     </item>
