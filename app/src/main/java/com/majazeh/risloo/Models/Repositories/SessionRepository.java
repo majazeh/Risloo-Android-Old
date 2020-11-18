@@ -45,7 +45,8 @@ public class SessionRepository extends MainRepository {
         workState.setValue(-1);
     }
 
-    public void sessions() throws JSONException {
+    public void sessions( String Q) throws JSONException {
+        SessionRepository.Q = Q;
         work = "getAll";
         workState.setValue(-1);
         workManager("getAll");
@@ -57,43 +58,44 @@ public class SessionRepository extends MainRepository {
         workState.setValue(-1);
         workManager("getGeneral");
     }
-    public void create(String roomId,String caseId,String started_at,String duration,String status) throws JSONException {
+
+    public void create(String roomId, String caseId, String started_at, String duration, String status) throws JSONException {
         if (!roomId.equals(""))
             RoomRepository.roomId = roomId;
         if (!caseId.equals(""))
-            createData.put("case_id",caseId);
+            createData.put("case_id", caseId);
         if (!started_at.equals(""))
-            createData.put("started_at",started_at);
+            createData.put("started_at", started_at);
         if (!duration.equals(""))
-            createData.put("duration",duration);
+            createData.put("duration", duration);
         if (!status.equals(""))
-            createData.put("status",status);
+            createData.put("status", status);
 
         work = "create";
         workState.setValue(-1);
         workManager("create");
     }
 
-    public void update(String sessionId,String caseId,String started_at,String duration,String status) throws JSONException {
+    public void update(String sessionId, String caseId, String started_at, String duration, String status) throws JSONException {
         if (!sessionId.equals(""))
             SessionRepository.sessionId = sessionId;
         if (!caseId.equals(""))
-            updateData.put("case_id",caseId);
+            updateData.put("case_id", caseId);
         if (!started_at.equals(""))
-            updateData.put("started_at",started_at);
+            updateData.put("started_at", started_at);
         if (!duration.equals(""))
-            updateData.put("duration",duration);
+            updateData.put("duration", duration);
         if (!status.equals(""))
-            updateData.put("status",status);
+            updateData.put("status", status);
 
         work = "update";
         workState.setValue(-1);
         workManager("update");
     }
 
-    public ArrayList<Model> getLocalSessionStatus(){
+    public ArrayList<Model> getLocalSessionStatus() {
         try {
-            JSONArray data = new JSONArray( JSONGenerator.getJSON(application.getApplicationContext(), "localSessionStatus.json"));
+            JSONArray data = new JSONArray(JSONGenerator.getJSON(application.getApplicationContext(), "localSessionStatus.json"));
             ArrayList<Model> arrayList = new ArrayList<>();
             for (int i = 0; i < data.length(); i++) {
                 arrayList.add(new Model(data.getJSONObject(i)));
@@ -105,7 +107,7 @@ public class SessionRepository extends MainRepository {
         }
     }
 
-    public ArrayList<Model> getSessions(){
+    public ArrayList<Model> getSessions() {
         try {
             if (Q.equals("")) {
                 if (FileManager.readObjectFromCache(application.getApplicationContext(), "sessions") != null) {
@@ -119,10 +121,10 @@ public class SessionRepository extends MainRepository {
                 } else {
                     return null;
                 }
-            }else{
-                if (sessions.size() == 0){
+            } else {
+                if (sessions.size() == 0) {
                     return null;
-                }else{
+                } else {
                     return sessions;
                 }
             }
@@ -131,7 +133,8 @@ public class SessionRepository extends MainRepository {
             return null;
         }
     }
-    public JSONObject getGeneral(String sessionId){
+
+    public JSONObject getGeneral(String sessionId) {
         if (FileManager.readObjectFromCache(application.getApplicationContext(), "sessionDetail" + "/" + sessionId) != null)
             return FileManager.readObjectFromCache(application.getApplicationContext(), "sessionDetail" + "/" + sessionId);
         else
@@ -155,7 +158,6 @@ public class SessionRepository extends MainRepository {
             workState.postValue(-2);
         }
     }
-
 
 
     private boolean isNetworkConnected(Context context) {

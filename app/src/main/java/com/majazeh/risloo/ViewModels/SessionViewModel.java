@@ -31,8 +31,8 @@ public class SessionViewModel extends AndroidViewModel {
 
     }
 
-    public void sessions() throws JSONException {
-        repository.sessions();
+    public void sessions(String Q) throws JSONException {
+        repository.sessions(Q);
     }
 
     public void general(String sessionId) throws JSONException {

@@ -44,7 +44,9 @@ public class CaseRepository extends MainRepository {
         workState.setValue(-1);
     }
 
-    public void cases() throws JSONException {
+    public void cases(String roomId, String Q) throws JSONException {
+        RoomRepository.roomId = roomId;
+        CaseRepository.Q = Q;
         work = "getAll";
         workState.setValue(-1);
         workManager("getAll");
@@ -57,19 +59,19 @@ public class CaseRepository extends MainRepository {
         workManager("getGeneral");
     }
 
-    public void create(String roomId,ArrayList<String> references,String chiefComplaint) throws JSONException {
-    if (!roomId.equals(""))
-        RoomRepository.roomId = roomId;
-    if (!chiefComplaint.equals(""))
-        createData.put("chief_complaint",chiefComplaint);
-    if (references.size()!= 0)
-        createData.put("client_id", references);
+    public void create(String roomId, ArrayList<String> references, String chiefComplaint) throws JSONException {
+        if (!roomId.equals(""))
+            RoomRepository.roomId = roomId;
+        if (!chiefComplaint.equals(""))
+            createData.put("chief_complaint", chiefComplaint);
+        if (references.size() != 0)
+            createData.put("client_id", references);
         work = "create";
         workState.setValue(-1);
         workManager("create");
     }
 
-    public ArrayList<Model> getCases(){
+    public ArrayList<Model> getCases() {
         try {
             if (Q.equals("") && RoomRepository.roomId.equals("")) {
                 if (FileManager.readObjectFromCache(application.getApplicationContext(), "cases") != null) {
@@ -83,10 +85,10 @@ public class CaseRepository extends MainRepository {
                 } else {
                     return null;
                 }
-            }else{
-                if (cases.size() == 0){
+            } else {
+                if (cases.size() == 0) {
                     return null;
-                }else{
+                } else {
                     return cases;
                 }
             }
@@ -95,9 +97,10 @@ public class CaseRepository extends MainRepository {
             return null;
         }
     }
-    public JSONObject getGeneral(String caseId){
+
+    public JSONObject getGeneral(String caseId) {
         if (FileManager.readObjectFromCache(application.getApplicationContext(), "caseDetail" + "/" + caseId) != null)
-        return FileManager.readObjectFromCache(application.getApplicationContext(), "caseDetail" + "/" + caseId);
+            return FileManager.readObjectFromCache(application.getApplicationContext(), "caseDetail" + "/" + caseId);
         else
             return null;
     }
@@ -119,7 +122,6 @@ public class CaseRepository extends MainRepository {
             workState.postValue(-2);
         }
     }
-
 
 
     private boolean isNetworkConnected(Context context) {

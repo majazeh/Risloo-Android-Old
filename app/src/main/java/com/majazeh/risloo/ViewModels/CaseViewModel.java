@@ -26,8 +26,8 @@ public class CaseViewModel extends AndroidViewModel {
 
     }
 
-    public void cases() throws JSONException {
-        repository.cases();
+    public void cases(String roomId, String Q) throws JSONException {
+        repository.cases(roomId, Q);
     }
 
     public void general(String caseId) throws JSONException {

@@ -1,14 +1,14 @@
 [
   {
-    "fa_title": "منتظر جلسه درمانی",
+    "fa_title": "در انتظار تشکیل جلسه",
     "en_title": "session_awaiting"
   },
   {
-    "fa_title": "منتظر کلاینت",
+    "fa_title": "در انتظار تأیید مراجع",
     "en_title": "client_awaiting"
   },
   {
-    "fa_title": "حاضر در جلسه",
+    "fa_title": "در جلسه",
     "en_title": "in_session"
   },
   {
@@ -16,7 +16,12 @@
     "en_title": "finished"
   },
   {
-    "fa_title": "کنسل شده توسط کلاینت",
+    "fa_title": "لغو شده توسط مراجع",
     "en_title": "canceled_by_client"
+  }
+,
+  {
+    "fa_title": "لغو شده توسط مرکز درمانی",
+    "en_title": "canceled_by_center"
   }
 ]
