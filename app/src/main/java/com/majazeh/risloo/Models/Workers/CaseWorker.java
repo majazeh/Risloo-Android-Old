@@ -72,14 +72,12 @@ public class CaseWorker extends Worker {
 
     public void getAll() {
         try {
-            Call<ResponseBody> call = caseApi.getAll(token(),RoomRepository.roomId,CaseRepository.page, CaseRepository.Q);
+            Call<ResponseBody> call = caseApi.getAll(token(), RoomRepository.roomId, CaseRepository.page, CaseRepository.Q);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 try {
                     JSONObject successBody = new JSONObject(bodyResponse.body().string());
-                    JSONObject jsonObject = FileManager.readObjectFromCache(context, "cases");
-                    JSONArray data = jsonObject.getJSONArray("data");
                     if (successBody.getJSONArray("data").length() != 0) {
                         if (CaseRepository.Q.equals("") && RoomRepository.roomId.equals("")) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -90,6 +88,8 @@ public class CaseWorker extends Worker {
                                 FileManager.writeObjectToCache(context, successBody, "cases");
 
                             } else {
+                                JSONObject jsonObject = FileManager.readObjectFromCache(context, "cases");
+                                JSONArray data = jsonObject.getJSONArray("data");
                                 for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
                                     JSONArray jsonArray = successBody.getJSONArray("data");
                                     data.put(jsonArray.getJSONObject(i));
@@ -102,7 +102,7 @@ public class CaseWorker extends Worker {
                             if (CaseRepository.page == 1) {
                                 CaseRepository.cases.clear();
                             }
-
+                            JSONArray data = successBody.getJSONArray("data");
                             for (int i = 0; i < data.length(); i++) {
                                 JSONObject object = data.getJSONObject(i);
                                 CaseRepository.cases.add(new Model(object));

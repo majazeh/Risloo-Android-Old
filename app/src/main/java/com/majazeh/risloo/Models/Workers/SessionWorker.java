@@ -84,8 +84,6 @@ public class SessionWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 try {
                     JSONObject successBody = new JSONObject(bodyResponse.body().string());
-                    JSONObject jsonObject = FileManager.readObjectFromCache(context, "cases");
-                    JSONArray data = jsonObject.getJSONArray("data");
                     if (successBody.getJSONArray("data").length() != 0) {
                         if (SessionRepository.Q.equals("")) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -96,6 +94,8 @@ public class SessionWorker extends Worker {
                                 FileManager.writeObjectToCache(context, successBody, "sessions");
 
                             } else {
+                    JSONObject jsonObject = FileManager.readObjectFromCache(context, "cases");
+                    JSONArray data = jsonObject.getJSONArray("data");
                                 for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
                                     JSONArray jsonArray = successBody.getJSONArray("data");
                                     data.put(jsonArray.getJSONObject(i));
@@ -108,6 +108,7 @@ public class SessionWorker extends Worker {
                             if (SessionRepository.page == 1) {
                                 SessionRepository.sessions.clear();
                             }
+                            JSONArray data = successBody.getJSONArray("data");
 
                             for (int i = 0; i < data.length(); i++) {
                                 JSONObject object = data.getJSONObject(i);
