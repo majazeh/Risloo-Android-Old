@@ -306,6 +306,9 @@ public class CreateCaseActivity extends AppCompatActivity {
             if (referenceRecyclerViewAdapter.getValues().size() == 0) {
                 errorView("reference");
             }
+            if (complaint.length() == 0) {
+                errorView("complaint");
+            }
 
             if (roomException) {
                 clearException("room");
@@ -314,7 +317,7 @@ public class CreateCaseActivity extends AppCompatActivity {
                 clearException("reference");
             }
 
-            if (!room.isEmpty() && referenceRecyclerViewAdapter.getValues().size() != 0) {
+            if (!room.isEmpty() && referenceRecyclerViewAdapter.getValues().size() != 0 && complaint.length() != 0) {
                 doWork();
             }
         });
@@ -487,6 +490,8 @@ public class CreateCaseActivity extends AppCompatActivity {
             roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
         } else if (type.equals("reference")) {
             referenceFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+        } else if (type.equals("complaint")) {
+            complaintEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
         }
     }
 
