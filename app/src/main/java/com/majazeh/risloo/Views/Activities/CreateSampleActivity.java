@@ -1023,7 +1023,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     caseDialogProgressBar.setVisibility(View.VISIBLE);
                     caseDialogImageView.setVisibility(View.GONE);
 
-                    CaseRepository.casePage = 1;
+                    CaseRepository.page = 1;
                     caseViewModel.cases(roomId, q);
 
                     observeWork("caseViewModel");
