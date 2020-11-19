@@ -17,6 +17,7 @@ import com.majazeh.risloo.R;
 import com.majazeh.risloo.Views.Activities.CreateCaseActivity;
 import com.majazeh.risloo.Views.Activities.CreateCenterActivity;
 import com.majazeh.risloo.Views.Activities.CreateSampleActivity;
+import com.majazeh.risloo.Views.Activities.EditCaseActivity;
 import com.majazeh.risloo.Views.Activities.EditCenterActivity;
 import com.majazeh.risloo.Views.Activities.SamplesActivity;
 
@@ -138,10 +139,9 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                         // Reset References
                         if (theory.equals("CreateCase")) {
                             ((CreateCaseActivity) Objects.requireNonNull(activity)).referenceTextView.setVisibility(View.VISIBLE);
+                        } else if (theory.equals("EditCase")) {
+                            ((EditCaseActivity) Objects.requireNonNull(activity)).referenceTextView.setVisibility(View.VISIBLE);
                         }
-//                        else if (theory.equals("EditCase")) {
-//                            ((EditCaseActivity) Objects.requireNonNull(activity)).referenceTextView.setVisibility(View.VISIBLE);
-//                        }
                         break;
                 }
             } else {

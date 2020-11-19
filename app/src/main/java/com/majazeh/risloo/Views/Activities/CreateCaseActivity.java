@@ -575,7 +575,7 @@ public class CreateCaseActivity extends AppCompatActivity {
         try {
             progressDialog.show();
             caseViewModel.create(room, referenceRecyclerViewAdapter.getIds(), complaint);
-            observeWork("casesViewModel");
+            observeWork("caseViewModel");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -583,7 +583,7 @@ public class CreateCaseActivity extends AppCompatActivity {
 
     private void observeWork(String method) {
         switch (method) {
-            case "casesViewModel":
+            case "caseViewModel":
                 CaseRepository.workState.observe((LifecycleOwner) this, integer -> {
                     if (CaseRepository.work.equals("create")) {
                         if (integer == 1) {

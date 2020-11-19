@@ -80,6 +80,9 @@
             android:name=".Views.Activities.CreateCaseActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".Views.Activities.EditCaseActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".Views.Activities.SessionsActivity"
             android:screenOrientation="portrait" />
         <activity

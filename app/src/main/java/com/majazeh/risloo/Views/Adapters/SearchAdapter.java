@@ -17,6 +17,7 @@ import com.majazeh.risloo.Views.Activities.CreateCaseActivity;
 import com.majazeh.risloo.Views.Activities.CreateCenterActivity;
 import com.majazeh.risloo.Views.Activities.CreateSampleActivity;
 import com.majazeh.risloo.Views.Activities.DetailSampleActivity;
+import com.majazeh.risloo.Views.Activities.EditCaseActivity;
 import com.majazeh.risloo.Views.Activities.EditCenterActivity;
 import com.majazeh.risloo.Views.Activities.SamplesActivity;
 
@@ -145,19 +146,19 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                             }
                             break;
                         case "EditCase":
-//                            if (((EditCaseActivity) Objects.requireNonNull(activity)).roomId.equals(model.get("id").toString())) {
-//                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-//                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
-//                                    holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
-//                                else
-//                                    holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
-//                            } else {
-//                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-//                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
-//                                    holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz);
-//                                else
-//                                    holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
-//                            }
+                            if (((EditCaseActivity) Objects.requireNonNull(activity)).roomId.equals(model.get("id").toString())) {
+                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
+                                    holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
+                                else
+                                    holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
+                            } else {
+                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
+                                    holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz);
+                                else
+                                    holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                            }
                             break;
                         case "CreateSession":
 //                            if (((CreateSessionActivity) Objects.requireNonNull(activity)).room.equals(model.get("id").toString())) {
@@ -302,19 +303,19 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                             }
                             break;
                         case "EditCase":
-//                            if (((EditCaseActivity) Objects.requireNonNull(activity)).referenceRecyclerViewAdapter.getIds().contains(model.get("id").toString())) {
-//                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-//                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
-//                                    holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
-//                                else
-//                                    holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
-//                            } else {
-//                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-//                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
-//                                    holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz);
-//                                else
-//                                    holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
-//                            }
+                            if (((EditCaseActivity) Objects.requireNonNull(activity)).referenceRecyclerViewAdapter.getIds().contains(model.get("id").toString())) {
+                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
+                                    holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
+                                else
+                                    holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
+                            } else {
+                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
+                                    holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz);
+                                else
+                                    holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                            }
                             break;
                     }
 
@@ -406,9 +407,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                 case "CreateCase":
                     ((CreateCaseActivity) Objects.requireNonNull(activity)).observeSearchAdapter(model, method);
                     break;
-//                case "EditCase":
-//                    ((EditCaseActivity) Objects.requireNonNull(activity)).observeSearchAdapter(model, method);
-//                    break;
+                case "EditCase":
+                    ((EditCaseActivity) Objects.requireNonNull(activity)).observeSearchAdapter(model, method);
+                    break;
 //                case "CreateSession":
 //                    ((CreateSessionActivity) Objects.requireNonNull(activity)).observeSearchAdapter(model, method);
 //                    break;

@@ -1,6 +1,7 @@
 package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
+import com.majazeh.risloo.Views.Activities.EditCaseActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,17 +53,29 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
         Model model = cases.get(i);
 
         try {
+            Intent editIntent = (new Intent(activity, EditCaseActivity.class));
+
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                 holder.editTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
             }
 
+            editIntent.putExtra("id", (String) model.get("id"));
             holder.serialTextView.setText(model.get("id").toString());
 
             JSONObject room = (JSONObject) model.get("room");
+            editIntent.putExtra("room_id", (String) room.get("id"));
+
+            JSONObject manager = (JSONObject) room.get("manager");
+            if (!manager.isNull("name")) {
+                editIntent.putExtra("room_name", (String) manager.get("name"));
+            }
+
             JSONObject center = (JSONObject) room.get("center");
             JSONObject details = (JSONObject) center.get("detail");
 
             if (!details.isNull("title")) {
+                editIntent.putExtra("room_title", (String) details.get("title"));
+
                 holder.roomTextView.setText(details.getString("title"));
                 holder.roomLinearLayout.setVisibility(View.VISIBLE);
             } else {
@@ -69,8 +83,8 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
             }
 
             JSONArray clients = (JSONArray) model.get("clients");
-
             if (clients.length() != 0) {
+                editIntent.putExtra("clients", String.valueOf(clients));
                 ArrayList<String> references = new ArrayList<>();
                 for (int j = 0; j < clients.length(); j++) {
                     JSONObject client = (JSONObject) clients.get(j);
@@ -96,11 +110,17 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
                 holder.referencesLinearLayout.setVisibility(View.GONE);
             }
 
+            JSONObject detail = (JSONObject) model.get("detail");
+            if (!detail.isNull("chief_complaint")) {
+                editIntent.putExtra("complaint", (String) detail.get("chief_complaint"));
+            }
+
             holder.editTextView.setOnClickListener(v -> {
                 holder.editTextView.setClickable(false);
                 handler.postDelayed(() -> holder.editTextView.setClickable(true), 300);
-                
-                // TODO : Go To EditCase
+
+                activity.startActivityForResult(editIntent, 100);
+                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
 
         } catch (JSONException e) {
