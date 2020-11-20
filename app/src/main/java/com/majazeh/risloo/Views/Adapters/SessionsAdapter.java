@@ -1,6 +1,8 @@
 package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -43,11 +48,75 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
     public void onBindViewHolder(@NonNull SessionsHolder holder, int i) {
         Model model = sessions.get(i);
 
-//        try {
-//            // TODO : Place Code Here
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+        try {
+//            Intent editIntent = (new Intent(activity, EditSessionActivity.class));
+
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                holder.editTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
+            }
+
+//            editIntent.putExtra("id", (String) model.get("id"));
+            holder.serialTextView.setText(model.get("id").toString());
+
+            // Get Case
+            if (model.attributes.has("case") && !model.attributes.isNull("case")) {
+                JSONObject casse = (JSONObject) model.get("case");
+
+                holder.caseTextView.setText(casse.getString("id"));
+                holder.caseLinearLayout.setVisibility(View.VISIBLE);
+
+                JSONObject room = (JSONObject) casse.get("room");
+//                editIntent.putExtra("room_id", (String) room.get("id"));
+//
+//                JSONObject manager = (JSONObject) room.get("manager");
+//                if (!manager.isNull("name")) {
+//                    editIntent.putExtra("room_name", (String) manager.get("name"));
+//                }
+
+                JSONObject center = (JSONObject) room.get("center");
+
+                if (center.has("detail") && !center.isNull("detail")) {
+                    JSONObject details = (JSONObject) center.get("detail");
+
+                    holder.roomTextView.setText(details.getString("title"));
+                    holder.roomLinearLayout.setVisibility(View.VISIBLE);
+                } else {
+                    holder.roomLinearLayout.setVisibility(View.GONE);
+                }
+
+            } else {
+                holder.caseLinearLayout.setVisibility(View.GONE);
+            }
+
+            // get Reference
+            if (model.attributes.has("client") && !model.attributes.isNull("client")) {
+                JSONObject client = (JSONObject) model.get("client");
+
+                holder.referenceTextView.setText(client.getString("name"));
+                holder.referenceLinearLayout.setVisibility(View.VISIBLE);
+            } else {
+                holder.referenceLinearLayout.setVisibility(View.GONE);
+            }
+
+            // Get Status
+            if (model.attributes.has("status") && !model.attributes.isNull("status")) {
+                holder.statusTextView.setText(model.get("status").toString());
+                holder.statusLinearLayout.setVisibility(View.VISIBLE);
+            } else {
+                holder.statusLinearLayout.setVisibility(View.GONE);
+            }
+
+            // Get Duration
+            if (model.attributes.has("duration") && !model.attributes.isNull("duration")) {
+                holder.periodTextView.setText(model.get("duration").toString());
+                holder.periodLinearLayout.setVisibility(View.VISIBLE);
+            } else {
+                holder.periodLinearLayout.setVisibility(View.GONE);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

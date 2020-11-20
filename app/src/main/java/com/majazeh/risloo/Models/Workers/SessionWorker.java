@@ -94,7 +94,7 @@ public class SessionWorker extends Worker {
                                 FileManager.writeObjectToCache(context, successBody, "sessions");
 
                             } else {
-                    JSONObject jsonObject = FileManager.readObjectFromCache(context, "cases");
+                    JSONObject jsonObject = FileManager.readObjectFromCache(context, "sessions");
                     JSONArray data = jsonObject.getJSONArray("data");
                                 for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
                                     JSONArray jsonArray = successBody.getJSONArray("data");
@@ -128,7 +128,7 @@ public class SessionWorker extends Worker {
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "cases");
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "sessions");
                 SessionRepository.workState.postValue(0);
             }
 
