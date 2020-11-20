@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import saman.zamani.persiandate.PersianDate;
@@ -24,6 +25,48 @@ public class DateManager {
     public static String dateToString(String pattern, Date value) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         return simpleDateFormat.format(value);
+    }
+
+    public static String currentTime() {
+        Date value = Calendar.getInstance().getTime();
+
+        int hour = Integer.parseInt(dateToString("hh", value));
+        int minute = Integer.parseInt(dateToString("mm", value));
+
+        if (hour < 10) {
+            if (minute < 10)
+                return "0" + hour + ":" + "0" + minute;
+            else
+                return "0" + hour + ":" + minute;
+        } else {
+            if (minute < 10)
+                return hour + ":" + "0" + minute;
+            else
+                return hour + ":" + minute;
+        }
+    }
+
+    public static String currentJalaliDate() {
+        Date value = Calendar.getInstance().getTime();
+
+        int year = Integer.parseInt(dateToString("yyyy", value));
+        int month = Integer.parseInt(dateToString("MM", value));
+        int day = Integer.parseInt(dateToString("dd", value));
+
+        PersianDate persianDate = new PersianDate();
+        persianDate.initGrgDate(year, month, day);
+
+        if (persianDate.getShMonth() < 10) {
+            if (persianDate.getShDay() < 10)
+                return persianDate.getShYear() + "-" + "0" + persianDate.getShMonth() + "-" + "0" + persianDate.getShDay();
+            else
+                return persianDate.getShYear() + "-" + "0" + persianDate.getShMonth() + "-" + persianDate.getShDay();
+        } else {
+            if (persianDate.getShDay() < 10)
+                return persianDate.getShYear() + "-" + persianDate.getShMonth() + "-" + "0" + persianDate.getShDay();
+            else
+                return persianDate.getShYear() + "-" + persianDate.getShMonth() + "-" + persianDate.getShDay();
+        }
     }
 
     public static String gregorianToJalali(String value) {

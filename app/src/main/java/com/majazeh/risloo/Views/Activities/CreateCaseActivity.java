@@ -306,7 +306,7 @@ public class CreateCaseActivity extends AppCompatActivity {
             if (referenceRecyclerViewAdapter.getValues().size() == 0) {
                 errorView("reference");
             }
-            if (complaint.length() == 0) {
+            if (complaintEditText.length() == 0) {
                 errorView("complaint");
             }
 
@@ -317,7 +317,7 @@ public class CreateCaseActivity extends AppCompatActivity {
                 clearException("reference");
             }
 
-            if (!room.isEmpty() && referenceRecyclerViewAdapter.getValues().size() != 0 && complaint.length() != 0) {
+            if (!room.isEmpty() && referenceRecyclerViewAdapter.getValues().size() != 0 && complaintEditText.length() != 0) {
                 doWork();
             }
         });

@@ -208,8 +208,8 @@ public class SessionsActivity extends AppCompatActivity {
                 }
             }
 
-//            startActivityForResult(new Intent(this, CreateSessionActivity.class).putExtra("loaded", finished), 100);
-//            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+            startActivityForResult(new Intent(this, CreateSessionActivity.class).putExtra("loaded", finished), 100);
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
 
         toolbarSearchImageView.setOnClickListener(v -> {
