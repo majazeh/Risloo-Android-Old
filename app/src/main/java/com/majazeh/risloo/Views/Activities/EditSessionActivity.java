@@ -66,7 +66,7 @@ public class EditSessionActivity extends AppCompatActivity {
     private SearchAdapter roomDialogAdapter, caseDialogAdapter, statusDialogAdapter;
 
     // Vars
-    public String id = "", roomId = "", roomName = "", roomTitle = "", casseId = "", casseName = "", time = "", date = "", period = "", statusId = "", statusTitle = "";
+    public String id = "", roomId = "", roomName = "", roomTitle = "", casseId = "", casseName = "", timestamp = "", time = "", date = "", period = "", statusId = "", statusTitle = "";
     private boolean roomException = false, caseException = false, timeException = false, dateException = false, statusException = false;
     private int hour, minute, year, month, day;
 
@@ -656,10 +656,10 @@ public class EditSessionActivity extends AppCompatActivity {
             date = DateManager.currentJalaliDate();
         if (extras.getString("period") != null)
             period = extras.getString("period");
-        if (extras.getString("en_title") != null)
-            statusId = extras.getString("en_title");
-        if (extras.getString("fa_title") != null)
-            statusTitle = extras.getString("fa_title");
+        if (extras.getString("status") != null)
+            statusId = extras.getString("status");
+        if (extras.getString("status") != null)
+            statusTitle = extras.getString("status");
 
         if (!roomId.equals("")) {
             roomNameTextView.setText(roomName);
@@ -676,8 +676,8 @@ public class EditSessionActivity extends AppCompatActivity {
 
         timeTextView.setText(time);
 
-        hour = Integer.parseInt(DateManager.dateToString("hh", DateManager.stringToDate("hh:mm", time)));
-        minute = Integer.parseInt(DateManager.dateToString("mm", DateManager.stringToDate("hh:mm", time)));
+        hour = Integer.parseInt(DateManager.dateToString("HH", DateManager.stringToDate("HH:mm", time)));
+        minute = Integer.parseInt(DateManager.dateToString("mm", DateManager.stringToDate("HH:mm", time)));
 
         dateTextView.setText(date);
 
@@ -883,22 +883,23 @@ public class EditSessionActivity extends AppCompatActivity {
     }
 
     private void doWork() {
+        timestamp = String.valueOf(DateManager.dateToTimestamp(DateManager.stringToDate("yyyy-MM-dd HH:mm", DateManager.jalaliToGregorian(date) + " " + time)));
         period = periodEditText.getText().toString().trim();
 
-//        try {
-//            progressDialog.show();
-//            sessionViewModel.edit(id, roomId, casseId, DateManager.jalaliToGregorian(date) + " " + time, period, statusId);
-//            observeWork("sessionViewModel");
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            progressDialog.show();
+            sessionViewModel.update(id, casseId, timestamp, period, statusId);
+            observeWork("sessionViewModel");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void observeWork(String method) {
         switch (method) {
             case "sessionViewModel":
                 SessionRepository.workState.observe((LifecycleOwner) this, integer -> {
-                    if (SessionRepository.work.equals("edit")) {
+                    if (SessionRepository.work.equals("update")) {
                         if (integer == 1) {
                             setResult(RESULT_OK, null);
                             finish();

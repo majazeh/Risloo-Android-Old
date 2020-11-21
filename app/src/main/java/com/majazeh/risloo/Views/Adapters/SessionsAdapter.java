@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.Managers.DateManager;
 import com.majazeh.risloo.Views.Activities.EditSessionActivity;
 
 import org.json.JSONArray;
@@ -125,6 +126,8 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
 
             // Get Status
             if (model.attributes.has("status") && !model.attributes.isNull("status")) {
+                editIntent.putExtra("status", model.get("status").toString());
+
                 holder.statusTextView.setText(model.get("status").toString());
                 holder.statusLinearLayout.setVisibility(View.VISIBLE);
             } else {
@@ -135,10 +138,24 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
             if (model.attributes.has("duration") && !model.attributes.isNull("duration")) {
                 editIntent.putExtra("period", model.get("duration").toString());
 
-                holder.periodTextView.setText(model.get("duration").toString());
+                holder.periodTextView.setText(model.get("duration").toString() + " " + activity.getResources().getString(R.string.SessionsMinute));
                 holder.periodLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.periodLinearLayout.setVisibility(View.GONE);
+            }
+
+            // Get Start
+            if (model.attributes.has("started_at") && !model.attributes.isNull("started_at")) {
+                String date = DateManager.gregorianToJalali(DateManager.dateToString("yyyy-MM-dd", DateManager.timestampToDate(Long.parseLong(model.get("started_at").toString()))));
+                String time = DateManager.dateToString("HH:mm", DateManager.timestampToDate(Long.parseLong(model.get("started_at").toString())));
+
+                editIntent.putExtra("time", time);
+                editIntent.putExtra("date", date);
+
+                holder.startTextView.setText(date + "\n" + time);
+                holder.startLinearLayout.setVisibility(View.VISIBLE);
+            } else {
+                holder.startLinearLayout.setVisibility(View.GONE);
             }
 
             holder.editTextView.setOnClickListener(v -> {

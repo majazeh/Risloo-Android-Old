@@ -345,6 +345,7 @@
     <string name="SessionsReference">مراجع</string>
     <string name="SessionsStart">زمان شروع</string>
     <string name="SessionsPeriod">مدت‌زمان جلسه</string>
+    <string name="SessionsMinute">دقیقه</string>
     <string name="SessionsStatus">وضعیت</string>
 
     <string name="SessionsEdit">ویرایش</string>
