@@ -19,18 +19,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
-import com.majazeh.risloo.Views.Activities.CenterActivity;
-import com.majazeh.risloo.Views.Adapters.CenterAdapter;
+import com.majazeh.risloo.Views.Activities.CentersActivity;
+import com.majazeh.risloo.Views.Adapters.CentersAdapter;
 
 import org.json.JSONException;
 
 import java.util.HashMap;
 import java.util.Objects;
 
-public class AllCenterFragment extends Fragment {
+public class MyCentersFragment extends Fragment {
 
     // Adapters
-    private CenterAdapter adapter;
+    private CentersAdapter adapter;
 
     // Vars
     private HashMap<Integer, Boolean> expands;
@@ -46,14 +46,14 @@ public class AllCenterFragment extends Fragment {
     private ImageView infoImageView;
     private TextView infoTextView;
 
-    public AllCenterFragment(Activity activity) {
+    public MyCentersFragment(Activity activity) {
         this.activity = activity;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.fragment_all_center, viewGroup, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.fragment_my_centers, viewGroup, false);
 
         initializer(view);
 
@@ -67,16 +67,16 @@ public class AllCenterFragment extends Fragment {
     private void initializer(View view) {
         expands = new HashMap<>();
 
-        adapter = new CenterAdapter(activity);
+        adapter = new CentersAdapter(activity);
 
         layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
-        recyclerView = view.findViewById(R.id.fragment_all_center_recyclerView);
+        recyclerView = view.findViewById(R.id.fragment_my_center_recyclerView);
         recyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        pagingProgressBar = view.findViewById(R.id.fragment_all_center_progressBar);
+        pagingProgressBar = view.findViewById(R.id.fragment_my_center_progressBar);
 
         infoLayout = view.findViewById(R.id.layout_info_linearLayout);
 
@@ -97,10 +97,10 @@ public class AllCenterFragment extends Fragment {
 
                     if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
                         try {
-                            if (!((CenterActivity) Objects.requireNonNull(getActivity())).loadingAll) {
+                            if (!((CentersActivity) Objects.requireNonNull(getActivity())).loadingMy) {
                                 pagingProgressBar.setVisibility(View.VISIBLE);
-                                ((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel.centers(((CenterActivity) Objects.requireNonNull(getActivity())).search);
-                                ((CenterActivity) Objects.requireNonNull(getActivity())).observeWork();
+                                ((CentersActivity) Objects.requireNonNull(getActivity())).centerViewModel.myCenters(((CentersActivity) Objects.requireNonNull(getActivity())).search);
+                                ((CentersActivity) Objects.requireNonNull(getActivity())).observeWork();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -112,19 +112,19 @@ public class AllCenterFragment extends Fragment {
     }
 
     private void setData() {
-        if (((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel.getAll() != null) {
-            for (int i = 0; i < ((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel.getAll().size(); i++) {
+        if (((CentersActivity) Objects.requireNonNull(getActivity())).centerViewModel.getMy() != null) {
+            for (int i = 0; i < ((CentersActivity) Objects.requireNonNull(getActivity())).centerViewModel.getMy().size(); i++) {
                 expands.put(i, false);
             }
 
-            adapter.setCenter(((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel.getAll(), expands, "all", ((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel);
+            adapter.setCenter(((CentersActivity) Objects.requireNonNull(getActivity())).centerViewModel.getMy(), expands, "my", ((CentersActivity) Objects.requireNonNull(getActivity())).centerViewModel);
             recyclerView.setAdapter(adapter);
 
             infoLayout.setVisibility(View.GONE);
         } else {
             infoLayout.setVisibility(View.VISIBLE);
 
-            if (((CenterActivity) Objects.requireNonNull(getActivity())).search.equals("")) {
+            if (((CentersActivity) Objects.requireNonNull(getActivity())).search.equals("")) {
                 setInfoLayout("empty");
             } else {
                 setInfoLayout("search");
@@ -146,14 +146,14 @@ public class AllCenterFragment extends Fragment {
     }
 
     public void notifyRecycler() {
-        for (int i = (CenterRepository.allPage-1)*15; i <((CenterRepository.allPage-1)*15)+15; i++) {
+        for (int i = (CenterRepository.myPage-1)*15; i <((CenterRepository.myPage-1)*15)+15; i++) {
             expands.put(i, false);
         }
 
-        adapter.setCenter(((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel.getAll(), expands, "all", ((CenterActivity) Objects.requireNonNull(getActivity())).centerViewModel);
+        adapter.setCenter(((CentersActivity) Objects.requireNonNull(getActivity())).centerViewModel.getMy(), expands, "my", ((CentersActivity) Objects.requireNonNull(getActivity())).centerViewModel);
 
-        ((CenterActivity) Objects.requireNonNull(getActivity())).loadingAll = false;
-        CenterRepository.allPage++;
+        ((CentersActivity) Objects.requireNonNull(getActivity())).loadingMy = false;
+        CenterRepository.myPage++;
 
         pagingProgressBar.setVisibility(View.GONE);
     }

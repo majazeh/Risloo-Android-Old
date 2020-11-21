@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     app:cardCornerRadius="@dimen/_16sdp"
-    tools:context=".Views.Activities.CenterActivity"
+    tools:context=".Views.Activities.CentersActivity"
     tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded">
 
     <LinearLayout
@@ -28,7 +28,7 @@
                 android:layout_alignBottom="@id/single_item_center_main_relativeLayout"
                 android:layout_alignLeft="@id/single_item_center_main_relativeLayout"
                 android:layout_alignRight="@id/single_item_center_main_relativeLayout"
-                android:scaleType="fitXY" />
+                android:scaleType="matrix" />
 
             <RelativeLayout
                 android:id="@+id/single_item_center_main_relativeLayout"

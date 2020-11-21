@@ -39,22 +39,22 @@ import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.RoomViewModel;
-import com.majazeh.risloo.Views.Adapters.RoomTabAdapter;
-import com.majazeh.risloo.Views.Fragments.AllRoomFragment;
-import com.majazeh.risloo.Views.Fragments.MyRoomFragment;
+import com.majazeh.risloo.Views.Adapters.RoomsTabAdapter;
+import com.majazeh.risloo.Views.Fragments.AllRoomsFragment;
+import com.majazeh.risloo.Views.Fragments.MyRoomsFragment;
 
 import org.json.JSONException;
 
 import java.util.Objects;
 
-public class RoomActivity extends AppCompatActivity {
+public class RoomsActivity extends AppCompatActivity {
 
     // ViewModels
     private AuthViewModel authViewModel;
     public RoomViewModel roomViewModel;
 
     // Adapters
-    private RoomTabAdapter adapter;
+    private RoomsTabAdapter adapter;
 
     // Vars
     public String search = "";
@@ -86,7 +86,7 @@ public class RoomActivity extends AppCompatActivity {
 
         decorator();
 
-        setContentView(R.layout.activity_room);
+        setContentView(R.layout.activity_rooms);
 
         initializer();
 
@@ -109,9 +109,9 @@ public class RoomActivity extends AppCompatActivity {
         roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
 
         if (!authViewModel.getToken().equals("")) {
-            adapter = new RoomTabAdapter(getSupportFragmentManager(), 0, this, true);
+            adapter = new RoomsTabAdapter(getSupportFragmentManager(), 0, this, true);
         } else {
-            adapter = new RoomTabAdapter(getSupportFragmentManager(), 0, this, false);
+            adapter = new RoomsTabAdapter(getSupportFragmentManager(), 0, this, false);
         }
 
         handler = new Handler();
@@ -427,7 +427,7 @@ public class RoomActivity extends AppCompatActivity {
 
                     } else {
                         Fragment allFragment = adapter.allFragment;
-                        ((AllRoomFragment) allFragment).notifyRecycler();
+                        ((AllRoomsFragment) allFragment).notifyRecycler();
 
                         resetData("search");
 
@@ -491,7 +491,7 @@ public class RoomActivity extends AppCompatActivity {
                         RoomRepository.workState.removeObservers((LifecycleOwner) this);
                     } else {
                         Fragment myFragment = adapter.myFragment;
-                        ((MyRoomFragment) myFragment).notifyRecycler();
+                        ((MyRoomsFragment) myFragment).notifyRecycler();
 
                         resetData("search");
 

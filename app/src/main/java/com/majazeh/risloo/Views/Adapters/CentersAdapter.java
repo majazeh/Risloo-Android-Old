@@ -47,7 +47,7 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHolder> {
+public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersHolder> {
 
     // ViewModels
     private CenterViewModel viewModel;
@@ -68,22 +68,22 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
     private Dialog requestDialog, progressDialog;
     private TextView requestDialogTitle, requestDialogDescription, requestDialogPositive, requestDialogNegative;
 
-    public CenterAdapter(Activity activity) {
+    public CentersAdapter(Activity activity) {
         this.activity = activity;
     }
 
     @NonNull
     @Override
-    public CenterHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_center, viewGroup, false);
+    public CentersHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_centers, viewGroup, false);
 
         initializer(view);
 
-        return new CenterHolder(view);
+        return new CentersHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CenterHolder holder, int i) {
+    public void onBindViewHolder(@NonNull CentersHolder holder, int i) {
         Model model = centers.get(i);
 
         try {
@@ -569,7 +569,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
         });
     }
 
-    public class CenterHolder extends RecyclerView.ViewHolder {
+    public class CentersHolder extends RecyclerView.ViewHolder {
 
         public CircleImageView avatarImageView;
         public TextView titleTextView, subTitleTextView, requestTextView, managerTextView, descriptionTextView, addressTextView;
@@ -577,7 +577,7 @@ public class CenterAdapter extends RecyclerView.Adapter<CenterAdapter.CenterHold
         public ImageView gradientImageView, editImageView, peopleImageView, expandImageView;
         public LinearLayout expandLinearLayout, managerLinearLayout, descriptionLinearLayout, addressLinearLayout, phoneLinearLayout;
 
-        public CenterHolder(View view) {
+        public CentersHolder(View view) {
             super(view);
             gradientImageView = view.findViewById(R.id.single_item_center_gradient_imageView);
             avatarImageView = view.findViewById(R.id.single_item_center_avatar_imageView);

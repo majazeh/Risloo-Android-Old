@@ -41,22 +41,22 @@ import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
-import com.majazeh.risloo.Views.Adapters.CenterTabAdapter;
-import com.majazeh.risloo.Views.Fragments.AllCenterFragment;
-import com.majazeh.risloo.Views.Fragments.MyCenterFragment;
+import com.majazeh.risloo.Views.Adapters.CentersTabAdapter;
+import com.majazeh.risloo.Views.Fragments.AllCentersFragment;
+import com.majazeh.risloo.Views.Fragments.MyCentersFragment;
 
 import org.json.JSONException;
 
 import java.util.Objects;
 
-public class CenterActivity extends AppCompatActivity {
+public class CentersActivity extends AppCompatActivity {
 
     // ViewModels
     private AuthViewModel authViewModel;
     public CenterViewModel centerViewModel;
 
     // Adapters
-    private CenterTabAdapter adapter;
+    private CentersTabAdapter adapter;
 
     // Vars
     public String search = "";
@@ -88,7 +88,7 @@ public class CenterActivity extends AppCompatActivity {
 
         decorator();
 
-        setContentView(R.layout.activity_center);
+        setContentView(R.layout.activity_centers);
 
         initializer();
 
@@ -111,9 +111,9 @@ public class CenterActivity extends AppCompatActivity {
         centerViewModel = new ViewModelProvider(this).get(CenterViewModel.class);
 
         if (!authViewModel.getToken().equals("")) {
-            adapter = new CenterTabAdapter(getSupportFragmentManager(), 0, this, true);
+            adapter = new CentersTabAdapter(getSupportFragmentManager(), 0, this, true);
         } else {
-            adapter = new CenterTabAdapter(getSupportFragmentManager(), 0, this, false);
+            adapter = new CentersTabAdapter(getSupportFragmentManager(), 0, this, false);
         }
 
         handler = new Handler();
@@ -204,14 +204,14 @@ public class CenterActivity extends AppCompatActivity {
 
             if (finished) {
                 Fragment allFragment = adapter.allFragment;
-                if (((AllCenterFragment) allFragment).pagingProgressBar.isShown()) {
+                if (((AllCentersFragment) allFragment).pagingProgressBar.isShown()) {
                     loadingAll = false;
-                    ((AllCenterFragment) allFragment).pagingProgressBar.setVisibility(View.GONE);
+                    ((AllCentersFragment) allFragment).pagingProgressBar.setVisibility(View.GONE);
                 }
                 Fragment myFragment = adapter.myFragment;
-                if (((MyCenterFragment) myFragment).pagingProgressBar.isShown()) {
+                if (((MyCentersFragment) myFragment).pagingProgressBar.isShown()) {
                     loadingMy = false;
-                    ((MyCenterFragment) myFragment).pagingProgressBar.setVisibility(View.GONE);
+                    ((MyCentersFragment) myFragment).pagingProgressBar.setVisibility(View.GONE);
                 }
             }
 
@@ -458,7 +458,7 @@ public class CenterActivity extends AppCompatActivity {
 
                     } else {
                         Fragment allFragment = adapter.allFragment;
-                        ((AllCenterFragment) allFragment).notifyRecycler();
+                        ((AllCentersFragment) allFragment).notifyRecycler();
 
                         resetData("search");
 
@@ -528,7 +528,7 @@ public class CenterActivity extends AppCompatActivity {
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     } else {
                         Fragment myFragment = adapter.myFragment;
-                        ((MyCenterFragment) myFragment).notifyRecycler();
+                        ((MyCentersFragment) myFragment).notifyRecycler();
 
                         resetData("search");
 
