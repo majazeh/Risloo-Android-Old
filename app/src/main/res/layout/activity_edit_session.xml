@@ -134,10 +134,11 @@
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:layout_weight="0.6"
                         android:gravity="center"
-                        android:text="@string/EditSessionStartTime"
+                        android:hint="@string/EditSessionStartTime"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="normal"
-                        android:textColor="@color/Mischka"
+                        android:textColor="@color/Grey"
+                        android:textColorHint="@color/Mischka"
                         android:textAlignment="gravity"
                         android:background="@drawable/draw_16sdp_border_quartz"/>
 
@@ -148,10 +149,11 @@
                         android:layout_marginRight="@dimen/_4sdp"
                         android:layout_weight="0.4"
                         android:gravity="center"
-                        android:text="@string/EditSessionStartDate"
+                        android:hint="@string/EditSessionStartDate"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="normal"
-                        android:textColor="@color/Mischka"
+                        android:textColor="@color/Grey"
+                        android:textColorHint="@color/Mischka"
                         android:textAlignment="gravity"
                         android:background="@drawable/draw_16sdp_border_quartz"/>
 

@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Views.Activities.EditSessionActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -49,34 +51,57 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
         Model model = sessions.get(i);
 
         try {
-//            Intent editIntent = (new Intent(activity, EditSessionActivity.class));
+            Intent editIntent = (new Intent(activity, EditSessionActivity.class));
 
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                 holder.editTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
             }
 
-//            editIntent.putExtra("id", (String) model.get("id"));
+            editIntent.putExtra("id", (String) model.get("id"));
             holder.serialTextView.setText(model.get("id").toString());
 
             // Get Case
             if (model.attributes.has("case") && !model.attributes.isNull("case")) {
                 JSONObject casse = (JSONObject) model.get("case");
+                editIntent.putExtra("case_id", (String) casse.get("id"));
+
+                ArrayList<Model> cases = new ArrayList<>();
+
+                StringBuilder name = new StringBuilder();
+                JSONArray client = (JSONArray) casse.get("clients");
+
+                for (int j = 0; j < client.length(); j++) {
+                    JSONObject object = client.getJSONObject(j);
+                    JSONObject user = object.getJSONObject("user");
+
+                    cases.add(new Model(user));
+
+                    if (j == client.length() - 1)
+                        name.append(user.getString("name"));
+                    else
+                        name.append(user.getString("name")).append(" - ");
+                }
+
+                if (!name.toString().equals("")) {
+                    editIntent.putExtra("case_name", name.toString());
+                }
 
                 holder.caseTextView.setText(casse.getString("id"));
                 holder.caseLinearLayout.setVisibility(View.VISIBLE);
 
                 JSONObject room = (JSONObject) casse.get("room");
-//                editIntent.putExtra("room_id", (String) room.get("id"));
-//
-//                JSONObject manager = (JSONObject) room.get("manager");
-//                if (!manager.isNull("name")) {
-//                    editIntent.putExtra("room_name", (String) manager.get("name"));
-//                }
+                editIntent.putExtra("room_id", (String) room.get("id"));
+
+                JSONObject manager = (JSONObject) room.get("manager");
+                if (!manager.isNull("name")) {
+                    editIntent.putExtra("room_name", (String) manager.get("name"));
+                }
 
                 JSONObject center = (JSONObject) room.get("center");
 
                 if (center.has("detail") && !center.isNull("detail")) {
                     JSONObject details = (JSONObject) center.get("detail");
+                    editIntent.putExtra("room_title", (String) details.get("title"));
 
                     holder.roomTextView.setText(details.getString("title"));
                     holder.roomLinearLayout.setVisibility(View.VISIBLE);
@@ -108,11 +133,21 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
 
             // Get Duration
             if (model.attributes.has("duration") && !model.attributes.isNull("duration")) {
+                editIntent.putExtra("period", model.get("duration").toString());
+
                 holder.periodTextView.setText(model.get("duration").toString());
                 holder.periodLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.periodLinearLayout.setVisibility(View.GONE);
             }
+
+            holder.editTextView.setOnClickListener(v -> {
+                holder.editTextView.setClickable(false);
+                handler.postDelayed(() -> holder.editTextView.setClickable(true), 300);
+
+                activity.startActivityForResult(editIntent, 100);
+                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+            });
 
         } catch (JSONException e) {
             e.printStackTrace();

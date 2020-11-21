@@ -459,13 +459,7 @@ public class EditCaseActivity extends AppCompatActivity {
         if (extras.getString("complaint") != null)
             complaint = extras.getString("complaint");
 
-        if (roomId.equals("")) {
-            roomNameTextView.setText(getResources().getString(R.string.EditCaseRoom));
-            roomNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
-
-            roomTitleTextView.setText(roomTitle);
-            roomTitleTextView.setVisibility(View.GONE);
-        } else {
+        if (!roomId.equals("")) {
             roomNameTextView.setText(roomName);
             roomNameTextView.setTextColor(getResources().getColor(R.color.Grey));
 
@@ -487,7 +481,10 @@ public class EditCaseActivity extends AppCompatActivity {
             }
         }
 
-        complaintEditText.setText(complaint);
+        if (!complaint.equals("")) {
+            complaintEditText.setText(complaint);
+            complaintEditText.setTextColor(getResources().getColor(R.color.Grey));
+        }
     }
 
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
