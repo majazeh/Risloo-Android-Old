@@ -3,6 +3,7 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Constraints;
@@ -36,6 +37,8 @@ public class RoomRepository extends MainRepository {
     public static String roomId = "";
     public static String referencesQ = "";
     public static ArrayList<Model> references;
+    public static ArrayList<Model> suggestRoom;
+    public static ArrayList<Integer> suggestRoomCount;
 
 
     public RoomRepository(Application application) {
@@ -43,6 +46,8 @@ public class RoomRepository extends MainRepository {
         rooms = new ArrayList<>();
         myRooms = new ArrayList<>();
         myManagementRooms = new ArrayList<>();
+        suggestRoomCount = new ArrayList<>();
+        suggestRoom = new ArrayList<>();
         references = new ArrayList<>();
         workState = new MutableLiveData<>();
 
@@ -85,7 +90,7 @@ public class RoomRepository extends MainRepository {
         workManager("getReferences");
     }
 
-    public ArrayList<Model> getAll(){
+    public ArrayList<Model> getAll() {
         try {
             if (roomQ.equals("")) {
                 if (FileManager.readObjectFromCache(application.getApplicationContext(), "rooms") != null) {
@@ -99,10 +104,10 @@ public class RoomRepository extends MainRepository {
                 } else {
                     return null;
                 }
-            }else{
-                if (rooms.size() == 0){
+            } else {
+                if (rooms.size() == 0) {
                     return null;
-                }else{
+                } else {
                     return rooms;
                 }
             }
@@ -112,7 +117,7 @@ public class RoomRepository extends MainRepository {
         }
     }
 
-    public ArrayList<Model> getMy(){
+    public ArrayList<Model> getMy() {
         try {
             if (roomQ.equals("")) {
                 if (FileManager.readObjectFromCache(application.getApplicationContext(), "myRooms") != null) {
@@ -126,10 +131,10 @@ public class RoomRepository extends MainRepository {
                 } else {
                     return null;
                 }
-            }else{
-                if (myRooms.size() == 0){
+            } else {
+                if (myRooms.size() == 0) {
                     return null;
-                }else{
+                } else {
                     return myRooms;
                 }
             }
@@ -138,6 +143,48 @@ public class RoomRepository extends MainRepository {
             return null;
         }
     }
+
+    public void addSuggestRoom(Model model) {
+
+        if (suggestRoom.contains(model)) {
+            suggestRoomCount.set(suggestRoom.indexOf(model), suggestRoomCount.get(suggestRoom.indexOf(model)) + 1);
+        } else {
+            suggestRoom.add(model);
+            suggestRoomCount.add(1);
+        }
+    }
+
+    public void addSuggestRoom(Model model, int rank) {
+
+        if (suggestRoom.contains(model)) {
+            suggestRoomCount.set(suggestRoom.indexOf(model), suggestRoomCount.get(suggestRoom.indexOf(model)) + rank);
+        } else {
+            suggestRoom.add(model);
+            suggestRoomCount.add(rank);
+        }
+    }
+
+
+    public ArrayList<Model> getSuggestRoom() {
+        if (suggestRoom.size() < 10) {
+            return suggestRoom;
+        } else {
+            ArrayList<Model> arrayList = new ArrayList<>();
+            for (int j = 0; j < 10; j++) {
+                int max = 0;
+                int index = 0;
+                for (int i = 0; i < suggestRoomCount.size(); i++) {
+                    if (suggestRoomCount.get(i) > max) {
+                        max = suggestRoomCount.get(i);
+                        index = suggestRoomCount.indexOf(max);
+                    }
+                }
+                arrayList.add(suggestRoom.get(index));
+            }
+            return arrayList;
+        }
+    }
+
 
     private void workManager(String work) throws JSONException {
         if (isNetworkConnected(application.getApplicationContext())) {
