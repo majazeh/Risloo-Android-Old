@@ -656,10 +656,10 @@ public class EditSessionActivity extends AppCompatActivity {
             date = DateManager.currentJalaliDate();
         if (extras.getString("period") != null)
             period = extras.getString("period");
-        if (extras.getString("status") != null)
-            statusId = extras.getString("status");
-        if (extras.getString("status") != null)
-            statusTitle = extras.getString("status");
+        if (extras.getString("en_status") != null)
+            statusId = extras.getString("en_status");
+        if (extras.getString("fa_status") != null)
+            statusTitle = extras.getString("fa_status");
 
         if (!roomId.equals("")) {
             roomNameTextView.setText(roomName);

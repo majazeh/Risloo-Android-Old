@@ -51,7 +51,7 @@ public class SessionsActivity extends AppCompatActivity {
 
     // ViewModels
     private AuthViewModel authViewModel;
-    private SessionViewModel sessionViewModel;
+    public SessionViewModel sessionViewModel;
 
     // Adapters
     private SessionsAdapter sessionsRecyclerViewAdapter;

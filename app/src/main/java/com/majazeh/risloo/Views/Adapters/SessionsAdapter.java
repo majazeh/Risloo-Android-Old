@@ -17,12 +17,14 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.DateManager;
 import com.majazeh.risloo.Views.Activities.EditSessionActivity;
+import com.majazeh.risloo.Views.Activities.SessionsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.SessionsHolder> {
 
@@ -126,9 +128,13 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
 
             // Get Status
             if (model.attributes.has("status") && !model.attributes.isNull("status")) {
-                editIntent.putExtra("status", model.get("status").toString());
+                String enStatus = model.get("status").toString();
+                String faStatus = ((SessionsActivity) Objects.requireNonNull(activity)).sessionViewModel.getFAStatus(model.get("status").toString());
 
-                holder.statusTextView.setText(model.get("status").toString());
+                editIntent.putExtra("en_status", enStatus);
+                editIntent.putExtra("fa_status", faStatus);
+
+                holder.statusTextView.setText(faStatus);
                 holder.statusLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.statusLinearLayout.setVisibility(View.GONE);
