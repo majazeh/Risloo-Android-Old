@@ -95,6 +95,9 @@
             android:name=".Views.Activities.DetailSampleActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".Views.Activities.DetailCaseActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".Views.Activities.CreateSampleActivity"
             android:screenOrientation="portrait" />
         <activity

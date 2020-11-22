@@ -265,6 +265,32 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // detail case strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="DetailCaseTitle">مشخصات پرونده</string>
+
+    <string name="DetailCaseName">پرونده درمانی</string>
+    <string name="DetailCaseComplaint">شکایت اصلی</string>
+    <string name="DetailCaseCreatedCaseDate">تاریخ ساخت پرونده</string>
+    <string name="DetailCaseLastSessionDate">تاریخ آخرین جلسه</string>
+    <string name="DetailCaseSessionsCount">جلسات مشاوره</string>
+    <string name="DetailCaseTestsCount">تست‌های گرفته‌شده</string>
+
+    <string name="DetailCaseReferences">مراجعان</string>
+    <string name="DetailCaseAddReference">افزودن مراجع</string>
+
+    <string name="DetailCaseReferenceCreate">ساختن نمونه</string>
+
+    <string name="DetailCaseSessions">جلسات و نوبت‌ها</string>
+    <string name="DetailCaseAddSession">افزودن جلسه</string>
+
+    <string name="DetailCaseSessionStart">شروع</string>
+    <string name="DetailCaseSessionPeriod">مدت جلسه</string>
+    <string name="DetailCaseSessionStatus">وضعیت</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     // scales strings
     ////////////////////////////////////////////////////////////////////////////////
 
