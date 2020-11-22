@@ -3,7 +3,6 @@ package com.majazeh.risloo.Views.Activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -36,7 +35,7 @@ import org.json.JSONObject;
 
 import java.util.Objects;
 
-public class OutroActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+public class OutroActivity extends AppCompatActivity {
 
     // ViewModels
     private SampleViewModel viewModel;

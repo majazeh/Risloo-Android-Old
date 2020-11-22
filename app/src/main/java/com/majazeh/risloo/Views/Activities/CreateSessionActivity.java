@@ -66,7 +66,7 @@ public class CreateSessionActivity extends AppCompatActivity {
     private SearchAdapter roomDialogAdapter, caseDialogAdapter, statusDialogAdapter;
 
     // Vars
-    public String room = "", casse = "", time = "", date = "", period = "", status = "";
+    public String room = "", casse = "", timestamp = "", time = "", date = "", period = "", status = "";
     private boolean roomException = false, caseException = false, timeException = false, dateException = false, statusException = false;
     private int hour, minute, year, month, day;
 
@@ -641,8 +641,8 @@ public class CreateSessionActivity extends AppCompatActivity {
         time = DateManager.currentTime();
         timeTextView.setText(time);
 
-        hour = Integer.parseInt(DateManager.dateToString("hh", DateManager.stringToDate("hh:mm", time)));
-        minute = Integer.parseInt(DateManager.dateToString("mm", DateManager.stringToDate("hh:mm", time)));
+        hour = Integer.parseInt(DateManager.dateToString("HH", DateManager.stringToDate("HH:mm", time)));
+        minute = Integer.parseInt(DateManager.dateToString("mm", DateManager.stringToDate("HH:mm", time)));
 
         date = DateManager.currentJalaliDate();
         dateTextView.setText(date);
@@ -838,11 +838,12 @@ public class CreateSessionActivity extends AppCompatActivity {
     }
 
     private void doWork() {
+        timestamp = String.valueOf(DateManager.dateToTimestamp(DateManager.stringToDate("yyyy-MM-dd HH:mm", DateManager.jalaliToGregorian(date) + " " + time)));
         period = periodEditText.getText().toString().trim();
 
         try {
             progressDialog.show();
-            sessionViewModel.create(room, casse, DateManager.jalaliToGregorian(date) + " " + time, period, status);
+            sessionViewModel.create(room, casse, timestamp, period, status);
             observeWork("sessionViewModel");
         } catch (JSONException e) {
             e.printStackTrace();

@@ -2,6 +2,7 @@ package com.majazeh.risloo.Utils.Managers;
 
 import android.annotation.SuppressLint;
 
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -27,10 +28,19 @@ public class DateManager {
         return simpleDateFormat.format(value);
     }
 
+    public static Date timestampToDate(long value) {
+        Timestamp timestamp = new Timestamp(value * 1000);
+        return new Date(timestamp.getTime());
+    }
+
+    public static long dateToTimestamp(Date value) {
+        return value.getTime() / 1000;
+    }
+
     public static String currentTime() {
         Date value = Calendar.getInstance().getTime();
 
-        int hour = Integer.parseInt(dateToString("hh", value));
+        int hour = Integer.parseInt(dateToString("HH", value));
         int minute = Integer.parseInt(dateToString("mm", value));
 
         if (hour < 10) {

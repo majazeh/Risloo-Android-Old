@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     app:cardCornerRadius="@dimen/_16sdp"
-    tools:context=".Views.Activities.RoomActivity"
+    tools:context=".Views.Activities.RoomsActivity"
     tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded">
 
     <RelativeLayout

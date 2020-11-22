@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomHolder> {
+public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomHolders> {
 
     // Vars
     private ArrayList<Model> rooms;
@@ -33,22 +33,22 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomHolder> {
     private Activity activity;
     private Handler handler;
 
-    public RoomAdapter(Activity activity) {
+    public RoomsAdapter(Activity activity) {
         this.activity = activity;
     }
 
     @NonNull
     @Override
-    public RoomHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_room, viewGroup, false);
+    public RoomHolders onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_rooms, viewGroup, false);
 
         initializer(view);
 
-        return new RoomHolder(view);
+        return new RoomHolders(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RoomHolder holder, int i) {
+    public void onBindViewHolder(@NonNull RoomHolders holder, int i) {
         Model model = rooms.get(i);
 
         try {
@@ -177,13 +177,13 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomHolder> {
         notifyDataSetChanged();
     }
 
-    public class RoomHolder extends RecyclerView.ViewHolder {
+    public class RoomHolders extends RecyclerView.ViewHolder {
 
         public CircleImageView avatarImageView;
         public TextView titleTextView, subTitleTextView, typeTextView;
         public ImageView gradientImageView, peopleImageView;
 
-        public RoomHolder(View view) {
+        public RoomHolders(View view) {
             super(view);
             gradientImageView = view.findViewById(R.id.single_item_room_gradient_imageView);
             avatarImageView = view.findViewById(R.id.single_item_room_avatar_imageView);

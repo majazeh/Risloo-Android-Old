@@ -19,17 +19,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
-import com.majazeh.risloo.Views.Activities.RoomActivity;
-import com.majazeh.risloo.Views.Adapters.RoomAdapter;
+import com.majazeh.risloo.Views.Activities.RoomsActivity;
+import com.majazeh.risloo.Views.Adapters.RoomsAdapter;
 
 import org.json.JSONException;
 
 import java.util.Objects;
 
-public class AllRoomFragment extends Fragment {
+public class AllRoomsFragment extends Fragment {
 
     // Adapters
-    private RoomAdapter adapter;
+    private RoomsAdapter adapter;
 
     // Objects
     private Activity activity;
@@ -42,14 +42,14 @@ public class AllRoomFragment extends Fragment {
     private ImageView infoImageView;
     private TextView infoTextView;
 
-    public AllRoomFragment(Activity activity) {
+    public AllRoomsFragment(Activity activity) {
         this.activity = activity;
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup viewGroup, @Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.fragment_all_room, viewGroup, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.fragment_all_rooms, viewGroup, false);
 
         initializer(view);
 
@@ -61,7 +61,7 @@ public class AllRoomFragment extends Fragment {
     }
 
     private void initializer(View view) {
-        adapter = new RoomAdapter(activity);
+        adapter = new RoomsAdapter(activity);
 
         layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
@@ -91,10 +91,10 @@ public class AllRoomFragment extends Fragment {
 
                     if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
                         try {
-                            if (!((RoomActivity) Objects.requireNonNull(getActivity())).loadingAll) {
+                            if (!((RoomsActivity) Objects.requireNonNull(getActivity())).loadingAll) {
                                 pagingProgressBar.setVisibility(View.VISIBLE);
-                                ((RoomActivity) Objects.requireNonNull(getActivity())).roomViewModel.rooms(((RoomActivity) Objects.requireNonNull(getActivity())).search);
-                                ((RoomActivity) Objects.requireNonNull(getActivity())).observeWork();
+                                ((RoomsActivity) Objects.requireNonNull(getActivity())).roomViewModel.rooms(((RoomsActivity) Objects.requireNonNull(getActivity())).search);
+                                ((RoomsActivity) Objects.requireNonNull(getActivity())).observeWork();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -106,15 +106,15 @@ public class AllRoomFragment extends Fragment {
     }
 
     private void setData() {
-        if (((RoomActivity) Objects.requireNonNull(getActivity())).roomViewModel.getAll() != null) {
-            adapter.setRoom(((RoomActivity) Objects.requireNonNull(getActivity())).roomViewModel.getAll());
+        if (((RoomsActivity) Objects.requireNonNull(getActivity())).roomViewModel.getAll() != null) {
+            adapter.setRoom(((RoomsActivity) Objects.requireNonNull(getActivity())).roomViewModel.getAll());
             recyclerView.setAdapter(adapter);
 
             infoLayout.setVisibility(View.GONE);
         } else {
             infoLayout.setVisibility(View.VISIBLE);
 
-            if (((RoomActivity) Objects.requireNonNull(getActivity())).search.equals("")) {
+            if (((RoomsActivity) Objects.requireNonNull(getActivity())).search.equals("")) {
                 setInfoLayout("empty");
             } else {
                 setInfoLayout("search");
@@ -136,9 +136,9 @@ public class AllRoomFragment extends Fragment {
     }
 
     public void notifyRecycler() {
-        adapter.setRoom(((RoomActivity) Objects.requireNonNull(getActivity())).roomViewModel.getAll());
+        adapter.setRoom(((RoomsActivity) Objects.requireNonNull(getActivity())).roomViewModel.getAll());
 
-        ((RoomActivity) Objects.requireNonNull(getActivity())).loadingAll = false;
+        ((RoomsActivity) Objects.requireNonNull(getActivity())).loadingAll = false;
         RoomRepository.allPage++;
 
         pagingProgressBar.setVisibility(View.GONE);

@@ -59,10 +59,16 @@
             android:name=".Views.Activities.AccountActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Views.Activities.EditAccountActivity"
+            android:name=".Views.Activities.AttachmentActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Views.Activities.SendDocActivity"
+            android:name=".Views.Activities.ArchiveActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.ImageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.OutroActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.SampleActivity"
@@ -74,43 +80,43 @@
             android:name=".Views.Activities.ScalesActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Views.Activities.CasesActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Views.Activities.CreateCaseActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Views.Activities.EditCaseActivity"
+            android:name=".Views.Activities.CentersActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.SessionsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Views.Activities.CreateSessionActivity"
+            android:name=".Views.Activities.RoomsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Views.Activities.CreateSampleActivity"
+            android:name=".Views.Activities.CasesActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.DetailSampleActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Views.Activities.OutroActivity"
+            android:name=".Views.Activities.CreateSampleActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Views.Activities.ArchiveActivity"
+            android:name=".Views.Activities.CreateCenterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Views.Activities.RoomActivity"
+            android:name=".Views.Activities.CreateSessionActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Views.Activities.CenterActivity"
+            android:name=".Views.Activities.CreateCaseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.EditAccountActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.EditCenterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Views.Activities.CreateCenterActivity"
+            android:name=".Views.Activities.EditSessionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.EditCaseActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.SettingActivity"
@@ -126,9 +132,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.TermConditionActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Views.Activities.ImageActivity"
             android:screenOrientation="portrait" />
     </application>
 

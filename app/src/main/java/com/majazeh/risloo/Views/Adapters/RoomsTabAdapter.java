@@ -7,10 +7,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.majazeh.risloo.Views.Fragments.AllCenterFragment;
-import com.majazeh.risloo.Views.Fragments.MyCenterFragment;
+import com.majazeh.risloo.Views.Fragments.AllRoomsFragment;
+import com.majazeh.risloo.Views.Fragments.MyRoomsFragment;
 
-public class CenterTabAdapter extends FragmentPagerAdapter {
+public class RoomsTabAdapter extends FragmentPagerAdapter {
 
     // Vars
     private boolean token;
@@ -19,7 +19,7 @@ public class CenterTabAdapter extends FragmentPagerAdapter {
     private Activity activity;
     public Fragment allFragment, myFragment;
 
-    public CenterTabAdapter(@NonNull FragmentManager fragmentManager, int behavior, Activity activity, boolean token) {
+    public RoomsTabAdapter(@NonNull FragmentManager fragmentManager, int behavior, Activity activity, boolean token) {
         super(fragmentManager, behavior);
         this.activity = activity;
         this.token = token;
@@ -30,12 +30,12 @@ public class CenterTabAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int i) {
         if (token) {
             if (i == 0) {
-                return myFragment = new MyCenterFragment(activity);
+                return myFragment = new MyRoomsFragment(activity);
             } else {
-                return allFragment = new AllCenterFragment(activity);
+                return allFragment = new AllRoomsFragment(activity);
             }
         } else {
-            return allFragment = new AllCenterFragment(activity);
+            return allFragment = new AllRoomsFragment(activity);
         }
     }
 

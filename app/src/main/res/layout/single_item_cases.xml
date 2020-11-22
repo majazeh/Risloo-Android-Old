@@ -36,6 +36,7 @@
                 android:paddingLeft="@dimen/_8sdp"
                 android:paddingRight="@dimen/_8sdp"
                 android:gravity="center"
+                android:visibility="invisible"
                 android:text="@string/CasesEdit"
                 android:textSize="@dimen/_9ssp"
                 android:textStyle="bold"

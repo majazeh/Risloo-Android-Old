@@ -45,7 +45,7 @@ import org.json.JSONException;
 
 import java.util.Objects;
 
-public class SendDocActivity extends AppCompatActivity {
+public class AttachmentActivity extends AppCompatActivity {
 
     // ViewModels
     private AuthViewModel viewModel;
@@ -76,7 +76,7 @@ public class SendDocActivity extends AppCompatActivity {
 
         decorator();
 
-        setContentView(R.layout.activity_send_doc);
+        setContentView(R.layout.activity_attachment);
 
         initializer();
 

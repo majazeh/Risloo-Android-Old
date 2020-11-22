@@ -85,7 +85,9 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
             JSONArray clients = (JSONArray) model.get("clients");
             if (clients.length() != 0) {
                 editIntent.putExtra("clients", String.valueOf(clients));
+
                 ArrayList<String> references = new ArrayList<>();
+
                 for (int j = 0; j < clients.length(); j++) {
                     JSONObject client = (JSONObject) clients.get(j);
                     JSONObject user = (JSONObject) client.get("user");

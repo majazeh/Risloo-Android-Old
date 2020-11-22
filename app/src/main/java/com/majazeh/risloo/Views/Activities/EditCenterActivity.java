@@ -595,20 +595,13 @@ public class EditCenterActivity extends AppCompatActivity {
         } else {
             toolbarTextView.setText(getResources().getString(R.string.EditCenterTitle));
 
-            if (managerId.equals("")) {
-                managerNameTextView.setText(getResources().getString(R.string.EditCenterManager));
-                managerNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
-
-                managerIdTextView.setText(managerId);
-                managerIdTextView.setVisibility(View.GONE);
-            } else {
+            if (!managerId.equals("")) {
                 managerNameTextView.setText(managerName);
                 managerNameTextView.setTextColor(getResources().getColor(R.color.Grey));
 
                 managerIdTextView.setText(managerId);
                 managerIdTextView.setVisibility(View.VISIBLE);
             }
-
             titleEditText.setText(title);
 
             descriptionEditText.setText(description);
