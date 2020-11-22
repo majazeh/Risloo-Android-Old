@@ -141,6 +141,34 @@ public class SessionRepository extends MainRepository {
             return null;
     }
 
+    public String getENStatus(String faStatus){
+        ArrayList<Model> arrayList = getLocalSessionStatus();
+        for (int i = 0; i < arrayList.size(); i++) {
+            try {
+                if (faStatus.equals(arrayList.get(i).get("fa_title")))
+                    return (String) arrayList.get(i).get("en_title");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
+    }
+
+    public String getFAStatus(String enStatus){
+        ArrayList<Model> arrayList = getLocalSessionStatus();
+        for (int i = 0; i < arrayList.size(); i++) {
+            try {
+                if (enStatus.equals(arrayList.get(i).get("en_title")))
+                    return (String) arrayList.get(i).get("fa_title");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
+    }
+
     private void workManager(String work) throws JSONException {
         if (isNetworkConnected(application.getApplicationContext())) {
             Constraints constraints = new Constraints.Builder()

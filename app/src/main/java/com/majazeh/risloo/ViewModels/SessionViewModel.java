@@ -59,5 +59,13 @@ public class SessionViewModel extends AndroidViewModel {
         return repository.getGeneral(sessionId);
     }
 
+    public String getENStatus(String faStatus){
+        return repository.getENStatus(faStatus);
+    }
+
+    public String getFAStatus(String enStatus){
+        return repository.getFAStatus(enStatus);
+    }
+
 
 }
