@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
+import com.majazeh.risloo.Views.Activities.CasesActivity;
+import com.majazeh.risloo.Views.Activities.DetailCaseActivity;
 import com.majazeh.risloo.Views.Activities.EditCaseActivity;
 
 import org.json.JSONArray;
@@ -24,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder> {
 
@@ -56,6 +59,7 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
             Intent editIntent = (new Intent(activity, EditCaseActivity.class));
 
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_solid_snow_ripple_quartz);
                 holder.editTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
             }
 
@@ -116,6 +120,23 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
             if (!detail.isNull("chief_complaint")) {
                 editIntent.putExtra("complaint", (String) detail.get("chief_complaint"));
             }
+
+            holder.itemView.setOnClickListener(v -> {
+                holder.itemView.setClickable(false);
+                handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
+
+                try {
+                    if (((CasesActivity) Objects.requireNonNull(activity)).pagingProgressBar.isShown()) {
+                        ((CasesActivity) Objects.requireNonNull(activity)).loading = false;
+                        ((CasesActivity) Objects.requireNonNull(activity)).pagingProgressBar.setVisibility(View.GONE);
+                    }
+
+                    activity.startActivityForResult(new Intent(activity, DetailCaseActivity.class).putExtra("id", (String) model.get("id")),100);
+                    activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            });
 
             holder.editTextView.setOnClickListener(v -> {
                 holder.editTextView.setClickable(false);

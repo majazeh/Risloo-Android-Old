@@ -77,7 +77,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/_1sdp"
                                     android:layout_marginTop="@dimen/_8sdp"
-                                    android:layout_marginBottom="@dimen/_8sdp"
+                                    android:layout_marginBottom="@dimen/_12sdp"
                                     android:background="@color/Quartz" />
 
                                 <RelativeLayout
@@ -145,17 +145,22 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/_8sdp"
-                                    android:layout_marginBottom="@dimen/_8sdp"
+                                    android:layout_marginTop="@dimen/_12sdp"
+                                    android:layout_marginBottom="@dimen/_12sdp"
+                                    android:paddingTop="@dimen/_6sdp"
+                                    android:paddingBottom="@dimen/_6sdp"
+                                    android:paddingLeft="@dimen/_8sdp"
+                                    android:paddingRight="@dimen/_8sdp"
                                     android:orientation="vertical"
                                     android:background="@drawable/draw_8sdp_solid_primary5p">
 
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginBottom="@dimen/_2sdp"
                                         android:gravity="right"
                                         android:text="@string/DetailCaseComplaint"
-                                        android:textSize="@dimen/_8ssp"
+                                        android:textSize="@dimen/_9ssp"
                                         android:textStyle="bold"
                                         android:textColor="@color/PrimaryDark"
                                         android:textAlignment="gravity"/>
@@ -175,65 +180,9 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:paddingLeft="@dimen/_2sdp"
+                                    android:paddingRight="@dimen/_2sdp"
                                     android:orientation="vertical">
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginBottom="@dimen/_4sdp"
-                                        android:orientation="horizontal"
-                                        android:layoutDirection="rtl">
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:gravity="right"
-                                            android:text="@string/DetailCaseCreatedCaseDate"
-                                            android:textSize="@dimen/_9ssp"
-                                            android:textStyle="normal"
-                                            android:textColor="@color/Mischka"
-                                            android:textAlignment="gravity" />
-
-                                        <TextView
-                                            android:id="@+id/activity_detail_case_created_case_date_textView"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:gravity="left"
-                                            android:textSize="@dimen/_9ssp"
-                                            android:textStyle="bold"
-                                            android:textColor="@color/Grey"
-                                            android:textAlignment="gravity" />
-
-                                    </LinearLayout>
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginBottom="@dimen/_4sdp"
-                                        android:orientation="horizontal"
-                                        android:layoutDirection="rtl">
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:gravity="right"
-                                            android:text="@string/DetailCaseLastSessionDate"
-                                            android:textSize="@dimen/_9ssp"
-                                            android:textStyle="normal"
-                                            android:textColor="@color/Mischka"
-                                            android:textAlignment="gravity" />
-
-                                        <TextView
-                                            android:id="@+id/activity_detail_case_last_session_date_textView"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:gravity="left"
-                                            android:textSize="@dimen/_9ssp"
-                                            android:textStyle="bold"
-                                            android:textColor="@color/Grey"
-                                            android:textAlignment="gravity" />
-
-                                    </LinearLayout>
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
@@ -248,7 +197,7 @@
                                             android:gravity="right"
                                             android:text="@string/DetailCaseSessionsCount"
                                             android:textSize="@dimen/_9ssp"
-                                            android:textStyle="normal"
+                                            android:textStyle="bold"
                                             android:textColor="@color/Mischka"
                                             android:textAlignment="gravity" />
 
@@ -277,12 +226,69 @@
                                             android:gravity="right"
                                             android:text="@string/DetailCaseTestsCount"
                                             android:textSize="@dimen/_9ssp"
-                                            android:textStyle="normal"
+                                            android:textStyle="bold"
                                             android:textColor="@color/Mischka"
                                             android:textAlignment="gravity" />
 
                                         <TextView
                                             android:id="@+id/activity_detail_case_tests_count_textView"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="left"
+                                            android:textSize="@dimen/_9ssp"
+                                            android:textStyle="bold"
+                                            android:textColor="@color/Grey"
+                                            android:textAlignment="gravity" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginBottom="@dimen/_4sdp"
+                                        android:orientation="horizontal"
+                                        android:layoutDirection="rtl">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="right"
+                                            android:text="@string/DetailCaseLastSessionDate"
+                                            android:textSize="@dimen/_9ssp"
+                                            android:textStyle="bold"
+                                            android:textColor="@color/Mischka"
+                                            android:textAlignment="gravity" />
+
+                                        <TextView
+                                            android:id="@+id/activity_detail_case_last_session_date_textView"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="left"
+                                            android:textSize="@dimen/_9ssp"
+                                            android:textStyle="bold"
+                                            android:textColor="@color/Grey"
+                                            android:textAlignment="gravity" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:layoutDirection="rtl">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="right"
+                                            android:text="@string/DetailCaseCreatedCaseDate"
+                                            android:textSize="@dimen/_9ssp"
+                                            android:textStyle="bold"
+                                            android:textColor="@color/Mischka"
+                                            android:textAlignment="gravity" />
+
+                                        <TextView
+                                            android:id="@+id/activity_detail_case_created_case_date_textView"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:gravity="left"
@@ -353,7 +359,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/_1sdp"
                                     android:layout_marginTop="@dimen/_8sdp"
-                                    android:layout_marginBottom="@dimen/_16sdp"
+                                    android:layout_marginBottom="@dimen/_12sdp"
                                     android:background="@color/Quartz" />
 
                                 <androidx.recyclerview.widget.RecyclerView
@@ -420,8 +426,55 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/_1sdp"
                                     android:layout_marginTop="@dimen/_8sdp"
-                                    android:layout_marginBottom="@dimen/_16sdp"
+                                    android:layout_marginBottom="@dimen/_12sdp"
                                     android:background="@color/Quartz" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/_8sdp"
+                                    android:layoutDirection="rtl"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="right|center"
+                                        android:text="@string/DetailCaseSessionStart"
+                                        android:textSize="@dimen/_9ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/Mischka"
+                                        android:textAlignment="gravity" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="right|center"
+                                        android:text="@string/DetailCaseSessionPeriod"
+                                        android:textSize="@dimen/_9ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/Mischka"
+                                        android:textAlignment="gravity" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="right|center"
+                                        android:text="@string/DetailCaseSessionStatus"
+                                        android:textSize="@dimen/_9ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/Mischka"
+                                        android:textAlignment="gravity" />
+
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1.1" />
+
+                                </LinearLayout>
 
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/activity_detail_case_sessions_recyclerView"

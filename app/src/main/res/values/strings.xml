@@ -285,6 +285,9 @@
     <string name="DetailCaseSessions">جلسات و نوبت‌ها</string>
     <string name="DetailCaseAddSession">افزودن جلسه</string>
 
+    <string name="DetailCaseSessionEdit">ویرایش</string>
+    <string name="DetailCaseSessionMinute">دقیقه</string>
+
     <string name="DetailCaseSessionStart">شروع</string>
     <string name="DetailCaseSessionPeriod">مدت جلسه</string>
     <string name="DetailCaseSessionStatus">وضعیت</string>

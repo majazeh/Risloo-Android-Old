@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/single_item_detail_case_sessions"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layoutDirection="rtl"
+    android:orientation="horizontal"
+    tools:ignore="RtlHardcoded, RtlSymmetry">
+
+    <TextView
+        android:id="@+id/single_item_detail_case_sessions_start_textView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="right|top"
+        android:textSize="@dimen/_9ssp"
+        android:textStyle="bold"
+        android:textColor="@color/Grey"
+        android:textAlignment="gravity" />
+
+    <TextView
+        android:id="@+id/single_item_detail_case_sessions_duration_textView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="right|top"
+        android:textSize="@dimen/_9ssp"
+        android:textStyle="bold"
+        android:textColor="@color/Grey"
+        android:textAlignment="gravity" />
+
+    <TextView
+        android:id="@+id/single_item_detail_case_sessions_status_textView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="right|top"
+        android:textSize="@dimen/_9ssp"
+        android:textStyle="bold"
+        android:textColor="@color/Grey"
+        android:textAlignment="gravity" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.1"
+        android:gravity="left|top">
+
+        <TextView
+            android:id="@+id/single_item_detail_case_sessions_edit_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/_3sdp"
+            android:paddingBottom="@dimen/_3sdp"
+            android:paddingLeft="@dimen/_9sdp"
+            android:paddingRight="@dimen/_9sdp"
+            android:gravity="center"
+            android:text="@string/DetailCaseSessionEdit"
+            android:textSize="@dimen/_8ssp"
+            android:textStyle="bold"
+            android:textColor="@color/PrimaryDark"
+            android:textAlignment="gravity"
+            android:background="@drawable/draw_8sdp_solid_snow_border_quartz"/>
+
+    </LinearLayout>
+
+</LinearLayout>

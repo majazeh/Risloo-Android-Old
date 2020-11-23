@@ -76,7 +76,7 @@ public class CasesActivity extends AppCompatActivity {
     private ImageView searchImageView, infoImageView;
     private TextView searchTextView, infoTextView;
     private RecyclerView casesRecyclerView;
-    private ProgressBar pagingProgressBar;
+    public ProgressBar pagingProgressBar;
     private Dialog searchDialog;
     private TextView searchDialogTitle, searchDialogPositive, searchDialogNegative;
     private EditText searchDialogInput;
