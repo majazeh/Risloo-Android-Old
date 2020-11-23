@@ -58,11 +58,9 @@ public class DetailCaseActivity extends AppCompatActivity {
     private DetailCaseSessionsAdapter detailCaseSessionsAdapter;
 
     // Vars
-    private String sampleId = "";
-    private boolean showImage = false;
+    public String caseId = "", caseName = "", roomId = "", roomName = "", roomTitle = "", roomUrl = "";
 
     // Objects
-    private Intent intent;
     private Bundle extras;
     private Handler handler;
     private ClickableSpan retrySpan;
@@ -110,12 +108,10 @@ public class DetailCaseActivity extends AppCompatActivity {
         detailCaseReferencesAdapter = new DetailCaseReferencesAdapter(this);
         detailCaseSessionsAdapter = new DetailCaseSessionsAdapter(this);
 
-        intent = (new Intent(this, ImageActivity.class));
-
         handler = new Handler();
 
         extras = getIntent().getExtras();
-        sampleId = Objects.requireNonNull(extras).getString("id");
+        caseId = Objects.requireNonNull(extras).getString("id");
 
         toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
@@ -195,7 +191,13 @@ public class DetailCaseActivity extends AppCompatActivity {
             roomAvatarImageView.setClickable(false);
             handler.postDelayed(() -> roomAvatarImageView.setClickable(true), 300);
 
-            if (showImage) {
+            if (!roomName.equals("") && !roomUrl.equals("")) {
+                Intent intent = (new Intent(this, ImageActivity.class));
+
+                intent.putExtra("title", roomName);
+                intent.putExtra("bitmap", false);
+                intent.putExtra("image", roomUrl);
+
                 startActivity(intent);
             }
         });
@@ -232,24 +234,27 @@ public class DetailCaseActivity extends AppCompatActivity {
 
     private void setData() {
         try {
-            JSONObject data = FileManager.readObjectFromCache(this, "caseDetail" + "/" + sampleId);
+            JSONObject data = FileManager.readObjectFromCache(this, "caseDetail" + "/" + caseId);
 
             if (data.has("room") && !data.isNull("room")) {
                 JSONObject room = data.getJSONObject("room");
+                roomId = room.get("id").toString();
 
-                JSONObject manager = (JSONObject) room.get("manager");
+                JSONObject manager = room.getJSONObject("manager");
                 if (manager.has("name") && !manager.isNull("name")) {
-                    roomTitleTextView.setText(manager.get("name").toString());
+                    roomName = manager.get("name").toString();
+                    roomTitleTextView.setText(roomName);
                 } else {
                     roomTitleTextView.setText("-");
                 }
 
-                JSONObject center = (JSONObject) room.get("center");
+                JSONObject center = room.getJSONObject("center");
                 if (center.has("detail") && !center.isNull("detail")) {
-                    JSONObject centerDetail = (JSONObject) center.get("detail");
+                    JSONObject centerDetail = center.getJSONObject("detail");
 
                     if (centerDetail.has("title") && !centerDetail.isNull("title")) {
-                        roomTypeTextView.setText(centerDetail.get("title").toString());
+                        roomTitle = centerDetail.get("title").toString();
+                        roomTypeTextView.setText(roomTitle);
                     } else {
                         roomTypeTextView.setText("-");
                     }
@@ -258,21 +263,16 @@ public class DetailCaseActivity extends AppCompatActivity {
                         JSONObject avatar = centerDetail.getJSONObject("avatar");
                         JSONObject medium = avatar.getJSONObject("medium");
 
-                        intent.putExtra("bitmap", false);
-                        intent.putExtra("image", medium.getString("url"));
+                        roomUrl = medium.get("url").toString();
 
-                        showImage = true;
-
-                        Picasso.get().load(medium.getString("url")).placeholder(R.color.Solitude).into(roomAvatarImageView);
+                        Picasso.get().load(roomUrl).placeholder(R.color.Solitude).into(roomAvatarImageView);
 
                         roomSubTitleTextView.setVisibility(View.GONE);
                     } else {
-                        showImage = false;
-
                         Picasso.get().load(R.color.Solitude).placeholder(R.color.Solitude).into(roomAvatarImageView);
 
                         roomSubTitleTextView.setVisibility(View.VISIBLE);
-                        roomSubTitleTextView.setText(String.valueOf(manager.getString("name").charAt(0)) + String.valueOf(manager.getString("name").substring(manager.getString("name").lastIndexOf(" ") + 1).charAt(0)));
+                        roomSubTitleTextView.setText(roomName.charAt(0) + String.valueOf(roomName.substring(roomName.lastIndexOf(" ") + 1).charAt(0)));
                     }
                 }
 
@@ -309,8 +309,8 @@ public class DetailCaseActivity extends AppCompatActivity {
                     ArrayList<Model> references = new ArrayList<>();
 
                     for (int j = 0; j < clients.length(); j++) {
-                        JSONObject client = (JSONObject) clients.get(j);
-                        JSONObject user = (JSONObject) client.get("user");
+                        JSONObject client = clients.getJSONObject(j);
+                        JSONObject user = client.getJSONObject("user");
 
                         references.add(new Model(client));
 
@@ -322,6 +322,7 @@ public class DetailCaseActivity extends AppCompatActivity {
                         }
                     }
 
+                    caseName = reference.substring(14, reference.length());
                     nameTextView.setText(StringManager.foreground(reference.toString(), 14, reference.length(), getResources().getColor(R.color.PrimaryDark)));
 
                     detailCaseReferencesAdapter.setReference(references);
@@ -336,7 +337,7 @@ public class DetailCaseActivity extends AppCompatActivity {
                     ArrayList<Model> meetings = new ArrayList<>();
 
                     for (int j = 0; j < sessions.length(); j++) {
-                        JSONObject session = (JSONObject) sessions.get(j);
+                        JSONObject session = sessions.getJSONObject(j);
 
                         meetings.add(new Model(session));
                     }
@@ -354,7 +355,7 @@ public class DetailCaseActivity extends AppCompatActivity {
     private void launchProcess(String method) {
         try {
             if (method.equals("getGeneral")) {
-                caseViewModel.general(sampleId);
+                caseViewModel.general(caseId);
             }
             observeWork();
         } catch (JSONException e) {
@@ -384,7 +385,7 @@ public class DetailCaseActivity extends AppCompatActivity {
 
                     CaseRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer != -1) {
-                    if (FileManager.readObjectFromCache(this, "caseDetail" + "/" + sampleId) == null) {
+                    if (FileManager.readObjectFromCache(this, "caseDetail" + "/" + caseId) == null) {
                         // Detail is Empty
 
                         loadingLayout.setVisibility(View.GONE);
