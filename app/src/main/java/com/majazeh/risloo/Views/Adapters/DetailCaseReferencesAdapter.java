@@ -75,7 +75,7 @@ public class DetailCaseReferencesAdapter extends RecyclerView.Adapter<DetailCase
                 holder.createTextView.setClickable(false);
                 handler.postDelayed(() -> holder.createTextView.setClickable(true), 300);
 
-                activity.startActivityForResult(createIntent, 100);
+                activity.startActivityForResult(createIntent.putExtra("loaded", true), 100);
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
         } catch (JSONException e) {

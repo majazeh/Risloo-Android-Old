@@ -619,7 +619,9 @@ public class EditCaseActivity extends AppCompatActivity {
         complaint = complaintEditText.getText().toString().trim();
 
 //        try {
-//        roomViewModel.addSuggestRoom(roomModel, 10);
+//            if (roomModel != null) {
+//                roomViewModel.addSuggestRoom(roomModel, 10);
+//            }
 //
 //            progressDialog.show();
 //            caseViewModel.edit(id, roomId, referenceRecyclerViewAdapter.getIds(), complaint);

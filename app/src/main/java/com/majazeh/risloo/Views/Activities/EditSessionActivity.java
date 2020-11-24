@@ -898,7 +898,9 @@ public class EditSessionActivity extends AppCompatActivity {
         period = periodEditText.getText().toString().trim();
 
         try {
-            roomViewModel.addSuggestRoom(roomModel, 10);
+            if (roomModel != null) {
+                roomViewModel.addSuggestRoom(roomModel, 10);
+            }
 
             progressDialog.show();
             sessionViewModel.update(id, caseId, timestamp, period, statusId);

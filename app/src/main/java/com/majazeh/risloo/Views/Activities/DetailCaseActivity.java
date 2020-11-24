@@ -221,7 +221,7 @@ public class DetailCaseActivity extends AppCompatActivity {
             intent.putExtra("case_id", caseId);
             intent.putExtra("case_name", caseName);
 
-            startActivity(intent);
+            startActivityForResult(intent.putExtra("loaded", true), 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
     }

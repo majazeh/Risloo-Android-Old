@@ -67,9 +67,6 @@ public class SamplesActivity extends AppCompatActivity {
     private SampleViewModel sampleViewModel;
     private RoomViewModel roomViewModel;
 
-    // Model
-    private Model roomModel;
-
     // Adapters
     private SpinnerAdapter filterRecyclerViewAdapter;
     private SamplesAdapter samplesRecyclerViewAdapter;

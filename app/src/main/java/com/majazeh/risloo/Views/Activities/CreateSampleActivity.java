@@ -1103,7 +1103,9 @@ public class CreateSampleActivity extends AppCompatActivity {
         count = countEditText.getText().toString().trim();
 
         try {
-            roomViewModel.addSuggestRoom(roomModel, 10);
+            if (roomModel != null) {
+                roomViewModel.addSuggestRoom(roomModel, 10);
+            }
 
             progressDialog.show();
             sampleViewModel.create(scaleRecyclerViewAdapter.getIds(), roomId, caseId, roomReferenceRecyclerViewAdapter.getIds(), caseReferenceRecyclerViewAdapter.getChecks(), count);

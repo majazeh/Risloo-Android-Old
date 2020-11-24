@@ -900,7 +900,9 @@ public class CreateSessionActivity extends AppCompatActivity {
         period = periodEditText.getText().toString().trim();
 
         try {
-            roomViewModel.addSuggestRoom(roomModel, 10);
+            if (roomModel != null) {
+                roomViewModel.addSuggestRoom(roomModel, 10);
+            }
 
             progressDialog.show();
             sessionViewModel.create(roomId, caseId, timestamp, period, statusId);
