@@ -2,10 +2,12 @@ package com.majazeh.risloo.Models.Repositories;
 
 import android.app.Application;
 import android.content.Context;
+import android.icu.text.Edits;
 import android.net.ConnectivityManager;
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.work.Constraints;
 import androidx.work.Data;
 import androidx.work.NetworkType;
@@ -22,6 +24,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Objects;
 
 public class RoomRepository extends MainRepository {
@@ -144,45 +150,63 @@ public class RoomRepository extends MainRepository {
         }
     }
 
-    public void addSuggestRoom(Model model) {
-
-        if (suggestRoom.contains(model)) {
-            suggestRoomCount.set(suggestRoom.indexOf(model), suggestRoomCount.get(suggestRoom.indexOf(model)) + 1);
-        } else {
-            suggestRoom.add(model);
-            suggestRoomCount.add(1);
-        }
+    public void addSuggestRoom(Model model) throws JSONException {
+        addSuggestRoom(model, 1);
     }
 
-    public void addSuggestRoom(Model model, int rank) {
-
-        if (suggestRoom.contains(model)) {
-            suggestRoomCount.set(suggestRoom.indexOf(model), suggestRoomCount.get(suggestRoom.indexOf(model)) + rank);
-        } else {
-            suggestRoom.add(model);
-            suggestRoomCount.add(rank);
+    public void addSuggestRoom(Model model, Integer rank) throws JSONException {
+        JSONObject jsonObject;
+        if (FileManager.readObjectFromCache(application.getApplicationContext(), "suggestRoom") == null){
+            jsonObject = new JSONObject();
+        }else{
+            jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "suggestRoom");
         }
+        if (!jsonObject.has((String) model.get("id"))){
+            model.set("local_ranking", 0);
+            jsonObject.put((String) model.get("id"), model.attributes);
+        }
+        model.set("local_ranking", jsonObject.getJSONObject((String)model.get("id")).getInt("local_ranking") + rank);
+
+        jsonObject.put((String) model.get("id"), model.attributes);
+        FileManager.writeObjectToCache(application.getApplicationContext(), jsonObject, "suggestRoom");
+
     }
 
 
-    public ArrayList<Model> getSuggestRoom() {
-        if (suggestRoom.size() < 10) {
-            return suggestRoom;
-        } else {
-            ArrayList<Model> arrayList = new ArrayList<>();
-            for (int j = 0; j < 10; j++) {
-                int max = 0;
-                int index = 0;
-                for (int i = 0; i < suggestRoomCount.size(); i++) {
-                    if (suggestRoomCount.get(i) > max) {
-                        max = suggestRoomCount.get(i);
-                        index = suggestRoomCount.indexOf(max);
-                    }
-                }
-                arrayList.add(suggestRoom.get(index));
+    public ArrayList<Model> getSuggestRoom() throws JSONException {
+        JSONObject jsonObject;
+        if (FileManager.readObjectFromCache(application.getApplicationContext(), "suggestRoom") == null){
+            jsonObject = new JSONObject();
+        }else{
+            jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "suggestRoom");
+        }
+        ArrayList<Model> arrayList = new ArrayList<>();
+        ArrayList<Model> suggestList = new ArrayList<>();
+        if (jsonObject.length() > 10) {
+            Iterator<String> keys = jsonObject.keys();
+            while (keys.hasNext()) {
+                arrayList.add(new Model(jsonObject.getJSONObject(keys.next())));
             }
-            return arrayList;
+            Collections.sort(arrayList, (o1, o2) -> {
+                try {
+                    return Integer.compare( o2.attributes.getInt("local_ranking"), o1.attributes.getInt("local_ranking"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return 0;
+                }
+            });
+            for (Model model :
+                    arrayList) {
+                suggestList.add(model);
+
+            }
+        } else {
+            Iterator<String> keys = jsonObject.keys();
+            while (keys.hasNext()) {
+                suggestList.add(new Model(jsonObject.getJSONObject(keys.next())));
+            }
         }
+        return suggestList;
     }
 
 

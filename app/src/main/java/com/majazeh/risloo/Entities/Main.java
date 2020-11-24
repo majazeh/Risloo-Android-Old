@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class Main {
 
@@ -27,6 +28,10 @@ public class Main {
             return this.attributes.get(key);
         else
             return null;
+    }
+
+    public void set(String key, Object value) throws JSONException {
+        attributes.put(key, value);
     }
 
 }
