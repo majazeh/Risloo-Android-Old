@@ -70,7 +70,6 @@ public class SampleViewModel extends AndroidViewModel {
     }
 
 
-
     public void general(String sampleId) throws JSONException {
         repository.general(sampleId);
     }
@@ -78,6 +77,16 @@ public class SampleViewModel extends AndroidViewModel {
     public void scores(String sampleId) throws JSONException {
         repository.scores(sampleId);
     }
+
+    public void addSuggestSample(Model model) throws JSONException {
+        repository.addSuggest(model, getClass().getSimpleName());
+    }
+
+    public void addSuggestSample(Model model, Integer rank) throws JSONException {
+        repository.addSuggest(model, rank, getClass().getSimpleName());
+    }
+
+
 
     /*
          ---------- Insert ----------
@@ -195,7 +204,7 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.getAllURLs();
     }
 
-    public ArrayList<Model> getLocalScales(){
+    public ArrayList<Model> getLocalScales() {
         return repository.getLocalScales();
     }
     /*
@@ -214,5 +223,8 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.getScales();
     }
 
+    public ArrayList<Model> getSuggestSample() throws JSONException {
+        return repository.getSuggest(getClass().getSimpleName());
+    }
 
 }
