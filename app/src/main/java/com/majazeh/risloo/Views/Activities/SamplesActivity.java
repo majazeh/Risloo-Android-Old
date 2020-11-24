@@ -67,6 +67,9 @@ public class SamplesActivity extends AppCompatActivity {
     private SampleViewModel sampleViewModel;
     private RoomViewModel roomViewModel;
 
+    // Model
+    private Model roomModel;
+
     // Adapters
     private SpinnerAdapter filterRecyclerViewAdapter;
     private SamplesAdapter samplesRecyclerViewAdapter;
@@ -435,6 +438,14 @@ public class SamplesActivity extends AppCompatActivity {
                 }
                 break;
             case "room":
+                try {
+                    if (roomViewModel.getSuggestRoom().size() != 0) {
+                        setRecyclerView(roomViewModel.getSuggestRoom(), roomDialogRecyclerView, "getRooms");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 roomDialog.show();
                 break;
             case "status":

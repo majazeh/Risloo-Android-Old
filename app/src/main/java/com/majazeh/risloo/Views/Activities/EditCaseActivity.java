@@ -62,6 +62,9 @@ public class EditCaseActivity extends AppCompatActivity {
     private RoomViewModel roomViewModel;
     private CaseViewModel caseViewModel;
 
+    // Model
+    private Model roomModel;
+
     // Adapters
     private SearchAdapter roomDialogAdapter, referenceDialogAdapter;
     public SpinnerAdapter referenceRecyclerViewAdapter;
@@ -257,6 +260,14 @@ public class EditCaseActivity extends AppCompatActivity {
 
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
+            }
+
+            try {
+                if (roomViewModel.getSuggestRoom().size() != 0) {
+                    setRecyclerView(roomViewModel.getSuggestRoom(), roomDialogRecyclerView, "getRooms");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
             roomDialog.show();
@@ -608,6 +619,8 @@ public class EditCaseActivity extends AppCompatActivity {
         complaint = complaintEditText.getText().toString().trim();
 
 //        try {
+//        roomViewModel.addSuggestRoom(roomModel, 10);
+//
 //            progressDialog.show();
 //            caseViewModel.edit(id, roomId, referenceRecyclerViewAdapter.getIds(), complaint);
 //            observeWork("caseViewModel");
@@ -720,6 +733,9 @@ public class EditCaseActivity extends AppCompatActivity {
             switch (method) {
                 case "getRooms":
                     if (!roomId.equals(model.get("id").toString())) {
+                        roomModel = model;
+                        roomViewModel.addSuggestRoom(roomModel);
+
                         roomId = model.get("id").toString();
 
                         JSONObject manager = (JSONObject) model.get("manager");

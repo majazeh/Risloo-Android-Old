@@ -339,6 +339,7 @@
                                         android:paddingLeft="@dimen/_8sdp"
                                         android:paddingRight="@dimen/_8sdp"
                                         android:gravity="center"
+                                        android:visibility="visible"
                                         android:text="@string/DetailCaseAddReference"
                                         android:textSize="@dimen/_8ssp"
                                         android:textStyle="bold"

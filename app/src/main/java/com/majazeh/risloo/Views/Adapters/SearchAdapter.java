@@ -133,7 +133,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                             }
                             break;
                         case "CreateCase":
-                            if (((CreateCaseActivity) Objects.requireNonNull(activity)).room.equals(model.get("id").toString())) {
+                            if (((CreateCaseActivity) Objects.requireNonNull(activity)).roomId.equals(model.get("id").toString())) {
                                 holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
                                     holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);

@@ -61,12 +61,15 @@ public class CreateCaseActivity extends AppCompatActivity {
     private RoomViewModel roomViewModel;
     private CaseViewModel caseViewModel;
 
+    // Model
+    private Model roomModel;
+
     // Adapters
     private SearchAdapter roomDialogAdapter, referenceDialogAdapter;
     public SpinnerAdapter referenceRecyclerViewAdapter;
 
     // Vars
-    public String room = "", complaint = "";
+    public String roomId = "", roomName = "", roomTitle = "", complaint = "";
     private boolean roomException = false, referenceException = false;
 
     // Objects
@@ -258,6 +261,14 @@ public class CreateCaseActivity extends AppCompatActivity {
                 controlEditText.clear(this, controlEditText.input());
             }
 
+            try {
+                if (roomViewModel.getSuggestRoom().size() != 0) {
+                    setRecyclerView(roomViewModel.getSuggestRoom(), roomDialogRecyclerView, "getRooms");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             roomDialog.show();
         });
 
@@ -271,7 +282,7 @@ public class CreateCaseActivity extends AppCompatActivity {
                     controlEditText.clear(this, controlEditText.input());
                 }
 
-                if (!room.isEmpty()) {
+                if (!roomId.isEmpty()) {
                     referenceDialog.show();
                 } else {
                     ExceptionGenerator.getException(false, 0, null, "SelectRoomFirstException");
@@ -300,7 +311,7 @@ public class CreateCaseActivity extends AppCompatActivity {
                 controlEditText.clear(this, controlEditText.input());
             }
 
-            if (room.isEmpty()) {
+            if (roomId.isEmpty()) {
                 errorView("room");
             }
             if (referenceRecyclerViewAdapter.getValues().size() == 0) {
@@ -317,7 +328,7 @@ public class CreateCaseActivity extends AppCompatActivity {
                 clearException("reference");
             }
 
-            if (!room.isEmpty() && referenceRecyclerViewAdapter.getValues().size() != 0 && complaintEditText.length() != 0) {
+            if (!roomId.isEmpty() && referenceRecyclerViewAdapter.getValues().size() != 0 && complaintEditText.length() != 0) {
                 doWork();
             }
         });
@@ -389,7 +400,7 @@ public class CreateCaseActivity extends AppCompatActivity {
                 handler.removeCallbacksAndMessages(null);
                 handler.postDelayed(() -> {
                     if (referenceDialogEditText.length() != 0) {
-                        getData("getReferences", room, referenceDialogEditText.getText().toString().trim());
+                        getData("getReferences", roomId, referenceDialogEditText.getText().toString().trim());
                     } else {
                         referenceDialogRecyclerView.setAdapter(null);
 
@@ -573,8 +584,10 @@ public class CreateCaseActivity extends AppCompatActivity {
         complaint = complaintEditText.getText().toString().trim();
 
         try {
+            roomViewModel.addSuggestRoom(roomModel, 10);
+
             progressDialog.show();
-            caseViewModel.create(room, referenceRecyclerViewAdapter.getIds(), complaint);
+            caseViewModel.create(roomId, referenceRecyclerViewAdapter.getIds(), complaint);
             observeWork("caseViewModel");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -684,26 +697,33 @@ public class CreateCaseActivity extends AppCompatActivity {
         try {
             switch (method) {
                 case "getRooms":
-                    if (!room.equals(model.get("id").toString())) {
-                        room = model.get("id").toString();
+                    if (!roomId.equals(model.get("id").toString())) {
+                        roomModel = model;
+                        roomViewModel.addSuggestRoom(roomModel);
+
+                        roomId = model.get("id").toString();
 
                         JSONObject manager = (JSONObject) model.get("manager");
+                        roomName =manager.get("name").toString();
 
-                        roomNameTextView.setText(manager.get("name").toString());
+                        roomNameTextView.setText(roomName);
                         roomNameTextView.setTextColor(getResources().getColor(R.color.Grey));
 
                         JSONObject center = (JSONObject) model.get("center");
                         JSONObject detail = (JSONObject) center.get("detail");
+                        roomTitle =detail.get("title").toString();
 
-                        roomTitleTextView.setText(detail.get("title").toString());
+                        roomTitleTextView.setText(roomTitle);
                         roomTitleTextView.setVisibility(View.VISIBLE);
-                    } else if (room.equals(model.get("id").toString())) {
-                        room = "";
+                    } else if (roomId.equals(model.get("id").toString())) {
+                        roomId = "";
+                        roomName = "";
+                        roomTitle = "";
 
                         roomNameTextView.setText(getResources().getString(R.string.CreateCaseRoom));
                         roomNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
 
-                        roomTitleTextView.setText("");
+                        roomTitleTextView.setText(roomTitle);
                         roomTitleTextView.setVisibility(View.GONE);
                     }
 

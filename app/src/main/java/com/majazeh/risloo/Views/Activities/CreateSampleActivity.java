@@ -66,6 +66,9 @@ public class CreateSampleActivity extends AppCompatActivity {
     private RoomViewModel roomViewModel;
     private CaseViewModel caseViewModel;
 
+    // Model
+    private Model roomModel;
+
     // Adapters
     private SearchAdapter scaleDialogAdapter, roomDialogAdapter, caseDialogAdapter, roomReferenceDialogAdapter;
     public SpinnerAdapter scaleRecyclerViewAdapter, roomReferenceRecyclerViewAdapter;
@@ -395,6 +398,14 @@ public class CreateSampleActivity extends AppCompatActivity {
 
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
+            }
+
+            try {
+                if (roomViewModel.getSuggestRoom().size() != 0) {
+                    setRecyclerView(roomViewModel.getSuggestRoom(), roomDialogRecyclerView, "getRooms");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
             roomDialog.show();
@@ -1092,6 +1103,8 @@ public class CreateSampleActivity extends AppCompatActivity {
         count = countEditText.getText().toString().trim();
 
         try {
+            roomViewModel.addSuggestRoom(roomModel, 10);
+
             progressDialog.show();
             sampleViewModel.create(scaleRecyclerViewAdapter.getIds(), roomId, caseId, roomReferenceRecyclerViewAdapter.getIds(), caseReferenceRecyclerViewAdapter.getChecks(), count);
             observeWork("sampleViewModel");
@@ -1311,6 +1324,9 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                 case "getRooms":
                     if (!roomId.equals(model.get("id").toString())) {
+                        roomModel = model;
+                        roomViewModel.addSuggestRoom(roomModel);
+
                         roomId = model.get("id").toString();
 
                         JSONObject manager = (JSONObject) model.get("manager");
