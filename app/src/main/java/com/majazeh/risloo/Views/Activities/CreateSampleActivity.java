@@ -72,7 +72,7 @@ public class CreateSampleActivity extends AppCompatActivity {
     private CheckBoxAdapter caseReferenceRecyclerViewAdapter;
 
     // Vars
-    public String room = "", casse = "", count = "";
+    public String roomId = "", roomName = "", roomTitle = "", caseId = "", caseName = "", count = "";
     private boolean scaleException = false, roomException = false, caseException = false, roomReferenceException = false, caseReferenceException = false;
 
     // Objects
@@ -412,7 +412,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 controlEditText.clear(this, controlEditText.input());
             }
 
-            if (!room.isEmpty()) {
+            if (!roomId.isEmpty()) {
                 caseDialog.show();
             } else {
                 ExceptionGenerator.getException(false, 0, null, "SelectRoomFirstException");
@@ -430,7 +430,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     controlEditText.clear(this, controlEditText.input());
                 }
 
-                if (!room.isEmpty()) {
+                if (!roomId.isEmpty()) {
                     roomReferenceDialog.show();
                 } else {
                     ExceptionGenerator.getException(false, 0, null, "SelectRoomFirstException");
@@ -442,7 +442,7 @@ public class CreateSampleActivity extends AppCompatActivity {
 
         countEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                if (!room.isEmpty()) {
+                if (!roomId.isEmpty()) {
                     if (!countEditText.hasFocus()) {
                         if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                             controlEditText.clear(this, controlEditText.input());
@@ -492,7 +492,7 @@ public class CreateSampleActivity extends AppCompatActivity {
             if (scaleRecyclerViewAdapter.getValues().size() == 0) {
                 errorView("scale");
             }
-            if (room.isEmpty()) {
+            if (roomId.isEmpty()) {
                 errorView("room");
             }
 
@@ -512,7 +512,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 clearException("caseReference");
             }
 
-            if (scaleRecyclerViewAdapter.getValues().size() != 0 && !room.isEmpty()) {
+            if (scaleRecyclerViewAdapter.getValues().size() != 0 && !roomId.isEmpty()) {
                 doWork();
             }
         });
@@ -640,7 +640,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 handler.removeCallbacksAndMessages(null);
                 handler.postDelayed(() -> {
                     if (caseDialogEditText.length() != 0) {
-                        getData("getCases", room, caseDialogEditText.getText().toString().trim());
+                        getData("getCases", roomId, caseDialogEditText.getText().toString().trim());
                     } else {
                         caseDialogRecyclerView.setAdapter(null);
 
@@ -668,7 +668,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 handler.removeCallbacksAndMessages(null);
                 handler.postDelayed(() -> {
                     if (roomReferenceDialogEditText.length() != 0) {
-                        getData("getReferences", room, roomReferenceDialogEditText.getText().toString().trim());
+                        getData("getReferences", roomId, roomReferenceDialogEditText.getText().toString().trim());
                     } else {
                         roomReferenceDialogRecyclerView.setAdapter(null);
 
@@ -769,12 +769,57 @@ public class CreateSampleActivity extends AppCompatActivity {
             setResult(RESULT_OK, null);
         }
 
-        if (extras.getString("id") != null && extras.getString("title") != null) {
+        if (extras.getString("scale_id") != null && extras.getString("scale_title") != null) {
             try {
-                Model model = new Model(new JSONObject().put("id", extras.getString("id")).put("title", extras.getString("title")));
+                Model model = new Model(new JSONObject().put("id", extras.getString("scale_id")).put("title", extras.getString("scale_title")));
                 observeSearchAdapter(model, "getScales");
             } catch (JSONException e) {
                 e.printStackTrace();
+            }
+        }
+
+        if (extras.getString("room_id") != null)
+            roomId = extras.getString("room_id");
+        if (extras.getString("room_name") != null)
+            roomName = extras.getString("room_name");
+        if (extras.getString("room_title") != null)
+            roomTitle = extras.getString("room_title");
+        if (extras.getString("case_id") != null)
+            caseId = extras.getString("case_id");
+        if (extras.getString("case_name") != null)
+            caseName = extras.getString("case_name");
+
+        if (!roomId.equals("")) {
+            roomNameTextView.setText(roomName);
+            roomNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+
+            roomTitleTextView.setText(roomTitle);
+            roomTitleTextView.setVisibility(View.VISIBLE);
+        }
+
+        if (!caseId.equals("")) {
+            Objects.requireNonNull(typeTabLayout.getTabAt(1)).select();
+
+            clinicLinearLayout.setVisibility(View.GONE);
+            caseLinearLayout.setVisibility(View.VISIBLE);
+
+            caseTextView.setText(caseName);
+            caseTextView.setTextColor(getResources().getColor(R.color.Grey));
+
+            caseReferenceTextView.setVisibility(View.VISIBLE);
+            caseReferenceRecyclerView.setVisibility(View.VISIBLE);
+
+            if (extras.getString("user_object") != null) {
+                try {
+                    ArrayList<Model> cases = new ArrayList<>();
+                    JSONObject user = new JSONObject(extras.getString("user_object"));
+
+                    cases.add(new Model(user));
+
+                    setRecyclerView(cases, caseReferenceRecyclerView, "caseReferences");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -904,13 +949,22 @@ public class CreateSampleActivity extends AppCompatActivity {
 
     private void resetData(String method) {
         switch (method) {
+            case "case":
+                if (!caseId.equals("")) {
+                    caseId = "";
+                    caseName = "";
+
+                    caseTextView.setText(getResources().getString(R.string.CreateSampleCase));
+                    caseTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                }
+                break;
             case "count":
                 if (roomReferenceRecyclerViewAdapter.getValues().size() != 0) {
                     countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 }
 
                 countEditText.setEnabled(true);
-                countEditText.setFocusableInTouchMode(!room.isEmpty());
+                countEditText.setFocusableInTouchMode(!roomId.isEmpty());
 
                 if (countEditText.length() != 0) {
                     count = "";
@@ -933,14 +987,6 @@ public class CreateSampleActivity extends AppCompatActivity {
                     roomReferenceRecyclerViewAdapter.getValues().clear();
                     roomReferenceRecyclerViewAdapter.getIds().clear();
                     roomReferenceRecyclerViewAdapter.notifyDataSetChanged();
-                }
-                break;
-            case "case":
-                if (!casse.equals("")) {
-                    casse = "";
-
-                    caseTextView.setText(getResources().getString(R.string.CreateSampleCase));
-                    caseTextView.setTextColor(getResources().getColor(R.color.Mischka));
                 }
                 break;
             case "caseReference":
@@ -1047,7 +1093,7 @@ public class CreateSampleActivity extends AppCompatActivity {
 
         try {
             progressDialog.show();
-            sampleViewModel.create(scaleRecyclerViewAdapter.getIds(), room, casse, roomReferenceRecyclerViewAdapter.getIds(), caseReferenceRecyclerViewAdapter.getChecks(), count);
+            sampleViewModel.create(scaleRecyclerViewAdapter.getIds(), roomId, caseId, roomReferenceRecyclerViewAdapter.getIds(), caseReferenceRecyclerViewAdapter.getChecks(), count);
             observeWork("sampleViewModel");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -1264,34 +1310,38 @@ public class CreateSampleActivity extends AppCompatActivity {
                     break;
 
                 case "getRooms":
-                    if (!room.equals(model.get("id").toString())) {
-                        room = model.get("id").toString();
+                    if (!roomId.equals(model.get("id").toString())) {
+                        roomId = model.get("id").toString();
 
                         JSONObject manager = (JSONObject) model.get("manager");
+                        roomName =manager.get("name").toString();
 
-                        roomNameTextView.setText(manager.get("name").toString());
+                        roomNameTextView.setText(roomName);
                         roomNameTextView.setTextColor(getResources().getColor(R.color.Grey));
 
                         JSONObject center = (JSONObject) model.get("center");
                         JSONObject detail = (JSONObject) center.get("detail");
+                        roomTitle =detail.get("title").toString();
 
-                        roomTitleTextView.setText(detail.get("title").toString());
+                        roomTitleTextView.setText(roomTitle);
                         roomTitleTextView.setVisibility(View.VISIBLE);
-                    } else if (room.equals(model.get("id").toString())) {
-                        room = "";
+                    } else if (roomId.equals(model.get("id").toString())) {
+                        roomId = "";
+                        roomName = "";
+                        roomTitle = "";
 
                         roomNameTextView.setText(getResources().getString(R.string.CreateSampleRoom));
                         roomNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
 
-                        roomTitleTextView.setText("");
+                        roomTitleTextView.setText(roomTitle);
                         roomTitleTextView.setVisibility(View.GONE);
                     }
+
+                    resetData("case");
 
                     resetData("count");
 
                     resetData("roomReference");
-
-                    resetData("case");
 
                     resetData("caseReference");
 
@@ -1308,8 +1358,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                     break;
 
                 case "getCases":
-                    if (!casse.equals(model.get("id").toString())) {
-                        casse = model.get("id").toString();
+                    if (!caseId.equals(model.get("id").toString())) {
+                        caseId = model.get("id").toString();
 
                         ArrayList<Model> cases = new ArrayList<>();
 
@@ -1330,8 +1380,9 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                         if (!name.toString().equals("")) {
                             JSONObject casse = new JSONObject().put("name", name);
+                            caseName = casse.get("name").toString();
 
-                            caseTextView.setText(casse.get("name").toString());
+                            caseTextView.setText(caseName);
                             caseTextView.setTextColor(getResources().getColor(R.color.Grey));
 
                             caseReferenceTextView.setVisibility(View.VISIBLE);
@@ -1339,8 +1390,9 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                             setRecyclerView(cases, caseReferenceRecyclerView, "caseReferences");
                         }
-                    } else if (casse.equals(model.get("id").toString())) {
-                        casse = "";
+                    } else if (caseId.equals(model.get("id").toString())) {
+                        caseId = "";
+                        caseName = "";
 
                         caseTextView.setText(getResources().getString(R.string.CreateSampleCase));
                         caseTextView.setTextColor(getResources().getColor(R.color.Mischka));

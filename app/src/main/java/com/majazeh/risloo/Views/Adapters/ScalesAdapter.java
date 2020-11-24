@@ -58,11 +58,11 @@ public class ScalesAdapter extends RecyclerView.Adapter<ScalesAdapter.ScalesHold
             Intent createSampleIntent = (new Intent(activity, CreateSampleActivity.class));
 
             holder.serialTextView.setText(model.get("id").toString());
-            createSampleIntent.putExtra("id", model.get("id").toString());
+            createSampleIntent.putExtra("scale_id", model.get("id").toString());
 
             if (!model.get("title").toString().equals("")) {
                 holder.scaleTextView.setText(model.get("title").toString());
-                createSampleIntent.putExtra("title", model.get("title").toString());
+                createSampleIntent.putExtra("scale_title", model.get("title").toString());
             }
 
             if (!model.get("edition").toString().equals("")) {

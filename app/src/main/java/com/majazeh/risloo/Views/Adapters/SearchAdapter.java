@@ -118,7 +118,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                             }
                             break;
                         case "CreateSample":
-                            if (((CreateSampleActivity) Objects.requireNonNull(activity)).room.equals(model.get("id").toString())) {
+                            if (((CreateSampleActivity) Objects.requireNonNull(activity)).roomId.equals(model.get("id").toString())) {
                                 holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
                                     holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
@@ -221,7 +221,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
                     switch (theory) {
                         case "CreateSample":
-                            if (((CreateSampleActivity) Objects.requireNonNull(activity)).casse.equals(model.get("id").toString())) {
+                            if (((CreateSampleActivity) Objects.requireNonNull(activity)).caseId.equals(model.get("id").toString())) {
                                 holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
                                     holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
