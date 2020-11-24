@@ -66,7 +66,7 @@ public class CreateSessionActivity extends AppCompatActivity {
     private SearchAdapter roomDialogAdapter, caseDialogAdapter, statusDialogAdapter;
 
     // Vars
-    public String room = "", casse = "", timestamp = "", time = "", date = "", period = "", status = "";
+    public String roomId = "", roomName = "", roomTitle = "", caseId = "", caseName = "", timestamp = "", time = "", date = "", period = "", statusId = "", statusTitle = "";
     private boolean roomException = false, caseException = false, timeException = false, dateException = false, statusException = false;
     private int hour, minute, year, month, day;
 
@@ -323,7 +323,7 @@ public class CreateSessionActivity extends AppCompatActivity {
                 controlEditText.clear(this, controlEditText.input());
             }
 
-            if (!room.isEmpty()) {
+            if (!roomId.isEmpty()) {
                 caseDialog.show();
             } else {
                 ExceptionGenerator.getException(false, 0, null, "SelectRoomFirstException");
@@ -399,10 +399,10 @@ public class CreateSessionActivity extends AppCompatActivity {
                 controlEditText.clear(this, controlEditText.input());
             }
 
-            if (room.isEmpty()) {
+            if (roomId.isEmpty()) {
                 errorView("room");
             }
-            if (casse.isEmpty()) {
+            if (caseId.isEmpty()) {
                 errorView("case");
             }
             if (time.isEmpty()) {
@@ -414,7 +414,7 @@ public class CreateSessionActivity extends AppCompatActivity {
             if (periodEditText.length() == 0) {
                 errorView("period");
             }
-            if (status.isEmpty()) {
+            if (statusId.isEmpty()) {
                 errorView("status");
             }
 
@@ -434,7 +434,7 @@ public class CreateSessionActivity extends AppCompatActivity {
                 clearException("status");
             }
 
-            if (!room.isEmpty() && !casse.isEmpty() && !time.isEmpty() && !date.isEmpty() && periodEditText.length() != 0 && !status.isEmpty()) {
+            if (!roomId.isEmpty() && !caseId.isEmpty() && !time.isEmpty() && !date.isEmpty() && periodEditText.length() != 0 && !statusId.isEmpty()) {
                 doWork();
             }
         });
@@ -506,7 +506,7 @@ public class CreateSessionActivity extends AppCompatActivity {
                 handler.removeCallbacksAndMessages(null);
                 handler.postDelayed(() -> {
                     if (caseDialogEditText.length() != 0) {
-                        getData("getCases", room, caseDialogEditText.getText().toString().trim());
+                        getData("getCases", roomId, caseDialogEditText.getText().toString().trim());
                     } else {
                         caseDialogRecyclerView.setAdapter(null);
 
@@ -638,13 +638,59 @@ public class CreateSessionActivity extends AppCompatActivity {
             setResult(RESULT_OK, null);
         }
 
-        time = DateManager.currentTime();
+        if (extras.getString("room_id") != null)
+            roomId = extras.getString("room_id");
+        if (extras.getString("room_name") != null)
+            roomName = extras.getString("room_name");
+        if (extras.getString("room_title") != null)
+            roomTitle = extras.getString("room_title");
+        if (extras.getString("case_id") != null)
+            caseId = extras.getString("case_id");
+        if (extras.getString("case_name") != null)
+            caseName = extras.getString("case_name");
+        if (extras.getString("time") != null)
+            time = extras.getString("time");
+        else
+            time = DateManager.currentTime();
+        if (extras.getString("date") != null)
+            date = extras.getString("date");
+        else
+            date = DateManager.currentJalaliDate();
+        if (extras.getString("period") != null)
+            period = extras.getString("period");
+        if (extras.getString("en_status") != null)
+            statusId = extras.getString("en_status");
+        if (extras.getString("fa_status") != null)
+            statusTitle = extras.getString("fa_status");
+
+        if (!roomId.equals("")) {
+            roomNameTextView.setText(roomName);
+            roomNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+
+            roomTitleTextView.setText(roomTitle);
+            roomTitleTextView.setVisibility(View.VISIBLE);
+        }
+
+        if (!caseId.equals("")) {
+            caseTextView.setText(caseName);
+            caseTextView.setTextColor(getResources().getColor(R.color.Grey));
+        }
+
+        if (!period.equals("")) {
+            periodEditText.setText(period);
+            periodEditText.setTextColor(getResources().getColor(R.color.Grey));
+        }
+
+        if (!statusId.equals("")) {
+            statusTextView.setText(statusTitle);
+            statusTextView.setTextColor(getResources().getColor(R.color.Grey));
+        }
+
         timeTextView.setText(time);
 
         hour = Integer.parseInt(DateManager.dateToString("HH", DateManager.stringToDate("HH:mm", time)));
         minute = Integer.parseInt(DateManager.dateToString("mm", DateManager.stringToDate("HH:mm", time)));
 
-        date = DateManager.currentJalaliDate();
         dateTextView.setText(date);
 
         year = Integer.parseInt(DateManager.dateToString("yyyy", DateManager.stringToDate("yyyy-MM-dd", date)));
@@ -784,8 +830,9 @@ public class CreateSessionActivity extends AppCompatActivity {
     private void resetData(String method) {
         switch (method) {
             case "case":
-                if (!casse.equals("")) {
-                    casse = "";
+                if (!caseId.equals("")) {
+                    caseId = "";
+                    caseName = "";
 
                     caseTextView.setText(getResources().getString(R.string.CreateSampleCase));
                     caseTextView.setTextColor(getResources().getColor(R.color.Mischka));
@@ -843,7 +890,7 @@ public class CreateSessionActivity extends AppCompatActivity {
 
         try {
             progressDialog.show();
-            sessionViewModel.create(room, casse, timestamp, period, status);
+            sessionViewModel.create(roomId, caseId, timestamp, period, statusId);
             observeWork("sessionViewModel");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -976,26 +1023,30 @@ public class CreateSessionActivity extends AppCompatActivity {
         try {
             switch (method) {
                 case "getRooms":
-                    if (!room.equals(model.get("id").toString())) {
-                        room = model.get("id").toString();
+                    if (!roomId.equals(model.get("id").toString())) {
+                        roomId = model.get("id").toString();
 
                         JSONObject manager = (JSONObject) model.get("manager");
+                        roomName =manager.get("name").toString();
 
-                        roomNameTextView.setText(manager.get("name").toString());
+                        roomNameTextView.setText(roomName);
                         roomNameTextView.setTextColor(getResources().getColor(R.color.Grey));
 
                         JSONObject center = (JSONObject) model.get("center");
                         JSONObject detail = (JSONObject) center.get("detail");
+                        roomTitle =detail.get("title").toString();
 
-                        roomTitleTextView.setText(detail.get("title").toString());
+                        roomTitleTextView.setText(roomTitle);
                         roomTitleTextView.setVisibility(View.VISIBLE);
-                    } else if (room.equals(model.get("id").toString())) {
-                        room = "";
+                    } else if (roomId.equals(model.get("id").toString())) {
+                        roomId = "";
+                        roomName = "";
+                        roomTitle = "";
 
                         roomNameTextView.setText(getResources().getString(R.string.CreateSessionRoom));
                         roomNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
 
-                        roomTitleTextView.setText("");
+                        roomTitleTextView.setText(roomTitle);
                         roomTitleTextView.setVisibility(View.GONE);
                     }
 
@@ -1014,8 +1065,8 @@ public class CreateSessionActivity extends AppCompatActivity {
                     break;
 
                 case "getCases":
-                    if (!casse.equals(model.get("id").toString())) {
-                        casse = model.get("id").toString();
+                    if (!caseId.equals(model.get("id").toString())) {
+                        caseId = model.get("id").toString();
 
                         ArrayList<Model> cases = new ArrayList<>();
 
@@ -1036,12 +1087,14 @@ public class CreateSessionActivity extends AppCompatActivity {
 
                         if (!name.toString().equals("")) {
                             JSONObject casse = new JSONObject().put("name", name);
+                            caseName = casse.get("name").toString();
 
-                            caseTextView.setText(casse.get("name").toString());
+                            caseTextView.setText(caseName);
                             caseTextView.setTextColor(getResources().getColor(R.color.Grey));
                         }
-                    } else if (casse.equals(model.get("id").toString())) {
-                        casse = "";
+                    } else if (caseId.equals(model.get("id").toString())) {
+                        caseId = "";
+                        caseName = "";
 
                         caseTextView.setText(getResources().getString(R.string.CreateSessionCase));
                         caseTextView.setTextColor(getResources().getColor(R.color.Mischka));
@@ -1060,13 +1113,15 @@ public class CreateSessionActivity extends AppCompatActivity {
                     break;
 
                 case "getStatus":
-                    if (!status.equals(model.get("en_title").toString())) {
-                        status = model.get("en_title").toString();
+                    if (!statusId.equals(model.get("en_title").toString())) {
+                        statusId = model.get("en_title").toString();
+                        statusTitle = model.get("fa_title").toString();
 
-                        statusTextView.setText(model.get("fa_title").toString());
+                        statusTextView.setText(statusTitle);
                         statusTextView.setTextColor(getResources().getColor(R.color.Grey));
-                    } else if (status.equals(model.get("en_title").toString())) {
-                        status = "";
+                    } else if (statusId.equals(model.get("en_title").toString())) {
+                        statusId = "";
+                        statusTitle = "";
 
                         statusTextView.setText(getResources().getString(R.string.CreateSessionStatus));
                         statusTextView.setTextColor(getResources().getColor(R.color.Mischka));

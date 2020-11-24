@@ -66,7 +66,7 @@ public class EditSessionActivity extends AppCompatActivity {
     private SearchAdapter roomDialogAdapter, caseDialogAdapter, statusDialogAdapter;
 
     // Vars
-    public String id = "", roomId = "", roomName = "", roomTitle = "", casseId = "", casseName = "", timestamp = "", time = "", date = "", period = "", statusId = "", statusTitle = "";
+    public String id = "", roomId = "", roomName = "", roomTitle = "", caseId = "", caseName = "", timestamp = "", time = "", date = "", period = "", statusId = "", statusTitle = "";
     private boolean roomException = false, caseException = false, timeException = false, dateException = false, statusException = false;
     private int hour, minute, year, month, day;
 
@@ -402,7 +402,7 @@ public class EditSessionActivity extends AppCompatActivity {
             if (roomId.isEmpty()) {
                 errorView("room");
             }
-            if (casseId.isEmpty()) {
+            if (caseId.isEmpty()) {
                 errorView("case");
             }
             if (time.isEmpty()) {
@@ -434,7 +434,7 @@ public class EditSessionActivity extends AppCompatActivity {
                 clearException("status");
             }
 
-            if (!roomId.isEmpty() && !casseId.isEmpty() && !time.isEmpty() && !date.isEmpty() && periodEditText.length() != 0 && !statusId.isEmpty()) {
+            if (!roomId.isEmpty() && !caseId.isEmpty() && !time.isEmpty() && !date.isEmpty() && periodEditText.length() != 0 && !statusId.isEmpty()) {
                 doWork();
             }
         });
@@ -643,9 +643,9 @@ public class EditSessionActivity extends AppCompatActivity {
         if (extras.getString("room_title") != null)
             roomTitle = extras.getString("room_title");
         if (extras.getString("case_id") != null)
-            casseId = extras.getString("case_id");
+            caseId = extras.getString("case_id");
         if (extras.getString("case_name") != null)
-            casseName = extras.getString("case_name");
+            caseName = extras.getString("case_name");
         if (extras.getString("time") != null)
             time = extras.getString("time");
         else
@@ -669,9 +669,19 @@ public class EditSessionActivity extends AppCompatActivity {
             roomTitleTextView.setVisibility(View.VISIBLE);
         }
 
-        if (!casseId.equals("")) {
-            caseTextView.setText(casseName);
+        if (!caseId.equals("")) {
+            caseTextView.setText(caseName);
             caseTextView.setTextColor(getResources().getColor(R.color.Grey));
+        }
+
+        if (!period.equals("")) {
+            periodEditText.setText(period);
+            periodEditText.setTextColor(getResources().getColor(R.color.Grey));
+        }
+
+        if (!statusId.equals("")) {
+            statusTextView.setText(statusTitle);
+            statusTextView.setTextColor(getResources().getColor(R.color.Grey));
         }
 
         timeTextView.setText(time);
@@ -684,16 +694,6 @@ public class EditSessionActivity extends AppCompatActivity {
         year = Integer.parseInt(DateManager.dateToString("yyyy", DateManager.stringToDate("yyyy-MM-dd", date)));
         month = Integer.parseInt(DateManager.dateToString("MM", DateManager.stringToDate("yyyy-MM-dd", date)));
         day = Integer.parseInt(DateManager.dateToString("dd", DateManager.stringToDate("yyyy-MM-dd", date)));
-
-        if (!period.equals("")) {
-            periodEditText.setText(period);
-            periodEditText.setTextColor(getResources().getColor(R.color.Grey));
-        }
-
-        if (!statusId.equals("")) {
-            statusTextView.setText(statusTitle);
-            statusTextView.setTextColor(getResources().getColor(R.color.Grey));
-        }
     }
 
     private void setCustomPicker() {
@@ -828,9 +828,9 @@ public class EditSessionActivity extends AppCompatActivity {
     private void resetData(String method) {
         switch (method) {
             case "case":
-                if (!casseId.equals("")) {
-                    casseId = "";
-                    casseName = "";
+                if (!caseId.equals("")) {
+                    caseId = "";
+                    caseName = "";
 
                     caseTextView.setText(getResources().getString(R.string.EditSessionCase));
                     caseTextView.setTextColor(getResources().getColor(R.color.Mischka));
@@ -888,7 +888,7 @@ public class EditSessionActivity extends AppCompatActivity {
 
         try {
             progressDialog.show();
-            sessionViewModel.update(id, casseId, timestamp, period, statusId);
+            sessionViewModel.update(id, caseId, timestamp, period, statusId);
             observeWork("sessionViewModel");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -1063,8 +1063,8 @@ public class EditSessionActivity extends AppCompatActivity {
                     break;
 
                 case "getCases":
-                    if (!casseId.equals(model.get("id").toString())) {
-                        casseId = model.get("id").toString();
+                    if (!caseId.equals(model.get("id").toString())) {
+                        caseId = model.get("id").toString();
 
                         ArrayList<Model> cases = new ArrayList<>();
 
@@ -1085,14 +1085,14 @@ public class EditSessionActivity extends AppCompatActivity {
 
                         if (!name.toString().equals("")) {
                             JSONObject casse = new JSONObject().put("name", name);
-                            casseName =casse.get("name").toString();
+                            caseName = casse.get("name").toString();
 
-                            caseTextView.setText(casseName);
+                            caseTextView.setText(caseName);
                             caseTextView.setTextColor(getResources().getColor(R.color.Grey));
                         }
-                    } else if (casseId.equals(model.get("id").toString())) {
-                        casseId = "";
-                        casseName = "";
+                    } else if (caseId.equals(model.get("id").toString())) {
+                        caseId = "";
+                        caseName = "";
 
                         caseTextView.setText(getResources().getString(R.string.EditSessionCase));
                         caseTextView.setTextColor(getResources().getColor(R.color.Mischka));

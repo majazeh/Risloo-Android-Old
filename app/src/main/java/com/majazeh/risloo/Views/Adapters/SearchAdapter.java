@@ -163,7 +163,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                             }
                             break;
                         case "CreateSession":
-                            if (((CreateSessionActivity) Objects.requireNonNull(activity)).room.equals(model.get("id").toString())) {
+                            if (((CreateSessionActivity) Objects.requireNonNull(activity)).roomId.equals(model.get("id").toString())) {
                                 holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
                                     holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
@@ -236,7 +236,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                             }
                             break;
                         case "CreateSession":
-                            if (((CreateSessionActivity) Objects.requireNonNull(activity)).casse.equals(model.get("id").toString())) {
+                            if (((CreateSessionActivity) Objects.requireNonNull(activity)).caseId.equals(model.get("id").toString())) {
                                 holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
                                     holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
@@ -251,7 +251,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                             }
                             break;
                         case "EditSession":
-                            if (((EditSessionActivity) Objects.requireNonNull(activity)).casseId.equals(model.get("id").toString())) {
+                            if (((EditSessionActivity) Objects.requireNonNull(activity)).caseId.equals(model.get("id").toString())) {
                                 holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
                                     holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
@@ -328,7 +328,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                     holder.nameTextView.setText(model.get("fa_title").toString());
 
                     if (theory.equals("CreateSession")) {
-                        if (((CreateSessionActivity) Objects.requireNonNull(activity)).status.equals(model.get("en_title").toString())) {
+                        if (((CreateSessionActivity) Objects.requireNonNull(activity)).statusId.equals(model.get("en_title").toString())) {
                             holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
                         } else {

@@ -213,7 +213,16 @@ public class DetailCaseActivity extends AppCompatActivity {
             addSessionTextView.setClickable(false);
             handler.postDelayed(() -> addSessionTextView.setClickable(true), 300);
 
+            Intent intent = (new Intent(this, CreateSessionActivity.class));
 
+            intent.putExtra("room_id", roomId);
+            intent.putExtra("room_name", roomName);
+            intent.putExtra("room_title", roomTitle);
+            intent.putExtra("case_id", caseId);
+            intent.putExtra("case_name", caseName);
+
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
     }
 
