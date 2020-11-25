@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
-import com.majazeh.risloo.ViewModels.TermConditionViewModel;
+import com.majazeh.risloo.ViewModels.TAConditionsViewModel;
 import com.majazeh.risloo.Views.Adapters.ListAdapter;
 
 import org.json.JSONException;
@@ -25,7 +25,7 @@ import org.json.JSONException;
 public class TermConditionActivity extends AppCompatActivity {
 
     // ViewModel
-    private TermConditionViewModel viewModel;
+    private TAConditionsViewModel viewModel;
 
     // Adapters
     private ListAdapter adapter;
@@ -64,7 +64,7 @@ public class TermConditionActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = new ViewModelProvider(this).get(TermConditionViewModel.class);
+        viewModel = new ViewModelProvider(this).get(TAConditionsViewModel.class);
 
         adapter = new ListAdapter(this);
 

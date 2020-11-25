@@ -9,21 +9,18 @@ import com.majazeh.risloo.Utils.Generators.JSONGenerator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class QuestionRepository extends MainRepository {
+public class FAQuestionsRepository extends MainRepository {
 
     // Objects
-    private final JSONObject questionJson;
-    private final JSONArray questionItems;
+    private final JSONArray items;
 
-    public QuestionRepository(@NonNull Application application) throws JSONException {
+    public FAQuestionsRepository(@NonNull Application application) throws JSONException {
         super(application);
 
-        questionJson = new JSONObject(JSONGenerator.getJSON(application.getApplicationContext(), "Question.json"));
-        questionItems = questionJson.getJSONArray("items");
+        items = new JSONArray(JSONGenerator.getJSON(application.getApplicationContext(), "FAQuestions.json"));
     }
 
     /*
@@ -32,8 +29,8 @@ public class QuestionRepository extends MainRepository {
 
     public ArrayList<Model> getAll() throws JSONException {
         ArrayList<Model> items = new ArrayList<>();
-        for (int i = 0; i < questionItems.length(); i++) {
-            items.add(new Model(questionItems.getJSONObject(i)));
+        for (int i = 0; i < this.items.length(); i++) {
+            items.add(new Model(this.items.getJSONObject(i)));
         }
         return items;
     }

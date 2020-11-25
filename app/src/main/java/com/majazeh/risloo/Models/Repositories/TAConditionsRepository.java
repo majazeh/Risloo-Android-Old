@@ -2,26 +2,25 @@ package com.majazeh.risloo.Models.Repositories;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
+
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Utils.Generators.JSONGenerator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class TermConditionRepository extends MainRepository {
+public class TAConditionsRepository extends MainRepository {
 
     // Objects
-    private final JSONObject termConditionJson;
-    private final JSONArray termConditionItems;
+    private final JSONArray items;
 
-    public TermConditionRepository(Application application) throws JSONException {
+    public TAConditionsRepository(@NonNull Application application) throws JSONException {
         super(application);
 
-        termConditionJson = new JSONObject(JSONGenerator.getJSON(application.getApplicationContext(), "TermCondition.json"));
-        termConditionItems = termConditionJson.getJSONArray("items");
+        items = new JSONArray(JSONGenerator.getJSON(application.getApplicationContext(), "TAConditions.json"));
     }
 
     /*
@@ -30,14 +29,15 @@ public class TermConditionRepository extends MainRepository {
 
     public ArrayList<Model> getAll() throws JSONException {
         ArrayList<Model> items = new ArrayList<>();
-        for (int i = 0; i < termConditionItems.length(); i++) {
-            items.add(new Model(termConditionItems.getJSONObject(i)));
+        for (int i = 0; i < this.items.length(); i++) {
+            items.add(new Model(this.items.getJSONObject(i)));
         }
         return items;
     }
 
     public ArrayList<Model> getSubset(int index) throws JSONException {
-        JSONArray subsets = termConditionItems.getJSONObject(index).getJSONArray("items");
+        JSONArray subsets = items.getJSONObject(index).getJSONArray("items");
+
         ArrayList<Model> items = new ArrayList<>();
         for (int i = 0; i < subsets.length(); i++) {
             items.add(new Model(subsets.getJSONObject(i)));

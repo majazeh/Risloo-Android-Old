@@ -16,7 +16,7 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.ViewModels.AboutUsViewModel;
-import com.majazeh.risloo.ViewModels.TermConditionViewModel;
+import com.majazeh.risloo.ViewModels.TAConditionsViewModel;
 
 import org.json.JSONException;
 
@@ -26,7 +26,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
     // ViewModel
     private AboutUsViewModel aboutUsViewModel;
-    private TermConditionViewModel termConditionViewModel;
+    private TAConditionsViewModel TAConditionsViewModel;
 
     // Adapters
     private SubListBigAdapter subListBigAdapter;
@@ -65,7 +65,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
                 if (asset.equals("AboutUs")) {
                     subListBigAdapter.setSubListBig(aboutUsViewModel.getSubset(i));
                 } else if (asset.equals("TermCondition")) {
-                    subListBigAdapter.setSubListBig(termConditionViewModel.getSubset(i));
+                    subListBigAdapter.setSubListBig(TAConditionsViewModel.getSubset(i));
                 }
 
                 holder.listRecyclerView.setVisibility(View.VISIBLE);
@@ -79,7 +79,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
                 if (asset.equals("AboutUs")) {
                     subListSmallAdapter.setSubListSmall(aboutUsViewModel.getSubset(i));
                 } else if (asset.equals("TermCondition")) {
-                    subListSmallAdapter.setSubListSmall(termConditionViewModel.getSubset(i));
+                    subListSmallAdapter.setSubListSmall(TAConditionsViewModel.getSubset(i));
                 }
 
                 holder.listRecyclerView.setVisibility(View.VISIBLE);
@@ -106,7 +106,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
     private void initializer(View view) {
         aboutUsViewModel = new ViewModelProvider((FragmentActivity) activity).get(AboutUsViewModel.class);
-        termConditionViewModel = new ViewModelProvider((FragmentActivity) activity).get(TermConditionViewModel.class);
+        TAConditionsViewModel = new ViewModelProvider((FragmentActivity) activity).get(TAConditionsViewModel.class);
 
         subListBigAdapter = new SubListBigAdapter(activity);
         subListSmallAdapter = new SubListSmallAdapter(activity);

@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
-import com.majazeh.risloo.ViewModels.QuestionViewModel;
+import com.majazeh.risloo.ViewModels.FAQuestionsViewModel;
 import com.majazeh.risloo.Views.Adapters.QuestionAdapter;
 
 import org.json.JSONException;
@@ -27,7 +27,7 @@ import java.util.HashMap;
 public class QuestionActivity extends AppCompatActivity {
 
     // ViewModels
-    private QuestionViewModel viewModel;
+    private FAQuestionsViewModel viewModel;
 
     // Adapters
     private QuestionAdapter adapter;
@@ -69,7 +69,7 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = new ViewModelProvider(this).get(QuestionViewModel.class);
+        viewModel = new ViewModelProvider(this).get(FAQuestionsViewModel.class);
 
         expands = new HashMap<>();
 

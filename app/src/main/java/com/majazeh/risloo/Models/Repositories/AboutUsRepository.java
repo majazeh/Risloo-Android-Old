@@ -2,26 +2,25 @@ package com.majazeh.risloo.Models.Repositories;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
+
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Utils.Generators.JSONGenerator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class AboutUsRepository extends MainRepository {
 
     // Objects
-    private final JSONObject aboutUsJson;
-    private final JSONArray aboutUsItems;
+    private final JSONArray items;
 
-    public AboutUsRepository(Application application) throws JSONException {
+    public AboutUsRepository(@NonNull Application application) throws JSONException {
         super(application);
 
-        aboutUsJson = new JSONObject(JSONGenerator.getJSON(application.getApplicationContext(), "AboutUS.json"));
-        aboutUsItems = aboutUsJson.getJSONArray("items");
+        items = new JSONArray(JSONGenerator.getJSON(application.getApplicationContext(), "AboutUS.json"));
     }
 
     /*
@@ -30,14 +29,15 @@ public class AboutUsRepository extends MainRepository {
 
     public ArrayList<Model> getAll() throws JSONException {
         ArrayList<Model> items = new ArrayList<>();
-        for (int i = 0; i < aboutUsItems.length(); i++) {
-            items.add(new Model(aboutUsItems.getJSONObject(i)));
+        for (int i = 0; i < this.items.length(); i++) {
+            items.add(new Model(this.items.getJSONObject(i)));
         }
         return items;
     }
 
     public ArrayList<Model> getSubset(int index) throws JSONException {
-        JSONArray subsets = aboutUsItems.getJSONObject(index).getJSONArray("items");
+        JSONArray subsets = items.getJSONObject(index).getJSONArray("items");
+
         ArrayList<Model> items = new ArrayList<>();
         for (int i = 0; i < subsets.length(); i++) {
             items.add(new Model(subsets.getJSONObject(i)));

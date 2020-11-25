@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.majazeh.risloo">
 
@@ -40,8 +41,8 @@
 
         <activity
             android:name=".Views.Activities.SplashActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/LauncherTheme">
+            android:theme="@style/LauncherTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,8 +51,8 @@
         </activity>
         <activity
             android:name=".Views.Activities.IntroActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/WindowTheme" />
+            android:theme="@style/WindowTheme"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.AuthActivity"
             android:screenOrientation="portrait" />

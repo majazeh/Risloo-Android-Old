@@ -6,21 +6,21 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Repositories.TermConditionRepository;
+import com.majazeh.risloo.Models.Repositories.FAQuestionsRepository;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
 
-public class TermConditionViewModel extends AndroidViewModel {
+public class FAQuestionsViewModel extends AndroidViewModel {
 
     // Repositories
-    private final TermConditionRepository repository;
+    private final FAQuestionsRepository repository;
 
-    public TermConditionViewModel(@NonNull Application application) throws JSONException {
+    public FAQuestionsViewModel(@NonNull Application application) throws JSONException {
         super(application);
 
-        repository = new TermConditionRepository(application);
+        repository = new FAQuestionsRepository(application);
     }
 
     /*
@@ -29,10 +29,6 @@ public class TermConditionViewModel extends AndroidViewModel {
 
     public ArrayList<Model> getAll() throws JSONException {
         return repository.getAll();
-    }
-
-    public ArrayList<Model> getSubset(int index) throws JSONException {
-        return repository.getSubset(index);
     }
 
 }

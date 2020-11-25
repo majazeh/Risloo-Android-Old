@@ -6,21 +6,21 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Repositories.QuestionRepository;
+import com.majazeh.risloo.Models.Repositories.TAConditionsRepository;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
 
-public class QuestionViewModel extends AndroidViewModel {
+public class TAConditionsViewModel extends AndroidViewModel {
 
     // Repositories
-    private final QuestionRepository repository;
+    private final TAConditionsRepository repository;
 
-    public QuestionViewModel(@NonNull Application application) throws JSONException {
+    public TAConditionsViewModel(@NonNull Application application) throws JSONException {
         super(application);
 
-        repository = new QuestionRepository(application);
+        repository = new TAConditionsRepository(application);
     }
 
     /*
@@ -29,6 +29,10 @@ public class QuestionViewModel extends AndroidViewModel {
 
     public ArrayList<Model> getAll() throws JSONException {
         return repository.getAll();
+    }
+
+    public ArrayList<Model> getSubset(int index) throws JSONException {
+        return repository.getSubset(index);
     }
 
 }

@@ -5,8 +5,9 @@ buildscript {
         google()
         jcenter()
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0' // Android Build Tools
+        classpath 'com.android.tools.build:gradle:4.1.1' // Android Build Tools
 
         // NOTE : Do not place your application dependencies here because they belong in the individual module build.gradle files.
     }
@@ -16,6 +17,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        
         maven { url "https://maven.google.com" } // Google Url Maven
         maven { url "https://jitpack.io" } // JitPack Url Maven
     }
