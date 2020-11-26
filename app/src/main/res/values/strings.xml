@@ -6,12 +6,11 @@
 
     <string name="AppName">ریسلو</string>
 
-    <string name="ApiKey">ای پی آی کی</string>
-
     <string name="AppLoading">در حال بارگذاری …</string>
-    <string name="AppError">مشکل ارتباط با سرور! تلاش مجدد</string>
-    <string name="AppConnection">انترنت وصل نیست! تلاش مجدد</string>
-    <string name="AppEmpty">فعلا موردی برای نمایش موجود نیست.</string>
+
+    <string name="AppInfoError">مشکل ارتباط با سرور! تلاش مجدد</string>
+    <string name="AppInfoConnection">انترنت وصل نیست! تلاش مجدد</string>
+    <string name="AppInfoEmpty">موردی برای نمایش موجود نیست.</string>
 
     <string name="AppSearchInput">جستجو</string>
     <string name="AppSearchEmpty">موردی یافت نشد</string>
@@ -27,7 +26,7 @@
     <string name="SplashVersion">نسخه</string>
     <string name="SplashArrived">رسید</string>
 
-    <string name="SplashLoading">در حال بارگذاری نمونه های جدید</string>
+    <string name="SplashLoading">در حال بارگذاری</string>
 
     <string name="SplashUpdateDialogForceDescription">این یک به روز رسانی اجباری است و برای استفاده از برنامه لطفا هم اکنون به روز رسانی کنید.</string>
     <string name="SplashUpdateDialogForcePositive">به روز رسانی</string>
@@ -35,7 +34,7 @@
 
     <string name="SplashUpdateDialogNotForceDescription">این یک به روز رسانی اجباری نیست و شما می توانید اکنون یا بعدن به روز رسانی کنید.</string>
     <string name="SplashUpdateDialogNotForcePositive">به روز رسانی</string>
-    <string name="SplashUpdateDialogNotForceNegative">کار با این نسخه</string>
+    <string name="SplashUpdateDialogNotForceNegative">ادامه با این نسخه</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -57,6 +56,72 @@
     <string name="IntroStart">شروع</string>
 
     ////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // auth strings
     ////////////////////////////////////////////////////////////////////////////////

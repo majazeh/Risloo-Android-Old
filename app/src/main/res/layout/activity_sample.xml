@@ -43,7 +43,7 @@
                     android:layout_marginLeft="@dimen/_16sdp"
                     android:layout_marginRight="@dimen/_16sdp"
                     android:progress="0"
-                    android:progressDrawable="@drawable/draw_progress_8sdp_back_solitude_front_primary"
+                    android:progressDrawable="@drawable/draw_progress_back_solitude_front_primary"
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
 
             </LinearLayout>

@@ -28,18 +28,18 @@ import retrofit2.Response;
 public class ExplodeWorker extends Worker {
 
     // Apis
-    private ExplodeApi explodeApi;
+    private final ExplodeApi api;
 
     // Objects
-    private Context context;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
+    private final Context context;
+    private final SharedPreferences sharedPreferences;
+    private final SharedPreferences.Editor editor;
 
     public ExplodeWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         this.context = context;
 
-        explodeApi = RetroGenerator.getRetrofit().create(ExplodeApi.class);
+        api = RetroGenerator.getRetrofit().create(ExplodeApi.class);
 
         sharedPreferences = context.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
@@ -72,12 +72,14 @@ public class ExplodeWorker extends Worker {
 
     private void explode() {
         try {
-            Call<ResponseBody> call = explodeApi.explode();
+            Call<ResponseBody> call = api.explode();
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
-                JSONObject android = successBody.getJSONObject("android");
+
+                JSONObject version = successBody.getJSONObject("version");
+                JSONObject android = version.getJSONObject("android");
 
                 if (Integer.parseInt(android.getString("current")) < Integer.parseInt(android.getString("force"))) {
                     // TODO: Force Update
@@ -86,16 +88,18 @@ public class ExplodeWorker extends Worker {
                 }
 
                 JSONObject user = successBody.getJSONObject("user");
+                JSONArray centers = user.getJSONArray("centers");
+
+                FileManager.writeObjectToCache(context, new JSONObject().put("data", centers), "centers" + "/" + "my");
 
                 boolean hasAccess = false;
 
                 if (user.has("type") && user.getString("type").equals("admin")) {
                     hasAccess = true;
                 } else {
-                    JSONArray centers = user.getJSONArray("centers");
                     for (int i = 0; i < centers.length(); i++) {
-                        JSONObject jsonObject = centers.getJSONObject(i);
-                        JSONObject acceptation = jsonObject.getJSONObject("acceptation");
+                        JSONObject center = centers.getJSONObject(i);
+                        JSONObject acceptation = center.getJSONObject("acceptation");
 
                         if (acceptation.getString("position").equals("operator") || acceptation.getString("position").equals("manager") || acceptation.getString("position").equals("psychologist")) {
                             hasAccess = true;
@@ -103,50 +107,51 @@ public class ExplodeWorker extends Worker {
                     }
                 }
 
-                if (hasAccess) {
-                    editor.putBoolean("hasAccess", true);
+                editor.putBoolean("hasAccess", hasAccess);
+
+                if (user.has("id") && !user.isNull("id")) {
+                    editor.putString("userId", user.getString("id"));
                 } else {
-                    editor.putBoolean("hasAccess", false);
+                    editor.putString("userId", "");
                 }
 
-                FileManager.writeObjectToCache(context, new JSONObject().put("data", user.getJSONArray("centers")), "centers" + "/" + "my");
-
-                if (user.has("id"))
-                    editor.putString("userId", user.getString("id"));
-                else
-                    editor.putString("userId", "");
-
-                if (user.has("name"))
+                if (user.has("name") && !user.isNull("name")) {
                     editor.putString("name", user.getString("name"));
-                else
+                } else {
                     editor.putString("name", "");
+                }
 
-                if (user.has("type"))
+                if (user.has("type") && !user.isNull("type")) {
                     editor.putString("type", user.getString("type"));
-                else
+                } else {
                     editor.putString("type", "");
+                }
 
-                if (user.has("mobile"))
+                if (user.has("mobile") && !user.isNull("mobile")) {
                     editor.putString("mobile", user.getString("mobile"));
-                else
+                } else {
                     editor.putString("mobile", "");
+                }
 
-                if (user.has("email"))
+                if (user.has("email") && !user.isNull("email")) {
                     editor.putString("email", user.getString("email"));
-                else
+                } else {
                     editor.putString("email", "");
+                }
 
-                if (user.has("gender"))
+                if (user.has("gender") && !user.isNull("gender")) {
                     editor.putString("gender", user.getString("gender"));
-                else
+                } else {
                     editor.putString("gender", "");
+                }
 
-                if (user.has("birthday"))
+                if (user.has("birthday") && !user.isNull("birthday")) {
                     editor.putString("birthday", user.getString("birthday"));
-                else
+                } else {
                     editor.putString("birthday", "");
+                }
 
-                if (!user.isNull("avatar") &&user.get("avatar").getClass().getName().equals("org.json.JSONObject")) {
+                if (!user.isNull("avatar") && user.get("avatar").getClass().getName().equals("org.json.JSONObject")) {
                     JSONObject avatar = user.getJSONObject("avatar");
                     JSONObject medium = avatar.getJSONObject("medium");
 

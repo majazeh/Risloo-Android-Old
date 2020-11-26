@@ -323,17 +323,17 @@ public class ScalesActivity extends AppCompatActivity {
             case "error":
                 infoImageView.setImageResource(R.drawable.illu_error);
                 infoTextView.setMovementMethod(LinkMovementMethod.getInstance());
-                infoTextView.setText(StringManager.clickable(getResources().getString(R.string.AppError), 21, 30, retrySpan));
+                infoTextView.setText(StringManager.clickable(getResources().getString(R.string.AppInfoError), 21, 30, retrySpan));
                 break;
             case "connection":
                 infoImageView.setImageResource(R.drawable.illu_connection);
                 infoTextView.setMovementMethod(LinkMovementMethod.getInstance());
-                infoTextView.setText(StringManager.clickable(getResources().getString(R.string.AppConnection), 17, 26, retrySpan));
+                infoTextView.setText(StringManager.clickable(getResources().getString(R.string.AppInfoConnection), 17, 26, retrySpan));
                 break;
             case "empty":
                 infoImageView.setImageResource(R.drawable.illu_empty);
                 infoTextView.setMovementMethod(null);
-                infoTextView.setText(getResources().getString(R.string.AppEmpty));
+                infoTextView.setText(getResources().getString(R.string.AppInfoEmpty));
                 break;
             case "search":
                 infoImageView.setImageResource(R.drawable.illu_empty);

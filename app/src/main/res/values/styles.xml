@@ -57,6 +57,9 @@
     <style name="ProgressBarTheme" parent="ThemeOverlay.AppCompat.Light">
         <item name="colorAccent">@color/Primary</item>
     </style>
+    <style name="ProgressBarHorizontalTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="colorAccent">@color/White</item>
+    </style>
 
     ////////////////////////////////////////////////////////////////////////////////
 

@@ -1,6 +1,7 @@
 package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Dialog;
@@ -15,18 +16,23 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.majazeh.risloo.Models.Repositories.ExplodeRepository;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.IntentManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.ExplodeViewModel;
+
+import org.json.JSONException;
 
 import java.util.Objects;
 
 public class SplashActivity extends AppCompatActivity {
 
     // ViewModels
-    private ExplodeViewModel viewModel;
+    private ExplodeViewModel explodeViewModel;
 
     // Objects
     private Handler handler;
@@ -51,7 +57,7 @@ public class SplashActivity extends AppCompatActivity {
 
         listener();
 
-        checkUpdate();
+        launchIntro();
     }
 
     private void decorator() {
@@ -62,7 +68,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = new ViewModelProvider(this).get(ExplodeViewModel.class);
+        explodeViewModel = new ViewModelProvider(this).get(ExplodeViewModel.class);
 
         handler = new Handler();
 
@@ -100,7 +106,7 @@ public class SplashActivity extends AppCompatActivity {
     private void listener() {
         updateDialogPositive.setOnClickListener(v -> {
             updateDialogPositive.setClickable(false);
-            handler.postDelayed(() -> updateDialogPositive.setClickable(true), 300);
+            handler.postDelayed(() -> updateDialogPositive.setClickable(true), 250);
             updateDialog.dismiss();
 
             IntentManager.googlePlay(this);
@@ -109,10 +115,10 @@ public class SplashActivity extends AppCompatActivity {
 
         updateDialogNegative.setOnClickListener(v -> {
             updateDialogNegative.setClickable(false);
-            handler.postDelayed(() -> updateDialogNegative.setClickable(true), 300);
+            handler.postDelayed(() -> updateDialogNegative.setClickable(true), 250);
             updateDialog.dismiss();
 
-            if (viewModel.forceUpdate()) {
+            if (explodeViewModel.forceUpdate()) {
                 finish();
             } else {
                 launchIntro();
@@ -122,7 +128,7 @@ public class SplashActivity extends AppCompatActivity {
         updateDialog.setOnCancelListener(dialog -> {
             updateDialog.dismiss();
 
-            if (viewModel.forceUpdate()) {
+            if (explodeViewModel.forceUpdate()) {
                 finish();
             } else {
                 launchIntro();
@@ -130,45 +136,68 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
-    private void checkUpdate() {
-        if (viewModel.hasUpdate()) {
-            if (viewModel.forceUpdate()) {
-                updateDialogTitle.setText(newVersion());
-                updateDialogDescription.setText(getResources().getString(R.string.SplashUpdateDialogForceDescription));
-                updateDialogPositive.setText(getResources().getString(R.string.SplashUpdateDialogForcePositive));
-                updateDialogNegative.setText(getResources().getString(R.string.SplashUpdateDialogForceNegative));
+    private void setData() {
+        updateDialogTitle.setText(newVersion());
 
-                updateDialog.show();
-            } else {
-                updateDialogTitle.setText(newVersion());
-                updateDialogDescription.setText(getResources().getString(R.string.SplashUpdateDialogNotForceDescription));
-                updateDialogPositive.setText(getResources().getString(R.string.SplashUpdateDialogNotForcePositive));
-                updateDialogNegative.setText(getResources().getString(R.string.SplashUpdateDialogNotForceNegative));
-
-                updateDialog.show();
-            }
+        if (explodeViewModel.forceUpdate()) {
+            updateDialogDescription.setText(getResources().getString(R.string.SplashUpdateDialogForceDescription));
+            updateDialogPositive.setText(getResources().getString(R.string.SplashUpdateDialogForcePositive));
+            updateDialogNegative.setText(getResources().getString(R.string.SplashUpdateDialogForceNegative));
         } else {
-            checkContent();
+            updateDialogDescription.setText(getResources().getString(R.string.SplashUpdateDialogNotForceDescription));
+            updateDialogPositive.setText(getResources().getString(R.string.SplashUpdateDialogNotForcePositive));
+            updateDialogNegative.setText(getResources().getString(R.string.SplashUpdateDialogNotForceNegative));
         }
+
+        updateDialog.show();
     }
 
-    private void checkContent() {
-        if (viewModel.newContent()) {
-            updateProgressBar.setVisibility(View.VISIBLE);
-            versionTextView.setText(getResources().getString(R.string.SplashLoading));
-            // TODO : Load Our Samples Content Or Add New Samples
-            updateProgressBar.setVisibility(View.INVISIBLE);
-            versionTextView.setText(currentVersion());
-        }
-        launchIntro();
+    private void getData() {
+        handler.postDelayed(() -> {
+            try {
+
+                versionTextView.setText(getResources().getString(R.string.SplashLoading));
+                updateProgressBar.setVisibility(View.VISIBLE);
+
+                explodeViewModel.explode();
+
+                observeWork();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, 500);
     }
 
-    private String currentVersion() {
-        return getResources().getString(R.string.SplashVersion) + " " + viewModel.currentVersion();
-    }
+    private void observeWork() {
+        ExplodeRepository.workState.observe((LifecycleOwner) this, integer -> {
+            if (ExplodeRepository.work.equals("explode")) {
+                if (integer == 1) {
+                    if (explodeViewModel.hasUpdate()) {
+                        setData();
+                    } else {
+                        launchIntro();
+                    }
 
-    private String newVersion() {
-        return getResources().getString(R.string.SplashVersion) + " " + viewModel.newVersion() + " " + getResources().getString(R.string.SplashArrived);
+                    versionTextView.setText(currentVersion());
+                    updateProgressBar.setVisibility(View.INVISIBLE);
+                    ExplodeRepository.workState.removeObservers((LifecycleOwner) this);
+                } else if (integer == 0) {
+                    finish();
+
+                    versionTextView.setText(currentVersion());
+                    updateProgressBar.setVisibility(View.INVISIBLE);
+                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                    ExplodeRepository.workState.removeObservers((LifecycleOwner) this);
+                } else if (integer == -2) {
+                    finish();
+
+                    versionTextView.setText(currentVersion());
+                    updateProgressBar.setVisibility(View.INVISIBLE);
+                    Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                    ExplodeRepository.workState.removeObservers((LifecycleOwner) this);
+                }
+            }
+        });
     }
 
     private void launchIntro() {
@@ -176,6 +205,14 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(new Intent(this, IntroActivity.class));
             finish();
         }, 1000);
+    }
+
+    private String currentVersion() {
+        return getResources().getString(R.string.SplashVersion) + " " + explodeViewModel.currentVersion();
+    }
+
+    private String newVersion() {
+        return getResources().getString(R.string.SplashVersion) + " " + explodeViewModel.newVersion() + " " + getResources().getString(R.string.SplashArrived);
     }
 
     @Override

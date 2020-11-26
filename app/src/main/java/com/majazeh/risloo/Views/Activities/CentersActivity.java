@@ -360,12 +360,12 @@ public class CentersActivity extends AppCompatActivity {
             case "error":
                 infoImageView.setImageResource(R.drawable.illu_error);
                 infoTextView.setMovementMethod(LinkMovementMethod.getInstance());
-                infoTextView.setText(StringManager.clickable(getResources().getString(R.string.AppError), 21, 30, retrySpan));
+                infoTextView.setText(StringManager.clickable(getResources().getString(R.string.AppInfoError), 21, 30, retrySpan));
                 break;
             case "connection":
                 infoImageView.setImageResource(R.drawable.illu_connection);
                 infoTextView.setMovementMethod(LinkMovementMethod.getInstance());
-                infoTextView.setText(StringManager.clickable(getResources().getString(R.string.AppConnection), 17, 26, retrySpan));
+                infoTextView.setText(StringManager.clickable(getResources().getString(R.string.AppInfoConnection), 17, 26, retrySpan));
                 break;
         }
     }

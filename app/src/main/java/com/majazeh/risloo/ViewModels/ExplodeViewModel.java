@@ -12,7 +12,7 @@ import org.json.JSONException;
 public class ExplodeViewModel extends AndroidViewModel {
 
     // Repositories
-    private ExplodeRepository repository;
+    private final ExplodeRepository repository;
 
     public ExplodeViewModel(@NonNull Application application) throws JSONException {
         super(application);
@@ -31,10 +31,6 @@ public class ExplodeViewModel extends AndroidViewModel {
     /*
          ---------- Booleans ----------
     */
-
-    public boolean newContent(){
-        return repository.newContent();
-    }
 
     public boolean hasUpdate(){
         return repository.hasUpdate();

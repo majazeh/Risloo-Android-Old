@@ -136,7 +136,7 @@ public class AllCentersFragment extends Fragment {
         switch (type) {
             case "empty":
                 infoImageView.setImageResource(R.drawable.illu_empty);
-                infoTextView.setText(getResources().getString(R.string.AppEmpty));
+                infoTextView.setText(getResources().getString(R.string.AppInfoEmpty));
                 break;
             case "search":
                 infoImageView.setImageResource(R.drawable.illu_empty);

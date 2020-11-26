@@ -9,14 +9,15 @@
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
     android:background="@color/Primary"
-    tools:context=".Views.Activities.SplashActivity"
-    tools:ignore="UnusedAttribute, ContentDescription">
+    tools:context=".Views.Activities.SplashActivity">
 
     <ImageView
+        android:id="@+id/activity_splash_logo_imageView"
         android:layout_width="@dimen/_110sdp"
         android:layout_height="@dimen/_110sdp"
         android:layout_marginBottom="@dimen/_24sdp"
         android:layout_gravity="center"
+        android:contentDescription="@string/AppImageContent"
         android:src="@drawable/ic_brain_light"
         app:tint="@color/White" />
 
@@ -27,26 +28,26 @@
         android:layout_marginBottom="@dimen/_16sdp"
         android:orientation="vertical">
 
-        <ProgressBar
-            android:id="@+id/activity_splash_update_progressBar"
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_7sdp"
-            android:layout_marginBottom="@dimen/_8sdp"
-            android:alpha="0"
-            android:visibility="invisible"
-            android:progressDrawable="@drawable/draw_progress_8sdp_back_primarydark_front_white"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
-
         <TextView
             android:id="@+id/activity_splash_version_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:layout_gravity="center|bottom"
             android:gravity="center"
             android:textSize="@dimen/_12ssp"
-            android:textStyle="normal"
+            android:textStyle="bold"
             android:textColor="@color/Solitude"
             android:textAlignment="gravity" />
+
+        <ProgressBar
+            android:id="@+id/activity_splash_update_progressBar"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_8sdp"
+            android:visibility="gone"
+            android:indeterminate="true"
+            android:theme="@style/ProgressBarHorizontalTheme"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
 
     </LinearLayout>
 

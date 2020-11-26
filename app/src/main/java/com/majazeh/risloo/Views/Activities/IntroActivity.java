@@ -22,7 +22,7 @@ import com.majazeh.risloo.Views.Adapters.IntroAdapter;
 public class IntroActivity extends AppCompatActivity {
 
     // Adapters
-    private IntroAdapter adapter;
+    private IntroAdapter introAdapter;
 
     // Vars
     private int[] introLayouts, activeColors, inActiveColors;
@@ -51,7 +51,7 @@ public class IntroActivity extends AppCompatActivity {
 
             listener();
 
-            addDots(0);
+            setViewPager();
         } else {
             launchAuth();
         }
@@ -72,13 +72,11 @@ public class IntroActivity extends AppCompatActivity {
 
         dotsTextView = new TextView[introLayouts.length];
 
-        adapter = new IntroAdapter(this);
-        adapter.setLayout(introLayouts);
+        introAdapter = new IntroAdapter(this);
 
         handler = new Handler();
 
         rtlViewPager = findViewById(R.id.activity_intro_rtlViewPager);
-        rtlViewPager.setAdapter(adapter);
 
         nextTextView = findViewById(R.id.activity_intro_next_textView);
         skipTextView = findViewById(R.id.activity_intro_skip_textView);
@@ -96,7 +94,7 @@ public class IntroActivity extends AppCompatActivity {
 
         skipTextView.setOnClickListener(v -> {
             skipTextView.setClickable(false);
-            handler.postDelayed(() -> skipTextView.setClickable(true), 300);
+            handler.postDelayed(() -> skipTextView.setClickable(true), 250);
 
             launchAuth();
         });
@@ -129,6 +127,13 @@ public class IntroActivity extends AppCompatActivity {
         });
     }
 
+    private void setViewPager() {
+        introAdapter.setLayouts(introLayouts);
+        rtlViewPager.setAdapter(introAdapter);
+
+        addDots(0);
+    }
+
     private void addDots(int currentPage) {
         dotsLinearLayout.removeAllViews();
 
@@ -145,13 +150,14 @@ public class IntroActivity extends AppCompatActivity {
         }
     }
 
-    private boolean firstTimeLaunch() {
-        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+    private void nextPage() {
+        int currentPage = rtlViewPager.getCurrentItem() + 1;
 
-        editor = sharedPreferences.edit();
-        editor.apply();
-
-        return sharedPreferences.getBoolean("firstLaunch", true);
+        if (currentPage < introLayouts.length) {
+            rtlViewPager.setCurrentItem(currentPage);
+        } else {
+            launchAuth();
+        }
     }
 
     private void launchAuth() {
@@ -162,14 +168,13 @@ public class IntroActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private void nextPage() {
-        int currentPage = rtlViewPager.getCurrentItem() + 1;
+    private boolean firstTimeLaunch() {
+        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
-        if (currentPage < introLayouts.length) {
-            rtlViewPager.setCurrentItem(currentPage);
-        } else {
-            launchAuth();
-        }
+        editor = sharedPreferences.edit();
+        editor.apply();
+
+        return sharedPreferences.getBoolean("firstLaunch", true);
     }
 
 }

@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Constraints;
 import androidx.work.Data;
@@ -26,7 +27,7 @@ public class ExplodeRepository extends MainRepository {
     public static MutableLiveData<Integer> workState;
     public static String work = "";
 
-    public ExplodeRepository(Application application) throws JSONException {
+    public ExplodeRepository(@NonNull Application application) throws JSONException {
         super(application);
 
         workState = new MutableLiveData<>();
@@ -46,10 +47,6 @@ public class ExplodeRepository extends MainRepository {
     /*
          ---------- Booleans ----------
     */
-
-    public boolean newContent() {
-        return false;
-    }
 
     public boolean hasUpdate() {
         return false;
