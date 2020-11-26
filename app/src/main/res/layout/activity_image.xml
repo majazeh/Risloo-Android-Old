@@ -10,8 +10,7 @@
     android:fitsSystemWindows="true"
     android:background="@color/Nero"
     android:descendantFocusability="blocksDescendants"
-    tools:context=".Views.Activities.ImageActivity"
-    tools:ignore="UnusedAttribute, RtlHardcoded, RtlSymmetry">
+    tools:context=".Views.Activities.ImageActivity">
 
     <com.jsibbold.zoomage.ZoomageView
         android:id="@+id/activity_image_imageView"

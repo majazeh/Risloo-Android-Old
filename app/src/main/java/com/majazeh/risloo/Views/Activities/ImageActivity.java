@@ -94,14 +94,14 @@ public class ImageActivity extends AppCompatActivity {
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
             finish();
         });
 
         toolbarDownloadImageView.setOnClickListener(v -> {
             toolbarDownloadImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarDownloadImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarDownloadImageView.setClickable(true), 250);
 
             if (PermissionManager.storagePermission(this)) {
                 IntentManager.download(this, image);
