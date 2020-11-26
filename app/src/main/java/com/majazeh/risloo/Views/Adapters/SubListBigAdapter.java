@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class SubListBigAdapter extends RecyclerView.Adapter<SubListBigAdapter.SubListBigHolder> {
 
     // Vars
-    private ArrayList<Model> subListBig;
+    private ArrayList<Model> lists;
 
     // Objects
     private Activity activity;
@@ -37,7 +37,7 @@ public class SubListBigAdapter extends RecyclerView.Adapter<SubListBigAdapter.Su
 
     @Override
     public void onBindViewHolder(@NonNull SubListBigHolder holder, int i) {
-        Model model = subListBig.get(i);
+        Model model = lists.get(i);
 
         try {
             holder.titleTextView.setText(model.get("title").toString());
@@ -49,11 +49,11 @@ public class SubListBigAdapter extends RecyclerView.Adapter<SubListBigAdapter.Su
 
     @Override
     public int getItemCount() {
-        return subListBig.size();
+        return lists.size();
     }
 
-    public void setSubListBig(ArrayList<Model> subListBig) {
-        this.subListBig = subListBig;
+    public void setList(ArrayList<Model> lists) {
+        this.lists = lists;
         notifyDataSetChanged();
     }
 

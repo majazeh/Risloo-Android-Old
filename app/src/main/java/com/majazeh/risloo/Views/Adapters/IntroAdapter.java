@@ -45,7 +45,7 @@ public class IntroAdapter extends PagerAdapter {
         return layouts.length;
     }
 
-    public void setLayouts(int[] layouts) {
+    public void setLayout(int[] layouts) {
         this.layouts = layouts;
         notifyDataSetChanged();
     }

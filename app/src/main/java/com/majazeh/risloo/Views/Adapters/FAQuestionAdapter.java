@@ -22,7 +22,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class FAQuestionAdapter extends RecyclerView.Adapter<FAQuestionAdapter.QuestionHolder> {
+public class FAQuestionAdapter extends RecyclerView.Adapter<FAQuestionAdapter.FAQuestionHolder> {
 
     // Vars
     private ArrayList<Model> faQuestions;
@@ -38,16 +38,16 @@ public class FAQuestionAdapter extends RecyclerView.Adapter<FAQuestionAdapter.Qu
 
     @NonNull
     @Override
-    public QuestionHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public FAQuestionHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(activity).inflate(R.layout.single_item_fa_question, viewGroup, false);
 
         initializer(view);
 
-        return new QuestionHolder(view);
+        return new FAQuestionHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull QuestionHolder holder, int i) {
+    public void onBindViewHolder(@NonNull FAQuestionHolder holder, int i) {
         Model model = faQuestions.get(i);
 
         try {
@@ -95,24 +95,23 @@ public class FAQuestionAdapter extends RecyclerView.Adapter<FAQuestionAdapter.Qu
         handler = new Handler();
     }
 
-    public void setFAQuestions(ArrayList<Model> faQuestions, HashMap<Integer, Boolean> expands) {
+    private void doWork(int position) {
+        expands.put(position, !expands.get(position));
+        notifyDataSetChanged();
+    }
+
+    public void setFAQuestion(ArrayList<Model> faQuestions, HashMap<Integer, Boolean> expands) {
         this.faQuestions = faQuestions;
         this.expands = expands;
         notifyDataSetChanged();
     }
 
-    private void doWork(int position) {
-        expands.put(position, !expands.get(position));
-
-        notifyDataSetChanged();
-    }
-
-    public class QuestionHolder extends RecyclerView.ViewHolder {
+    public class FAQuestionHolder extends RecyclerView.ViewHolder {
 
         public TextView subjectTextView, answerTextView;
         public ImageView expandImageView;
 
-        public QuestionHolder(View view) {
+        public FAQuestionHolder(View view) {
             super(view);
             subjectTextView = view.findViewById(R.id.single_item_fa_question_subject_textView);
             answerTextView = view.findViewById(R.id.single_item_fa_question_answer_textView);

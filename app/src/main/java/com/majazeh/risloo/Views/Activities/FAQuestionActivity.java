@@ -116,7 +116,7 @@ public class FAQuestionActivity extends AppCompatActivity {
                 expands.put(i, false);
             }
 
-            faQuestionAdapter.setFAQuestions(faQuestionViewModel.getAll(), expands);
+            faQuestionAdapter.setFAQuestion(faQuestionViewModel.getAll(), expands);
             faQuestionRecyclerView.setAdapter(faQuestionAdapter);
         } catch (JSONException e) {
             e.printStackTrace();

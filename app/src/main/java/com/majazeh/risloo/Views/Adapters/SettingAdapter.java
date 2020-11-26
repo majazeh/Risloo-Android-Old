@@ -37,13 +37,13 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHolder> {
+public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingHolder> {
 
     // ViewModels
     private ExplodeViewModel explodeViewModel;
 
     // Vars
-    private ArrayList<Model> setting;
+    private ArrayList<Model> settings;
 
     // Objects
     private Activity activity;
@@ -60,24 +60,24 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
 
     @NonNull
     @Override
-    public MoreHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public SettingHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(activity).inflate(R.layout.single_item_setting, viewGroup, false);
 
         initializer(view);
 
-        return new MoreHolder(view);
+        return new SettingHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MoreHolder holder, int i) {
-        Model model = setting.get(i);
+    public void onBindViewHolder(@NonNull SettingHolder holder, int i) {
+        Model model = settings.get(i);
 
         try {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                 holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_white_ripple_quartz);
             }
 
-            if (i != setting.size() - 1) {
+            if (i != settings.size() - 1) {
                 holder.titleTextView.setText(model.get("title").toString());
             } else {
                 if (explodeViewModel.hasUpdate()) {
@@ -108,7 +108,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
 
     @Override
     public int getItemCount() {
-        return setting.size();
+        return settings.size();
     }
 
     private void initializer(View view) {
@@ -117,56 +117,6 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
         socialDialog = new SocialDialog(activity);
 
         handler = new Handler();
-    }
-
-    public void setSetting(ArrayList<Model> setting) {
-        this.setting = setting;
-        notifyDataSetChanged();
-    }
-
-    private void doWork(int position) {
-        switch (position) {
-            case 0:
-                activity.startActivity(new Intent(activity, AboutUsActivity.class));
-                activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                break;
-            case 1:
-                activity.startActivity(new Intent(activity, FAQuestionActivity.class));
-                activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                break;
-            case 2:
-                activity.startActivity(new Intent(activity, TAConditionActivity.class));
-                activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                break;
-            case 3:
-                activity.startActivity(new Intent(activity, CallUsActivity.class));
-                activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                break;
-            case 4:
-                socialDialog.show(((SettingActivity)activity).getSupportFragmentManager(), "socialBottomSheet");
-                break;
-            case 5:
-                IntentManager.share(activity, activity.getResources().getString(R.string.SettingShareLink), activity.getResources().getString(R.string.SettingShareChooser));
-                break;
-            case 6:
-                IntentManager.googlePlay(activity);
-                break;
-            case 7:
-                initDialog();
-
-                detector();
-
-                listener();
-
-                if (explodeViewModel.hasUpdate()) {
-                    availableUpdateDialogTitle.setText(newVersion());
-                    availableUpdateDialog.show();
-                } else {
-                    noUpdateDialogTitle.setText(currentVersion());
-                    noUpdateDialog.show();
-                }
-                break;
-        }
     }
 
     private void initDialog() {
@@ -245,6 +195,51 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
         availableUpdateDialog.setOnCancelListener(dialog -> availableUpdateDialog.dismiss());
     }
 
+    private void doWork(int position) {
+        switch (position) {
+            case 0:
+                activity.startActivity(new Intent(activity, AboutUsActivity.class));
+                activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                break;
+            case 1:
+                activity.startActivity(new Intent(activity, FAQuestionActivity.class));
+                activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                break;
+            case 2:
+                activity.startActivity(new Intent(activity, TAConditionActivity.class));
+                activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                break;
+            case 3:
+                activity.startActivity(new Intent(activity, CallUsActivity.class));
+                activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                break;
+            case 4:
+                socialDialog.show(((SettingActivity)activity).getSupportFragmentManager(), "socialBottomSheet");
+                break;
+            case 5:
+                IntentManager.share(activity, activity.getResources().getString(R.string.SettingShareLink), activity.getResources().getString(R.string.SettingShareChooser));
+                break;
+            case 6:
+                IntentManager.googlePlay(activity);
+                break;
+            case 7:
+                initDialog();
+
+                detector();
+
+                listener();
+
+                if (explodeViewModel.hasUpdate()) {
+                    availableUpdateDialogTitle.setText(newVersion());
+                    availableUpdateDialog.show();
+                } else {
+                    noUpdateDialogTitle.setText(currentVersion());
+                    noUpdateDialog.show();
+                }
+                break;
+        }
+    }
+
     private String currentVersion() {
         return activity.getResources().getString(R.string.SettingVersion) + " " + explodeViewModel.currentVersion();
     }
@@ -253,13 +248,18 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
         return activity.getResources().getString(R.string.SettingVersion) + " " + explodeViewModel.newVersion() + " " + activity.getResources().getString(R.string.SettingArrived);
     }
 
-    public class MoreHolder extends RecyclerView.ViewHolder {
+    public void setSetting(ArrayList<Model> settings) {
+        this.settings = settings;
+        notifyDataSetChanged();
+    }
+
+    public class SettingHolder extends RecyclerView.ViewHolder {
 
         public ImageView avatarImageView;
         public TextView titleTextView, updateTextView;
         public View lineView;
 
-        public MoreHolder(View view) {
+        public SettingHolder(View view) {
             super(view);
             avatarImageView = view.findViewById(R.id.single_item_setting_avatar_imageView);
             titleTextView = view.findViewById(R.id.single_item_setting_title_textView);

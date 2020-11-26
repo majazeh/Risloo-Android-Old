@@ -29,7 +29,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
     // Vars
     private String asset;
-    private ArrayList<Model> list;
+    private ArrayList<Model> lists;
 
     // Objects
     private Activity activity;
@@ -50,7 +50,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ListHolder holder, int i) {
-        Model model = list.get(i);
+        Model model = lists.get(i);
 
         try {
             holder.titleTextView.setText(model.get("title").toString());
@@ -58,9 +58,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
             if (model.get("subset").equals("big")) {
                 if (asset.equals("AboutUs")) {
-                    subListBigAdapter.setSubListBig(((AboutUsActivity) Objects.requireNonNull(activity)).aboutUsViewModel.getSubset(i));
+                    subListBigAdapter.setList(((AboutUsActivity) Objects.requireNonNull(activity)).aboutUsViewModel.getSubset(i));
                 } else if (asset.equals("TACondition")) {
-                    subListBigAdapter.setSubListBig(((TAConditionActivity) Objects.requireNonNull(activity)).taConditionViewModel.getSubset(i));
+                    subListBigAdapter.setList(((TAConditionActivity) Objects.requireNonNull(activity)).taConditionViewModel.getSubset(i));
                 }
 
                 holder.listRecyclerView.setVisibility(View.VISIBLE);
@@ -70,11 +70,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
                 holder.listRecyclerView.setHasFixedSize(false);
                 holder.listRecyclerView.setAdapter(subListBigAdapter);
 
-            } else if (list.get(i).get("subset").equals("small")) {
+            } else if (lists.get(i).get("subset").equals("small")) {
                 if (asset.equals("AboutUs")) {
-                    subListSmallAdapter.setSubListSmall(((AboutUsActivity) Objects.requireNonNull(activity)).aboutUsViewModel.getSubset(i));
+                    subListSmallAdapter.setList(((AboutUsActivity) Objects.requireNonNull(activity)).aboutUsViewModel.getSubset(i));
                 } else if (asset.equals("TACondition")) {
-                    subListSmallAdapter.setSubListSmall(((TAConditionActivity) Objects.requireNonNull(activity)).taConditionViewModel.getSubset(i));
+                    subListSmallAdapter.setList(((TAConditionActivity) Objects.requireNonNull(activity)).taConditionViewModel.getSubset(i));
                 }
 
                 holder.listRecyclerView.setVisibility(View.VISIBLE);
@@ -84,7 +84,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
                 holder.listRecyclerView.setHasFixedSize(false);
                 holder.listRecyclerView.setAdapter(subListSmallAdapter);
 
-            } else if (list.get(i).get("subset").equals("none")) {
+            } else if (lists.get(i).get("subset").equals("none")) {
                 holder.listRecyclerView.setVisibility(View.GONE);
             }
 
@@ -95,7 +95,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return lists.size();
     }
 
     private void initializer(View view) {
@@ -103,8 +103,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
         subListSmallAdapter = new SubListSmallAdapter(activity);
     }
 
-    public void setList(ArrayList<Model> list, String asset) {
-        this.list = list;
+    public void setList(ArrayList<Model> lists, String asset) {
+        this.lists = lists;
         this.asset = asset;
         notifyDataSetChanged();
     }

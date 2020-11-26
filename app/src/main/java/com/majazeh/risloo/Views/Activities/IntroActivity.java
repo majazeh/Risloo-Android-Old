@@ -130,7 +130,7 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     private void setData() {
-        introAdapter.setLayouts(introLayouts);
+        introAdapter.setLayout(introLayouts);
         rtlViewPager.setAdapter(introAdapter);
     }
 
