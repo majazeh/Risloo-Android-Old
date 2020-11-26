@@ -283,7 +283,7 @@ public class AttachmentActivity extends AppCompatActivity {
 
         try {
             progressDialog.show();
-            viewModel.sendDoc(title, description, attachment);
+            viewModel.attachment(title, description, attachment);
             observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -292,7 +292,7 @@ public class AttachmentActivity extends AppCompatActivity {
 
     private void observeWork() {
         AuthRepository.workState.observe((LifecycleOwner) this, integer -> {
-            if (AuthRepository.work.equals("sendDoc")) {
+            if (AuthRepository.work.equals("attachment")) {
                 if (integer == 1) {
                     finish();
 
@@ -313,7 +313,7 @@ public class AttachmentActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionGenerator.current_exception.equals("sendDoc")) {
+        if (ExceptionGenerator.current_exception.equals("attachment")) {
             String exceptionToast = "";
 
             if (!ExceptionGenerator.errors.isNull("title")) {

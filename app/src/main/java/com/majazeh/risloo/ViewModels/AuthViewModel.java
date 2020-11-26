@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class AuthViewModel extends AndroidViewModel {
 
     // Repositories
-    private AuthRepository repository;
+    private final AuthRepository repository;
 
     public AuthViewModel(@NonNull Application application) throws JSONException {
         super(application);
@@ -63,8 +63,8 @@ public class AuthViewModel extends AndroidViewModel {
         repository.logOut();
     }
 
-    public void sendDoc(String title, String description, String filePath) throws JSONException {
-        repository.sendDoc(title, description, filePath);
+    public void attachment(String title, String description, String attachment) throws JSONException {
+        repository.attachment(title, description, attachment);
     }
 
     /*

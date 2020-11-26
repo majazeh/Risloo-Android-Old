@@ -33,18 +33,18 @@ import retrofit2.Response;
 public class AuthWorker extends Worker {
 
     // Apis
-    private AuthApi authApi;
+    private final AuthApi api;
 
     // Objects
-    private Context context;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
+    private final Context context;
+    private final SharedPreferences sharedPreferences;
+    private final SharedPreferences.Editor editor;
 
     public AuthWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         this.context = context;
 
-        authApi = RetroGenerator.getRetrofit().create(AuthApi.class);
+        api = RetroGenerator.getRetrofit().create(AuthApi.class);
 
         sharedPreferences = context.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
 
@@ -86,8 +86,8 @@ public class AuthWorker extends Worker {
                 case "logOut":
                     logOut();
                     break;
-                case "sendDoc":
-                    sendDoc();
+                case "attachment":
+                    attachment();
                     break;
             }
         }
@@ -111,7 +111,7 @@ public class AuthWorker extends Worker {
 
     private void auth() {
         try {
-            Call<ResponseBody> call = authApi.auth(token(), AuthRepository.callback, AuthRepository.authorizedKey);
+            Call<ResponseBody> call = api.auth(token(), AuthRepository.callback, AuthRepository.authorizedKey);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -173,7 +173,7 @@ public class AuthWorker extends Worker {
 
     private void authTheory() {
         try {
-            Call<ResponseBody> call = authApi.authTheory(token(), AuthRepository.key, AuthRepository.callback, AuthRepository.password, AuthRepository.code);
+            Call<ResponseBody> call = api.authTheory(token(), AuthRepository.key, AuthRepository.callback, AuthRepository.password, AuthRepository.code);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -235,7 +235,7 @@ public class AuthWorker extends Worker {
 
     private void register() {
         try {
-            Call<ResponseBody> call = authApi.register(AuthRepository.name, AuthRepository.mobile, AuthRepository.gender, AuthRepository.password);
+            Call<ResponseBody> call = api.register(AuthRepository.name, AuthRepository.mobile, AuthRepository.gender, AuthRepository.password);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -297,7 +297,7 @@ public class AuthWorker extends Worker {
 
     private void verification() {
         try {
-            Call<ResponseBody> call = authApi.verification(AuthRepository.mobile);
+            Call<ResponseBody> call = api.verification(AuthRepository.mobile);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -359,7 +359,7 @@ public class AuthWorker extends Worker {
 
     private void recovery() {
         try {
-            Call<ResponseBody> call = authApi.recovery(AuthRepository.mobile);
+            Call<ResponseBody> call = api.recovery(AuthRepository.mobile);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -421,22 +421,25 @@ public class AuthWorker extends Worker {
 
     private void me() {
         try {
-            Call<ResponseBody> call = authApi.me(token());
+            Call<ResponseBody> call = api.me(token());
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
+
                 JSONObject data = successBody.getJSONObject("data");
+                JSONArray centers = data.getJSONArray("centers");
+
+                FileManager.writeObjectToCache(context, new JSONObject().put("data", centers), "centers" + "/" + "my");
 
                 boolean hasAccess = false;
 
                 if (data.has("type") && data.getString("type").equals("admin")) {
                     hasAccess = true;
                 } else {
-                    JSONArray centers = data.getJSONArray("centers");
                     for (int i = 0; i < centers.length(); i++) {
-                        JSONObject jsonObject = centers.getJSONObject(i);
-                        JSONObject acceptation = jsonObject.getJSONObject("acceptation");
+                        JSONObject center = centers.getJSONObject(i);
+                        JSONObject acceptation = center.getJSONObject("acceptation");
 
                         if (acceptation.getString("position").equals("operator") || acceptation.getString("position").equals("manager") || acceptation.getString("position").equals("psychologist")) {
                             hasAccess = true;
@@ -444,48 +447,49 @@ public class AuthWorker extends Worker {
                     }
                 }
 
-                if (hasAccess) {
-                    editor.putBoolean("hasAccess", true);
+                editor.putBoolean("hasAccess", hasAccess);
+
+                if (data.has("id") && !data.isNull("id")) {
+                    editor.putString("userId", data.getString("id"));
                 } else {
-                    editor.putBoolean("hasAccess", false);
+                    editor.putString("userId", "");
                 }
 
-                FileManager.writeObjectToCache(context, new JSONObject().put("data", data.getJSONArray("centers")), "centers" + "/" + "my");
-
-                if (data.has("id"))
-                    editor.putString("userId", data.getString("id"));
-                else
-                    editor.putString("userId", "");
-
-                if (data.has("name"))
+                if (data.has("name") && !data.isNull("name")) {
                     editor.putString("name", data.getString("name"));
-                else
+                } else {
                     editor.putString("name", "");
+                }
 
-                if (data.has("type"))
+                if (data.has("type") && !data.isNull("type")) {
                     editor.putString("type", data.getString("type"));
-                else
+                } else {
                     editor.putString("type", "");
+                }
 
-                if (data.has("mobile"))
+                if (data.has("mobile") && !data.isNull("mobile")) {
                     editor.putString("mobile", data.getString("mobile"));
-                else
+                } else {
                     editor.putString("mobile", "");
+                }
 
-                if (data.has("email"))
+                if (data.has("email") && !data.isNull("email")) {
                     editor.putString("email", data.getString("email"));
-                else
+                } else {
                     editor.putString("email", "");
+                }
 
-                if (data.has("gender"))
+                if (data.has("gender") && !data.isNull("gender")) {
                     editor.putString("gender", data.getString("gender"));
-                else
+                } else {
                     editor.putString("gender", "");
+                }
 
-                if (data.has("birthday"))
+                if (data.has("birthday") && !data.isNull("birthday")) {
                     editor.putString("birthday", data.getString("birthday"));
-                else
+                } else {
                     editor.putString("birthday", "");
+                }
 
                 if (!data.isNull("avatar") && data.get("avatar").getClass().getName().equals("org.json.JSONObject")) {
                     JSONObject avatar = data.getJSONObject("avatar");
@@ -527,7 +531,7 @@ public class AuthWorker extends Worker {
 
     private void edit() {
         try {
-            Call<ResponseBody> call = authApi.edit(token(), AuthRepository.name, AuthRepository.gender, AuthRepository.birthday);
+            Call<ResponseBody> call = api.edit(token(), AuthRepository.name, AuthRepository.gender, AuthRepository.birthday);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -536,6 +540,7 @@ public class AuthWorker extends Worker {
                 editor.putString("name", AuthRepository.name);
                 editor.putString("gender", AuthRepository.gender);
                 editor.putString("birthday", AuthRepository.birthday);
+
                 editor.apply();
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "edit");
@@ -579,12 +584,18 @@ public class AuthWorker extends Worker {
                     public void onResponse(JSONObject response) {
                         try {
                             JSONObject successBody = new JSONObject(response.toString());
+
                             JSONObject data = successBody.getJSONObject("data");
 
-                            JSONObject avatar = data.getJSONObject("avatar");
-                            JSONObject medium = avatar.getJSONObject("medium");
+                            if (!data.isNull("avatar") && data.get("avatar").getClass().getName().equals("org.json.JSONObject")) {
+                                JSONObject avatar = data.getJSONObject("avatar");
+                                JSONObject medium = avatar.getJSONObject("medium");
 
-                            editor.putString("avatar", medium.getString("url"));
+                                editor.putString("avatar", medium.getString("url"));
+                            } else {
+                                editor.putString("avatar", "");
+                            }
+
                             editor.apply();
 
                             FileManager.deleteFileFromCache(context, "image");
@@ -619,7 +630,7 @@ public class AuthWorker extends Worker {
 
     private void logOut() {
         try {
-            Call<ResponseBody> call = authApi.logOut(token());
+            Call<ResponseBody> call = api.logOut(token());
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -685,8 +696,8 @@ public class AuthWorker extends Worker {
         }
     }
 
-    private void sendDoc() {
-        File attachment = new File(AuthRepository.filePath);
+    private void attachment() {
+        File attachment = new File(AuthRepository.fileAttachment);
 
         AndroidNetworking.upload("https://bapi.risloo.ir/api/documents")
                 .addHeaders("Authorization", token())

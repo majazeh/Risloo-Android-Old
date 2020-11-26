@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.majazeh.risloo.Entities.Model;
@@ -26,7 +27,7 @@ public class AuthItems {
     private final SharedPreferences sharedPreferences;
     private final SharedPreferences.Editor editor;
 
-    public AuthItems(Application application) {
+    public AuthItems(@NonNull Application application) {
         this.application = application;
 
         sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
@@ -72,18 +73,19 @@ public class AuthItems {
 
     public String type() {
         if (!sharedPreferences.getString("type", "").equals("")) {
-            if (sharedPreferences.getString("type", "").equals("psychology")) {
-                return application.getApplicationContext().getResources().getString(R.string.AuthTypePsychology);
-            } else if (sharedPreferences.getString("type", "").equals("clinic_center")) {
-                return application.getApplicationContext().getResources().getString(R.string.AuthTypeClinicCenter);
-            } else if (sharedPreferences.getString("type", "").equals("operator")) {
-                return application.getApplicationContext().getResources().getString(R.string.AuthTypeOperator);
-            } else if (sharedPreferences.getString("type", "").equals("admin")) {
-                return application.getApplicationContext().getResources().getString(R.string.AuthTypeAdmin);
-            } else if (sharedPreferences.getString("type", "").equals("client")) {
-                return application.getApplicationContext().getResources().getString(R.string.AuthTypeClient);
-            } else {
-                return application.getApplicationContext().getResources().getString(R.string.AuthTypeDefault);
+            switch (sharedPreferences.getString("type", "")) {
+                case "psychology":
+                    return application.getApplicationContext().getResources().getString(R.string.AuthTypePsychology);
+                case "clinic_center":
+                    return application.getApplicationContext().getResources().getString(R.string.AuthTypeClinicCenter);
+                case "operator":
+                    return application.getApplicationContext().getResources().getString(R.string.AuthTypeOperator);
+                case "admin":
+                    return application.getApplicationContext().getResources().getString(R.string.AuthTypeAdmin);
+                case "client":
+                    return application.getApplicationContext().getResources().getString(R.string.AuthTypeClient);
+                default:
+                    return application.getApplicationContext().getResources().getString(R.string.AuthTypeDefault);
             }
         }
         return "";

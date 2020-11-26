@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Constraints;
 import androidx.work.Data;
@@ -24,7 +25,7 @@ import java.util.Objects;
 public class AuthRepository extends MainRepository {
 
     // Objects
-    private AuthItems authItems;
+    private final AuthItems items;
 
     // Vars
     public static MutableLiveData<Integer> workState;
@@ -42,12 +43,12 @@ public class AuthRepository extends MainRepository {
     public static String code = "";
     public static String fileTitle = "";
     public static String fileDescription = "";
-    public static String filePath = "";
+    public static String fileAttachment = "";
 
-    public AuthRepository(Application application) throws JSONException {
+    public AuthRepository(@NonNull Application application) throws JSONException {
         super(application);
 
-        authItems = new AuthItems(application);
+        items = new AuthItems(application);
 
         workState = new MutableLiveData<>();
         workState.setValue(-1);
@@ -127,14 +128,14 @@ public class AuthRepository extends MainRepository {
         workManager("logOut");
     }
 
-    public void sendDoc(String title, String description, String filePath) throws JSONException {
+    public void attachment(String title, String description, String attachment) throws JSONException {
         AuthRepository.fileTitle = title;
         AuthRepository.fileDescription = description;
-        AuthRepository.filePath = filePath;
+        AuthRepository.fileAttachment = attachment;
 
-        work = "sendDoc";
+        work = "attachment";
         workState.setValue(-1);
-        workManager("sendDoc");
+        workManager("attachment");
     }
 
     /*
@@ -142,7 +143,7 @@ public class AuthRepository extends MainRepository {
     */
 
     public ArrayList<Model> getAll() throws JSONException {
-        return authItems.items();
+        return items.items();
     }
 
     /*
@@ -150,7 +151,7 @@ public class AuthRepository extends MainRepository {
     */
 
     public boolean hasAccess() {
-        return authItems.hasAccess();
+        return items.hasAccess();
     }
 
     /*
@@ -158,39 +159,39 @@ public class AuthRepository extends MainRepository {
     */
 
     public String getToken() {
-        return authItems.token();
+        return items.token();
     }
 
     public String getUserId() {
-        return authItems.userId();
+        return items.userId();
     }
 
     public String getName() {
-        return authItems.name();
+        return items.name();
     }
 
     public String getType() {
-        return authItems.type();
+        return items.type();
     }
 
     public String getMobile() {
-        return authItems.mobile();
+        return items.mobile();
     }
 
     public String getEmail() {
-        return authItems.email();
+        return items.email();
     }
 
     public String getGender() {
-        return authItems.gender();
+        return items.gender();
     }
 
     public String getBirthday() {
-        return authItems.birthday();
+        return items.birthday();
     }
 
     public String getAvatar() {
-        return authItems.avatar();
+        return items.avatar();
     }
 
     /*
