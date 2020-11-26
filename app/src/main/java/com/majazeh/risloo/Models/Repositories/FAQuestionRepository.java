@@ -12,12 +12,12 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-public class FAQuestionsRepository extends MainRepository {
+public class FAQuestionRepository extends MainRepository {
 
     // Objects
     private final JSONArray items;
 
-    public FAQuestionsRepository(@NonNull Application application) throws JSONException {
+    public FAQuestionRepository(@NonNull Application application) throws JSONException {
         super(application);
 
         items = new JSONArray(JSONGenerator.getJSON(application.getApplicationContext(), "FAQuestions.json"));

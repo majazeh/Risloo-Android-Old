@@ -6,21 +6,21 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Repositories.FAQuestionsRepository;
+import com.majazeh.risloo.Models.Repositories.FAQuestionRepository;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
 
-public class FAQuestionsViewModel extends AndroidViewModel {
+public class FAQuestionViewModel extends AndroidViewModel {
 
     // Repositories
-    private final FAQuestionsRepository repository;
+    private final FAQuestionRepository repository;
 
-    public FAQuestionsViewModel(@NonNull Application application) throws JSONException {
+    public FAQuestionViewModel(@NonNull Application application) throws JSONException {
         super(application);
 
-        repository = new FAQuestionsRepository(application);
+        repository = new FAQuestionRepository(application);
     }
 
     /*

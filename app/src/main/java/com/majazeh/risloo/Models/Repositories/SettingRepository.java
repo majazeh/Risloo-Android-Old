@@ -2,6 +2,8 @@ package com.majazeh.risloo.Models.Repositories;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
+
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Items.SettingItems;
 
@@ -12,12 +14,12 @@ import java.util.ArrayList;
 public class SettingRepository extends MainRepository {
 
     // Objects
-    private final SettingItems settingItems;
+    private final SettingItems items;
 
-    public SettingRepository(Application application) throws JSONException {
+    public SettingRepository(@NonNull Application application) throws JSONException {
         super(application);
 
-        settingItems = new SettingItems(application);
+        items = new SettingItems(application);
     }
 
     /*
@@ -25,7 +27,7 @@ public class SettingRepository extends MainRepository {
     */
 
     public ArrayList<Model> getAll() throws JSONException {
-        return settingItems.items();
+        return items.items();
     }
 
 }

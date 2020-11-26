@@ -2,6 +2,7 @@ package com.majazeh.risloo.Models.Items;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.majazeh.risloo.Entities.Model;
@@ -21,7 +22,7 @@ public class SettingItems {
     // Objects
     private final Application application;
 
-    public SettingItems(Application application) {
+    public SettingItems(@NonNull Application application) {
         this.application = application;
     }
 

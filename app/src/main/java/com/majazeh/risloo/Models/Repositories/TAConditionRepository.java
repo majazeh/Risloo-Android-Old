@@ -12,12 +12,12 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-public class TAConditionsRepository extends MainRepository {
+public class TAConditionRepository extends MainRepository {
 
     // Objects
     private final JSONArray items;
 
-    public TAConditionsRepository(@NonNull Application application) throws JSONException {
+    public TAConditionRepository(@NonNull Application application) throws JSONException {
         super(application);
 
         items = new JSONArray(JSONGenerator.getJSON(application.getApplicationContext(), "TAConditions.json"));
