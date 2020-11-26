@@ -10,8 +10,7 @@
     android:fitsSystemWindows="true"
     android:background="@color/White"
     android:descendantFocusability="blocksDescendants"
-    tools:context=".Views.Activities.AccountActivity"
-    tools:ignore="UnusedAttribute, RtlHardcoded, RtlSymmetry">
+    tools:context=".Views.Activities.AccountActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

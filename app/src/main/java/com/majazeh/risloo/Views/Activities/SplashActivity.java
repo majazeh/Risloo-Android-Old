@@ -155,12 +155,10 @@ public class SplashActivity extends AppCompatActivity {
     private void getData() {
         handler.postDelayed(() -> {
             try {
-
                 versionTextView.setText(getResources().getString(R.string.SplashLoading));
                 updateProgressBar.setVisibility(View.VISIBLE);
 
                 explodeViewModel.explode();
-
                 observeWork();
             } catch (JSONException e) {
                 e.printStackTrace();

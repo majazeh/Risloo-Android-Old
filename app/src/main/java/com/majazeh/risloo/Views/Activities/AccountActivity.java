@@ -42,10 +42,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AccountActivity extends AppCompatActivity {
 
     // ViewModels
-    private AuthViewModel viewModel;
+    private AuthViewModel authViewModel;
 
     // Adapters
-    private AccountAdapter adapter;
+    private AccountAdapter accountAdapter;
 
     // Objects
     private Handler handler;
@@ -85,9 +85,9 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
-        adapter = new AccountAdapter(this);
+        accountAdapter = new AccountAdapter(this);
 
         handler = new Handler();
 
@@ -128,11 +128,11 @@ public class AccountActivity extends AppCompatActivity {
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
 
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.copyFrom(logOutDialog.getWindow().getAttributes());
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        logOutDialog.getWindow().setAttributes(layoutParams);
+        WindowManager.LayoutParams layoutParamsLogOutDialog = new WindowManager.LayoutParams();
+        layoutParamsLogOutDialog.copyFrom(logOutDialog.getWindow().getAttributes());
+        layoutParamsLogOutDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsLogOutDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        logOutDialog.getWindow().setAttributes(layoutParamsLogOutDialog);
 
         logOutDialogTitle = logOutDialog.findViewById(R.id.dialog_action_title_textView);
         logOutDialogTitle.setText(getResources().getString(R.string.AccountLogOutDialogTitle));
@@ -161,7 +161,7 @@ public class AccountActivity extends AppCompatActivity {
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
             finish();
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
@@ -169,21 +169,21 @@ public class AccountActivity extends AppCompatActivity {
 
         toolbarLogOutImageView.setOnClickListener(v -> {
             toolbarLogOutImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarLogOutImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarLogOutImageView.setClickable(true), 250);
 
             logOutDialog.show();
         });
 
         avatarCircleImageView.setOnClickListener(v -> {
             avatarCircleImageView.setClickable(false);
-            handler.postDelayed(() -> avatarCircleImageView.setClickable(true), 300);
+            handler.postDelayed(() -> avatarCircleImageView.setClickable(true), 250);
 
-            if (!viewModel.getName().equals("") && !viewModel.getAvatar().equals("")) {
+            if (!authViewModel.getName().equals("") && !authViewModel.getAvatar().equals("")) {
                 Intent intent = (new Intent(this, ImageActivity.class));
 
-                intent.putExtra("title", viewModel.getName());
+                intent.putExtra("title", authViewModel.getName());
                 intent.putExtra("bitmap", false);
-                intent.putExtra("image", viewModel.getAvatar());
+                intent.putExtra("image", authViewModel.getAvatar());
 
                 startActivity(intent);
             }
@@ -191,7 +191,7 @@ public class AccountActivity extends AppCompatActivity {
 
         editTextView.setOnClickListener(v -> {
             editTextView.setClickable(false);
-            handler.postDelayed(() -> editTextView.setClickable(true), 300);
+            handler.postDelayed(() -> editTextView.setClickable(true), 250);
 
             startActivityForResult(new Intent(this, EditAccountActivity.class), 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
@@ -199,7 +199,7 @@ public class AccountActivity extends AppCompatActivity {
 
         sendTextView.setOnClickListener(v -> {
             sendTextView.setClickable(false);
-            handler.postDelayed(() -> sendTextView.setClickable(true), 300);
+            handler.postDelayed(() -> sendTextView.setClickable(true), 250);
 
             startActivity(new Intent(this, AttachmentActivity.class));
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
@@ -207,7 +207,7 @@ public class AccountActivity extends AppCompatActivity {
 
         logOutDialogPositive.setOnClickListener(v -> {
             logOutDialogPositive.setClickable(false);
-            handler.postDelayed(() -> logOutDialogPositive.setClickable(true), 300);
+            handler.postDelayed(() -> logOutDialogPositive.setClickable(true), 250);
             logOutDialog.dismiss();
 
             doWork();
@@ -224,19 +224,19 @@ public class AccountActivity extends AppCompatActivity {
 
     private void setData() {
         try {
-            adapter.setAccount(viewModel.getAll());
-            accountRecyclerView.setAdapter(adapter);
+            accountAdapter.setAccount(authViewModel.getAll());
+            accountRecyclerView.setAdapter(accountAdapter);
 
-            if (viewModel.getAvatar().equals("")) {
+            if (authViewModel.getAvatar().equals("")) {
                 avatarCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_solid));
             } else {
-                Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarCircleImageView);
+                Picasso.get().load(authViewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarCircleImageView);
             }
 
-            if (viewModel.getName().equals("")) {
+            if (authViewModel.getName().equals("")) {
                 nameTextView.setText(getResources().getString(R.string.AuthNameDefault));
             } else {
-                nameTextView.setText(viewModel.getName());
+                nameTextView.setText(authViewModel.getName());
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -246,7 +246,8 @@ public class AccountActivity extends AppCompatActivity {
     private void doWork() {
         try {
             progressDialog.show();
-            viewModel.logOut();
+
+            authViewModel.logOut();
             observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -257,10 +258,7 @@ public class AccountActivity extends AppCompatActivity {
         AuthRepository.workState.observe((LifecycleOwner) this, integer -> {
             if (AuthRepository.work.equals("logOut")) {
                 if (integer == 1) {
-                    Intent intent=new Intent();
-                    intent.putExtra("RESULT_STRING", AuthRepository.work);
-
-                    setResult(RESULT_OK, intent);
+                    setResult(RESULT_OK, new Intent().putExtra("RESULT_STRING", AuthRepository.work));
                     finish();
 
                     progressDialog.dismiss();
@@ -285,11 +283,7 @@ public class AccountActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
-                Intent intent=new Intent();
-                intent.putExtra("RESULT_STRING", AuthRepository.work);
-
-                setResult(RESULT_OK, intent);
-
+                setResult(RESULT_OK, new Intent().putExtra("RESULT_STRING", AuthRepository.work));
                 setData();
             }
         }

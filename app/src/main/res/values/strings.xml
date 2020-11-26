@@ -120,7 +120,22 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // Account strings
+    ////////////////////////////////////////////////////////////////////////////////
 
+    <string name="AccountTitle">حساب کاربری</string>
+
+    <string name="AccountEdit">ویرایش حساب</string>
+    <string name="AccountSend">ارسال مدارک هویتی</string>
+
+    <string name="AccountInfo">مشخصات کاربر</string>
+
+    <string name="AccountLogOutDialogTitle">خروج از حساب؟</string>
+    <string name="AccountLogOutDialogDescription">ایا تمایل به خروج از حساب کاربری خود دارید، در نظر داشته باشید که تمام اطلاعات شما محفوظ می ماند.</string>
+    <string name="AccountLogOutDialogPositive">خروج</string>
+    <string name="AccountLogOutDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -594,23 +609,6 @@
     <string name="OutroDownloadDialogDescription">با دریافت فایل نمونه شما می توانید بعدن بصورت دستی در اختیار ریسلو از راه آپلود دادن قرار دهید.</string>
     <string name="OutroDownloadDialogPositive">دریافت</string>
     <string name="OutroDownloadDialogNegative">بستن</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // account strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="AccountTitle">حساب کاربری</string>
-
-    <string name="AccountEdit">ویرایش حساب</string>
-    <string name="AccountSend">ارسال مدارک هویتی</string>
-
-    <string name="AccountInfo">مشخصات کاربر</string>
-
-    <string name="AccountLogOutDialogTitle">خروج از حساب؟</string>
-    <string name="AccountLogOutDialogDescription">ایا تمایل به خروج از حساب کاربری خود دارید، در نظر داشته باشید که تمام اطلاعات شما محفوظ می ماند.</string>
-    <string name="AccountLogOutDialogPositive">خروج</string>
-    <string name="AccountLogOutDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

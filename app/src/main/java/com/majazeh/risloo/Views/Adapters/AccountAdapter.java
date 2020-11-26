@@ -26,7 +26,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountH
     // Objects
     private Activity activity;
 
-    public AccountAdapter(Activity activity) {
+    public AccountAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -48,7 +48,6 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.AccountH
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
