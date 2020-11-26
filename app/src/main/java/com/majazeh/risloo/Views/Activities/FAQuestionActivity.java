@@ -18,19 +18,19 @@ import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.FAQuestionViewModel;
-import com.majazeh.risloo.Views.Adapters.QuestionAdapter;
+import com.majazeh.risloo.Views.Adapters.FAQuestionAdapter;
 
 import org.json.JSONException;
 
 import java.util.HashMap;
 
-public class QuestionActivity extends AppCompatActivity {
+public class FAQuestionActivity extends AppCompatActivity {
 
     // ViewModels
-    private FAQuestionViewModel viewModel;
+    private FAQuestionViewModel faQuestionViewModel;
 
     // Adapters
-    private QuestionAdapter adapter;
+    private FAQuestionAdapter faQuestionAdapter;
 
     // Vars
     private HashMap<Integer, Boolean> expands;
@@ -42,7 +42,7 @@ public class QuestionActivity extends AppCompatActivity {
     private RelativeLayout toolbarLayout;
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
-    private RecyclerView questionRecyclerView;
+    private RecyclerView faQuestionRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         decorator();
 
-        setContentView(R.layout.activity_question);
+        setContentView(R.layout.activity_fa_question);
 
         initializer();
 
@@ -69,11 +69,11 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = new ViewModelProvider(this).get(FAQuestionViewModel.class);
+        faQuestionViewModel = new ViewModelProvider(this).get(FAQuestionViewModel.class);
+
+        faQuestionAdapter = new FAQuestionAdapter(this);
 
         expands = new HashMap<>();
-
-        adapter = new QuestionAdapter(this);
 
         handler = new Handler();
 
@@ -85,13 +85,13 @@ public class QuestionActivity extends AppCompatActivity {
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
-        toolbarTextView.setText(getResources().getString(R.string.QuestionTitle));
+        toolbarTextView.setText(getResources().getString(R.string.FAQuestionTitle));
         toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
-        questionRecyclerView = findViewById(R.id.activity_question_recyclerView);
-        questionRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
-        questionRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        questionRecyclerView.setHasFixedSize(true);
+        faQuestionRecyclerView = findViewById(R.id.activity_fa_question_recyclerView);
+        faQuestionRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
+        faQuestionRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        faQuestionRecyclerView.setHasFixedSize(true);
     }
 
     private void detector() {
@@ -103,7 +103,7 @@ public class QuestionActivity extends AppCompatActivity {
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
             finish();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -112,12 +112,12 @@ public class QuestionActivity extends AppCompatActivity {
 
     private void setData() {
         try {
-            for (int i = 0; i < viewModel.getAll().size(); i++) {
+            for (int i = 0; i < faQuestionViewModel.getAll().size(); i++) {
                 expands.put(i, false);
             }
 
-            adapter.setQuestion(viewModel.getAll(), expands);
-            questionRecyclerView.setAdapter(adapter);
+            faQuestionAdapter.setFAQuestions(faQuestionViewModel.getAll(), expands);
+            faQuestionRecyclerView.setAdapter(faQuestionAdapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -22,13 +22,13 @@ import com.majazeh.risloo.Views.Adapters.ListAdapter;
 
 import org.json.JSONException;
 
-public class TermConditionActivity extends AppCompatActivity {
+public class TAConditionActivity extends AppCompatActivity {
 
     // ViewModel
-    private TAConditionViewModel viewModel;
+    public TAConditionViewModel taConditionViewModel;
 
     // Adapters
-    private ListAdapter adapter;
+    private ListAdapter listAdapter;
 
     // Objects
     private Handler handler;
@@ -37,7 +37,7 @@ public class TermConditionActivity extends AppCompatActivity {
     private RelativeLayout toolbarLayout;
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
-    private RecyclerView termsRecyclerView;
+    private RecyclerView taConditionRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class TermConditionActivity extends AppCompatActivity {
 
         decorator();
 
-        setContentView(R.layout.activity_term_condition);
+        setContentView(R.layout.activity_ta_condition);
 
         initializer();
 
@@ -64,9 +64,9 @@ public class TermConditionActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = new ViewModelProvider(this).get(TAConditionViewModel.class);
+        taConditionViewModel = new ViewModelProvider(this).get(TAConditionViewModel.class);
 
-        adapter = new ListAdapter(this);
+        listAdapter = new ListAdapter(this);
 
         handler = new Handler();
 
@@ -78,13 +78,13 @@ public class TermConditionActivity extends AppCompatActivity {
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
-        toolbarTextView.setText(getResources().getString(R.string.TermConditionTitle));
+        toolbarTextView.setText(getResources().getString(R.string.TAConditionTitle));
         toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
-        termsRecyclerView = findViewById(R.id.activity_term_condition_recyclerView);
-        termsRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._24sdp), (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._24sdp)));
-        termsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        termsRecyclerView.setHasFixedSize(true);
+        taConditionRecyclerView = findViewById(R.id.activity_ta_condition_recyclerView);
+        taConditionRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._24sdp), (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._24sdp)));
+        taConditionRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        taConditionRecyclerView.setHasFixedSize(true);
     }
 
     private void detector() {
@@ -96,7 +96,7 @@ public class TermConditionActivity extends AppCompatActivity {
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
             finish();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -105,8 +105,8 @@ public class TermConditionActivity extends AppCompatActivity {
 
     private void setData() {
         try {
-            adapter.setList(viewModel.getAll(), "TermCondition");
-            termsRecyclerView.setAdapter(adapter);
+            listAdapter.setList(taConditionViewModel.getAll(), "TACondition");
+            taConditionRecyclerView.setAdapter(listAdapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }

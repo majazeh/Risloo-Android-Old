@@ -3,15 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_question"
+    android:id="@+id/activity_fa_question"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
     android:background="@color/White"
     android:descendantFocusability="blocksDescendants"
-    tools:context=".Views.Activities.QuestionActivity"
-    tools:ignore="UnusedAttribute">
+    tools:context=".Views.Activities.FAQuestionActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +25,7 @@
             android:background="@color/Quartz" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/activity_question_recyclerView"
+            android:id="@+id/activity_fa_question_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="always" />

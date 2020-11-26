@@ -24,7 +24,7 @@ public class SubListSmallAdapter extends RecyclerView.Adapter<SubListSmallAdapte
     // Objects
     private Activity activity;
 
-    public SubListSmallAdapter(Activity activity) {
+    public SubListSmallAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -40,11 +40,10 @@ public class SubListSmallAdapter extends RecyclerView.Adapter<SubListSmallAdapte
         Model model = subListSmall.get(i);
 
         try {
-            holder.itemTextView.setText(model.get("title").toString());
+            holder.titleTextView.setText(model.get("title").toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -59,11 +58,11 @@ public class SubListSmallAdapter extends RecyclerView.Adapter<SubListSmallAdapte
 
     public class SubListSmallHolder extends RecyclerView.ViewHolder {
 
-        public TextView itemTextView;
+        public TextView titleTextView;
 
         public SubListSmallHolder(View view) {
             super(view);
-            itemTextView = view.findViewById(R.id.single_item_sublist_small_title_textView);
+            titleTextView = view.findViewById(R.id.single_item_sublist_small_title_textView);
         }
     }
 

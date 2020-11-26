@@ -8,14 +8,14 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layoutDirection="rtl"
-    android:orientation="horizontal"
-    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded, RtlSymmetry,">
+    android:orientation="horizontal">
 
     <ImageView
         android:layout_width="@dimen/_8sdp"
         android:layout_height="@dimen/_8sdp"
         android:layout_marginTop="@dimen/_6sdp"
         android:layout_marginLeft="@dimen/_8sdp"
+        android:contentDescription="@string/AppImageContent"
         android:background="@drawable/draw_oval_border_grey" />
 
     <TextView

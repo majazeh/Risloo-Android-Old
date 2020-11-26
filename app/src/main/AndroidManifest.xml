@@ -53,6 +53,24 @@
             android:name=".Views.Activities.IntroActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".Views.Activities.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.AboutUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.FAQuestionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.TAConditionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.CallUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.ImageActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".Views.Activities.AuthActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -63,9 +81,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.ArchiveActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Views.Activities.ImageActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.OutroActivity"
@@ -120,21 +135,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.EditCaseActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Views.Activities.SettingActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Views.Activities.AboutUsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Views.Activities.QuestionActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Views.Activities.CallUsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Views.Activities.TermConditionActivity"
             android:screenOrientation="portrait" />
     </application>
 

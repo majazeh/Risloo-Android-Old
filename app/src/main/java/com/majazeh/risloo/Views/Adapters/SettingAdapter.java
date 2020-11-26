@@ -28,9 +28,9 @@ import com.majazeh.risloo.ViewModels.ExplodeViewModel;
 import com.majazeh.risloo.Views.Activities.AboutUsActivity;
 import com.majazeh.risloo.Views.Activities.CallUsActivity;
 import com.majazeh.risloo.Views.Activities.SettingActivity;
-import com.majazeh.risloo.Views.Activities.QuestionActivity;
+import com.majazeh.risloo.Views.Activities.FAQuestionActivity;
 import com.majazeh.risloo.Views.Dialogs.SocialDialog;
-import com.majazeh.risloo.Views.Activities.TermConditionActivity;
+import com.majazeh.risloo.Views.Activities.TAConditionActivity;
 
 import org.json.JSONException;
 
@@ -40,10 +40,10 @@ import java.util.Objects;
 public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHolder> {
 
     // ViewModels
-    private ExplodeViewModel viewModel;
+    private ExplodeViewModel explodeViewModel;
 
     // Vars
-    private ArrayList<Model> settings;
+    private ArrayList<Model> setting;
 
     // Objects
     private Activity activity;
@@ -54,7 +54,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
     private Dialog noUpdateDialog, availableUpdateDialog;
     private TextView noUpdateDialogTitle, noUpdateDialogDescription, noUpdateDialogConfirm, availableUpdateDialogTitle, availableUpdateDialogDescription, availableUpdateDialogPositive, availableUpdateDialogNegative;
 
-    public SettingAdapter(Activity activity) {
+    public SettingAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -70,17 +70,17 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
 
     @Override
     public void onBindViewHolder(@NonNull MoreHolder holder, int i) {
-        Model model = settings.get(i);
+        Model model = setting.get(i);
 
         try {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                 holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_white_ripple_quartz);
             }
 
-            if (i != settings.size() - 1) {
+            if (i != setting.size() - 1) {
                 holder.titleTextView.setText(model.get("title").toString());
             } else {
-                if (viewModel.hasUpdate()) {
+                if (explodeViewModel.hasUpdate()) {
                     holder.titleTextView.setText(activity.getResources().getString(R.string.SettingUpdate));
                     holder.updateTextView.setVisibility(View.VISIBLE);
                 } else {
@@ -94,34 +94,33 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
             holder.avatarImageView.setImageDrawable((Drawable) model.get("image"));
             holder.avatarImageView.setBackground((Drawable) model.get("drawable"));
 
+            holder.itemView.setOnClickListener(v -> {
+                holder.itemView.setClickable(false);
+                handler.postDelayed(() -> holder.itemView.setClickable(true), 250);
+
+                doWork(i);
+            });
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        holder.itemView.setOnClickListener(v -> {
-            holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
-
-            doWork(i);
-        });
-
     }
 
     @Override
     public int getItemCount() {
-        return settings.size();
+        return setting.size();
     }
 
     private void initializer(View view) {
-        viewModel = new ViewModelProvider((FragmentActivity) activity).get(ExplodeViewModel.class);
+        explodeViewModel = new ViewModelProvider((FragmentActivity) activity).get(ExplodeViewModel.class);
 
         socialDialog = new SocialDialog(activity);
 
         handler = new Handler();
     }
 
-    public void setSetting(ArrayList<Model> settings) {
-        this.settings = settings;
+    public void setSetting(ArrayList<Model> setting) {
+        this.setting = setting;
         notifyDataSetChanged();
     }
 
@@ -132,15 +131,15 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
                 activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 break;
             case 1:
-                activity.startActivity(new Intent(activity, QuestionActivity.class));
+                activity.startActivity(new Intent(activity, FAQuestionActivity.class));
                 activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 break;
             case 2:
-                activity.startActivity(new Intent(activity, CallUsActivity.class));
+                activity.startActivity(new Intent(activity, TAConditionActivity.class));
                 activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 break;
             case 3:
-                activity.startActivity(new Intent(activity, TermConditionActivity.class));
+                activity.startActivity(new Intent(activity, CallUsActivity.class));
                 activity.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 break;
             case 4:
@@ -159,7 +158,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
 
                 listener();
 
-                if (viewModel.hasUpdate()) {
+                if (explodeViewModel.hasUpdate()) {
                     availableUpdateDialogTitle.setText(newVersion());
                     availableUpdateDialog.show();
                 } else {
@@ -183,17 +182,17 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
         availableUpdateDialog.setContentView(R.layout.dialog_action);
         availableUpdateDialog.setCancelable(true);
 
-        WindowManager.LayoutParams layoutParams1 = new WindowManager.LayoutParams();
-        layoutParams1.copyFrom(noUpdateDialog.getWindow().getAttributes());
-        layoutParams1.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams1.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        noUpdateDialog.getWindow().setAttributes(layoutParams1);
+        WindowManager.LayoutParams layoutParamsNoUpdateDialog = new WindowManager.LayoutParams();
+        layoutParamsNoUpdateDialog.copyFrom(noUpdateDialog.getWindow().getAttributes());
+        layoutParamsNoUpdateDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsNoUpdateDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        noUpdateDialog.getWindow().setAttributes(layoutParamsNoUpdateDialog);
 
-        WindowManager.LayoutParams layoutParams2 = new WindowManager.LayoutParams();
-        layoutParams2.copyFrom(availableUpdateDialog.getWindow().getAttributes());
-        layoutParams2.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams2.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        availableUpdateDialog.getWindow().setAttributes(layoutParams2);
+        WindowManager.LayoutParams layoutParamsAvailableUpdateDialog = new WindowManager.LayoutParams();
+        layoutParamsAvailableUpdateDialog.copyFrom(availableUpdateDialog.getWindow().getAttributes());
+        layoutParamsAvailableUpdateDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsAvailableUpdateDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        availableUpdateDialog.getWindow().setAttributes(layoutParamsAvailableUpdateDialog);
 
         noUpdateDialogTitle = noUpdateDialog.findViewById(R.id.dialog_note_title_textView);
         noUpdateDialogDescription = noUpdateDialog.findViewById(R.id.dialog_note_description_textView);
@@ -223,7 +222,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
     private void listener() {
         availableUpdateDialogPositive.setOnClickListener(v -> {
             availableUpdateDialogPositive.setClickable(false);
-            handler.postDelayed(() -> availableUpdateDialogPositive.setClickable(true), 300);
+            handler.postDelayed(() -> availableUpdateDialogPositive.setClickable(true), 250);
             availableUpdateDialog.dismiss();
 
             IntentManager.googlePlay(activity);
@@ -231,13 +230,13 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
 
         availableUpdateDialogNegative.setOnClickListener(v -> {
             availableUpdateDialogNegative.setClickable(false);
-            handler.postDelayed(() -> availableUpdateDialogNegative.setClickable(true), 300);
+            handler.postDelayed(() -> availableUpdateDialogNegative.setClickable(true), 250);
             availableUpdateDialog.dismiss();
         });
 
         noUpdateDialogConfirm.setOnClickListener(v -> {
             noUpdateDialogConfirm.setClickable(false);
-            handler.postDelayed(() -> noUpdateDialogConfirm.setClickable(true), 300);
+            handler.postDelayed(() -> noUpdateDialogConfirm.setClickable(true), 250);
             noUpdateDialog.dismiss();
         });
 
@@ -247,11 +246,11 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.MoreHold
     }
 
     private String currentVersion() {
-        return activity.getResources().getString(R.string.SettingVersion) + " " + viewModel.currentVersion();
+        return activity.getResources().getString(R.string.SettingVersion) + " " + explodeViewModel.currentVersion();
     }
 
     private String newVersion() {
-        return activity.getResources().getString(R.string.SettingVersion) + " " + viewModel.newVersion() + " " + activity.getResources().getString(R.string.SettingArrived);
+        return activity.getResources().getString(R.string.SettingVersion) + " " + explodeViewModel.newVersion() + " " + activity.getResources().getString(R.string.SettingArrived);
     }
 
     public class MoreHolder extends RecyclerView.ViewHolder {

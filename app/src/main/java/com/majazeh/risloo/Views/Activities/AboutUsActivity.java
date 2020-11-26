@@ -25,10 +25,10 @@ import org.json.JSONException;
 public class AboutUsActivity extends AppCompatActivity {
 
     // ViewModel
-    private AboutUsViewModel viewModel;
+    public AboutUsViewModel aboutUsViewModel;
 
     // Adapters
-    private ListAdapter adapter;
+    private ListAdapter listAdapter;
 
     // Objects
     private Handler handler;
@@ -64,9 +64,9 @@ public class AboutUsActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = new ViewModelProvider(this).get(AboutUsViewModel.class);
+        aboutUsViewModel = new ViewModelProvider(this).get(AboutUsViewModel.class);
 
-        adapter = new ListAdapter(this);
+        listAdapter = new ListAdapter(this);
 
         handler = new Handler();
 
@@ -96,7 +96,7 @@ public class AboutUsActivity extends AppCompatActivity {
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
             finish();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -105,8 +105,8 @@ public class AboutUsActivity extends AppCompatActivity {
 
     private void setData() {
         try {
-            adapter.setList(viewModel.getAll(), "AboutUs");
-            aboutUsRecyclerView.setAdapter(adapter);
+            listAdapter.setList(aboutUsViewModel.getAll(), "AboutUs");
+            aboutUsRecyclerView.setAdapter(listAdapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }

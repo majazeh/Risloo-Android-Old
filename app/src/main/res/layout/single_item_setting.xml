@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     tools:context=".Views.Activities.SettingActivity"
-    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded">
+    tools:ignore="UnusedAttribute">
 
     <ImageView
         android:id="@+id/single_item_setting_avatar_imageView"
@@ -19,6 +19,7 @@
         android:layout_margin="@dimen/_16sdp"
         android:elevation="@dimen/_1sdp"
         android:padding="@dimen/_8sdp"
+        android:contentDescription="@string/AppImageContent"
         app:tint="@color/PrimaryDark" />
 
     <TextView

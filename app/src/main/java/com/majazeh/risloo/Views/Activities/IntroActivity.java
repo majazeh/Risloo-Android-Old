@@ -51,7 +51,9 @@ public class IntroActivity extends AppCompatActivity {
 
             listener();
 
-            setViewPager();
+            setData();
+
+            addDots(0);
         } else {
             launchAuth();
         }
@@ -127,11 +129,9 @@ public class IntroActivity extends AppCompatActivity {
         });
     }
 
-    private void setViewPager() {
+    private void setData() {
         introAdapter.setLayouts(introLayouts);
         rtlViewPager.setAdapter(introAdapter);
-
-        addDots(0);
     }
 
     private void addDots(int currentPage) {

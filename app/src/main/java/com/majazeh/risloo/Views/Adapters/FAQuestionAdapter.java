@@ -22,24 +22,24 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.QuestionHolder> {
+public class FAQuestionAdapter extends RecyclerView.Adapter<FAQuestionAdapter.QuestionHolder> {
 
     // Vars
-    private ArrayList<Model> questions;
+    private ArrayList<Model> faQuestions;
     private HashMap<Integer, Boolean> expands;
 
     // Objects
     private Activity activity;
     private Handler handler;
 
-    public QuestionAdapter(Activity activity) {
+    public FAQuestionAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 
     @NonNull
     @Override
     public QuestionHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_question, viewGroup, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_fa_question, viewGroup, false);
 
         initializer(view);
 
@@ -48,7 +48,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
     @Override
     public void onBindViewHolder(@NonNull QuestionHolder holder, int i) {
-        Model model = questions.get(i);
+        Model model = faQuestions.get(i);
 
         try {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -66,45 +66,44 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
             holder.subjectTextView.setText(model.get("subject").toString());
             holder.answerTextView.setText(model.get("answer").toString());
 
+            if (expands.get(i)) {
+                holder.answerTextView.setVisibility(View.VISIBLE);
+                holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_up));
+            }else{
+                holder.answerTextView.setVisibility(View.GONE);
+                holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_down));
+            }
+
+            holder.itemView.setOnClickListener(v -> {
+                holder.itemView.setClickable(false);
+                handler.postDelayed(() -> holder.itemView.setClickable(true), 250);
+
+                doWork(i);
+            });
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        if (expands.get(i)){
-            holder.answerTextView.setVisibility(View.VISIBLE);
-            holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_up));
-        }else{
-            holder.answerTextView.setVisibility(View.GONE);
-            holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_down));
-        }
-
-        holder.itemView.setOnClickListener(v -> {
-            holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
-
-            if (expands.get(i)){
-                expands.put(i, false);
-            }else{
-                expands.put(i, true);
-            }
-
-            notifyDataSetChanged();
-        });
-
     }
 
     @Override
     public int getItemCount() {
-        return questions.size();
+        return faQuestions.size();
     }
 
     private void initializer(View view) {
         handler = new Handler();
     }
 
-    public void setQuestion(ArrayList<Model> questions, HashMap<Integer, Boolean> expands) {
-        this.questions = questions;
+    public void setFAQuestions(ArrayList<Model> faQuestions, HashMap<Integer, Boolean> expands) {
+        this.faQuestions = faQuestions;
         this.expands = expands;
+        notifyDataSetChanged();
+    }
+
+    private void doWork(int position) {
+        expands.put(position, !expands.get(position));
+
         notifyDataSetChanged();
     }
 
@@ -115,9 +114,9 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
         public QuestionHolder(View view) {
             super(view);
-            subjectTextView = view.findViewById(R.id.single_item_question_subject_textView);
-            answerTextView = view.findViewById(R.id.single_item_question_answer_textView);
-            expandImageView = view.findViewById(R.id.single_item_question_expand_imageView);
+            subjectTextView = view.findViewById(R.id.single_item_fa_question_subject_textView);
+            answerTextView = view.findViewById(R.id.single_item_fa_question_answer_textView);
+            expandImageView = view.findViewById(R.id.single_item_fa_question_expand_imageView);
         }
     }
 

@@ -7,26 +7,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
-import com.majazeh.risloo.ViewModels.AboutUsViewModel;
-import com.majazeh.risloo.ViewModels.TAConditionViewModel;
+import com.majazeh.risloo.Views.Activities.AboutUsActivity;
+import com.majazeh.risloo.Views.Activities.TAConditionActivity;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
-
-    // ViewModel
-    private AboutUsViewModel aboutUsViewModel;
-    private TAConditionViewModel TAConditionViewModel;
 
     // Adapters
     private SubListBigAdapter subListBigAdapter;
@@ -39,7 +34,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
     // Objects
     private Activity activity;
 
-    public ListAdapter(Activity activity) {
+    public ListAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -63,9 +58,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
             if (model.get("subset").equals("big")) {
                 if (asset.equals("AboutUs")) {
-                    subListBigAdapter.setSubListBig(aboutUsViewModel.getSubset(i));
-                } else if (asset.equals("TermCondition")) {
-                    subListBigAdapter.setSubListBig(TAConditionViewModel.getSubset(i));
+                    subListBigAdapter.setSubListBig(((AboutUsActivity) Objects.requireNonNull(activity)).aboutUsViewModel.getSubset(i));
+                } else if (asset.equals("TACondition")) {
+                    subListBigAdapter.setSubListBig(((TAConditionActivity) Objects.requireNonNull(activity)).taConditionViewModel.getSubset(i));
                 }
 
                 holder.listRecyclerView.setVisibility(View.VISIBLE);
@@ -77,9 +72,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
             } else if (list.get(i).get("subset").equals("small")) {
                 if (asset.equals("AboutUs")) {
-                    subListSmallAdapter.setSubListSmall(aboutUsViewModel.getSubset(i));
-                } else if (asset.equals("TermCondition")) {
-                    subListSmallAdapter.setSubListSmall(TAConditionViewModel.getSubset(i));
+                    subListSmallAdapter.setSubListSmall(((AboutUsActivity) Objects.requireNonNull(activity)).aboutUsViewModel.getSubset(i));
+                } else if (asset.equals("TACondition")) {
+                    subListSmallAdapter.setSubListSmall(((TAConditionActivity) Objects.requireNonNull(activity)).taConditionViewModel.getSubset(i));
                 }
 
                 holder.listRecyclerView.setVisibility(View.VISIBLE);
@@ -96,7 +91,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -105,9 +99,6 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
     }
 
     private void initializer(View view) {
-        aboutUsViewModel = new ViewModelProvider((FragmentActivity) activity).get(AboutUsViewModel.class);
-        TAConditionViewModel = new ViewModelProvider((FragmentActivity) activity).get(TAConditionViewModel.class);
-
         subListBigAdapter = new SubListBigAdapter(activity);
         subListSmallAdapter = new SubListSmallAdapter(activity);
     }

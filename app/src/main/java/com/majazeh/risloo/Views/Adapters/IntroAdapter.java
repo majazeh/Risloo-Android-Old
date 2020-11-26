@@ -16,7 +16,7 @@ public class IntroAdapter extends PagerAdapter {
     // Object
     private Activity activity;
 
-    public IntroAdapter(Activity activity) {
+    public IntroAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 

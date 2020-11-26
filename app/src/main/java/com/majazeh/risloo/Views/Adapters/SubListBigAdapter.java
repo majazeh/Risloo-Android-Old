@@ -24,7 +24,7 @@ public class SubListBigAdapter extends RecyclerView.Adapter<SubListBigAdapter.Su
     // Objects
     private Activity activity;
 
-    public SubListBigAdapter(Activity activity) {
+    public SubListBigAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -45,7 +45,6 @@ public class SubListBigAdapter extends RecyclerView.Adapter<SubListBigAdapter.Su
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -64,7 +63,7 @@ public class SubListBigAdapter extends RecyclerView.Adapter<SubListBigAdapter.Su
 
         public SubListBigHolder(View view) {
             super(view);
-            titleTextView = view.findViewById(R.id.single_item_sublist_small_title_textView);
+            titleTextView = view.findViewById(R.id.single_item_sublist_big_title_textView);
             descriptionTextView = view.findViewById(R.id.single_item_sublist_big_description_textView);
         }
     }

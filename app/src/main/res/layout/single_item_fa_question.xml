@@ -3,14 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/single_item_question"
+    android:id="@+id/single_item_fa_question"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     app:cardBackgroundColor="@color/Snow"
     app:cardCornerRadius="@dimen/_16sdp"
-    tools:context=".Views.Activities.QuestionActivity"
-    tools:ignore="UnusedAttribute, UseCompoundDrawables, ContentDescription, RtlHardcoded, RtlSymmetry">
+    tools:context=".Views.Activities.FAQuestionActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,16 +27,17 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/single_item_question_expand_imageView"
+                android:id="@+id/single_item_fa_question_expand_imageView"
                 android:layout_width="@dimen/_24sdp"
                 android:layout_height="@dimen/_24sdp"
                 android:layout_gravity="center"
                 android:padding="@dimen/_6sdp"
+                android:contentDescription="@string/AppImageContent"
                 android:background="@drawable/draw_oval_solid_white"
                 android:src="@drawable/ic_chevron_down" />
 
             <TextView
-                android:id="@+id/single_item_question_subject_textView"
+                android:id="@+id/single_item_fa_question_subject_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -50,7 +50,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/single_item_question_answer_textView"
+            android:id="@+id/single_item_fa_question_answer_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/_8sdp"

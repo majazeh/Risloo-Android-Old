@@ -10,8 +10,7 @@
     android:fitsSystemWindows="true"
     android:background="@color/White"
     android:descendantFocusability="blocksDescendants"
-    tools:context=".Views.Activities.AboutUsActivity"
-    tools:ignore="UnusedAttribute, ContentDescription">
+    tools:context=".Views.Activities.AboutUsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,11 +36,13 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/activity_about_us_logo_imageView"
                     android:layout_width="@dimen/_94sdp"
                     android:layout_height="@dimen/_94sdp"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_24sdp"
                     android:padding="@dimen/_18sdp"
+                    android:contentDescription="@string/AppImageContent"
                     android:background="@drawable/draw_16sdp_solid_primary"
                     android:src="@drawable/ic_brain_light"
                     app:tint="@color/White" />
