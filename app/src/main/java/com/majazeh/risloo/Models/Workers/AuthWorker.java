@@ -715,7 +715,7 @@ public class AuthWorker extends Worker {
 
                             FileManager.deleteFolderFromCache(context, "documents");
 
-                            ExceptionGenerator.getException(true, 200, successBody, "sendDoc");
+                            ExceptionGenerator.getException(true, 200, successBody, "attachment");
                             AuthRepository.workState.postValue(1);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -730,7 +730,7 @@ public class AuthWorker extends Worker {
                         try {
                             JSONObject errorBody = new JSONObject(error.getErrorBody());
 
-                            ExceptionGenerator.getException(true, error.getErrorCode(), errorBody, "sendDoc");
+                            ExceptionGenerator.getException(true, error.getErrorCode(), errorBody, "attachment");
                             AuthRepository.workState.postValue(0);
                         } catch (JSONException e) {
                             e.printStackTrace();

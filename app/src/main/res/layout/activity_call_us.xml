@@ -11,13 +11,14 @@
     android:overScrollMode="never"
     android:fillViewport="true"
     android:fitsSystemWindows="true"
-    android:background="@color/White"
-    tools:context=".Views.Activities.CallUsActivity"
-    tools:ignore="UnusedAttribute, RtlHardcoded">
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="blocksDescendants"
+    tools:context=".Views.Activities.CallUsActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/White">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -88,7 +89,7 @@
                     android:imeOptions="actionDone"
                     android:inputType="textMultiLine"
                     android:hint="@string/CallUsMessage"
-                    android:gravity="right"
+                    android:gravity="top|right"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"
                     android:textColor="@color/Grey"

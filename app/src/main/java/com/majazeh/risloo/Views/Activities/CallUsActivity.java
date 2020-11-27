@@ -114,11 +114,11 @@ public class CallUsActivity extends AppCompatActivity {
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
 
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.copyFrom(infoDialog.getWindow().getAttributes());
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        infoDialog.getWindow().setAttributes(layoutParams);
+        WindowManager.LayoutParams layoutParamsInfoDialog = new WindowManager.LayoutParams();
+        layoutParamsInfoDialog.copyFrom(infoDialog.getWindow().getAttributes());
+        layoutParamsInfoDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsInfoDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        infoDialog.getWindow().setAttributes(layoutParamsInfoDialog);
 
         infoDialogTitle = infoDialog.findViewById(R.id.dialog_note_title_textView);
         infoDialogTitle.setText(getResources().getString(R.string.CallUsInfoDialogTitle));
@@ -152,7 +152,7 @@ public class CallUsActivity extends AppCompatActivity {
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
             finish();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -226,7 +226,7 @@ public class CallUsActivity extends AppCompatActivity {
 
         infoDialogConfirm.setOnClickListener(v -> {
             infoDialogConfirm.setClickable(false);
-            handler.postDelayed(() -> infoDialogConfirm.setClickable(true), 300);
+            handler.postDelayed(() -> infoDialogConfirm.setClickable(true), 250);
             infoDialog.dismiss();
         });
 
@@ -234,7 +234,7 @@ public class CallUsActivity extends AppCompatActivity {
 
         repeatDialogPositive.setOnClickListener(v -> {
             repeatDialogPositive.setClickable(false);
-            handler.postDelayed(() -> repeatDialogPositive.setClickable(true), 300);
+            handler.postDelayed(() -> repeatDialogPositive.setClickable(true), 250);
             repeatDialog.dismiss();
 
             nameEditText.getText().clear();
@@ -244,7 +244,7 @@ public class CallUsActivity extends AppCompatActivity {
 
         repeatDialogNegative.setOnClickListener(v -> {
             repeatDialogNegative.setClickable(false);
-            handler.postDelayed(() -> repeatDialogNegative.setClickable(true), 300);
+            handler.postDelayed(() -> repeatDialogNegative.setClickable(true), 250);
             repeatDialog.dismiss();
 
             finish();
@@ -257,6 +257,20 @@ public class CallUsActivity extends AppCompatActivity {
             mobileEditText.getText().clear();
             messageEditText.getText().clear();
         });
+    }
+
+    private void errorException(String type) {
+        switch (type) {
+            case "name":
+                nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
+            case "mobile":
+                mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
+            case "message":
+                messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
+        }
     }
 
     private boolean firstMessage() {
@@ -282,6 +296,7 @@ public class CallUsActivity extends AppCompatActivity {
 //
 //        try {
 //            progressDialog.show();
+//
 //            viewModel.send(name, mobile, message);
 //            observeWork();
 //        } catch (JSONException e) {
@@ -316,11 +331,11 @@ public class CallUsActivity extends AppCompatActivity {
             String exceptionToast = "";
 
             if (!ExceptionGenerator.errors.isNull("name")) {
-                nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                errorException("name");
                 exceptionToast = ExceptionGenerator.getErrorBody("name");
             }
             if (!ExceptionGenerator.errors.isNull("mobile")) {
-                mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                errorException("mobile");
                 if (exceptionToast.equals("")) {
                     exceptionToast = ExceptionGenerator.getErrorBody("mobile");
                 } else {
@@ -328,7 +343,7 @@ public class CallUsActivity extends AppCompatActivity {
                 }
             }
             if (!ExceptionGenerator.errors.isNull("message")) {
-                messageEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                errorException("message");
                 if (exceptionToast.equals("")) {
                     exceptionToast = ExceptionGenerator.getErrorBody("message");
                 } else {

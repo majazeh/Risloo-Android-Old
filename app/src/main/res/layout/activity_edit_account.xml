@@ -11,13 +11,14 @@
     android:overScrollMode="never"
     android:fillViewport="true"
     android:fitsSystemWindows="true"
-    android:background="@color/White"
-    tools:context=".Views.Activities.AccountActivity"
-    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded">
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="blocksDescendants"
+    tools:context=".Views.Activities.EditAccountActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/White">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,6 +60,7 @@
                         android:layout_marginLeft="@dimen/_minus4sdp"
                         android:layout_toRightOf="@id/activity_edit_account_avatar_circleImageView"
                         android:padding="@dimen/_8sdp"
+                        android:contentDescription="@string/AppImageContent"
                         android:background="@drawable/draw_oval_solid_snow_border_quartz"
                         android:src="@drawable/ic_gallery_regular"
                         app:tint="@color/Mischka" />
@@ -148,6 +150,7 @@
                         android:layout_height="@dimen/_12sdp"
                         android:layout_marginLeft="@dimen/_12sdp"
                         android:layout_gravity="center|left"
+                        android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_chevron_down"
                         app:tint="@color/Mischka" />
 

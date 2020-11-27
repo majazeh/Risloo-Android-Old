@@ -9,6 +9,7 @@
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
     android:background="@color/Primary"
+    android:descendantFocusability="blocksDescendants"
     tools:context=".Views.Activities.SplashActivity">
 
     <ImageView

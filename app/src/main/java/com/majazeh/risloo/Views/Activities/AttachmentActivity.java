@@ -48,7 +48,7 @@ import java.util.Objects;
 public class AttachmentActivity extends AppCompatActivity {
 
     // ViewModels
-    private AuthViewModel viewModel;
+    private AuthViewModel authViewModel;
 
     // Vars
     private String title = "", description = "", attachment = "";
@@ -93,7 +93,7 @@ public class AttachmentActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
         handler = new Handler();
 
@@ -109,20 +109,20 @@ public class AttachmentActivity extends AppCompatActivity {
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
-        toolbarTextView.setText(getResources().getString(R.string.SendDocTitle));
+        toolbarTextView.setText(getResources().getString(R.string.AttachmentTitle));
         toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
-        titleEditText = findViewById(R.id.activity_send_doc_title_editText);
-        descriptionEditText = findViewById(R.id.activity_send_doc_description_editText);
+        titleEditText = findViewById(R.id.activity_attachment_title_editText);
+        descriptionEditText = findViewById(R.id.activity_attachment_description_editText);
 
-        attachmentLinearLayout = findViewById(R.id.activity_send_doc_attachment_linearLayout);
+        attachmentLinearLayout = findViewById(R.id.activity_attachment_file_linearLayout);
 
-        attachmentImageView = findViewById(R.id.activity_send_doc_attachment_imageView);
+        attachmentImageView = findViewById(R.id.activity_attachment_file_imageView);
 
-        suffixTextView = findViewById(R.id.activity_send_doc_suffix_textView);
-        attachmentTextView = findViewById(R.id.activity_send_doc_attachment_textView);
+        suffixTextView = findViewById(R.id.activity_attachment_suffix_textView);
+        attachmentTextView = findViewById(R.id.activity_attachment_file_textView);
 
-        sendButton = findViewById(R.id.activity_send_doc_send_button);
+        sendButton = findViewById(R.id.activity_attachment_send_button);
 
         progressDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
@@ -145,7 +145,7 @@ public class AttachmentActivity extends AppCompatActivity {
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
             finish();
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
@@ -181,10 +181,10 @@ public class AttachmentActivity extends AppCompatActivity {
 
         attachmentLinearLayout.setOnClickListener(v -> {
             attachmentLinearLayout.setClickable(false);
-            handler.postDelayed(() -> attachmentLinearLayout.setClickable(true), 300);
+            handler.postDelayed(() -> attachmentLinearLayout.setClickable(true), 250);
 
             if (attachmentException) {
-                clearException();
+                clearException("attachment");
             }
 
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
@@ -208,72 +208,48 @@ public class AttachmentActivity extends AppCompatActivity {
                 controlEditText.error(this, descriptionEditText);
             }
             if (attachment.equals("")) {
-                errorException();
-            }
-
-            if (attachmentException) {
-                clearException();
+                errorException("attachment");
             }
 
             if (titleEditText.length() != 0 && descriptionEditText.length() != 0 && !attachment.equals("")) {
                 controlEditText.clear(this, titleEditText);
                 controlEditText.clear(this, descriptionEditText);
+                clearException("attachment");
 
                 doWork();
             }
         });
     }
 
-    private void errorException() {
-        attachmentException = true;
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            attachmentLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_violetred20p_ripple_violetred);
-        } else {
-            attachmentLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_violetred20p);
+    private void errorException(String type) {
+        switch (type) {
+            case "title":
+                titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
+            case "description":
+                descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
+            case "attachment":
+                attachmentException = true;
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                    attachmentLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_violetred20p_ripple_violetred);
+                } else {
+                    attachmentLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_violetred20p);
+                }
+                break;
         }
     }
 
-    private void clearException() {
-        attachmentException = false;
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            attachmentLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude_ripple_quartz);
-        } else {
-            attachmentLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude);
-        }
-    }
-
-    private void setFileWidgetsUi(String fileName) {
-        attachmentTextView.setText(StringManager.substring(fileName, '/'));
-        attachmentTextView.setTextColor(getResources().getColor(R.color.Nero));
-
-        attachmentImageView.setVisibility(View.GONE);
-        suffixTextView.setVisibility(View.VISIBLE);
-
-        switch (StringManager.substring(fileName, '.')) {
-            case "png":
-                suffixTextView.setText(getResources().getString(R.string.SendDocSuffixPNG));
-                break;
-            case "jpg":
-                suffixTextView.setText(getResources().getString(R.string.SendDocSuffixJPG));
-                break;
-            case "jpeg":
-                suffixTextView.setText(getResources().getString(R.string.SendDocSuffixJPEG));
-                break;
-            case "gif":
-                suffixTextView.setText(getResources().getString(R.string.SendDocSuffixGIF));
-                break;
-            case "doc":
-                suffixTextView.setText(getResources().getString(R.string.SendDocSuffixDOC));
-                break;
-            case "pdf":
-                suffixTextView.setText(getResources().getString(R.string.SendDocSuffixPDF));
-                break;
-            case "mp4":
-                suffixTextView.setText(getResources().getString(R.string.SendDocSuffixMP4));
-                break;
-            default:
-                suffixTextView.setText(StringManager.substring(fileName, '.'));
-                break;
+    private void clearException(String type) {
+        switch (type) {
+            case "attachment":
+                attachmentException = false;
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                    attachmentLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude_ripple_quartz);
+                } else {
+                    attachmentLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude);
+                }
+            break;
         }
     }
 
@@ -283,7 +259,8 @@ public class AttachmentActivity extends AppCompatActivity {
 
         try {
             progressDialog.show();
-            viewModel.attachment(title, description, attachment);
+
+            authViewModel.attachment(title, description, attachment);
             observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -317,11 +294,11 @@ public class AttachmentActivity extends AppCompatActivity {
             String exceptionToast = "";
 
             if (!ExceptionGenerator.errors.isNull("title")) {
-                titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                errorException("title");
                 exceptionToast = ExceptionGenerator.getErrorBody("title");
             }
             if (!ExceptionGenerator.errors.isNull("description")) {
-                descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                errorException("description");
                 if (exceptionToast.equals("")) {
                     exceptionToast = ExceptionGenerator.getErrorBody("description");
                 } else {
@@ -329,7 +306,7 @@ public class AttachmentActivity extends AppCompatActivity {
                 }
             }
             if (!ExceptionGenerator.errors.isNull("attachment")) {
-                errorException();
+                errorException("attachment");
                 if (exceptionToast.equals("")) {
                     exceptionToast = ExceptionGenerator.getErrorBody("attachment");
                 } else {
@@ -366,7 +343,38 @@ public class AttachmentActivity extends AppCompatActivity {
 
                 attachment = pathManager.getLocalPath(this, uri);
 
-                setFileWidgetsUi(attachment);
+                attachmentTextView.setText(StringManager.substring(attachment, '/'));
+                attachmentTextView.setTextColor(getResources().getColor(R.color.Nero));
+
+                attachmentImageView.setVisibility(View.GONE);
+                suffixTextView.setVisibility(View.VISIBLE);
+
+                switch (StringManager.substring(attachment, '.')) {
+                    case "png":
+                        suffixTextView.setText(getResources().getString(R.string.AttachmentSuffixPNG));
+                        break;
+                    case "jpg":
+                        suffixTextView.setText(getResources().getString(R.string.AttachmentSuffixJPG));
+                        break;
+                    case "jpeg":
+                        suffixTextView.setText(getResources().getString(R.string.AttachmentSuffixJPEG));
+                        break;
+                    case "gif":
+                        suffixTextView.setText(getResources().getString(R.string.AttachmentSuffixGIF));
+                        break;
+                    case "doc":
+                        suffixTextView.setText(getResources().getString(R.string.AttachmentSuffixDOC));
+                        break;
+                    case "pdf":
+                        suffixTextView.setText(getResources().getString(R.string.AttachmentSuffixPDF));
+                        break;
+                    case "mp4":
+                        suffixTextView.setText(getResources().getString(R.string.AttachmentSuffixMP4));
+                        break;
+                    default:
+                        suffixTextView.setText(StringManager.substring(attachment, '.'));
+                        break;
+                }
             }
         } else if (resultCode == RESULT_CANCELED) {
             if (requestCode == 100) {

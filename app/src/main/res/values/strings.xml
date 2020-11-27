@@ -120,6 +120,28 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // CallUs strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="CallUsTitle">ارتباط با ما</string>
+
+    <string name="CallUsName">نام و نام خانوادگی</string>
+    <string name="CallUsMobile">شماره موبایل</string>
+    <string name="CallUsMessage">محتوای پیام شما</string>
+
+    <string name="CallUsSend">ارسال پیام</string>
+
+    <string name="CallUsInfoDialogTitle">کاربر گرامی</string>
+    <string name="CallUsInfoDialogDescription">شما می توانید نظرات و انتقادات خود را نسبت به خدمات و سرویس به ما اطلاع دعید. هدف ما جلب رضایت و اعتماد متقابل شما می باشد.</string>
+    <string name="CallUsInfoDialogConfirm">بستن</string>
+
+    <string name="CallUsRepeatDialogTitle">پیام شما ارسال شد</string>
+    <string name="CallUsRepeatDialogDescription">اپراتور های ما در اسرع وقت پیام شما را بررسی خواهند داد.</string>
+    <string name="CallUsRepeatDialogPositive">پیام جدید</string>
+    <string name="CallUsRepeatDialogNegative">خروج</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     // Account strings
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -137,7 +159,49 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // EditAccount strings
+    ////////////////////////////////////////////////////////////////////////////////
 
+    <string name="EditAccountTitle">ویرایش حساب</string>
+
+    <string name="EditAccountName">نام و نام خانوادگی</string>
+    <string name="EditAccountMan">مرد</string>
+    <string name="EditAccountWoman">زن</string>
+    <string name="EditAccountBirthday">تاریخ تولد</string>
+
+    <string name="EditAccountEdit">ویرایش</string>
+
+    <string name="EditAccountImageDialogTitle">از کجا می خوای عکس بیارید</string>
+    <string name="EditAccountImageDialogGallery">البوم</string>
+    <string name="EditAccountImageDialogCamera">دوربین</string>
+    <string name="EditAccountImageDialogClose">بستن</string>
+
+    <string name="EditAccountBirthdayDialogTitle">تاریخ تولد مورد نظر انتخاب کنید</string>
+    <string name="EditAccountBirthdayDialogPositive">ثبت</string>
+    <string name="EditAccountBirthdayDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // Attachment strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="AttachmentTitle">ارسال مدارک هویتی</string>
+
+    <string name="AttachmentName">عنوان</string>
+    <string name="AttachmentDescription">توضیحات</string>
+    <string name="AttachmentFile">فایل مدارک هویتی انتخاب کن</string>
+
+    <string name="AttachmentSuffixPNG">PNG</string>
+    <string name="AttachmentSuffixJPG">JPG</string>
+    <string name="AttachmentSuffixJPEG">JPEG</string>
+    <string name="AttachmentSuffixGIF">GIF</string>
+    <string name="AttachmentSuffixDOC">DOC</string>
+    <string name="AttachmentSuffixPDF">PDF</string>
+    <string name="AttachmentSuffixMP4">MP4</string>
+
+    <string name="AttachmentSend">ارسال</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -612,49 +676,9 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // edit account strings
-    ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="EditAccountTitle">ویرایش حساب</string>
 
-    <string name="EditAccountName">نام و نام خانوادگی</string>
-    <string name="EditAccountMan">مرد</string>
-    <string name="EditAccountWoman">زن</string>
-    <string name="EditAccountBirthday">تاریخ تولد</string>
 
-    <string name="EditAccountEdit">ویرایش</string>
-
-    <string name="EditAccountImageDialogTitle">از کجا می خوای عکس بیارید</string>
-    <string name="EditAccountImageDialogGallery">البوم</string>
-    <string name="EditAccountImageDialogCamera">دوربین</string>
-    <string name="EditAccountImageDialogClose">بستن</string>
-
-    <string name="EditAccountDateDialogTitle">تاریخ تولد مورد نظر انتخاب کنید</string>
-    <string name="EditAccountDateDialogPositive">ثبت</string>
-    <string name="EditAccountDateDialogNegative">بستن</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // send doc strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="SendDocTitle">ارسال مدارک هویتی</string>
-
-    <string name="SendDocName">عنوان</string>
-    <string name="SendDocDescription">توضیحات</string>
-    <string name="SendDocAttachment">فایل مدارک هویتی انتخاب کن</string>
-
-    <string name="SendDocSuffixPNG">PNG</string>
-    <string name="SendDocSuffixJPG">JPG</string>
-    <string name="SendDocSuffixJPEG">JPEG</string>
-    <string name="SendDocSuffixGIF">GIF</string>
-    <string name="SendDocSuffixDOC">DOC</string>
-    <string name="SendDocSuffixPDF">PDF</string>
-    <string name="SendDocSuffixMP4">MP4</string>
-
-    <string name="SendDocSend">ارسال</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
 
     // archive strings
     ////////////////////////////////////////////////////////////////////////////////
@@ -789,26 +813,7 @@
 
 
 
-    // call us strings
-    ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="CallUsTitle">ارتباط با ما</string>
-
-    <string name="CallUsName">نام و نام خانوادگی</string>
-    <string name="CallUsMobile">شماره موبایل</string>
-    <string name="CallUsMessage">محتوای پیام شما</string>
-
-    <string name="CallUsSend">ارسال پیام</string>
-
-    <string name="CallUsInfoDialogTitle">کاربر گرامی</string>
-    <string name="CallUsInfoDialogDescription">شما می توانید نظرات و انتقادات خود را نسبت به خدمات و سرویس به ما اطلاع دعید. هدف ما جلب رضایت و اعتماد متقابل شما می باشد.</string>
-    <string name="CallUsInfoDialogConfirm">بستن</string>
-    <string name="CallUsRepeatDialogTitle">پیام شما ارسال شد</string>
-    <string name="CallUsRepeatDialogDescription">اپراتور های ما در اسرع وقت پیام شما را بررسی خواهند داد.</string>
-    <string name="CallUsRepeatDialogPositive">پیام جدید</string>
-    <string name="CallUsRepeatDialogNegative">خروج</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
 
 
 

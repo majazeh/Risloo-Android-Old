@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_send_documents"
+    android:id="@+id/activity_attachment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
@@ -11,13 +11,14 @@
     android:overScrollMode="never"
     android:fillViewport="true"
     android:fitsSystemWindows="true"
-    android:background="@color/White"
-    tools:context=".Views.Activities.AttachmentActivity"
-    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded">
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="blocksDescendants"
+    tools:context=".Views.Activities.AttachmentActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/White">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,7 +39,7 @@
                 android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/activity_send_doc_title_editText"
+                    android:id="@+id/activity_attachment_title_editText"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
                     android:layout_marginBottom="@dimen/_8sdp"
@@ -46,7 +47,7 @@
                     android:paddingRight="@dimen/_16sdp"
                     android:imeOptions="actionDone"
                     android:inputType="text"
-                    android:hint="@string/SendDocName"
+                    android:hint="@string/AttachmentName"
                     android:gravity="center|right"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"
@@ -57,7 +58,7 @@
                     android:background="@drawable/draw_16sdp_border_quartz" />
 
                 <EditText
-                    android:id="@+id/activity_send_doc_description_editText"
+                    android:id="@+id/activity_attachment_description_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_8sdp"
@@ -68,8 +69,8 @@
                     android:paddingRight="@dimen/_16sdp"
                     android:imeOptions="actionDone"
                     android:inputType="textMultiLine"
-                    android:hint="@string/SendDocDescription"
-                    android:gravity="right"
+                    android:hint="@string/AttachmentDescription"
+                    android:gravity="top|right"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"
                     android:textColor="@color/Grey"
@@ -79,7 +80,7 @@
                     android:background="@drawable/draw_16sdp_border_quartz" />
 
                 <LinearLayout
-                    android:id="@+id/activity_send_doc_attachment_linearLayout"
+                    android:id="@+id/activity_attachment_file_linearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_24sdp"
@@ -98,14 +99,15 @@
                         android:layout_marginBottom="@dimen/_12sdp">
 
                         <ImageView
-                            android:id="@+id/activity_send_doc_attachment_imageView"
+                            android:id="@+id/activity_attachment_file_imageView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:contentDescription="@string/AppImageContent"
                             android:src="@drawable/ic_case_light"
                             app:tint="@color/Mischka" />
 
                         <TextView
-                            android:id="@+id/activity_send_doc_suffix_textView"
+                            android:id="@+id/activity_attachment_suffix_textView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:visibility="gone"
@@ -119,11 +121,11 @@
                     </FrameLayout>
 
                     <TextView
-                        android:id="@+id/activity_send_doc_attachment_textView"
-                        android:layout_width="match_parent"
+                        android:id="@+id/activity_attachment_file_textView"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="@string/SendDocAttachment"
+                        android:text="@string/AttachmentFile"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="normal"
                         android:textColor="@color/Mischka"
@@ -132,11 +134,11 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/activity_send_doc_send_button"
+                    android:id="@+id/activity_attachment_send_button"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
                     android:gravity="center"
-                    android:text="@string/SendDocSend"
+                    android:text="@string/AttachmentSend"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold"
                     android:textColor="@color/White"
