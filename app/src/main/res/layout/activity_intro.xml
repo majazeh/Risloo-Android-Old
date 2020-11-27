@@ -6,9 +6,11 @@
     android:id="@+id/activity_intro"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
-    android:fitsSystemWindows="false"
     android:background="@color/White"
+    android:layoutDirection="rtl"
+    android:focusable="true"
+    android:fitsSystemWindows="false"
+    android:focusableInTouchMode="true"
     android:descendantFocusability="blocksDescendants"
     tools:context=".Views.Activities.IntroActivity">
 
