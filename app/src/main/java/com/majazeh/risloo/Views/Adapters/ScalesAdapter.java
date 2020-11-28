@@ -32,7 +32,7 @@ public class ScalesAdapter extends RecyclerView.Adapter<ScalesAdapter.ScalesHold
     private Activity activity;
     private Handler handler;
 
-    public ScalesAdapter(Activity activity) {
+    public ScalesAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -100,7 +100,7 @@ public class ScalesAdapter extends RecyclerView.Adapter<ScalesAdapter.ScalesHold
         handler = new Handler();
     }
 
-    public void setScales(ArrayList<Model> scales) {
+    public void setScale(ArrayList<Model> scales) {
         this.scales = scales;
         notifyDataSetChanged();
     }

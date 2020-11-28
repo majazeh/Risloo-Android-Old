@@ -37,7 +37,7 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
     private Activity activity;
     private Handler handler;
 
-    public CasesAdapter(Activity activity) {
+    public CasesAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -160,7 +160,7 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
         handler = new Handler();
     }
 
-    public void setCases(ArrayList<Model> cases) {
+    public void setCase(ArrayList<Model> cases) {
         this.cases = cases;
         notifyDataSetChanged();
     }

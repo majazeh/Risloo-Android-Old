@@ -1,6 +1,7 @@
 package com.majazeh.risloo.Views.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.widget.ImageViewCompat;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -74,7 +76,7 @@ public class ScalesActivity extends AppCompatActivity {
     private ImageView searchImageView, infoImageView;
     private TextView searchTextView, infoTextView;
     private RecyclerView scalesRecyclerView;
-    private ProgressBar pagingProgressBar;
+    public ProgressBar pagingProgressBar;
     private Dialog searchDialog;
     private TextView searchDialogTitle, searchDialogPositive, searchDialogNegative;
     private EditText searchDialogInput;
@@ -93,7 +95,7 @@ public class ScalesActivity extends AppCompatActivity {
 
         listener();
 
-        launchScales();
+        getData();
     }
 
     private void decorator() {
@@ -185,7 +187,7 @@ public class ScalesActivity extends AppCompatActivity {
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
             finish();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -193,7 +195,7 @@ public class ScalesActivity extends AppCompatActivity {
 
         toolbarSearchImageView.setOnClickListener(v -> {
             toolbarSearchImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarSearchImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarSearchImageView.setClickable(true), 250);
 
             searchDialogInput.setText(search);
 
@@ -202,7 +204,7 @@ public class ScalesActivity extends AppCompatActivity {
 
         searchTextView.setOnClickListener(v -> {
             searchTextView.setClickable(false);
-            handler.postDelayed(() -> searchTextView.setClickable(true), 300);
+            handler.postDelayed(() -> searchTextView.setClickable(true), 250);
 
             searchDialogInput.setText(search);
 
@@ -211,13 +213,12 @@ public class ScalesActivity extends AppCompatActivity {
 
         searchImageView.setOnClickListener(v -> {
             searchImageView.setClickable(false);
-            handler.postDelayed(() -> searchImageView.setClickable(true), 300);
+            handler.postDelayed(() -> searchImageView.setClickable(true), 250);
 
             search = "";
-
             searchTextView.setText(search);
 
-            relaunchScales();
+            relaunchData();
 
             searchDialog.dismiss();
         });
@@ -225,7 +226,7 @@ public class ScalesActivity extends AppCompatActivity {
         retrySpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                relaunchScales();
+                relaunchData();
             }
 
             @Override
@@ -276,14 +277,14 @@ public class ScalesActivity extends AppCompatActivity {
 
         searchDialogPositive.setOnClickListener(v -> {
             searchDialogPositive.setClickable(false);
-            handler.postDelayed(() -> searchDialogPositive.setClickable(true), 300);
+            handler.postDelayed(() -> searchDialogPositive.setClickable(true), 250);
 
             if (searchDialogInput.length() != 0) {
                 search = searchDialogInput.getText().toString().trim();
 
                 searchTextView.setText(search);
 
-                relaunchScales();
+                relaunchData();
 
                 if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                     controlEditText.clear(this, controlEditText.input());
@@ -292,13 +293,13 @@ public class ScalesActivity extends AppCompatActivity {
 
                 searchDialog.dismiss();
             } else {
-                errorView("searchDialog");
+                errorException("searchDialog");
             }
         });
 
         searchDialogNegative.setOnClickListener(v -> {
             searchDialogNegative.setClickable(false);
-            handler.postDelayed(() -> searchDialogNegative.setClickable(true), 300);
+            handler.postDelayed(() -> searchDialogNegative.setClickable(true), 250);
 
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
@@ -343,6 +344,12 @@ public class ScalesActivity extends AppCompatActivity {
         }
     }
 
+    private void errorException(String type) {
+        if (type.equals("searchDialog")) {
+            searchDialogInput.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+        }
+    }
+
     private void resetData(String method) {
         if (method.equals("search")) {
             if (authViewModel.hasAccess()) {
@@ -367,13 +374,7 @@ public class ScalesActivity extends AppCompatActivity {
         }
     }
 
-    private void errorView(String type) {
-        if (type.equals("searchDialog")) {
-            searchDialogInput.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-        }
-    }
-
-    private void launchScales() {
+    private void getData() {
         try {
             sampleViewModel.scales(search);
             SampleRepository.scalesPage = 1;
@@ -383,18 +384,19 @@ public class ScalesActivity extends AppCompatActivity {
         }
     }
 
-    public void relaunchScales() {
+    private void relaunchData() {
         searchLayout.setVisibility(View.GONE);
         loadingLayout.setVisibility(View.VISIBLE);
         infoLayout.setVisibility(View.GONE);
         mainLayout.setVisibility(View.GONE);
 
-        launchScales();
+        getData();
     }
 
     private void observeWork() {
         SampleRepository.workStateCreate.observe((LifecycleOwner) this, integer -> {
             if (SampleRepository.work.equals("getScales")) {
+                finished = false;
                 loading = true;
                 if (integer == 1) {
                     if (sampleViewModel.getScales() != null) {
@@ -404,7 +406,7 @@ public class ScalesActivity extends AppCompatActivity {
                         infoLayout.setVisibility(View.GONE);
                         mainLayout.setVisibility(View.VISIBLE);
 
-                        scalesRecyclerViewAdapter.setScales(sampleViewModel.getScales());
+                        scalesRecyclerViewAdapter.setScale(sampleViewModel.getScales());
                         if (SampleRepository.scalesPage == 1) {
                             scalesRecyclerView.setAdapter(scalesRecyclerViewAdapter);
                         }
@@ -431,6 +433,8 @@ public class ScalesActivity extends AppCompatActivity {
 
                     resetData("search");
 
+                    finished = true;
+
                     SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                 } else if (integer != -1) {
                     if (sampleViewModel.getScales() == null) {
@@ -452,6 +456,8 @@ public class ScalesActivity extends AppCompatActivity {
 
                         resetData("search");
 
+                        finished = true;
+
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     } else {
                         // Show Scales
@@ -460,7 +466,7 @@ public class ScalesActivity extends AppCompatActivity {
                         infoLayout.setVisibility(View.GONE);
                         mainLayout.setVisibility(View.VISIBLE);
 
-                        scalesRecyclerViewAdapter.setScales(sampleViewModel.getScales());
+                        scalesRecyclerViewAdapter.setScale(sampleViewModel.getScales());
                         if (SampleRepository.scalesPage == 1) {
                             scalesRecyclerView.setAdapter(scalesRecyclerViewAdapter);
                         }
@@ -471,11 +477,24 @@ public class ScalesActivity extends AppCompatActivity {
 
                         resetData("search");
 
+                        finished = true;
+
                         SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
                     }
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 100) {
+                relaunchData();
+            }
+        }
     }
 
     @Override

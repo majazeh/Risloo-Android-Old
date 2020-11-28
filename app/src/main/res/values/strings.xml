@@ -211,8 +211,6 @@
     <string name="CentersAll">همه مراکز درمان</string>
     <string name="CentersMy">مراکز درمان من</string>
 
-    <string name="CentersSearched">جستجو:</string>
-
     <string name="CentersDescription">توضیحات:</string>
     <string name="CentersManager">مدیر:</string>
     <string name="CentersAddress">آدرس:</string>
@@ -229,6 +227,8 @@
     <string name="CentersRequestDialogPositive">درخواست</string>
     <string name="CentersRequestDialogNegative">بستن</string>
 
+    <string name="CentersSearched">جستجو:</string>
+
     <string name="CentersSearchDialogTitle">مرکز درمان مورد نظر خودتان را جستجو کنید.</string>
     <string name="CentersSearchDialogInput">مرکز درمان</string>
     <string name="CentersSearchDialogPositive">جستجو</string>
@@ -244,10 +244,10 @@
     <string name="RoomsAll">همه اتاق‌های درمان</string>
     <string name="RoomsMy">اتاق‌های درمان من</string>
 
-    <string name="RoomsSearched">جستجو:</string>
-
     <string name="RoomsPersonalClinic">کلینیک شخصی</string>
     <string name="RoomsCounselingCenter">مرکز مشاوره</string>
+
+    <string name="RoomsSearched">جستجو:</string>
 
     <string name="RoomsSearchDialogTitle">اتاق درمان مورد نظر خودتان را جستجو کنید.</string>
     <string name="RoomsSearchDialogInput">اتاق درمان</string>
@@ -256,11 +256,67 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // Cases strings
+    ////////////////////////////////////////////////////////////////////////////////
 
+    <string name="CasesTitle">پرونده‌های درمان</string>
 
+    <string name="CasesRoom">اتاق درمان</string>
+    <string name="CasesReferences">مراجعان</string>
 
+    <string name="CasesEdit">ویرایش</string>
 
+    <string name="CasesSearched">جستجو:</string>
 
+    <string name="CasesSearchDialogTitle">پرونده درمان مورد نظر خودتان را جستجو کنید.</string>
+    <string name="CasesSearchDialogInput">پرونده درمان</string>
+    <string name="CasesSearchDialogPositive">جستجو</string>
+    <string name="CasesSearchDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // Sessions strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="SessionsTitle">جلسات درمان</string>
+
+    <string name="SessionsRoom">اتاق درمان</string>
+    <string name="SessionsCase">پرونده</string>
+    <string name="SessionsReference">مراجع</string>
+    <string name="SessionsStartedAt">زمان شروع</string>
+    <string name="SessionsDuration">مدت‌زمان جلسه</string>
+    <string name="SessionsMinute">دقیقه</string>
+    <string name="SessionsStatus">وضعیت</string>
+
+    <string name="SessionsEdit">ویرایش</string>
+
+    <string name="SessionsSearched">جستجو:</string>
+
+    <string name="SessionsSearchDialogTitle">جلسه درمان مورد نظر خودتان را جستجو کنید.</string>
+    <string name="SessionsSearchDialogInput">جلسه درمان</string>
+    <string name="SessionsSearchDialogPositive">جستجو</string>
+    <string name="SessionsSearchDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // Scales strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="ScalesTitle">ارزیابی‌ها</string>
+
+    <string name="ScalesEdit">ویرایش</string>
+    <string name="ScalesVersion">نسخه</string>
+
+    <string name="ScalesCreate">ساختن نمونه</string>
+
+    <string name="ScalesSearched">جستجو:</string>
+
+    <string name="ScalesSearchDialogTitle">مقیاس مورد نظر خودتان را جستجو کنید.</string>
+    <string name="ScalesSearchDialogInput">مقیاس</string>
+    <string name="ScalesSearchDialogPositive">جستجو</string>
+    <string name="ScalesSearchDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -593,44 +649,6 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // scales strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="ScalesTitle">ارزیابی ها</string>
-
-    <string name="ScalesEdit">ویرایش</string>
-    <string name="ScalesVersion">نسخه</string>
-
-    <string name="ScalesCreate">ساختن نمونه</string>
-
-    <string name="ScalesSearched">جستجو:</string>
-
-    <string name="ScalesSearchDialogTitle">مقیاس دلخواهی جستجو کنید.</string>
-    <string name="ScalesSearchDialogInput">مقیاس</string>
-    <string name="ScalesSearchDialogPositive">جستجو</string>
-    <string name="ScalesSearchDialogNegative">بستن</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // cases strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="CasesTitle">پرونده های درمان</string>
-
-    <string name="CasesRoom">اتاق درمان</string>
-    <string name="CasesReferences">مراجعان</string>
-
-    <string name="CasesEdit">ویرایش</string>
-
-    <string name="CasesSearched">جستجو:</string>
-
-    <string name="CasesSearchDialogTitle">پرونده درمان دلخواهی جستجو کنید.</string>
-    <string name="CasesSearchDialogInput">پرونده درمان</string>
-    <string name="CasesSearchDialogPositive">جستجو</string>
-    <string name="CasesSearchDialogNegative">بستن</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
     // create case strings
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -660,30 +678,6 @@
 
     <string name="EditCaseRoomDialogTitle">اتاق درمان مورد نظر جستجو کنید</string>
     <string name="EditCaseReferenceDialogTitle">مراجعان مورد نظر جستجو کنید</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // sessions strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="SessionsTitle">جلسات درمان</string>
-
-    <string name="SessionsRoom">اتاق درمان</string>
-    <string name="SessionsCase">پرونده</string>
-    <string name="SessionsReference">مراجع</string>
-    <string name="SessionsStart">زمان شروع</string>
-    <string name="SessionsPeriod">مدت‌زمان جلسه</string>
-    <string name="SessionsMinute">دقیقه</string>
-    <string name="SessionsStatus">وضعیت</string>
-
-    <string name="SessionsEdit">ویرایش</string>
-
-    <string name="SessionsSearched">جستجو:</string>
-
-    <string name="SessionsSearchDialogTitle">جلسه درمان دلخواهی جستجو کنید.</string>
-    <string name="SessionsSearchDialogInput">جلسه درمان</string>
-    <string name="SessionsSearchDialogPositive">جستجو</string>
-    <string name="SessionsSearchDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

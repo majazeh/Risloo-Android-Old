@@ -76,7 +76,7 @@ public class SessionsActivity extends AppCompatActivity {
     private ImageView searchImageView, infoImageView;
     private TextView searchTextView, infoTextView;
     private RecyclerView sessionsRecyclerView;
-    private ProgressBar pagingProgressBar;
+    public ProgressBar pagingProgressBar;
     private Dialog searchDialog;
     private TextView searchDialogTitle, searchDialogPositive, searchDialogNegative;
     private EditText searchDialogInput;
@@ -95,7 +95,7 @@ public class SessionsActivity extends AppCompatActivity {
 
         listener();
 
-        launchSessions();
+        getData();
     }
 
     private void decorator() {
@@ -192,7 +192,7 @@ public class SessionsActivity extends AppCompatActivity {
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
             finish();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -200,7 +200,7 @@ public class SessionsActivity extends AppCompatActivity {
 
         toolbarCreateImageView.setOnClickListener(v -> {
             toolbarCreateImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarCreateImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarCreateImageView.setClickable(true), 250);
 
             if (finished) {
                 if (pagingProgressBar.isShown()) {
@@ -215,7 +215,7 @@ public class SessionsActivity extends AppCompatActivity {
 
         toolbarSearchImageView.setOnClickListener(v -> {
             toolbarSearchImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarSearchImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarSearchImageView.setClickable(true), 250);
 
             searchDialogInput.setText(search);
 
@@ -224,7 +224,7 @@ public class SessionsActivity extends AppCompatActivity {
 
         searchTextView.setOnClickListener(v -> {
             searchTextView.setClickable(false);
-            handler.postDelayed(() -> searchTextView.setClickable(true), 300);
+            handler.postDelayed(() -> searchTextView.setClickable(true), 250);
 
             searchDialogInput.setText(search);
 
@@ -233,13 +233,12 @@ public class SessionsActivity extends AppCompatActivity {
 
         searchImageView.setOnClickListener(v -> {
             searchImageView.setClickable(false);
-            handler.postDelayed(() -> searchImageView.setClickable(true), 300);
+            handler.postDelayed(() -> searchImageView.setClickable(true), 250);
 
             search = "";
-
             searchTextView.setText(search);
 
-            relaunchSessions();
+            relaunchData();
 
             searchDialog.dismiss();
         });
@@ -247,7 +246,7 @@ public class SessionsActivity extends AppCompatActivity {
         retrySpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                relaunchSessions();
+                relaunchData();
             }
 
             @Override
@@ -298,14 +297,13 @@ public class SessionsActivity extends AppCompatActivity {
 
         searchDialogPositive.setOnClickListener(v -> {
             searchDialogPositive.setClickable(false);
-            handler.postDelayed(() -> searchDialogPositive.setClickable(true), 300);
+            handler.postDelayed(() -> searchDialogPositive.setClickable(true), 250);
 
             if (searchDialogInput.length() != 0) {
                 search = searchDialogInput.getText().toString().trim();
-
                 searchTextView.setText(search);
 
-                relaunchSessions();
+                relaunchData();
 
                 if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                     controlEditText.clear(this, controlEditText.input());
@@ -314,13 +312,13 @@ public class SessionsActivity extends AppCompatActivity {
 
                 searchDialog.dismiss();
             } else {
-                errorView("searchDialog");
+                errorException("searchDialog");
             }
         });
 
         searchDialogNegative.setOnClickListener(v -> {
             searchDialogNegative.setClickable(false);
-            handler.postDelayed(() -> searchDialogNegative.setClickable(true), 300);
+            handler.postDelayed(() -> searchDialogNegative.setClickable(true), 250);
 
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
@@ -365,6 +363,12 @@ public class SessionsActivity extends AppCompatActivity {
         }
     }
 
+    private void errorException(String type) {
+        if (type.equals("searchDialog")) {
+            searchDialogInput.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+        }
+    }
+
     private void resetData(String method) {
         if (method.equals("search")) {
             if (authViewModel.hasAccess()) {
@@ -389,13 +393,7 @@ public class SessionsActivity extends AppCompatActivity {
         }
     }
 
-    private void errorView(String type) {
-        if (type.equals("searchDialog")) {
-            searchDialogInput.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-        }
-    }
-
-    private void launchSessions() {
+    private void getData() {
         try {
             sessionViewModel.sessions(search);
             SessionRepository.page = 1;
@@ -405,13 +403,13 @@ public class SessionsActivity extends AppCompatActivity {
         }
     }
 
-    private void relaunchSessions() {
+    private void relaunchData() {
         searchLayout.setVisibility(View.GONE);
         loadingLayout.setVisibility(View.VISIBLE);
         infoLayout.setVisibility(View.GONE);
         mainLayout.setVisibility(View.GONE);
 
-        launchSessions();
+        getData();
     }
 
     private void observeWork() {
@@ -427,7 +425,7 @@ public class SessionsActivity extends AppCompatActivity {
                         infoLayout.setVisibility(View.GONE);
                         mainLayout.setVisibility(View.VISIBLE);
 
-                        sessionsRecyclerViewAdapter.setSessions(sessionViewModel.getSessions());
+                        sessionsRecyclerViewAdapter.setSession(sessionViewModel.getSessions());
                         if (SessionRepository.page == 1) {
                             sessionsRecyclerView.setAdapter(sessionsRecyclerViewAdapter);
                         }
@@ -487,7 +485,7 @@ public class SessionsActivity extends AppCompatActivity {
                         infoLayout.setVisibility(View.GONE);
                         mainLayout.setVisibility(View.VISIBLE);
 
-                        sessionsRecyclerViewAdapter.setSessions(sessionViewModel.getSessions());
+                        sessionsRecyclerViewAdapter.setSession(sessionViewModel.getSessions());
                         if (SessionRepository.page == 1) {
                             sessionsRecyclerView.setAdapter(sessionsRecyclerViewAdapter);
                         }
@@ -513,7 +511,7 @@ public class SessionsActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
-                relaunchSessions();
+                relaunchData();
             }
         }
     }

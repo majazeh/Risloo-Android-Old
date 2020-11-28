@@ -9,8 +9,7 @@
     android:layout_gravity="center"
     app:cardBackgroundColor="@color/Snow"
     app:cardCornerRadius="@dimen/_16sdp"
-    tools:context=".Views.Activities.SessionsActivity"
-    tools:ignore="UnusedAttribute, UseCompoundDrawables, ContentDescription, RtlHardcoded">
+    tools:context=".Views.Activities.SessionsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -80,6 +79,7 @@
                         android:layout_height="@dimen/_9sdp"
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_room_light"
                         app:tint="@color/Mischka" />
 
@@ -125,6 +125,7 @@
                         android:layout_height="@dimen/_9sdp"
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_case_light"
                         app:tint="@color/Mischka" />
 
@@ -170,6 +171,7 @@
                         android:layout_height="@dimen/_9sdp"
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_user_light"
                         app:tint="@color/Mischka" />
 
@@ -208,7 +210,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/single_item_sessions_start_linearLayout"
+                android:id="@+id/single_item_sessions_started_at_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -225,6 +227,7 @@
                         android:layout_height="@dimen/_9sdp"
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_clock_light"
                         app:tint="@color/Mischka" />
 
@@ -232,7 +235,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center|right"
-                        android:text="@string/SessionsStart"
+                        android:text="@string/SessionsStartedAt"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal"
                         android:textColor="@color/Mischka"
@@ -241,7 +244,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/single_item_sessions_start_textView"
+                    android:id="@+id/single_item_sessions_started_at_textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|right"
@@ -253,7 +256,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/single_item_sessions_period_linearLayout"
+                android:id="@+id/single_item_sessions_duration_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -270,6 +273,7 @@
                         android:layout_height="@dimen/_9sdp"
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_clock_light"
                         app:tint="@color/Mischka" />
 
@@ -277,7 +281,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center|right"
-                        android:text="@string/SessionsPeriod"
+                        android:text="@string/SessionsDuration"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal"
                         android:textColor="@color/Mischka"
@@ -286,7 +290,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/single_item_sessions_period_textView"
+                    android:id="@+id/single_item_sessions_duration_textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|right"
@@ -315,6 +319,7 @@
                         android:layout_height="@dimen/_9sdp"
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_dot_light"
                         app:tint="@color/Mischka" />
 

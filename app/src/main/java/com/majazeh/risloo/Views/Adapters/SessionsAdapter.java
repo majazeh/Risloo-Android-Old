@@ -35,7 +35,7 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
     private Activity activity;
     private Handler handler;
 
-    public SessionsAdapter(Activity activity) {
+    public SessionsAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -144,10 +144,10 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
             if (model.attributes.has("duration") && !model.attributes.isNull("duration")) {
                 editIntent.putExtra("period", model.get("duration").toString());
 
-                holder.periodTextView.setText(model.get("duration").toString() + " " + activity.getResources().getString(R.string.SessionsMinute));
-                holder.periodLinearLayout.setVisibility(View.VISIBLE);
+                holder.durationTextView.setText(model.get("duration").toString() + " " + activity.getResources().getString(R.string.SessionsMinute));
+                holder.durationLinearLayout.setVisibility(View.VISIBLE);
             } else {
-                holder.periodLinearLayout.setVisibility(View.GONE);
+                holder.durationLinearLayout.setVisibility(View.GONE);
             }
 
             // Get Start
@@ -158,10 +158,10 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
                 editIntent.putExtra("time", time);
                 editIntent.putExtra("date", date);
 
-                holder.startTextView.setText(date + "\n" + time);
-                holder.startLinearLayout.setVisibility(View.VISIBLE);
+                holder.startedAtTextView.setText(date + "\n" + time);
+                holder.startedAtLinearLayout.setVisibility(View.VISIBLE);
             } else {
-                holder.startLinearLayout.setVisibility(View.GONE);
+                holder.startedAtLinearLayout.setVisibility(View.GONE);
             }
 
             holder.editTextView.setOnClickListener(v -> {
@@ -186,15 +186,15 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
         handler = new Handler();
     }
 
-    public void setSessions(ArrayList<Model> sessions) {
+    public void setSession(ArrayList<Model> sessions) {
         this.sessions = sessions;
         notifyDataSetChanged();
     }
 
     public class SessionsHolder extends RecyclerView.ViewHolder {
 
-        public TextView serialTextView, roomTextView, caseTextView, referenceTextView, startTextView, periodTextView, statusTextView, editTextView;
-        public LinearLayout roomLinearLayout, caseLinearLayout, referenceLinearLayout, startLinearLayout, periodLinearLayout, statusLinearLayout;
+        public TextView serialTextView, roomTextView, caseTextView, referenceTextView, startedAtTextView, durationTextView, statusTextView, editTextView;
+        public LinearLayout roomLinearLayout, caseLinearLayout, referenceLinearLayout, startedAtLinearLayout, durationLinearLayout, statusLinearLayout;
 
         public SessionsHolder(View view) {
             super(view);
@@ -202,15 +202,15 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
             roomTextView = view.findViewById(R.id.single_item_sessions_room_textView);
             caseTextView = view.findViewById(R.id.single_item_sessions_case_textView);
             referenceTextView = view.findViewById(R.id.single_item_sessions_reference_textView);
-            startTextView = view.findViewById(R.id.single_item_sessions_start_textView);
-            periodTextView = view.findViewById(R.id.single_item_sessions_period_textView);
+            startedAtTextView = view.findViewById(R.id.single_item_sessions_started_at_textView);
+            durationTextView = view.findViewById(R.id.single_item_sessions_duration_textView);
             statusTextView = view.findViewById(R.id.single_item_sessions_status_textView);
             editTextView = view.findViewById(R.id.single_item_sessions_edit_textView);
             roomLinearLayout = view.findViewById(R.id.single_item_sessions_room_linearLayout);
             caseLinearLayout = view.findViewById(R.id.single_item_sessions_case_linearLayout);
             referenceLinearLayout = view.findViewById(R.id.single_item_sessions_reference_linearLayout);
-            startLinearLayout = view.findViewById(R.id.single_item_sessions_start_linearLayout);
-            periodLinearLayout = view.findViewById(R.id.single_item_sessions_period_linearLayout);
+            startedAtLinearLayout = view.findViewById(R.id.single_item_sessions_started_at_linearLayout);
+            durationLinearLayout = view.findViewById(R.id.single_item_sessions_duration_linearLayout);
             statusLinearLayout = view.findViewById(R.id.single_item_sessions_status_linearLayout);
         }
     }

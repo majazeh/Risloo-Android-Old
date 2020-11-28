@@ -9,8 +9,7 @@
     android:layout_gravity="center"
     app:cardBackgroundColor="@color/Snow"
     app:cardCornerRadius="@dimen/_16sdp"
-    tools:context=".Views.Activities.ScalesActivity"
-    tools:ignore="UnusedAttribute, UseCompoundDrawables, ContentDescription, RtlHardcoded">
+    tools:context=".Views.Activities.ScalesActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -88,6 +87,7 @@
                             android:layout_height="@dimen/_9sdp"
                             android:layout_marginLeft="@dimen/_4sdp"
                             android:layout_gravity="center"
+                            android:contentDescription="@string/AppImageContent"
                             android:src="@drawable/ic_edit_light"
                             app:tint="@color/Mischka" />
 
@@ -133,6 +133,7 @@
                             android:layout_height="@dimen/_9sdp"
                             android:layout_marginLeft="@dimen/_4sdp"
                             android:layout_gravity="center"
+                            android:contentDescription="@string/AppImageContent"
                             android:src="@drawable/ic_analytics_light"
                             app:tint="@color/Mischka" />
 
