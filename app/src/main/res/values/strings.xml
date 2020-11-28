@@ -318,7 +318,43 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // Samples strings
+    ////////////////////////////////////////////////////////////////////////////////
 
+    <string name="SamplesTitle">نمونه‌ها</string>
+
+    <string name="SamplesReference">مراجع</string>
+    <string name="SamplesCode">کد</string>
+    <string name="SamplesCase">پرونده</string>
+    <string name="SamplesRoom">اتاق درمان</string>
+
+    <string name="SamplesStatusSeald">باز نشده</string>
+    <string name="SamplesStatusOpen">باز شده</string>
+    <string name="SamplesStatusClosed">بسته شده</string>
+    <string name="SamplesStatusScoring">نمره گذاری</string>
+    <string name="SamplesStatusCreatingFiles">ساخت فایل‌ها</string>
+    <string name="SamplesStatusDone">تمام شده</string>
+
+    <string name="SamplesStart">شروع نمونه</string>
+
+    <string name="SamplesStartDialogTitle">شروع نمونه؟</string>
+    <string name="SamplesStartDialogDescription">با شروع نمونه شما می توانید آن را به پایان برسانید ویا در صورت موکول دادن آن به بعدا می توانید از قسمت بایگانی نمونه‌ها آن را ادامه دهید.</string>
+    <string name="SamplesStartDialogPositive">شروع نمونه</string>
+    <string name="SamplesStartDialogNegative">بستن</string>
+
+    <string name="SamplesFiltered">فیلترها:</string>
+
+    <string name="SamplesFilterDialogTitle">فیلتر کردن نمونه‌ها براساس:</string>
+    <string name="SamplesFilterDialogُScale">آزمون</string>
+    <string name="SamplesFilterDialogRoom">اتاق درمان</string>
+    <string name="SamplesFilterDialogStatus">وضعیت</string>
+    <string name="SamplesFilterDialogClose">بستن</string>
+
+    <string name="SamplesScaleDialogTitle">آزمون مورد نظر خودتان را انتخاب کنید.</string>
+    <string name="SamplesRoomDialogTitle">اتاق درمان مورد نظر خودتان را جستجو کنید.</string>
+    <string name="SamplesStatusDialogTitle">وضعیت مورد نظر خودتان را انتخاب کنید.</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -524,44 +560,6 @@
     <string name="SampleCancelDialogDescription">نمونه شما از بین نمی رود و بعدا می توانید از بایگانی خود به آن دسترسی پیدا کنید و ان را تکمیل نمایید.</string>
     <string name="SampleCancelDialogPositive">خروج</string>
     <string name="SampleCancelDialogNegative">بستن</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // samples strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="SamplesTitle">نمونه ها</string>
-
-    <string name="SamplesFilters">فیلترها:</string>
-
-    <string name="SamplesReference">مراجع</string>
-    <string name="SamplesCode">کد</string>
-    <string name="SamplesCase">پرونده</string>
-    <string name="SamplesRoom">اتاق درمان</string>
-
-    <string name="SamplesStatusSeald">باز نشده</string>
-    <string name="SamplesStatusOpen">باز شده</string>
-    <string name="SamplesStatusClosed">بسته شده</string>
-    <string name="SamplesStatusScoring">نمره گذاری</string>
-    <string name="SamplesStatusCreatingFiles">ساخت فایل ها</string>
-    <string name="SamplesStatusDone">تمام شده</string>
-
-    <string name="SamplesStart">شروع نمونه</string>
-
-    <string name="SamplesStartDialogTitle">شروع نمونه؟</string>
-    <string name="SamplesStartDialogDescription">با شروع نمونه شما می توانید آن را به پایان برسانید ویا در صورت موکول دادن آن به بعدا می توانید از قسمت بایگانی نمونه ها آن را ادامه دهید.</string>
-    <string name="SamplesStartDialogPositive">شروع نمونه</string>
-    <string name="SamplesStartDialogNegative">بستن</string>
-
-    <string name="SamplesFilterDialogTitle">فیلتر کردن نمونه ها براساس</string>
-    <string name="SamplesFilterDialogُScale">آزمون</string>
-    <string name="SamplesFilterDialogRoom">اتاق درمان</string>
-    <string name="SamplesFilterDialogStatus">وضعیت</string>
-    <string name="SamplesFilterDialogClose">بستن</string>
-
-    <string name="SamplesScaleDialogTitle">آزمون مورد نظر انتخاب کنید</string>
-    <string name="SamplesRoomDialogTitle">اتاق درمان مورد نظر جستجو کنید</string>
-    <string name="SamplesStatusDialogTitle">وضعیت مورد نظر انتخاب کنید</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

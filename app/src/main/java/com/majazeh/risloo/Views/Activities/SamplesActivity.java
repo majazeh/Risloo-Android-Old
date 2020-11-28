@@ -63,13 +63,13 @@ import java.util.Objects;
 public class SamplesActivity extends AppCompatActivity {
 
     // ViewModels
-    private AuthViewModel authViewModel;
-    private SampleViewModel sampleViewModel;
+    public AuthViewModel authViewModel;
+    public SampleViewModel sampleViewModel;
     private RoomViewModel roomViewModel;
 
     // Adapters
-    private SpinnerAdapter filterRecyclerViewAdapter;
     private SamplesAdapter samplesRecyclerViewAdapter;
+    private SpinnerAdapter filterRecyclerViewAdapter;
     private SearchAdapter scaleDialogAdapter, roomDialogAdapter, statusDialogAdapter;
 
     // Vars
@@ -79,9 +79,9 @@ public class SamplesActivity extends AppCompatActivity {
     // Objects
     private Handler handler;
     private ControlEditText controlEditText;
-    private FilterDialog filterDialog;
     private LinearLayoutManager layoutManager;
     private ClickableSpan retrySpan;
+    private FilterDialog filterDialog;
 
     // Widgets
     private RelativeLayout toolbarLayout;
@@ -118,7 +118,7 @@ public class SamplesActivity extends AppCompatActivity {
 
         listener();
 
-        launchSamples();
+        getData("getSamples", "");
     }
 
     private void decorator() {
@@ -143,9 +143,9 @@ public class SamplesActivity extends AppCompatActivity {
 
         controlEditText = new ControlEditText();
 
-        filterDialog = new FilterDialog(this);
-
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+        filterDialog = new FilterDialog(this);
 
         toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
@@ -205,21 +205,21 @@ public class SamplesActivity extends AppCompatActivity {
         statusDialog.setContentView(R.layout.dialog_search);
         statusDialog.setCancelable(true);
 
-        WindowManager.LayoutParams layoutParamsScale = new WindowManager.LayoutParams();
-        layoutParamsScale.copyFrom(scaleDialog.getWindow().getAttributes());
-        layoutParamsScale.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParamsScale.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        scaleDialog.getWindow().setAttributes(layoutParamsScale);
-        WindowManager.LayoutParams layoutParamsRoom = new WindowManager.LayoutParams();
-        layoutParamsRoom.copyFrom(roomDialog.getWindow().getAttributes());
-        layoutParamsRoom.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParamsRoom.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        roomDialog.getWindow().setAttributes(layoutParamsRoom);
-        WindowManager.LayoutParams layoutParamsStatus = new WindowManager.LayoutParams();
-        layoutParamsStatus.copyFrom(statusDialog.getWindow().getAttributes());
-        layoutParamsStatus.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParamsStatus.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        statusDialog.getWindow().setAttributes(layoutParamsStatus);
+        WindowManager.LayoutParams layoutParamsScaleDialog = new WindowManager.LayoutParams();
+        layoutParamsScaleDialog.copyFrom(scaleDialog.getWindow().getAttributes());
+        layoutParamsScaleDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsScaleDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        scaleDialog.getWindow().setAttributes(layoutParamsScaleDialog);
+        WindowManager.LayoutParams layoutParamsRoomDialog = new WindowManager.LayoutParams();
+        layoutParamsRoomDialog.copyFrom(roomDialog.getWindow().getAttributes());
+        layoutParamsRoomDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsRoomDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        roomDialog.getWindow().setAttributes(layoutParamsRoomDialog);
+        WindowManager.LayoutParams layoutParamsStatusDialog = new WindowManager.LayoutParams();
+        layoutParamsStatusDialog.copyFrom(statusDialog.getWindow().getAttributes());
+        layoutParamsStatusDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsStatusDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        statusDialog.getWindow().setAttributes(layoutParamsStatusDialog);
 
         scaleDialogTitleTextView = scaleDialog.findViewById(R.id.dialog_search_title_textView);
         scaleDialogTitleTextView.setText(getResources().getString(R.string.SamplesScaleDialogTitle));
@@ -263,7 +263,7 @@ public class SamplesActivity extends AppCompatActivity {
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
             finish();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -271,7 +271,7 @@ public class SamplesActivity extends AppCompatActivity {
 
         toolbarCreateImageView.setOnClickListener(v -> {
             toolbarCreateImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarCreateImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarCreateImageView.setClickable(true), 250);
 
             if (finished) {
                 if (pagingProgressBar.isShown()) {
@@ -286,20 +286,20 @@ public class SamplesActivity extends AppCompatActivity {
 
         toolbarFilterImageView.setOnClickListener(v -> {
             toolbarFilterImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarFilterImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarFilterImageView.setClickable(true), 250);
 
             filterDialog.show(this.getSupportFragmentManager(), "filterBottomSheet");
         });
 
         swipeLayout.setOnRefreshListener(() -> {
             swipeLayout.setRefreshing(false);
-            relaunchSamples();
+            relaunchData();
         });
 
         retrySpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                relaunchSamples();
+                relaunchData();
             }
 
             @Override
@@ -419,6 +419,101 @@ public class SamplesActivity extends AppCompatActivity {
         }
     }
 
+    private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
+        switch (method) {
+            case "scalesFilter":
+            case "roomsFilter":
+            case "statusFilter":
+                filterRecyclerViewAdapter.setValue(filterRecyclerViewAdapter.getValues(), filterRecyclerViewAdapter.getIds(), method, "Samples");
+                recyclerView.setAdapter(filterRecyclerViewAdapter);
+                break;
+            case "getScalesFilter":
+                scaleDialogAdapter.setValue(arrayList, method, "Samples");
+                recyclerView.setAdapter(scaleDialogAdapter);
+                break;
+            case "getRooms":
+                roomDialogAdapter.setValue(arrayList, method, "Samples");
+                recyclerView.setAdapter(roomDialogAdapter);
+
+                if (arrayList.size() == 0) {
+                    roomDialogTextView.setVisibility(View.VISIBLE);
+                } else {
+                    if (roomDialogTextView.getVisibility() == View.VISIBLE) {
+                        roomDialogTextView.setVisibility(View.GONE);
+                    }
+                }
+                break;
+            case "getStatusFilter":
+                statusDialogAdapter.setValue(arrayList, method, "Samples");
+                recyclerView.setAdapter(statusDialogAdapter);
+                break;
+        }
+    }
+
+    private void resetData(String method) {
+        if (method.equals("filter")) {
+            if (authViewModel.hasAccess()) {
+                toolbarFilterImageView.setVisibility(View.VISIBLE);
+            } else {
+                toolbarFilterImageView.setVisibility(View.GONE);
+            }
+
+            if (filterRecyclerViewAdapter.getValues().size() == 0) {
+                filterLayout.setVisibility(View.GONE);
+
+                toolbarFilterImageView.setImageResource(R.drawable.ic_filter_light);
+                ImageViewCompat.setImageTintList(toolbarFilterImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+            } else {
+                if (filterLayout.getVisibility() == View.GONE) {
+                    filterLayout.setVisibility(View.VISIBLE);
+
+                    toolbarFilterImageView.setImageResource(R.drawable.ic_filter_solid);
+                    ImageViewCompat.setImageTintList(toolbarFilterImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+                }
+            }
+        } else if (method.equals("roomDialog")) {
+            RoomRepository.rooms.clear();
+            roomDialogRecyclerView.setAdapter(null);
+
+            if (roomDialogTextView.getVisibility() == View.VISIBLE) {
+                roomDialogTextView.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private void getData(String method, String q) {
+        try {
+            switch (method) {
+                case "getSamples":
+                    sampleViewModel.samples(scale, status, room);
+                    SampleRepository.samplesPage = 1;
+
+                    observeWork("sampleViewModel");
+                    break;
+                case "getRooms":
+                    roomDialogProgressBar.setVisibility(View.VISIBLE);
+                    roomDialogImageView.setVisibility(View.GONE);
+
+                    RoomRepository.allPage = 1;
+                    roomViewModel.rooms(q);
+
+                    observeWork("roomViewModel");
+                    break;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void relaunchData() {
+        filterLayout.setVisibility(View.GONE);
+        loadingLayout.setVisibility(View.VISIBLE);
+        infoLayout.setVisibility(View.GONE);
+        mainLayout.setVisibility(View.GONE);
+
+        getData("getSamples", "");
+    }
+
     public void setFilter(String method) {
         if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
             controlEditText.clear(this, controlEditText.input());
@@ -492,216 +587,123 @@ public class SamplesActivity extends AppCompatActivity {
         }
     }
 
-    private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
-        switch (method) {
-            case "scalesFilter":
-            case "roomsFilter":
-            case "statusFilter":
-                filterRecyclerViewAdapter.setValue(filterRecyclerViewAdapter.getValues(), filterRecyclerViewAdapter.getIds(), method, "Samples");
-                recyclerView.setAdapter(filterRecyclerViewAdapter);
-                break;
-            case "getScalesFilter":
-                scaleDialogAdapter.setValue(arrayList, method, "Samples");
-                recyclerView.setAdapter(scaleDialogAdapter);
-                break;
-            case "getRooms":
-                roomDialogAdapter.setValue(arrayList, method, "Samples");
-                recyclerView.setAdapter(roomDialogAdapter);
-
-                if (arrayList.size() == 0) {
-                    roomDialogTextView.setVisibility(View.VISIBLE);
-                } else {
-                    if (roomDialogTextView.getVisibility() == View.VISIBLE) {
-                        roomDialogTextView.setVisibility(View.GONE);
-                    }
-                }
-                break;
-            case "getStatusFilter":
-                statusDialogAdapter.setValue(arrayList, method, "Samples");
-                recyclerView.setAdapter(statusDialogAdapter);
-                break;
-        }
-    }
-
-    private void resetData(String method) {
-        if (method.equals("filter")) {
-            if (authViewModel.hasAccess()) {
-                toolbarFilterImageView.setVisibility(View.VISIBLE);
-            } else {
-                toolbarFilterImageView.setVisibility(View.GONE);
-            }
-
-            if (filterRecyclerViewAdapter.getValues().size() == 0) {
-                filterLayout.setVisibility(View.GONE);
-
-                toolbarFilterImageView.setImageResource(R.drawable.ic_filter_light);
-                ImageViewCompat.setImageTintList(toolbarFilterImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
-            } else {
-                if (filterLayout.getVisibility() == View.GONE) {
-                    filterLayout.setVisibility(View.VISIBLE);
-
-                    toolbarFilterImageView.setImageResource(R.drawable.ic_filter_solid);
-                    ImageViewCompat.setImageTintList(toolbarFilterImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
-                }
-            }
-        } else if (method.equals("roomDialog")) {
-            RoomRepository.rooms.clear();
-            roomDialogRecyclerView.setAdapter(null);
-
-            if (roomDialogTextView.getVisibility() == View.VISIBLE) {
-                roomDialogTextView.setVisibility(View.GONE);
-            }
-        }
-    }
-
-    private void getData(String method, String q) {
-        try {
-            if (method.equals("getRooms")) {
-                roomDialogProgressBar.setVisibility(View.VISIBLE);
-                roomDialogImageView.setVisibility(View.GONE);
-
-                RoomRepository.allPage = 1;
-                roomViewModel.rooms(q);
-            }
-            observeWork("roomViewModel");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void launchSamples() {
-        try {
-            sampleViewModel.samples(scale, status, room);
-            SampleRepository.samplesPage = 1;
-            observeWork("sampleViewModel");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void relaunchSamples() {
-        filterLayout.setVisibility(View.GONE);
-        loadingLayout.setVisibility(View.VISIBLE);
-        infoLayout.setVisibility(View.GONE);
-        mainLayout.setVisibility(View.GONE);
-
-        launchSamples();
-    }
-
     private void observeWork(String method) {
-        if (method.equals("sampleViewModel")) {
-            SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
-                if (SampleRepository.work.equals("getAll")) {
-                    finished = false;
-                    loading = true;
-                    if (integer == 1) {
-                        if (sampleViewModel.getAll() != null) {
-                            // Show Samples
+        switch (method) {
+            case "sampleViewModel":
+                SampleRepository.workStateSample.observe((LifecycleOwner) this, integer -> {
+                    if (SampleRepository.work.equals("getAll")) {
+                        finished = false;
+                        loading = true;
+                        if (integer == 1) {
+                            if (sampleViewModel.getAll() != null) {
+                                // Show Samples
 
-                            loadingLayout.setVisibility(View.GONE);
-                            infoLayout.setVisibility(View.GONE);
-                            mainLayout.setVisibility(View.VISIBLE);
+                                loadingLayout.setVisibility(View.GONE);
+                                infoLayout.setVisibility(View.GONE);
+                                mainLayout.setVisibility(View.VISIBLE);
 
-                            samplesRecyclerViewAdapter.setSamples(sampleViewModel.getAll());
-                            if (SampleRepository.samplesPage == 1) {
-                                samplesRecyclerView.setAdapter(samplesRecyclerViewAdapter);
-                            }
-                        } else {
-                            // Samples is Empty
-
-                            loadingLayout.setVisibility(View.GONE);
-                            infoLayout.setVisibility(View.VISIBLE);
-                            mainLayout.setVisibility(View.GONE);
-
-                            if (scale.equals("") && room.equals("") && status.equals("")) {
-                                setInfoLayout("empty"); // Show Empty
+                                samplesRecyclerViewAdapter.setSamples(sampleViewModel.getAll());
+                                if (SampleRepository.samplesPage == 1) {
+                                    samplesRecyclerView.setAdapter(samplesRecyclerViewAdapter);
+                                }
                             } else {
-                                setInfoLayout("search"); // Show Search
-                            }
-                        }
+                                // Samples is Empty
 
-                        if (pagingProgressBar.getVisibility() == View.VISIBLE) {
-                            pagingProgressBar.setVisibility(View.GONE);
-                        }
+                                loadingLayout.setVisibility(View.GONE);
+                                infoLayout.setVisibility(View.VISIBLE);
+                                mainLayout.setVisibility(View.GONE);
 
-                        loading = false;
-                        SampleRepository.samplesPage++;
-
-                        resetData("filter");
-
-                        finished = true;
-
-                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                    } else if (integer != -1) {
-                        if (sampleViewModel.getAll() == null) {
-                            // Samples is Empty
-
-                            loadingLayout.setVisibility(View.GONE);
-                            infoLayout.setVisibility(View.VISIBLE);
-                            mainLayout.setVisibility(View.GONE);
-
-                            if (integer == 0) {
-                                setInfoLayout("error"); // Show Error
-                            } else if (integer == -2) {
-                                setInfoLayout("connection"); // Show Connection
+                                if (scale.equals("") && room.equals("") && status.equals("")) {
+                                    setInfoLayout("empty"); // Show Empty
+                                } else {
+                                    setInfoLayout("search"); // Show Search
+                                }
                             }
 
                             if (pagingProgressBar.getVisibility() == View.VISIBLE) {
                                 pagingProgressBar.setVisibility(View.GONE);
                             }
 
-                            resetData("filter");
-
-                            finished = true;
-
-                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-                        } else {
-                            // Show Samples
-
-                            loadingLayout.setVisibility(View.GONE);
-                            infoLayout.setVisibility(View.GONE);
-                            mainLayout.setVisibility(View.VISIBLE);
-
-                            samplesRecyclerViewAdapter.setSamples(sampleViewModel.getAll());
-                            if (SampleRepository.samplesPage == 1) {
-                                samplesRecyclerView.setAdapter(samplesRecyclerViewAdapter);
-                            }
-
-                            if (pagingProgressBar.getVisibility() == View.VISIBLE) {
-                                pagingProgressBar.setVisibility(View.GONE);
-                            }
+                            loading = false;
+                            SampleRepository.samplesPage++;
 
                             resetData("filter");
 
                             finished = true;
 
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                        } else if (integer != -1) {
+                            if (sampleViewModel.getAll() == null) {
+                                // Samples is Empty
+
+                                loadingLayout.setVisibility(View.GONE);
+                                infoLayout.setVisibility(View.VISIBLE);
+                                mainLayout.setVisibility(View.GONE);
+
+                                if (integer == 0) {
+                                    setInfoLayout("error"); // Show Error
+                                } else if (integer == -2) {
+                                    setInfoLayout("connection"); // Show Connection
+                                }
+
+                                if (pagingProgressBar.getVisibility() == View.VISIBLE) {
+                                    pagingProgressBar.setVisibility(View.GONE);
+                                }
+
+                                resetData("filter");
+
+                                finished = true;
+
+                                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                            } else {
+                                // Show Samples
+
+                                loadingLayout.setVisibility(View.GONE);
+                                infoLayout.setVisibility(View.GONE);
+                                mainLayout.setVisibility(View.VISIBLE);
+
+                                samplesRecyclerViewAdapter.setSamples(sampleViewModel.getAll());
+                                if (SampleRepository.samplesPage == 1) {
+                                    samplesRecyclerView.setAdapter(samplesRecyclerViewAdapter);
+                                }
+
+                                if (pagingProgressBar.getVisibility() == View.VISIBLE) {
+                                    pagingProgressBar.setVisibility(View.GONE);
+                                }
+
+                                resetData("filter");
+
+                                finished = true;
+
+                                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                            }
                         }
                     }
-                }
-            });
-        } else if (method.equals("roomViewModel")) {
-            RoomRepository.workState.observe((LifecycleOwner) this, integer -> {
-                if (RoomRepository.work.equals("getAll")) {
-                    if (integer == 1) {
-                        setRecyclerView(RoomRepository.rooms, roomDialogRecyclerView, "getRooms");
+                });
+                break;
+            case "roomViewModel":
+                RoomRepository.workState.observe((LifecycleOwner) this, integer -> {
+                    if (RoomRepository.work.equals("getAll")) {
+                        if (integer == 1) {
+                            setRecyclerView(RoomRepository.rooms, roomDialogRecyclerView, "getRooms");
 
-                        roomDialogProgressBar.setVisibility(View.GONE);
-                        roomDialogImageView.setVisibility(View.VISIBLE);
-                        RoomRepository.workState.removeObservers((LifecycleOwner) this);
-                    } else if (integer == 0) {
-                        roomDialogProgressBar.setVisibility(View.GONE);
-                        roomDialogImageView.setVisibility(View.VISIBLE);
-                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                        RoomRepository.workState.removeObservers((LifecycleOwner) this);
-                    } else if (integer == -2) {
-                        roomDialogProgressBar.setVisibility(View.GONE);
-                        roomDialogImageView.setVisibility(View.VISIBLE);
-                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                        RoomRepository.workState.removeObservers((LifecycleOwner) this);
+                            roomDialogProgressBar.setVisibility(View.GONE);
+                            roomDialogImageView.setVisibility(View.VISIBLE);
+                            RoomRepository.workState.removeObservers((LifecycleOwner) this);
+                        } else if (integer == 0) {
+                            roomDialogProgressBar.setVisibility(View.GONE);
+                            roomDialogImageView.setVisibility(View.VISIBLE);
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            RoomRepository.workState.removeObservers((LifecycleOwner) this);
+                        } else if (integer == -2) {
+                            roomDialogProgressBar.setVisibility(View.GONE);
+                            roomDialogImageView.setVisibility(View.VISIBLE);
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            RoomRepository.workState.removeObservers((LifecycleOwner) this);
+                        }
                     }
-                }
-            });
+                });
+                break;
         }
     }
 
@@ -738,7 +740,7 @@ public class SamplesActivity extends AppCompatActivity {
                         }
                     }
 
-                    relaunchSamples();
+                    relaunchData();
 
                     scaleDialog.dismiss();
                     break;
@@ -777,7 +779,7 @@ public class SamplesActivity extends AppCompatActivity {
                         }
                     }
 
-                    relaunchSamples();
+                    relaunchData();
 
                     resetData("roomDialog");
 
@@ -821,7 +823,7 @@ public class SamplesActivity extends AppCompatActivity {
                         }
                     }
 
-                    relaunchSamples();
+                    relaunchData();
 
                     statusDialog.dismiss();
                     break;
@@ -837,7 +839,7 @@ public class SamplesActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
-                relaunchSamples();
+                relaunchData();
             }
         }
     }

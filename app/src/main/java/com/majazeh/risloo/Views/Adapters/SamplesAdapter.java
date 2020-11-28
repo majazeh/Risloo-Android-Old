@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Activities.SampleActivity;
 import com.majazeh.risloo.Views.Activities.DetailSampleActivity;
 import com.majazeh.risloo.Views.Activities.SamplesActivity;
@@ -37,21 +38,21 @@ import java.util.Objects;
 
 public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesHolder> {
 
+    // ViewModels
+    private AuthViewModel authViewModel;
+
     // Vars
-    private int position = -1;
     private ArrayList<Model> samples;
 
     // Objects
     private Activity activity;
     private Handler handler;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
 
     // Widgets
     private Dialog startDialog;
     private TextView startDialogTitle, startDialogDescription, startDialogPositive, startDialogNegative;
 
-    public SamplesAdapter(Activity activity) {
+    public SamplesAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -61,10 +62,6 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
         View view = LayoutInflater.from(activity).inflate(R.layout.single_item_samples, viewGroup, false);
 
         initializer(view);
-
-        detector();
-
-        listener();
 
         return new SamplesHolder(view);
     }
@@ -92,7 +89,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
                         holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                         ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
 
-                        if (hasAccess()) {
+                        if (authViewModel.hasAccess()) {
                             holder.startTextView.setVisibility(View.VISIBLE);
                         } else {
                             holder.startTextView.setVisibility(View.INVISIBLE);
@@ -103,7 +100,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
                         holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                         ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
 
-                        if (hasAccess()) {
+                        if (authViewModel.hasAccess()) {
                             holder.startTextView.setVisibility(View.VISIBLE);
                         } else {
                             holder.startTextView.setVisibility(View.INVISIBLE);
@@ -205,7 +202,11 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
             handler.postDelayed(() -> holder.startTextView.setClickable(true), 300);
             startDialog.show();
 
-            position = i;
+            try {
+                showDialog(model.get("id").toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         });
 
     }
@@ -216,24 +217,33 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
     }
 
     private void initializer(View view) {
-        sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-
-        editor = sharedPreferences.edit();
-        editor.apply();
+        authViewModel = ((SamplesActivity) Objects.requireNonNull(activity)).authViewModel;
 
         handler = new Handler();
+    }
 
+    private void showDialog(String sampleId) {
+        initDialog();
+
+        detector();
+
+        listener(sampleId);
+
+        startDialog.show();
+    }
+
+    private void initDialog() {
         startDialog = new Dialog(activity, R.style.DialogTheme);
         Objects.requireNonNull(startDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         startDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         startDialog.setContentView(R.layout.dialog_action);
         startDialog.setCancelable(true);
 
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.copyFrom(startDialog.getWindow().getAttributes());
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        startDialog.getWindow().setAttributes(layoutParams);
+        WindowManager.LayoutParams layoutParamsStartDialog = new WindowManager.LayoutParams();
+        layoutParamsStartDialog.copyFrom(startDialog.getWindow().getAttributes());
+        layoutParamsStartDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsStartDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        startDialog.getWindow().setAttributes(layoutParamsStartDialog);
 
         startDialogTitle = startDialog.findViewById(R.id.dialog_action_title_textView);
         startDialogTitle.setText(activity.getResources().getString(R.string.SamplesStartDialogTitle));
@@ -253,47 +263,44 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
         }
     }
 
-    private void listener() {
+    private void listener(String sampleId) {
         startDialogPositive.setOnClickListener(v -> {
             startDialogPositive.setClickable(false);
-            handler.postDelayed(() -> startDialogPositive.setClickable(true), 300);
+            handler.postDelayed(() -> startDialogPositive.setClickable(true), 250);
             startDialog.dismiss();
 
-            doWork(position);
+            doWork(sampleId);
         });
 
         startDialogNegative.setOnClickListener(v -> {
             startDialogNegative.setClickable(false);
-            handler.postDelayed(() -> startDialogNegative.setClickable(true), 300);
+            handler.postDelayed(() -> startDialogNegative.setClickable(true), 250);
             startDialog.dismiss();
         });
 
         startDialog.setOnCancelListener(dialog -> startDialog.dismiss());
     }
 
+    private void doWork(String sampleId) {
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.apply();
+
+        editor.putString("sampleId", sampleId);
+        editor.apply();
+
+        if (((SamplesActivity) Objects.requireNonNull(activity)).pagingProgressBar.isShown()) {
+            ((SamplesActivity) Objects.requireNonNull(activity)).loading = false;
+            ((SamplesActivity) Objects.requireNonNull(activity)).pagingProgressBar.setVisibility(View.GONE);
+        }
+
+        activity.startActivityForResult(new Intent(activity, SampleActivity.class),100);
+    }
+
     public void setSamples(ArrayList<Model> samples) {
         this.samples = samples;
         notifyDataSetChanged();
-    }
-
-    private void doWork(int position) {
-        try {
-            editor.putString("sampleId", samples.get(position).get("id").toString());
-            editor.apply();
-
-            if (((SamplesActivity) Objects.requireNonNull(activity)).pagingProgressBar.isShown()) {
-                ((SamplesActivity) Objects.requireNonNull(activity)).loading = false;
-                ((SamplesActivity) Objects.requireNonNull(activity)).pagingProgressBar.setVisibility(View.GONE);
-            }
-
-            activity.startActivityForResult(new Intent(activity, SampleActivity.class),100);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private boolean hasAccess() {
-        return sharedPreferences.getBoolean("hasAccess", false);
     }
 
     public class SamplesHolder extends RecyclerView.ViewHolder {

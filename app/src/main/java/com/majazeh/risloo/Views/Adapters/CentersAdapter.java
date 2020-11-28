@@ -366,7 +366,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
 
                 if (item.isNull("acceptation")) {
                     try {
-                        doWork(model.get("id").toString(), holder.titleTextView.getText().toString());
+                        showDialog(model.get("id").toString(), holder.titleTextView.getText().toString());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -423,13 +423,13 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
     }
 
     private void initializer(View view) {
-        ((CentersActivity) Objects.requireNonNull(activity)).authViewModel = authViewModel;
-        ((CentersActivity) Objects.requireNonNull(activity)).centerViewModel = centerViewModel;
+        authViewModel = ((CentersActivity) Objects.requireNonNull(activity)).authViewModel;
+        centerViewModel = ((CentersActivity) Objects.requireNonNull(activity)).centerViewModel;
 
         handler = new Handler();
     }
 
-    private void doWork(String clinicId, String title) {
+    private void showDialog(String clinicId, String title) {
         initDialog(title);
 
         detector();
@@ -451,11 +451,11 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
 
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.copyFrom(requestDialog.getWindow().getAttributes());
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        requestDialog.getWindow().setAttributes(layoutParams);
+        WindowManager.LayoutParams layoutParamsRequestDialog = new WindowManager.LayoutParams();
+        layoutParamsRequestDialog.copyFrom(requestDialog.getWindow().getAttributes());
+        layoutParamsRequestDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsRequestDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        requestDialog.getWindow().setAttributes(layoutParamsRequestDialog);
 
         requestDialogTitle = requestDialog.findViewById(R.id.dialog_action_title_textView);
         requestDialogTitle.setText(activity.getResources().getString(R.string.CentersRequestDialogTitle) + " " + title);
@@ -478,28 +478,33 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
     private void listener(String clinicId) {
         requestDialogPositive.setOnClickListener(v -> {
             requestDialogPositive.setClickable(false);
-            handler.postDelayed(() -> requestDialogPositive.setClickable(true), 300);
+            handler.postDelayed(() -> requestDialogPositive.setClickable(true), 250);
             requestDialog.dismiss();
 
-            try {
-                progressDialog.show();
-                centerViewModel.request(clinicId);
-                observeWork();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            doWork(clinicId);
         });
 
         requestDialogNegative.setOnClickListener(v -> {
             requestDialogNegative.setClickable(false);
-            handler.postDelayed(() -> requestDialogNegative.setClickable(true), 300);
+            handler.postDelayed(() -> requestDialogNegative.setClickable(true), 250);
             requestDialog.dismiss();
         });
 
         requestDialog.setOnCancelListener(dialog -> requestDialog.dismiss());
     }
 
-    public void observeWork() {
+    private void doWork(String clinicId) {
+        try {
+            progressDialog.show();
+
+            centerViewModel.request(clinicId);
+            observeWork();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void observeWork() {
         CenterRepository.workState.observeForever(new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {

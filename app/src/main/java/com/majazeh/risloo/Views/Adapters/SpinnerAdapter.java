@@ -133,7 +133,7 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                     case "scalesFilter":
                     case "roomsFilter":
                     case "statusFilter":
-                        ((SamplesActivity) Objects.requireNonNull(activity)).relaunchSamples();
+                        ((SamplesActivity) Objects.requireNonNull(activity)).relaunchData();
                         break;
                     case "references":
                         // Reset References
@@ -152,7 +152,7 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                     case "scalesFilter":
                     case "roomsFilter":
                     case "statusFilter":
-                        ((SamplesActivity) Objects.requireNonNull(activity)).relaunchSamples();
+                        ((SamplesActivity) Objects.requireNonNull(activity)).relaunchData();
                         break;
                 }
             }

@@ -9,8 +9,7 @@
     android:layout_gravity="center"
     app:cardBackgroundColor="@color/Snow"
     app:cardCornerRadius="@dimen/_16sdp"
-    tools:context=".Views.Activities.SamplesActivity"
-    tools:ignore="UnusedAttribute, UseCompoundDrawables, ContentDescription, RtlHardcoded">
+    tools:context=".Views.Activities.SamplesActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -66,6 +65,7 @@
                         android:layout_height="@dimen/_9sdp"
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/AppImageContent"
                         app:tint="@color/Mischka" />
 
                     <TextView
@@ -110,6 +110,7 @@
                         android:layout_height="@dimen/_9sdp"
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_case_light"
                         app:tint="@color/Mischka" />
 
@@ -155,6 +156,7 @@
                         android:layout_height="@dimen/_9sdp"
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_hospital_light"
                         app:tint="@color/Mischka" />
 
@@ -224,6 +226,7 @@
                     android:layout_height="@dimen/_10sdp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/_6sdp"
+                    android:contentDescription="@string/AppImageContent"
                     android:src="@drawable/ic_dot_regular" />
 
                 <TextView
