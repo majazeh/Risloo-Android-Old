@@ -45,6 +45,7 @@ public class RoomRepository extends MainRepository {
     public static ArrayList<Model> references;
     public static ArrayList<Model> suggestRoom;
     public static ArrayList<Integer> suggestRoomCount;
+    public static String usage= "";
 
 
     public RoomRepository(Application application) {
@@ -87,13 +88,17 @@ public class RoomRepository extends MainRepository {
         workManager("getMyManagement");
     }
 
-    public void references(String roomId, String q) throws JSONException {
+    public void references(String roomId, String q , String usage) throws JSONException {
         RoomRepository.roomId = roomId;
         RoomRepository.referencesQ = q;
-
+        RoomRepository.usage = usage;
         work = "getReferences";
         workState.setValue(-1);
         workManager("getReferences");
+    }
+
+    public void references(String roomId, String q ) throws JSONException {
+    references(roomId,q,"");
     }
 
     public ArrayList<Model> getAll() {

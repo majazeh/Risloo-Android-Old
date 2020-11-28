@@ -260,7 +260,7 @@ public class RoomWorker extends Worker {
 
     private void getReferences() {
         try {
-            Call<ResponseBody> call = roomApi.getReferences(token(), RoomRepository.roomId, RoomRepository.referencesQ);
+            Call<ResponseBody> call = roomApi.getReferences(token(), RoomRepository.roomId, RoomRepository.referencesQ,RoomRepository.usage);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {

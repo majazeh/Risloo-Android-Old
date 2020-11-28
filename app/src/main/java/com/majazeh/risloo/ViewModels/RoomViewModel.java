@@ -37,6 +37,10 @@ public class RoomViewModel extends AndroidViewModel {
         repository.references(roomId, q);
     }
 
+    public void references(String roomId, String q,String usage) throws JSONException {
+        repository.references(roomId, q,usage);
+    }
+
     public ArrayList<Model> getAll() {
         return repository.getAll();
     }
