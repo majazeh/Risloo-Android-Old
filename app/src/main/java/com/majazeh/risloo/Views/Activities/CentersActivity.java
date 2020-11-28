@@ -41,7 +41,7 @@ import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
-import com.majazeh.risloo.Views.Adapters.CentersTabAdapter;
+import com.majazeh.risloo.Views.Adapters.TabCentersAdapter;
 import com.majazeh.risloo.Views.Fragments.AllCentersFragment;
 import com.majazeh.risloo.Views.Fragments.MyCentersFragment;
 
@@ -52,15 +52,15 @@ import java.util.Objects;
 public class CentersActivity extends AppCompatActivity {
 
     // ViewModels
-    private AuthViewModel authViewModel;
+    public AuthViewModel authViewModel;
     public CenterViewModel centerViewModel;
 
     // Adapters
-    private CentersTabAdapter adapter;
+    private TabCentersAdapter tabCentersAdapter;
 
     // Vars
     public String search = "";
-    public boolean loadingAll = false, loadingMy = false, finished = false;
+    public boolean finished = false, loadingAll = false, loadingMy = false;
 
     // Objects
     private Handler handler;
@@ -96,7 +96,7 @@ public class CentersActivity extends AppCompatActivity {
 
         listener();
 
-        launchProcess("getAll");
+        getData("getAll");
     }
 
     private void decorator() {
@@ -111,9 +111,9 @@ public class CentersActivity extends AppCompatActivity {
         centerViewModel = new ViewModelProvider(this).get(CenterViewModel.class);
 
         if (!authViewModel.getToken().equals("")) {
-            adapter = new CentersTabAdapter(getSupportFragmentManager(), 0, this, true);
+            tabCentersAdapter = new TabCentersAdapter(getSupportFragmentManager(), 0, this, true);
         } else {
-            adapter = new CentersTabAdapter(getSupportFragmentManager(), 0, this, false);
+            tabCentersAdapter = new TabCentersAdapter(getSupportFragmentManager(), 0, this, false);
         }
 
         handler = new Handler();
@@ -135,24 +135,24 @@ public class CentersActivity extends AppCompatActivity {
         ImageViewCompat.setImageTintList(toolbarSearchImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
-        toolbarTextView.setText(getResources().getString(R.string.CenterTitle));
+        toolbarTextView.setText(getResources().getString(R.string.CentersTitle));
         toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
-        searchLayout = findViewById(R.id.activity_center_searchLayout);
+        searchLayout = findViewById(R.id.activity_centers_searchLayout);
 
-        mainLayout = findViewById(R.id.activity_center_mainLayout);
+        mainLayout = findViewById(R.id.activity_centers_mainLayout);
         infoLayout = findViewById(R.id.layout_info_linearLayout);
         loadingLayout = findViewById(R.id.layout_loading_linearLayout);
 
         infoImageView = findViewById(R.id.layout_info_imageView);
         infoTextView = findViewById(R.id.layout_info_textView);
 
-        searchImageView = findViewById(R.id.activity_center_search_imageView);
-        searchTextView = findViewById(R.id.activity_center_search_textView);
+        searchImageView = findViewById(R.id.activity_centers_search_imageView);
+        searchTextView = findViewById(R.id.activity_centers_search_textView);
 
-        tabLayout = findViewById(R.id.activity_center_tabLayout);
+        tabLayout = findViewById(R.id.activity_centers_tabLayout);
 
-        rtlViewPager = findViewById(R.id.activity_center_rtlViewPager);
+        rtlViewPager = findViewById(R.id.activity_centers_rtlViewPager);
 
         searchDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(searchDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
@@ -167,15 +167,15 @@ public class CentersActivity extends AppCompatActivity {
         searchDialog.getWindow().setAttributes(layoutParamsSearch);
 
         searchDialogTitle = searchDialog.findViewById(R.id.dialog_type_title_textView);
-        searchDialogTitle.setText(getResources().getString(R.string.CenterSearchDialogTitle));
+        searchDialogTitle.setText(getResources().getString(R.string.CentersSearchDialogTitle));
         searchDialogInput = searchDialog.findViewById(R.id.dialog_type_input_editText);
-        searchDialogInput.setHint(getResources().getString(R.string.CenterSearchDialogInput));
+        searchDialogInput.setHint(getResources().getString(R.string.CentersSearchDialogInput));
         searchDialogInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
         searchDialogPositive = searchDialog.findViewById(R.id.dialog_type_positive_textView);
-        searchDialogPositive.setText(getResources().getString(R.string.CenterSearchDialogPositive));
+        searchDialogPositive.setText(getResources().getString(R.string.CentersSearchDialogPositive));
         searchDialogPositive.setTextColor(getResources().getColor(R.color.PrimaryDark));
         searchDialogNegative = searchDialog.findViewById(R.id.dialog_type_negative_textView);
-        searchDialogNegative.setText(getResources().getString(R.string.CenterSearchDialogNegative));
+        searchDialogNegative.setText(getResources().getString(R.string.CentersSearchDialogNegative));
     }
 
     private void detector() {
@@ -192,7 +192,7 @@ public class CentersActivity extends AppCompatActivity {
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
             finish();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -200,15 +200,15 @@ public class CentersActivity extends AppCompatActivity {
 
         toolbarCreateImageView.setOnClickListener(v -> {
             toolbarCreateImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarCreateImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarCreateImageView.setClickable(true), 250);
 
             if (finished) {
-                Fragment allFragment = adapter.allFragment;
+                Fragment allFragment = tabCentersAdapter.allFragment;
                 if (((AllCentersFragment) allFragment).pagingProgressBar.isShown()) {
                     loadingAll = false;
                     ((AllCentersFragment) allFragment).pagingProgressBar.setVisibility(View.GONE);
                 }
-                Fragment myFragment = adapter.myFragment;
+                Fragment myFragment = tabCentersAdapter.myFragment;
                 if (((MyCentersFragment) myFragment).pagingProgressBar.isShown()) {
                     loadingMy = false;
                     ((MyCentersFragment) myFragment).pagingProgressBar.setVisibility(View.GONE);
@@ -221,7 +221,7 @@ public class CentersActivity extends AppCompatActivity {
 
         toolbarSearchImageView.setOnClickListener(v -> {
             toolbarSearchImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarSearchImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarSearchImageView.setClickable(true), 250);
 
             searchDialogInput.setText(search);
 
@@ -230,7 +230,7 @@ public class CentersActivity extends AppCompatActivity {
 
         searchTextView.setOnClickListener(v -> {
             searchTextView.setClickable(false);
-            handler.postDelayed(() -> searchTextView.setClickable(true), 300);
+            handler.postDelayed(() -> searchTextView.setClickable(true), 250);
 
             searchDialogInput.setText(search);
 
@@ -239,13 +239,12 @@ public class CentersActivity extends AppCompatActivity {
 
         searchImageView.setOnClickListener(v -> {
             searchImageView.setClickable(false);
-            handler.postDelayed(() -> searchImageView.setClickable(true), 300);
+            handler.postDelayed(() -> searchImageView.setClickable(true), 250);
 
             search = "";
-
             searchTextView.setText(search);
 
-            relaunchCenters();
+            relaunchData();
 
             searchDialog.dismiss();
         });
@@ -287,7 +286,7 @@ public class CentersActivity extends AppCompatActivity {
         retrySpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                relaunchCenters();
+                relaunchData();
             }
 
             @Override
@@ -313,14 +312,13 @@ public class CentersActivity extends AppCompatActivity {
 
         searchDialogPositive.setOnClickListener(v -> {
             searchDialogPositive.setClickable(false);
-            handler.postDelayed(() -> searchDialogPositive.setClickable(true), 300);
+            handler.postDelayed(() -> searchDialogPositive.setClickable(true), 250);
 
             if (searchDialogInput.length() != 0) {
                 search = searchDialogInput.getText().toString().trim();
-
                 searchTextView.setText(search);
 
-                relaunchCenters();
+                relaunchData();
 
                 if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                     controlEditText.clear(this, controlEditText.input());
@@ -329,13 +327,13 @@ public class CentersActivity extends AppCompatActivity {
 
                 searchDialog.dismiss();
             } else {
-                errorView("searchDialog");
+                errorException("searchDialog");
             }
         });
 
         searchDialogNegative.setOnClickListener(v -> {
             searchDialogNegative.setClickable(false);
-            handler.postDelayed(() -> searchDialogNegative.setClickable(true), 300);
+            handler.postDelayed(() -> searchDialogNegative.setClickable(true), 250);
 
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
@@ -370,6 +368,12 @@ public class CentersActivity extends AppCompatActivity {
         }
     }
 
+    private void errorException(String type) {
+        if (type.equals("searchDialog")) {
+            searchDialogInput.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+        }
+    }
+
     private void resetData(String method) {
         if (method.equals("search")) {
             if (authViewModel.hasAccess()) {
@@ -394,20 +398,17 @@ public class CentersActivity extends AppCompatActivity {
         }
     }
 
-    private void errorView(String type) {
-        if (type.equals("searchDialog")) {
-            searchDialogInput.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-        }
-    }
-
-    private void launchProcess(String method) {
+    private void getData(String method) {
         try {
-            if (method.equals("getAll")) {
-                centerViewModel.centers(search);
-                CenterRepository.allPage = 1;
-            } else {
-                centerViewModel.myCenters(search);
-                CenterRepository.myPage = 1;
+            switch (method) {
+                case "getAll":
+                    centerViewModel.centers(search);
+                    CenterRepository.allPage = 1;
+                    break;
+                case "getMy":
+                    centerViewModel.myCenters(search);
+                    CenterRepository.myPage = 1;
+                    break;
             }
             observeWork();
         } catch (JSONException e) {
@@ -415,13 +416,13 @@ public class CentersActivity extends AppCompatActivity {
         }
     }
 
-    private void relaunchCenters() {
+    private void relaunchData() {
         searchLayout.setVisibility(View.GONE);
         loadingLayout.setVisibility(View.VISIBLE);
         infoLayout.setVisibility(View.GONE);
         mainLayout.setVisibility(View.GONE);
 
-        launchProcess("getAll");
+        getData("getAll");
     }
 
     public void observeWork() {
@@ -432,10 +433,10 @@ public class CentersActivity extends AppCompatActivity {
                 if (integer == 1) {
                     if (CenterRepository.allPage == 1) {
                         if (!authViewModel.getToken().equals("")) {
-                            // Continue Get MyCenter
+                            // Continue Get MyCenters
 
                             CenterRepository.workState.removeObservers((LifecycleOwner) this);
-                            launchProcess("getMy");
+                            getData("getMy");
                         } else {
                             // Show Centers And Just AllCenters
 
@@ -444,7 +445,7 @@ public class CentersActivity extends AppCompatActivity {
                             mainLayout.setVisibility(View.VISIBLE);
 
                             tabLayout.setVisibility(View.GONE);
-                            rtlViewPager.setAdapter(adapter);
+                            rtlViewPager.setAdapter(tabCentersAdapter);
 
                             resetData("search");
 
@@ -457,7 +458,7 @@ public class CentersActivity extends AppCompatActivity {
                         CenterRepository.allPage++;
 
                     } else {
-                        Fragment allFragment = adapter.allFragment;
+                        Fragment allFragment = tabCentersAdapter.allFragment;
                         ((AllCentersFragment) allFragment).notifyRecycler();
 
                         resetData("search");
@@ -492,10 +493,10 @@ public class CentersActivity extends AppCompatActivity {
 
                         if (!authViewModel.getToken().equals("")) {
                             tabLayout.setVisibility(View.VISIBLE); // Both AllCenters And MyCenters
-                            rtlViewPager.setAdapter(adapter);
+                            rtlViewPager.setAdapter(tabCentersAdapter);
                         } else {
                             tabLayout.setVisibility(View.GONE); // Just AllCenters
-                            rtlViewPager.setAdapter(adapter);
+                            rtlViewPager.setAdapter(tabCentersAdapter);
                         }
 
                         resetData("search");
@@ -516,7 +517,7 @@ public class CentersActivity extends AppCompatActivity {
                         mainLayout.setVisibility(View.VISIBLE);
 
                         tabLayout.setVisibility(View.VISIBLE);
-                        rtlViewPager.setAdapter(adapter);
+                        rtlViewPager.setAdapter(tabCentersAdapter);
 
                         loadingMy = false;
                         CenterRepository.myPage++;
@@ -527,7 +528,7 @@ public class CentersActivity extends AppCompatActivity {
 
                         CenterRepository.workState.removeObservers((LifecycleOwner) this);
                     } else {
-                        Fragment myFragment = adapter.myFragment;
+                        Fragment myFragment = tabCentersAdapter.myFragment;
                         ((MyCentersFragment) myFragment).notifyRecycler();
 
                         resetData("search");
@@ -542,7 +543,7 @@ public class CentersActivity extends AppCompatActivity {
                     mainLayout.setVisibility(View.VISIBLE);
 
                     tabLayout.setVisibility(View.VISIBLE);
-                    rtlViewPager.setAdapter(adapter);
+                    rtlViewPager.setAdapter(tabCentersAdapter);
 
                     resetData("search");
 
@@ -560,7 +561,7 @@ public class CentersActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
-                relaunchCenters();
+                relaunchData();
             }
         }
     }

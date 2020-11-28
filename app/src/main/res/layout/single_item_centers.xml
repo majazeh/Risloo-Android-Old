@@ -3,13 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/single_item_center"
+    android:id="@+id/single_item_centers"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     app:cardCornerRadius="@dimen/_16sdp"
-    tools:context=".Views.Activities.CentersActivity"
-    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded">
+    tools:context=".Views.Activities.CentersActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,17 +20,18 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/single_item_center_gradient_imageView"
+                android:id="@+id/single_item_centers_gradient_imageView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_alignTop="@+id/single_item_center_main_relativeLayout"
-                android:layout_alignBottom="@id/single_item_center_main_relativeLayout"
-                android:layout_alignLeft="@id/single_item_center_main_relativeLayout"
-                android:layout_alignRight="@id/single_item_center_main_relativeLayout"
+                android:layout_alignTop="@+id/single_item_centers_main_relativeLayout"
+                android:layout_alignBottom="@id/single_item_centers_main_relativeLayout"
+                android:layout_alignLeft="@id/single_item_centers_main_relativeLayout"
+                android:layout_alignRight="@id/single_item_centers_main_relativeLayout"
+                android:contentDescription="@string/AppImageContent"
                 android:scaleType="matrix" />
 
             <RelativeLayout
-                android:id="@+id/single_item_center_main_relativeLayout"
+                android:id="@+id/single_item_centers_main_relativeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/_10sdp"
@@ -40,7 +40,7 @@
                 android:paddingRight="@dimen/_12sdp">
 
                 <FrameLayout
-                    android:id="@+id/single_item_center_avatar_frameLayout"
+                    android:id="@+id/single_item_centers_avatar_frameLayout"
                     android:layout_width="@dimen/_44sdp"
                     android:layout_height="@dimen/_44sdp"
                     android:layout_alignParentTop="true"
@@ -48,16 +48,16 @@
                     android:layout_marginTop="@dimen/_3sdp">
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/single_item_center_avatar_imageView"
+                        android:id="@+id/single_item_centers_avatar_imageView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
 
                     <TextView
-                        android:id="@+id/single_item_center_subtitle_textView"
+                        android:id="@+id/single_item_centers_subtitle_textView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center"
                         android:visibility="gone"
+                        android:gravity="center"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="bold"
                         android:textColor="@color/Nero"
@@ -68,14 +68,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/single_item_center_avatar_frameLayout"
-                    android:layout_toRightOf="@id/single_item_center_expand_imageView"
+                    android:layout_toLeftOf="@id/single_item_centers_avatar_frameLayout"
+                    android:layout_toRightOf="@id/single_item_centers_expand_imageView"
                     android:layout_marginLeft="@dimen/_8sdp"
                     android:layout_marginRight="@dimen/_12sdp"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/single_item_center_title_textView"
+                        android:id="@+id/single_item_centers_title_textView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_2sdp"
@@ -89,11 +89,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:gravity="right|center"
+                        android:gravity="center|right"
                         android:layoutDirection="rtl">
 
                         <TextView
-                            android:id="@+id/single_item_center_request_textView"
+                            android:id="@+id/single_item_centers_request_textView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingTop="@dimen/_3sdp"
@@ -106,22 +106,24 @@
                             android:textAlignment="gravity" />
 
                         <ImageView
-                            android:id="@+id/single_item_center_edit_imageView"
+                            android:id="@+id/single_item_centers_edit_imageView"
                             android:layout_width="@dimen/_22sdp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/_6sdp"
                             android:padding="@dimen/_6sdp"
+                            android:contentDescription="@string/AppImageContent"
                             android:background="@drawable/draw_8sdp_solid_solitude"
                             android:src="@drawable/ic_edit_light"
                             app:tint="@color/Grey" />
 
                         <ImageView
-                            android:id="@+id/single_item_center_people_imageView"
+                            android:id="@+id/single_item_centers_people_imageView"
                             android:layout_width="@dimen/_22sdp"
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/_6sdp"
                             android:visibility="invisible"
                             android:padding="@dimen/_6sdp"
+                            android:contentDescription="@string/AppImageContent"
                             android:background="@drawable/draw_8sdp_solid_solitude"
                             android:src="@drawable/ic_user_light"
                             app:tint="@color/Grey" />
@@ -131,12 +133,13 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/single_item_center_expand_imageView"
+                    android:id="@+id/single_item_centers_expand_imageView"
                     android:layout_width="@dimen/_24sdp"
                     android:layout_height="@dimen/_24sdp"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:padding="@dimen/_6sdp"
+                    android:contentDescription="@string/AppImageContent"
                     android:src="@drawable/ic_chevron_down" />
 
             </RelativeLayout>
@@ -144,7 +147,7 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/single_item_center_expand_linearLayout"
+            android:id="@+id/single_item_centers_expand_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/_10sdp"
@@ -155,12 +158,12 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/single_item_center_manager_linearLayout"
+                android:id="@+id/single_item_centers_manager_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_2sdp"
                 android:orientation="horizontal"
-                android:gravity="right|top"
+                android:gravity="top|right"
                 android:layoutDirection="rtl">
 
                 <TextView
@@ -168,14 +171,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:gravity="center"
-                    android:text="@string/CenterManager"
+                    android:text="@string/CentersManager"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"
                     android:textColor="@color/Grey"
                     android:textAlignment="gravity" />
 
                 <TextView
-                    android:id="@+id/single_item_center_manager_textView"
+                    android:id="@+id/single_item_centers_manager_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/_4sdp"
@@ -188,12 +191,12 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/single_item_center_description_linearLayout"
+                android:id="@+id/single_item_centers_description_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_2sdp"
                 android:orientation="horizontal"
-                android:gravity="right|top"
+                android:gravity="top|right"
                 android:layoutDirection="rtl">
 
                 <TextView
@@ -201,14 +204,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:gravity="center"
-                    android:text="@string/CenterDescription"
+                    android:text="@string/CentersDescription"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"
                     android:textColor="@color/Grey"
                     android:textAlignment="gravity" />
 
                 <TextView
-                    android:id="@+id/single_item_center_description_textView"
+                    android:id="@+id/single_item_centers_description_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/_4sdp"
@@ -221,11 +224,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/single_item_center_address_linearLayout"
+                android:id="@+id/single_item_centers_address_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="right|top"
+                android:gravity="top|right"
                 android:layoutDirection="rtl">
 
                 <TextView
@@ -233,14 +236,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:gravity="center"
-                    android:text="@string/CenterAddress"
+                    android:text="@string/CentersAddress"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"
                     android:textColor="@color/Grey"
                     android:textAlignment="gravity" />
 
                 <TextView
-                    android:id="@+id/single_item_center_address_textView"
+                    android:id="@+id/single_item_centers_address_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/_4sdp"
@@ -253,11 +256,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/single_item_center_phone_linearLayout"
+                android:id="@+id/single_item_centers_phone_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="right|top"
+                android:gravity="top|right"
                 android:layoutDirection="rtl">
 
                 <TextView
@@ -266,14 +269,14 @@
                     android:layout_marginTop="@dimen/_4sdp"
                     android:layout_marginBottom="@dimen/_4sdp"
                     android:gravity="center"
-                    android:text="@string/CenterPhone"
+                    android:text="@string/CentersPhone"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"
                     android:textColor="@color/Grey"
                     android:textAlignment="gravity" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/single_item_center_phone_recyclerView"
+                    android:id="@+id/single_item_centers_phone_recyclerView"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:overScrollMode="never" />

@@ -43,12 +43,12 @@
 
     <string name="IntroTitle1">ریسلو</string>
     <string name="IntroTitle2">آزمون‌</string>
-    <string name="IntroTitle3">اداره مراکز درمانی</string>
+    <string name="IntroTitle3">اداره مراکز درمان</string>
     <string name="IntroTitle4">همیار پژوهش و آموزش</string>
 
     <string name="IntroDescription1">بستری یک‌پارچه که کارهای روان‌شناس را در سه حوزه درمان، آموزش و پژوهش تسهیل می‌کند.</string>
     <string name="IntroDescription2">آزمون روان‌شناختی مورد نیاز خود را انتخاب کنید و به آسانی آن را اجرا کرده، نمره‌گذاری و تفسیر آن را در اختیار داشته باشید.</string>
-    <string name="IntroDescription3">برنامه‌ریزی‌ کارهای مراکز درمانی خود را با ریسلو انجام داده و دغدغه آن‌ها را نداشته باشید.</string>
+    <string name="IntroDescription3">برنامه‌ریزی‌ کارهای مراکز درمان خود را با ریسلو انجام داده و دغدغه آن‌ها را نداشته باشید.</string>
     <string name="IntroDescription4">کارهای  پژوهشی و علمی خود را به راحتی در بستری یک‌پارچه ساماندهی کنید.</string>
 
     <string name="IntroNext">بعدی</string>
@@ -83,7 +83,7 @@
     <string name="SettingLinkFacebook">100053471781226</string>
     <string name="SettingLinkTwitter">risloo_ir</string>
 
-    <string name="SettingFollowDialogTitle">ما را در شبکه های اجتماعی دنبال کنید</string>
+    <string name="SettingFollowDialogTitle">ما را در شبکه‌های اجتماعی دنبال کنید.</string>
     <string name="SettingFollowDialogTelegram">تلگرام</string>
     <string name="SettingFollowDialogInstagram">اینستگرام</string>
     <string name="SettingFollowDialogFacebook">فیسبوک</string>
@@ -131,12 +131,12 @@
 
     <string name="CallUsSend">ارسال پیام</string>
 
-    <string name="CallUsInfoDialogTitle">کاربر گرامی</string>
+    <string name="CallUsInfoDialogTitle">کاربر گرامی!</string>
     <string name="CallUsInfoDialogDescription">شما می توانید نظرات و انتقادات خود را نسبت به خدمات و سرویس به ما اطلاع دعید. هدف ما جلب رضایت و اعتماد متقابل شما می باشد.</string>
     <string name="CallUsInfoDialogConfirm">بستن</string>
 
-    <string name="CallUsRepeatDialogTitle">پیام شما ارسال شد</string>
-    <string name="CallUsRepeatDialogDescription">اپراتور های ما در اسرع وقت پیام شما را بررسی خواهند داد.</string>
+    <string name="CallUsRepeatDialogTitle">پیام شما ارسال شد.</string>
+    <string name="CallUsRepeatDialogDescription">اپراتور‌های ما در اسرع وقت پیام شما را بررسی خواهند داد.</string>
     <string name="CallUsRepeatDialogPositive">پیام جدید</string>
     <string name="CallUsRepeatDialogNegative">خروج</string>
 
@@ -152,8 +152,8 @@
 
     <string name="AccountInfo">مشخصات کاربر</string>
 
-    <string name="AccountLogOutDialogTitle">خروج از حساب؟</string>
-    <string name="AccountLogOutDialogDescription">ایا تمایل به خروج از حساب کاربری خود دارید، در نظر داشته باشید که تمام اطلاعات شما محفوظ می ماند.</string>
+    <string name="AccountLogOutDialogTitle">خروج از حساب کاربری.</string>
+    <string name="AccountLogOutDialogDescription">ایا تمایل به خروج از حساب کاربری خود را دارید؟</string>
     <string name="AccountLogOutDialogPositive">خروج</string>
     <string name="AccountLogOutDialogNegative">بستن</string>
 
@@ -171,12 +171,12 @@
 
     <string name="EditAccountEdit">ویرایش</string>
 
-    <string name="EditAccountImageDialogTitle">از کجا می خوای عکس بیارید</string>
+    <string name="EditAccountImageDialogTitle">از کجا می خوای عکس بیارید؟</string>
     <string name="EditAccountImageDialogGallery">البوم</string>
     <string name="EditAccountImageDialogCamera">دوربین</string>
     <string name="EditAccountImageDialogClose">بستن</string>
 
-    <string name="EditAccountBirthdayDialogTitle">تاریخ تولد مورد نظر انتخاب کنید</string>
+    <string name="EditAccountBirthdayDialogTitle">تاریخ تولد خودتان را انتخاب کنید.</string>
     <string name="EditAccountBirthdayDialogPositive">ثبت</string>
     <string name="EditAccountBirthdayDialogNegative">بستن</string>
 
@@ -189,7 +189,7 @@
 
     <string name="AttachmentName">عنوان</string>
     <string name="AttachmentDescription">توضیحات</string>
-    <string name="AttachmentFile">فایل مدارک هویتی انتخاب کن</string>
+    <string name="AttachmentFile">فایل مدارک هویتی</string>
 
     <string name="AttachmentSuffixPNG">PNG</string>
     <string name="AttachmentSuffixJPG">JPG</string>
@@ -202,6 +202,102 @@
     <string name="AttachmentSend">ارسال</string>
 
     ////////////////////////////////////////////////////////////////////////////////
+
+    // Centers strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="CentersTitle">مراکز درمان</string>
+
+    <string name="CentersAll">همه مراکز درمان</string>
+    <string name="CentersMy">مراکز درمان من</string>
+
+    <string name="CentersSearched">جستجو:</string>
+
+    <string name="CentersDescription">توضیحات:</string>
+    <string name="CentersManager">مدیر:</string>
+    <string name="CentersAddress">آدرس:</string>
+    <string name="CentersPhone">شماره تماس:</string>
+
+    <string name="CentersRequest">درخواست پذیرش</string>
+    <string name="CentersOwner">شما مدیر این مرکز درمان هستید</string>
+    <string name="CentersKicked">رد شد</string>
+    <string name="CentersAwaiting">در انتظار</string>
+    <string name="CentersAccepted">پذیرفته شد</string>
+
+    <string name="CentersRequestDialogTitle">درخواست پذیرش به</string>
+    <string name="CentersRequestDialogDescription">درخواست شما به مرکر درمان مورد نظر ارسال خواهد شد و پس ار بررسی نتیجه به شما اطلاع داده خواهد شد.</string>
+    <string name="CentersRequestDialogPositive">درخواست</string>
+    <string name="CentersRequestDialogNegative">بستن</string>
+
+    <string name="CentersSearchDialogTitle">مرکز درمان مورد نظر خودتان را جستجو کنید.</string>
+    <string name="CentersSearchDialogInput">مرکز درمان</string>
+    <string name="CentersSearchDialogPositive">جستجو</string>
+    <string name="CentersSearchDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // Rooms strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="RoomsTitle">اتاق‌های درمان</string>
+
+    <string name="RoomsAll">همه اتاق‌های درمان</string>
+    <string name="RoomsMy">اتاق‌های درمان من</string>
+
+    <string name="RoomsSearched">جستجو:</string>
+
+    <string name="RoomsPersonalClinic">کلینیک شخصی</string>
+    <string name="RoomsCounselingCenter">مرکز مشاوره</string>
+
+    <string name="RoomsSearchDialogTitle">اتاق درمان مورد نظر خودتان را جستجو کنید.</string>
+    <string name="RoomsSearchDialogInput">اتاق درمان</string>
+    <string name="RoomsSearchDialogPositive">جستجو</string>
+    <string name="RoomsSearchDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -676,10 +772,6 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
-
-
-
-
     // archive strings
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -703,59 +795,6 @@
     <string name="ArchiveContinueDialogDescription">شما می توانید روند کار را از نمونه خود ادامه دهید و آن را به اتمام برسانید و به ریسلو تحویل دهید.</string>
     <string name="ArchiveContinueDialogPositive">تکمیل نمونه</string>
     <string name="ArchiveContinueDialogNegative">بستن</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // room strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="RoomTitle">اتاق های درمان</string>
-
-    <string name="RoomAll">همه</string>
-    <string name="RoomMy">من</string>
-
-    <string name="RoomSearched">جستجو:</string>
-
-    <string name="RoomPersonalClinic">کلینیک شخصی</string>
-    <string name="RoomCounselingCenter">مرکز مشاوره</string>
-
-    <string name="RoomSearchDialogTitle">اتاق درمان دلخواهی جستجو کنید.</string>
-    <string name="RoomSearchDialogInput">اتاق درمان</string>
-    <string name="RoomSearchDialogPositive">جستجو</string>
-    <string name="RoomSearchDialogNegative">بستن</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // center strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="CenterTitle">مراکز درمانی</string>
-
-    <string name="CenterAll">همه</string>
-    <string name="CenterMy">من</string>
-
-    <string name="CenterSearched">جستجو:</string>
-
-    <string name="CenterDescription">توضیحات:</string>
-    <string name="CenterManager">مدیر:</string>
-    <string name="CenterAddress">آدرس:</string>
-    <string name="CenterPhone">شماره تماس:</string>
-
-    <string name="CenterRequest">درخواست پذیرش</string>
-    <string name="CenterOwner">شما مدیر این مرکز درمانی هستید</string>
-    <string name="CenterKicked">رد شد</string>
-    <string name="CenterAwaiting">در انتظار</string>
-    <string name="CenterAccepted">پذیرفته شد</string>
-
-    <string name="CenterRequestDialogTitle">درخواست پذیرش به</string>
-    <string name="CenterRequestDialogDescription">درخواست شما به مرکر مورد نظر ارسال خواهد و پس ار بررسی نتیجه به شما اطلاع داده خواهد شد.</string>
-    <string name="CenterRequestDialogPositive">درخواست</string>
-    <string name="CenterRequestDialogNegative">بستن</string>
-
-    <string name="CenterSearchDialogTitle">مرکز درمانی دلخواهی جستجو کنید.</string>
-    <string name="CenterSearchDialogInput">مرکز درمانی</string>
-    <string name="CenterSearchDialogPositive">جستجو</string>
-    <string name="CenterSearchDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -808,13 +847,5 @@
     <string name="CreateCenterManagerDialogTitle">مدیر مورد نظر جستجو کنید</string>
 
     ////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
 
 </resources>

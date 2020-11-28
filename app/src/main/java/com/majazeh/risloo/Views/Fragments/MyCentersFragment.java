@@ -30,7 +30,7 @@ import java.util.Objects;
 public class MyCentersFragment extends Fragment {
 
     // Adapters
-    private CentersAdapter adapter;
+    private CentersAdapter centersAdapter;
 
     // Vars
     private HashMap<Integer, Boolean> expands;
@@ -40,13 +40,13 @@ public class MyCentersFragment extends Fragment {
     private LinearLayoutManager layoutManager;
 
     // Widgets
-    private RecyclerView recyclerView;
+    private RecyclerView centersRecyclerView;
     public ProgressBar pagingProgressBar;
     private LinearLayout infoLayout;
     private ImageView infoImageView;
     private TextView infoTextView;
 
-    public MyCentersFragment(Activity activity) {
+    public MyCentersFragment(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -67,16 +67,16 @@ public class MyCentersFragment extends Fragment {
     private void initializer(View view) {
         expands = new HashMap<>();
 
-        adapter = new CentersAdapter(activity);
+        centersAdapter = new CentersAdapter(activity);
 
         layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
-        recyclerView = view.findViewById(R.id.fragment_my_center_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
+        centersRecyclerView = view.findViewById(R.id.fragment_my_centers_recyclerView);
+        centersRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
+        centersRecyclerView.setLayoutManager(layoutManager);
+        centersRecyclerView.setHasFixedSize(true);
 
-        pagingProgressBar = view.findViewById(R.id.fragment_my_center_progressBar);
+        pagingProgressBar = view.findViewById(R.id.fragment_my_centers_progressBar);
 
         infoLayout = view.findViewById(R.id.layout_info_linearLayout);
 
@@ -85,7 +85,7 @@ public class MyCentersFragment extends Fragment {
     }
 
     private void listener() {
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        centersRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -117,8 +117,8 @@ public class MyCentersFragment extends Fragment {
                 expands.put(i, false);
             }
 
-            adapter.setCenter(((CentersActivity) Objects.requireNonNull(getActivity())).centerViewModel.getMy(), expands, "my", ((CentersActivity) Objects.requireNonNull(getActivity())).centerViewModel);
-            recyclerView.setAdapter(adapter);
+            centersAdapter.setCenter(((CentersActivity) Objects.requireNonNull(getActivity())).centerViewModel.getMy(), expands, "my");
+            centersRecyclerView.setAdapter(centersAdapter);
 
             infoLayout.setVisibility(View.GONE);
         } else {
@@ -150,7 +150,7 @@ public class MyCentersFragment extends Fragment {
             expands.put(i, false);
         }
 
-        adapter.setCenter(((CentersActivity) Objects.requireNonNull(getActivity())).centerViewModel.getMy(), expands, "my", ((CentersActivity) Objects.requireNonNull(getActivity())).centerViewModel);
+        centersAdapter.setCenter(((CentersActivity) Objects.requireNonNull(getActivity())).centerViewModel.getMy(), expands, "my");
 
         ((CentersActivity) Objects.requireNonNull(getActivity())).loadingMy = false;
         CenterRepository.myPage++;

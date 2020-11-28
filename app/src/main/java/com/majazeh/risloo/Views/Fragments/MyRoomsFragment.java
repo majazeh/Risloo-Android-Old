@@ -29,20 +29,20 @@ import java.util.Objects;
 public class MyRoomsFragment extends Fragment {
 
     // Adapters
-    private RoomsAdapter adapter;
+    private RoomsAdapter roomsAdapter;
 
     // Objects
     private Activity activity;
     private LinearLayoutManager layoutManager;
 
     // Widgets
-    private RecyclerView recyclerView;
+    private RecyclerView roomsRecyclerView;
     public ProgressBar pagingProgressBar;
     private LinearLayout infoLayout;
     private ImageView infoImageView;
     private TextView infoTextView;
 
-    public MyRoomsFragment(Activity activity) {
+    public MyRoomsFragment(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -61,16 +61,16 @@ public class MyRoomsFragment extends Fragment {
     }
 
     private void initializer(View view) {
-        adapter = new RoomsAdapter(activity);
+        roomsAdapter = new RoomsAdapter(activity);
 
         layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
-        recyclerView = view.findViewById(R.id.fragment_my_room_recyclerView);
-        recyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
+        roomsRecyclerView = view.findViewById(R.id.fragment_my_rooms_recyclerView);
+        roomsRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
+        roomsRecyclerView.setLayoutManager(layoutManager);
+        roomsRecyclerView.setHasFixedSize(true);
 
-        pagingProgressBar = view.findViewById(R.id.fragment_my_room_progressBar);
+        pagingProgressBar = view.findViewById(R.id.fragment_my_rooms_progressBar);
 
         infoLayout = view.findViewById(R.id.layout_info_linearLayout);
 
@@ -79,7 +79,7 @@ public class MyRoomsFragment extends Fragment {
     }
 
     private void listener() {
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        roomsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -107,8 +107,8 @@ public class MyRoomsFragment extends Fragment {
 
     private void setData() {
         if (((RoomsActivity) Objects.requireNonNull(getActivity())).roomViewModel.getMy() != null) {
-            adapter.setRoom(((RoomsActivity) Objects.requireNonNull(getActivity())).roomViewModel.getMy());
-            recyclerView.setAdapter(adapter);
+            roomsAdapter.setRoom(((RoomsActivity) Objects.requireNonNull(getActivity())).roomViewModel.getMy());
+            roomsRecyclerView.setAdapter(roomsAdapter);
 
             infoLayout.setVisibility(View.GONE);
         } else {
@@ -136,7 +136,7 @@ public class MyRoomsFragment extends Fragment {
     }
 
     public void notifyRecycler() {
-        adapter.setRoom(((RoomsActivity) Objects.requireNonNull(getActivity())).roomViewModel.getMy());
+        roomsAdapter.setRoom(((RoomsActivity) Objects.requireNonNull(getActivity())).roomViewModel.getMy());
 
         ((RoomsActivity) Objects.requireNonNull(getActivity())).loadingMy = false;
         RoomRepository.myPage++;

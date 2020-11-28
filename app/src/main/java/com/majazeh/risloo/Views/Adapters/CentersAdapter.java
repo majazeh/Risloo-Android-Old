@@ -2,9 +2,7 @@ package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -32,7 +30,9 @@ import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
+import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
+import com.majazeh.risloo.Views.Activities.CentersActivity;
 import com.majazeh.risloo.Views.Activities.EditCenterActivity;
 import com.majazeh.risloo.Views.Activities.ImageActivity;
 import com.squareup.picasso.Picasso;
@@ -50,25 +50,24 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersHolder> {
 
     // ViewModels
-    private CenterViewModel viewModel;
+    private AuthViewModel authViewModel;
+    private CenterViewModel centerViewModel;
 
     // Vars
     private int position = -1;
-    private String check = "";
+    private String type = "";
     private ArrayList<Model> centers;
     private HashMap<Integer, Boolean> expands;
 
     // Objects
     private Activity activity;
     private Handler handler;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
 
     // Widgets
     private Dialog requestDialog, progressDialog;
     private TextView requestDialogTitle, requestDialogDescription, requestDialogPositive, requestDialogNegative;
 
-    public CentersAdapter(Activity activity) {
+    public CentersAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -290,7 +289,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
             JSONObject item = model.attributes;
 
             if (item.isNull("acceptation")) {
-                holder.requestTextView.setText(activity.getResources().getString(R.string.CenterRequest));
+                holder.requestTextView.setText(activity.getResources().getString(R.string.CentersRequest));
                 holder.requestTextView.setTextColor(activity.getResources().getColor(R.color.White));
 
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -299,7 +298,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                     holder.requestTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary);
                 }
 
-                if (sharedPreferences.getBoolean("hasAccess", false)) {
+                if (authViewModel.hasAccess()) {
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                         holder.editImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude_ripple_quartz);
                     }
@@ -311,24 +310,24 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                 JSONObject acceptation = (JSONObject) model.get("acceptation");
 
                 if (acceptation.getString("position").equals("manager")) {
-                    holder.requestTextView.setText(activity.getResources().getString(R.string.CenterOwner));
+                    holder.requestTextView.setText(activity.getResources().getString(R.string.CentersOwner));
                     holder.requestTextView.setTextColor(activity.getResources().getColor(R.color.Nero));
                 } else {
                     if (acceptation.isNull("kicked_at")) {
                         if (acceptation.isNull("accepted_at")) {
-                            holder.requestTextView.setText(activity.getResources().getString(R.string.CenterAwaiting));
+                            holder.requestTextView.setText(activity.getResources().getString(R.string.CentersAwaiting));
                         } else {
-                            holder.requestTextView.setText(activity.getResources().getString(R.string.CenterAccepted));
+                            holder.requestTextView.setText(activity.getResources().getString(R.string.CentersAccepted));
                         }
                     } else {
-                        holder.requestTextView.setText(activity.getResources().getString(R.string.CenterKicked));
+                        holder.requestTextView.setText(activity.getResources().getString(R.string.CentersKicked));
                     }
                     holder.requestTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
                 }
 
                 holder.requestTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude);
 
-                if (sharedPreferences.getBoolean("hasAccess", false) || acceptation.getString("position").equals("manager")) {
+                if (authViewModel.hasAccess() || acceptation.getString("position").equals("manager")) {
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                         holder.editImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude_ripple_quartz);
                     }
@@ -424,20 +423,10 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
     }
 
     private void initializer(View view) {
-        sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-
-        editor = sharedPreferences.edit();
-        editor.apply();
+        ((CentersActivity) Objects.requireNonNull(activity)).authViewModel = authViewModel;
+        ((CentersActivity) Objects.requireNonNull(activity)).centerViewModel = centerViewModel;
 
         handler = new Handler();
-    }
-
-    public void setCenter(ArrayList<Model> centers, HashMap<Integer, Boolean> expands, String check, CenterViewModel viewModel) {
-        this.centers = centers;
-        this.expands = expands;
-        this.check = check;
-        this.viewModel = viewModel;
-        notifyDataSetChanged();
     }
 
     private void doWork(String clinicId, String title) {
@@ -469,14 +458,14 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
         requestDialog.getWindow().setAttributes(layoutParams);
 
         requestDialogTitle = requestDialog.findViewById(R.id.dialog_action_title_textView);
-        requestDialogTitle.setText(activity.getResources().getString(R.string.CenterRequestDialogTitle) + " " + title);
+        requestDialogTitle.setText(activity.getResources().getString(R.string.CentersRequestDialogTitle) + " " + title);
         requestDialogDescription = requestDialog.findViewById(R.id.dialog_action_description_textView);
-        requestDialogDescription.setText(activity.getResources().getString(R.string.CenterRequestDialogDescription));
+        requestDialogDescription.setText(activity.getResources().getString(R.string.CentersRequestDialogDescription));
         requestDialogPositive = requestDialog.findViewById(R.id.dialog_action_positive_textView);
-        requestDialogPositive.setText(activity.getResources().getString(R.string.CenterRequestDialogPositive));
+        requestDialogPositive.setText(activity.getResources().getString(R.string.CentersRequestDialogPositive));
         requestDialogPositive.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
         requestDialogNegative = requestDialog.findViewById(R.id.dialog_action_negative_textView);
-        requestDialogNegative.setText(activity.getResources().getString(R.string.CenterRequestDialogNegative));
+        requestDialogNegative.setText(activity.getResources().getString(R.string.CentersRequestDialogNegative));
     }
 
     private void detector() {
@@ -494,7 +483,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
 
             try {
                 progressDialog.show();
-                viewModel.request(clinicId);
+                centerViewModel.request(clinicId);
                 observeWork();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -518,7 +507,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                     if (integer == 1) {
                         Model item = centers.get(position);
 
-                        if (check.equals("all")) {
+                        if (type.equals("all")) {
                             JSONObject jsonObject = FileManager.readObjectFromCache(activity.getApplicationContext(), "centers" + "/" + "all");
                             try {
                                 JSONArray data = jsonObject.getJSONArray("data");
@@ -569,6 +558,13 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
         });
     }
 
+    public void setCenter(ArrayList<Model> centers, HashMap<Integer, Boolean> expands, String type) {
+        this.centers = centers;
+        this.expands = expands;
+        this.type = type;
+        notifyDataSetChanged();
+    }
+
     public class CentersHolder extends RecyclerView.ViewHolder {
 
         public CircleImageView avatarImageView;
@@ -579,23 +575,23 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
 
         public CentersHolder(View view) {
             super(view);
-            gradientImageView = view.findViewById(R.id.single_item_center_gradient_imageView);
-            avatarImageView = view.findViewById(R.id.single_item_center_avatar_imageView);
-            titleTextView = view.findViewById(R.id.single_item_center_title_textView);
-            subTitleTextView = view.findViewById(R.id.single_item_center_subtitle_textView);
-            requestTextView = view.findViewById(R.id.single_item_center_request_textView);
-            editImageView = view.findViewById(R.id.single_item_center_edit_imageView);
-            peopleImageView = view.findViewById(R.id.single_item_center_people_imageView);
-            expandImageView = view.findViewById(R.id.single_item_center_expand_imageView);
-            expandLinearLayout = view.findViewById(R.id.single_item_center_expand_linearLayout);
-            managerTextView = view.findViewById(R.id.single_item_center_manager_textView);
-            managerLinearLayout = view.findViewById(R.id.single_item_center_manager_linearLayout);
-            descriptionTextView = view.findViewById(R.id.single_item_center_description_textView);
-            descriptionLinearLayout = view.findViewById(R.id.single_item_center_description_linearLayout);
-            addressTextView = view.findViewById(R.id.single_item_center_address_textView);
-            addressLinearLayout = view.findViewById(R.id.single_item_center_address_linearLayout);
-            phoneRecyclerView = view.findViewById(R.id.single_item_center_phone_recyclerView);
-            phoneLinearLayout = view.findViewById(R.id.single_item_center_phone_linearLayout);
+            avatarImageView = view.findViewById(R.id.single_item_centers_avatar_imageView);
+            titleTextView = view.findViewById(R.id.single_item_centers_title_textView);
+            subTitleTextView = view.findViewById(R.id.single_item_centers_subtitle_textView);
+            requestTextView = view.findViewById(R.id.single_item_centers_request_textView);
+            gradientImageView = view.findViewById(R.id.single_item_centers_gradient_imageView);
+            editImageView = view.findViewById(R.id.single_item_centers_edit_imageView);
+            peopleImageView = view.findViewById(R.id.single_item_centers_people_imageView);
+            expandImageView = view.findViewById(R.id.single_item_centers_expand_imageView);
+            expandLinearLayout = view.findViewById(R.id.single_item_centers_expand_linearLayout);
+            managerTextView = view.findViewById(R.id.single_item_centers_manager_textView);
+            managerLinearLayout = view.findViewById(R.id.single_item_centers_manager_linearLayout);
+            descriptionTextView = view.findViewById(R.id.single_item_centers_description_textView);
+            descriptionLinearLayout = view.findViewById(R.id.single_item_centers_description_linearLayout);
+            addressTextView = view.findViewById(R.id.single_item_centers_address_textView);
+            addressLinearLayout = view.findViewById(R.id.single_item_centers_address_linearLayout);
+            phoneRecyclerView = view.findViewById(R.id.single_item_centers_phone_recyclerView);
+            phoneLinearLayout = view.findViewById(R.id.single_item_centers_phone_linearLayout);
         }
     }
 

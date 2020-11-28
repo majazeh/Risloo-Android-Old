@@ -3,30 +3,30 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/single_item_room"
+    android:id="@+id/single_item_rooms"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     app:cardCornerRadius="@dimen/_16sdp"
-    tools:context=".Views.Activities.RoomsActivity"
-    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded">
+    tools:context=".Views.Activities.RoomsActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/single_item_room_gradient_imageView"
+            android:id="@+id/single_item_rooms_gradient_imageView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_alignTop="@+id/single_item_room_main_relativeLayout"
-            android:layout_alignBottom="@id/single_item_room_main_relativeLayout"
-            android:layout_alignLeft="@id/single_item_room_main_relativeLayout"
-            android:layout_alignRight="@id/single_item_room_main_relativeLayout"
+            android:layout_alignTop="@+id/single_item_rooms_main_relativeLayout"
+            android:layout_alignBottom="@id/single_item_rooms_main_relativeLayout"
+            android:layout_alignLeft="@id/single_item_rooms_main_relativeLayout"
+            android:layout_alignRight="@id/single_item_rooms_main_relativeLayout"
+            android:contentDescription="@string/AppImageContent"
             android:scaleType="fitXY" />
 
         <RelativeLayout
-            android:id="@+id/single_item_room_main_relativeLayout"
+            android:id="@+id/single_item_rooms_main_relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/_10sdp"
@@ -35,7 +35,7 @@
             android:paddingRight="@dimen/_12sdp">
 
             <FrameLayout
-                android:id="@+id/single_item_room_avatar_frameLayout"
+                android:id="@+id/single_item_rooms_avatar_frameLayout"
                 android:layout_width="@dimen/_44sdp"
                 android:layout_height="@dimen/_44sdp"
                 android:layout_alignParentTop="true"
@@ -43,16 +43,16 @@
                 android:layout_marginTop="@dimen/_3sdp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/single_item_room_avatar_imageView"
+                    android:id="@+id/single_item_rooms_avatar_imageView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
                 <TextView
-                    android:id="@+id/single_item_room_subtitle_textView"
+                    android:id="@+id/single_item_rooms_subtitle_textView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
                     android:visibility="gone"
+                    android:gravity="center"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold"
                     android:textColor="@color/Nero"
@@ -63,13 +63,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/single_item_room_avatar_frameLayout"
+                android:layout_toLeftOf="@id/single_item_rooms_avatar_frameLayout"
                 android:layout_marginLeft="@dimen/_8sdp"
                 android:layout_marginRight="@dimen/_12sdp"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/single_item_room_title_textView"
+                    android:id="@+id/single_item_rooms_title_textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_2sdp"
@@ -83,11 +83,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="right|center"
+                    android:gravity="center|right"
                     android:layoutDirection="rtl">
 
                     <TextView
-                        android:id="@+id/single_item_room_type_textView"
+                        android:id="@+id/single_item_rooms_type_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="@dimen/_3sdp"
@@ -102,12 +102,13 @@
                         android:background="@drawable/draw_8sdp_solid_solitude"/>
 
                     <ImageView
-                        android:id="@+id/single_item_room_people_imageView"
+                        android:id="@+id/single_item_rooms_people_imageView"
                         android:layout_width="@dimen/_22sdp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="@dimen/_6sdp"
                         android:visibility="invisible"
                         android:padding="@dimen/_6sdp"
+                        android:contentDescription="@string/AppImageContent"
                         android:background="@drawable/draw_8sdp_solid_solitude"
                         android:src="@drawable/ic_user_light"
                         app:tint="@color/Grey" />

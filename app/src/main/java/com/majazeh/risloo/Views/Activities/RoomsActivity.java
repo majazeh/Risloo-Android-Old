@@ -2,6 +2,7 @@ package com.majazeh.risloo.Views.Activities;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -22,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.widget.ImageViewCompat;
@@ -39,7 +41,7 @@ import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.RoomViewModel;
-import com.majazeh.risloo.Views.Adapters.RoomsTabAdapter;
+import com.majazeh.risloo.Views.Adapters.TabRoomsAdapter;
 import com.majazeh.risloo.Views.Fragments.AllRoomsFragment;
 import com.majazeh.risloo.Views.Fragments.MyRoomsFragment;
 
@@ -50,15 +52,15 @@ import java.util.Objects;
 public class RoomsActivity extends AppCompatActivity {
 
     // ViewModels
-    private AuthViewModel authViewModel;
+    public AuthViewModel authViewModel;
     public RoomViewModel roomViewModel;
 
     // Adapters
-    private RoomsTabAdapter adapter;
+    private TabRoomsAdapter tabRoomsAdapter;
 
     // Vars
     public String search = "";
-    public boolean loadingAll = false, loadingMy = false;
+    public boolean finished = false, loadingAll = false, loadingMy = false;
 
     // Objects
     private Handler handler;
@@ -94,7 +96,7 @@ public class RoomsActivity extends AppCompatActivity {
 
         listener();
 
-        launchProcess("getAll");
+        getData("getAll");
     }
 
     private void decorator() {
@@ -109,9 +111,9 @@ public class RoomsActivity extends AppCompatActivity {
         roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
 
         if (!authViewModel.getToken().equals("")) {
-            adapter = new RoomsTabAdapter(getSupportFragmentManager(), 0, this, true);
+            tabRoomsAdapter = new TabRoomsAdapter(getSupportFragmentManager(), 0, this, true);
         } else {
-            adapter = new RoomsTabAdapter(getSupportFragmentManager(), 0, this, false);
+            tabRoomsAdapter = new TabRoomsAdapter(getSupportFragmentManager(), 0, this, false);
         }
 
         handler = new Handler();
@@ -129,24 +131,24 @@ public class RoomsActivity extends AppCompatActivity {
         ImageViewCompat.setImageTintList(toolbarSearchImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
-        toolbarTextView.setText(getResources().getString(R.string.RoomTitle));
+        toolbarTextView.setText(getResources().getString(R.string.RoomsTitle));
         toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
-        searchLayout = findViewById(R.id.activity_room_searchLayout);
+        searchLayout = findViewById(R.id.activity_rooms_searchLayout);
 
-        mainLayout = findViewById(R.id.activity_room_mainLayout);
+        mainLayout = findViewById(R.id.activity_rooms_mainLayout);
         infoLayout = findViewById(R.id.layout_info_linearLayout);
         loadingLayout = findViewById(R.id.layout_loading_linearLayout);
 
         infoImageView = findViewById(R.id.layout_info_imageView);
         infoTextView = findViewById(R.id.layout_info_textView);
 
-        searchImageView = findViewById(R.id.activity_room_search_imageView);
-        searchTextView = findViewById(R.id.activity_room_search_textView);
+        searchImageView = findViewById(R.id.activity_rooms_search_imageView);
+        searchTextView = findViewById(R.id.activity_rooms_search_textView);
 
-        tabLayout = findViewById(R.id.activity_room_tabLayout);
+        tabLayout = findViewById(R.id.activity_rooms_tabLayout);
 
-        rtlViewPager = findViewById(R.id.activity_room_rtlViewPager);
+        rtlViewPager = findViewById(R.id.activity_rooms_rtlViewPager);
 
         searchDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(searchDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
@@ -161,9 +163,9 @@ public class RoomsActivity extends AppCompatActivity {
         searchDialog.getWindow().setAttributes(layoutParamsSearch);
 
         searchDialogTitle = searchDialog.findViewById(R.id.dialog_type_title_textView);
-        searchDialogTitle.setText(getResources().getString(R.string.RoomSearchDialogTitle));
+        searchDialogTitle.setText(getResources().getString(R.string.RoomsSearchDialogTitle));
         searchDialogInput = searchDialog.findViewById(R.id.dialog_type_input_editText);
-        searchDialogInput.setHint(getResources().getString(R.string.RoomSearchDialogInput));
+        searchDialogInput.setHint(getResources().getString(R.string.RoomsSearchDialogInput));
         searchDialogInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
         searchDialogPositive = searchDialog.findViewById(R.id.dialog_type_positive_textView);
         searchDialogPositive.setText(getResources().getString(R.string.ScalesSearchDialogPositive));
@@ -185,7 +187,7 @@ public class RoomsActivity extends AppCompatActivity {
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
             finish();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -193,7 +195,7 @@ public class RoomsActivity extends AppCompatActivity {
 
         toolbarSearchImageView.setOnClickListener(v -> {
             toolbarSearchImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarSearchImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarSearchImageView.setClickable(true), 250);
 
             searchDialogInput.setText(search);
 
@@ -202,7 +204,7 @@ public class RoomsActivity extends AppCompatActivity {
 
         searchTextView.setOnClickListener(v -> {
             searchTextView.setClickable(false);
-            handler.postDelayed(() -> searchTextView.setClickable(true), 300);
+            handler.postDelayed(() -> searchTextView.setClickable(true), 250);
 
             searchDialogInput.setText(search);
 
@@ -211,18 +213,17 @@ public class RoomsActivity extends AppCompatActivity {
 
         searchImageView.setOnClickListener(v -> {
             searchImageView.setClickable(false);
-            handler.postDelayed(() -> searchImageView.setClickable(true), 300);
+            handler.postDelayed(() -> searchImageView.setClickable(true), 250);
 
             search = "";
-
             searchTextView.setText(search);
 
-            relaunchRooms();
+            relaunchData();
 
             searchDialog.dismiss();
         });
 
-                tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 rtlViewPager.setCurrentItem(tab.getPosition());
@@ -259,7 +260,7 @@ public class RoomsActivity extends AppCompatActivity {
         retrySpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                relaunchRooms();
+                relaunchData();
             }
 
             @Override
@@ -285,14 +286,13 @@ public class RoomsActivity extends AppCompatActivity {
 
         searchDialogPositive.setOnClickListener(v -> {
             searchDialogPositive.setClickable(false);
-            handler.postDelayed(() -> searchDialogPositive.setClickable(true), 300);
+            handler.postDelayed(() -> searchDialogPositive.setClickable(true), 250);
 
             if (searchDialogInput.length() != 0) {
                 search = searchDialogInput.getText().toString().trim();
-
                 searchTextView.setText(search);
 
-                relaunchRooms();
+                relaunchData();
 
                 if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                     controlEditText.clear(this, controlEditText.input());
@@ -301,13 +301,13 @@ public class RoomsActivity extends AppCompatActivity {
 
                 searchDialog.dismiss();
             } else {
-                errorView("searchDialog");
+                errorException("searchDialog");
             }
         });
 
         searchDialogNegative.setOnClickListener(v -> {
             searchDialogNegative.setClickable(false);
-            handler.postDelayed(() -> searchDialogNegative.setClickable(true), 300);
+            handler.postDelayed(() -> searchDialogNegative.setClickable(true), 250);
 
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
@@ -342,6 +342,12 @@ public class RoomsActivity extends AppCompatActivity {
         }
     }
 
+    private void errorException(String type) {
+        if (type.equals("searchDialog")) {
+            searchDialogInput.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+        }
+    }
+
     private void resetData(String method) {
         if (method.equals("search")) {
             if (authViewModel.hasAccess()) {
@@ -366,20 +372,17 @@ public class RoomsActivity extends AppCompatActivity {
         }
     }
 
-    private void errorView(String type) {
-        if (type.equals("searchDialog")) {
-            searchDialogInput.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-        }
-    }
-
-    private void launchProcess(String method) {
+    private void getData(String method) {
         try {
-            if (method.equals("getAll")) {
-                roomViewModel.rooms(search);
-                RoomRepository.allPage = 1;
-            } else {
-                roomViewModel.myRooms(search);
-                RoomRepository.myPage = 1;
+            switch (method) {
+                case "getAll":
+                    roomViewModel.rooms(search);
+                    RoomRepository.allPage = 1;
+                    break;
+                case "getMy":
+                    roomViewModel.myRooms(search);
+                    RoomRepository.myPage = 1;
+                    break;
             }
             observeWork();
         } catch (JSONException e) {
@@ -387,18 +390,19 @@ public class RoomsActivity extends AppCompatActivity {
         }
     }
 
-    private void relaunchRooms() {
+    private void relaunchData() {
         searchLayout.setVisibility(View.GONE);
         loadingLayout.setVisibility(View.VISIBLE);
         infoLayout.setVisibility(View.GONE);
         mainLayout.setVisibility(View.GONE);
 
-        launchProcess("getAll");
+        getData("getAll");
     }
 
     public void observeWork() {
         RoomRepository.workState.observe((LifecycleOwner) this, integer -> {
             if (RoomRepository.work.equals("getAll")) {
+                finished = false;
                 loadingAll = true;
                 if (integer == 1) {
                     if (RoomRepository.allPage == 1) {
@@ -406,7 +410,7 @@ public class RoomsActivity extends AppCompatActivity {
                             // Continue Get MyRooms
 
                             RoomRepository.workState.removeObservers((LifecycleOwner) this);
-                            launchProcess("getMy");
+                            getData("getMy");
                         } else {
                             // Show Rooms And Just AllRooms
 
@@ -415,9 +419,11 @@ public class RoomsActivity extends AppCompatActivity {
                             mainLayout.setVisibility(View.VISIBLE);
 
                             tabLayout.setVisibility(View.GONE);
-                            rtlViewPager.setAdapter(adapter);
+                            rtlViewPager.setAdapter(tabRoomsAdapter);
 
                             resetData("search");
+
+                            finished = true;
 
                             RoomRepository.workState.removeObservers((LifecycleOwner) this);
                         }
@@ -426,7 +432,7 @@ public class RoomsActivity extends AppCompatActivity {
                         RoomRepository.allPage++;
 
                     } else {
-                        Fragment allFragment = adapter.allFragment;
+                        Fragment allFragment = tabRoomsAdapter.allFragment;
                         ((AllRoomsFragment) allFragment).notifyRecycler();
 
                         resetData("search");
@@ -449,6 +455,8 @@ public class RoomsActivity extends AppCompatActivity {
 
                         resetData("search");
 
+                        finished = true;
+
                         RoomRepository.workState.removeObservers((LifecycleOwner) this);
                     } else {
                         // Show Rooms
@@ -459,13 +467,15 @@ public class RoomsActivity extends AppCompatActivity {
 
                         if (!authViewModel.getToken().equals("")) {
                             tabLayout.setVisibility(View.VISIBLE); // Both AllRooms And MyRooms
-                            rtlViewPager.setAdapter(adapter);
+                            rtlViewPager.setAdapter(tabRoomsAdapter);
                         } else {
                             tabLayout.setVisibility(View.GONE); // Just AllRooms
-                            rtlViewPager.setAdapter(adapter);
+                            rtlViewPager.setAdapter(tabRoomsAdapter);
                         }
 
                         resetData("search");
+
+                        finished = true;
 
                         RoomRepository.workState.removeObservers((LifecycleOwner) this);
                     }
@@ -481,16 +491,18 @@ public class RoomsActivity extends AppCompatActivity {
                         mainLayout.setVisibility(View.VISIBLE);
 
                         tabLayout.setVisibility(View.VISIBLE);
-                        rtlViewPager.setAdapter(adapter);
+                        rtlViewPager.setAdapter(tabRoomsAdapter);
 
                         loadingMy = false;
                         RoomRepository.myPage++;
 
                         resetData("search");
 
+                        finished = true;
+
                         RoomRepository.workState.removeObservers((LifecycleOwner) this);
                     } else {
-                        Fragment myFragment = adapter.myFragment;
+                        Fragment myFragment = tabRoomsAdapter.myFragment;
                         ((MyRoomsFragment) myFragment).notifyRecycler();
 
                         resetData("search");
@@ -505,14 +517,27 @@ public class RoomsActivity extends AppCompatActivity {
                     mainLayout.setVisibility(View.VISIBLE);
 
                     tabLayout.setVisibility(View.VISIBLE);
-                    rtlViewPager.setAdapter(adapter);
+                    rtlViewPager.setAdapter(tabRoomsAdapter);
 
                     resetData("search");
+
+                    finished = true;
 
                     RoomRepository.workState.removeObservers((LifecycleOwner) this);
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 100) {
+                relaunchData();
+            }
+        }
     }
 
     @Override

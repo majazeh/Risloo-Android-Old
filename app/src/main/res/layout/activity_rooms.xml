@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_room"
+    android:id="@+id/activity_rooms"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
-    android:background="@color/White"
+    android:focusable="true"
     android:fitsSystemWindows="true"
+    android:focusableInTouchMode="true"
     android:descendantFocusability="blocksDescendants"
-    tools:context=".Views.Activities.RoomsActivity"
-    tools:ignore="UnusedAttribute, UseCompoundDrawables, RtlHardcoded, RtlSymmetry">
+    tools:context=".Views.Activities.RoomsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layoutDirection="rtl"
+        android:orientation="vertical"
+        android:background="@color/White">
 
         <include layout="@layout/layout_toolbar" />
 
@@ -30,7 +32,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/activity_room_searchLayout"
+                android:id="@+id/activity_rooms_searchLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_16sdp"
@@ -43,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@string/RoomSearched"
+                    android:text="@string/RoomsSearched"
                     android:textSize="@dimen/_10ssp"
                     android:textStyle="bold"
                     android:textColor="@color/Mischka"
@@ -66,7 +68,7 @@
                     android:background="@drawable/draw_4sdp_solid_snow">
 
                     <ImageView
-                        android:id="@+id/activity_room_search_imageView"
+                        android:id="@+id/activity_rooms_search_imageView"
                         android:layout_width="@dimen/_14sdp"
                         android:layout_height="@dimen/_14sdp"
                         android:layout_marginLeft="@dimen/_4sdp"
@@ -75,7 +77,7 @@
                         app:tint="@color/VioletRed"/>
 
                     <TextView
-                        android:id="@+id/activity_room_search_textView"
+                        android:id="@+id/activity_rooms_search_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -89,13 +91,13 @@
             </LinearLayout>
 
             <RelativeLayout
-                android:id="@+id/activity_room_mainLayout"
+                android:id="@+id/activity_rooms_mainLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/activity_room_tab_cardView"
+                    android:id="@+id/activity_rooms_tab_cardView"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
                     android:layout_alignParentTop="true"
@@ -106,7 +108,7 @@
                     app:cardCornerRadius="@dimen/_16sdp">
 
                     <com.google.android.material.tabs.TabLayout
-                        android:id="@+id/activity_room_tabLayout"
+                        android:id="@+id/activity_rooms_tabLayout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:theme="@style/TabTheme"
@@ -125,22 +127,22 @@
                         <com.google.android.material.tabs.TabItem
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/RoomMy" />
+                            android:text="@string/RoomsMy" />
 
                         <com.google.android.material.tabs.TabItem
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/RoomAll" />
+                            android:text="@string/RoomsAll" />
 
                     </com.google.android.material.tabs.TabLayout>
 
                 </androidx.cardview.widget.CardView>
 
                 <com.duolingo.open.rtlviewpager.RtlViewPager
-                    android:id="@+id/activity_room_rtlViewPager"
+                    android:id="@+id/activity_rooms_rtlViewPager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@id/activity_room_tab_cardView"
+                    android:layout_below="@id/activity_rooms_tab_cardView"
                     android:overScrollMode="always"/>
 
             </RelativeLayout>
