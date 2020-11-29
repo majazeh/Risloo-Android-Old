@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/single_item_spinner"
@@ -15,11 +16,10 @@
     android:gravity="center"
     android:layoutDirection="rtl"
     android:orientation="horizontal"
-    android:background="@drawable/draw_4sdp_solid_snow"
-    tools:ignore="UnusedAttribute, RtlHardcoded, RtlSymmetry">
+    android:background="@drawable/draw_4sdp_solid_snow">
 
     <ImageView
-        android:id="@+id/single_item_spinner_imageView"
+        android:id="@+id/single_item_spinner_delete_imageView"
         android:layout_width="@dimen/_14sdp"
         android:layout_height="@dimen/_14sdp"
         android:layout_marginLeft="@dimen/_4sdp"
@@ -28,7 +28,7 @@
         app:tint="@color/VioletRed"/>
 
     <TextView
-        android:id="@+id/single_item_spinner_textView"
+        android:id="@+id/single_item_spinner_title_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"

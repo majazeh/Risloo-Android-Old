@@ -48,24 +48,24 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
 
         try {
             holder.titleCheckBox.setText(model.get("name").toString());
+
+            holder.titleCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                holder.itemView.setClickable(false);
+                handler.postDelayed(() -> holder.itemView.setClickable(true), 250);
+
+                try {
+                    if (holder.titleCheckBox.isChecked()) {
+                        checks.add(model.get("id").toString());
+                    } else {
+                        checks.remove(String.valueOf(i));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        holder.titleCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
-
-            try {
-                if (holder.titleCheckBox.isChecked()) {
-                    checks.add(model.get("id").toString());
-                } else {
-                    checks.remove(String.valueOf(i));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        });
     }
 
     @Override
@@ -77,11 +77,17 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
         handler = new Handler();
     }
 
-    public void setValue(ArrayList<Model> values, ArrayList<String> checks, String method, String theory) {
+    public void setValues(ArrayList<Model> values, ArrayList<String> checks, String method, String theory) {
         this.values = values;
         this.checks = checks;
         this.method = method;
         this.theory = theory;
+        notifyDataSetChanged();
+    }
+
+    public void clearValues() {
+        values.clear();
+        checks.clear();
         notifyDataSetChanged();
     }
 

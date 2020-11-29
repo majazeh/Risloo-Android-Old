@@ -104,16 +104,16 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
                 ReferenceAdapter adapter = new ReferenceAdapter(activity);
                 adapter.setReference(references);
 
-                if (holder.referencesRecyclerView.getAdapter() == null) {
-                    holder.referencesRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", 0, 0, 0));
-                    holder.referencesRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-                    holder.referencesRecyclerView.setHasFixedSize(false);
+                if (holder.referenceRecyclerView.getAdapter() == null) {
+                    holder.referenceRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", 0, 0, 0));
+                    holder.referenceRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
+                    holder.referenceRecyclerView.setHasFixedSize(false);
                 }
 
-                holder.referencesRecyclerView.setAdapter(adapter);
-                holder.referencesLinearLayout.setVisibility(View.VISIBLE);
+                holder.referenceRecyclerView.setAdapter(adapter);
+                holder.referenceLinearLayout.setVisibility(View.VISIBLE);
             } else {
-                holder.referencesLinearLayout.setVisibility(View.GONE);
+                holder.referenceLinearLayout.setVisibility(View.GONE);
             }
 
             JSONObject detail = (JSONObject) model.get("detail");
@@ -168,17 +168,17 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
     public class CasesHolder extends RecyclerView.ViewHolder {
 
         public TextView serialTextView, roomTextView, editTextView;
-        public RecyclerView referencesRecyclerView;
-        public LinearLayout roomLinearLayout, referencesLinearLayout;
+        public RecyclerView referenceRecyclerView;
+        public LinearLayout roomLinearLayout, referenceLinearLayout;
 
         public CasesHolder(View view) {
             super(view);
             serialTextView = view.findViewById(R.id.single_item_cases_serial_textView);
             roomTextView = view.findViewById(R.id.single_item_cases_room_textView);
-            referencesRecyclerView = view.findViewById(R.id.single_item_cases_references_recyclerView);
+            referenceRecyclerView = view.findViewById(R.id.single_item_cases_reference_recyclerView);
             editTextView = view.findViewById(R.id.single_item_cases_edit_textView);
             roomLinearLayout = view.findViewById(R.id.single_item_cases_room_linearLayout);
-            referencesLinearLayout = view.findViewById(R.id.single_item_cases_references_linearLayout);
+            referenceLinearLayout = view.findViewById(R.id.single_item_cases_reference_linearLayout);
         }
     }
 

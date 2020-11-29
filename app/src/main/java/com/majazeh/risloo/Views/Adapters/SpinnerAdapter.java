@@ -38,7 +38,7 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
     private Activity activity;
     private Handler handler;
 
-    public SpinnerAdapter(Activity activity) {
+    public SpinnerAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -65,7 +65,6 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                 case "scales":
                     holder.titleTextView.setText(model.get("title").toString());
                     break;
-                case "roomReferences":
                 case "references":
                     JSONObject user = (JSONObject) model.get("user");
                     holder.titleTextView.setText(user.get("name").toString());
@@ -80,83 +79,81 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                     break;
             }
 
+            holder.deleteImageView.setOnClickListener(v -> {
+                holder.deleteImageView.setClickable(false);
+                handler.postDelayed(() -> holder.deleteImageView.setClickable(true), 250);
+
+                try {
+                    if (method.equals("scalesFilter") || method.equals("roomsFilter") || method.equals("statusFilter")) {
+                        if (((SamplesActivity) Objects.requireNonNull(activity)).scale.equals(model.get("id").toString())) {
+                            ((SamplesActivity) Objects.requireNonNull(activity)).scale = "";
+                        } else if (((SamplesActivity) Objects.requireNonNull(activity)).room.equals(model.get("id").toString())) {
+                            ((SamplesActivity) Objects.requireNonNull(activity)).room = "";
+                        } else if (((SamplesActivity) Objects.requireNonNull(activity)).status.equals(model.get("id").toString())) {
+                            ((SamplesActivity) Objects.requireNonNull(activity)).status = "";
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                removeValue(i);
+
+                if (method.equals("scalesFilter") || method.equals("roomsFilter") || method.equals("statusFilter")) {
+                    ((SamplesActivity) Objects.requireNonNull(activity)).relaunchData();
+                }
+
+                if (values.size() == 0) {
+                    switch (method) {
+                        case "scales":
+                            ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleTextView.setVisibility(View.VISIBLE);
+
+                            ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleCountTextView.setText("");
+                            ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleCountTextView.setVisibility(View.GONE);
+                            break;
+
+                        case "references":
+                            switch (theory) {
+                                case "Samples":
+                                    ((CreateSampleActivity) Objects.requireNonNull(activity)).referenceTextView.setVisibility(View.VISIBLE);
+
+                                    ((CreateSampleActivity) Objects.requireNonNull(activity)).countEditText.setEnabled(true);
+                                    ((CreateSampleActivity) Objects.requireNonNull(activity)).countEditText.setFocusableInTouchMode(true);
+                                    ((CreateSampleActivity) Objects.requireNonNull(activity)).countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                                    break;
+                                case "CreateCase":
+                                    ((CreateCaseActivity) Objects.requireNonNull(activity)).referenceTextView.setVisibility(View.VISIBLE);
+                                    break;
+                                case "EditCase":
+                                    ((EditCaseActivity) Objects.requireNonNull(activity)).referenceTextView.setVisibility(View.VISIBLE);
+                                    break;
+                            }
+                            break;
+
+                        case "phones":
+                            switch (theory) {
+                                case "CreateCenter":
+                                    ((CreateCenterActivity) Objects.requireNonNull(activity)).phoneTextView.setVisibility(View.VISIBLE);
+                                    break;
+                                case "EditCenter":
+                                    ((EditCenterActivity) Objects.requireNonNull(activity)).phoneTextView.setVisibility(View.VISIBLE);
+                                    break;
+                            }
+                            break;
+                    }
+                } else {
+                    switch (method) {
+                        case "scales":
+                            ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleCountTextView.setText(String.valueOf(values.size()));
+                            ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleCountTextView.setVisibility(View.VISIBLE);
+                            break;
+                    }
+                }
+            });
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        holder.deleteImageView.setOnClickListener(v -> {
-            holder.deleteImageView.setClickable(false);
-            handler.postDelayed(() -> holder.deleteImageView.setClickable(true), 300);
-
-            try {
-                if (method.equals("scalesFilter") || method.equals("roomsFilter") || method.equals("statusFilter")) {
-                    if (model.get("id").toString().equals(((SamplesActivity) Objects.requireNonNull(activity)).scale)) {
-                        ((SamplesActivity) Objects.requireNonNull(activity)).scale = "";
-                    } else if (model.get("id").toString().equals(((SamplesActivity) Objects.requireNonNull(activity)).room)) {
-                        ((SamplesActivity) Objects.requireNonNull(activity)).room = "";
-                    } else if (model.get("id").toString().equals(((SamplesActivity) Objects.requireNonNull(activity)).status)) {
-                        ((SamplesActivity) Objects.requireNonNull(activity)).status = "";
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            removeValue(i);
-
-            if (values.size() == 0) {
-                switch (method) {
-                    case "scales":
-                        // Reset Scales
-                        ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleTextView.setVisibility(View.VISIBLE);
-
-                        ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleCountTextView.setText("");
-                        ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleCountTextView.setVisibility(View.GONE);
-                        break;
-                    case "roomReferences":
-                        // Reset RoomReferences
-                        ((CreateSampleActivity) Objects.requireNonNull(activity)).roomReferenceTextView.setVisibility(View.VISIBLE);
-
-                        // Reset Count
-                        ((CreateSampleActivity) Objects.requireNonNull(activity)).countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-                        ((CreateSampleActivity) Objects.requireNonNull(activity)).countEditText.setEnabled(true);
-                        ((CreateSampleActivity) Objects.requireNonNull(activity)).countEditText.setFocusableInTouchMode(true);
-                        break;
-                    case "phones":
-                        // Reset Phones
-                        if (theory.equals("CreateCenter")) {
-                            ((CreateCenterActivity) Objects.requireNonNull(activity)).phoneTextView.setVisibility(View.VISIBLE);
-                        } else if (theory.equals("EditCenter")) {
-                            ((EditCenterActivity) Objects.requireNonNull(activity)).phoneTextView.setVisibility(View.VISIBLE);
-                        }
-                        break;
-                    case "scalesFilter":
-                    case "roomsFilter":
-                    case "statusFilter":
-                        ((SamplesActivity) Objects.requireNonNull(activity)).relaunchData();
-                        break;
-                    case "references":
-                        // Reset References
-                        if (theory.equals("CreateCase")) {
-                            ((CreateCaseActivity) Objects.requireNonNull(activity)).referenceTextView.setVisibility(View.VISIBLE);
-                        } else if (theory.equals("EditCase")) {
-                            ((EditCaseActivity) Objects.requireNonNull(activity)).referenceTextView.setVisibility(View.VISIBLE);
-                        }
-                        break;
-                }
-            } else {
-                switch (method) {
-                    case "scales":
-                        ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleCountTextView.setText(String.valueOf(values.size()));
-                        break;
-                    case "scalesFilter":
-                    case "roomsFilter":
-                    case "statusFilter":
-                        ((SamplesActivity) Objects.requireNonNull(activity)).relaunchData();
-                        break;
-                }
-            }
-        });
     }
 
     @Override
@@ -176,12 +173,10 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
         notifyDataSetChanged();
     }
 
-    public ArrayList<Model> getValues() {
-        return values;
-    }
-
-    public ArrayList<String> getIds(){
-        return ids;
+    public void clearValues() {
+        values.clear();
+        ids.clear();
+        notifyDataSetChanged();
     }
 
     public void removeValue(int position) {
@@ -202,6 +197,14 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
         }
     }
 
+    public ArrayList<Model> getValues() {
+        return values;
+    }
+
+    public ArrayList<String> getIds(){
+        return ids;
+    }
+
     public class SpinnerHolder extends RecyclerView.ViewHolder {
 
         public TextView titleTextView;
@@ -209,8 +212,8 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
 
         public SpinnerHolder(View view) {
             super(view);
-            titleTextView = view.findViewById(R.id.single_item_spinner_textView);
-            deleteImageView = view.findViewById(R.id.single_item_spinner_imageView);
+            titleTextView = view.findViewById(R.id.single_item_spinner_title_textView);
+            deleteImageView = view.findViewById(R.id.single_item_spinner_delete_imageView);
         }
     }
 

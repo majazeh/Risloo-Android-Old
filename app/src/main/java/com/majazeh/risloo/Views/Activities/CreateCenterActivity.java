@@ -40,6 +40,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.material.tabs.TabLayout;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
@@ -76,13 +79,15 @@ public class CreateCenterActivity extends AppCompatActivity {
     private SpinnerAdapter phoneRecyclerViewAdapter;
 
     // Vars
-    public String type = "personal_clinic", manager = "", title = "", description = "", address = "", imageFilePath = "";
+    public String type = "personal_clinic", managerId = "", managerName = "", title = "", description = "", address = "";
+    public String imageFilePath = "";
     private boolean typeException = false, managerException = false, avatarException = false, phoneException =false;
 
     // Objects
     private Bundle extras;
     private Handler handler;
     private ControlEditText controlEditText;
+    private FlexboxLayoutManager phoneLayoutManager;
     private PathManager pathManager;
     private ImageDialog imageDialog;
     private Bitmap selectedBitmap;
@@ -92,12 +97,11 @@ public class CreateCenterActivity extends AppCompatActivity {
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
     private TabLayout typeTabLayout;
-    private EditText titleEditText, descriptionEditText, addressEditText;
-    private FrameLayout managerFrameLayout;
-    private LinearLayout managerLinearLayout, avatarLinearLayout, phoneLinearLayout;
+    private FrameLayout managerFrameLayout, phoneFrameLayout;
+    private LinearLayout managerLinearLayout, avatarLinearLayout;
     public TextView managerNameTextView, managerIdTextView, selectTextView, avatarTextView, phoneTextView;
+    private EditText titleEditText, descriptionEditText, addressEditText;
     private RecyclerView phoneRecyclerView;
-    private ImageView phoneImageView;
     private Button createButton;
     private Dialog managerDialog, phoneDialog, progressDialog;
     private TextView managerDialogTitleTextView;
@@ -138,6 +142,7 @@ public class CreateCenterActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(CenterViewModel.class);
 
         managerDialogAdapter = new SearchAdapter(this);
+
         phoneRecyclerViewAdapter = new SpinnerAdapter(this);
 
         extras = getIntent().getExtras();
@@ -145,6 +150,10 @@ public class CreateCenterActivity extends AppCompatActivity {
         handler = new Handler();
 
         controlEditText = new ControlEditText();
+
+        phoneLayoutManager = new FlexboxLayoutManager(this);
+        phoneLayoutManager.setFlexDirection(FlexDirection.ROW);
+        phoneLayoutManager.setFlexWrap(FlexWrap.WRAP);
 
         pathManager = new PathManager();
 
@@ -169,10 +178,10 @@ public class CreateCenterActivity extends AppCompatActivity {
         addressEditText = findViewById(R.id.activity_create_center_address_editText);
 
         managerFrameLayout = findViewById(R.id.activity_create_center_manager_frameLayout);
+        phoneFrameLayout = findViewById(R.id.activity_create_center_phone_frameLayout);
 
         managerLinearLayout = findViewById(R.id.activity_create_center_manager_linearLayout);
         avatarLinearLayout = findViewById(R.id.activity_create_center_avatar_linearLayout);
-        phoneLinearLayout = findViewById(R.id.activity_create_center_phone_linearLayout);
 
         managerNameTextView = findViewById(R.id.activity_create_center_manager_name_textView);
         managerIdTextView = findViewById(R.id.activity_create_center_manager_id_textView);
@@ -181,11 +190,8 @@ public class CreateCenterActivity extends AppCompatActivity {
         phoneTextView = findViewById(R.id.activity_create_center_phone_textView);
 
         phoneRecyclerView = findViewById(R.id.activity_create_center_phone_recyclerView);
-        phoneRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("horizontalLayout", 0, (int) getResources().getDimension(R.dimen._3sdp), (int) getResources().getDimension(R.dimen._12sdp)));
-        phoneRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        phoneRecyclerView.setHasFixedSize(true);
-
-        phoneImageView = findViewById(R.id.activity_create_center_phone_imageView);
+        phoneRecyclerView.setLayoutManager(phoneLayoutManager);
+        phoneRecyclerView.setHasFixedSize(false);
 
         createButton = findViewById(R.id.activity_create_center_button);
 
@@ -205,16 +211,16 @@ public class CreateCenterActivity extends AppCompatActivity {
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
 
-        WindowManager.LayoutParams layoutParamsManager = new WindowManager.LayoutParams();
-        layoutParamsManager.copyFrom(managerDialog.getWindow().getAttributes());
-        layoutParamsManager.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParamsManager.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        managerDialog.getWindow().setAttributes(layoutParamsManager);
-        WindowManager.LayoutParams layoutParamsPhone = new WindowManager.LayoutParams();
-        layoutParamsPhone.copyFrom(phoneDialog.getWindow().getAttributes());
-        layoutParamsPhone.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParamsPhone.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        phoneDialog.getWindow().setAttributes(layoutParamsPhone);
+        WindowManager.LayoutParams layoutParamsManagerDialog = new WindowManager.LayoutParams();
+        layoutParamsManagerDialog.copyFrom(managerDialog.getWindow().getAttributes());
+        layoutParamsManagerDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsManagerDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        managerDialog.getWindow().setAttributes(layoutParamsManagerDialog);
+        WindowManager.LayoutParams layoutParamsPhoneDialog = new WindowManager.LayoutParams();
+        layoutParamsPhoneDialog.copyFrom(phoneDialog.getWindow().getAttributes());
+        layoutParamsPhoneDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsPhoneDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        phoneDialog.getWindow().setAttributes(layoutParamsPhoneDialog);
 
         managerDialogTitleTextView = managerDialog.findViewById(R.id.dialog_search_title_textView);
         managerDialogTitleTextView.setText(getResources().getString(R.string.CreateCenterManagerDialogTitle));
@@ -250,7 +256,6 @@ public class CreateCenterActivity extends AppCompatActivity {
             toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
 
             selectTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude_ripple_quartz);
-            phoneImageView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
 
             createButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
 
@@ -263,7 +268,7 @@ public class CreateCenterActivity extends AppCompatActivity {
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
             finish();
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
@@ -319,7 +324,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         managerLinearLayout.setOnClickListener(v -> {
             managerLinearLayout.setClickable(false);
-            handler.postDelayed(() -> managerLinearLayout.setClickable(true), 300);
+            handler.postDelayed(() -> managerLinearLayout.setClickable(true), 250);
 
             if (managerException) {
                 clearException("manager");
@@ -376,7 +381,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         selectTextView.setOnClickListener(v -> {
             selectTextView.setClickable(false);
-            handler.postDelayed(() -> selectTextView.setClickable(true), 300);
+            handler.postDelayed(() -> selectTextView.setClickable(true), 250);
 
             if (avatarException) {
                 clearException("avatar");
@@ -391,7 +396,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         avatarTextView.setOnClickListener(v -> {
             avatarTextView.setClickable(false);
-            handler.postDelayed(() -> avatarTextView.setClickable(true), 300);
+            handler.postDelayed(() -> avatarTextView.setClickable(true), 250);
 
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
@@ -409,60 +414,55 @@ public class CreateCenterActivity extends AppCompatActivity {
             }
         });
 
+        phoneRecyclerView.setOnTouchListener((v, event) -> {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
+                if (phoneException) {
+                    clearException("phone");
+                }
+
+                if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                    controlEditText.clear(this, controlEditText.input());
+                }
+
+                phoneDialog.show();
+            }
+            return false;
+        });
+
         createButton.setOnClickListener(v -> {
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
             }
 
-            if (type.equals("personal_clinic")) {
-                if (manager.equals("")) {
-                    errorView("manager");
-                }
+            switch (type) {
+                case "personal_clinic":
+                    if (managerId.equals("")) {
+                        errorException("manager");
+                    }
 
-                if (typeException) {
-                    clearException("type");
-                }
-                if (managerException) {
-                    clearException("manager");
-                }
-                if (avatarException) {
-                    clearException("avatar");
-                }
-                if (phoneException) {
-                    clearException("phone");
-                }
+                    if (!managerId.equals("")) {
+                        clearException("manager");
 
-                if (!manager.equals("")) {
-                    doWork();
-                }
-            } else {
-                if (manager.equals("")) {
-                    errorView("manager");
-                }
-                if (titleEditText.length() == 0) {
-                    errorView("title");
-                }
+                        doWork();
+                    }
+                    break;
 
-                if (typeException) {
-                    clearException("type");
-                }
-                if (managerException) {
-                    clearException("manager");
-                }
-                if (avatarException) {
-                    clearException("avatar");
-                }
-                if (phoneException) {
-                    clearException("phone");
-                }
+                case "counseling_center":
+                    if (managerId.equals("")) {
+                        errorException("manager");
+                    }
+                    if (titleEditText.length() == 0) {
+                        controlEditText.error(this, titleEditText);
+                    }
 
-                if (!manager.equals("") && titleEditText.length() != 0) {
-                    controlEditText.clear(this, titleEditText);
+                    if (!managerId.equals("") && titleEditText.length() != 0) {
+                        clearException("manager");
+                        controlEditText.clear(this, titleEditText);
 
-                    doWork();
-                }
+                        doWork();
+                    }
+                    break;
             }
-
         });
 
         managerDialogEditText.setOnTouchListener((v, event) -> {
@@ -524,17 +524,6 @@ public class CreateCenterActivity extends AppCompatActivity {
             managerDialog.dismiss();
         });
 
-        phoneImageView.setOnClickListener(v -> {
-            phoneImageView.setClickable(false);
-            handler.postDelayed(() -> phoneImageView.setClickable(true), 300);
-
-            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
-                controlEditText.clear(this, controlEditText.input());
-            }
-
-            phoneDialog.show();
-        });
-
         phoneDialogInput.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
                 if (!phoneDialogInput.hasFocus()) {
@@ -551,7 +540,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         phoneDialogPositive.setOnClickListener(v -> {
             phoneDialogPositive.setClickable(false);
-            handler.postDelayed(() -> phoneDialogPositive.setClickable(true), 300);
+            handler.postDelayed(() -> phoneDialogPositive.setClickable(true), 250);
 
             if (phoneDialogInput.length() != 0) {
                 if (!phoneRecyclerViewAdapter.getIds().contains(phoneDialogInput.getText().toString().trim())) {
@@ -576,13 +565,13 @@ public class CreateCenterActivity extends AppCompatActivity {
 
                 phoneDialog.dismiss();
             } else {
-                errorView("phoneDialog");
+                errorException("phoneDialog");
             }
         });
 
         phoneDialogNegative.setOnClickListener(v -> {
             phoneDialogNegative.setClickable(false);
-            handler.postDelayed(() -> phoneDialogNegative.setClickable(true), 300);
+            handler.postDelayed(() -> phoneDialogNegative.setClickable(true), 250);
 
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
@@ -609,42 +598,32 @@ public class CreateCenterActivity extends AppCompatActivity {
     }
 
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
-        if (method.equals("phones")) {
-            try {
-                ArrayList<String> phones = new ArrayList<>();
-                for (int i = 0; i < arrayList.size(); i++) {
-                    phones.add(arrayList.get(i).get("name").toString());
-                }
+        switch (method) {
+            case "phones":
+                try {
+                    ArrayList<String> phones = new ArrayList<>();
+                    for (int i = 0; i < arrayList.size(); i++) {
+                        phones.add(arrayList.get(i).get("name").toString());
+                    }
 
-                phoneRecyclerViewAdapter.setValue(arrayList, phones, method, "CreateCenter");
-                recyclerView.setAdapter(phoneRecyclerViewAdapter);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else if (method.equals("getManagers")) {
-            managerDialogAdapter.setValue(arrayList, method, "CreateCenter");
-            recyclerView.setAdapter(managerDialogAdapter);
-            
-            if (arrayList.size() == 0) {
-                managerDialogTextView.setVisibility(View.VISIBLE);
-            } else {
-                if (managerDialogTextView.getVisibility() == View.VISIBLE) {
-                    managerDialogTextView.setVisibility(View.GONE);
+                    phoneRecyclerViewAdapter.setValue(arrayList, phones, method, "CreateCenter");
+                    recyclerView.setAdapter(phoneRecyclerViewAdapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            }
-        }
-    }
+                break;
 
-    private void errorView(String type) {
-        switch (type) {
-            case "manager":
-                managerFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                break;
-            case "title":
-                titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                break;
-            case "phoneDialog":
-                phoneDialogInput.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+            case "getManagers":
+                managerDialogAdapter.setValue(arrayList, method, "CreateCenter");
+                recyclerView.setAdapter(managerDialogAdapter);
+
+                if (arrayList.size() == 0) {
+                    managerDialogTextView.setVisibility(View.VISIBLE);
+                } else {
+                    if (managerDialogTextView.getVisibility() == View.VISIBLE) {
+                        managerDialogTextView.setVisibility(View.GONE);
+                    }
+                }
                 break;
         }
     }
@@ -659,13 +638,25 @@ public class CreateCenterActivity extends AppCompatActivity {
                 managerException = true;
                 managerFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
+            case "title":
+                titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
             case "avatar":
                 avatarException = true;
                 avatarLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
+            case "description":
+                descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
+            case "address":
+                addressEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
             case "phone":
                 phoneException = true;
-                phoneLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                phoneFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
+            case "phoneDialog":
+                phoneDialogInput.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
         }
     }
@@ -686,7 +677,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                 break;
             case "phone":
                 phoneException = false;
-                phoneLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                phoneFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 break;
         }
     }
@@ -694,13 +685,14 @@ public class CreateCenterActivity extends AppCompatActivity {
     private void resetData(String method) {
         switch (method) {
             case "manager":
-                if (!manager.equals("")) {
-                    manager = "";
+                if (!managerId.equals("")) {
+                    managerId = "";
+                    managerName = "";
 
                     managerNameTextView.setText(getResources().getString(R.string.CreateCenterManager));
                     managerNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
 
-                    managerIdTextView.setText(manager);
+                    managerIdTextView.setText(managerId);
                     managerIdTextView.setVisibility(View.GONE);
                 }
                 break;
@@ -742,15 +734,18 @@ public class CreateCenterActivity extends AppCompatActivity {
                     managerDialogImageView.setVisibility(View.GONE);
 
                     viewModel.personalClinic(q);
+
+                    observeWork();
                     break;
                 case "getCounselingCenter":
                     managerDialogProgressBar.setVisibility(View.VISIBLE);
                     managerDialogImageView.setVisibility(View.GONE);
 
                     viewModel.counselingCenter(q);
+
+                    observeWork();
                     break;
             }
-            observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -764,7 +759,8 @@ public class CreateCenterActivity extends AppCompatActivity {
 
                 try {
                     progressDialog.show();
-                    viewModel.create(type, manager, "", "", address, description, phoneRecyclerViewAdapter.getIds());
+
+                    viewModel.create(type, managerId, "", "", address, description, phoneRecyclerViewAdapter.getIds());
                     observeWork();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -779,7 +775,8 @@ public class CreateCenterActivity extends AppCompatActivity {
 
                 try {
                     progressDialog.show();
-                    viewModel.create(type, manager, title, "", address, description, phoneRecyclerViewAdapter.getIds());
+
+                    viewModel.create(type, managerId, title, "", address, description, phoneRecyclerViewAdapter.getIds());
                     observeWork();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -868,7 +865,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                 }
             }
             if (!ExceptionGenerator.errors.isNull("title")) {
-                titleEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                errorException("title");
                 if (exceptionToast.equals("")) {
                     exceptionToast = ExceptionGenerator.getErrorBody("title");
                 } else {
@@ -884,7 +881,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                 }
             }
             if (!ExceptionGenerator.errors.isNull("description")) {
-                descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                errorException("description");
                 if (exceptionToast.equals("")) {
                     exceptionToast = ExceptionGenerator.getErrorBody("description");
                 } else {
@@ -892,7 +889,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                 }
             }
             if (!ExceptionGenerator.errors.isNull("address")) {
-                addressEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                errorException("address");
                 if (exceptionToast.equals("")) {
                     exceptionToast = ExceptionGenerator.getErrorBody("address");
                 } else {
@@ -915,34 +912,41 @@ public class CreateCenterActivity extends AppCompatActivity {
 
     public void observeSearchAdapter(Model model, String method) {
         try {
-            if (!manager.equals(model.get("id").toString())) {
-                manager = model.get("id").toString();
+            switch (method) {
+                case "getManagers":
+                    if (!managerId.equals(model.get("id").toString())) {
+                        managerId = model.get("id").toString();
 
-                managerNameTextView.setText(model.get("name").toString());
-                managerNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+                        managerName = model.get("name").toString();
 
-                managerIdTextView.setText(manager);
-                managerIdTextView.setVisibility(View.VISIBLE);
-            } else if (manager.equals(model.get("id").toString())) {
-                manager = "";
+                        managerNameTextView.setText(managerName);
+                        managerNameTextView.setTextColor(getResources().getColor(R.color.Grey));
 
-                managerNameTextView.setText(getResources().getString(R.string.CreateCenterManager));
-                managerNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        managerIdTextView.setText(managerId);
+                        managerIdTextView.setVisibility(View.VISIBLE);
+                    } else if (managerId.equals(model.get("id").toString())) {
+                        managerId = "";
+                        managerName = "";
 
-                managerIdTextView.setText(manager);
-                managerIdTextView.setVisibility(View.GONE);
+                        managerNameTextView.setText(getResources().getString(R.string.CreateCenterManager));
+                        managerNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+
+                        managerIdTextView.setText(managerId);
+                        managerIdTextView.setVisibility(View.GONE);
+                    }
+
+                    resetData("managerDialog");
+
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
+                        controlEditText.input().getText().clear();
+
+                        handler.removeCallbacksAndMessages(null);
+                    }
+
+                    managerDialog.dismiss();
+                    break;
             }
-
-            resetData("managerDialog");
-
-            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
-                controlEditText.clear(this, controlEditText.input());
-                controlEditText.input().getText().clear();
-
-                handler.removeCallbacksAndMessages(null);
-            }
-
-            managerDialog.dismiss();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -986,7 +990,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
                     selectedBitmap = BitmapManager.scaleToCenter(imageBitmap);
 
-                    avatarTextView.setText(imageUri.getPath());
+                    avatarTextView.setText(imageFilePath);
                     avatarTextView.setTextColor(getResources().getColor(R.color.Grey));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();

@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_create_session"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
-    android:background="@color/White"
     android:scrollbarSize="0dp"
     android:overScrollMode="never"
     android:fillViewport="true"
+    android:focusable="true"
     android:fitsSystemWindows="true"
-    tools:context=".Views.Activities.CreateSessionActivity"
-    tools:ignore="RtlHardcoded">
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="blocksDescendants"
+    tools:context=".Views.Activities.CreateSessionActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:background="@color/White">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -123,18 +126,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
                     android:layout_marginBottom="@dimen/_8sdp"
-                    android:baselineAligned="false"
                     android:layoutDirection="rtl"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/activity_create_session_start_time_textView"
+                        android:id="@+id/activity_create_session_started_at_time_textView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:layout_weight="0.6"
                         android:gravity="center"
-                        android:hint="@string/CreateSessionStartTime"
+                        android:hint="@string/CreateSessionStartedAtTime"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="normal"
                         android:textColor="@color/Grey"
@@ -143,13 +145,13 @@
                         android:background="@drawable/draw_16sdp_border_quartz"/>
 
                     <TextView
-                        android:id="@+id/activity_create_session_start_date_textView"
+                        android:id="@+id/activity_create_session_started_at_date_textView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginRight="@dimen/_4sdp"
                         android:layout_weight="0.4"
                         android:gravity="center"
-                        android:hint="@string/CreateSessionStartDate"
+                        android:hint="@string/CreateSessionStartedAtDate"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="normal"
                         android:textColor="@color/Grey"
@@ -160,7 +162,7 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/activity_create_session_period_editText"
+                    android:id="@+id/activity_create_session_duration_editText"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
                     android:layout_marginBottom="@dimen/_8sdp"
@@ -168,7 +170,7 @@
                     android:paddingRight="@dimen/_16sdp"
                     android:imeOptions="actionDone"
                     android:inputType="number"
-                    android:hint="@string/CreateSessionPeriod"
+                    android:hint="@string/CreateSessionDuration"
                     android:gravity="center|right"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"

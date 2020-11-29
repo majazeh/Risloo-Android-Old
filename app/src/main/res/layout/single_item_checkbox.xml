@@ -9,16 +9,15 @@
     android:layout_gravity="center"
     android:paddingRight="@dimen/_2sdp"
     android:elevation="@dimen/_1sdp"
-    android:background="@drawable/draw_4sdp_solid_snow"
-    tools:ignore="UnusedAttribute, RtlHardcoded, RtlSymmetry">
+    android:background="@drawable/draw_4sdp_solid_snow">
 
     <CheckBox
         android:id="@+id/single_item_checkbox_checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
         android:paddingLeft="@dimen/_6sdp"
         android:paddingRight="@dimen/_2sdp"
-        android:layoutDirection="rtl"
         android:checked="false"
         android:gravity="center"
         android:textSize="@dimen/_10ssp"
@@ -26,6 +25,6 @@
         android:textColor="@color/Grey"
         android:textAlignment="gravity"
         android:theme="@style/CheckBoxTheme"
-        android:background="@android:color/transparent"/>
+        android:background="@android:color/transparent" />
 
 </FrameLayout>

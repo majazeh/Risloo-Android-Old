@@ -134,7 +134,9 @@ public class SamplesActivity extends AppCompatActivity {
         roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
 
         filterRecyclerViewAdapter = new SpinnerAdapter(this);
+
         samplesRecyclerViewAdapter = new SamplesAdapter(this);
+
         scaleDialogAdapter = new SearchAdapter(this);
         roomDialogAdapter = new SearchAdapter(this);
         statusDialogAdapter = new SearchAdapter(this);
@@ -361,7 +363,13 @@ public class SamplesActivity extends AppCompatActivity {
                     if (roomDialogEditText.length() != 0) {
                         getData("getRooms", roomDialogEditText.getText().toString().trim());
                     } else {
-                        roomDialogRecyclerView.setAdapter(null);
+                        try {
+                            if (roomViewModel.getSuggestRoom().size() != 0) {
+                                setRecyclerView(roomViewModel.getSuggestRoom(), roomDialogRecyclerView, "getRooms");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
                         if (roomDialogTextView.getVisibility() == View.VISIBLE) {
                             roomDialogTextView.setVisibility(View.GONE);
@@ -751,6 +759,8 @@ public class SamplesActivity extends AppCompatActivity {
                     Model roomModel = new Model(new JSONObject().put("id", model.get("id").toString()).put("title", manager.get("name").toString()));
 
                     if (!room.equals(roomModel.get("id").toString())) {
+                        roomViewModel.addSuggestRoom(model);
+
                         if (room.equals("")) {
                             room = roomModel.get("id").toString();
 

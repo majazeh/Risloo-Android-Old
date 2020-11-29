@@ -38,7 +38,6 @@ import com.google.android.flexbox.FlexboxLayoutManager;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Repositories.CaseRepository;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
-import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
@@ -85,11 +84,11 @@ public class CreateCaseActivity extends AppCompatActivity {
     private FrameLayout roomFrameLayout, referenceFrameLayout;
     private LinearLayout roomLinearLayout;
     public TextView roomNameTextView, roomTitleTextView, referenceTextView;
-    public EditText complaintEditText;
+    private EditText complaintEditText;
     private RecyclerView referenceRecyclerView;
     private Button createButton;
     private Dialog roomDialog, referenceDialog, progressDialog;
-    private TextView roomDialogTitleTextView, referenceDialogTitleTextView, referenceDialogConfirm;;
+    private TextView roomDialogTitleTextView, referenceDialogTitleTextView, referenceDialogConfirm;
     private CoordinatorLayout roomDialogSearchLayout, referenceDialogSearchLayout;
     private EditText roomDialogEditText, referenceDialogEditText;
     private ImageView roomDialogImageView, referenceDialogImageView;
@@ -127,6 +126,7 @@ public class CreateCaseActivity extends AppCompatActivity {
 
         roomDialogAdapter = new SearchAdapter(this);
         referenceDialogAdapter = new SearchAdapter(this);
+
         referenceRecyclerViewAdapter = new SpinnerAdapter(this);
 
         extras = getIntent().getExtras();
@@ -183,16 +183,16 @@ public class CreateCaseActivity extends AppCompatActivity {
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
 
-        WindowManager.LayoutParams layoutParamsRoom = new WindowManager.LayoutParams();
-        layoutParamsRoom.copyFrom(roomDialog.getWindow().getAttributes());
-        layoutParamsRoom.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParamsRoom.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        roomDialog.getWindow().setAttributes(layoutParamsRoom);
-        WindowManager.LayoutParams layoutParamsReference = new WindowManager.LayoutParams();
-        layoutParamsReference.copyFrom(referenceDialog.getWindow().getAttributes());
-        layoutParamsReference.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParamsReference.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        referenceDialog.getWindow().setAttributes(layoutParamsReference);
+        WindowManager.LayoutParams layoutParamsRoomDialog = new WindowManager.LayoutParams();
+        layoutParamsRoomDialog.copyFrom(roomDialog.getWindow().getAttributes());
+        layoutParamsRoomDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsRoomDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        roomDialog.getWindow().setAttributes(layoutParamsRoomDialog);
+        WindowManager.LayoutParams layoutParamsReferenceDialog = new WindowManager.LayoutParams();
+        layoutParamsReferenceDialog.copyFrom(referenceDialog.getWindow().getAttributes());
+        layoutParamsReferenceDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsReferenceDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        referenceDialog.getWindow().setAttributes(layoutParamsReferenceDialog);
 
         roomDialogTitleTextView = roomDialog.findViewById(R.id.dialog_search_title_textView);
         roomDialogTitleTextView.setText(getResources().getString(R.string.CreateCaseRoomDialogTitle));
@@ -233,9 +233,9 @@ public class CreateCaseActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
 
-            referenceDialogConfirm.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
-
             createButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
+
+            referenceDialogConfirm.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
         }
     }
 
@@ -243,7 +243,7 @@ public class CreateCaseActivity extends AppCompatActivity {
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
             finish();
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
@@ -251,7 +251,7 @@ public class CreateCaseActivity extends AppCompatActivity {
 
         roomLinearLayout.setOnClickListener(v -> {
             roomLinearLayout.setClickable(false);
-            handler.postDelayed(() -> roomLinearLayout.setClickable(true), 300);
+            handler.postDelayed(() -> roomLinearLayout.setClickable(true), 250);
 
             if (roomException) {
                 clearException("room");
@@ -311,24 +311,21 @@ public class CreateCaseActivity extends AppCompatActivity {
                 controlEditText.clear(this, controlEditText.input());
             }
 
-            if (roomId.isEmpty()) {
-                errorView("room");
+            if (roomId.equals("")) {
+                errorException("room");
             }
             if (referenceRecyclerViewAdapter.getValues().size() == 0) {
-                errorView("reference");
+                errorException("reference");
             }
             if (complaintEditText.length() == 0) {
-                errorView("complaint");
+                controlEditText.error(this, complaintEditText);
             }
 
-            if (roomException) {
+            if (!roomId.equals("") && referenceRecyclerViewAdapter.getValues().size() != 0 && complaintEditText.length() != 0) {
                 clearException("room");
-            }
-            if (referenceException) {
                 clearException("reference");
-            }
+                controlEditText.clear(this, complaintEditText);
 
-            if (!roomId.isEmpty() && referenceRecyclerViewAdapter.getValues().size() != 0 && complaintEditText.length() != 0) {
                 doWork();
             }
         });
@@ -374,7 +371,13 @@ public class CreateCaseActivity extends AppCompatActivity {
                     if (roomDialogEditText.length() != 0) {
                         getData("getRooms", "", roomDialogEditText.getText().toString().trim());
                     } else {
-                        roomDialogRecyclerView.setAdapter(null);
+                        try {
+                            if (roomViewModel.getSuggestRoom().size() != 0) {
+                                setRecyclerView(roomViewModel.getSuggestRoom(), roomDialogRecyclerView, "getRooms");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
                         if (roomDialogTextView.getVisibility() == View.VISIBLE) {
                             roomDialogTextView.setVisibility(View.GONE);
@@ -469,6 +472,7 @@ public class CreateCaseActivity extends AppCompatActivity {
                 referenceRecyclerViewAdapter.setValue(referenceRecyclerViewAdapter.getValues(), referenceRecyclerViewAdapter.getIds(), method, "CreateCase");
                 recyclerView.setAdapter(referenceRecyclerViewAdapter);
                 break;
+
             case "getRooms":
                 roomDialogAdapter.setValue(arrayList, method, "CreateCase");
                 recyclerView.setAdapter(roomDialogAdapter);
@@ -481,6 +485,7 @@ public class CreateCaseActivity extends AppCompatActivity {
                     }
                 }
                 break;
+
             case "getReferences":
                 referenceDialogAdapter.setValue(arrayList, method, "CreateCase");
                 recyclerView.setAdapter(referenceDialogAdapter);
@@ -496,16 +501,6 @@ public class CreateCaseActivity extends AppCompatActivity {
         }
     }
 
-    private void errorView(String type) {
-        if (type.equals("room")) {
-            roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-        } else if (type.equals("reference")) {
-            referenceFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-        } else if (type.equals("complaint")) {
-            complaintEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-        }
-    }
-
     private void errorException(String type) {
         switch (type) {
             case "room":
@@ -515,6 +510,9 @@ public class CreateCaseActivity extends AppCompatActivity {
             case "reference":
                 referenceException = true;
                 referenceFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
+            case "complaint":
+                complaintEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
         }
     }
@@ -566,15 +564,18 @@ public class CreateCaseActivity extends AppCompatActivity {
 
                     RoomRepository.allPage = 1;
                     roomViewModel.rooms(q);
+
+                    observeWork("roomViewModel");
                     break;
                 case "getReferences":
                     referenceDialogProgressBar.setVisibility(View.VISIBLE);
                     referenceDialogImageView.setVisibility(View.GONE);
 
                     roomViewModel.references(roomId, q);
+
+                    observeWork("roomViewModel");
                     break;
             }
-            observeWork("roomViewModel");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -589,6 +590,7 @@ public class CreateCaseActivity extends AppCompatActivity {
             }
 
             progressDialog.show();
+
             caseViewModel.create(roomId, referenceRecyclerViewAdapter.getIds(), complaint);
             observeWork("caseViewModel");
         } catch (JSONException e) {
@@ -647,17 +649,17 @@ public class CreateCaseActivity extends AppCompatActivity {
 
                             referenceDialogProgressBar.setVisibility(View.GONE);
                             referenceDialogImageView.setVisibility(View.VISIBLE);
-                            SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                            RoomRepository.workState.removeObservers((LifecycleOwner) this);
                         } else if (integer == 0) {
                             referenceDialogProgressBar.setVisibility(View.GONE);
                             referenceDialogImageView.setVisibility(View.VISIBLE);
                             Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                            SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                            RoomRepository.workState.removeObservers((LifecycleOwner) this);
                         } else if (integer == -2) {
                             referenceDialogProgressBar.setVisibility(View.GONE);
                             referenceDialogImageView.setVisibility(View.VISIBLE);
                             Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                            SampleRepository.workStateCreate.removeObservers((LifecycleOwner) this);
+                            RoomRepository.workState.removeObservers((LifecycleOwner) this);
                         }
                     }
                 });
@@ -682,7 +684,7 @@ public class CreateCaseActivity extends AppCompatActivity {
                 }
             }
             if (!ExceptionGenerator.errors.isNull("chief_complaint")) {
-                complaintEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                errorException("complaint");
                 if (exceptionToast.equals("")) {
                     exceptionToast = ExceptionGenerator.getErrorBody("chief_complaint");
                 } else {
@@ -706,7 +708,7 @@ public class CreateCaseActivity extends AppCompatActivity {
                         roomId = model.get("id").toString();
 
                         JSONObject manager = (JSONObject) model.get("manager");
-                        roomName =manager.get("name").toString();
+                        roomName = manager.get("name").toString();
 
                         roomNameTextView.setText(roomName);
                         roomNameTextView.setTextColor(getResources().getColor(R.color.Grey));
@@ -749,7 +751,7 @@ public class CreateCaseActivity extends AppCompatActivity {
                         referenceRecyclerViewAdapter.getIds().add(model.get("id").toString());
 
                         setRecyclerView(null, referenceRecyclerView, "references");
-                    } else if (referencePosition != -1) {
+                    } else {
                         referenceRecyclerViewAdapter.removeValue(referencePosition);
 
                         referenceDialogAdapter.notifyDataSetChanged();

@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_create_sample"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
-    android:background="@color/White"
     android:scrollbarSize="0dp"
     android:overScrollMode="never"
     android:fillViewport="true"
+    android:focusable="true"
     android:fitsSystemWindows="true"
-    tools:context=".Views.Activities.CreateSampleActivity"
-    tools:ignore="RtlHardcoded, TooDeepLayout">
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="blocksDescendants"
+    tools:context=".Views.Activities.CreateSampleActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:background="@color/White">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -171,14 +174,14 @@
                         android:layout_marginBottom="@dimen/_24sdp">
 
                         <LinearLayout
-                            android:id="@+id/activity_create_sample_clinic_linearLayout"
+                            android:id="@+id/activity_create_sample_reference_roomLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:visibility="visible">
 
                             <FrameLayout
-                                android:id="@+id/activity_create_sample_room_reference_frameLayout"
+                                android:id="@+id/activity_create_sample_reference_room_frameLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/_8sdp"
@@ -189,14 +192,14 @@
                                 android:background="@drawable/draw_16sdp_border_quartz">
 
                                 <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/activity_create_sample_room_reference_recyclerView"
+                                    android:id="@+id/activity_create_sample_reference_room_recyclerView"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:minHeight="@dimen/_24sdp"
                                     android:overScrollMode="never" />
 
                                 <TextView
-                                    android:id="@+id/activity_create_sample_room_reference_textView"
+                                    android:id="@+id/activity_create_sample_reference_room_textView"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:gravity="center|right"
@@ -230,7 +233,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/activity_create_sample_case_linearLayout"
+                            android:id="@+id/activity_create_sample_reference_caseLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
@@ -268,24 +271,24 @@
                             </FrameLayout>
 
                             <TextView
-                                android:id="@+id/activity_create_sample_case_reference_textView"
+                                android:id="@+id/activity_create_sample_reference_case_textView"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/_8sdp"
                                 android:visibility="gone"
                                 android:gravity="right"
-                                android:text="@string/CreateSampleReferences"
+                                android:text="@string/CreateSampleReference"
                                 android:textSize="@dimen/_12ssp"
                                 android:textStyle="bold"
                                 android:textColor="@color/Grey"
                                 android:textAlignment="gravity" />
 
                             <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/activity_create_sample_case_reference_recyclerView"
+                                android:id="@+id/activity_create_sample_reference_case_recyclerView"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:overScrollMode="never"
                                 android:visibility="gone"
+                                android:overScrollMode="never"
                                 android:background="@drawable/draw_16sdp_border_quartz" />
 
                         </LinearLayout>

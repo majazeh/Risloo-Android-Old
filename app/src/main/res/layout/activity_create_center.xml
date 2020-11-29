@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_create_center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
-    android:background="@color/White"
     android:scrollbarSize="0dp"
     android:overScrollMode="never"
     android:fillViewport="true"
+    android:focusable="true"
     android:fitsSystemWindows="true"
-    tools:context=".Views.Activities.CreateCenterActivity"
-    tools:ignore="RtlHardcoded">
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="blocksDescendants"
+    tools:context=".Views.Activities.CreateCenterActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:background="@color/White">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -139,8 +142,8 @@
                     android:paddingRight="@dimen/_16sdp"
                     android:imeOptions="actionDone"
                     android:inputType="text"
-                    android:hint="@string/CreateCenterName"
                     android:visibility="gone"
+                    android:hint="@string/CreateCenterName"
                     android:gravity="center|right"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"
@@ -198,12 +201,15 @@
                 <EditText
                     android:id="@+id/activity_create_center_description_editText"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_36sdp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_8sdp"
+                    android:minHeight="@dimen/_36sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
                     android:paddingLeft="@dimen/_16sdp"
                     android:paddingRight="@dimen/_16sdp"
                     android:imeOptions="actionDone"
-                    android:inputType="text"
+                    android:inputType="textMultiLine"
                     android:hint="@string/CreateCenterDescription"
                     android:gravity="center|right"
                     android:textSize="@dimen/_12ssp"
@@ -217,12 +223,15 @@
                 <EditText
                     android:id="@+id/activity_create_center_address_editText"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_36sdp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_8sdp"
+                    android:minHeight="@dimen/_36sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_8sdp"
                     android:paddingLeft="@dimen/_16sdp"
                     android:paddingRight="@dimen/_16sdp"
                     android:imeOptions="actionDone"
-                    android:inputType="text"
+                    android:inputType="textMultiLine"
                     android:hint="@string/CreateCenterAddress"
                     android:gravity="center|right"
                     android:textSize="@dimen/_12ssp"
@@ -233,61 +242,36 @@
                     android:importantForAutofill="no"
                     android:background="@drawable/draw_16sdp_border_quartz" />
 
-                <androidx.cardview.widget.CardView
+                <FrameLayout
+                    android:id="@+id/activity_create_center_phone_frameLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_36sdp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_24sdp"
-                    app:cardBackgroundColor="@null"
-                    app:cardCornerRadius="@dimen/_16sdp"
-                    app:cardElevation="0dp">
+                    android:paddingTop="@dimen/_6sdp"
+                    android:paddingBottom="@dimen/_6sdp"
+                    android:paddingLeft="@dimen/_12sdp"
+                    android:paddingRight="@dimen/_12sdp"
+                    android:background="@drawable/draw_16sdp_border_quartz">
 
-                    <LinearLayout
-                        android:id="@+id/activity_create_center_phone_linearLayout"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/activity_create_center_phone_recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="@dimen/_24sdp"
+                        android:overScrollMode="never" />
+
+                    <TextView
+                        android:id="@+id/activity_create_center_phone_textView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:layoutDirection="rtl"
-                        android:background="@drawable/draw_16sdp_border_quartz">
+                        android:gravity="center|right"
+                        android:text="@string/CreateCenterPhone"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Mischka"
+                        android:textAlignment="gravity" />
 
-                        <ImageView
-                            android:id="@+id/activity_create_center_phone_imageView"
-                            android:layout_width="@dimen/_36sdp"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="@dimen/_1sdp"
-                            android:contentDescription="@string/AppImageContent"
-                            android:padding="@dimen/_9sdp"
-                            android:background="@color/Primary5P"
-                            android:src="@drawable/ic_plus_light"
-                            app:tint="@color/Primary" />
-
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/activity_create_center_phone_recyclerView"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:overScrollMode="never" />
-
-                            <TextView
-                                android:id="@+id/activity_create_center_phone_textView"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:paddingLeft="@dimen/_12sdp"
-                                android:paddingRight="@dimen/_12sdp"
-                                android:gravity="center|right"
-                                android:text="@string/CreateCenterPhone"
-                                android:textSize="@dimen/_12ssp"
-                                android:textStyle="normal"
-                                android:textColor="@color/Mischka"
-                                android:textAlignment="gravity" />
-
-                        </FrameLayout>
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
+                </FrameLayout>
 
                 <Button
                     android:id="@+id/activity_create_center_button"
