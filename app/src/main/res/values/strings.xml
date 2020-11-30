@@ -263,6 +263,31 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // EditCenter strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="EditCenterPersonalClinicTitle">ویرایش کلینیک شخصی</string>
+    <string name="EditCenterCounselingCenterTitle">ویرایش مرکز مشاوره</string>
+
+    <string name="EditCenterManager">مدیر</string>
+    <string name="EditCenterName">عنوان</string>
+    <string name="EditCenterSelect">انتخاب</string>
+    <string name="EditCenterAvatar">تصویر (غیر ضروری)</string>
+    <string name="EditCenterDescription">توضیحات (غیر ضروری)</string>
+    <string name="EditCenterAddress">آدرس (غیر ضروری)</string>
+    <string name="EditCenterPhone">شماره تماس (غیر ضروری)</string>
+
+    <string name="EditCenterEdit">ویرایش</string>
+
+    <string name="EditCenterPhoneDialogTitle">شماره تماس مرکز را اضافه کنید.</string>
+    <string name="EditCenterPhoneDialogInput">شماره تماس</string>
+    <string name="EditCenterPhoneDialogPositive">افزودن</string>
+    <string name="EditCenterPhoneDialogNegative">بستن</string>
+
+    <string name="EditCenterManagerDialogTitle">مدیر مورد نظر خودتان را جستجو کنید.</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     // Rooms strings
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -318,6 +343,22 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // EditCase strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="EditCaseTitle">ویرایش پرونده درمان</string>
+
+    <string name="EditCaseRoom">اتاق درمان</string>
+    <string name="EditCaseReference">مراجعان</string>
+    <string name="EditCaseComplaint">شکایت اصلی</string>
+
+    <string name="EditCaseEdit">ویرایش</string>
+
+    <string name="EditCaseRoomDialogTitle">اتاق درمان مورد نظر خودتان را جستجو کنید.</string>
+    <string name="EditCaseReferenceDialogTitle">مراجعان مورد نظر خودتان را جستجو کنید.</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     // Sessions strings
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -368,6 +409,35 @@
     <string name="CreateSessionDateDialogTitle">تاریخ شروع جلسه را انتخاب کنید.</string>
     <string name="CreateSessionDateDialogPositive">ثبت</string>
     <string name="CreateSessionDateDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // EditSession strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="EditSessionTitle">ویرایش جلسه درمان</string>
+
+    <string name="EditSessionRoom">اتاق درمان</string>
+    <string name="EditSessionCase">پرونده</string>
+    <string name="EditSessionStartedAtTime">ساعت شروع</string>
+    <string name="EditSessionStartedAtDate">تاریخ شروع</string>
+    <string name="EditSessionDuration">مدت‌زمان جلسه</string>
+    <string name="EditSessionMinute">دقیقه</string>
+    <string name="EditSessionStatus">وضعیت</string>
+
+    <string name="EditSessionEdit">ویرایش </string>
+
+    <string name="EditSessionRoomDialogTitle">اتاق درمان مورد نظر خودتان را جستجو کنید.</string>
+    <string name="EditSessionCaseDialogTitle">پرونده درمان مورد نظر خودتان را جستجو کنید.</string>
+    <string name="EditSessionStatusDialogTitle">وضعیت مورد نظر خودتان را انتخاب کنید.</string>
+
+    <string name="EditSessionTimeDialogTitle">ساعت شروع جلسه را انتخاب کنید.</string>
+    <string name="EditSessionTimeDialogPositive">ثبت</string>
+    <string name="EditSessionTimeDialogNegative">بستن</string>
+
+    <string name="EditSessionDateDialogTitle">تاریخ شروع جلسه را انتخاب کنید.</string>
+    <string name="EditSessionDateDialogPositive">ثبت</string>
+    <string name="EditSessionDateDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -767,50 +837,6 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // edit case strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="EditCaseTitle">ویرایش پرونده درمان</string>
-
-    <string name="EditCaseRoom">اتاق درمان</string>
-    <string name="EditCaseReference">مراجع</string>
-    <string name="EditCaseComplaint">شکایت اصلی</string>
-
-    <string name="EditCaseEdit">ویرایش</string>
-
-    <string name="EditCaseRoomDialogTitle">اتاق درمان مورد نظر جستجو کنید</string>
-    <string name="EditCaseReferenceDialogTitle">مراجعان مورد نظر جستجو کنید</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // edit session strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="EditSessionTitle">ویرایش جلسه درمان</string>
-
-    <string name="EditSessionRoom">اتاق درمان</string>
-    <string name="EditSessionCase">پرونده</string>
-    <string name="EditSessionStartTime">ساعت شروع</string>
-    <string name="EditSessionStartDate">تاریخ شروع</string>
-    <string name="EditSessionPeriod">مدت‌زمان جلسه (دقیقه)</string>
-    <string name="EditSessionStatus">وضعیت</string>
-
-    <string name="EditSessionEdit">ویرایش </string>
-
-    <string name="EditSessionRoomDialogTitle">اتاق درمان مورد نظر جستجو کنید</string>
-    <string name="EditSessionCaseDialogTitle">پرونده مورد نظر جستجو کنید</string>
-    <string name="EditSessionStatusDialogTitle">وضعیت مورد نظر جستجو کنید</string>
-
-    <string name="EditSessionTimeDialogTitle">ساعت شروع مورد نظر انتخاب کنید</string>
-    <string name="EditSessionTimeDialogPositive">ثبت</string>
-    <string name="EditSessionTimeDialogNegative">بستن</string>
-
-    <string name="EditSessionDateDialogTitle">تاریخ شروع مورد نظر انتخاب کنید</string>
-    <string name="EditSessionDateDialogPositive">ثبت</string>
-    <string name="EditSessionDateDialogNegative">بستن</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
     // outro strings
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -863,29 +889,6 @@
     <string name="ArchiveContinueDialogDescription">شما می توانید روند کار را از نمونه خود ادامه دهید و آن را به اتمام برسانید و به ریسلو تحویل دهید.</string>
     <string name="ArchiveContinueDialogPositive">تکمیل نمونه</string>
     <string name="ArchiveContinueDialogNegative">بستن</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // edit center strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="EditClinicTitle">ویرایش کلینیک شخصی</string>
-    <string name="EditCenterTitle">ویرایش مرکز مشاوره</string>
-
-    <string name="EditCenterManager">مدیر</string>
-    <string name="EditCenterName">عنوان</string>
-    <string name="EditCenterDescription">توضیحات (غیر ضروری)</string>
-    <string name="EditCenterAddress">آدرس (غیر ضروری)</string>
-    <string name="EditCenterPhone">شماره تماس (غیر ضروری)</string>
-
-    <string name="EditCenterEdit">ویرایش</string>
-
-    <string name="EditCenterPhoneDialogTitle">شماره تماس دلخواهی اضافه کنید.</string>
-    <string name="EditCenterPhoneDialogInput">شماره تماس</string>
-    <string name="EditCenterPhoneDialogPositive">افزودن</string>
-    <string name="EditCenterPhoneDialogNegative">بستن</string>
-
-    <string name="EditCenterManagerDialogTitle">مدیر مورد نظر جستجو کنید</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

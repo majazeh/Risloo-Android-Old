@@ -648,12 +648,12 @@ public class CreateSessionActivity extends AppCompatActivity {
             caseId = extras.getString("case_id");
         if (extras.getString("case_name") != null)
             caseName = extras.getString("case_name");
-        if (extras.getString("time") != null)
-            startedAtTime = extras.getString("time");
+        if (extras.getString("started_at_time") != null)
+            startedAtTime = extras.getString("started_at_time");
         else
             startedAtTime = DateManager.currentTime();
-        if (extras.getString("date") != null)
-            startedAtDate = extras.getString("date");
+        if (extras.getString("started_at_date") != null)
+            startedAtDate = extras.getString("started_at_date");
         else
             startedAtDate = DateManager.currentJalaliDate();
         if (extras.getString("duration") != null)

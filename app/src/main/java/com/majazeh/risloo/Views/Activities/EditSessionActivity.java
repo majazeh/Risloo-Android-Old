@@ -69,8 +69,8 @@ public class EditSessionActivity extends AppCompatActivity {
     private SearchAdapter roomDialogAdapter, caseDialogAdapter, statusDialogAdapter;
 
     // Vars
-    public String id = "", roomId = "", roomName = "", roomTitle = "", caseId = "", caseName = "", timestamp = "", time = "", date = "", period = "", statusId = "", statusTitle = "";
-    private boolean roomException = false, caseException = false, timeException = false, dateException = false, statusException = false;
+    public String id = "", roomId = "", roomName = "", roomTitle = "", caseId = "", caseName = "", timestamp = "", startedAtTime = "", startedAtDate = "", duration = "", statusId = "", statusTitle = "";
+    private boolean roomException = false, caseException = false, startedAtException = false, statusException = false;
     private int hour, minute, year, month, day;
 
     // Objects
@@ -84,16 +84,16 @@ public class EditSessionActivity extends AppCompatActivity {
     private TextView toolbarTextView;
     private FrameLayout roomFrameLayout, caseFrameLayout, statusFrameLayout;
     private LinearLayout roomLinearLayout;
-    public TextView roomNameTextView, roomTitleTextView, caseTextView, timeTextView, dateTextView, statusTextView;
-    public EditText periodEditText;
+    public TextView roomNameTextView, roomTitleTextView, caseTextView, startedAtTimeTextView, startedAtDateTextView, statusTextView;
+    private EditText durationEditText;
     private Button editButton;
-    private Dialog roomDialog, caseDialog, timeDialog, dateDialog, statusDialog, progressDialog;
-    private TextView roomDialogTitleTextView, caseDialogTitleTextView, dateDialogTitleTextView, statusDialogTitleTextView;
+    private Dialog roomDialog, caseDialog, startedAtTimeDialog, startedAtDateDialog, statusDialog, progressDialog;
+    private TextView roomDialogTitleTextView, caseDialogTitleTextView, startedAtDateDialogTitleTextView, statusDialogTitleTextView;
     private CoordinatorLayout roomDialogSearchLayout, caseDialogSearchLayout;
     private EditText roomDialogEditText, caseDialogEditText;
     private ImageView roomDialogImageView, caseDialogImageView;
     private ProgressBar roomDialogProgressBar, caseDialogProgressBar;
-    private TextView roomDialogTextView, caseDialogTextView, timeDialogPositive, timeDialogNegative, dateDialogPositive, dateDialogNegative;
+    private TextView roomDialogTextView, caseDialogTextView, startedAtTimeDialogPositive, startedAtTimeDialogNegative, startedAtDateDialogPositive, startedAtDateDialogNegative;
     private RecyclerView roomDialogRecyclerView, caseDialogRecyclerView, statusDialogRecyclerView;
     private SingleNumberPicker hourNumberPicker, minuteNumberPicker, yearNumberPicker, monthNumberPicker, dayNumberPicker;
 
@@ -158,11 +158,11 @@ public class EditSessionActivity extends AppCompatActivity {
         roomNameTextView = findViewById(R.id.activity_edit_session_room_name_textView);
         roomTitleTextView = findViewById(R.id.activity_edit_session_room_title_textView);
         caseTextView = findViewById(R.id.activity_edit_session_case_textView);
-        timeTextView = findViewById(R.id.activity_edit_session_start_time_textView);
-        dateTextView = findViewById(R.id.activity_edit_session_start_date_textView);
+        startedAtTimeTextView = findViewById(R.id.activity_edit_session_started_at_time_textView);
+        startedAtDateTextView = findViewById(R.id.activity_edit_session_started_at_date_textView);
         statusTextView = findViewById(R.id.activity_edit_session_status_textView);
 
-        periodEditText = findViewById(R.id.activity_edit_session_period_editText);
+        durationEditText = findViewById(R.id.activity_edit_session_duration_editText);
 
         editButton = findViewById(R.id.activity_edit_session_button);
 
@@ -176,16 +176,16 @@ public class EditSessionActivity extends AppCompatActivity {
         caseDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         caseDialog.setContentView(R.layout.dialog_search);
         caseDialog.setCancelable(true);
-        timeDialog = new Dialog(this, R.style.DialogTheme);
-        Objects.requireNonNull(timeDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
-        timeDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        timeDialog.setContentView(R.layout.dialog_time);
-        timeDialog.setCancelable(true);
-        dateDialog = new Dialog(this, R.style.DialogTheme);
-        Objects.requireNonNull(dateDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
-        dateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dateDialog.setContentView(R.layout.dialog_date);
-        dateDialog.setCancelable(true);
+        startedAtTimeDialog = new Dialog(this, R.style.DialogTheme);
+        Objects.requireNonNull(startedAtTimeDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+        startedAtTimeDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        startedAtTimeDialog.setContentView(R.layout.dialog_time);
+        startedAtTimeDialog.setCancelable(true);
+        startedAtDateDialog = new Dialog(this, R.style.DialogTheme);
+        Objects.requireNonNull(startedAtDateDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+        startedAtDateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        startedAtDateDialog.setContentView(R.layout.dialog_date);
+        startedAtDateDialog.setCancelable(true);
         statusDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(statusDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         statusDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -197,38 +197,38 @@ public class EditSessionActivity extends AppCompatActivity {
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
 
-        WindowManager.LayoutParams layoutParamsRoom = new WindowManager.LayoutParams();
-        layoutParamsRoom.copyFrom(roomDialog.getWindow().getAttributes());
-        layoutParamsRoom.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParamsRoom.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        roomDialog.getWindow().setAttributes(layoutParamsRoom);
-        WindowManager.LayoutParams layoutParamsCase = new WindowManager.LayoutParams();
-        layoutParamsCase.copyFrom(caseDialog.getWindow().getAttributes());
-        layoutParamsCase.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParamsCase.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        caseDialog.getWindow().setAttributes(layoutParamsCase);
-        WindowManager.LayoutParams layoutParamsTime = new WindowManager.LayoutParams();
-        layoutParamsTime.copyFrom(timeDialog.getWindow().getAttributes());
-        layoutParamsTime.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParamsTime.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        timeDialog.getWindow().setAttributes(layoutParamsTime);
-        WindowManager.LayoutParams layoutParamsDate = new WindowManager.LayoutParams();
-        layoutParamsDate.copyFrom(dateDialog.getWindow().getAttributes());
-        layoutParamsDate.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParamsDate.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        dateDialog.getWindow().setAttributes(layoutParamsDate);
-        WindowManager.LayoutParams layoutParamsStatus = new WindowManager.LayoutParams();
-        layoutParamsStatus.copyFrom(statusDialog.getWindow().getAttributes());
-        layoutParamsStatus.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParamsStatus.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        statusDialog.getWindow().setAttributes(layoutParamsStatus);
+        WindowManager.LayoutParams layoutParamsRoomDialog = new WindowManager.LayoutParams();
+        layoutParamsRoomDialog.copyFrom(roomDialog.getWindow().getAttributes());
+        layoutParamsRoomDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsRoomDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        roomDialog.getWindow().setAttributes(layoutParamsRoomDialog);
+        WindowManager.LayoutParams layoutParamsCaseDialog = new WindowManager.LayoutParams();
+        layoutParamsCaseDialog.copyFrom(caseDialog.getWindow().getAttributes());
+        layoutParamsCaseDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsCaseDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        caseDialog.getWindow().setAttributes(layoutParamsCaseDialog);
+        WindowManager.LayoutParams layoutParamsTimeDialog = new WindowManager.LayoutParams();
+        layoutParamsTimeDialog.copyFrom(startedAtTimeDialog.getWindow().getAttributes());
+        layoutParamsTimeDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsTimeDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        startedAtTimeDialog.getWindow().setAttributes(layoutParamsTimeDialog);
+        WindowManager.LayoutParams layoutParamsDateDialog = new WindowManager.LayoutParams();
+        layoutParamsDateDialog.copyFrom(startedAtDateDialog.getWindow().getAttributes());
+        layoutParamsDateDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsDateDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        startedAtDateDialog.getWindow().setAttributes(layoutParamsDateDialog);
+        WindowManager.LayoutParams layoutParamsStatusDialog = new WindowManager.LayoutParams();
+        layoutParamsStatusDialog.copyFrom(statusDialog.getWindow().getAttributes());
+        layoutParamsStatusDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsStatusDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        statusDialog.getWindow().setAttributes(layoutParamsStatusDialog);
 
         roomDialogTitleTextView = roomDialog.findViewById(R.id.dialog_search_title_textView);
         roomDialogTitleTextView.setText(getResources().getString(R.string.EditSessionRoomDialogTitle));
         caseDialogTitleTextView = caseDialog.findViewById(R.id.dialog_search_title_textView);
         caseDialogTitleTextView.setText(getResources().getString(R.string.EditSessionCaseDialogTitle));
-        dateDialogTitleTextView = dateDialog.findViewById(R.id.dialog_date_title_textView);
-        dateDialogTitleTextView.setText(getResources().getString(R.string.EditSessionDateDialogTitle));
+        startedAtDateDialogTitleTextView = startedAtDateDialog.findViewById(R.id.dialog_date_title_textView);
+        startedAtDateDialogTitleTextView.setText(getResources().getString(R.string.EditSessionDateDialogTitle));
         statusDialogTitleTextView = statusDialog.findViewById(R.id.dialog_search_title_textView);
         statusDialogTitleTextView.setText(getResources().getString(R.string.EditSessionStatusDialogTitle));
 
@@ -249,16 +249,16 @@ public class EditSessionActivity extends AppCompatActivity {
         roomDialogTextView = roomDialog.findViewById(R.id.dialog_search_textView);
         caseDialogTextView = caseDialog.findViewById(R.id.dialog_search_textView);
 
-        hourNumberPicker = timeDialog.findViewById(R.id.dialog_time_hour_NumberPicker);
-        minuteNumberPicker = timeDialog.findViewById(R.id.dialog_time_minute_NumberPicker);
-        yearNumberPicker = dateDialog.findViewById(R.id.dialog_date_year_NumberPicker);
-        monthNumberPicker = dateDialog.findViewById(R.id.dialog_date_month_NumberPicker);
-        dayNumberPicker = dateDialog.findViewById(R.id.dialog_date_day_NumberPicker);
+        hourNumberPicker = startedAtTimeDialog.findViewById(R.id.dialog_time_hour_NumberPicker);
+        minuteNumberPicker = startedAtTimeDialog.findViewById(R.id.dialog_time_minute_NumberPicker);
+        yearNumberPicker = startedAtDateDialog.findViewById(R.id.dialog_date_year_NumberPicker);
+        monthNumberPicker = startedAtDateDialog.findViewById(R.id.dialog_date_month_NumberPicker);
+        dayNumberPicker = startedAtDateDialog.findViewById(R.id.dialog_date_day_NumberPicker);
 
-        timeDialogPositive = timeDialog.findViewById(R.id.dialog_time_positive_textView);
-        timeDialogNegative = timeDialog.findViewById(R.id.dialog_time_negative_textView);
-        dateDialogPositive = dateDialog.findViewById(R.id.dialog_date_positive_textView);
-        dateDialogNegative = dateDialog.findViewById(R.id.dialog_date_negative_textView);
+        startedAtTimeDialogPositive = startedAtTimeDialog.findViewById(R.id.dialog_time_positive_textView);
+        startedAtTimeDialogNegative = startedAtTimeDialog.findViewById(R.id.dialog_time_negative_textView);
+        startedAtDateDialogPositive = startedAtDateDialog.findViewById(R.id.dialog_date_positive_textView);
+        startedAtDateDialogNegative = startedAtDateDialog.findViewById(R.id.dialog_date_negative_textView);
 
         roomDialogRecyclerView = roomDialog.findViewById(R.id.dialog_search_recyclerView);
         roomDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
@@ -282,10 +282,10 @@ public class EditSessionActivity extends AppCompatActivity {
 
             editButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
 
-            timeDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
-            timeDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
-            dateDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
-            dateDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            startedAtTimeDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            startedAtTimeDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            startedAtDateDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+            startedAtDateDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
         }
     }
 
@@ -293,7 +293,7 @@ public class EditSessionActivity extends AppCompatActivity {
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
             finish();
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
@@ -301,7 +301,7 @@ public class EditSessionActivity extends AppCompatActivity {
 
         roomLinearLayout.setOnClickListener(v -> {
             roomLinearLayout.setClickable(false);
-            handler.postDelayed(() -> roomLinearLayout.setClickable(true), 300);
+            handler.postDelayed(() -> roomLinearLayout.setClickable(true), 250);
 
             if (roomException) {
                 clearException("room");
@@ -324,7 +324,7 @@ public class EditSessionActivity extends AppCompatActivity {
 
         caseTextView.setOnClickListener(v -> {
             caseTextView.setClickable(false);
-            handler.postDelayed(() -> caseTextView.setClickable(true), 300);
+            handler.postDelayed(() -> caseTextView.setClickable(true), 250);
 
             if (caseException) {
                 clearException("case");
@@ -342,47 +342,47 @@ public class EditSessionActivity extends AppCompatActivity {
             }
         });
 
-        timeTextView.setOnTouchListener((v, event) -> {
-            timeTextView.setClickable(false);
-            handler.postDelayed(() -> timeTextView.setClickable(true), 300);
+        startedAtTimeTextView.setOnTouchListener((v, event) -> {
+            startedAtTimeTextView.setClickable(false);
+            handler.postDelayed(() -> startedAtTimeTextView.setClickable(true), 250);
 
-            if (timeException) {
-                clearException("time");
+            if (startedAtException) {
+                clearException("startedAt");
             }
 
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
             }
 
-            timeDialog.show();
+            startedAtTimeDialog.show();
             return false;
         });
 
-        dateTextView.setOnTouchListener((v, event) -> {
-            dateTextView.setClickable(false);
-            handler.postDelayed(() -> dateTextView.setClickable(true), 300);
+        startedAtDateTextView.setOnTouchListener((v, event) -> {
+            startedAtDateTextView.setClickable(false);
+            handler.postDelayed(() -> startedAtDateTextView.setClickable(true), 250);
 
-            if (dateException) {
-                clearException("date");
+            if (startedAtException) {
+                clearException("startedAt");
             }
 
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
             }
 
-            dateDialog.show();
+            startedAtDateDialog.show();
             return false;
         });
 
-        periodEditText.setOnTouchListener((v, event) -> {
+        durationEditText.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
-                if (!periodEditText.hasFocus()) {
+                if (!durationEditText.hasFocus()) {
                     if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                         controlEditText.clear(this, controlEditText.input());
                     }
 
-                    controlEditText.focus(periodEditText);
-                    controlEditText.select(periodEditText);
+                    controlEditText.focus(durationEditText);
+                    controlEditText.select(durationEditText);
                 }
             }
             return false;
@@ -390,9 +390,9 @@ public class EditSessionActivity extends AppCompatActivity {
 
         statusTextView.setOnClickListener(v -> {
             statusTextView.setClickable(false);
-            handler.postDelayed(() -> statusTextView.setClickable(true), 300);
+            handler.postDelayed(() -> statusTextView.setClickable(true), 250);
 
-            if (caseException) {
+            if (statusException) {
                 clearException("status");
             }
 
@@ -411,41 +411,24 @@ public class EditSessionActivity extends AppCompatActivity {
             }
 
             if (roomId.isEmpty()) {
-                errorView("room");
+                errorException("room");
             }
             if (caseId.isEmpty()) {
-                errorView("case");
+                errorException("case");
             }
-            if (time.isEmpty()) {
-                errorView("time");
-            }
-            if (date.isEmpty()) {
-                errorView("date");
-            }
-            if (periodEditText.length() == 0) {
-                errorView("period");
+            if (durationEditText.length() == 0) {
+                controlEditText.error(this, durationEditText);
             }
             if (statusId.isEmpty()) {
-                errorView("status");
+                errorException("status");
             }
 
-            if (roomException) {
+            if (!roomId.isEmpty() && !caseId.isEmpty() && durationEditText.length() != 0 && !statusId.isEmpty()) {
                 clearException("room");
-            }
-            if (caseException) {
                 clearException("case");
-            }
-            if (timeException) {
-                clearException("time");
-            }
-            if (dateException) {
-                clearException("date");
-            }
-            if (statusException) {
+                controlEditText.clear(this, durationEditText);
                 clearException("status");
-            }
 
-            if (!roomId.isEmpty() && !caseId.isEmpty() && !time.isEmpty() && !date.isEmpty() && periodEditText.length() != 0 && !statusId.isEmpty()) {
                 doWork();
             }
         });
@@ -491,7 +474,13 @@ public class EditSessionActivity extends AppCompatActivity {
                     if (roomDialogEditText.length() != 0) {
                         getData("getRooms", "", roomDialogEditText.getText().toString().trim());
                     } else {
-                        roomDialogRecyclerView.setAdapter(null);
+                        try {
+                            if (roomViewModel.getSuggestRoom().size() != 0) {
+                                setRecyclerView(roomViewModel.getSuggestRoom(), roomDialogRecyclerView, "getRooms");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
                         if (roomDialogTextView.getVisibility() == View.VISIBLE) {
                             roomDialogTextView.setVisibility(View.GONE);
@@ -534,42 +523,42 @@ public class EditSessionActivity extends AppCompatActivity {
             }
         });
 
-        timeDialogPositive.setOnClickListener(v -> {
-            timeDialogPositive.setClickable(false);
-            handler.postDelayed(() -> timeDialogPositive.setClickable(true), 300);
-            timeDialog.dismiss();
+        startedAtTimeDialogPositive.setOnClickListener(v -> {
+            startedAtTimeDialogPositive.setClickable(false);
+            handler.postDelayed(() -> startedAtTimeDialogPositive.setClickable(true), 250);
+            startedAtTimeDialog.dismiss();
 
             hour = hourNumberPicker.getValue();
             minute = minuteNumberPicker.getValue();
 
             if (hour < 10) {
                 if (minute < 10)
-                    time = "0" + hour + ":" + "0" + minute;
+                    startedAtTime = "0" + hour + ":" + "0" + minute;
                 else
-                    time = "0" + hour + ":" + minute;
+                    startedAtTime = "0" + hour + ":" + minute;
             } else {
                 if (minute < 10)
-                    time = hour + ":" + "0" + minute;
+                    startedAtTime = hour + ":" + "0" + minute;
                 else
-                    time = hour + ":" + minute;
+                    startedAtTime = hour + ":" + minute;
             }
 
-            timeTextView.setText(time);
+            startedAtTimeTextView.setText(startedAtTime);
         });
 
-        timeDialogNegative.setOnClickListener(v -> {
-            timeDialogNegative.setClickable(false);
-            handler.postDelayed(() -> timeDialogNegative.setClickable(true), 300);
-            timeDialog.dismiss();
+        startedAtTimeDialogNegative.setOnClickListener(v -> {
+            startedAtTimeDialogNegative.setClickable(false);
+            handler.postDelayed(() -> startedAtTimeDialogNegative.setClickable(true), 250);
+            startedAtTimeDialog.dismiss();
 
             hourNumberPicker.setValue(hour);
             minuteNumberPicker.setValue(minute);
         });
 
-        dateDialogPositive.setOnClickListener(v -> {
-            dateDialogPositive.setClickable(false);
-            handler.postDelayed(() -> dateDialogPositive.setClickable(true), 300);
-            dateDialog.dismiss();
+        startedAtDateDialogPositive.setOnClickListener(v -> {
+            startedAtDateDialogPositive.setClickable(false);
+            handler.postDelayed(() -> startedAtDateDialogPositive.setClickable(true), 250);
+            startedAtDateDialog.dismiss();
 
             year = yearNumberPicker.getValue();
             month = monthNumberPicker.getValue();
@@ -577,23 +566,23 @@ public class EditSessionActivity extends AppCompatActivity {
 
             if (month < 10) {
                 if (day < 10)
-                    date = year + "-" + "0" + month + "-" + "0" + day;
+                    startedAtDate = year + "-" + "0" + month + "-" + "0" + day;
                 else
-                    date = year + "-" + "0" + month + "-" + day;
+                    startedAtDate = year + "-" + "0" + month + "-" + day;
             } else {
                 if (day < 10)
-                    date = year + "-" + month + "-" + "0" + day;
+                    startedAtDate = year + "-" + month + "-" + "0" + day;
                 else
-                    date = year + "-" + month + "-" + day;
+                    startedAtDate = year + "-" + month + "-" + day;
             }
 
-            dateTextView.setText(date);
+            startedAtDateTextView.setText(startedAtDate);
         });
 
-        dateDialogNegative.setOnClickListener(v -> {
-            dateDialogNegative.setClickable(false);
-            handler.postDelayed(() -> dateDialogNegative.setClickable(true), 300);
-            dateDialog.dismiss();
+        startedAtDateDialogNegative.setOnClickListener(v -> {
+            startedAtDateDialogNegative.setClickable(false);
+            handler.postDelayed(() -> startedAtDateDialogNegative.setClickable(true), 250);
+            startedAtDateDialog.dismiss();
 
             yearNumberPicker.setValue(year);
             monthNumberPicker.setValue(month);
@@ -628,15 +617,15 @@ public class EditSessionActivity extends AppCompatActivity {
 
         statusDialog.setOnCancelListener(dialog -> statusDialog.dismiss());
 
-        timeDialog.setOnCancelListener(dialog -> {
-            timeDialog.dismiss();
+        startedAtTimeDialog.setOnCancelListener(dialog -> {
+            startedAtTimeDialog.dismiss();
 
             hourNumberPicker.setValue(hour);
             minuteNumberPicker.setValue(minute);
         });
 
-        dateDialog.setOnCancelListener(dialog -> {
-            dateDialog.dismiss();
+        startedAtDateDialog.setOnCancelListener(dialog -> {
+            startedAtDateDialog.dismiss();
 
             yearNumberPicker.setValue(year);
             monthNumberPicker.setValue(month);
@@ -645,6 +634,10 @@ public class EditSessionActivity extends AppCompatActivity {
     }
 
     private void setData() {
+        if (!Objects.requireNonNull(extras).getBoolean("loaded")) {
+            setResult(RESULT_OK, null);
+        }
+
         if (extras.getString("id") != null)
             id = extras.getString("id");
         if (extras.getString("room_id") != null)
@@ -657,16 +650,16 @@ public class EditSessionActivity extends AppCompatActivity {
             caseId = extras.getString("case_id");
         if (extras.getString("case_name") != null)
             caseName = extras.getString("case_name");
-        if (extras.getString("time") != null)
-            time = extras.getString("time");
+        if (extras.getString("started_at_time") != null)
+            startedAtTime = extras.getString("started_at_time");
         else
-            time = DateManager.currentTime();
-        if (extras.getString("date") != null)
-            date = extras.getString("date");
+            startedAtTime = DateManager.currentTime();
+        if (extras.getString("started_at_date") != null)
+            startedAtDate = extras.getString("started_at_date");
         else
-            date = DateManager.currentJalaliDate();
-        if (extras.getString("period") != null)
-            period = extras.getString("period");
+            startedAtDate = DateManager.currentJalaliDate();
+        if (extras.getString("duration") != null)
+            duration = extras.getString("duration");
         if (extras.getString("en_status") != null)
             statusId = extras.getString("en_status");
         if (extras.getString("fa_status") != null)
@@ -685,9 +678,9 @@ public class EditSessionActivity extends AppCompatActivity {
             caseTextView.setTextColor(getResources().getColor(R.color.Grey));
         }
 
-        if (!period.equals("")) {
-            periodEditText.setText(period);
-            periodEditText.setTextColor(getResources().getColor(R.color.Grey));
+        if (!duration.equals("")) {
+            durationEditText.setText(duration);
+            durationEditText.setTextColor(getResources().getColor(R.color.Grey));
         }
 
         if (!statusId.equals("")) {
@@ -695,16 +688,16 @@ public class EditSessionActivity extends AppCompatActivity {
             statusTextView.setTextColor(getResources().getColor(R.color.Grey));
         }
 
-        timeTextView.setText(time);
+        startedAtTimeTextView.setText(startedAtTime);
 
-        hour = Integer.parseInt(DateManager.dateToString("HH", DateManager.stringToDate("HH:mm", time)));
-        minute = Integer.parseInt(DateManager.dateToString("mm", DateManager.stringToDate("HH:mm", time)));
+        hour = Integer.parseInt(DateManager.dateToString("HH", DateManager.stringToDate("HH:mm", startedAtTime)));
+        minute = Integer.parseInt(DateManager.dateToString("mm", DateManager.stringToDate("HH:mm", startedAtTime)));
 
-        dateTextView.setText(date);
+        startedAtDateTextView.setText(startedAtDate);
 
-        year = Integer.parseInt(DateManager.dateToString("yyyy", DateManager.stringToDate("yyyy-MM-dd", date)));
-        month = Integer.parseInt(DateManager.dateToString("MM", DateManager.stringToDate("yyyy-MM-dd", date)));
-        day = Integer.parseInt(DateManager.dateToString("dd", DateManager.stringToDate("yyyy-MM-dd", date)));
+        year = Integer.parseInt(DateManager.dateToString("yyyy", DateManager.stringToDate("yyyy-MM-dd", startedAtDate)));
+        month = Integer.parseInt(DateManager.dateToString("MM", DateManager.stringToDate("yyyy-MM-dd", startedAtDate)));
+        day = Integer.parseInt(DateManager.dateToString("dd", DateManager.stringToDate("yyyy-MM-dd", startedAtDate)));
     }
 
     private void setCustomPicker() {
@@ -763,29 +756,6 @@ public class EditSessionActivity extends AppCompatActivity {
         }
     }
 
-    private void errorView(String type) {
-        switch (type) {
-            case "room":
-                roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                break;
-            case "case":
-                caseFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                break;
-            case "time":
-                timeTextView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                break;
-            case "date":
-                dateTextView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                break;
-            case "period":
-                periodEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                break;
-            case "status":
-                statusFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                break;
-        }
-    }
-
     private void errorException(String type) {
         switch (type) {
             case "room":
@@ -796,13 +766,13 @@ public class EditSessionActivity extends AppCompatActivity {
                 caseException = true;
                 caseFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
-            case "time":
-                timeException = true;
-                timeTextView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+            case "startedAt":
+                startedAtException = true;
+                startedAtTimeTextView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                startedAtDateTextView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
-            case "date":
-                dateException = true;
-                dateTextView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+            case "duration":
+                durationEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
             case "status":
                 statusException = true;
@@ -821,13 +791,10 @@ public class EditSessionActivity extends AppCompatActivity {
                 caseException = false;
                 caseFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 break;
-            case "time":
-                timeException = false;
-                timeTextView.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
-                break;
-            case "date":
-                dateException = false;
-                dateTextView.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+            case "startedAt":
+                startedAtException = false;
+                startedAtTimeTextView.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                startedAtDateTextView.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 break;
             case "status":
                 statusException = false;
@@ -894,8 +861,8 @@ public class EditSessionActivity extends AppCompatActivity {
     }
 
     private void doWork() {
-        timestamp = String.valueOf(DateManager.dateToTimestamp(DateManager.stringToDate("yyyy-MM-dd HH:mm", DateManager.jalaliToGregorian(date) + " " + time)));
-        period = periodEditText.getText().toString().trim();
+        timestamp = String.valueOf(DateManager.dateToTimestamp(DateManager.stringToDate("yyyy-MM-dd HH:mm", DateManager.jalaliToGregorian(startedAtDate) + " " + startedAtTime)));
+        duration = durationEditText.getText().toString().trim();
 
         try {
             if (roomModel != null) {
@@ -903,7 +870,8 @@ public class EditSessionActivity extends AppCompatActivity {
             }
 
             progressDialog.show();
-            sessionViewModel.update(id, caseId, timestamp, period, statusId);
+
+            sessionViewModel.update(id, caseId, timestamp, duration, statusId);
             observeWork("sessionViewModel");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -1002,8 +970,7 @@ public class EditSessionActivity extends AppCompatActivity {
                 }
             }
             if (!ExceptionGenerator.errors.isNull("started_at")) {
-                errorException("time");
-                errorException("date");
+                errorException("startedAt");
                 if (exceptionToast.equals("")) {
                     exceptionToast = ExceptionGenerator.getErrorBody("started_at");
                 } else {
@@ -1011,7 +978,7 @@ public class EditSessionActivity extends AppCompatActivity {
                 }
             }
             if (!ExceptionGenerator.errors.isNull("duration")) {
-                periodEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                errorException("duration");
                 if (exceptionToast.equals("")) {
                     exceptionToast = ExceptionGenerator.getErrorBody("duration");
                 } else {
@@ -1084,30 +1051,24 @@ public class EditSessionActivity extends AppCompatActivity {
                     if (!caseId.equals(model.get("id").toString())) {
                         caseId = model.get("id").toString();
 
-                        ArrayList<Model> cases = new ArrayList<>();
-
                         StringBuilder name = new StringBuilder();
-                        JSONArray client = (JSONArray) model.get("clients");
+                        JSONArray clients = (JSONArray) model.get("clients");
 
-                        for (int j = 0; j < client.length(); j++) {
-                            JSONObject object = client.getJSONObject(j);
-                            JSONObject user = object.getJSONObject("user");
+                        for (int j = 0; j < clients.length(); j++) {
+                            JSONObject client = (JSONObject) clients.get(j);
+                            JSONObject user = (JSONObject) client.get("user");
 
-                            cases.add(new Model(user));
-
-                            if (j == client.length() - 1)
-                                name.append(user.getString("name"));
-                            else
-                                name.append(user.getString("name")).append(" - ");
+                            if (j == clients.length() - 1) {
+                                name.append(user.get("name").toString());
+                            } else {
+                                name.append(user.get("name").toString()).append(" - ");
+                            }
                         }
 
-                        if (!name.toString().equals("")) {
-                            JSONObject casse = new JSONObject().put("name", name);
-                            caseName = casse.get("name").toString();
+                        caseName = name.toString();
 
-                            caseTextView.setText(caseName);
-                            caseTextView.setTextColor(getResources().getColor(R.color.Grey));
-                        }
+                        caseTextView.setText(caseName);
+                        caseTextView.setTextColor(getResources().getColor(R.color.Grey));
                     } else if (caseId.equals(model.get("id").toString())) {
                         caseId = "";
                         caseName = "";

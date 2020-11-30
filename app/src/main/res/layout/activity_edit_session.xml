@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_edit_session"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
-    android:background="@color/White"
     android:scrollbarSize="0dp"
     android:overScrollMode="never"
     android:fillViewport="true"
+    android:focusable="true"
     android:fitsSystemWindows="true"
-    tools:context=".Views.Activities.editSessionActivity"
-    tools:ignore="RtlHardcoded">
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="blocksDescendants"
+    tools:context=".Views.Activities.EditSessionActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl"
+        android:background="@color/White">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
                     android:layout_marginBottom="@dimen/_8sdp"
-                    android:background="@drawable/draw_16sdp_border_quartz">
+                    android:background="@drawable/draw_16sdp_solid_solitude_border_quartz">
 
                     <LinearLayout
                         android:id="@+id/activity_edit_session_room_linearLayout"
@@ -50,6 +53,7 @@
                         android:paddingLeft="@dimen/_16sdp"
                         android:paddingRight="@dimen/_16sdp"
                         android:gravity="center"
+                        android:clickable="false"
                         android:orientation="vertical">
 
                         <TextView
@@ -93,7 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
                     android:layout_marginBottom="@dimen/_8sdp"
-                    android:background="@drawable/draw_16sdp_border_quartz">
+                    android:background="@drawable/draw_16sdp_solid_solitude_border_quartz">
 
                     <TextView
                         android:id="@+id/activity_edit_session_case_textView"
@@ -102,6 +106,7 @@
                         android:paddingLeft="@dimen/_16sdp"
                         android:paddingRight="@dimen/_16sdp"
                         android:gravity="center|right"
+                        android:clickable="false"
                         android:text="@string/EditSessionCase"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="normal"
@@ -123,18 +128,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
                     android:layout_marginBottom="@dimen/_8sdp"
-                    android:baselineAligned="false"
                     android:layoutDirection="rtl"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/activity_edit_session_start_time_textView"
+                        android:id="@+id/activity_edit_session_started_at_time_textView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:layout_weight="0.6"
                         android:gravity="center"
-                        android:hint="@string/EditSessionStartTime"
+                        android:hint="@string/EditSessionStartedAtTime"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="normal"
                         android:textColor="@color/Grey"
@@ -143,13 +147,13 @@
                         android:background="@drawable/draw_16sdp_border_quartz"/>
 
                     <TextView
-                        android:id="@+id/activity_edit_session_start_date_textView"
+                        android:id="@+id/activity_edit_session_started_at_date_textView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginRight="@dimen/_4sdp"
                         android:layout_weight="0.4"
                         android:gravity="center"
-                        android:hint="@string/EditSessionStartDate"
+                        android:hint="@string/EditSessionStartedAtDate"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="normal"
                         android:textColor="@color/Grey"
@@ -160,7 +164,7 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/activity_edit_session_period_editText"
+                    android:id="@+id/activity_edit_session_duration_editText"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
                     android:layout_marginBottom="@dimen/_8sdp"
@@ -168,7 +172,7 @@
                     android:paddingRight="@dimen/_16sdp"
                     android:imeOptions="actionDone"
                     android:inputType="number"
-                    android:hint="@string/EditSessionPeriod"
+                    android:hint="@string/EditSessionDuration"
                     android:gravity="center|right"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"

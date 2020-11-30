@@ -775,15 +775,6 @@ public class CreateSampleActivity extends AppCompatActivity {
             setResult(RESULT_OK, null);
         }
 
-        if (extras.getString("scale_id") != null && extras.getString("scale_title") != null) {
-            try {
-                Model model = new Model(new JSONObject().put("id", extras.getString("scale_id")).put("title", extras.getString("scale_title")));
-                observeSearchAdapter(model, "getScales");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
         if (extras.getString("room_id") != null)
             roomId = extras.getString("room_id");
         if (extras.getString("room_name") != null)
@@ -794,6 +785,23 @@ public class CreateSampleActivity extends AppCompatActivity {
             caseId = extras.getString("case_id");
         if (extras.getString("case_name") != null)
             caseName = extras.getString("case_name");
+        if (extras.getString("count") != null)
+            count = extras.getString("count");
+
+        if (extras.getString("scales") != null) {
+            try {
+                JSONArray scales = new JSONArray(extras.getString("scales"));
+
+                for (int j = 0; j < scales.length(); j++) {
+                    JSONObject scale = (JSONObject) scales.get(j);
+                    Model model = new Model(scale);
+
+                    observeSearchAdapter(model, "getScales");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         if (!roomId.equals("")) {
             roomNameTextView.setText(roomName);
@@ -815,12 +823,18 @@ public class CreateSampleActivity extends AppCompatActivity {
             casesTextView.setVisibility(View.VISIBLE);
             casesRecyclerView.setVisibility(View.VISIBLE);
 
-            if (extras.getString("user_object") != null) {
+            if (extras.getString("clients") != null) {
                 try {
                     ArrayList<Model> cases = new ArrayList<>();
-                    JSONObject user = new JSONObject(extras.getString("user_object"));
 
-                    cases.add(new Model(user));
+                    JSONArray clients = new JSONArray(extras.getString("clients"));
+
+                    for (int j = 0; j < clients.length(); j++) {
+                        JSONObject client = (JSONObject) clients.get(j);
+                        JSONObject user = (JSONObject) client.get("user");
+
+                        cases.add(new Model(user));
+                    }
 
                     setRecyclerView(cases, casesRecyclerView, "cases");
                 } catch (JSONException e) {

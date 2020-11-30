@@ -48,6 +48,7 @@ import com.majazeh.risloo.ViewModels.RoomViewModel;
 import com.majazeh.risloo.Views.Adapters.SearchAdapter;
 import com.majazeh.risloo.Views.Adapters.SpinnerAdapter;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -464,6 +465,43 @@ public class CreateCaseActivity extends AppCompatActivity {
         if (!Objects.requireNonNull(extras).getBoolean("loaded")) {
             setResult(RESULT_OK, null);
         }
+
+        if (extras.getString("room_id") != null)
+            roomId = extras.getString("room_id");
+        if (extras.getString("room_name") != null)
+            roomName = extras.getString("room_name");
+        if (extras.getString("room_title") != null)
+            roomTitle = extras.getString("room_title");
+        if (extras.getString("complaint") != null)
+            complaint = extras.getString("complaint");
+
+        if (!roomId.equals("")) {
+            roomNameTextView.setText(roomName);
+            roomNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+
+            roomTitleTextView.setText(roomTitle);
+            roomTitleTextView.setVisibility(View.VISIBLE);
+        }
+
+        if (extras.getString("clients") != null) {
+            try {
+                JSONArray clients = new JSONArray(extras.getString("clients"));
+
+                for (int j = 0; j < clients.length(); j++) {
+                    JSONObject client = (JSONObject) clients.get(j);
+                    Model model = new Model(client);
+
+                    observeSearchAdapter(model, "getReferences");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (!complaint.equals("")) {
+            complaintEditText.setText(complaint);
+            complaintEditText.setTextColor(getResources().getColor(R.color.Grey));
+        }
     }
 
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
@@ -472,7 +510,6 @@ public class CreateCaseActivity extends AppCompatActivity {
                 referenceRecyclerViewAdapter.setValue(referenceRecyclerViewAdapter.getValues(), referenceRecyclerViewAdapter.getIds(), method, "CreateCase");
                 recyclerView.setAdapter(referenceRecyclerViewAdapter);
                 break;
-
             case "getRooms":
                 roomDialogAdapter.setValue(arrayList, method, "CreateCase");
                 recyclerView.setAdapter(roomDialogAdapter);
@@ -485,7 +522,6 @@ public class CreateCaseActivity extends AppCompatActivity {
                     }
                 }
                 break;
-
             case "getReferences":
                 referenceDialogAdapter.setValue(arrayList, method, "CreateCase");
                 recyclerView.setAdapter(referenceDialogAdapter);

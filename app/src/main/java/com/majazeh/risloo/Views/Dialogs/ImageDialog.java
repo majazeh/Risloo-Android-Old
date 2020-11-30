@@ -25,6 +25,7 @@ import com.majazeh.risloo.Utils.Managers.IntentManager;
 import com.majazeh.risloo.Utils.Managers.PermissionManager;
 import com.majazeh.risloo.Views.Activities.CreateCenterActivity;
 import com.majazeh.risloo.Views.Activities.EditAccountActivity;
+import com.majazeh.risloo.Views.Activities.EditCenterActivity;
 
 import java.util.Objects;
 
@@ -91,10 +92,16 @@ public class ImageDialog extends BottomSheetDialogFragment {
             dismiss();
 
             if (PermissionManager.cameraPermission(activity)) {
-                if (type.equals("editAccount")) {
-                    ((EditAccountActivity) Objects.requireNonNull(activity)).imageFilePath = IntentManager.camera(activity);
-                } else if (type.equals("createCenter")) {
-                    ((CreateCenterActivity) Objects.requireNonNull(activity)).imageFilePath = IntentManager.camera(activity);
+                switch (type) {
+                    case "EditAccount":
+                        ((EditAccountActivity) Objects.requireNonNull(activity)).imageFilePath = IntentManager.camera(activity);
+                        break;
+                    case "CreateCenter":
+                        ((CreateCenterActivity) Objects.requireNonNull(activity)).imageFilePath = IntentManager.camera(activity);
+                        break;
+                    case "EditCenter":
+                        ((EditCenterActivity) Objects.requireNonNull(activity)).imageFilePath = IntentManager.camera(activity);
+                        break;
                 }
             }
         });

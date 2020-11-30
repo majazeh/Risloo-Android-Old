@@ -60,6 +60,7 @@ import com.majazeh.risloo.Views.Adapters.SearchAdapter;
 import com.majazeh.risloo.Views.Adapters.SpinnerAdapter;
 import com.majazeh.risloo.Views.Dialogs.ImageDialog;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -79,7 +80,7 @@ public class CreateCenterActivity extends AppCompatActivity {
     private SpinnerAdapter phoneRecyclerViewAdapter;
 
     // Vars
-    public String type = "personal_clinic", managerId = "", managerName = "", title = "", description = "", address = "";
+    public String type = "", managerId = "", managerName = "", title = "", description = "", address = "";
     public String imageFilePath = "";
     private boolean typeException = false, managerException = false, avatarException = false, phoneException =false;
 
@@ -158,7 +159,7 @@ public class CreateCenterActivity extends AppCompatActivity {
         pathManager = new PathManager();
 
         imageDialog = new ImageDialog(this);
-        imageDialog.setType("createCenter");
+        imageDialog.setType("CreateCenter");
 
         toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
@@ -546,8 +547,9 @@ public class CreateCenterActivity extends AppCompatActivity {
                 if (!phoneRecyclerViewAdapter.getIds().contains(phoneDialogInput.getText().toString().trim())) {
                     try {
                         JSONObject phone = new JSONObject().put("name", phoneDialogInput.getText().toString().trim());
+                        Model model = new Model(phone);
 
-                        phoneRecyclerViewAdapter.getValues().add(new Model(phone));
+                        phoneRecyclerViewAdapter.getValues().add(model);
                         setRecyclerView(phoneRecyclerViewAdapter.getValues(), phoneRecyclerView, "phones");
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -595,6 +597,83 @@ public class CreateCenterActivity extends AppCompatActivity {
         if (!Objects.requireNonNull(extras).getBoolean("loaded")) {
             setResult(RESULT_OK, null);
         }
+
+        if (extras.getString("type") != null)
+            type = extras.getString("type");
+        else
+            type = "personal_clinic";
+        if (extras.getString("manager_id") != null)
+            managerId = extras.getString("manager_id");
+        if (extras.getString("manager_name") != null)
+            managerName = extras.getString("manager_name");
+        if (extras.getString("title") != null)
+            title = extras.getString("title");
+        if (extras.getString("avatar") != null)
+            imageFilePath = extras.getString("avatar");
+        if (extras.getString("description") != null)
+            description = extras.getString("description");
+        if (extras.getString("address") != null)
+            address = extras.getString("address");
+
+        if (type.equals("personal_clinic")) {
+            Objects.requireNonNull(typeTabLayout.getTabAt(0)).select();
+
+            titleEditText.setVisibility(View.GONE);
+            avatarLinearLayout.setVisibility(View.GONE);
+        } else if (type.equals("counseling_center")) {
+            Objects.requireNonNull(typeTabLayout.getTabAt(1)).select();
+
+            titleEditText.setVisibility(View.VISIBLE);
+            avatarLinearLayout.setVisibility(View.VISIBLE);
+        }
+
+        if (!managerId.equals("")) {
+            managerNameTextView.setText(managerName);
+            managerNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+
+            managerIdTextView.setText(managerId);
+            managerIdTextView.setVisibility(View.VISIBLE);
+        }
+
+        if (!title.equals("")) {
+            titleEditText.setText(title);
+            titleEditText.setTextColor(getResources().getColor(R.color.Grey));
+        }
+
+        if (!imageFilePath.equals("")) {
+            avatarTextView.setText(imageFilePath);
+            avatarTextView.setTextColor(getResources().getColor(R.color.Grey));
+        }
+
+        if (!description.equals("")) {
+            descriptionEditText.setText(description);
+            descriptionEditText.setTextColor(getResources().getColor(R.color.Grey));
+        }
+
+        if (!address.equals("")) {
+            addressEditText.setText(address);
+            addressEditText.setTextColor(getResources().getColor(R.color.Grey));
+        }
+
+        if (extras.getString("phone_numbers") != null) {
+            try {
+                JSONArray phones = new JSONArray(extras.getString("phone_numbers"));
+
+                for (int i = 0; i < phones.length(); i++) {
+                    JSONObject phone = new JSONObject().put("name", phones.get(i));
+                    Model model = new Model(phone);
+
+                    phoneRecyclerViewAdapter.getValues().add(model);
+                }
+                setRecyclerView(phoneRecyclerViewAdapter.getValues(), phoneRecyclerView, "phones");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            if (phoneRecyclerViewAdapter.getValues().size() != 0) {
+                phoneTextView.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
@@ -612,7 +691,6 @@ public class CreateCenterActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 break;
-
             case "getManagers":
                 managerDialogAdapter.setValue(arrayList, method, "CreateCenter");
                 recyclerView.setAdapter(managerDialogAdapter);
@@ -771,7 +849,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                 description = descriptionEditText.getText().toString().trim();
                 address = addressEditText.getText().toString().trim();
 
-//            FileManager.writeBitmapToCache(this, selectedBitmap, "image");
+                //            FileManager.writeBitmapToCache(this, selectedBitmap, "image");
 
                 try {
                     progressDialog.show();

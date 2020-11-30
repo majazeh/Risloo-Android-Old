@@ -123,7 +123,7 @@ public class EditAccountActivity extends AppCompatActivity {
         pathManager = new PathManager();
 
         imageDialog = new ImageDialog(this);
-        imageDialog.setType("editAccount");
+        imageDialog.setType("EditAccount");
 
         toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
