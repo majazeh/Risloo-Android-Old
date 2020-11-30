@@ -84,7 +84,7 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
                 JSONObject detail = (JSONObject) center.get("detail");
                 editCaseIntent.putExtra("room_title", detail.get("title").toString());
 
-                holder.roomTextView.setText(detail.getString("title"));
+                holder.roomTextView.setText(detail.get("title").toString());
                 holder.roomLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.roomLinearLayout.setVisibility(View.GONE);

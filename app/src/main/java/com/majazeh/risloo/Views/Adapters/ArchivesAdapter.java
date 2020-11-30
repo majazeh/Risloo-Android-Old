@@ -70,20 +70,29 @@ public class ArchivesAdapter extends RecyclerView.Adapter<ArchivesAdapter.Archiv
                 holder.continueTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
             }
 
-            holder.serialTextView.setText(model.get("id").toString());
+            // ID
+            if (model.attributes.has("id") && !model.attributes.isNull("id")) {
+                holder.serialTextView.setText(model.get("id").toString());
+            }
 
-            if (!model.attributes.isNull("scale")) {
+            // Scale
+            if (model.attributes.has("scale") && !model.attributes.isNull("scale")) {
                 JSONObject scale = (JSONObject) model.get("scale");
 
                 holder.scaleTextView.setText(scale.get("title").toString());
+            }
 
-                switch ((String) model.get("status")) {
+            // Status
+            if (model.attributes.has("status") && !model.attributes.isNull("status")) {
+                switch (model.get("status").toString()) {
                     case "open":
                         holder.statusTextView.setText(activity.getResources().getString(R.string.ArchivesStatusOpen));
                         holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                         ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
 
+                        holder.continueTextView.setVisibility(View.VISIBLE);
                         break;
+
                     default:
                         holder.statusTextView.setText(model.get("status").toString());
                         holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
@@ -94,53 +103,61 @@ public class ArchivesAdapter extends RecyclerView.Adapter<ArchivesAdapter.Archiv
                 }
             }
 
-            if (!model.attributes.isNull("client")) {
+            // Reference
+            if (model.attributes.has("client") && !model.attributes.isNull("client")) {
                 JSONObject client = (JSONObject) model.get("client");
 
-                holder.referenceHintTextView.setText(activity.getResources().getString(R.string.ArchivesReference));
+                holder.referenceHintTextView.setText(activity.getResources().getString(R.string.SamplesReference));
                 holder.referenceHintImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_user_light));
+
                 holder.referenceTextView.setText(client.get("name").toString());
-            } else if (!model.attributes.isNull("code")){
-                holder.referenceHintTextView.setText(activity.getResources().getString(R.string.ArchivesCode));
+                holder.referenceLinearLayout.setVisibility(View.VISIBLE);
+            } else if (model.attributes.has("code") && !model.attributes.isNull("code")) {
+                holder.referenceHintTextView.setText(activity.getResources().getString(R.string.SamplesCode));
                 holder.referenceHintImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_hashtag_light));
+
                 holder.referenceTextView.setText(model.get("code").toString());
+                holder.referenceLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.referenceLinearLayout.setVisibility(View.GONE);
             }
 
-            if (!model.attributes.isNull("case")) {
-                JSONObject Case = (JSONObject) model.get("case");
+            // Case
+            if (model.attributes.has("case") && !model.attributes.isNull("case")) {
+                JSONObject casse = (JSONObject) model.get("case");
 
-                holder.caseTextView.setText(Case.get("name").toString());
+                holder.caseTextView.setText(casse.get("id").toString());
+                holder.caseLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.caseLinearLayout.setVisibility(View.GONE);
             }
 
-            if (!model.attributes.isNull("room")) {
+            // Room
+            if (model.attributes.has("room") && !model.attributes.isNull("room")) {
                 JSONObject room = (JSONObject) model.get("room");
+
+                JSONObject manager = (JSONObject) room.get("manager");
+
                 JSONObject center = (JSONObject) room.get("center");
                 JSONObject detail = (JSONObject) center.get("detail");
 
                 holder.roomTextView.setText(detail.get("title").toString());
+                holder.roomLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.roomLinearLayout.setVisibility(View.GONE);
             }
 
+            holder.continueTextView.setOnClickListener(v -> {
+                holder.continueTextView.setClickable(false);
+                handler.postDelayed(() -> holder.continueTextView.setClickable(true), 250);
+                continueDialog.show();
+
+                showDialog(holder.serialTextView.getText().toString());
+            });
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        holder.continueTextView.setOnClickListener(v -> {
-            holder.continueTextView.setClickable(false);
-            handler.postDelayed(() -> holder.continueTextView.setClickable(true), 300);
-            continueDialog.show();
-
-            try {
-                showDialog(model.get("id").toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        });
     }
 
     @Override

@@ -103,7 +103,7 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
                     JSONObject detail = (JSONObject) center.get("detail");
                     editSessionIntent.putExtra("room_title", detail.get("title").toString());
 
-                    holder.roomTextView.setText(detail.getString("title"));
+                    holder.roomTextView.setText(detail.get("title").toString());
                     holder.roomLinearLayout.setVisibility(View.VISIBLE);
                 } else {
                     holder.roomLinearLayout.setVisibility(View.GONE);
@@ -116,7 +116,7 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
             if (model.attributes.has("client") && !model.attributes.isNull("client")) {
                 JSONObject client = (JSONObject) model.get("client");
 
-                holder.referenceTextView.setText(client.getString("name"));
+                holder.referenceTextView.setText(client.get("name").toString());
                 holder.referenceLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.referenceLinearLayout.setVisibility(View.GONE);

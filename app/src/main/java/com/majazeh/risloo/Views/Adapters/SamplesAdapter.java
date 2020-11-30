@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
+import com.majazeh.risloo.Views.Activities.DetailCaseActivity;
 import com.majazeh.risloo.Views.Activities.SampleActivity;
 import com.majazeh.risloo.Views.Activities.DetailSampleActivity;
 import com.majazeh.risloo.Views.Activities.SamplesActivity;
@@ -37,9 +38,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesHolder> {
-
-    // ViewModels
-    private AuthViewModel authViewModel;
 
     // Vars
     private ArrayList<Model> samples;
@@ -72,40 +70,53 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
 
         try {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_solid_snow_ripple_quartz);
                 holder.startTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
+                holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_solid_snow_ripple_quartz);
             }
 
-            holder.serialTextView.setText(model.get("id").toString());
+            Intent detailSampleIntent = (new Intent(activity, DetailSampleActivity.class));
 
-            if (!model.attributes.isNull("scale")) {
+            // ID
+            if (model.attributes.has("id") && !model.attributes.isNull("id")) {
+                detailSampleIntent.putExtra("id", model.get("id").toString());
+
+                holder.serialTextView.setText(model.get("id").toString());
+            }
+
+            // Scale
+            if (model.attributes.has("scale") && !model.attributes.isNull("scale")) {
                 JSONObject scale = (JSONObject) model.get("scale");
 
                 holder.scaleTextView.setText(scale.get("title").toString());
+            }
 
-                switch ((String) model.get("status")) {
+            // Status
+            if (model.attributes.has("status") && !model.attributes.isNull("status")) {
+                switch (model.get("status").toString()) {
                     case "seald":
                         holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusSeald));
                         holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                         ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
 
-                        if (authViewModel.hasAccess()) {
+                        if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.hasAccess()) {
                             holder.startTextView.setVisibility(View.VISIBLE);
                         } else {
                             holder.startTextView.setVisibility(View.INVISIBLE);
                         }
                         break;
+
                     case "open":
                         holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusOpen));
                         holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                         ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
 
-                        if (authViewModel.hasAccess()) {
+                        if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.hasAccess()) {
                             holder.startTextView.setVisibility(View.VISIBLE);
                         } else {
                             holder.startTextView.setVisibility(View.INVISIBLE);
                         }
                         break;
+
                     case "closed":
                         holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusClosed));
                         holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
@@ -113,6 +124,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
 
                         holder.startTextView.setVisibility(View.INVISIBLE);
                         break;
+
                     case "scoring":
                         holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusScoring));
                         holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.MoonYellow));
@@ -120,6 +132,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
 
                         holder.startTextView.setVisibility(View.INVISIBLE);
                         break;
+
                     case "craeting_files":
                         holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusCreatingFiles));
                         holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.MoonYellow));
@@ -127,6 +140,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
 
                         holder.startTextView.setVisibility(View.INVISIBLE);
                         break;
+
                     case "done":
                         holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusDone));
                         holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
@@ -134,6 +148,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
 
                         holder.startTextView.setVisibility(View.INVISIBLE);
                         break;
+
                     default:
                         holder.statusTextView.setText(model.get("status").toString());
                         holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
@@ -144,71 +159,71 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
                 }
             }
 
-            if (!model.attributes.isNull("client")) {
+            // Reference
+            if (model.attributes.has("client") && !model.attributes.isNull("client")) {
                 JSONObject client = (JSONObject) model.get("client");
 
                 holder.referenceHintTextView.setText(activity.getResources().getString(R.string.SamplesReference));
                 holder.referenceHintImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_user_light));
+
                 holder.referenceTextView.setText(client.get("name").toString());
-            } else if (!model.attributes.isNull("code")){
+                holder.referenceLinearLayout.setVisibility(View.VISIBLE);
+            } else if (model.attributes.has("code") && !model.attributes.isNull("code")) {
                 holder.referenceHintTextView.setText(activity.getResources().getString(R.string.SamplesCode));
                 holder.referenceHintImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_hashtag_light));
+
                 holder.referenceTextView.setText(model.get("code").toString());
+                holder.referenceLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.referenceLinearLayout.setVisibility(View.GONE);
             }
 
-            if (!model.attributes.isNull("case")) {
-                JSONObject Case = (JSONObject) model.get("case");
+            // Case
+            if (model.attributes.has("case") && !model.attributes.isNull("case")) {
+                JSONObject casse = (JSONObject) model.get("case");
 
-                holder.caseTextView.setText(Case.get("name").toString());
+                holder.caseTextView.setText(casse.get("id").toString());
+                holder.caseLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.caseLinearLayout.setVisibility(View.GONE);
             }
 
-            if (!model.attributes.isNull("room")) {
+            // Room
+            if (model.attributes.has("room") && !model.attributes.isNull("room")) {
                 JSONObject room = (JSONObject) model.get("room");
+
+                JSONObject manager = (JSONObject) room.get("manager");
+
                 JSONObject center = (JSONObject) room.get("center");
                 JSONObject detail = (JSONObject) center.get("detail");
 
                 holder.roomTextView.setText(detail.get("title").toString());
+                holder.roomLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.roomLinearLayout.setVisibility(View.GONE);
             }
 
+            holder.startTextView.setOnClickListener(v -> {
+                holder.startTextView.setClickable(false);
+                handler.postDelayed(() -> holder.startTextView.setClickable(true), 250);
+                startDialog.show();
+
+                showDialog(holder.serialTextView.getText().toString());
+            });
+
+            holder.itemView.setOnClickListener(v -> {
+                holder.itemView.setClickable(false);
+                handler.postDelayed(() -> holder.itemView.setClickable(true), 250);
+
+                clearProgress();
+
+                activity.startActivityForResult(detailSampleIntent,100);
+                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+            });
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        holder.itemView.setOnClickListener(v -> {
-            holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
-
-            try {
-                if (((SamplesActivity) Objects.requireNonNull(activity)).pagingProgressBar.isShown()) {
-                    ((SamplesActivity) Objects.requireNonNull(activity)).loading = false;
-                    ((SamplesActivity) Objects.requireNonNull(activity)).pagingProgressBar.setVisibility(View.GONE);
-                }
-
-                activity.startActivityForResult(new Intent(activity, DetailSampleActivity.class).putExtra("id", (String) model.get("id")),100);
-                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        });
-
-        holder.startTextView.setOnClickListener(v -> {
-            holder.startTextView.setClickable(false);
-            handler.postDelayed(() -> holder.startTextView.setClickable(true), 300);
-            startDialog.show();
-
-            try {
-                showDialog(model.get("id").toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        });
-
     }
 
     @Override
@@ -217,8 +232,6 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
     }
 
     private void initializer(View view) {
-        authViewModel = ((SamplesActivity) Objects.requireNonNull(activity)).authViewModel;
-
         handler = new Handler();
     }
 
@@ -290,10 +303,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
         editor.putString("sampleId", sampleId);
         editor.apply();
 
-        if (((SamplesActivity) Objects.requireNonNull(activity)).pagingProgressBar.isShown()) {
-            ((SamplesActivity) Objects.requireNonNull(activity)).loading = false;
-            ((SamplesActivity) Objects.requireNonNull(activity)).pagingProgressBar.setVisibility(View.GONE);
-        }
+        clearProgress();
 
         activity.startActivityForResult(new Intent(activity, SampleActivity.class),100);
     }
@@ -301,6 +311,13 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
     public void setSample(ArrayList<Model> samples) {
         this.samples = samples;
         notifyDataSetChanged();
+    }
+
+    public void clearProgress() {
+        if (((SamplesActivity) Objects.requireNonNull(activity)).pagingProgressBar.isShown()) {
+            ((SamplesActivity) Objects.requireNonNull(activity)).loading = false;
+            ((SamplesActivity) Objects.requireNonNull(activity)).pagingProgressBar.setVisibility(View.GONE);
+        }
     }
 
     public class SamplesHolder extends RecyclerView.ViewHolder {
