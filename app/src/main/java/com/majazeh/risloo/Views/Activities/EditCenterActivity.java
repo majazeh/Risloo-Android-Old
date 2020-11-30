@@ -541,10 +541,6 @@ public class EditCenterActivity extends AppCompatActivity {
     }
 
     private void setData() {
-        if (!Objects.requireNonNull(extras).getBoolean("loaded")) {
-            setResult(RESULT_OK, null);
-        }
-
         if (extras.getString("id") != null)
             id = extras.getString("id");
         if (extras.getString("type") != null)

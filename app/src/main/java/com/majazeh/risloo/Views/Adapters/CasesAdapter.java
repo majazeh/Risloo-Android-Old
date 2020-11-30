@@ -56,93 +56,92 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
         Model model = cases.get(i);
 
         try {
-            Intent editIntent = (new Intent(activity, EditCaseActivity.class));
-
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_solid_snow_ripple_quartz);
                 holder.editTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
+                holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_solid_snow_ripple_quartz);
             }
 
-            editIntent.putExtra("id", (String) model.get("id"));
-            holder.serialTextView.setText(model.get("id").toString());
+            Intent editCaseIntent = (new Intent(activity, EditCaseActivity.class));
+            Intent detailCaseIntent = (new Intent(activity, DetailCaseActivity.class));
 
-            JSONObject room = (JSONObject) model.get("room");
-            editIntent.putExtra("room_id", (String) room.get("id"));
+            // ID
+            if (model.attributes.has("id") && !model.attributes.isNull("id")) {
+                editCaseIntent.putExtra("id", model.get("id").toString());
+                detailCaseIntent.putExtra("id", model.get("id").toString());
 
-            JSONObject manager = (JSONObject) room.get("manager");
-            if (!manager.isNull("name")) {
-                editIntent.putExtra("room_name", (String) manager.get("name"));
+                holder.serialTextView.setText(model.get("id").toString());
             }
 
-            JSONObject center = (JSONObject) room.get("center");
-            JSONObject details = (JSONObject) center.get("detail");
+            // Room
+            if (model.attributes.has("room") && !model.attributes.isNull("room")) {
+                JSONObject room = (JSONObject) model.get("room");
+                editCaseIntent.putExtra("room_id", room.get("id").toString());
 
-            if (!details.isNull("title")) {
-                editIntent.putExtra("room_title", (String) details.get("title"));
+                JSONObject manager = (JSONObject) room.get("manager");
+                editCaseIntent.putExtra("room_name", manager.get("name").toString());
 
-                holder.roomTextView.setText(details.getString("title"));
+                JSONObject center = (JSONObject) room.get("center");
+                JSONObject detail = (JSONObject) center.get("detail");
+                editCaseIntent.putExtra("room_title", detail.get("title").toString());
+
+                holder.roomTextView.setText(detail.getString("title"));
                 holder.roomLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.roomLinearLayout.setVisibility(View.GONE);
             }
 
+            // Reference
             JSONArray clients = (JSONArray) model.get("clients");
-            if (clients.length() != 0) {
-                editIntent.putExtra("clients", String.valueOf(clients));
+            editCaseIntent.putExtra("clients", model.get("clients").toString());
 
+            if (clients.length() != 0) {
                 ArrayList<String> references = new ArrayList<>();
 
                 for (int j = 0; j < clients.length(); j++) {
                     JSONObject client = (JSONObject) clients.get(j);
                     JSONObject user = (JSONObject) client.get("user");
 
-                    if (!user.isNull("name")) {
-                        references.add(user.get("name").toString());
-                    }
+                    references.add(user.get("name").toString());
                 }
 
-                ReferenceAdapter adapter = new ReferenceAdapter(activity);
-                adapter.setReference(references);
+                ReferenceAdapter referenceAdapter = new ReferenceAdapter(activity);
+                referenceAdapter.setReference(references);
 
                 if (holder.referenceRecyclerView.getAdapter() == null) {
                     holder.referenceRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", 0, 0, 0));
                     holder.referenceRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
-                    holder.referenceRecyclerView.setHasFixedSize(false);
+                    holder.referenceRecyclerView.setHasFixedSize(true);
                 }
 
-                holder.referenceRecyclerView.setAdapter(adapter);
+                holder.referenceRecyclerView.setAdapter(referenceAdapter);
                 holder.referenceLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.referenceLinearLayout.setVisibility(View.GONE);
             }
 
-            JSONObject detail = (JSONObject) model.get("detail");
-            if (!detail.isNull("chief_complaint")) {
-                editIntent.putExtra("complaint", (String) detail.get("chief_complaint"));
+            // Complaint
+            if (model.attributes.has("detail") && !model.attributes.isNull("detail")) {
+                JSONObject detail = (JSONObject) model.get("detail");
+                editCaseIntent.putExtra("complaint", detail.get("chief_complaint").toString());
             }
-
-            holder.itemView.setOnClickListener(v -> {
-                holder.itemView.setClickable(false);
-                handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
-
-                try {
-                    if (((CasesActivity) Objects.requireNonNull(activity)).pagingProgressBar.isShown()) {
-                        ((CasesActivity) Objects.requireNonNull(activity)).loading = false;
-                        ((CasesActivity) Objects.requireNonNull(activity)).pagingProgressBar.setVisibility(View.GONE);
-                    }
-
-                    activity.startActivityForResult(new Intent(activity, DetailCaseActivity.class).putExtra("id", (String) model.get("id")),100);
-                    activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            });
 
             holder.editTextView.setOnClickListener(v -> {
                 holder.editTextView.setClickable(false);
-                handler.postDelayed(() -> holder.editTextView.setClickable(true), 300);
+                handler.postDelayed(() -> holder.editTextView.setClickable(true), 250);
 
-                activity.startActivityForResult(editIntent, 100);
+                clearProgress();
+
+                activity.startActivityForResult(editCaseIntent, 100);
+                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+            });
+
+            holder.itemView.setOnClickListener(v -> {
+                holder.itemView.setClickable(false);
+                handler.postDelayed(() -> holder.itemView.setClickable(true), 250);
+
+                clearProgress();
+
+                activity.startActivityForResult(detailCaseIntent,100);
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
 
@@ -158,6 +157,13 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
 
     private void initializer(View view) {
         handler = new Handler();
+    }
+
+    private void clearProgress() {
+        if (((CasesActivity) Objects.requireNonNull(activity)).pagingProgressBar.isShown()) {
+            ((CasesActivity) Objects.requireNonNull(activity)).loading = false;
+            ((CasesActivity) Objects.requireNonNull(activity)).pagingProgressBar.setVisibility(View.GONE);
+        }
     }
 
     public void setCase(ArrayList<Model> cases) {

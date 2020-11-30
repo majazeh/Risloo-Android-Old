@@ -25,7 +25,7 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.PhoneHolder>
     private Activity activity;
     private Handler handler;
 
-    public PhoneAdapter(Activity activity) {
+    public PhoneAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -41,18 +41,19 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.PhoneHolder>
 
     @Override
     public void onBindViewHolder(@NonNull PhoneHolder holder, int i) {
+        String phone = phones.get(i);
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             holder.titleTextView.setBackgroundResource(R.drawable.draw_4sdp_solid_white_ripple_quartz);
         }
 
-        holder.titleTextView.setText(phones.get(i));
+        holder.titleTextView.setText(phone);
 
         holder.itemView.setOnClickListener(v -> {
             holder.itemView.setClickable(false);
-            handler.postDelayed(() -> holder.itemView.setClickable(true), 300);
+            handler.postDelayed(() -> holder.itemView.setClickable(true), 250);
 
-            IntentManager.phone(activity, phones.get(i));
+            IntentManager.phone(activity, phone);
         });
     }
 

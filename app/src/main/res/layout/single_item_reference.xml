@@ -11,5 +11,4 @@
     android:textSize="@dimen/_9ssp"
     android:textStyle="bold"
     android:textColor="@color/Grey"
-    android:textAlignment="gravity"
-    tools:ignore="RtlHardcoded" />
+    android:textAlignment="gravity" />

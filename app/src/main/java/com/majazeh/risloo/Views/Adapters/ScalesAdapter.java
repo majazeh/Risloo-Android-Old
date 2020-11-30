@@ -56,23 +56,29 @@ public class ScalesAdapter extends RecyclerView.Adapter<ScalesAdapter.ScalesHold
             }
 
             Intent createSampleIntent = (new Intent(activity, CreateSampleActivity.class));
+            createSampleIntent.putExtra("scales", model.toString());
+            createSampleIntent.putExtra("loaded", true);
 
-            holder.serialTextView.setText(model.get("id").toString());
-            createSampleIntent.putExtra("scale_id", model.get("id").toString());
-
-            if (!model.get("title").toString().equals("")) {
-                holder.scaleTextView.setText(model.get("title").toString());
-                createSampleIntent.putExtra("scale_title", model.get("title").toString());
+            // ID
+            if (model.attributes.has("id") && !model.attributes.isNull("id")) {
+                holder.serialTextView.setText(model.get("id").toString());
             }
 
-            if (!model.get("edition").toString().equals("")) {
+            // Title
+            if (model.attributes.has("title") && !model.attributes.isNull("title")) {
+                holder.scaleTextView.setText(model.get("title").toString());
+            }
+
+            // Edition
+            if (model.attributes.has("edition") && !model.attributes.isNull("edition")) {
                 holder.editTextView.setText(model.get("edition").toString());
                 holder.editLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.editLinearLayout.setVisibility(View.GONE);
             }
 
-            if (!model.get("version").toString().equals("")) {
+            // Version
+            if (model.attributes.has("version") && !model.attributes.isNull("version")) {
                 holder.versionTextView.setText(model.get("version").toString());
                 holder.versionLinearLayout.setVisibility(View.VISIBLE);
             } else {
@@ -81,11 +87,14 @@ public class ScalesAdapter extends RecyclerView.Adapter<ScalesAdapter.ScalesHold
 
             holder.createTextView.setOnClickListener(v -> {
                 holder.createTextView.setClickable(false);
-                handler.postDelayed(() -> holder.createTextView.setClickable(true), 300);
+                handler.postDelayed(() -> holder.createTextView.setClickable(true), 250);
 
-                activity.startActivity(createSampleIntent.putExtra("loaded", ((ScalesActivity) Objects.requireNonNull(activity)).finished));
+                clearProgress();
+
+                activity.startActivity(createSampleIntent);
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -105,6 +114,13 @@ public class ScalesAdapter extends RecyclerView.Adapter<ScalesAdapter.ScalesHold
         notifyDataSetChanged();
     }
 
+    private void clearProgress() {
+        if (((ScalesActivity) Objects.requireNonNull(activity)).pagingProgressBar.isShown()) {
+            ((ScalesActivity) Objects.requireNonNull(activity)).loading = false;
+            ((ScalesActivity) Objects.requireNonNull(activity)).pagingProgressBar.setVisibility(View.GONE);
+        }
+    }
+
     public class ScalesHolder extends RecyclerView.ViewHolder {
 
         public TextView scaleTextView, serialTextView, createTextView, editTextView, versionTextView;
@@ -112,11 +128,11 @@ public class ScalesAdapter extends RecyclerView.Adapter<ScalesAdapter.ScalesHold
 
         public ScalesHolder(View view) {
             super(view);
-            scaleTextView = view.findViewById(R.id.single_item_scales_title_textView);
             serialTextView = view.findViewById(R.id.single_item_scales_serial_textView);
-            createTextView = view.findViewById(R.id.single_item_scales_create_textView);
+            scaleTextView = view.findViewById(R.id.single_item_scales_title_textView);
             editTextView = view.findViewById(R.id.single_item_scales_edit_textView);
             versionTextView = view.findViewById(R.id.single_item_scales_version_textView);
+            createTextView = view.findViewById(R.id.single_item_scales_create_textView);
             editLinearLayout = view.findViewById(R.id.single_item_scales_edit_linearLayout);
             versionLinearLayout = view.findViewById(R.id.single_item_scales_version_linearLayout);
         }

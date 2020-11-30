@@ -23,7 +23,7 @@ public class ReferenceAdapter extends RecyclerView.Adapter<ReferenceAdapter.Refe
     private Activity activity;
     private Handler handler;
 
-    public ReferenceAdapter(Activity activity) {
+    public ReferenceAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 

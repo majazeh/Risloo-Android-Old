@@ -54,69 +54,65 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
         Model model = sessions.get(i);
 
         try {
-            Intent editIntent = (new Intent(activity, EditSessionActivity.class));
-
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                 holder.editTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
             }
 
-            editIntent.putExtra("id", (String) model.get("id"));
-            holder.serialTextView.setText(model.get("id").toString());
+            Intent editSessionIntent = (new Intent(activity, EditSessionActivity.class));
 
-            // Get Case
+            // ID
+            if (model.attributes.has("id") && !model.attributes.isNull("id")) {
+                editSessionIntent.putExtra("id", model.get("id").toString());
+
+                holder.serialTextView.setText(model.get("id").toString());
+            }
+
+            // Case
             if (model.attributes.has("case") && !model.attributes.isNull("case")) {
                 JSONObject casse = (JSONObject) model.get("case");
-                editIntent.putExtra("case_id", (String) casse.get("id"));
+                editSessionIntent.putExtra("case_id", casse.get("id").toString());
 
-                ArrayList<Model> cases = new ArrayList<>();
-
-                StringBuilder name = new StringBuilder();
-                JSONArray client = (JSONArray) casse.get("clients");
-
-                for (int j = 0; j < client.length(); j++) {
-                    JSONObject object = client.getJSONObject(j);
-                    JSONObject user = object.getJSONObject("user");
-
-                    cases.add(new Model(user));
-
-                    if (j == client.length() - 1)
-                        name.append(user.getString("name"));
-                    else
-                        name.append(user.getString("name")).append(" - ");
-                }
-
-                if (!name.toString().equals("")) {
-                    editIntent.putExtra("case_name", name.toString());
-                }
-
-                holder.caseTextView.setText(casse.getString("id"));
+                holder.caseTextView.setText(casse.get("id").toString());
                 holder.caseLinearLayout.setVisibility(View.VISIBLE);
 
-                JSONObject room = (JSONObject) casse.get("room");
-                editIntent.putExtra("room_id", (String) room.get("id"));
+                StringBuilder name = new StringBuilder();
+                JSONArray clients = (JSONArray) casse.get("clients");
 
-                JSONObject manager = (JSONObject) room.get("manager");
-                if (!manager.isNull("name")) {
-                    editIntent.putExtra("room_name", (String) manager.get("name"));
+                for (int j = 0; j < clients.length(); j++) {
+                    JSONObject client = (JSONObject) clients.get(j);
+                    JSONObject user = (JSONObject) client.get("user");
+
+                    if (j == clients.length() - 1) {
+                        name.append(user.get("name").toString());
+                    } else {
+                        name.append(user.get("name").toString()).append(" - ");
+                    }
                 }
 
-                JSONObject center = (JSONObject) room.get("center");
+                editSessionIntent.putExtra("case_name", name.toString());
 
-                if (center.has("detail") && !center.isNull("detail")) {
-                    JSONObject details = (JSONObject) center.get("detail");
-                    editIntent.putExtra("room_title", (String) details.get("title"));
+                // Room
+                if (casse.has("room") && !casse.isNull("room")) {
+                    JSONObject room = (JSONObject) casse.get("room");
+                    editSessionIntent.putExtra("room_id", room.get("id").toString());
 
-                    holder.roomTextView.setText(details.getString("title"));
+                    JSONObject manager = (JSONObject) room.get("manager");
+                    editSessionIntent.putExtra("room_name", manager.get("name").toString());
+
+                    JSONObject center = (JSONObject) room.get("center");
+                    JSONObject detail = (JSONObject) center.get("detail");
+                    editSessionIntent.putExtra("room_title", detail.get("title").toString());
+
+                    holder.roomTextView.setText(detail.getString("title"));
                     holder.roomLinearLayout.setVisibility(View.VISIBLE);
                 } else {
                     holder.roomLinearLayout.setVisibility(View.GONE);
                 }
-
             } else {
                 holder.caseLinearLayout.setVisibility(View.GONE);
             }
 
-            // get Reference
+            // Reference
             if (model.attributes.has("client") && !model.attributes.isNull("client")) {
                 JSONObject client = (JSONObject) model.get("client");
 
@@ -126,23 +122,23 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
                 holder.referenceLinearLayout.setVisibility(View.GONE);
             }
 
-            // Get Status
-            if (model.attributes.has("status") && !model.attributes.isNull("status")) {
-                String enStatus = model.get("status").toString();
-                String faStatus = ((SessionsActivity) Objects.requireNonNull(activity)).sessionViewModel.getFAStatus(model.get("status").toString());
+            // StartedAt
+            if (model.attributes.has("started_at") && !model.attributes.isNull("started_at")) {
+                String startedAtTime = DateManager.dateToString("HH:mm", DateManager.timestampToDate(Long.parseLong(model.get("started_at").toString())));
+                String startedAtDate = DateManager.gregorianToJalali(DateManager.dateToString("yyyy-MM-dd", DateManager.timestampToDate(Long.parseLong(model.get("started_at").toString()))));
 
-                editIntent.putExtra("en_status", enStatus);
-                editIntent.putExtra("fa_status", faStatus);
+                editSessionIntent.putExtra("started_at_time", startedAtTime);
+                editSessionIntent.putExtra("started_at_date", startedAtDate);
 
-                holder.statusTextView.setText(faStatus);
-                holder.statusLinearLayout.setVisibility(View.VISIBLE);
+                holder.startedAtTextView.setText(startedAtDate + "\n" + startedAtTime);
+                holder.startedAtLinearLayout.setVisibility(View.VISIBLE);
             } else {
-                holder.statusLinearLayout.setVisibility(View.GONE);
+                holder.startedAtLinearLayout.setVisibility(View.GONE);
             }
 
-            // Get Duration
+            // Duration
             if (model.attributes.has("duration") && !model.attributes.isNull("duration")) {
-                editIntent.putExtra("period", model.get("duration").toString());
+                editSessionIntent.putExtra("duration", model.get("duration").toString());
 
                 holder.durationTextView.setText(model.get("duration").toString() + " " + activity.getResources().getString(R.string.SessionsMinute));
                 holder.durationLinearLayout.setVisibility(View.VISIBLE);
@@ -150,25 +146,27 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
                 holder.durationLinearLayout.setVisibility(View.GONE);
             }
 
-            // Get Start
-            if (model.attributes.has("started_at") && !model.attributes.isNull("started_at")) {
-                String date = DateManager.gregorianToJalali(DateManager.dateToString("yyyy-MM-dd", DateManager.timestampToDate(Long.parseLong(model.get("started_at").toString()))));
-                String time = DateManager.dateToString("HH:mm", DateManager.timestampToDate(Long.parseLong(model.get("started_at").toString())));
+            // Status
+            if (model.attributes.has("status") && !model.attributes.isNull("status")) {
+                String enStatus = model.get("status").toString();
+                String faStatus = ((SessionsActivity) Objects.requireNonNull(activity)).sessionViewModel.getFAStatus(model.get("status").toString());
 
-                editIntent.putExtra("time", time);
-                editIntent.putExtra("date", date);
+                editSessionIntent.putExtra("en_status", enStatus);
+                editSessionIntent.putExtra("fa_status", faStatus);
 
-                holder.startedAtTextView.setText(date + "\n" + time);
-                holder.startedAtLinearLayout.setVisibility(View.VISIBLE);
+                holder.statusTextView.setText(faStatus);
+                holder.statusLinearLayout.setVisibility(View.VISIBLE);
             } else {
-                holder.startedAtLinearLayout.setVisibility(View.GONE);
+                holder.statusLinearLayout.setVisibility(View.GONE);
             }
 
             holder.editTextView.setOnClickListener(v -> {
                 holder.editTextView.setClickable(false);
-                handler.postDelayed(() -> holder.editTextView.setClickable(true), 300);
+                handler.postDelayed(() -> holder.editTextView.setClickable(true), 250);
 
-                activity.startActivityForResult(editIntent, 100);
+                clearProgress();
+
+                activity.startActivityForResult(editSessionIntent, 100);
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
 
@@ -189,6 +187,13 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
     public void setSession(ArrayList<Model> sessions) {
         this.sessions = sessions;
         notifyDataSetChanged();
+    }
+
+    private void clearProgress() {
+        if (((SessionsActivity) Objects.requireNonNull(activity)).pagingProgressBar.isShown()) {
+            ((SessionsActivity) Objects.requireNonNull(activity)).loading = false;
+            ((SessionsActivity) Objects.requireNonNull(activity)).pagingProgressBar.setVisibility(View.GONE);
+        }
     }
 
     public class SessionsHolder extends RecyclerView.ViewHolder {
