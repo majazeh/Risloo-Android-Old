@@ -510,11 +510,11 @@ public class EditCaseActivity extends AppCompatActivity {
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
         switch (method) {
             case "references":
-                referenceRecyclerViewAdapter.setValue(referenceRecyclerViewAdapter.getValues(), referenceRecyclerViewAdapter.getIds(), method, "EditCase");
+                referenceRecyclerViewAdapter.setValues(referenceRecyclerViewAdapter.getValues(), referenceRecyclerViewAdapter.getIds(), method, "EditCase");
                 recyclerView.setAdapter(referenceRecyclerViewAdapter);
                 break;
             case "getRooms":
-                roomDialogAdapter.setValue(arrayList, method, "EditCase");
+                roomDialogAdapter.setValues(arrayList, method, "EditCase");
                 recyclerView.setAdapter(roomDialogAdapter);
 
                 if (arrayList.size() == 0) {
@@ -526,7 +526,7 @@ public class EditCaseActivity extends AppCompatActivity {
                 }
                 break;
             case "getReferences":
-                referenceDialogAdapter.setValue(arrayList, method, "EditCase");
+                referenceDialogAdapter.setValues(arrayList, method, "EditCase");
                 recyclerView.setAdapter(referenceDialogAdapter);
 
                 if (arrayList.size() == 0) {

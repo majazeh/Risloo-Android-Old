@@ -847,11 +847,11 @@ public class CreateSampleActivity extends AppCompatActivity {
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
         switch (method) {
             case "scales":
-                scaleRecyclerViewAdapter.setValue(scaleRecyclerViewAdapter.getValues(), scaleRecyclerViewAdapter.getIds(), method, "CreateSample");
+                scaleRecyclerViewAdapter.setValues(scaleRecyclerViewAdapter.getValues(), scaleRecyclerViewAdapter.getIds(), method, "CreateSample");
                 recyclerView.setAdapter(scaleRecyclerViewAdapter);
                 break;
             case "references":
-                referenceRecyclerViewAdapter.setValue(referenceRecyclerViewAdapter.getValues(), referenceRecyclerViewAdapter.getIds(), method, "CreateSample");
+                referenceRecyclerViewAdapter.setValues(referenceRecyclerViewAdapter.getValues(), referenceRecyclerViewAdapter.getIds(), method, "CreateSample");
                 recyclerView.setAdapter(referenceRecyclerViewAdapter);
                 break;
             case "cases":
@@ -859,7 +859,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 recyclerView.setAdapter(caseRecyclerViewAdapter);
                 break;
             case "getScales":
-                scaleDialogAdapter.setValue(arrayList, method, "CreateSample");
+                scaleDialogAdapter.setValues(arrayList, method, "CreateSample");
                 recyclerView.setAdapter(scaleDialogAdapter);
 
                 if (arrayList.size() == 0) {
@@ -871,7 +871,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 }
                 break;
             case "getRooms":
-                roomDialogAdapter.setValue(arrayList, method, "CreateSample");
+                roomDialogAdapter.setValues(arrayList, method, "CreateSample");
                 recyclerView.setAdapter(roomDialogAdapter);
 
                 if (arrayList.size() == 0) {
@@ -883,7 +883,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 }
                 break;
             case "getCases":
-                caseDialogAdapter.setValue(arrayList, method, "CreateSample");
+                caseDialogAdapter.setValues(arrayList, method, "CreateSample");
                 recyclerView.setAdapter(caseDialogAdapter);
 
                 if (arrayList.size() == 0) {
@@ -895,7 +895,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 }
                 break;
             case "getReferences":
-                referenceDialogAdapter.setValue(arrayList, method, "CreateSample");
+                referenceDialogAdapter.setValues(arrayList, method, "CreateSample");
                 recyclerView.setAdapter(referenceDialogAdapter);
 
                 if (arrayList.size() == 0) {

@@ -119,6 +119,22 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingH
         handler = new Handler();
     }
 
+    private void showDialog() {
+        initDialog();
+
+        detector();
+
+        listener();
+
+        if (explodeViewModel.hasUpdate()) {
+            availableUpdateDialogTitle.setText(newVersion());
+            availableUpdateDialog.show();
+        } else {
+            noUpdateDialogTitle.setText(currentVersion());
+            noUpdateDialog.show();
+        }
+    }
+
     private void initDialog() {
         noUpdateDialog = new Dialog(activity, R.style.DialogTheme);
         Objects.requireNonNull(noUpdateDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
@@ -223,19 +239,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingH
                 IntentManager.googlePlay(activity);
                 break;
             case 7:
-                initDialog();
-
-                detector();
-
-                listener();
-
-                if (explodeViewModel.hasUpdate()) {
-                    availableUpdateDialogTitle.setText(newVersion());
-                    availableUpdateDialog.show();
-                } else {
-                    noUpdateDialogTitle.setText(currentVersion());
-                    noUpdateDialog.show();
-                }
+                showDialog();
                 break;
         }
     }

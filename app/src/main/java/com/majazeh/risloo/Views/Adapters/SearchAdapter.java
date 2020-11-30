@@ -389,7 +389,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
         handler = new Handler();
     }
 
-    public void setValue(ArrayList<Model> values, String method, String theory) {
+    public void setValues(ArrayList<Model> values, String method, String theory) {
         this.values = values;
         this.method = method;
         this.theory = theory;

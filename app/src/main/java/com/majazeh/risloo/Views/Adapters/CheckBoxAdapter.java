@@ -28,7 +28,7 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
     private Activity activity;
     private Handler handler;
 
-    public CheckBoxAdapter(Activity activity) {
+    public CheckBoxAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 

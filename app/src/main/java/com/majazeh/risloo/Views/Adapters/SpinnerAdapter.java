@@ -165,7 +165,7 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
         handler = new Handler();
     }
 
-    public void setValue(ArrayList<Model> values, ArrayList<String> ids, String method, String theory) {
+    public void setValues(ArrayList<Model> values, ArrayList<String> ids, String method, String theory) {
         this.values = values;
         this.ids = ids;
         this.method = method;

@@ -507,11 +507,11 @@ public class CreateCaseActivity extends AppCompatActivity {
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
         switch (method) {
             case "references":
-                referenceRecyclerViewAdapter.setValue(referenceRecyclerViewAdapter.getValues(), referenceRecyclerViewAdapter.getIds(), method, "CreateCase");
+                referenceRecyclerViewAdapter.setValues(referenceRecyclerViewAdapter.getValues(), referenceRecyclerViewAdapter.getIds(), method, "CreateCase");
                 recyclerView.setAdapter(referenceRecyclerViewAdapter);
                 break;
             case "getRooms":
-                roomDialogAdapter.setValue(arrayList, method, "CreateCase");
+                roomDialogAdapter.setValues(arrayList, method, "CreateCase");
                 recyclerView.setAdapter(roomDialogAdapter);
 
                 if (arrayList.size() == 0) {
@@ -523,7 +523,7 @@ public class CreateCaseActivity extends AppCompatActivity {
                 }
                 break;
             case "getReferences":
-                referenceDialogAdapter.setValue(arrayList, method, "CreateCase");
+                referenceDialogAdapter.setValues(arrayList, method, "CreateCase");
                 recyclerView.setAdapter(referenceDialogAdapter);
 
                 if (arrayList.size() == 0) {

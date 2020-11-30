@@ -685,14 +685,14 @@ public class CreateCenterActivity extends AppCompatActivity {
                         phones.add(arrayList.get(i).get("name").toString());
                     }
 
-                    phoneRecyclerViewAdapter.setValue(arrayList, phones, method, "CreateCenter");
+                    phoneRecyclerViewAdapter.setValues(arrayList, phones, method, "CreateCenter");
                     recyclerView.setAdapter(phoneRecyclerViewAdapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 break;
             case "getManagers":
-                managerDialogAdapter.setValue(arrayList, method, "CreateCenter");
+                managerDialogAdapter.setValues(arrayList, method, "CreateCenter");
                 recyclerView.setAdapter(managerDialogAdapter);
 
                 if (arrayList.size() == 0) {

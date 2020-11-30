@@ -636,14 +636,14 @@ public class EditCenterActivity extends AppCompatActivity {
                         phones.add(arrayList.get(i).get("name").toString());
                     }
 
-                    phoneRecyclerViewAdapter.setValue(arrayList, phones, method, "EditCenter");
+                    phoneRecyclerViewAdapter.setValues(arrayList, phones, method, "EditCenter");
                     recyclerView.setAdapter(phoneRecyclerViewAdapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 break;
             case "getManagers":
-                managerDialogAdapter.setValue(arrayList, method, "EditCenter");
+                managerDialogAdapter.setValues(arrayList, method, "EditCenter");
                 recyclerView.setAdapter(managerDialogAdapter);
 
                 if (arrayList.size() == 0) {

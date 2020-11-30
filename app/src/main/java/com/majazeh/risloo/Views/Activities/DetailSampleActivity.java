@@ -315,7 +315,7 @@ public class DetailSampleActivity extends AppCompatActivity {
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
         switch (method) {
             case "getURLs":
-                downloadDialogAdapter.setValue(arrayList, method, "DetailSample");
+                downloadDialogAdapter.setValues(arrayList, method, "DetailSample");
                 recyclerView.setAdapter(downloadDialogAdapter);
                 break;
             case "getPNGs":

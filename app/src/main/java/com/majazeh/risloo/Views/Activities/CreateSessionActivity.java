@@ -724,7 +724,7 @@ public class CreateSessionActivity extends AppCompatActivity {
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
         switch (method) {
             case "getRooms":
-                roomDialogAdapter.setValue(arrayList, method, "CreateSession");
+                roomDialogAdapter.setValues(arrayList, method, "CreateSession");
                 recyclerView.setAdapter(roomDialogAdapter);
 
                 if (arrayList.size() == 0) {
@@ -736,7 +736,7 @@ public class CreateSessionActivity extends AppCompatActivity {
                 }
                 break;
             case "getCases":
-                caseDialogAdapter.setValue(arrayList, method, "CreateSession");
+                caseDialogAdapter.setValues(arrayList, method, "CreateSession");
                 recyclerView.setAdapter(caseDialogAdapter);
 
                 if (arrayList.size() == 0) {
@@ -748,7 +748,7 @@ public class CreateSessionActivity extends AppCompatActivity {
                 }
                 break;
             case "getStatus":
-                statusDialogAdapter.setValue(arrayList, method, "CreateSession");
+                statusDialogAdapter.setValues(arrayList, method, "CreateSession");
                 recyclerView.setAdapter(statusDialogAdapter);
                 break;
         }

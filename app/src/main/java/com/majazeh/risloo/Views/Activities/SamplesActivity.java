@@ -432,15 +432,15 @@ public class SamplesActivity extends AppCompatActivity {
             case "scalesFilter":
             case "roomsFilter":
             case "statusFilter":
-                filterRecyclerViewAdapter.setValue(filterRecyclerViewAdapter.getValues(), filterRecyclerViewAdapter.getIds(), method, "Samples");
+                filterRecyclerViewAdapter.setValues(filterRecyclerViewAdapter.getValues(), filterRecyclerViewAdapter.getIds(), method, "Samples");
                 recyclerView.setAdapter(filterRecyclerViewAdapter);
                 break;
             case "getScalesFilter":
-                scaleDialogAdapter.setValue(arrayList, method, "Samples");
+                scaleDialogAdapter.setValues(arrayList, method, "Samples");
                 recyclerView.setAdapter(scaleDialogAdapter);
                 break;
             case "getRooms":
-                roomDialogAdapter.setValue(arrayList, method, "Samples");
+                roomDialogAdapter.setValues(arrayList, method, "Samples");
                 recyclerView.setAdapter(roomDialogAdapter);
 
                 if (arrayList.size() == 0) {
@@ -452,7 +452,7 @@ public class SamplesActivity extends AppCompatActivity {
                 }
                 break;
             case "getStatusFilter":
-                statusDialogAdapter.setValue(arrayList, method, "Samples");
+                statusDialogAdapter.setValues(arrayList, method, "Samples");
                 recyclerView.setAdapter(statusDialogAdapter);
                 break;
         }
