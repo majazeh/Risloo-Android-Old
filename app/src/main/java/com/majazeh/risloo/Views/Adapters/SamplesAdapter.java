@@ -298,7 +298,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
         activity.startActivityForResult(new Intent(activity, SampleActivity.class),100);
     }
 
-    public void setSamples(ArrayList<Model> samples) {
+    public void setSample(ArrayList<Model> samples) {
         this.samples = samples;
         notifyDataSetChanged();
     }

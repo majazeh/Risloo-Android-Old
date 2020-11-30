@@ -83,7 +83,7 @@
             android:name=".Views.Activities.AttachmentActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Views.Activities.ArchiveActivity"
+            android:name=".Views.Activities.ArchivesActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.OutroActivity"

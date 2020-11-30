@@ -6,7 +6,7 @@ import android.view.View;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.majazeh.risloo.Views.Adapters.ArchiveAdapter;
+import com.majazeh.risloo.Views.Adapters.ArchivesAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -33,26 +33,26 @@ public class ItemTouchRecyclerView extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
         if (viewHolder != null) {
-            View foregroundView = ((ArchiveAdapter.ArchiveHolder) viewHolder).foreGroundView;
+            View foregroundView = ((ArchivesAdapter.ArchivesHolder) viewHolder).foreGroundView;
             getDefaultUIUtil().onSelected(foregroundView);
         }
     }
 
     @Override
     public void clearView(@NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder) {
-        View foregroundView = ((ArchiveAdapter.ArchiveHolder) viewHolder).foreGroundView;
+        View foregroundView = ((ArchivesAdapter.ArchivesHolder) viewHolder).foreGroundView;
         getDefaultUIUtil().clearView(foregroundView);
     }
 
     @Override
     public void onChildDraw(@NotNull Canvas canvas, @NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        View foregroundView = ((ArchiveAdapter.ArchiveHolder) viewHolder).foreGroundView;
+        View foregroundView = ((ArchivesAdapter.ArchivesHolder) viewHolder).foreGroundView;
         getDefaultUIUtil().onDraw(canvas, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive);
     }
 
     @Override
     public void onChildDrawOver(@NotNull Canvas canvas, @NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-        View foregroundView = ((ArchiveAdapter.ArchiveHolder) viewHolder).foreGroundView;
+        View foregroundView = ((ArchivesAdapter.ArchivesHolder) viewHolder).foreGroundView;
         getDefaultUIUtil().onDrawOver(canvas, recyclerView, foregroundView, dX, dY, actionState, isCurrentlyActive);
     }
 

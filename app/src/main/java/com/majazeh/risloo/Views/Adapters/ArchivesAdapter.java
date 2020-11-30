@@ -34,42 +34,35 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveHolder> {
+public class ArchivesAdapter extends RecyclerView.Adapter<ArchivesAdapter.ArchivesHolder> {
 
     // Vars
-    private int position = -1;
     private ArrayList<Model> archives;
 
     // Objects
     private Activity activity;
     private Handler handler;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
 
     // Widgets
     private Dialog continueDialog;
     private TextView continueDialogTitle, continueDialogDescription, continueDialogPositive, continueDialogNegative;
 
-    public ArchiveAdapter(Activity activity) {
+    public ArchivesAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 
     @NonNull
     @Override
-    public ArchiveHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_archive, viewGroup, false);
+    public ArchivesHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_archives, viewGroup, false);
 
         initializer(view);
 
-        detector();
-
-        listener();
-
-        return new ArchiveHolder(view);
+        return new ArchivesHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ArchiveHolder holder, int i) {
+    public void onBindViewHolder(@NonNull ArchivesHolder holder, int i) {
         Model model = archives.get(i);
 
         try {
@@ -86,7 +79,7 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
 
                 switch ((String) model.get("status")) {
                     case "open":
-                        holder.statusTextView.setText(activity.getResources().getString(R.string.ArchiveStatusOpen));
+                        holder.statusTextView.setText(activity.getResources().getString(R.string.ArchivesStatusOpen));
                         holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                         ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
 
@@ -104,11 +97,11 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
             if (!model.attributes.isNull("client")) {
                 JSONObject client = (JSONObject) model.get("client");
 
-                holder.referenceHintTextView.setText(activity.getResources().getString(R.string.ArchiveReference));
+                holder.referenceHintTextView.setText(activity.getResources().getString(R.string.ArchivesReference));
                 holder.referenceHintImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_user_light));
                 holder.referenceTextView.setText(client.get("name").toString());
             } else if (!model.attributes.isNull("code")){
-                holder.referenceHintTextView.setText(activity.getResources().getString(R.string.ArchiveCode));
+                holder.referenceHintTextView.setText(activity.getResources().getString(R.string.ArchivesCode));
                 holder.referenceHintImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_hashtag_light));
                 holder.referenceTextView.setText(model.get("code").toString());
             } else {
@@ -142,7 +135,11 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
             handler.postDelayed(() -> holder.continueTextView.setClickable(true), 300);
             continueDialog.show();
 
-            position = i;
+            try {
+                showDialog(model.get("id").toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         });
     }
 
@@ -152,34 +149,41 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
     }
 
     private void initializer(View view) {
-        sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-
-        editor = sharedPreferences.edit();
-        editor.apply();
-
         handler = new Handler();
+    }
 
+    private void showDialog(String sampleId) {
+        initDialog();
+
+        detector();
+
+        listener(sampleId);
+
+        continueDialog.show();
+    }
+
+    private void initDialog() {
         continueDialog = new Dialog(activity, R.style.DialogTheme);
         Objects.requireNonNull(continueDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         continueDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         continueDialog.setContentView(R.layout.dialog_action);
         continueDialog.setCancelable(true);
 
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.copyFrom(continueDialog.getWindow().getAttributes());
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        continueDialog.getWindow().setAttributes(layoutParams);
+        WindowManager.LayoutParams layoutParamsContinueDialog = new WindowManager.LayoutParams();
+        layoutParamsContinueDialog.copyFrom(continueDialog.getWindow().getAttributes());
+        layoutParamsContinueDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsContinueDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        continueDialog.getWindow().setAttributes(layoutParamsContinueDialog);
 
         continueDialogTitle = continueDialog.findViewById(R.id.dialog_action_title_textView);
-        continueDialogTitle.setText(activity.getResources().getString(R.string.ArchiveContinueDialogTitle));
+        continueDialogTitle.setText(activity.getResources().getString(R.string.ArchivesContinueDialogTitle));
         continueDialogDescription = continueDialog.findViewById(R.id.dialog_action_description_textView);
-        continueDialogDescription.setText(activity.getResources().getString(R.string.ArchiveContinueDialogDescription));
+        continueDialogDescription.setText(activity.getResources().getString(R.string.ArchivesContinueDialogDescription));
         continueDialogPositive = continueDialog.findViewById(R.id.dialog_action_positive_textView);
-        continueDialogPositive.setText(activity.getResources().getString(R.string.ArchiveContinueDialogPositive));
+        continueDialogPositive.setText(activity.getResources().getString(R.string.ArchivesContinueDialogPositive));
         continueDialogPositive.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
         continueDialogNegative = continueDialog.findViewById(R.id.dialog_action_negative_textView);
-        continueDialogNegative.setText(activity.getResources().getString(R.string.ArchiveContinueDialogNegative));
+        continueDialogNegative.setText(activity.getResources().getString(R.string.ArchivesContinueDialogNegative));
     }
 
     private void detector() {
@@ -189,22 +193,34 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
         }
     }
 
-    private void listener() {
+    private void listener(String sampleId) {
         continueDialogPositive.setOnClickListener(v -> {
             continueDialogPositive.setClickable(false);
-            handler.postDelayed(() -> continueDialogPositive.setClickable(true), 300);
+            handler.postDelayed(() -> continueDialogPositive.setClickable(true), 250);
             continueDialog.dismiss();
 
-            doWork(position);
+            doWork(sampleId);
         });
 
         continueDialogNegative.setOnClickListener(v -> {
             continueDialogNegative.setClickable(false);
-            handler.postDelayed(() -> continueDialogNegative.setClickable(true), 300);
+            handler.postDelayed(() -> continueDialogNegative.setClickable(true), 250);
             continueDialog.dismiss();
         });
 
         continueDialog.setOnCancelListener(dialog -> continueDialog.dismiss());
+    }
+
+    private void doWork(String sampleId) {
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.apply();
+
+        editor.putString("sampleId", sampleId);
+        editor.apply();
+
+        activity.startActivityForResult(new Intent(activity, SampleActivity.class),100);
     }
 
     public void setArchive(ArrayList<Model> archives) {
@@ -226,41 +242,31 @@ public class ArchiveAdapter extends RecyclerView.Adapter<ArchiveAdapter.ArchiveH
         notifyItemInserted(position);
     }
 
-    private void doWork(int position) {
-        try {
-            editor.putString("sampleId", archives.get(position).get("id").toString());
-            editor.apply();
-
-            activity.startActivityForResult(new Intent(activity, SampleActivity.class),100);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public class ArchiveHolder extends RecyclerView.ViewHolder {
+    public class ArchivesHolder extends RecyclerView.ViewHolder {
 
         public FrameLayout backGroundView;
-        public LinearLayout foreGroundView, referenceLinearLayout, caseLinearLayout, roomLinearLayout;
+        public LinearLayout foreGroundView;
         public TextView scaleTextView, serialTextView, statusTextView, continueTextView, referenceHintTextView, referenceTextView, caseTextView, roomTextView;
         public ImageView statusImageView, referenceHintImageView;
+        public LinearLayout referenceLinearLayout, caseLinearLayout, roomLinearLayout;
 
-        public ArchiveHolder(View view) {
+        public ArchivesHolder(View view) {
             super(view);
-            backGroundView = view.findViewById(R.id.single_item_archive_backGroundView);
+            backGroundView = view.findViewById(R.id.single_item_archives_backGroundView);
             foreGroundView = view.findViewById(R.id.single_item_archive_foreGroundView);
-            scaleTextView = view.findViewById(R.id.single_item_archive_scale_textView);
-            serialTextView = view.findViewById(R.id.single_item_archive_serial_textView);
-            statusTextView = view.findViewById(R.id.single_item_archive_status_textView);
-            statusImageView = view.findViewById(R.id.single_item_archive_status_imageView);
-            continueTextView = view.findViewById(R.id.single_item_archive_continue_textView);
-            referenceHintTextView = view.findViewById(R.id.single_item_archive_reference_hint_textView);
-            referenceHintImageView = view.findViewById(R.id.single_item_archive_reference_hint_imageView);
-            referenceTextView = view.findViewById(R.id.single_item_archive_reference_textView);
-            caseTextView = view.findViewById(R.id.single_item_archive_case_textView);
-            roomTextView = view.findViewById(R.id.single_item_archive_room_textView);
-            referenceLinearLayout = view.findViewById(R.id.single_item_archive_reference_linearLayout);
-            caseLinearLayout = view.findViewById(R.id.single_item_archive_case_linearLayout);
-            roomLinearLayout = view.findViewById(R.id.single_item_archive_room_linearLayout);
+            scaleTextView = view.findViewById(R.id.single_item_archives_scale_textView);
+            serialTextView = view.findViewById(R.id.single_item_archives_serial_textView);
+            statusTextView = view.findViewById(R.id.single_item_archives_status_textView);
+            statusImageView = view.findViewById(R.id.single_item_archives_status_imageView);
+            continueTextView = view.findViewById(R.id.single_item_archives_continue_textView);
+            referenceHintTextView = view.findViewById(R.id.single_item_archives_reference_hint_textView);
+            referenceHintImageView = view.findViewById(R.id.single_item_archives_reference_hint_imageView);
+            referenceTextView = view.findViewById(R.id.single_item_archives_reference_textView);
+            caseTextView = view.findViewById(R.id.single_item_archives_case_textView);
+            roomTextView = view.findViewById(R.id.single_item_archives_room_textView);
+            referenceLinearLayout = view.findViewById(R.id.single_item_archives_reference_linearLayout);
+            caseLinearLayout = view.findViewById(R.id.single_item_archives_case_linearLayout);
+            roomLinearLayout = view.findViewById(R.id.single_item_archives_room_linearLayout);
         }
     }
 

@@ -3,17 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/single_item_archive"
+    android:id="@+id/single_item_archives"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     app:cardBackgroundColor="@null"
     app:cardCornerRadius="@dimen/_16sdp"
-    tools:context=".Views.Activities.ArchiveActivity"
-    tools:ignore="UnusedAttribute, UseCompoundDrawables, ContentDescription, RtlHardcoded">
+    tools:context=".Views.Activities.ArchivesActivity">
 
     <FrameLayout
-        android:id="@+id/single_item_archive_backGroundView"
+        android:id="@+id/single_item_archives_backGroundView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/_12sdp"
@@ -24,7 +23,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center|right"
             android:gravity="center"
-            android:text="@string/ArchiveDelete"
+            android:text="@string/ArchivesDelete"
             android:textSize="@dimen/_10ssp"
             android:textStyle="bold"
             android:textColor="@color/White"
@@ -41,7 +40,7 @@
         android:background="@drawable/draw_16sdp_solid_snow">
 
         <TextView
-            android:id="@+id/single_item_archive_scale_textView"
+            android:id="@+id/single_item_archives_scale_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_minus3sdp"
@@ -52,7 +51,7 @@
             android:textAlignment="gravity" />
 
         <TextView
-            android:id="@+id/single_item_archive_serial_textView"
+            android:id="@+id/single_item_archives_serial_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_6sdp"
@@ -70,7 +69,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/single_item_archive_reference_linearLayout"
+                android:id="@+id/single_item_archives_reference_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -83,15 +82,16 @@
                     android:layoutDirection="rtl">
 
                     <ImageView
-                        android:id="@+id/single_item_archive_reference_hint_imageView"
+                        android:id="@+id/single_item_archives_reference_hint_imageView"
                         android:layout_width="@dimen/_9sdp"
                         android:layout_height="@dimen/_9sdp"
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/AppImageContent"
                         app:tint="@color/Mischka" />
 
                     <TextView
-                        android:id="@+id/single_item_archive_reference_hint_textView"
+                        android:id="@+id/single_item_archives_reference_hint_textView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center|right"
@@ -103,7 +103,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/single_item_archive_reference_textView"
+                    android:id="@+id/single_item_archives_reference_textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|right"
@@ -115,7 +115,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/single_item_archive_case_linearLayout"
+                android:id="@+id/single_item_archives_case_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -132,6 +132,7 @@
                         android:layout_height="@dimen/_9sdp"
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_case_light"
                         app:tint="@color/Mischka" />
 
@@ -139,7 +140,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center|right"
-                        android:text="@string/ArchiveCase"
+                        android:text="@string/ArchivesCase"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal"
                         android:textColor="@color/Mischka"
@@ -148,7 +149,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/single_item_archive_case_textView"
+                    android:id="@+id/single_item_archives_case_textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|right"
@@ -160,7 +161,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/single_item_archive_room_linearLayout"
+                android:id="@+id/single_item_archives_room_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -177,6 +178,7 @@
                         android:layout_height="@dimen/_9sdp"
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:layout_gravity="center"
+                        android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_hospital_light"
                         app:tint="@color/Mischka" />
 
@@ -184,7 +186,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center|right"
-                        android:text="@string/ArchiveRoom"
+                        android:text="@string/ArchivesRoom"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal"
                         android:textColor="@color/Mischka"
@@ -193,7 +195,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/single_item_archive_room_textView"
+                    android:id="@+id/single_item_archives_room_textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|right"
@@ -216,7 +218,7 @@
             android:background="@drawable/draw_8sdp_solid_primary5p">
 
             <TextView
-                android:id="@+id/single_item_archive_continue_textView"
+                android:id="@+id/single_item_archives_continue_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -225,7 +227,7 @@
                 android:paddingLeft="@dimen/_8sdp"
                 android:paddingRight="@dimen/_8sdp"
                 android:gravity="center"
-                android:text="@string/ArchiveContinue"
+                android:text="@string/ArchivesContinue"
                 android:textSize="@dimen/_9ssp"
                 android:textStyle="bold"
                 android:textColor="@color/White"
@@ -241,15 +243,16 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/single_item_archive_status_imageView"
+                    android:id="@+id/single_item_archives_status_imageView"
                     android:layout_width="@dimen/_10sdp"
                     android:layout_height="@dimen/_10sdp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/_6sdp"
+                    android:contentDescription="@string/AppImageContent"
                     android:src="@drawable/ic_dot_regular" />
 
                 <TextView
-                    android:id="@+id/single_item_archive_status_textView"
+                    android:id="@+id/single_item_archives_status_textView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="right|center"

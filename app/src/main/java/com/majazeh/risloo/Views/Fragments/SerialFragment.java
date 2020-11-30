@@ -26,7 +26,7 @@ import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
-import com.majazeh.risloo.Views.Activities.ArchiveActivity;
+import com.majazeh.risloo.Views.Activities.ArchivesActivity;
 import com.majazeh.risloo.Views.Activities.AuthActivity;
 
 import org.json.JSONException;
@@ -130,7 +130,7 @@ public class SerialFragment extends Fragment {
         });
 
         serialArchiveTextView.setOnClickListener(v -> {
-            startActivity(new Intent(activity, ArchiveActivity.class));
+            startActivity(new Intent(activity, ArchivesActivity.class));
             activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
     }

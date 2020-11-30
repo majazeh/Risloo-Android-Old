@@ -460,6 +460,32 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // Archives strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="ArchivesTitle">بایگانی نمونه‌ها</string>
+
+    <string name="ArchivesCount">عدد</string>
+
+    <string name="ArchivesCode">کد</string>
+    <string name="ArchivesCase">پرونده</string>
+    <string name="ArchivesRoom">اتاق درمان</string>
+    <string name="ArchivesReference">مراجعان</string>
+
+    <string name="ArchivesStatusOpen">باز شده</string>
+
+    <string name="ArchivesContinue">تکمیل نمونه</string>
+    <string name="ArchivesDelete">پاک کردن</string>
+    <string name="ArchivesRestore">بازیابی نمونه</string>
+    <string name="ArchivesDeleted">نمونه شما با موفقیت پاک شد</string>
+
+    <string name="ArchivesContinueDialogTitle">تکمیل نمونه؟</string>
+    <string name="ArchivesContinueDialogDescription">شما می توانید روند کار را از نمونه خود ادامه دهید و آن را به اتمام برسانید و به ریسلو تحویل دهید.</string>
+    <string name="ArchivesContinueDialogPositive">تکمیل نمونه</string>
+    <string name="ArchivesContinueDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     // Samples strings
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -863,32 +889,6 @@
     <string name="OutroDownloadDialogDescription">با دریافت فایل نمونه شما می توانید بعدن بصورت دستی در اختیار ریسلو از راه آپلود دادن قرار دهید.</string>
     <string name="OutroDownloadDialogPositive">دریافت</string>
     <string name="OutroDownloadDialogNegative">بستن</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // archive strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="ArchiveTitle">بایگانی نمونه ها</string>
-
-    <string name="ArchiveCount">عدد</string>
-
-    <string name="ArchiveReference">مراجع</string>
-    <string name="ArchiveCode">کد</string>
-    <string name="ArchiveCase">پرونده</string>
-    <string name="ArchiveRoom">اتاق درمان</string>
-
-    <string name="ArchiveStatusOpen">باز شده</string>
-
-    <string name="ArchiveContinue">تکمیل نمونه</string>
-    <string name="ArchiveDelete">پاک کردن</string>
-    <string name="ArchiveRestore">بازیابی</string>
-    <string name="ArchiveDeleted">نمونه شما با موفقیت پاک شد</string>
-
-    <string name="ArchiveContinueDialogTitle">تکمیل نمونه؟</string>
-    <string name="ArchiveContinueDialogDescription">شما می توانید روند کار را از نمونه خود ادامه دهید و آن را به اتمام برسانید و به ریسلو تحویل دهید.</string>
-    <string name="ArchiveContinueDialogPositive">تکمیل نمونه</string>
-    <string name="ArchiveContinueDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

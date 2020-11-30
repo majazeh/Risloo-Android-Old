@@ -610,7 +610,7 @@ public class SamplesActivity extends AppCompatActivity {
                                 infoLayout.setVisibility(View.GONE);
                                 mainLayout.setVisibility(View.VISIBLE);
 
-                                samplesRecyclerViewAdapter.setSamples(sampleViewModel.getAll());
+                                samplesRecyclerViewAdapter.setSample(sampleViewModel.getAll());
                                 if (SampleRepository.samplesPage == 1) {
                                     samplesRecyclerView.setAdapter(samplesRecyclerViewAdapter);
                                 }
@@ -670,7 +670,7 @@ public class SamplesActivity extends AppCompatActivity {
                                 infoLayout.setVisibility(View.GONE);
                                 mainLayout.setVisibility(View.VISIBLE);
 
-                                samplesRecyclerViewAdapter.setSamples(sampleViewModel.getAll());
+                                samplesRecyclerViewAdapter.setSample(sampleViewModel.getAll());
                                 if (SampleRepository.samplesPage == 1) {
                                     samplesRecyclerView.setAdapter(samplesRecyclerViewAdapter);
                                 }

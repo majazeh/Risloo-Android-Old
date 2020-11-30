@@ -12,9 +12,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,21 +29,21 @@ import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Utils.Widgets.ItemTouchRecyclerView;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
-import com.majazeh.risloo.Views.Adapters.ArchiveAdapter;
+import com.majazeh.risloo.Views.Adapters.ArchivesAdapter;
 
-public class ArchiveActivity extends AppCompatActivity implements ItemTouchRecyclerView.OnItemTouchListener {
+import org.json.JSONException;
+
+public class ArchivesActivity extends AppCompatActivity implements ItemTouchRecyclerView.OnItemTouchListener {
 
     // ViewModels
-    private SampleViewModel viewModel;
+    private SampleViewModel sampleViewModel;
 
     // Adapters
-    private ArchiveAdapter adapter;
+    private ArchivesAdapter archivesAdapter;
 
     // Objects
     private Handler handler;
     private Typeface danaBold;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
 
     // Widgets
     private CoordinatorLayout coordinatorLayout;
@@ -61,7 +59,7 @@ public class ArchiveActivity extends AppCompatActivity implements ItemTouchRecyc
 
         decorator();
 
-        setContentView(R.layout.activity_archive);
+        setContentView(R.layout.activity_archives);
 
         initializer();
 
@@ -80,20 +78,15 @@ public class ArchiveActivity extends AppCompatActivity implements ItemTouchRecyc
     }
 
     private void initializer() {
-        viewModel = new ViewModelProvider(this).get(SampleViewModel.class);
+        sampleViewModel = new ViewModelProvider(this).get(SampleViewModel.class);
 
-        adapter = new ArchiveAdapter(this);
+        archivesAdapter = new ArchivesAdapter(this);
 
         handler = new Handler();
 
         danaBold = ResourcesCompat.getFont(this, R.font.dana_bold);
 
-        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-
-        editor = sharedPreferences.edit();
-        editor.apply();
-
-        coordinatorLayout = findViewById(R.id.activity_archive);
+        coordinatorLayout = findViewById(R.id.activity_archives);
 
         toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
@@ -103,12 +96,12 @@ public class ArchiveActivity extends AppCompatActivity implements ItemTouchRecyc
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
-        toolbarTextView.setText(getResources().getString(R.string.ArchiveTitle));
+        toolbarTextView.setText(getResources().getString(R.string.ArchivesTitle));
         toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
-        countTextView = findViewById(R.id.activity_archive_count_textView);
+        countTextView = findViewById(R.id.activity_archives_count_textView);
 
-        archiveRecyclerView = findViewById(R.id.activity_archive_recyclerView);
+        archiveRecyclerView = findViewById(R.id.activity_archives_recyclerView);
         archiveRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
         archiveRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         archiveRecyclerView.setHasFixedSize(true);
@@ -126,7 +119,7 @@ public class ArchiveActivity extends AppCompatActivity implements ItemTouchRecyc
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
             finish();
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
@@ -134,18 +127,14 @@ public class ArchiveActivity extends AppCompatActivity implements ItemTouchRecyc
     }
 
     private void setData() {
-        if (hasArchive()) {
-            countTextView.setText(viewModel.getArchive().size() + " " + getResources().getString(R.string.ArchiveCount));
+        if (sampleViewModel.getArchive() != null) {
+            countTextView.setText(sampleViewModel.getArchive().size() + " " + getResources().getString(R.string.ArchivesCount));
 
-            adapter.setArchive(viewModel.getArchive());
-            archiveRecyclerView.setAdapter(adapter);
+            archivesAdapter.setArchive(sampleViewModel.getArchive());
+            archiveRecyclerView.setAdapter(archivesAdapter);
         } else {
             finish();
         }
-    }
-
-    private boolean hasArchive() {
-        return viewModel.getArchive() != null;
     }
 
     @Override
@@ -160,40 +149,37 @@ public class ArchiveActivity extends AppCompatActivity implements ItemTouchRecyc
     }
 
     @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
-    }
-
-    @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
-        if (viewHolder instanceof ArchiveAdapter.ArchiveHolder) {
-
-            Model archive = adapter.getArchive(viewHolder.getAdapterPosition());
+        if (viewHolder instanceof ArchivesAdapter.ArchivesHolder) {
             int index = viewHolder.getAdapterPosition();
 
-            adapter.removeArchive(index);
+            Model archive = archivesAdapter.getArchive(index);
 
-            if (hasArchive()) {
-                countTextView.setText(viewModel.getArchive().size() - 1 + " " + getResources().getString(R.string.ArchiveCount));
-            }
-
+            archivesAdapter.removeArchive(index);
             handler.postDelayed(() -> {
-                viewModel.delete(sharedPreferences.getString("sampleId", ""));
+                try {
+                    sampleViewModel.delete(archive.get("id").toString());
 
-                if (!hasArchive()) {
-                    finish();
+                    if (sampleViewModel.getArchive() == null) {
+                        finish();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }, 4000);
 
-            Snackbar snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.ArchiveDeleted), 4000);
+            if (sampleViewModel.getArchive() != null) {
+                countTextView.setText(sampleViewModel.getArchive().size() - 1 + " " + getResources().getString(R.string.ArchivesCount));
+            }
+
+            Snackbar snackbar = Snackbar.make(coordinatorLayout, getResources().getString(R.string.ArchivesDeleted), 4000);
             snackbar.getView().setBackgroundColor(ContextCompat.getColor(this, R.color.Primary5P));
-            snackbar.setAction(getResources().getString(R.string.ArchiveRestore), view -> {
-                adapter.restoreArchive(archive, index);
+            snackbar.setAction(getResources().getString(R.string.ArchivesRestore), view -> {
+                archivesAdapter.restoreArchive(archive, index);
                 handler.removeCallbacksAndMessages(null);
 
-                if (hasArchive()) {
-                    countTextView.setText(viewModel.getArchive().size() + " " + getResources().getString(R.string.ArchiveCount));
+                if (sampleViewModel.getArchive() != null) {
+                    countTextView.setText(sampleViewModel.getArchive().size() + " " + getResources().getString(R.string.ArchivesCount));
                 }
             });
 
@@ -211,6 +197,12 @@ public class ArchiveActivity extends AppCompatActivity implements ItemTouchRecyc
 
             snackbar.show();
         }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
     }
 
 }
