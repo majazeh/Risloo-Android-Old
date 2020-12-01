@@ -56,7 +56,7 @@ public class CentersActivity extends AppCompatActivity {
     public CenterViewModel centerViewModel;
 
     // Adapters
-    private TabCentersAdapter tabCentersAdapter;
+    public TabCentersAdapter tabCentersAdapter;
 
     // Vars
     public String search = "";

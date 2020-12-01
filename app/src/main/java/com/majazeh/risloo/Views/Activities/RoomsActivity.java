@@ -56,7 +56,7 @@ public class RoomsActivity extends AppCompatActivity {
     public RoomViewModel roomViewModel;
 
     // Adapters
-    private TabRoomsAdapter tabRoomsAdapter;
+    public TabRoomsAdapter tabRoomsAdapter;
 
     // Vars
     public String search = "";
