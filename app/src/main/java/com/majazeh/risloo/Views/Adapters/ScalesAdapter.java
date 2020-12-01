@@ -18,6 +18,7 @@ import com.majazeh.risloo.R;
 import com.majazeh.risloo.Views.Activities.CreateSampleActivity;
 import com.majazeh.risloo.Views.Activities.ScalesActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ public class ScalesAdapter extends RecyclerView.Adapter<ScalesAdapter.ScalesHold
             }
 
             Intent createSampleIntent = (new Intent(activity, CreateSampleActivity.class));
-            createSampleIntent.putExtra("scales", model.toString());
+            createSampleIntent.putExtra("scales", new JSONArray().put(model.attributes).toString());
             createSampleIntent.putExtra("loaded", true);
 
             // ID

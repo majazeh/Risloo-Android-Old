@@ -607,7 +607,7 @@ public class CreateCaseActivity extends AppCompatActivity {
                     referenceDialogProgressBar.setVisibility(View.VISIBLE);
                     referenceDialogImageView.setVisibility(View.GONE);
 
-                    roomViewModel.references(roomId, q);
+                    roomViewModel.references(roomId, q, "create_case");
 
                     observeWork("roomViewModel");
                     break;

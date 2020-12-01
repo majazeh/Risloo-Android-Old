@@ -100,8 +100,8 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
             // Manager
             if (model.attributes.has("manager") && !model.attributes.isNull("manager")) {
                 JSONObject manager = (JSONObject) model.get("manager");
-                editCenterIntent.putExtra("manager_id",manager.get("id").toString());
-                editCenterIntent.putExtra("manager", manager.get("name").toString());
+                editCenterIntent.putExtra("manager_id", manager.get("id").toString());
+                editCenterIntent.putExtra("manager_name", manager.get("name").toString());
 
                 holder.managerLinearLayout.setVisibility(View.VISIBLE);
                 holder.managerTextView.setText(manager.getString("name"));

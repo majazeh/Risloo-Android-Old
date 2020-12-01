@@ -606,7 +606,7 @@ public class EditCaseActivity extends AppCompatActivity {
                     referenceDialogProgressBar.setVisibility(View.VISIBLE);
                     referenceDialogImageView.setVisibility(View.GONE);
 
-                    roomViewModel.references(roomId, q);
+                    roomViewModel.references(roomId, q, "create_case");
 
                     observeWork("roomViewModel");
                     break;
@@ -703,7 +703,7 @@ public class EditCaseActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionGenerator.current_exception.equals("create")) {
+        if (ExceptionGenerator.current_exception.equals("edit")) {
             String exceptionToast = "";
 
             if (!ExceptionGenerator.errors.isNull("roomId")) {

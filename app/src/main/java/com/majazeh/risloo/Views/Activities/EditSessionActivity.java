@@ -950,7 +950,7 @@ public class EditSessionActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionGenerator.current_exception.equals("create")) {
+        if (ExceptionGenerator.current_exception.equals("update")) {
             String exceptionToast = "";
 
             if (!ExceptionGenerator.errors.isNull("roomId")) {
