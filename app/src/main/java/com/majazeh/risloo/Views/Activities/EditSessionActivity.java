@@ -299,48 +299,48 @@ public class EditSessionActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
         });
 
-        roomLinearLayout.setOnClickListener(v -> {
-            roomLinearLayout.setClickable(false);
-            handler.postDelayed(() -> roomLinearLayout.setClickable(true), 250);
-
-            if (roomException) {
-                clearException("room");
-            }
-
-            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
-                controlEditText.clear(this, controlEditText.input());
-            }
-
-            try {
-                if (roomViewModel.getSuggestRoom().size() != 0) {
-                    setRecyclerView(roomViewModel.getSuggestRoom(), roomDialogRecyclerView, "getRooms");
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            roomDialog.show();
-        });
-
-        caseTextView.setOnClickListener(v -> {
-            caseTextView.setClickable(false);
-            handler.postDelayed(() -> caseTextView.setClickable(true), 250);
-
-            if (caseException) {
-                clearException("case");
-            }
-
-            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
-                controlEditText.clear(this, controlEditText.input());
-            }
-
-            if (!roomId.isEmpty()) {
-                caseDialog.show();
-            } else {
-                ExceptionGenerator.getException(false, 0, null, "SelectRoomFirstException");
-                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        roomLinearLayout.setOnClickListener(v -> {
+//            roomLinearLayout.setClickable(false);
+//            handler.postDelayed(() -> roomLinearLayout.setClickable(true), 250);
+//
+//            if (roomException) {
+//                clearException("room");
+//            }
+//
+//            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+//                controlEditText.clear(this, controlEditText.input());
+//            }
+//
+//            try {
+//                if (roomViewModel.getSuggestRoom().size() != 0) {
+//                    setRecyclerView(roomViewModel.getSuggestRoom(), roomDialogRecyclerView, "getRooms");
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//            roomDialog.show();
+//        });
+//
+//        caseTextView.setOnClickListener(v -> {
+//            caseTextView.setClickable(false);
+//            handler.postDelayed(() -> caseTextView.setClickable(true), 250);
+//
+//            if (caseException) {
+//                clearException("case");
+//            }
+//
+//            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+//                controlEditText.clear(this, controlEditText.input());
+//            }
+//
+//            if (!roomId.isEmpty()) {
+//                caseDialog.show();
+//            } else {
+//                ExceptionGenerator.getException(false, 0, null, "SelectRoomFirstException");
+//                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         startedAtTimeTextView.setOnTouchListener((v, event) -> {
             startedAtTimeTextView.setClickable(false);
@@ -698,7 +698,7 @@ public class EditSessionActivity extends AppCompatActivity {
 
     private void setCustomPicker() {
         hourNumberPicker.setMinValue(0);
-        hourNumberPicker.setMaxValue(100);
+        hourNumberPicker.setMaxValue(23);
         hourNumberPicker.setValue(hour);
 
         minuteNumberPicker.setMinValue(0);

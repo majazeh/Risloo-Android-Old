@@ -700,7 +700,7 @@ public class CreateSessionActivity extends AppCompatActivity {
 
     private void setCustomPicker() {
         hourNumberPicker.setMinValue(0);
-        hourNumberPicker.setMaxValue(100);
+        hourNumberPicker.setMaxValue(23);
         hourNumberPicker.setValue(hour);
 
         minuteNumberPicker.setMinValue(0);

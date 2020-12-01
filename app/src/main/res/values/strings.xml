@@ -252,7 +252,7 @@
     <string name="CreateCenterAddress">آدرس (غیر ضروری)</string>
     <string name="CreateCenterPhone">شماره تماس (غیر ضروری)</string>
 
-    <string name="CreateCenterCreate">ایجاد</string>
+    <string name="CreateCenterCreate">ایجاد مرکز</string>
 
     <string name="CreateCenterPhoneDialogTitle">شماره تماس مرکز را اضافه کنید.</string>
     <string name="CreateCenterPhoneDialogInput">شماره تماس</string>
@@ -336,7 +336,7 @@
     <string name="CreateCaseReference">مراجعان</string>
     <string name="CreateCaseComplaint">شکایت اصلی</string>
 
-    <string name="CreateCaseCreate">ایجاد</string>
+    <string name="CreateCaseCreate">ایجاد پرونده</string>
 
     <string name="CreateCaseRoomDialogTitle">اتاق درمان مورد نظر خودتان را جستجو کنید.</string>
     <string name="CreateCaseReferenceDialogTitle">مراجعان مورد نظر خودتان را جستجو کنید.</string>
@@ -425,7 +425,7 @@
     <string name="CreateSessionMinute">دقیقه</string>
     <string name="CreateSessionStatus">وضعیت</string>
 
-    <string name="CreateSessionCreate">ایجاد</string>
+    <string name="CreateSessionCreate">ایجاد جلسه</string>
 
     <string name="CreateSessionRoomDialogTitle">اتاق درمان مورد نظر خودتان را جستجو کنید.</string>
     <string name="CreateSessionCaseDialogTitle">پرونده درمان مورد نظر خودتان را جستجو کنید.</string>
@@ -454,7 +454,7 @@
     <string name="EditSessionMinute">دقیقه</string>
     <string name="EditSessionStatus">وضعیت</string>
 
-    <string name="EditSessionEdit">ویرایش </string>
+    <string name="EditSessionEdit">ویرایش</string>
 
     <string name="EditSessionRoomDialogTitle">اتاق درمان مورد نظر خودتان را جستجو کنید.</string>
     <string name="EditSessionCaseDialogTitle">پرونده درمان مورد نظر خودتان را جستجو کنید.</string>
@@ -535,7 +535,7 @@
     <string name="SamplesStart">شروع نمونه</string>
 
     <string name="SamplesStartDialogTitle">شروع نمونه؟</string>
-    <string name="SamplesStartDialogDescription">با شروع نمونه شما می توانید آن را به پایان برسانید ویا در صورت موکول دادن آن به بعدا می توانید از قسمت بایگانی نمونه‌ها آن را ادامه دهید.</string>
+    <string name="SamplesStartDialogDescription">شما با شروع نمونه، می توانید آزمون مورد نظر خودتان را اجرا کنید. البته هنگام اجرای آزمون، این امکان وجود دارد که با بستن آن، اجرای آن را به زمانی دیگری موکول کنید.</string>
     <string name="SamplesStartDialogPositive">شروع نمونه</string>
     <string name="SamplesStartDialogNegative">بستن</string>
 
@@ -564,9 +564,9 @@
     <string name="CreateSampleReference">مراجعان</string>
     <string name="CreateSampleCount">تعداد</string>
 
-    <string name="CreateSampleCreate">ایجاد</string>
+    <string name="CreateSampleCreate">ایجاد نمونه</string>
 
-    <string name="CreateSampleScaleDialogTitle">مقیاس مورد نظر خودتان را جستجو کنید.</string>
+    <string name="CreateSampleScaleDialogTitle">مقیاس‌های مورد نظر خودتان را جستجو کنید.</string>
     <string name="CreateSampleRoomDialogTitle">اتاق درمان مورد نظر خودتان را جستجو کنید.</string>
     <string name="CreateSampleCaseDialogTitle">پرونده مورد نظر خودتان را جستجو کنید.</string>
     <string name="CreateSampleReferenceDialogTitle">مراجعان مورد نظر خودتان را جستجو کنید.</string>
@@ -780,8 +780,8 @@
 
     <string name="AuthSampleTitle">نمونه</string>
     <string name="AuthSampleSingle">شروع نمونه</string>
-    <string name="AuthSampleSamples">نمونه ها</string>
-    <string name="AuthSampleScales">ارزیابی ها</string>
+    <string name="AuthSampleSamples">نمونه‌ها</string>
+    <string name="AuthSampleScales">ارزیابی‌ها</string>
 
     <string name="AuthReserveTitle">رزرواسیون</string>
     <string name="AuthReserveConstruct">ایجاد رزرواسیون</string>
@@ -791,8 +791,8 @@
     <string name="AuthTreatmentPsychologist">مشاوران</string>
     <string name="AuthTreatmentCenter">مراکز درمان</string>
     <string name="AuthTreatmentSession">جلسات درمان</string>
-    <string name="AuthTreatmentRoom">اتاق های درمان</string>
-    <string name="AuthTreatmentCase">پرونده های درمان</string>
+    <string name="AuthTreatmentRoom">اتاق‌های درمان</string>
+    <string name="AuthTreatmentCase">پرونده‌های درمان</string>
 
     <string name="AuthHeader">ریسلو</string>
     <string name="AuthFooter">مطالب دیگر</string>

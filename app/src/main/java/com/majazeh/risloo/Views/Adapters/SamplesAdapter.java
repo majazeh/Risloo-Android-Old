@@ -206,7 +206,6 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
             holder.startTextView.setOnClickListener(v -> {
                 holder.startTextView.setClickable(false);
                 handler.postDelayed(() -> holder.startTextView.setClickable(true), 250);
-                startDialog.show();
 
                 showDialog(holder.serialTextView.getText().toString());
             });

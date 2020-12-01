@@ -53,7 +53,6 @@
                         android:paddingLeft="@dimen/_16sdp"
                         android:paddingRight="@dimen/_16sdp"
                         android:gravity="center"
-                        android:clickable="false"
                         android:orientation="vertical">
 
                         <TextView
@@ -106,7 +105,6 @@
                         android:paddingLeft="@dimen/_16sdp"
                         android:paddingRight="@dimen/_16sdp"
                         android:gravity="center|right"
-                        android:clickable="false"
                         android:text="@string/EditSessionCase"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="normal"
