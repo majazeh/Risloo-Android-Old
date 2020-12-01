@@ -32,7 +32,7 @@ public class DetailCaseReferencesAdapter extends RecyclerView.Adapter<DetailCase
     private Activity activity;
     private Handler handler;
 
-    public DetailCaseReferencesAdapter(Activity activity) {
+    public DetailCaseReferencesAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -51,33 +51,34 @@ public class DetailCaseReferencesAdapter extends RecyclerView.Adapter<DetailCase
         Model model = references.get(i);
 
         try {
-            Intent createIntent = (new Intent(activity, CreateSampleActivity.class));
-
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                 holder.createTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
             }
 
-            createIntent.putExtra("room_id", ((DetailCaseActivity) Objects.requireNonNull(activity)).roomId);
-            createIntent.putExtra("room_name", ((DetailCaseActivity) Objects.requireNonNull(activity)).roomName);
-            createIntent.putExtra("room_title", ((DetailCaseActivity) Objects.requireNonNull(activity)).roomTitle);
-            createIntent.putExtra("case_id", ((DetailCaseActivity) Objects.requireNonNull(activity)).caseId);
-            createIntent.putExtra("case_name", ((DetailCaseActivity) Objects.requireNonNull(activity)).caseName);
+            Intent createSampleIntent = (new Intent(activity, CreateSampleActivity.class));
 
-            // Get User
+            createSampleIntent.putExtra("loaded", true);
+            createSampleIntent.putExtra("room_id", ((DetailCaseActivity) Objects.requireNonNull(activity)).roomId);
+            createSampleIntent.putExtra("room_name", ((DetailCaseActivity) Objects.requireNonNull(activity)).roomName);
+            createSampleIntent.putExtra("room_title", ((DetailCaseActivity) Objects.requireNonNull(activity)).roomTitle);
+            createSampleIntent.putExtra("case_id", ((DetailCaseActivity) Objects.requireNonNull(activity)).caseId);
+            createSampleIntent.putExtra("case_name", ((DetailCaseActivity) Objects.requireNonNull(activity)).caseName);
+
+            // User
             if (model.attributes.has("user") && !model.attributes.isNull("user")) {
                 JSONObject user = (JSONObject) model.get("user");
-                createIntent.putExtra("user_object", user.toString());
 
                 holder.nameTextView.setText(user.get("name").toString());
             }
 
             holder.createTextView.setOnClickListener(v -> {
                 holder.createTextView.setClickable(false);
-                handler.postDelayed(() -> holder.createTextView.setClickable(true), 300);
+                handler.postDelayed(() -> holder.createTextView.setClickable(true), 250);
 
-                activity.startActivityForResult(createIntent.putExtra("loaded", true), 100);
+                activity.startActivityForResult(createSampleIntent, 100);
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -6,17 +6,18 @@
     android:id="@+id/activity_detail_sample"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
+    android:focusable="true"
     android:fitsSystemWindows="true"
-    android:background="@color/White"
+    android:focusableInTouchMode="true"
     android:descendantFocusability="blocksDescendants"
-    tools:context=".Views.Activities.DetailSampleActivity"
-    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded, TooDeepLayout, UseCompoundDrawables">
+    tools:context=".Views.Activities.DetailSampleActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layoutDirection="rtl"
+        android:orientation="vertical"
+        android:background="@color/White">
 
         <include layout="@layout/layout_toolbar" />
 
@@ -77,7 +78,7 @@
                                     android:id="@+id/activity_detail_sample_serial_textView"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginBottom="@dimen/_4sdp"
+                                    android:layout_marginBottom="@dimen/_6sdp"
                                     android:gravity="right"
                                     android:textSize="@dimen/_11ssp"
                                     android:textStyle="bold"
@@ -110,6 +111,7 @@
                                                 android:layout_height="@dimen/_9sdp"
                                                 android:layout_marginLeft="@dimen/_4sdp"
                                                 android:layout_gravity="center"
+                                                android:contentDescription="@string/AppImageContent"
                                                 app:tint="@color/Mischka" />
 
                                             <TextView
@@ -154,6 +156,7 @@
                                                 android:layout_height="@dimen/_9sdp"
                                                 android:layout_marginLeft="@dimen/_4sdp"
                                                 android:layout_gravity="center"
+                                                android:contentDescription="@string/AppImageContent"
                                                 android:src="@drawable/ic_case_light"
                                                 app:tint="@color/Mischka" />
 
@@ -199,6 +202,7 @@
                                                 android:layout_height="@dimen/_9sdp"
                                                 android:layout_marginLeft="@dimen/_4sdp"
                                                 android:layout_gravity="center"
+                                                android:contentDescription="@string/AppImageContent"
                                                 android:src="@drawable/ic_hospital_light"
                                                 app:tint="@color/Mischka" />
 
@@ -265,6 +269,7 @@
                                             android:layout_height="@dimen/_10sdp"
                                             android:layout_gravity="center"
                                             android:layout_marginLeft="@dimen/_6sdp"
+                                            android:contentDescription="@string/AppImageContent"
                                             android:src="@drawable/ic_dot_regular" />
 
                                         <TextView
@@ -356,6 +361,7 @@
                                         android:layout_width="@dimen/_26sdp"
                                         android:layout_height="@dimen/_26sdp"
                                         android:padding="@dimen/_6sdp"
+                                        android:contentDescription="@string/AppImageContent"
                                         android:src="@drawable/ic_download_light"
                                         app:tint="@color/Grey" />
 
@@ -375,7 +381,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/_1sdp"
                                     android:layout_marginTop="@dimen/_8sdp"
-                                    android:layout_marginBottom="@dimen/_16sdp"
+                                    android:layout_marginBottom="@dimen/_12sdp"
                                     android:background="@color/Quartz" />
 
                                 <androidx.recyclerview.widget.RecyclerView
@@ -484,18 +490,18 @@
                                     android:overScrollMode="never" />
 
                                 <TextView
-                                    android:id="@+id/activity_detail_sample_test_textView"
+                                    android:id="@+id/activity_detail_sample_answer_textView"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="right"
-                                    android:text="@string/DetailSampleTest"
+                                    android:text="@string/DetailSampleAnswer"
                                     android:textSize="@dimen/_10ssp"
                                     android:textStyle="bold"
                                     android:textColor="@color/Grey"
                                     android:textAlignment="gravity" />
 
                                 <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/activity_detail_sample_test_recyclerView"
+                                    android:id="@+id/activity_detail_sample_answer_recyclerView"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/_8sdp"
@@ -511,59 +517,9 @@
 
             </FrameLayout>
 
-            <LinearLayout
-                android:id="@+id/activity_detail_sample_retryLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:visibility="gone"
-                android:orientation="vertical">
+            <include layout="@layout/layout_info" />
 
-                <ImageView
-                    android:id="@+id/activity_detail_sample_retry_imageView"
-                    android:layout_width="@dimen/_150sdp"
-                    android:layout_height="@dimen/_150sdp" />
-
-                <TextView
-                    android:id="@+id/activity_detail_sample_retry_textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_32sdp"
-                    android:gravity="center"
-                    android:textSize="@dimen/_11ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Mischka"
-                    android:textAlignment="gravity" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/activity_detail_sample_loadingLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:visibility="visible"
-                android:orientation="vertical">
-
-                <ProgressBar
-                    android:layout_width="@dimen/_32sdp"
-                    android:layout_height="@dimen/_32sdp"
-                    android:layout_marginBottom="@dimen/_16sdp"
-                    android:theme="@style/ProgressBarTheme"
-                    style="@style/Widget.AppCompat.ProgressBar"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="@string/AppLoading"
-                    android:textSize="@dimen/_11ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Grey"
-                    android:textAlignment="gravity" />
-
-            </LinearLayout>
+            <include layout="@layout/layout_loading" />
 
         </FrameLayout>
 

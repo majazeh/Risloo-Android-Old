@@ -32,7 +32,7 @@ public class DetailCaseSessionsAdapter extends RecyclerView.Adapter<DetailCaseSe
     private Activity activity;
     private Handler handler;
 
-    public DetailCaseSessionsAdapter(Activity activity) {
+    public DetailCaseSessionsAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -51,54 +51,57 @@ public class DetailCaseSessionsAdapter extends RecyclerView.Adapter<DetailCaseSe
         Model model = sessions.get(i);
 
         try {
-            Intent editIntent = (new Intent(activity, EditSessionActivity.class));
-
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                 holder.editTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
             }
 
-            editIntent.putExtra("id", (String) model.get("id"));
+            Intent editSessionIntent = (new Intent(activity, EditSessionActivity.class));
 
-            editIntent.putExtra("room_id", ((DetailCaseActivity) Objects.requireNonNull(activity)).roomId);
-            editIntent.putExtra("room_name", ((DetailCaseActivity) Objects.requireNonNull(activity)).roomName);
-            editIntent.putExtra("room_title", ((DetailCaseActivity) Objects.requireNonNull(activity)).roomTitle);
-            editIntent.putExtra("case_id", ((DetailCaseActivity) Objects.requireNonNull(activity)).caseId);
-            editIntent.putExtra("case_name", ((DetailCaseActivity) Objects.requireNonNull(activity)).caseName);
-
-            // Get Status
-            if (model.attributes.has("status") && !model.attributes.isNull("status")) {
-                String enStatus = model.get("status").toString();
-                String faStatus = ((DetailCaseActivity) Objects.requireNonNull(activity)).sessionViewModel.getFAStatus(model.get("status").toString());
-
-                editIntent.putExtra("en_status", enStatus);
-                editIntent.putExtra("fa_status", faStatus);
-
-                holder.statusTextView.setText(faStatus);
+            // ID
+            if (model.attributes.has("id") && !model.attributes.isNull("id")) {
+                editSessionIntent.putExtra("id", model.get("id").toString());
             }
 
-            // Get Duration
+            editSessionIntent.putExtra("room_id", ((DetailCaseActivity) Objects.requireNonNull(activity)).roomId);
+            editSessionIntent.putExtra("room_name", ((DetailCaseActivity) Objects.requireNonNull(activity)).roomName);
+            editSessionIntent.putExtra("room_title", ((DetailCaseActivity) Objects.requireNonNull(activity)).roomTitle);
+            editSessionIntent.putExtra("case_id", ((DetailCaseActivity) Objects.requireNonNull(activity)).caseId);
+            editSessionIntent.putExtra("case_name", ((DetailCaseActivity) Objects.requireNonNull(activity)).caseName);
+
+            // StartedAt
+            if (model.attributes.has("started_at") && !model.attributes.isNull("started_at")) {
+                String startedAtDate = DateManager.gregorianToJalali(DateManager.dateToString("yyyy-MM-dd", DateManager.timestampToDate(Long.parseLong(model.get("started_at").toString()))));
+                String startedAtTime = DateManager.dateToString("HH:mm", DateManager.timestampToDate(Long.parseLong(model.get("started_at").toString())));
+
+                editSessionIntent.putExtra("started_at_time", startedAtTime);
+                editSessionIntent.putExtra("started_at_date", startedAtDate);
+
+                holder.startedAtTextView.setText(startedAtDate + "\n" + startedAtTime);
+            }
+
+            // Duration
             if (model.attributes.has("duration") && !model.attributes.isNull("duration")) {
-                editIntent.putExtra("period", model.get("duration").toString());
+                editSessionIntent.putExtra("duration", model.get("duration").toString());
 
                 holder.durationTextView.setText(model.get("duration").toString() + " " + activity.getResources().getString(R.string.DetailCaseSessionMinute));
             }
 
-            // Get Start
-            if (model.attributes.has("started_at") && !model.attributes.isNull("started_at")) {
-                String date = DateManager.gregorianToJalali(DateManager.dateToString("yyyy-MM-dd", DateManager.timestampToDate(Long.parseLong(model.get("started_at").toString()))));
-                String time = DateManager.dateToString("HH:mm", DateManager.timestampToDate(Long.parseLong(model.get("started_at").toString())));
+            // Status
+            if (model.attributes.has("status") && !model.attributes.isNull("status")) {
+                String enStatus = model.get("status").toString();
+                String faStatus = ((DetailCaseActivity) Objects.requireNonNull(activity)).sessionViewModel.getFAStatus(model.get("status").toString());
 
-                editIntent.putExtra("time", time);
-                editIntent.putExtra("date", date);
+                editSessionIntent.putExtra("en_status", enStatus);
+                editSessionIntent.putExtra("fa_status", faStatus);
 
-                holder.startTextView.setText(date + "\n" + time);
+                holder.statusTextView.setText(faStatus);
             }
 
             holder.editTextView.setOnClickListener(v -> {
                 holder.editTextView.setClickable(false);
-                handler.postDelayed(() -> holder.editTextView.setClickable(true), 300);
+                handler.postDelayed(() -> holder.editTextView.setClickable(true), 250);
 
-                activity.startActivityForResult(editIntent, 100);
+                activity.startActivityForResult(editSessionIntent, 100);
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
 
@@ -123,11 +126,11 @@ public class DetailCaseSessionsAdapter extends RecyclerView.Adapter<DetailCaseSe
 
     public class DetailCaseSessionsHolder extends RecyclerView.ViewHolder {
 
-        public TextView startTextView, durationTextView, statusTextView, editTextView;
+        public TextView startedAtTextView, durationTextView, statusTextView, editTextView;
 
         public DetailCaseSessionsHolder(View view) {
             super(view);
-            startTextView = view.findViewById(R.id.single_item_detail_case_sessions_start_textView);
+            startedAtTextView = view.findViewById(R.id.single_item_detail_case_sessions_started_at_textView);
             durationTextView = view.findViewById(R.id.single_item_detail_case_sessions_duration_textView);
             statusTextView = view.findViewById(R.id.single_item_detail_case_sessions_status_textView);
             editTextView = view.findViewById(R.id.single_item_detail_case_sessions_edit_textView);

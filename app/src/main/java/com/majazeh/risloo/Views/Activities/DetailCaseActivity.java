@@ -91,7 +91,7 @@ public class DetailCaseActivity extends AppCompatActivity {
 
         listener();
 
-        launchProcess("getGeneral");
+        getData("getGeneral");
     }
 
     private void decorator() {
@@ -168,7 +168,7 @@ public class DetailCaseActivity extends AppCompatActivity {
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
             finish();
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
@@ -177,7 +177,7 @@ public class DetailCaseActivity extends AppCompatActivity {
         retrySpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                relaunchProcess("getGeneral");
+                relaunchData("getGeneral");
             }
 
             @Override
@@ -189,7 +189,7 @@ public class DetailCaseActivity extends AppCompatActivity {
 
         roomAvatarImageView.setOnClickListener(v -> {
             roomAvatarImageView.setClickable(false);
-            handler.postDelayed(() -> roomAvatarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> roomAvatarImageView.setClickable(true), 250);
 
             if (!roomName.equals("") && !roomUrl.equals("")) {
                 Intent intent = (new Intent(this, ImageActivity.class));
@@ -204,24 +204,25 @@ public class DetailCaseActivity extends AppCompatActivity {
 
         addReferenceTextView.setOnClickListener(v -> {
             addReferenceTextView.setClickable(false);
-            handler.postDelayed(() -> addReferenceTextView.setClickable(true), 300);
+            handler.postDelayed(() -> addReferenceTextView.setClickable(true), 250);
 
 
         });
 
         addSessionTextView.setOnClickListener(v -> {
             addSessionTextView.setClickable(false);
-            handler.postDelayed(() -> addSessionTextView.setClickable(true), 300);
+            handler.postDelayed(() -> addSessionTextView.setClickable(true), 250);
 
-            Intent intent = (new Intent(this, CreateSessionActivity.class));
+            Intent createSessionActivity = (new Intent(this, CreateSessionActivity.class));
 
-            intent.putExtra("room_id", roomId);
-            intent.putExtra("room_name", roomName);
-            intent.putExtra("room_title", roomTitle);
-            intent.putExtra("case_id", caseId);
-            intent.putExtra("case_name", caseName);
+            createSessionActivity.putExtra("loaded", true);
+            createSessionActivity.putExtra("room_id", roomId);
+            createSessionActivity.putExtra("room_name", roomName);
+            createSessionActivity.putExtra("room_title", roomTitle);
+            createSessionActivity.putExtra("case_id", caseId);
+            createSessionActivity.putExtra("case_name", caseName);
 
-            startActivityForResult(intent.putExtra("loaded", true), 100);
+            startActivityForResult(createSessionActivity, 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
     }
@@ -245,115 +246,102 @@ public class DetailCaseActivity extends AppCompatActivity {
         try {
             JSONObject data = FileManager.readObjectFromCache(this, "caseDetail" + "/" + caseId);
 
+            // Room
             if (data.has("room") && !data.isNull("room")) {
-                JSONObject room = data.getJSONObject("room");
+                JSONObject room = (JSONObject) data.get("room");
                 roomId = room.get("id").toString();
 
-                JSONObject manager = room.getJSONObject("manager");
-                if (manager.has("name") && !manager.isNull("name")) {
-                    roomName = manager.get("name").toString();
-                    roomTitleTextView.setText(roomName);
+                JSONObject manager = (JSONObject) room.get("manager");
+                roomName = manager.get("name").toString();
+
+                roomTitleTextView.setText(roomName);
+
+                JSONObject center = (JSONObject) room.get("center");
+                JSONObject detail = (JSONObject) center.get("detail");
+                roomTitle = detail.get("title").toString();
+
+                roomTypeTextView.setText(roomTitle);
+
+                // Avatar
+                if (detail.has("avatar") && !detail.isNull("avatar")) {
+                    JSONObject avatar = detail.getJSONObject("avatar");
+                    JSONObject medium = avatar.getJSONObject("medium");
+                    roomUrl = medium.get("url").toString();
+
+                    Picasso.get().load(roomUrl).placeholder(R.color.Solitude).into(roomAvatarImageView);
+
+                    roomSubTitleTextView.setVisibility(View.GONE);
                 } else {
-                    roomTitleTextView.setText("-");
+                    Picasso.get().load(R.color.Solitude).placeholder(R.color.Solitude).into(roomAvatarImageView);
+
+                    roomSubTitleTextView.setVisibility(View.VISIBLE);
+                    roomSubTitleTextView.setText(roomName.charAt(0) + String.valueOf(roomName.substring(roomName.lastIndexOf(" ") + 1).charAt(0)));
                 }
-
-                JSONObject center = room.getJSONObject("center");
-                if (center.has("detail") && !center.isNull("detail")) {
-                    JSONObject centerDetail = center.getJSONObject("detail");
-
-                    if (centerDetail.has("title") && !centerDetail.isNull("title")) {
-                        roomTitle = centerDetail.get("title").toString();
-                        roomTypeTextView.setText(roomTitle);
-                    } else {
-                        roomTypeTextView.setText("-");
-                    }
-
-                    if (centerDetail.has("avatar") && !centerDetail.isNull("avatar")) {
-                        JSONObject avatar = centerDetail.getJSONObject("avatar");
-                        JSONObject medium = avatar.getJSONObject("medium");
-
-                        roomUrl = medium.get("url").toString();
-
-                        Picasso.get().load(roomUrl).placeholder(R.color.Solitude).into(roomAvatarImageView);
-
-                        roomSubTitleTextView.setVisibility(View.GONE);
-                    } else {
-                        Picasso.get().load(R.color.Solitude).placeholder(R.color.Solitude).into(roomAvatarImageView);
-
-                        roomSubTitleTextView.setVisibility(View.VISIBLE);
-                        roomSubTitleTextView.setText(roomName.charAt(0) + String.valueOf(roomName.substring(roomName.lastIndexOf(" ") + 1).charAt(0)));
-                    }
-                }
-
             }
 
+            // Reference
+            JSONArray clients = (JSONArray) data.get("clients");
+
+            if (clients.length() != 0) {
+                StringBuilder name = new StringBuilder();
+                name.append(getResources().getString(R.string.DetailCaseName)).append(" ");
+
+                ArrayList<Model> references = new ArrayList<>();
+
+                for (int j = 0; j < clients.length(); j++) {
+                    JSONObject client = clients.getJSONObject(j);
+                    JSONObject user = client.getJSONObject("user");
+
+                    references.add(new Model(client));
+
+                    if (j == clients.length() - 1) {
+                        name.append(user.get("name").toString());
+                    } else {
+                        name.append(user.get("name").toString()).append(" - ");
+                    }
+                }
+
+                caseName = name.substring(14, name.length());
+
+                nameTextView.setText(StringManager.foreground(name.toString(), 14, name.length(), getResources().getColor(R.color.PrimaryDark)));
+
+                detailCaseReferencesAdapter.setReference(references);
+                referencesRecyclerView.setAdapter(detailCaseReferencesAdapter);
+            }
+
+            // Complaint
             if (data.has("detail") && !data.isNull("detail")) {
-                JSONObject detail = data.getJSONObject("detail");
+                JSONObject detail = (JSONObject) data.get("detail");
 
-                if (detail.has("chief_complaint") && !detail.isNull("chief_complaint")) {
-                    complaintTextView.setText(detail.get("chief_complaint").toString());
-                } else {
-                    complaintTextView.setText("-");
-                }
+                complaintTextView.setText(detail.get("chief_complaint").toString());
+            } else {
+                complaintTextView.setText("-");
             }
 
-
-
+            // CreatedAt
             if (data.has("created_at") && !data.isNull("created_at")) {
-                String date = DateManager.gregorianToJalali(DateManager.dateToString("yyyy-MM-dd", DateManager.timestampToDate(Long.parseLong(data.get("created_at").toString()))));
-                String time = DateManager.dateToString("HH:mm", DateManager.timestampToDate(Long.parseLong(data.get("created_at").toString())));
+                String createdAtDate = DateManager.gregorianToJalali(DateManager.dateToString("yyyy-MM-dd", DateManager.timestampToDate(Long.parseLong(data.get("created_at").toString()))));
+                String createdAtTime = DateManager.dateToString("HH:mm", DateManager.timestampToDate(Long.parseLong(data.get("created_at").toString())));
 
-                createdCaseDateTextView.setText(time + "  " + date);
+                createdCaseDateTextView.setText(createdAtTime + "  " + createdAtDate);
             } else {
                 createdCaseDateTextView.setText("-");
             }
 
-            if (data.has("clients") && !data.isNull("clients")) {
-                JSONArray clients = data.getJSONArray("clients");
+            // Sessions
+            JSONArray sessions = (JSONArray) data.get("sessions");
 
-                if (clients.length() != 0) {
-                    StringBuilder reference = new StringBuilder();
-                    reference.append(getResources().getString(R.string.DetailCaseName)).append(" ");
+            if (sessions.length() != 0) {
+                ArrayList<Model> meetings = new ArrayList<>();
 
-                    ArrayList<Model> references = new ArrayList<>();
+                for (int j = 0; j < sessions.length(); j++) {
+                    JSONObject session = sessions.getJSONObject(j);
 
-                    for (int j = 0; j < clients.length(); j++) {
-                        JSONObject client = clients.getJSONObject(j);
-                        JSONObject user = client.getJSONObject("user");
-
-                        references.add(new Model(client));
-
-                        if (user.has("name") && !user.isNull("name")) {
-                            if (j == clients.length() -1)
-                                reference.append(user.get("name").toString());
-                            else
-                                reference.append(user.get("name").toString()).append(" - ");
-                        }
-                    }
-
-                    caseName = reference.substring(14, reference.length());
-                    nameTextView.setText(StringManager.foreground(reference.toString(), 14, reference.length(), getResources().getColor(R.color.PrimaryDark)));
-
-                    detailCaseReferencesAdapter.setReference(references);
-                    referencesRecyclerView.setAdapter(detailCaseReferencesAdapter);
+                    meetings.add(new Model(session));
                 }
-            }
 
-            if (data.has("sessions") && !data.isNull("sessions")) {
-                JSONArray sessions = data.getJSONArray("sessions");
-
-                if (sessions.length() != 0) {
-                    ArrayList<Model> meetings = new ArrayList<>();
-
-                    for (int j = 0; j < sessions.length(); j++) {
-                        JSONObject session = sessions.getJSONObject(j);
-
-                        meetings.add(new Model(session));
-                    }
-
-                    detailCaseSessionsAdapter.setSession(meetings);
-                    sessionsRecyclerView.setAdapter(detailCaseSessionsAdapter);
-                }
+                detailCaseSessionsAdapter.setSession(meetings);
+                sessionsRecyclerView.setAdapter(detailCaseSessionsAdapter);
             }
 
         } catch (JSONException e) {
@@ -361,7 +349,7 @@ public class DetailCaseActivity extends AppCompatActivity {
         }
     }
 
-    private void launchProcess(String method) {
+    private void getData(String method) {
         try {
             if (method.equals("getGeneral")) {
                 caseViewModel.general(caseId);
@@ -372,12 +360,12 @@ public class DetailCaseActivity extends AppCompatActivity {
         }
     }
 
-    private void relaunchProcess(String method) {
+    private void relaunchData(String method) {
         loadingLayout.setVisibility(View.VISIBLE);
         infoLayout.setVisibility(View.GONE);
         mainLayout.setVisibility(View.GONE);
 
-        launchProcess(method);
+        getData(method);
     }
 
     private void observeWork() {
@@ -395,7 +383,7 @@ public class DetailCaseActivity extends AppCompatActivity {
                     CaseRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer != -1) {
                     if (FileManager.readObjectFromCache(this, "caseDetail" + "/" + caseId) == null) {
-                        // Detail is Empty
+                        // General Detail is Empty
 
                         loadingLayout.setVisibility(View.GONE);
                         infoLayout.setVisibility(View.VISIBLE);
@@ -430,7 +418,7 @@ public class DetailCaseActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
-                relaunchProcess("getGeneral");
+                relaunchData("getGeneral");
             }
         }
     }

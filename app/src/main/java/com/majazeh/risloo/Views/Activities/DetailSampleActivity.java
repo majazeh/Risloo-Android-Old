@@ -1,6 +1,7 @@
 package com.majazeh.risloo.Views.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.cardview.widget.CardView;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -45,9 +47,9 @@ import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
-import com.majazeh.risloo.Views.Adapters.DetailSampleAdapter;
+import com.majazeh.risloo.Views.Adapters.DetailSampleAnswersAdapter;
 import com.majazeh.risloo.Views.Adapters.SearchAdapter;
-import com.majazeh.risloo.Views.Adapters.ZoomageAdapter;
+import com.majazeh.risloo.Views.Adapters.DetailSampleImagesAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,8 +63,8 @@ public class DetailSampleActivity extends AppCompatActivity {
     private SampleViewModel viewModel;
 
     // Adapters
-    private DetailSampleAdapter detailSampleAdapter;
-    private ZoomageAdapter zoomageAdapter;
+    private DetailSampleAnswersAdapter detailSampleAnswersAdapter;
+    private DetailSampleImagesAdapter detailSampleImagesAdapter;
     private SearchAdapter downloadDialogAdapter;
 
     // Vars
@@ -79,15 +81,17 @@ public class DetailSampleActivity extends AppCompatActivity {
     private RelativeLayout toolbarLayout;
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
-    private TextView retryTextView, scaleTextView, serialTextView, statusTextView, referenceHintTextView, referenceTextView, caseTextView, roomTextView, actionTextView, generalTextView, prerequisiteTextView, testTextView;
-    private ImageView retryImageView, statusImageView, referenceHintImageView, downloadImageView;
+    private FrameLayout mainLayout;
+    private LinearLayout infoLayout, loadingLayout;
+    private ImageView infoImageView;
+    private TextView infoTextView;
+    private TextView scaleTextView, serialTextView, statusTextView, referenceHintTextView, referenceTextView, caseTextView, roomTextView, actionTextView, generalTextView, prerequisiteTextView, answerTextView;
+    private ImageView statusImageView, referenceHintImageView, downloadImageView;
+    private LinearLayout referenceLinearLayout, caseLinearLayout, roomLinearLayout;
     private CheckBox editCheckbox;
     private RecyclerView resultRecyclerView, generalRecyclerView, prerequisiteRecyclerView, testRecyclerView;
-    private Dialog progressDialog;
-    private FrameLayout mainLayout;
-    private LinearLayout retryLayout, loadingLayout, referenceLinearLayout, caseLinearLayout, roomLinearLayout;
     private CardView loadingCardView, resultCardView, componentCardView;
-    private Dialog downloadDialog;
+    private Dialog downloadDialog, progressDialog;
     private TextView downloadDialogTitleTextView;
     private RecyclerView downloadDialogRecyclerView;
 
@@ -105,7 +109,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
         listener();
 
-        launchProcess("getGeneral");
+        getData("getGeneral");
     }
 
     private void decorator() {
@@ -118,8 +122,9 @@ public class DetailSampleActivity extends AppCompatActivity {
     private void initializer() {
         viewModel = new ViewModelProvider(this).get(SampleViewModel.class);
 
-        detailSampleAdapter = new DetailSampleAdapter(this);
-        zoomageAdapter = new ZoomageAdapter(this);
+        detailSampleAnswersAdapter = new DetailSampleAnswersAdapter(this);
+        detailSampleImagesAdapter = new DetailSampleImagesAdapter(this);
+
         downloadDialogAdapter = new SearchAdapter(this);
 
         handler = new Handler();
@@ -141,8 +146,12 @@ public class DetailSampleActivity extends AppCompatActivity {
         toolbarTextView.setText(getResources().getString(R.string.DetailSampleTitle));
         toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
-        retryTextView = findViewById(R.id.activity_detail_sample_retry_textView);
-        retryTextView.setMovementMethod(LinkMovementMethod.getInstance());
+        mainLayout = findViewById(R.id.activity_detail_sample_mainLayout);
+        infoLayout = findViewById(R.id.layout_info_linearLayout);
+        loadingLayout = findViewById(R.id.layout_loading_linearLayout);
+
+        infoImageView = findViewById(R.id.layout_info_imageView);
+        infoTextView = findViewById(R.id.layout_info_textView);
 
         scaleTextView = findViewById(R.id.activity_detail_sample_scale_textView);
         serialTextView = findViewById(R.id.activity_detail_sample_serial_textView);
@@ -154,12 +163,15 @@ public class DetailSampleActivity extends AppCompatActivity {
         actionTextView = findViewById(R.id.activity_detail_sample_action_textView);
         generalTextView = findViewById(R.id.activity_detail_sample_general_textView);
         prerequisiteTextView = findViewById(R.id.activity_detail_sample_prerequisite_textView);
-        testTextView = findViewById(R.id.activity_detail_sample_test_textView);
+        answerTextView = findViewById(R.id.activity_detail_sample_answer_textView);
 
-        retryImageView = findViewById(R.id.activity_detail_sample_retry_imageView);
         statusImageView = findViewById(R.id.activity_detail_sample_status_imageView);
         referenceHintImageView = findViewById(R.id.activity_detail_sample_reference_hint_imageView);
         downloadImageView = findViewById(R.id.activity_detail_sample_download_imageView);
+
+        referenceLinearLayout = findViewById(R.id.activity_detail_sample_reference_linearLayout);
+        caseLinearLayout = findViewById(R.id.activity_detail_sample_case_linearLayout);
+        roomLinearLayout = findViewById(R.id.activity_detail_sample_room_linearLayout);
 
         editCheckbox = findViewById(R.id.activity_detail_sample_edit_checkbox);
 
@@ -175,23 +187,10 @@ public class DetailSampleActivity extends AppCompatActivity {
         prerequisiteRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", 0, (int) getResources().getDimension(R.dimen._4sdp), 0));
         prerequisiteRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         prerequisiteRecyclerView.setHasFixedSize(false);
-        testRecyclerView = findViewById(R.id.activity_detail_sample_test_recyclerView);
+        testRecyclerView = findViewById(R.id.activity_detail_sample_answer_recyclerView);
         testRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", 0, (int) getResources().getDimension(R.dimen._4sdp), 0));
         testRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         testRecyclerView.setHasFixedSize(false);
-
-        progressDialog = new Dialog(this, R.style.DialogTheme);
-        Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
-        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        progressDialog.setContentView(R.layout.dialog_progress);
-        progressDialog.setCancelable(false);
-
-        mainLayout = findViewById(R.id.activity_detail_sample_mainLayout);
-        retryLayout = findViewById(R.id.activity_detail_sample_retryLayout);
-        loadingLayout = findViewById(R.id.activity_detail_sample_loadingLayout);
-        referenceLinearLayout = findViewById(R.id.activity_detail_sample_reference_linearLayout);
-        caseLinearLayout = findViewById(R.id.activity_detail_sample_case_linearLayout);
-        roomLinearLayout = findViewById(R.id.activity_detail_sample_room_linearLayout);
 
         loadingCardView = findViewById(R.id.activity_detail_sample_loading_cardView);
         resultCardView = findViewById(R.id.activity_detail_sample_result_cardView);
@@ -202,15 +201,20 @@ public class DetailSampleActivity extends AppCompatActivity {
         downloadDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         downloadDialog.setContentView(R.layout.dialog_search);
         downloadDialog.setCancelable(true);
+        progressDialog = new Dialog(this, R.style.DialogTheme);
+        Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        progressDialog.setContentView(R.layout.dialog_progress);
+        progressDialog.setCancelable(false);
 
-        WindowManager.LayoutParams layoutParamsDownload = new WindowManager.LayoutParams();
-        layoutParamsDownload.copyFrom(downloadDialog.getWindow().getAttributes());
-        layoutParamsDownload.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParamsDownload.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        downloadDialog.getWindow().setAttributes(layoutParamsDownload);
+        WindowManager.LayoutParams layoutParamsDownloadDialog = new WindowManager.LayoutParams();
+        layoutParamsDownloadDialog.copyFrom(downloadDialog.getWindow().getAttributes());
+        layoutParamsDownloadDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsDownloadDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        downloadDialog.getWindow().setAttributes(layoutParamsDownloadDialog);
 
         downloadDialogTitleTextView = downloadDialog.findViewById(R.id.dialog_search_title_textView);
-        downloadDialogTitleTextView.setText(getResources().getString(R.string.DetailDownloadDialogTitle));
+        downloadDialogTitleTextView.setText(getResources().getString(R.string.DetailSampleDownloadDialogTitle));
 
         downloadDialogRecyclerView = downloadDialog.findViewById(R.id.dialog_search_recyclerView);
         downloadDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
@@ -230,7 +234,7 @@ public class DetailSampleActivity extends AppCompatActivity {
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
             finish();
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
@@ -239,7 +243,7 @@ public class DetailSampleActivity extends AppCompatActivity {
         retrySpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                relaunchProcess("getGeneral");
+                relaunchData("getGeneral");
             }
 
             @Override
@@ -268,16 +272,16 @@ public class DetailSampleActivity extends AppCompatActivity {
         editCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 editCheckbox.setTextColor(getResources().getColor(R.color.Nero));
-                detailSampleAdapter.setEditable(true);
+                detailSampleAnswersAdapter.setEditable(true);
             } else {
                 editCheckbox.setTextColor(getResources().getColor(R.color.Mischka));
-                detailSampleAdapter.setEditable(false);
+                detailSampleAnswersAdapter.setEditable(false);
             }
         });
 
         downloadImageView.setOnClickListener(v -> {
             downloadImageView.setClickable(false);
-            handler.postDelayed(() -> downloadImageView.setClickable(true), 300);
+            handler.postDelayed(() -> downloadImageView.setClickable(true), 250);
 
             downloadDialog.show();
         });
@@ -285,13 +289,18 @@ public class DetailSampleActivity extends AppCompatActivity {
         downloadDialog.setOnCancelListener(dialog -> downloadDialog.dismiss());
     }
 
-    private void setRetryLayout(String type) {
-        if (type.equals("error")) {
-            retryImageView.setImageResource(R.drawable.illu_error);
-            retryTextView.setText(StringManager.clickable(getResources().getString(R.string.AppInfoError), 21, 30, retrySpan));
-        } else if (type.equals("connection")) {
-            retryImageView.setImageResource(R.drawable.illu_connection);
-            retryTextView.setText(StringManager.clickable(getResources().getString(R.string.AppInfoConnection), 17, 26, retrySpan));
+    private void setInfoLayout(String type) {
+        switch (type) {
+            case "error":
+                infoImageView.setImageResource(R.drawable.illu_error);
+                infoTextView.setMovementMethod(LinkMovementMethod.getInstance());
+                infoTextView.setText(StringManager.clickable(getResources().getString(R.string.AppInfoError), 21, 30, retrySpan));
+                break;
+            case "connection":
+                infoImageView.setImageResource(R.drawable.illu_connection);
+                infoTextView.setMovementMethod(LinkMovementMethod.getInstance());
+                infoTextView.setText(StringManager.clickable(getResources().getString(R.string.AppInfoConnection), 17, 26, retrySpan));
+                break;
         }
     }
 
@@ -319,8 +328,8 @@ public class DetailSampleActivity extends AppCompatActivity {
                 recyclerView.setAdapter(downloadDialogAdapter);
                 break;
             case "getPNGs":
-                zoomageAdapter.setZoomages(arrayList);
-                recyclerView.setAdapter(zoomageAdapter);
+                detailSampleImagesAdapter.setImage(arrayList);
+                recyclerView.setAdapter(detailSampleImagesAdapter);
                 break;
         }
     }
@@ -328,16 +337,23 @@ public class DetailSampleActivity extends AppCompatActivity {
     private void setData() {
         try {
             JSONObject data = FileManager.readObjectFromCache(this, "sampleDetail" + "/" + sampleId);
-            serialTextView.setText(data.getString("id"));
 
+            // ID
+            if (data.has("id") && !data.isNull("id")) {
+                serialTextView.setText(data.get("id").toString());
+            }
+
+            // Scale
             if (data.has("scale") && !data.isNull("scale")) {
-                JSONObject scale = data.getJSONObject("scale");
-
+                JSONObject scale = (JSONObject) data.get("scale");
                 scaleTitle = scale.getString("title");
 
                 scaleTextView.setText(scaleTitle);
+            }
 
-                switch (data.getString("status")) {
+            // Status
+            if (data.has("status") && !data.isNull("status")) {
+                switch (data.get("status").toString()) {
                     case "seald":
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusSeald));
                         statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
@@ -348,6 +364,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                         showLoading = false;
                         break;
+
                     case "open":
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusOpen));
                         statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
@@ -358,6 +375,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                         showLoading = false;
                         break;
+
                     case "closed":
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
                         statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
@@ -368,6 +386,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                         showLoading = false;
                         break;
+
                     case "scoring":
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusScoring));
                         statusTextView.setTextColor(getResources().getColor(R.color.MoonYellow));
@@ -377,6 +396,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                         showLoading = true;
                         break;
+
                     case "craeting_files":
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusCreatingFiles));
                         statusTextView.setTextColor(getResources().getColor(R.color.MoonYellow));
@@ -386,6 +406,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                         showLoading = true;
                         break;
+
                     case "done":
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusDone));
                         statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
@@ -410,8 +431,9 @@ public class DetailSampleActivity extends AppCompatActivity {
                         }
 
                         break;
+
                     default:
-                        statusTextView.setText(data.getString("status"));
+                        statusTextView.setText(data.get("status").toString());
                         statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
                         ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Mischka));
 
@@ -437,35 +459,46 @@ public class DetailSampleActivity extends AppCompatActivity {
                 }
             }
 
+            // Reference
             if (data.has("client") && !data.isNull("client")) {
-                JSONObject client = data.getJSONObject("client");
+                JSONObject client = (JSONObject) data.get("client");
 
                 referenceHintTextView.setText(getResources().getString(R.string.DetailSampleReference));
                 referenceHintImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_light));
-                referenceTextView.setText(client.getString("name"));
-            } else if (data.has("code") && !data.isNull("code")) {
 
+                referenceTextView.setText(client.get("name").toString());
+                referenceLinearLayout.setVisibility(View.VISIBLE);
+            } else if (data.has("code") && !data.isNull("code")) {
                 referenceHintTextView.setText(getResources().getString(R.string.DetailSampleCode));
                 referenceHintImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_hashtag_light));
-                referenceTextView.setText(data.getString("code"));
+
+                referenceTextView.setText(data.get("code").toString());
+                referenceLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 referenceLinearLayout.setVisibility(View.GONE);
             }
 
+            // Case
             if (data.has("case") && !data.isNull("case")) {
-                JSONObject Case = data.getJSONObject("case");
+                JSONObject casse = (JSONObject) data.get("case");
 
-                caseTextView.setText(Case.getString("name"));
+                caseTextView.setText(casse.get("id").toString());
+                caseLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 caseLinearLayout.setVisibility(View.GONE);
             }
 
+            // Room
             if (data.has("room") && !data.isNull("room")) {
-                JSONObject room = data.getJSONObject("room");
-                JSONObject center = room.getJSONObject("center");
-                JSONObject detail = center.getJSONObject("detail");
+                JSONObject room = (JSONObject) data.get("room");
 
-                roomTextView.setText(detail.getString("title"));
+                JSONObject manager = (JSONObject) room.get("manager");
+
+                JSONObject center = (JSONObject) room.get("center");
+                JSONObject detail = (JSONObject) center.get("detail");
+
+                roomTextView.setText(detail.get("title").toString());
+                roomLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 roomLinearLayout.setVisibility(View.GONE);
             }
@@ -474,7 +507,7 @@ public class DetailSampleActivity extends AppCompatActivity {
                 loadingCardView.setVisibility(View.VISIBLE);
                 loadingCardView.setAnimation(animFadeIn);
 
-                launchProcess("getScore");
+                getData("getScore");
             } else {
                 loadingCardView.setVisibility(View.GONE);
                 loadingCardView.setAnimation(animFadeOut);
@@ -485,7 +518,7 @@ public class DetailSampleActivity extends AppCompatActivity {
         }
     }
 
-    private void launchProcess(String method) {
+    private void getData(String method) {
         try {
             if (method.equals("getGeneral")) {
                 viewModel.general(sampleId);
@@ -498,12 +531,12 @@ public class DetailSampleActivity extends AppCompatActivity {
         }
     }
 
-    private void relaunchProcess(String method) {
+    private void relaunchData(String method) {
         loadingLayout.setVisibility(View.VISIBLE);
-        retryLayout.setVisibility(View.GONE);
+        infoLayout.setVisibility(View.GONE);
         mainLayout.setVisibility(View.GONE);
 
-        launchProcess(method);
+        getData(method);
     }
 
     private void doWork(String method) {
@@ -512,10 +545,12 @@ public class DetailSampleActivity extends AppCompatActivity {
                 case "score":
                     loadingCardView.setVisibility(View.VISIBLE);
                     loadingCardView.setAnimation(animFadeIn);
+
                     viewModel.score(sampleId);
                     break;
                 case "close":
                     progressDialog.show();
+
                     viewModel.close(sampleId);
                     break;
             }
@@ -533,7 +568,7 @@ public class DetailSampleActivity extends AppCompatActivity {
                         // Show General Detail
 
                         loadingLayout.setVisibility(View.GONE);
-                        retryLayout.setVisibility(View.GONE);
+                        infoLayout.setVisibility(View.GONE);
                         mainLayout.setVisibility(View.VISIBLE);
 
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
@@ -541,32 +576,24 @@ public class DetailSampleActivity extends AppCompatActivity {
                         setData();
                     } else if (integer != -1) {
                         if (FileManager.readObjectFromCache(this, "sampleDetail" + "/" + sampleId) == null) {
+                            // General Detail is Empty
+
+                            loadingLayout.setVisibility(View.GONE);
+                            infoLayout.setVisibility(View.VISIBLE);
+                            mainLayout.setVisibility(View.GONE);
+
                             if (integer == 0) {
-                                // General Detail is Empty And Error
-
-                                loadingLayout.setVisibility(View.GONE);
-                                retryLayout.setVisibility(View.VISIBLE);
-                                mainLayout.setVisibility(View.GONE);
-
-                                setRetryLayout("error");
-
-                                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                                setInfoLayout("error"); // Show Error
                             } else if (integer == -2) {
-                                // General Detail is Empty And Connection
-
-                                loadingLayout.setVisibility(View.GONE);
-                                retryLayout.setVisibility(View.VISIBLE);
-                                mainLayout.setVisibility(View.GONE);
-
-                                setRetryLayout("connection");
-
-                                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                                setInfoLayout("connection"); // Show Connection
                             }
+
+                            SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                         } else {
                             // Show General Detail
 
                             loadingLayout.setVisibility(View.GONE);
-                            retryLayout.setVisibility(View.GONE);
+                            infoLayout.setVisibility(View.GONE);
                             mainLayout.setVisibility(View.VISIBLE);
 
                             SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
@@ -578,17 +605,27 @@ public class DetailSampleActivity extends AppCompatActivity {
                 case "getPrerequisite":
 
                     break;
-                case "getTest":
+                case "getAnswer":
 
                     break;
                 case "getScore":
                     if (integer == 1) {
-                        // Reset Data
-
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
 
-                        launchProcess("getGeneral");
-                    } else if (integer != -1) {
+                        getData("getGeneral");
+                    } else if (integer == 0) {
+                        statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
+                        statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+
+                        actionTextView.setText(getResources().getString(R.string.DetailSampleScore));
+                        setButton(actionTextView, true);
+
+                        loadingCardView.setVisibility(View.GONE);
+                        loadingCardView.setAnimation(animFadeOut);
+                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    } else if (integer == -2) {
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
                         statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
                         ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
@@ -607,7 +644,7 @@ public class DetailSampleActivity extends AppCompatActivity {
                     if (integer == 1) {
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
 
-                        launchProcess("getGeneral");
+                        getData("getGeneral");
                         setResult(RESULT_OK, null);
                     } else if (integer == 0) {
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
@@ -700,6 +737,17 @@ public class DetailSampleActivity extends AppCompatActivity {
                 }
                 IntentManager.download(this, downloadUrl);
                 downloadDialog.dismiss();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 100) {
+                relaunchData("getGeneral");
             }
         }
     }

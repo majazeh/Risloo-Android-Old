@@ -11,23 +11,16 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.ViewModels.SampleViewModel;
 
 import java.util.ArrayList;
 
-public class DetailSampleAdapter extends RecyclerView.Adapter<DetailSampleAdapter.DetailSampleHolder> {
-
-    // ViewModels
-    private SampleViewModel viewModel;
+public class DetailSampleAnswersAdapter extends RecyclerView.Adapter<DetailSampleAnswersAdapter.DetailSampleHolder> {
 
     // Vars
-    private String result = "";
     private ArrayList<Model> values;
     private boolean editable = false;
 
@@ -35,14 +28,14 @@ public class DetailSampleAdapter extends RecyclerView.Adapter<DetailSampleAdapte
     private Activity activity;
     private Handler handler;
 
-    public DetailSampleAdapter(Activity activity) {
+    public DetailSampleAnswersAdapter(@NonNull Activity activity) {
         this.activity = activity;
     }
 
     @NonNull
     @Override
     public DetailSampleHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_detail_sample, viewGroup, false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.single_item_detail_sample_answers, viewGroup, false);
 
         initializer(view);
 
@@ -149,22 +142,19 @@ public class DetailSampleAdapter extends RecyclerView.Adapter<DetailSampleAdapte
 //        } catch (JSONException e) {
 //            e.printStackTrace();
 //        }
-
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return values.size();
     }
 
     private void initializer(View view) {
-        viewModel = new ViewModelProvider((FragmentActivity) activity).get(SampleViewModel.class);
-
         handler = new Handler();
     }
 
-    public void setValue(ArrayList<Model> value) {
-        this.values = value;
+    public void setValue(ArrayList<Model> values) {
+        this.values = values;
         notifyDataSetChanged();
     }
 
@@ -243,10 +233,10 @@ public class DetailSampleAdapter extends RecyclerView.Adapter<DetailSampleAdapte
 
         public DetailSampleHolder(View view) {
             super(view);
-            typeEditText = view.findViewById(R.id.single_item_detail_sample_type_editText);
-            optionSpinner = view.findViewById(R.id.single_item_detail_sample_option_spinner);
-            arrowImageView = view.findViewById(R.id.single_item_detail_sample_arrow_imageView);
-            updateProgressBar = view.findViewById(R.id.single_item_detail_sample_update_progressBar);
+            typeEditText = view.findViewById(R.id.single_item_detail_sample_answers_type_editText);
+            optionSpinner = view.findViewById(R.id.single_item_detail_sample_answers_option_spinner);
+            arrowImageView = view.findViewById(R.id.single_item_detail_sample_answers_arrow_imageView);
+            updateProgressBar = view.findViewById(R.id.single_item_detail_sample_answers_update_progressBar);
         }
     }
 

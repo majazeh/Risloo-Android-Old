@@ -8,8 +8,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layoutDirection="ltr"
-    android:orientation="horizontal"
-    tools:ignore="RtlHardcoded, RtlSymmetry">
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/single_item_detail_case_references_create_textView"
@@ -21,7 +20,7 @@
         android:paddingLeft="@dimen/_9sdp"
         android:paddingRight="@dimen/_9sdp"
         android:gravity="center"
-        android:text="@string/DetailCaseReferenceCreate"
+        android:text="@string/DetailCaseCreateSample"
         android:textSize="@dimen/_8ssp"
         android:textStyle="bold"
         android:textColor="@color/PrimaryDark"

@@ -8,15 +8,14 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layoutDirection="rtl"
-    android:orientation="horizontal"
-    tools:ignore="RtlHardcoded, RtlSymmetry">
+    android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/single_item_detail_case_sessions_start_textView"
+        android:id="@+id/single_item_detail_case_sessions_started_at_textView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="right|top"
+        android:gravity="top|right"
         android:textSize="@dimen/_9ssp"
         android:textStyle="bold"
         android:textColor="@color/Grey"
@@ -27,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="right|top"
+        android:gravity="top|right"
         android:textSize="@dimen/_9ssp"
         android:textStyle="bold"
         android:textColor="@color/Grey"
@@ -38,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="right|top"
+        android:gravity="top|right"
         android:textSize="@dimen/_9ssp"
         android:textStyle="bold"
         android:textColor="@color/Grey"
@@ -48,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1.1"
-        android:gravity="left|top">
+        android:gravity="top|left">
 
         <TextView
             android:id="@+id/single_item_detail_case_sessions_edit_textView"
@@ -59,7 +58,7 @@
             android:paddingLeft="@dimen/_9sdp"
             android:paddingRight="@dimen/_9sdp"
             android:gravity="center"
-            android:text="@string/DetailCaseSessionEdit"
+            android:text="@string/DetailCaseEditSession"
             android:textSize="@dimen/_8ssp"
             android:textStyle="bold"
             android:textColor="@color/PrimaryDark"

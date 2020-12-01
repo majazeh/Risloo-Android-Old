@@ -2,7 +2,8 @@
 <com.jsibbold.zoomage.ZoomageView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/single_item_zoomage"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/single_item_detail_sample_images"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:zoomage_restrictBounds="false"

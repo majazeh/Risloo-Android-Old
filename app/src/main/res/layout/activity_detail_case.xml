@@ -6,17 +6,18 @@
     android:id="@+id/activity_detail_case"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="rtl"
+    android:focusable="true"
     android:fitsSystemWindows="true"
-    android:background="@color/White"
+    android:focusableInTouchMode="true"
     android:descendantFocusability="blocksDescendants"
-    tools:context=".Views.Activities.DetailCaseActivity"
-    tools:ignore="UnusedAttribute, ContentDescription, RtlHardcoded, TooDeepLayout, UseCompoundDrawables">
+    tools:context=".Views.Activities.DetailCaseActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layoutDirection="rtl"
+        android:orientation="vertical"
+        android:background="@color/White">
 
         <include layout="@layout/layout_toolbar" />
 
@@ -351,7 +352,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:gravity="right|center"
-                                        android:text="@string/DetailCaseReferences"
+                                        android:text="@string/DetailCaseReference"
                                         android:textSize="@dimen/_10ssp"
                                         android:textStyle="bold"
                                         android:textColor="@color/Nero"
@@ -445,7 +446,7 @@
                                         android:layout_height="match_parent"
                                         android:layout_weight="1"
                                         android:gravity="right|center"
-                                        android:text="@string/DetailCaseSessionStart"
+                                        android:text="@string/DetailCaseSessionStartedAt"
                                         android:textSize="@dimen/_9ssp"
                                         android:textStyle="bold"
                                         android:textColor="@color/Mischka"
@@ -456,7 +457,7 @@
                                         android:layout_height="match_parent"
                                         android:layout_weight="1"
                                         android:gravity="right|center"
-                                        android:text="@string/DetailCaseSessionPeriod"
+                                        android:text="@string/DetailCaseSessionDuration"
                                         android:textSize="@dimen/_9ssp"
                                         android:textStyle="bold"
                                         android:textColor="@color/Mischka"
