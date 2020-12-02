@@ -41,7 +41,7 @@ public class MobileFragment extends Fragment {
     private Button mobileButton;
     private TextView mobileLinkTextView;
 
-    public MobileFragment(Activity activity) {
+    public MobileFragment(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -123,10 +123,11 @@ public class MobileFragment extends Fragment {
 
         try {
             ((AuthActivity) Objects.requireNonNull(getActivity())).progressDialog.show();
+
             if (AuthRepository.theory.equals("mobile")) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).viewModel.auth(mobile);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).authViewModel.auth(mobile);
             } else {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).viewModel.recovery(mobile);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).authViewModel.recovery(mobile);
             }
             ((AuthActivity) Objects.requireNonNull(getActivity())).observeWork();
         } catch (JSONException e) {

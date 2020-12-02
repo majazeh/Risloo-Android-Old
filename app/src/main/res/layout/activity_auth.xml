@@ -8,8 +8,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start"
-    tools:ignore="UnusedAttribute">
+    tools:openDrawer="start">
 
     <include layout="@layout/activity_auth_content" />
 
@@ -18,9 +17,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:theme="@style/NavigationViewTheme"
         android:background="@color/White"
         android:fitsSystemWindows="true"
+        android:theme="@style/NavigationViewTheme"
         app:headerLayout="@layout/activity_auth_header"
         app:itemTextColor="@color/Grey"
         app:itemTextAppearance="@style/NavigationTextAppearance"

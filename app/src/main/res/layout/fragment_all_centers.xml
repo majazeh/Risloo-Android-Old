@@ -8,8 +8,10 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:background="@null"
-    tools:context=".Views.Fragments.AllCentersFragment"
-    tools:ignore="UnusedAttribute">
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="blocksDescendants"
+    tools:context=".Views.Fragments.AllCentersFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_all_centers_recyclerView"

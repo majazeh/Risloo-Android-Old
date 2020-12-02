@@ -57,6 +57,94 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // Auth strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="AuthUserId">شماره کاربری</string>
+    <string name="AuthUserIdDefault">نامشخص</string>
+
+    <string name="AuthName">نام و نام خانوادگی</string>
+    <string name="AuthNameDefault">کاربر تجربی</string>
+
+    <string name="AuthType">نوع حساب</string>
+    <string name="AuthTypePsychology">مشاور</string>
+    <string name="AuthTypeClinicCenter">مرکز درمان</string>
+    <string name="AuthTypeOperator">اپراتور</string>
+    <string name="AuthTypeAdmin">ادمین</string>
+    <string name="AuthTypeClient">مراجع</string>
+    <string name="AuthTypeDefault">نامشخص</string>
+
+    <string name="AuthMobile">شماره همراه</string>
+    <string name="AuthMobileDefault">نامشخص</string>
+
+    <string name="AuthEmail">ایمیل</string>
+    <string name="AuthEmailDefault">نامشخص</string>
+
+    <string name="AuthGender">جنسیت</string>
+    <string name="AuthGenderMale">مرد</string>
+    <string name="AuthGenderFemale">زن</string>
+    <string name="AuthGenderDefault">نامشخص</string>
+
+    <string name="AuthBirthday">تاریخ تولد</string>
+    <string name="AuthBirthdayDefault">1400-01-01</string>
+
+    <string name="AuthMain">خانه</string>
+
+    <string name="AuthSample">نمونه</string>
+    <string name="AuthSamples">نمونه‌ها</string>
+    <string name="AuthScales">ارزیابی‌ها</string>
+
+    <string name="AuthTreatment">درمان</string>
+    <string name="AuthCenters">مراکز درمان</string>
+    <string name="AuthSessions">جلسات درمان</string>
+    <string name="AuthRooms">اتاق‌های درمان</string>
+    <string name="AuthCases">پرونده‌های درمان</string>
+
+    <string name="AuthHeader">ریسلو</string>
+    <string name="AuthFooter">مطالب دیگر</string>
+
+    <string name="SerialTitle">ورود</string>
+    <string name="SerialTitleToken">شروع</string>
+    <string name="SerialDescription">برای شروع، سریال نمونه یا شماره همراه خود را وارد کنید.</string>
+    <string name="SerialDescriptionToken">سریال نمونه خود را وارد کنید.</string>
+    <string name="SerialHint">سریال نمونه / شماره همراه</string>
+    <string name="SerialHintToken">سریال نمونه</string>
+    <string name="SerialButton">ورود</string>
+    <string name="SerialButtonToken">بررسی</string>
+    <string name="SerialNew">کاربر جدید هستید؟</string>
+    <string name="SerialRegister">ثبت نام</string>
+    <string name="SerialRecovery">بازیابی</string>
+    <string name="SerialArchive">بایگانی</string>
+
+    <string name="PasswordTitle">بررسی رمز عبور</string>
+    <string name="PasswordDescription">رمز عبور خود را وارد کنید.</string>
+    <string name="PasswordHint">رمز عبور</string>
+    <string name="PasswordButton">بررسی</string>
+    <string name="PasswordLink">رمز عبور خود فراموش کردی؟ بازیابی</string>
+
+    <string name="MobileTitle">بررسی شماره همراه</string>
+    <string name="MobileDescription">شماره همراه خود را وارد کنید.</string>
+    <string name="MobileHint">شماره همراه</string>
+    <string name="MobileButton">بررسی</string>
+
+    <string name="PinTitle">بررسی کد پیامکی</string>
+    <string name="PinDescription">کد پیامکی ارسال شده به شما را وارد کنید.</string>
+    <string name="PinHint">کد 6 رقمی</string>
+    <string name="PinButton">بررسی</string>
+    <string name="PinLink">کد پیامکی دریافت نکردی؟ ارسال مجدد</string>
+    <string name="PinTimer">کد پیامکی به شما ارسال شد :</string>
+
+    <string name="RegisterTitle">ثبت نام جدید</string>
+    <string name="RegisterDescription">لطفا اطلاعات و مشخصات خود را وارد کنید.</string>
+    <string name="RegisterNameHint">نام و نام خانوادگی</string>
+    <string name="RegisterMobileHint">شماره موبایل</string>
+    <string name="RegisterManHint">مرد</string>
+    <string name="RegisterWomanHint">زن</string>
+    <string name="RegisterPasswordHint">رمز عبور</string>
+    <string name="RegisterButton">ثبت نام</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     // Setting Strings
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -747,97 +835,7 @@
 
 
 
-    // auth strings
-    ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="AuthUserId">شماره کاربری</string>
-    <string name="AuthUserIdDefault">نامشخص</string>
-
-    <string name="AuthName">نام و نام خانوادگی</string>
-    <string name="AuthNameDefault">کاربر تجربی</string>
-
-    <string name="AuthType">نوع حساب</string>
-    <string name="AuthTypePsychology">مشاور</string>
-    <string name="AuthTypeClinicCenter">مرکز درمانی</string>
-    <string name="AuthTypeOperator">اپراتور</string>
-    <string name="AuthTypeAdmin">ادمین</string>
-    <string name="AuthTypeClient">مراجع</string>
-    <string name="AuthTypeDefault">نامشخص</string>
-
-    <string name="AuthMobile">شماره همراه</string>
-    <string name="AuthMobileDefault">نامشخص</string>
-
-    <string name="AuthEmail">پست الکترونیک</string>
-    <string name="AuthEmailDefault">نامشخص</string>
-
-    <string name="AuthGender">جنسیت</string>
-    <string name="AuthGenderMale">مرد</string>
-    <string name="AuthGenderFemale">زن</string>
-    <string name="AuthGenderDefault">نامشخص</string>
-
-    <string name="AuthBirthday">تاریخ تولد</string>
-    <string name="AuthBirthdayDefault">1400-01-01</string>
-
-    <string name="AuthSampleTitle">نمونه</string>
-    <string name="AuthSampleSingle">شروع نمونه</string>
-    <string name="AuthSampleSamples">نمونه‌ها</string>
-    <string name="AuthSampleScales">ارزیابی‌ها</string>
-
-    <string name="AuthReserveTitle">رزرواسیون</string>
-    <string name="AuthReserveConstruct">ایجاد رزرواسیون</string>
-    <string name="AuthReserveRequest">درخواست رزرواسیون</string>
-
-    <string name="AuthTreatmentTitle">درمان</string>
-    <string name="AuthTreatmentPsychologist">مشاوران</string>
-    <string name="AuthTreatmentCenter">مراکز درمان</string>
-    <string name="AuthTreatmentSession">جلسات درمان</string>
-    <string name="AuthTreatmentRoom">اتاق‌های درمان</string>
-    <string name="AuthTreatmentCase">پرونده‌های درمان</string>
-
-    <string name="AuthHeader">ریسلو</string>
-    <string name="AuthFooter">مطالب دیگر</string>
-
-    <string name="SerialTitle">ورود</string>
-    <string name="SerialTitleToken">شروع</string>
-    <string name="SerialDescription">برای شروع سریال نمونه یا شماره همراه خود را وارد کنید</string>
-    <string name="SerialDescriptionToken">سریال نمونه خود را وارد کنید</string>
-    <string name="SerialHint">سریال نمونه / شماره همراه</string>
-    <string name="SerialHintToken">سریال نمونه</string>
-    <string name="SerialButton">ورود</string>
-    <string name="SerialButtonToken">بررسی</string>
-    <string name="SerialNew">کاربر جدید هستید؟</string>
-    <string name="SerialRegister">ثبت نام</string>
-    <string name="SerialRecovery">بازیابی</string>
-    <string name="SerialArchive">بایگانی</string>
-
-    <string name="PasswordTitle">بررسی رمز عبور</string>
-    <string name="PasswordDescription">رمز عبور خود را وارد نمایید</string>
-    <string name="PasswordHint">رمز عبور</string>
-    <string name="PasswordButton">بررسی</string>
-    <string name="PasswordLink">رمز عبور خود فراموش کردی؟ بازیابی</string>
-
-    <string name="MobileTitle">بررسی شماره همراه</string>
-    <string name="MobileDescription">شماره همراه خود را وارد نمایید</string>
-    <string name="MobileHint">شماره همراه</string>
-    <string name="MobileButton">بررسی</string>
-
-    <string name="PinTitle">بررسی کد پیامکی</string>
-    <string name="PinDescription">کد پیامکی ارسال شده به شما را وارد نمایید</string>
-    <string name="PinHint">کد 6 رقمی</string>
-    <string name="PinButton">بررسی</string>
-    <string name="PinLink">کد پیامکی دریافت نکردی؟ ارسال مجدد</string>
-    <string name="PinTimer">کد پیامکی به شما ارسال شد :</string>
-
-    <string name="RegisterTitle">ثبت نام جدید</string>
-    <string name="RegisterDescription">لطفا اطلاعات و مشخصات خود را وارد نمایید</string>
-    <string name="RegisterNameHint">نام و نام خانوادگی</string>
-    <string name="RegisterMobileHint">شماره موبایل</string>
-    <string name="RegisterManHint">مرد</string>
-    <string name="RegisterWomanHint">زن</string>
-    <string name="RegisterPasswordHint">رمز عبور</string>
-    <string name="RegisterButton">ثبت نام</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
 
     // sample strings
     ////////////////////////////////////////////////////////////////////////////////

@@ -50,7 +50,7 @@ public class PinFragment extends Fragment {
     private ViewFlipper pinViewFlipper;
     private TextView pinTimerTextView, pinLinkTextView;
 
-    public PinFragment(Activity activity) {
+    public PinFragment(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -200,10 +200,11 @@ public class PinFragment extends Fragment {
 
         try {
             ((AuthActivity) Objects.requireNonNull(getActivity())).progressDialog.show();
+
             if (value.equals("pin")) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).viewModel.authTheory("", pin);
+                ((AuthActivity) Objects.requireNonNull(getActivity())).authViewModel.authTheory("", pin);
             } else if (value.equals("verification")) {
-                ((AuthActivity) Objects.requireNonNull(getActivity())).viewModel.verification();
+                ((AuthActivity) Objects.requireNonNull(getActivity())).authViewModel.verification();
                 observeTimer();
             }
             ((AuthActivity) Objects.requireNonNull(getActivity())).observeWork();

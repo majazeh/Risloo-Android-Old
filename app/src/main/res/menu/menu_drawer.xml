@@ -1,67 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="@string/AuthSampleTitle">
+    <item
+        android:id="@+id/tool_main"
+        android:icon="@drawable/ic_home_light"
+        android:title="@string/AuthMain"
+        android:checked="true"
+        android:checkable="true" />
+
+    <item android:title="@string/AuthSample">
         <menu>
-            <group android:checkableBehavior="single">
+            <group android:checkableBehavior="none">
                 <item
-                    android:id="@+id/tool_sample_single"
-                    android:icon="@drawable/ic_code_light"
-                    android:title="@string/AuthSampleSingle"
-                    android:checked="true"/>
-                <item
-                    android:id="@+id/tool_sample_samples"
+                    android:id="@+id/tool_samples"
                     android:icon="@drawable/ic_flask_light"
-                    android:title="@string/AuthSampleSamples"/>
+                    android:title="@string/AuthSamples"/>
                 <item
-                    android:id="@+id/tool_sample_scales"
+                    android:id="@+id/tool_scales"
                     android:icon="@drawable/ic_ruler_light"
-                    android:title="@string/AuthSampleScales"/>
+                    android:title="@string/AuthScales"/>
             </group>
         </menu>
     </item>
 
-    <item android:title="@string/AuthReserveTitle">
+    <item android:title="@string/AuthTreatment">
         <menu>
             <group android:checkableBehavior="none">
                 <item
-                    android:id="@+id/tool_reserve_construct"
-                    android:icon="@drawable/ic_wrench_light"
-                    android:title="@string/AuthReserveConstruct"
-                    android:visible="false"/>
-                <item
-                    android:id="@+id/tool_reserve_request"
-                    android:icon="@drawable/ic_clock_light"
-                    android:title="@string/AuthReserveRequest"
-                    android:visible="false"/>
-            </group>
-        </menu>
-    </item>
-
-    <item android:title="@string/AuthTreatmentTitle">
-        <menu>
-            <group android:checkableBehavior="none">
-                <item
-                    android:id="@+id/tool_treatment_psychologist"
-                    android:icon="@drawable/ic_stethoscope_light"
-                    android:title="@string/AuthTreatmentPsychologist"
-                    android:visible="false"/>
-                <item
-                    android:id="@+id/tool_treatment_center"
+                    android:id="@+id/tool_centers"
                     android:icon="@drawable/ic_hospital_light"
-                    android:title="@string/AuthTreatmentCenter"/>
+                    android:title="@string/AuthCenters"/>
                 <item
-                    android:id="@+id/tool_treatment_session"
+                    android:id="@+id/tool_sessions"
                     android:icon="@drawable/ic_stethoscope_light"
-                    android:title="@string/AuthTreatmentSession"/>
+                    android:title="@string/AuthSessions"/>
                 <item
-                    android:id="@+id/tool_treatment_room"
+                    android:id="@+id/tool_rooms"
                     android:icon="@drawable/ic_room_light"
-                    android:title="@string/AuthTreatmentRoom"/>
+                    android:title="@string/AuthRooms"/>
                 <item
-                    android:id="@+id/tool_treatment_case"
+                    android:id="@+id/tool_cases"
                     android:icon="@drawable/ic_case_light"
-                    android:title="@string/AuthTreatmentCase"/>
+                    android:title="@string/AuthCases"/>
             </group>
         </menu>
     </item>

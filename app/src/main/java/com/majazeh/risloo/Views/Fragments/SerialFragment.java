@@ -52,7 +52,7 @@ public class SerialFragment extends Fragment {
     private LinearLayout serialLinkLinearLayout, serialArchiveLinearLayout;
     private TextView serialRegisterTextView, serialRecoveryTextView, serialIncompleteTextView, serialArchiveTextView;
 
-    public SerialFragment(Activity activity) {
+    public SerialFragment(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -136,7 +136,7 @@ public class SerialFragment extends Fragment {
     }
 
     public void setText() {
-        if (!((AuthActivity) Objects.requireNonNull(getActivity())).viewModel.getToken().equals("")) {
+        if (!((AuthActivity) Objects.requireNonNull(getActivity())).authViewModel.getToken().equals("")) {
             serialDescriptionTextView.setText(activity.getResources().getString(R.string.SerialDescriptionToken));
             serialEditText.setHint(activity.getResources().getString(R.string.SerialHintToken));
             serialButton.setText(activity.getResources().getString(R.string.SerialButtonToken));
@@ -156,7 +156,8 @@ public class SerialFragment extends Fragment {
 
         try {
             ((AuthActivity) Objects.requireNonNull(getActivity())).progressDialog.show();
-            ((AuthActivity) Objects.requireNonNull(getActivity())).viewModel.auth(serial);
+
+            ((AuthActivity) Objects.requireNonNull(getActivity())).authViewModel.auth(serial);
             ((AuthActivity) Objects.requireNonNull(getActivity())).observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -167,8 +168,8 @@ public class SerialFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        if (sampleViewModel.getArchive() != null ) {
-            serialIncompleteTextView.setText(StringManager.foregroundSize("شما" + " " + sampleViewModel.getArchive().size() + " " + "نمونه ناقص دارید!", 4, 6, getResources().getColor(R.color.MoonYellow), (int) getResources().getDimension(R.dimen._14ssp)));
+        if (sampleViewModel.getArchive() != null) {
+            serialIncompleteTextView.setText(StringManager.foregroundSize("شما" + " " + sampleViewModel.getArchive().size() + " " + "آزمون ناتمام دارید!", 4, 6, getResources().getColor(R.color.MoonYellow), (int) getResources().getDimension(R.dimen._14ssp)));
 
             serialArchiveLinearLayout.setVisibility(View.VISIBLE);
             serialArchiveLinearLayout.setAnimation(animSlideIn);

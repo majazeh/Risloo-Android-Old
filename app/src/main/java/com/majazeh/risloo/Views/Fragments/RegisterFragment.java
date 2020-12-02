@@ -23,6 +23,7 @@ import androidx.core.widget.ImageViewCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.tabs.TabLayout;
+import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.CutCopyPasteEditText;
 import com.majazeh.risloo.Views.Activities.AuthActivity;
@@ -187,7 +188,7 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (genderException) {
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).clearException();
+                    ((AuthActivity) Objects.requireNonNull(getActivity())).clearException(AuthRepository.theory, "gender");
                 }
 
                 if (((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.input() != null && ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.input().hasFocus()) {
@@ -251,10 +252,6 @@ public class RegisterFragment extends Fragment {
                 ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.clear(getActivity(), mobileEditText);
                 ((AuthActivity) Objects.requireNonNull(getActivity())).controlEditText.clear(getActivity(), passwordEditText);
 
-                if (genderException) {
-                    ((AuthActivity) Objects.requireNonNull(getActivity())).clearException();
-                }
-
                 doWork();
             }
         });
@@ -267,7 +264,8 @@ public class RegisterFragment extends Fragment {
 
         try {
             ((AuthActivity) Objects.requireNonNull(getActivity())).progressDialog.show();
-            ((AuthActivity) Objects.requireNonNull(getActivity())).viewModel.register(name, mobile, gender, password);
+
+            ((AuthActivity) Objects.requireNonNull(getActivity())).authViewModel.register(name, mobile, gender, password);
             ((AuthActivity) Objects.requireNonNull(getActivity())).observeWork();
         } catch (JSONException e) {
             e.printStackTrace();

@@ -51,7 +51,7 @@ public class PasswordFragment extends Fragment {
     private ImageView passwordImageView;
     private TextView passwordLinkTextView;
 
-    public PasswordFragment(Activity activity) {
+    public PasswordFragment(@NonNull Activity activity) {
         this.activity = activity;
     }
 
@@ -191,7 +191,8 @@ public class PasswordFragment extends Fragment {
 
         try {
             ((AuthActivity) Objects.requireNonNull(getActivity())).progressDialog.show();
-            ((AuthActivity) Objects.requireNonNull(getActivity())).viewModel.authTheory(password, "");
+
+            ((AuthActivity) Objects.requireNonNull(getActivity())).authViewModel.authTheory(password, "");
             ((AuthActivity) Objects.requireNonNull(getActivity())).observeWork();
         } catch (JSONException e) {
             e.printStackTrace();

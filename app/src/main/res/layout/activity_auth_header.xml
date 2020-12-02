@@ -7,17 +7,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="top"
-    android:fitsSystemWindows="true"
     android:background="@color/Primary5P"
-    tools:context=".Views.Activities.AuthActivity"
-    tools:ignore="UnusedAttribute">
+    android:fitsSystemWindows="true"
+    tools:context=".Views.Activities.AuthActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:paddingTop="@dimen/_16sdp"
         android:paddingBottom="@dimen/_16sdp"
-        android:layout_gravity="center"
         android:gravity="center"
         android:text="@string/AuthHeader"
         android:textSize="@dimen/_20ssp"

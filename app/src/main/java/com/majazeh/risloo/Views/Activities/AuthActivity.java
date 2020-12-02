@@ -52,7 +52,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class AuthActivity extends AppCompatActivity {
 
     // ViewModels
-    public AuthViewModel viewModel;
+    public AuthViewModel authViewModel;
 
     // Vars
     public MutableLiveData<Integer> callTimer;
@@ -60,8 +60,6 @@ public class AuthActivity extends AppCompatActivity {
     // Objects
     private Handler handler;
     public ControlEditText controlEditText;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
 
     // Widgets
     private DrawerLayout drawerLayout;
@@ -100,12 +98,7 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = new ViewModelProvider(this).get(AuthViewModel.class);
-
-        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-
-        editor = sharedPreferences.edit();
-        editor.apply();
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
         handler = new Handler();
 
@@ -149,7 +142,7 @@ public class AuthActivity extends AppCompatActivity {
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
-            handler.postDelayed(() -> toolbarImageView.setClickable(true), 300);
+            handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
@@ -173,89 +166,171 @@ public class AuthActivity extends AppCompatActivity {
             handler.postDelayed(() -> {
                 startActivity(new Intent(this, SettingActivity.class));
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-            }, 300);
+            }, 250);
         });
 
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == R.id.tool_sample_single) {
+            if (id == R.id.tool_main) {
                 drawerLayout.closeDrawer(GravityCompat.START);
-            } else if (id == R.id.tool_sample_samples) {
+
+            } else if (id == R.id.tool_samples) {
                 handler.postDelayed(() -> {
                     startActivity(new Intent(this, SamplesActivity.class));
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }, 50);
-            } else if (id == R.id.tool_sample_scales) {
+
+            } else if (id == R.id.tool_scales) {
                 handler.postDelayed(() -> {
                     startActivity(new Intent(this, ScalesActivity.class));
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }, 50);
-            } else if (id == R.id.tool_treatment_center) {
+
+            } else if (id == R.id.tool_centers) {
                 handler.postDelayed(() -> {
                     startActivity(new Intent(this, CentersActivity.class));
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }, 50);
-            } else if (id == R.id.tool_treatment_session) {
+
+            } else if (id == R.id.tool_sessions) {
                 handler.postDelayed(() -> {
                     startActivity(new Intent(this, SessionsActivity.class));
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }, 50);
-            } else if (id == R.id.tool_treatment_room) {
+
+            } else if (id == R.id.tool_rooms) {
                 handler.postDelayed(() -> {
                     startActivity(new Intent(this, RoomsActivity.class));
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }, 50);
-            } else if (id == R.id.tool_treatment_case) {
+
+            } else if (id == R.id.tool_cases) {
                 handler.postDelayed(() -> {
                     startActivity(new Intent(this, CasesActivity.class));
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }, 50);
             }
+
             drawerLayout.closeDrawer(GravityCompat.START);
             return false;
         });
     }
 
     private void setData() {
-        if (!viewModel.getToken().equals("")) {
-            navigationView.getMenu().findItem(R.id.tool_sample_samples).setVisible(true);
-            navigationView.getMenu().findItem(R.id.tool_sample_scales).setVisible(true);
-            navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(true);
-            navigationView.getMenu().findItem(R.id.tool_treatment_session).setVisible(true);
-            navigationView.getMenu().findItem(R.id.tool_treatment_room).setVisible(true);
-            navigationView.getMenu().findItem(R.id.tool_treatment_case).setVisible(true);
+        if (!authViewModel.getToken().equals("")) {
+            navigationView.getMenu().findItem(R.id.tool_samples).setVisible(true);
+            navigationView.getMenu().findItem(R.id.tool_scales).setVisible(true);
+            navigationView.getMenu().findItem(R.id.tool_centers).setVisible(true);
+            navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(true);
+            navigationView.getMenu().findItem(R.id.tool_rooms).setVisible(true);
+            navigationView.getMenu().findItem(R.id.tool_cases).setVisible(true);
 
             avatarCircleImageView.setVisibility(View.VISIBLE);
-            if (viewModel.getAvatar().equals("")) {
+            if (authViewModel.getAvatar().equals("")) {
                 avatarCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_light));
             } else {
-                Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarCircleImageView);
+                Picasso.get().load(authViewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarCircleImageView);
             }
         } else {
-            navigationView.getMenu().findItem(R.id.tool_sample_samples).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_sample_scales).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_treatment_center).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_treatment_session).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_treatment_room).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_treatment_case).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_samples).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_scales).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_centers).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_rooms).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_cases).setVisible(false);
 
             avatarCircleImageView.setVisibility(View.GONE);
         }
     }
 
-    private void errorException() {
-        RegisterFragment registerFragment = ((RegisterFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
-        if (registerFragment != null) {
-            registerFragment.genderException = true;
-            registerFragment.genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+    private void launchAuth(int enterAnim, int exitAnim) {
+        AuthRepository.theory = "auth";
+        if (!authViewModel.getToken().equals("")) {
+            toolbarTextView.setText(getResources().getString(R.string.SerialTitleToken));
+        } else {
+            toolbarTextView.setText(getResources().getString(R.string.SerialTitle));
+        }
+        loadFragment(new SerialFragment(this), enterAnim, exitAnim);
+    }
+
+    private void errorException(String exception, String type) {
+        switch (exception) {
+            case "auth":
+                if (type.equals("auth")) {
+                    SerialFragment serialFragment = ((SerialFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                    if (serialFragment != null) {
+                        serialFragment.serialEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    }
+                } else if (type.equals("mobile")) {
+                    MobileFragment mobileFragment = ((MobileFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                    if (mobileFragment != null) {
+                        mobileFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    }
+                }
+                break;
+
+            case "authTheory":
+                if (type.equals("password")) {
+                    PasswordFragment passwordFragment = ((PasswordFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                    if (passwordFragment != null) {
+                        passwordFragment.passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    }
+                } else if (type.equals("pin")) {
+                    PinFragment pinFragment = ((PinFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                    if (pinFragment != null) {
+                        pinFragment.pinEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    }
+                }
+                break;
+
+            case "register":
+                RegisterFragment registerFragment = ((RegisterFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                if (registerFragment != null) {
+                    switch (type) {
+                        case "name":
+                            registerFragment.nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                            break;
+                        case "mobile":
+                            registerFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                            break;
+                        case "gender":
+                            registerFragment.genderException = true;
+                            registerFragment.genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                            break;
+                        case "password":
+                            registerFragment.passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                            break;
+                    }
+                }
+                break;
+
+            case "verification":
+                PinFragment pinFragment = ((PinFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                if (pinFragment != null) {
+                    pinFragment.pinEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                }
+                break;
+
+            case "recovery":
+                MobileFragment mobileFragment = ((MobileFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                if (mobileFragment != null) {
+                    mobileFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                }
+                break;
         }
     }
 
-    public void clearException() {
-        RegisterFragment registerFragment = ((RegisterFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
-        if (registerFragment != null) {
-            registerFragment.genderException = false;
-            registerFragment.genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+    public void clearException(String exception, String type) {
+        switch (exception) {
+            case "register":
+                RegisterFragment registerFragment = ((RegisterFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                if (registerFragment != null) {
+                    if (type.equals("gender")) {
+                        registerFragment.genderException = false;
+                        registerFragment.genderTabLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                    }
+                }
+                break;
         }
     }
 
@@ -266,20 +341,10 @@ public class AuthActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    private void launchAuth(int enterAnim, int exitAnim) {
-        AuthRepository.theory = "auth";
-        if (!viewModel.getToken().equals("")) {
-            toolbarTextView.setText(getResources().getString(R.string.SerialTitleToken));
-        } else {
-            toolbarTextView.setText(getResources().getString(R.string.SerialTitle));
-        }
-        loadFragment(new SerialFragment(this), enterAnim, exitAnim);
-    }
-
     public void showFragment() {
         switch (AuthRepository.theory) {
             case "auth":
-                if (!viewModel.getToken().equals("")) {
+                if (!authViewModel.getToken().equals("")) {
                     toolbarTextView.setText(getResources().getString(R.string.SerialTitleToken));
                 } else {
                     toolbarTextView.setText(getResources().getString(R.string.SerialTitle));
@@ -325,12 +390,17 @@ public class AuthActivity extends AppCompatActivity {
                     } else {
                         if (AuthRepository.theory.equals("auth")) {
                             try {
-                                viewModel.authTheory("", "");
+                                authViewModel.authTheory("", "");
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         } else if (AuthRepository.theory.equals("sample")) {
                             AuthRepository.theory = "sample";
+
+                            SharedPreferences sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.apply();
 
                             editor.putString("sampleId", AuthRepository.key);
                             editor.apply();
@@ -362,53 +432,43 @@ public class AuthActivity extends AppCompatActivity {
         switch (ExceptionGenerator.current_exception) {
             case "auth":
                 if (AuthRepository.theory.equals("auth")) {
-                    SerialFragment serialFragment = ((SerialFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
-                    if (serialFragment != null) {
-                        if (!ExceptionGenerator.errors.isNull("authorized_key")) {
-                            serialFragment.serialEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, ExceptionGenerator.getErrorBody("authorized_key"), Toast.LENGTH_SHORT).show();
-                        }
+                    if (!ExceptionGenerator.errors.isNull("authorized_key")) {
+                        errorException(ExceptionGenerator.current_exception, AuthRepository.theory);
+                        Toast.makeText(this, ExceptionGenerator.getErrorBody("authorized_key"), Toast.LENGTH_SHORT).show();
                     }
                 } else if (AuthRepository.theory.equals("mobile")) {
-                    MobileFragment mobileFragment = ((MobileFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
-                    if (mobileFragment != null) {
-                        if (!ExceptionGenerator.errors.isNull("authorized_key")) {
-                            mobileFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, ExceptionGenerator.getErrorBody("authorized_key"), Toast.LENGTH_SHORT).show();
-                        }
+                    if (!ExceptionGenerator.errors.isNull("authorized_key")) {
+                        errorException(ExceptionGenerator.current_exception, AuthRepository.theory);
+                        Toast.makeText(this, ExceptionGenerator.getErrorBody("authorized_key"), Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
+
             case "authTheory":
                 if (AuthRepository.theory.equals("password")) {
-                    PasswordFragment passwordFragment = ((PasswordFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
-                    if (passwordFragment != null) {
-                        if (!ExceptionGenerator.errors.isNull("password")) {
-                            passwordFragment.passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, ExceptionGenerator.getErrorBody("password"), Toast.LENGTH_SHORT).show();
-                        }
+                    if (!ExceptionGenerator.errors.isNull("password")) {
+                        errorException(ExceptionGenerator.current_exception, AuthRepository.theory);
+                        Toast.makeText(this, ExceptionGenerator.getErrorBody("password"), Toast.LENGTH_SHORT).show();
                     }
                 } else if (AuthRepository.theory.equals("pin")) {
-                    PinFragment pinFragment = ((PinFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
-                    if (pinFragment != null) {
-                        if (!ExceptionGenerator.errors.isNull("code")) {
-                            pinFragment.pinEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                            Toast.makeText(this, ExceptionGenerator.getErrorBody("code"), Toast.LENGTH_SHORT).show();
-                        }
+                    if (!ExceptionGenerator.errors.isNull("code")) {
+                        errorException(ExceptionGenerator.current_exception, AuthRepository.theory);
+                        Toast.makeText(this, ExceptionGenerator.getErrorBody("code"), Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
+
             case "register":
                 RegisterFragment registerFragment = ((RegisterFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
                 if (registerFragment != null) {
                     String exceptionToast = "";
 
                     if (!ExceptionGenerator.errors.isNull("name")) {
-                        registerFragment.nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                        errorException(ExceptionGenerator.current_exception, "name");
                         exceptionToast = ExceptionGenerator.getErrorBody("name");
                     }
                     if (!ExceptionGenerator.errors.isNull("mobile")) {
-                        registerFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                        errorException(ExceptionGenerator.current_exception, "mobile");
                         if (exceptionToast.equals("")) {
                             exceptionToast = ExceptionGenerator.getErrorBody("mobile");
                         } else {
@@ -416,7 +476,7 @@ public class AuthActivity extends AppCompatActivity {
                         }
                     }
                     if (!ExceptionGenerator.errors.isNull("gender")) {
-                        errorException();
+                        errorException(ExceptionGenerator.current_exception, "gender");
                         if (exceptionToast.equals("")) {
                             exceptionToast = ExceptionGenerator.getErrorBody("gender");
                         } else {
@@ -424,7 +484,7 @@ public class AuthActivity extends AppCompatActivity {
                         }
                     }
                     if (!ExceptionGenerator.errors.isNull("password")) {
-                        registerFragment.passwordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                        errorException(ExceptionGenerator.current_exception, "password");
                         if (exceptionToast.equals("")) {
                             exceptionToast = ExceptionGenerator.getErrorBody("password");
                         } else {
@@ -434,24 +494,21 @@ public class AuthActivity extends AppCompatActivity {
                     Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
                 }
                 break;
+
             case "verification":
-                PinFragment pinFragment = ((PinFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
-                if (pinFragment != null) {
-                    if (!ExceptionGenerator.errors.isNull("mobile")) {
-                        pinFragment.pinEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                        Toast.makeText(this, ExceptionGenerator.getErrorBody("mobile"), Toast.LENGTH_SHORT).show();
-                    }
+                if (!ExceptionGenerator.errors.isNull("mobile")) {
+                    errorException(ExceptionGenerator.current_exception, "");
+                    Toast.makeText(this, ExceptionGenerator.getErrorBody("mobile"), Toast.LENGTH_SHORT).show();
                 }
                 break;
+
             case "recovery":
-                MobileFragment mobileFragment = ((MobileFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
-                if (mobileFragment != null) {
-                    if (!ExceptionGenerator.errors.isNull("username")) {
-                        mobileFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
-                        Toast.makeText(this, ExceptionGenerator.getErrorBody("username"), Toast.LENGTH_SHORT).show();
-                    }
+                if (!ExceptionGenerator.errors.isNull("username")) {
+                    errorException(ExceptionGenerator.current_exception, "");
+                    Toast.makeText(this, ExceptionGenerator.getErrorBody("username"), Toast.LENGTH_SHORT).show();
                 }
                 break;
+
             default:
                 Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                 break;
@@ -476,10 +533,10 @@ public class AuthActivity extends AppCompatActivity {
                         fragment.setText();
                     }
                 } else if (resultString.equals("edit")) {
-                    if (viewModel.getAvatar().equals("")) {
+                    if (authViewModel.getAvatar().equals("")) {
                         avatarCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_light));
                     } else {
-                        Picasso.get().load(viewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarCircleImageView);
+                        Picasso.get().load(authViewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarCircleImageView);
                     }
                 }
             }
