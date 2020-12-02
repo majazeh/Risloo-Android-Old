@@ -840,20 +840,20 @@
     // sample strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="SamplePrerequisite">کاربر گرامی، قبل از شروع نمونه لطفا پیشنیاز های نمونه خواسته شده در زیر را تکمیل نمایید</string>
+    <string name="SamplePrerequisite">کاربر گرامی، قبل از شروع نمونه اطلاعات زیر را تکمیل نمایید.</string>
     <string name="SampleHint">اینجا وارد نمایید</string>
     <string name="SampleNext">مرحله بعدی</string>
     <string name="SampleClose">اتمام</string>
     <string name="SampleCancel">خروج</string>
 
     <string name="SampleCloseDialogTitle">اتمام نمونه؟</string>
-    <string name="SampleCloseDialogDescription">آیا تمایل به اتمام نمونه با وضعیت پاسخ های زیر:</string>
+    <string name="SampleCloseDialogDescription">آیا می خواهید آزمون مورد نظر را با وضعیت زیر، تمام کنید:</string>
     <string name="SampleCloseDialogAnswered">پاسخ</string>
     <string name="SampleCloseDialogUnAnswered">بی پاسخ</string>
     <string name="SampleCloseDialogPositive">اتمام</string>
     <string name="SampleCloseDialogNegative">بستن</string>
     <string name="SampleCancelDialogTitle">خروج از نمونه؟</string>
-    <string name="SampleCancelDialogDescription">نمونه شما از بین نمی رود و بعدا می توانید از بایگانی خود به آن دسترسی پیدا کنید و ان را تکمیل نمایید.</string>
+    <string name="SampleCancelDialogDescription">با خارج شدن از آزمون، نمونه شما از بین نمی رود و شما می توانید از بایگانی خود آن را ادامه دهید.</string>
     <string name="SampleCancelDialogPositive">خروج</string>
     <string name="SampleCancelDialogNegative">بستن</string>
 
