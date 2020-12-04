@@ -459,13 +459,15 @@
     <string name="DetailCaseSessionsCount">جلسات مشاوره</string>
     <string name="DetailCaseTestsCount">تست‌های گرفته‌شده</string>
 
-    <string name="DetailCaseReference">مراجعان</string>
+    <string name="DetailCaseReferences">مراجعان</string>
     <string name="DetailCaseAddReference">افزودن مراجع</string>
+    <string name="DetailCaseEmptyReference">مراجعی موجود نیست</string>
 
     <string name="DetailCaseCreateSample">ساختن نمونه</string>
 
     <string name="DetailCaseSessions">جلسات و نوبت‌ها</string>
     <string name="DetailCaseAddSession">افزودن جلسه</string>
+    <string name="DetailCaseEmptySession">جلسه‌ی موجود نیست</string>
 
     <string name="DetailCaseEditSession">ویرایش</string>
 

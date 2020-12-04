@@ -74,7 +74,8 @@ public class DetailCaseActivity extends AppCompatActivity {
     private ImageView infoImageView;
     private TextView infoTextView;
     private CircleImageView roomAvatarImageView;
-    private TextView nameTextView, roomTitleTextView, roomSubTitleTextView, roomTypeTextView, complaintTextView, createdCaseDateTextView, lastSessionDateTextView, sessionsCountTextView, testsCountTextView, addReferenceTextView, addSessionTextView;
+    private TextView nameTextView, roomTitleTextView, roomSubTitleTextView, roomTypeTextView, complaintTextView, createdCaseDateTextView, lastSessionDateTextView, sessionsCountTextView, testsCountTextView, addReferenceTextView, emptyReferencesTextView, addSessionTextView, emptySessionsTextView;
+    private LinearLayout sessionsHintLinearLayout;
     private RecyclerView referencesRecyclerView, sessionsRecyclerView;
 
     @Override
@@ -145,6 +146,11 @@ public class DetailCaseActivity extends AppCompatActivity {
 
         addReferenceTextView = findViewById(R.id.activity_detail_case_add_reference_textView);
         addSessionTextView = findViewById(R.id.activity_detail_case_add_session_textView);
+
+        emptyReferencesTextView = findViewById(R.id.activity_detail_case_references_empty_textView);
+        emptySessionsTextView = findViewById(R.id.activity_detail_case_sessions_empty_textView);
+
+        sessionsHintLinearLayout = findViewById(R.id.activity_detail_case_sessions_hint_linearLayout);
 
         referencesRecyclerView = findViewById(R.id.activity_detail_case_references_recyclerView);
         referencesRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", 0, (int) getResources().getDimension(R.dimen._4sdp), 0));
@@ -305,8 +311,7 @@ public class DetailCaseActivity extends AppCompatActivity {
 
                 nameTextView.setText(StringManager.foreground(name.toString(), 14, name.length(), getResources().getColor(R.color.PrimaryDark)));
 
-                detailCaseReferencesAdapter.setReference(references);
-                referencesRecyclerView.setAdapter(detailCaseReferencesAdapter);
+                setRecyclerView(references, referencesRecyclerView, "references");
             }
 
             // Complaint
@@ -340,12 +345,44 @@ public class DetailCaseActivity extends AppCompatActivity {
                     meetings.add(new Model(session));
                 }
 
-                detailCaseSessionsAdapter.setSession(meetings);
-                sessionsRecyclerView.setAdapter(detailCaseSessionsAdapter);
+                setRecyclerView(meetings, sessionsRecyclerView, "sessions");
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
+        switch (method) {
+            case "references":
+                detailCaseReferencesAdapter.setReference(arrayList);
+                recyclerView.setAdapter(detailCaseReferencesAdapter);
+
+                if (arrayList.size() == 0) {
+                    emptyReferencesTextView.setVisibility(View.VISIBLE);
+                } else {
+                    if (emptyReferencesTextView.getVisibility() == View.VISIBLE) {
+                        emptyReferencesTextView.setVisibility(View.GONE);
+                    }
+                }
+                break;
+            case "sessions":
+                detailCaseSessionsAdapter.setSession(arrayList);
+                recyclerView.setAdapter(detailCaseSessionsAdapter);
+
+                if (arrayList.size() == 0) {
+                    emptySessionsTextView.setVisibility(View.VISIBLE);
+                    sessionsHintLinearLayout.setVisibility(View.GONE);
+                } else {
+                    if (emptySessionsTextView.getVisibility() == View.VISIBLE) {
+                        emptySessionsTextView.setVisibility(View.GONE);
+                    }
+                    if (sessionsHintLinearLayout.getVisibility() == View.GONE) {
+                        sessionsHintLinearLayout.setVisibility(View.VISIBLE);
+                    }
+                }
+                break;
         }
     }
 

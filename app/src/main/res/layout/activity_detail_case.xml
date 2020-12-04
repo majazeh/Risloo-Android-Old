@@ -352,7 +352,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:gravity="right|center"
-                                        android:text="@string/DetailCaseReference"
+                                        android:text="@string/DetailCaseReferences"
                                         android:textSize="@dimen/_10ssp"
                                         android:textStyle="bold"
                                         android:textColor="@color/Nero"
@@ -372,6 +372,18 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:overScrollMode="never" />
+
+                                <TextView
+                                    android:id="@+id/activity_detail_case_references_empty_textView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:gravity="center"
+                                    android:text="@string/DetailCaseEmptyReference"
+                                    android:textSize="@dimen/_8ssp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/Mischka"
+                                    android:textAlignment="gravity" />
 
                             </LinearLayout>
 
@@ -435,6 +447,7 @@
                                     android:background="@color/Quartz" />
 
                                 <LinearLayout
+                                    android:id="@+id/activity_detail_case_sessions_hint_linearLayout"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="@dimen/_8sdp"
@@ -486,6 +499,18 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:overScrollMode="never" />
+
+                                <TextView
+                                    android:id="@+id/activity_detail_case_sessions_empty_textView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:gravity="center"
+                                    android:text="@string/DetailCaseEmptySession"
+                                    android:textSize="@dimen/_8ssp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/Mischka"
+                                    android:textAlignment="gravity" />
 
                             </LinearLayout>
 
