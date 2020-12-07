@@ -57,7 +57,6 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
     private CenterViewModel centerViewModel;
 
     // Vars
-    private int position = -1;
     private String type = "";
     private ArrayList<Model> centers;
     private HashMap<Integer, Boolean> expands;
@@ -367,12 +366,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                 holder.itemView.setClickable(false);
                 handler.postDelayed(() -> holder.itemView.setClickable(true), 250);
 
-                if (expands.get(i)) {
-                    expands.put(i, false);
-                } else {
-                    expands.put(i, true);
-                }
-
+                expands.put(i, !expands.get(i));
                 notifyDataSetChanged();
             });
 
@@ -380,22 +374,11 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                 holder.requestTextView.setClickable(false);
                 handler.postDelayed(() -> holder.requestTextView.setClickable(true), 250);
 
-                position = i;
-
                 if (!model.attributes.isNull("acceptation")) {
-                    if (expands.get(i)) {
-                        expands.put(i, false);
-                    } else {
-                        expands.put(i, true);
-                    }
-
+                    expands.put(i, !expands.get(i));
                     notifyDataSetChanged();
                 } else {
-                    try {
-                        showDialog(model.get("id").toString(), holder.titleTextView.getText().toString());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    showDialog(i, model, holder.titleTextView.getText().toString());
                 }
             });
 
@@ -408,12 +391,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
 
                     activity.startActivity(imageIntent);
                 } else {
-                    if (expands.get(i)) {
-                        expands.put(i, false);
-                    } else {
-                        expands.put(i, true);
-                    }
-
+                    expands.put(i, !expands.get(i));
                     notifyDataSetChanged();
                 }
             });
@@ -454,12 +432,12 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
         handler = new Handler();
     }
 
-    private void showDialog(String clinicId, String title) {
+    private void showDialog(int position, Model model, String title) {
         initDialog(title);
 
         detector();
 
-        listener(clinicId);
+        listener(position, model);
 
         requestDialog.show();
     }
@@ -500,13 +478,13 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
         }
     }
 
-    private void listener(String clinicId) {
+    private void listener(int position, Model model) {
         requestDialogPositive.setOnClickListener(v -> {
             requestDialogPositive.setClickable(false);
             handler.postDelayed(() -> requestDialogPositive.setClickable(true), 250);
             requestDialog.dismiss();
 
-            doWork(clinicId);
+            doWork(position, model);
         });
 
         requestDialogNegative.setOnClickListener(v -> {
@@ -518,56 +496,57 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
         requestDialog.setOnCancelListener(dialog -> requestDialog.dismiss());
     }
 
-    private void doWork(String clinicId) {
+    private void doWork(int position, Model model) {
         try {
             progressDialog.show();
 
-            centerViewModel.request(clinicId);
-            observeWork();
+            centerViewModel.request(model.get("id").toString());
+            observeWork(position, model);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private void observeWork() {
+    private void observeWork(int position, Model model) {
         CenterRepository.workState.observeForever(new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
                 if (CenterRepository.work.equals("request")) {
                     if (integer == 1) {
-                        Model item = centers.get(position);
 
-                        if (type.equals("all")) {
-                            JSONObject jsonObject = FileManager.readObjectFromCache(activity.getApplicationContext(), "centers" + "/" + "all");
-                            try {
-                                JSONArray data = jsonObject.getJSONArray("data");
-                                for (int i = 0; i < data.length(); i++) {
-                                    JSONObject response = data.getJSONObject(i);
-                                    if (item.get("id").equals(response.getString("id"))) {
-                                        item = new Model(response);
-                                        centers.remove(position);
-                                        centers.add(position, item);
-                                    }
-                                }
-                                notifyItemChanged(position);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                        try {
+                            switch (type) {
+                                case "all":
+                                    JSONObject allJsonObject = FileManager.readObjectFromCache(activity.getApplicationContext(), "centers" + "/" + "all");
+                                    JSONArray allCenters = (JSONArray) allJsonObject.get("data");
 
-                        } else {
-                            JSONObject jsonObject = FileManager.readObjectFromCache(activity.getApplicationContext(), "centers" + "/" + "my");
-                            try {
-                                JSONArray data = jsonObject.getJSONArray("data");
-                                JSONObject acceptation = data.getJSONObject(data.length() - 1).getJSONObject("acceptation");
-                                if (acceptation.isNull("kicked_at")) {
-                                    if (!acceptation.isNull("accepted_at")) {
-                                        centers.add(new Model(data.getJSONObject(data.length() - 1)));
+                                    for (int i = 0; i < allCenters.length(); i++) {
+                                        JSONObject center = allCenters.getJSONObject(i);
+
+                                        if (model.get("id").toString().equals(center.get("id").toString())) {
+                                            Model changedModel = new Model(center);
+
+                                            replaceCenter(position, changedModel);
+                                        }
                                     }
-                                }
-                                notifyItemChanged(position);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                                    break;
+                                case "my":
+                                    JSONObject myJsonObject = FileManager.readObjectFromCache(activity.getApplicationContext(), "centers" + "/" + "my");
+                                    JSONArray myCenters = (JSONArray) myJsonObject.get("data");
+
+                                    for (int i = 0; i < myCenters.length(); i++) {
+                                        JSONObject center = myCenters.getJSONObject(i);
+
+                                        if (model.get("id").toString().equals(center.get("id").toString())) {
+                                            Model changedModel = new Model(center);
+
+                                            replaceCenter(position, changedModel);
+                                        }
+                                    }
+                                    break;
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
 
                         progressDialog.dismiss();
@@ -584,7 +563,6 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                     }
                 }
             }
-
         });
     }
 
@@ -593,6 +571,13 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
         this.expands = expands;
         this.type = type;
         notifyDataSetChanged();
+    }
+
+    public void replaceCenter(int position, Model model) {
+        centers.set(position, model);
+        expands.put(position, false);
+        notifyItemChanged(position);
+        notifyItemRangeChanged(position, getItemCount());
     }
 
     private void clearProgress() {
