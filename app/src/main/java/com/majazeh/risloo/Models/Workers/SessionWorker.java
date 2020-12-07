@@ -70,6 +70,8 @@ public class SessionWorker extends Worker {
                 case "update":
                     update();
                     break;
+                case "getSessionsOfCase":
+                    getSessionsOfCase();
             }
         }
 
@@ -94,8 +96,8 @@ public class SessionWorker extends Worker {
                                 FileManager.writeObjectToCache(context, successBody, "sessions");
 
                             } else {
-                    JSONObject jsonObject = FileManager.readObjectFromCache(context, "sessions");
-                    JSONArray data = jsonObject.getJSONArray("data");
+                                JSONObject jsonObject = FileManager.readObjectFromCache(context, "sessions");
+                                JSONArray data = jsonObject.getJSONArray("data");
                                 for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
                                     JSONArray jsonArray = successBody.getJSONArray("data");
                                     data.put(jsonArray.getJSONObject(i));
@@ -237,6 +239,53 @@ public class SessionWorker extends Worker {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "update");
+                SessionRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
+            SessionRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "IOException");
+            SessionRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
+            SessionRepository.workState.postValue(0);
+        }
+    }
+
+    public void getSessionsOfCase() {
+        try {
+            Call<ResponseBody> call = sessionApi.getSessionsOfCase(token(), CaseRepository.caseId);
+
+            SessionRepository.sessions.clear();
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                try {
+                    JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                    if (successBody.getJSONArray("data").length() != 0) {
+                        SessionRepository.sessions.clear();
+                        JSONArray data = successBody.getJSONArray("data");
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject object = data.getJSONObject(i);
+                            SessionRepository.sessions.add(new Model(object));
+                        }
+                    }
+                    ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "SessionsOfCase");
+                    SessionRepository.workState.postValue(1);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "sessions");
                 SessionRepository.workState.postValue(0);
             }
 

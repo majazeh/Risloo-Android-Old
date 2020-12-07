@@ -47,6 +47,10 @@ public class SessionViewModel extends AndroidViewModel {
         repository.update(sessionId, caseId, started_at, duration, status);
     }
 
+    public void SessionsOfCase(String caseId) throws JSONException {
+        repository.SessionsOfCase(caseId);
+    }
+
     public ArrayList<Model> getLocalSessionStatus() {
         return repository.getLocalSessionStatus();
     }
@@ -57,6 +61,10 @@ public class SessionViewModel extends AndroidViewModel {
 
     public JSONObject getGeneral(String sessionId) {
         return repository.getGeneral(sessionId);
+    }
+
+    public ArrayList<Model> getSessionsOfCase(){
+        return repository.getSessionsOfCase();
     }
 
     public String getENStatus(String faStatus){

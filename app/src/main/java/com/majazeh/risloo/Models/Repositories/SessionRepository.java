@@ -93,6 +93,13 @@ public class SessionRepository extends MainRepository {
         workManager("update");
     }
 
+    public void SessionsOfCase(String caseId) throws JSONException {
+        CaseRepository.caseId = caseId;
+        work = "getSessionsOfCase";
+        workState.setValue(-1);
+        workManager("getSessionsOfCase");
+    }
+
     public ArrayList<Model> getLocalSessionStatus() {
         try {
             JSONArray data = new JSONArray(JSONGenerator.getJSON(application.getApplicationContext(), "localSessionStatus.json"));
@@ -139,6 +146,10 @@ public class SessionRepository extends MainRepository {
             return FileManager.readObjectFromCache(application.getApplicationContext(), "sessionDetail" + "/" + sessionId);
         else
             return null;
+    }
+
+    public ArrayList<Model> getSessionsOfCase(){
+        return sessions;
     }
 
     public String getENStatus(String faStatus){

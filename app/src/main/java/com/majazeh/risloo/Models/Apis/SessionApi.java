@@ -20,7 +20,7 @@ public interface SessionApi {
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("sessions/{sessionId}")
-    Call<ResponseBody> getGeneral(@Header("Authorization") String authorization, @Path("sessionId") String caseId);
+    Call<ResponseBody> getGeneral(@Header("Authorization") String authorization, @Path("sessionId") String sessionId);
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @POST("rooms/{roomId}/sessions")
@@ -29,5 +29,9 @@ public interface SessionApi {
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @PUT("sessions/{sessionId}")
     Call<ResponseBody> update(@Header("Authorization") String authorization, @Path("sessionId") String sessionId, @Body HashMap body);
+
+    @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
+    @GET("sessions")
+    Call<ResponseBody> getSessionsOfCase(@Header("Authorization") String authorization, @Query("case") String caseId);
 
 }
