@@ -145,7 +145,7 @@ public class CaseWorker extends Worker {
 
     public void getGeneral() {
         try {
-            Call<ResponseBody> call = caseApi.getGeneral(token(), CaseRepository.caseId);
+            Call<ResponseBody> call = caseApi.getGeneral(token(), CaseRepository.caseId,CaseRepository.usage);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {

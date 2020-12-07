@@ -34,6 +34,7 @@ public class CaseRepository extends MainRepository {
     public static MutableLiveData<Integer> workState;
     public static HashMap createData;
     public static String Q = "";
+    public static String usage= "";
 
 
     public CaseRepository(Application application) {
@@ -52,11 +53,15 @@ public class CaseRepository extends MainRepository {
         workManager("getAll");
     }
 
-    public void general(String caseId) throws JSONException {
+    public void general(String caseId,String usage) throws JSONException {
         CaseRepository.caseId = caseId;
+        CaseRepository.usage = usage;
         work = "getGeneral";
         workState.setValue(-1);
         workManager("getGeneral");
+    }
+    public void general(String caseId) throws JSONException {
+        general(caseId, "");
     }
 
     public void create(String roomId, ArrayList<String> references, String chiefComplaint) throws JSONException {

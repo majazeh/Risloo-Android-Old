@@ -20,7 +20,7 @@ public interface CaseApi {
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("cases/{caseId}")
-    Call<ResponseBody> getGeneral(@Header("Authorization") String authorization, @Path("caseId") String caseId);
+    Call<ResponseBody> getGeneral(@Header("Authorization") String authorization, @Path("caseId") String caseId,@Query("usage")String usage);
 
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
