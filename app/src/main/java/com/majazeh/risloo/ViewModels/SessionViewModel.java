@@ -40,7 +40,7 @@ public class SessionViewModel extends AndroidViewModel {
     }
 
     public void create(String roomId, String caseId, String started_at, String duration, String status) throws JSONException {
-        repository.create(roomId, caseId, started_at, duration, status);
+        repository.create(roomId, caseId, started_at, duration, status, "");
     }
 
     public void update(String sessionId, String caseId, String started_at, String duration, String status) throws JSONException {
