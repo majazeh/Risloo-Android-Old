@@ -378,7 +378,12 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                     expands.put(i, !expands.get(i));
                     notifyDataSetChanged();
                 } else {
-                    showDialog(i, model, holder.titleTextView.getText().toString());
+                    if (type.equals("all")) {
+                        showDialog(i, model, holder.titleTextView.getText().toString());
+                    } else {
+                        ExceptionGenerator.getException(false, 0, null, "CantRequestException");
+                        Toast.makeText(activity, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
 
@@ -515,35 +520,17 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                     if (integer == 1) {
 
                         try {
-                            switch (type) {
-                                case "all":
-                                    JSONObject allJsonObject = FileManager.readObjectFromCache(activity.getApplicationContext(), "centers" + "/" + "all");
-                                    JSONArray allCenters = (JSONArray) allJsonObject.get("data");
+                            JSONObject allJsonObject = FileManager.readObjectFromCache(activity.getApplicationContext(), "centers" + "/" + "all");
+                            JSONArray allCenters = (JSONArray) allJsonObject.get("data");
 
-                                    for (int i = 0; i < allCenters.length(); i++) {
-                                        JSONObject center = allCenters.getJSONObject(i);
+                            for (int i = 0; i < allCenters.length(); i++) {
+                                JSONObject center = allCenters.getJSONObject(i);
 
-                                        if (model.get("id").toString().equals(center.get("id").toString())) {
-                                            Model changedModel = new Model(center);
+                                if (model.get("id").toString().equals(center.get("id").toString())) {
+                                    Model changedModel = new Model(center);
 
-                                            replaceCenter(position, changedModel);
-                                        }
-                                    }
-                                    break;
-                                case "my":
-                                    JSONObject myJsonObject = FileManager.readObjectFromCache(activity.getApplicationContext(), "centers" + "/" + "my");
-                                    JSONArray myCenters = (JSONArray) myJsonObject.get("data");
-
-                                    for (int i = 0; i < myCenters.length(); i++) {
-                                        JSONObject center = myCenters.getJSONObject(i);
-
-                                        if (model.get("id").toString().equals(center.get("id").toString())) {
-                                            Model changedModel = new Model(center);
-
-                                            replaceCenter(position, changedModel);
-                                        }
-                                    }
-                                    break;
+                                    replaceCenter(position, changedModel);
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
