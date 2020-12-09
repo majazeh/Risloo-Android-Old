@@ -38,14 +38,14 @@ import java.util.Objects;
 public class OutroActivity extends AppCompatActivity {
 
     // ViewModels
-    private SampleViewModel viewModel;
+    private SampleViewModel sampleViewModel;
 
     // Vars
     private String sampleId = "", work = "";
 
     // Objects
-    private Handler handler;
     private Bundle extras;
+    private Handler handler;
 
     // Widgets
     private Button internetButton, smsButton, downloadButton, laterButton;
@@ -89,11 +89,11 @@ public class OutroActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        viewModel = new ViewModelProvider(this).get(SampleViewModel.class);
-
-        handler = new Handler();
+        sampleViewModel = new ViewModelProvider(this).get(SampleViewModel.class);
 
         extras = getIntent().getExtras();
+
+        handler = new Handler();
 
         internetButton = findViewById(R.id.activity_outro_internet_button);
         smsButton = findViewById(R.id.activity_outro_sms_button);
@@ -111,11 +111,11 @@ public class OutroActivity extends AppCompatActivity {
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
 
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.copyFrom(outroDialog.getWindow().getAttributes());
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        outroDialog.getWindow().setAttributes(layoutParams);
+        WindowManager.LayoutParams layoutParamsOutroDialog = new WindowManager.LayoutParams();
+        layoutParamsOutroDialog.copyFrom(outroDialog.getWindow().getAttributes());
+        layoutParamsOutroDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsOutroDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        outroDialog.getWindow().setAttributes(layoutParamsOutroDialog);
 
         outroDialogTitle = outroDialog.findViewById(R.id.dialog_action_title_textView);
         outroDialogDescription = outroDialog.findViewById(R.id.dialog_action_description_textView);
@@ -127,7 +127,7 @@ public class OutroActivity extends AppCompatActivity {
     private void listener() {
         internetButton.setOnClickListener(v -> {
             internetButton.setClickable(false);
-            handler.postDelayed(() -> internetButton.setClickable(true), 300);
+            handler.postDelayed(() -> internetButton.setClickable(true), 250);
 
             outroDialogTitle.setText(getResources().getString(R.string.OutroInternetDialogTitle));
             outroDialogDescription.setText(getResources().getString(R.string.OutroInternetDialogDescription));
@@ -141,7 +141,7 @@ public class OutroActivity extends AppCompatActivity {
 
         smsButton.setOnClickListener(v -> {
             smsButton.setClickable(false);
-            handler.postDelayed(() -> smsButton.setClickable(true), 300);
+            handler.postDelayed(() -> smsButton.setClickable(true), 250);
 
             outroDialogTitle.setText(getResources().getString(R.string.OutroSMSDialogTitle));
             outroDialogDescription.setText(getResources().getString(R.string.OutroSMSDialogDescription));
@@ -155,7 +155,7 @@ public class OutroActivity extends AppCompatActivity {
 
         downloadButton.setOnClickListener(v -> {
             downloadButton.setClickable(false);
-            handler.postDelayed(() -> downloadButton.setClickable(true), 300);
+            handler.postDelayed(() -> downloadButton.setClickable(true), 250);
 
             outroDialogTitle.setText(getResources().getString(R.string.OutroDownloadDialogTitle));
             outroDialogDescription.setText(getResources().getString(R.string.OutroDownloadDialogDescription));
@@ -169,14 +169,14 @@ public class OutroActivity extends AppCompatActivity {
 
         laterButton.setOnClickListener(v -> {
             laterButton.setClickable(false);
-            handler.postDelayed(() -> laterButton.setClickable(true), 300);
+            handler.postDelayed(() -> laterButton.setClickable(true), 250);
 
             finish();
         });
 
         outroDialogPositive.setOnClickListener(v -> {
             outroDialogPositive.setClickable(false);
-            handler.postDelayed(() -> outroDialogPositive.setClickable(true), 300);
+            handler.postDelayed(() -> outroDialogPositive.setClickable(true), 250);
             outroDialog.dismiss();
 
             switch (work) {
@@ -194,7 +194,7 @@ public class OutroActivity extends AppCompatActivity {
 
         outroDialogNegative.setOnClickListener(v -> {
             outroDialogNegative.setClickable(false);
-            handler.postDelayed(() -> outroDialogNegative.setClickable(true), 300);
+            handler.postDelayed(() -> outroDialogNegative.setClickable(true), 250);
             outroDialog.dismiss();
         });
 
@@ -208,8 +208,9 @@ public class OutroActivity extends AppCompatActivity {
     private void sendViaInternet() {
         try {
             progressDialog.show();
-            viewModel.sendAllAnswers(sampleId);
-            observeWorkAnswer();
+
+            sampleViewModel.sendAllAnswers(sampleId);
+            observeWork("answer");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -221,6 +222,7 @@ public class OutroActivity extends AppCompatActivity {
         String number = "+989195934528";
 
         JSONArray jsonArray = FileManager.readArrayFromCache(this, "Answers" + "/" + sampleId);
+
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 result.append(jsonArray.getJSONObject(i).getString("answer"));
@@ -247,48 +249,65 @@ public class OutroActivity extends AppCompatActivity {
         Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
     }
 
-    private void observeWorkAnswer() {
-        SampleRepository.workStateAnswer.observe(this, integer -> {
-            if (integer == 1) {
-                try {
-                    changeStatus();
-                    viewModel.close(sampleId);
-                    observeWorkSample();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+    private void changeStatus() {
+        try {
+            JSONObject jsonObject = FileManager.readObjectFromCache(this, "Samples" + "/" + sampleId);
+            JSONObject data = jsonObject.getJSONObject("data");
 
-                SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
-            } else if (integer == 0) {
-                progressDialog.dismiss();
-                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
-            } else if (integer == -2) {
-                progressDialog.dismiss();
-                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
-            }
-        });
+            data.put("status", "sent");
+            jsonObject.put("data", data);
+
+            FileManager.writeObjectToCache(this, jsonObject, "Samples" + "/" + sampleId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void observeWorkSample() {
-        SampleRepository.workStateSample.observe(this, integer -> {
-            if (integer == 1) {
-                finish();
+    private void observeWork(String method) {
+        switch (method) {
+            case "sample":
+                SampleRepository.workStateSample.observe(this, integer -> {
+                    if (integer == 1) {
+                        finish();
 
-                progressDialog.dismiss();
-                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-            } else if (integer == 0) {
-                progressDialog.dismiss();
-                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-            } else if (integer == -2) {
-                progressDialog.dismiss();
-                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
-            }
-        });
+                        progressDialog.dismiss();
+                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    } else if (integer == 0) {
+                        progressDialog.dismiss();
+                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    } else if (integer == -2) {
+                        progressDialog.dismiss();
+                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
+                    }
+                });
+                break;
+            case "answer":
+                SampleRepository.workStateAnswer.observe(this, integer -> {
+                    if (integer == 1) {
+                        try {
+                            changeStatus();
+                            sampleViewModel.close(sampleId);
+                            observeWork("sample");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
+                    } else if (integer == 0) {
+                        progressDialog.dismiss();
+                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
+                    } else if (integer == -2) {
+                        progressDialog.dismiss();
+                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                        SampleRepository.workStateAnswer.removeObservers((LifecycleOwner) this);
+                    }
+                });
+                break;
+        }
     }
 
     @Override
@@ -312,7 +331,6 @@ public class OutroActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == 200) {
                 changeStatus();
-
                 finish();
             }
         } else if (resultCode == RESULT_CANCELED) {
@@ -320,33 +338,6 @@ public class OutroActivity extends AppCompatActivity {
                 ExceptionGenerator.getException(false, 0, null, "SendToException");
                 Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             }
-        }
-    }
-
-    private void changeStatus() {
-        try {
-            JSONObject jsonObject = FileManager.readObjectFromCache(this, "Samples" + "/" + sampleId);
-            JSONObject data = jsonObject.getJSONObject("data");
-
-            data.put("status", "sent");
-            jsonObject.put("data", data);
-
-
-            JSONArray jsonArray = new JSONArray();
-            JSONArray items = data.getJSONArray("items");
-            for (int i = 0; i < items.length(); i++) {
-                JSONArray jsonArray1 = new JSONArray();
-                jsonArray1.put(i);
-                if (items.getJSONObject(i).has("user_answered")) {
-                    jsonArray1.put(items.getJSONObject(i).getString("user_answered"));
-                } else {
-                    jsonArray.put("");
-                }
-            }
-
-            FileManager.writeObjectToCache(this, jsonObject, "Samples" + "/" + sampleId);
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
     }
 
