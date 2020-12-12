@@ -49,8 +49,8 @@ public class SampleViewModel extends AndroidViewModel {
         repository.sendPrerequisite(sampleId, prerequisites);
     }
 
-    public void create(ArrayList scales, String room, String cases, ArrayList roomReferences, ArrayList caseReferences, String count) throws JSONException {
-        repository.create(scales, room, cases, roomReferences, caseReferences, count);
+    public void create(ArrayList scales, String room, String cases, ArrayList roomReferences, ArrayList caseReferences, String count,String sessionId) throws JSONException {
+        repository.create(scales, room, cases, roomReferences, caseReferences, count,sessionId);
     }
 
     public void close(String sampleId) throws JSONException {

@@ -201,7 +201,7 @@ public class SampleRepository extends MainRepository {
         workManager("sendPrerequisite");
     }
 
-    public void create(ArrayList scales, String room, String casse, ArrayList roomReferences, ArrayList caseReferences, String count) throws JSONException {
+    public void create(ArrayList scales, String room, String casse, ArrayList roomReferences, ArrayList caseReferences, String count,String sessionId) throws JSONException {
         if (scales.size() != 0)
             SampleRepository.createData.put("scale_id", scales);
         if (!room.equals(""))
@@ -215,7 +215,9 @@ public class SampleRepository extends MainRepository {
         }
         if (!count.equals(""))
             SampleRepository.createData.put("count", count);
-
+        if (!sessionId.equals("")){
+            createData.put("session_id", sessionId);
+        }
         work = "create";
         workStateCreate.setValue(-1);
         workManager("create");

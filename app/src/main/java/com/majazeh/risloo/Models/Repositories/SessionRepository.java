@@ -70,7 +70,7 @@ public class SessionRepository extends MainRepository {
         workManager("getGeneral");
     }
 
-    public void create(String roomId, String caseId, String started_at, String duration, String status,String sessionId) throws JSONException {
+    public void create(String roomId, String caseId, String started_at, String duration, String status) throws JSONException {
         if (!roomId.equals(""))
             RoomRepository.roomId = roomId;
         if (!caseId.equals(""))
@@ -81,9 +81,6 @@ public class SessionRepository extends MainRepository {
             createData.put("duration", duration);
         if (!status.equals(""))
             createData.put("status", status);
-        if (!sessionId.equals("")){
-            createData.put("session_id", sessionId);
-        }
 
         work = "create";
         workState.setValue(-1);

@@ -46,8 +46,8 @@ public class SessionViewModel extends AndroidViewModel {
         repository.general(sessionId);
     }
 
-    public void create(String roomId, String caseId, String started_at, String duration, String status,String sessionId) throws JSONException {
-        repository.create(roomId, caseId, started_at, duration, status,sessionId);
+    public void create(String roomId, String caseId, String started_at, String duration, String status) throws JSONException {
+        repository.create(roomId, caseId, started_at, duration, status);
     }
 
     public void update(String sessionId, String caseId, String started_at, String duration, String status) throws JSONException {
