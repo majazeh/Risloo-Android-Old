@@ -3,6 +3,7 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.se.omapi.Session;
 
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -14,6 +15,7 @@ import androidx.work.WorkManager;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Workers.SessionWorker;
+import com.majazeh.risloo.Utils.CryptoUtil;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Generators.JSONGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
@@ -22,9 +24,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class SessionRepository extends MainRepository {
     public static int page = 1;
@@ -35,6 +44,8 @@ public class SessionRepository extends MainRepository {
     public static HashMap createData;
     public static HashMap updateData;
     public static String Q = "";
+    public static String report = "";
+    public static String encryptionType = "";
 
     public SessionRepository(Application application) {
         super(application);
@@ -101,6 +112,15 @@ public class SessionRepository extends MainRepository {
         work = "getSessionsOfCase";
         workState.setValue(-1);
         workManager("getSessionsOfCase");
+    }
+
+    public void Report(String sessionId,String report,String encryptionType) throws JSONException {
+        SessionRepository.sessionId = sessionId;
+        SessionRepository.report = report;
+        SessionRepository.encryptionType = encryptionType;
+        work = "Report";
+        workState.setValue(-1);
+        workManager("Report");
     }
 
     public ArrayList<Model> getLocalSessionStatus() {
@@ -181,6 +201,14 @@ public class SessionRepository extends MainRepository {
             }
         }
         return null;
+    }
+
+    public String encrypt(String text, String publicKey) throws InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException {
+        return CryptoUtil.encrypt(text, publicKey);
+    }
+
+    public String decrypt(String result, String privateKey) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, InvalidKeySpecException {
+        return CryptoUtil.decrypt(result, privateKey);
     }
 
     private void workManager(String work) throws JSONException {

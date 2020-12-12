@@ -72,6 +72,9 @@ public class SessionWorker extends Worker {
                     break;
                 case "getSessionsOfCase":
                     getSessionsOfCase();
+                    break;
+                case "Report":
+                    Report();
             }
         }
 
@@ -285,6 +288,39 @@ public class SessionWorker extends Worker {
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "sessions");
+                SessionRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
+            SessionRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "IOException");
+            SessionRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
+            SessionRepository.workState.postValue(0);
+        }
+    }
+
+    public void Report() {
+        try {
+            Call<ResponseBody> call = sessionApi.Report(token(), SessionRepository.sessionId, SessionRepository.report,SessionRepository.encryptionType);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "createReport");
+                SessionRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
                 ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "sessions");
                 SessionRepository.workState.postValue(0);
             }

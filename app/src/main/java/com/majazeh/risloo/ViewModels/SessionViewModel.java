@@ -17,8 +17,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class SessionViewModel extends AndroidViewModel {
 
@@ -39,8 +46,8 @@ public class SessionViewModel extends AndroidViewModel {
         repository.general(sessionId);
     }
 
-    public void create(String roomId, String caseId, String started_at, String duration, String status) throws JSONException {
-        repository.create(roomId, caseId, started_at, duration, status);
+    public void create(String roomId, String caseId, String started_at, String duration, String status,String sessionId) throws JSONException {
+        repository.create(roomId, caseId, started_at, duration, status,sessionId);
     }
 
     public void update(String sessionId, String caseId, String started_at, String duration, String status) throws JSONException {
@@ -49,6 +56,17 @@ public class SessionViewModel extends AndroidViewModel {
 
     public void SessionsOfCase(String caseId) throws JSONException {
         repository.SessionsOfCase(caseId);
+    }
+    public void Report(String sessionId,String report,String encryptionType) throws JSONException {
+        repository.Report(sessionId,report,encryptionType);
+    }
+
+    public String encrypt(String text, String publicKey) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException {
+        return repository.encrypt(text, publicKey);
+    }
+
+    public String decrypt(String result, String privateKey) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, InvalidKeySpecException {
+       return repository.decrypt(result, privateKey);
     }
 
     public ArrayList<Model> getLocalSessionStatus() {

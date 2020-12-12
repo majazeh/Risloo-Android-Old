@@ -5,6 +5,8 @@ import java.util.HashMap;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -33,5 +35,10 @@ public interface SessionApi {
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("sessions")
     Call<ResponseBody> getSessionsOfCase(@Header("Authorization") String authorization, @Query("case") String caseId);
+
+    @Headers({"content-type: application/json", "Accept-Language:fa"})
+    @FormUrlEncoded
+    @PUT("sessions/{sessionId}")
+    Call<ResponseBody> Report(@Header("Authorization") String authorization, @Path("sessionId") String sessionId, @Field("report") String report,@Field("encryption_type")String encryptionType);
 
 }
