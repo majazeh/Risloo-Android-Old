@@ -507,6 +507,8 @@ public class EditCenterActivity extends AppCompatActivity {
                     phoneTextView.setVisibility(View.GONE);
                 }
 
+                resetData("phoneDialog");
+
                 if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                     controlEditText.clear(this, controlEditText.input());
                     controlEditText.input().getText().clear();
@@ -522,6 +524,8 @@ public class EditCenterActivity extends AppCompatActivity {
             phoneDialogNegative.setClickable(false);
             handler.postDelayed(() -> phoneDialogNegative.setClickable(true), 250);
 
+            resetData("phoneDialog");
+
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
                 controlEditText.input().getText().clear();
@@ -531,6 +535,8 @@ public class EditCenterActivity extends AppCompatActivity {
         });
 
         phoneDialog.setOnCancelListener(dialog -> {
+            resetData("phoneDialog");
+
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
                 controlEditText.input().getText().clear();
@@ -711,6 +717,11 @@ public class EditCenterActivity extends AppCompatActivity {
 
                 if (managerDialogTextView.getVisibility() == View.VISIBLE) {
                     managerDialogTextView.setVisibility(View.GONE);
+                }
+                break;
+            case "phoneDialog":
+                if (phoneDialogInput.length() != 0) {
+                    phoneDialogInput.getText().clear();
                 }
                 break;
         }

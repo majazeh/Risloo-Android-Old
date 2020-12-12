@@ -69,6 +69,9 @@ public class ExceptionGenerator {
                     case "NoSuffixException":
                         fa_message_text = "این مورد برای دریافت موجود نیست.";
                         break;
+                    case "CantRequestException":
+                        fa_message_text = "درخواست پذیرش برای مراکز درمانی من امکان پذیر نیست.";
+                        break;
                     case "FileException":
                         fa_message_text = "فایلی انتخاب نشده است.";
                         break;

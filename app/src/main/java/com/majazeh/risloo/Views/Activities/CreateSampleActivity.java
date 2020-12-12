@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -40,7 +39,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Repositories.CaseRepository;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
-import com.majazeh.risloo.Models.Repositories.SessionRepository;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
@@ -50,7 +48,6 @@ import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.CaseViewModel;
 import com.majazeh.risloo.ViewModels.RoomViewModel;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
-import com.majazeh.risloo.ViewModels.SessionViewModel;
 import com.majazeh.risloo.Views.Adapters.CheckBoxAdapter;
 import com.majazeh.risloo.Views.Adapters.SearchAdapter;
 import com.majazeh.risloo.Views.Adapters.SpinnerAdapter;
@@ -68,7 +65,6 @@ public class CreateSampleActivity extends AppCompatActivity {
     private SampleViewModel sampleViewModel;
     private RoomViewModel roomViewModel;
     private CaseViewModel caseViewModel;
-    private SessionViewModel sessionViewModel;
 
     // Model
     private Model roomModel;
@@ -137,13 +133,6 @@ public class CreateSampleActivity extends AppCompatActivity {
         sampleViewModel = new ViewModelProvider(this).get(SampleViewModel.class);
         roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
         caseViewModel = new ViewModelProvider(this).get(CaseViewModel.class);
-        sessionViewModel = new ViewModelProvider(this).get(SessionViewModel.class);
-        try {
-            sessionViewModel.SessionsOfCase("RS9666665");
-            observeWork("test");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         scaleDialogAdapter = new SearchAdapter(this);
         roomDialogAdapter = new SearchAdapter(this);
@@ -1230,23 +1219,6 @@ public class CreateSampleActivity extends AppCompatActivity {
                             caseDialogProgressBar.setVisibility(View.GONE);
                             caseDialogImageView.setVisibility(View.VISIBLE);
                             Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                            CaseRepository.workState.removeObservers((LifecycleOwner) this);
-                        }
-                    }
-                });
-                break;
-            case"test":
-                SessionRepository.workState.observe((LifecycleOwner) this, integer -> {
-                    if (SessionRepository.work.equals("getSessionsOfCase")) {
-                        if (integer == 1) {
-
-                            Log.e("test", String.valueOf(sessionViewModel.getSessionsOfCase().get(0).attributes));
-                            CaseRepository.workState.removeObservers((LifecycleOwner) this);
-                        } else if (integer == 0) {
-
-                            CaseRepository.workState.removeObservers((LifecycleOwner) this);
-                        } else if (integer == -2) {
-
                             CaseRepository.workState.removeObservers((LifecycleOwner) this);
                         }
                     }

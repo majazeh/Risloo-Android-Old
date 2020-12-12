@@ -697,7 +697,34 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // Outro strings
+    ////////////////////////////////////////////////////////////////////////////////
 
+    <string name="OutroTitle">نمونه شما با موفقیت تکمیل شد!</string>
+
+    <string name="OutroDescription">برای اطلاع دادن ریسلو از نتایج نمونه شما لازم است که فایل نمونه را بصورت انترنتی یا پیامکی ارسال نمایید.</string>
+
+    <string name="OutroInternet">ارسال إینترنتی نمونه به ریسلو</string>
+    <string name="OutroSMS">ارسال پیامکی نمونه به ریسلو</string>
+    <string name="OutroDownload">دریافت فایل نمونه</string>
+    <string name="OutroLater">بعدن ارسال کنم</string>
+
+    <string name="OutroInternetDialogTitle">ارسال إینترنتی</string>
+    <string name="OutroInternetDialogDescription">نتایج نمونه شما از طریق اینترنت به ریسلو ارسال می شود و سپس می توانید نمونه جدیدی را شروع کنید.</string>
+    <string name="OutroInternetDialogPositive">ارسال</string>
+    <string name="OutroInternetDialogNegative">بستن</string>
+
+    <string name="OutroSMSDialogTitle">ارسال پیامکی</string>
+    <string name="OutroSMSDialogDescription">نتایج نمونه شما از طریق پیامک به ریسلو ارسال می شود در نظر داشته باشید که تعداد پیامک های ارسالی شما به حجم فایل نمونه بستگی دارد.</string>
+    <string name="OutroSMSDialogPositive">ارسال</string>
+    <string name="OutroSMSDialogNegative">بستن</string>
+
+    <string name="OutroDownloadDialogTitle">دریافت فایل</string>
+    <string name="OutroDownloadDialogDescription">با دریافت فایل نمونه شما می توانید بعدن بصورت دستی در اختیار ریسلو از راه آپلود دادن قرار دهید.</string>
+    <string name="OutroDownloadDialogPositive">دریافت</string>
+    <string name="OutroDownloadDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -858,35 +885,6 @@
     <string name="SampleCancelDialogDescription">با خارج شدن از آزمون، نمونه شما از بین نمی رود و شما می توانید از بایگانی خود آن را ادامه دهید.</string>
     <string name="SampleCancelDialogPositive">خروج</string>
     <string name="SampleCancelDialogNegative">بستن</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // outro strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="OutroTitle">نمونه شما با موفقیت تکمیل شد!</string>
-
-    <string name="OutroDescription">برای اطلاع دادن ریسلو از نتایج نمونه شما لازم است که فایل نمونه را بصورت انترنتی یا پیامکی ارسال نمایید.</string>
-
-    <string name="OutroInternet">ارسال إینترنتی نمونه به ریسلو</string>
-    <string name="OutroSMS">ارسال پیامکی نمونه به ریسلو</string>
-    <string name="OutroDownload">دریافت فایل نمونه</string>
-    <string name="OutroLater">بعدن ارسال کنم</string>
-
-    <string name="OutroInternetDialogTitle">ارسال إینترنتی</string>
-    <string name="OutroInternetDialogDescription">نتایج نمونه شما از طریق اینترنت به ریسلو ارسال می شود و سپس می توانید نمونه جدیدی را شروع کنید.</string>
-    <string name="OutroInternetDialogPositive">ارسال</string>
-    <string name="OutroInternetDialogNegative">بستن</string>
-
-    <string name="OutroSMSDialogTitle">ارسال پیامکی</string>
-    <string name="OutroSMSDialogDescription">نتایج نمونه شما از طریق پیامک به ریسلو ارسال می شود در نظر داشته باشید که تعداد پیامک های ارسالی شما به حجم فایل نمونه بستگی دارد.</string>
-    <string name="OutroSMSDialogPositive">ارسال</string>
-    <string name="OutroSMSDialogNegative">بستن</string>
-
-    <string name="OutroDownloadDialogTitle">دریافت فایل</string>
-    <string name="OutroDownloadDialogDescription">با دریافت فایل نمونه شما می توانید بعدن بصورت دستی در اختیار ریسلو از راه آپلود دادن قرار دهید.</string>
-    <string name="OutroDownloadDialogPositive">دریافت</string>
-    <string name="OutroDownloadDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

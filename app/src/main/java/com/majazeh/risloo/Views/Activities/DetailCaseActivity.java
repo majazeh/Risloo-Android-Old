@@ -58,7 +58,7 @@ public class DetailCaseActivity extends AppCompatActivity {
     private DetailCaseSessionsAdapter detailCaseSessionsAdapter;
 
     // Vars
-    public String caseId = "", caseName = "", roomId = "", roomName = "", roomTitle = "", roomUrl = "";
+    public String caseId = "", caseName = "", roomId = "", roomName = "", roomTitle = "", roomUrl = "", clients = "";
 
     // Objects
     private Bundle extras;
@@ -287,6 +287,7 @@ public class DetailCaseActivity extends AppCompatActivity {
 
             // Reference
             JSONArray clients = (JSONArray) data.get("clients");
+            this.clients = data.get("clients").toString();
 
             if (clients.length() != 0) {
                 StringBuilder name = new StringBuilder();
@@ -312,6 +313,8 @@ public class DetailCaseActivity extends AppCompatActivity {
                 nameTextView.setText(StringManager.foreground(name.toString(), 14, name.length(), getResources().getColor(R.color.PrimaryDark)));
 
                 setRecyclerView(references, referencesRecyclerView, "references");
+            } else {
+                emptyReferencesTextView.setVisibility(View.VISIBLE);
             }
 
             // Complaint
@@ -346,6 +349,9 @@ public class DetailCaseActivity extends AppCompatActivity {
                 }
 
                 setRecyclerView(meetings, sessionsRecyclerView, "sessions");
+            } else {
+                emptySessionsTextView.setVisibility(View.VISIBLE);
+                sessionsHintLinearLayout.setVisibility(View.GONE);
             }
 
         } catch (JSONException e) {
@@ -358,30 +364,10 @@ public class DetailCaseActivity extends AppCompatActivity {
             case "references":
                 detailCaseReferencesAdapter.setReference(arrayList);
                 recyclerView.setAdapter(detailCaseReferencesAdapter);
-
-                if (arrayList.size() == 0) {
-                    emptyReferencesTextView.setVisibility(View.VISIBLE);
-                } else {
-                    if (emptyReferencesTextView.getVisibility() == View.VISIBLE) {
-                        emptyReferencesTextView.setVisibility(View.GONE);
-                    }
-                }
                 break;
             case "sessions":
                 detailCaseSessionsAdapter.setSession(arrayList);
                 recyclerView.setAdapter(detailCaseSessionsAdapter);
-
-                if (arrayList.size() == 0) {
-                    emptySessionsTextView.setVisibility(View.VISIBLE);
-                    sessionsHintLinearLayout.setVisibility(View.GONE);
-                } else {
-                    if (emptySessionsTextView.getVisibility() == View.VISIBLE) {
-                        emptySessionsTextView.setVisibility(View.GONE);
-                    }
-                    if (sessionsHintLinearLayout.getVisibility() == View.GONE) {
-                        sessionsHintLinearLayout.setVisibility(View.VISIBLE);
-                    }
-                }
                 break;
         }
     }
@@ -389,7 +375,7 @@ public class DetailCaseActivity extends AppCompatActivity {
     private void getData(String method) {
         try {
             if (method.equals("getGeneral")) {
-                caseViewModel.general(caseId);
+                caseViewModel.general(caseId, "case_dashboard");
             }
             observeWork();
         } catch (JSONException e) {
