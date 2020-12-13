@@ -5,6 +5,8 @@ import java.util.HashMap;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -42,5 +44,15 @@ public interface CenterApi {
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("users?personal_clinic=yes")
     Call<ResponseBody> getCounselingCenter(@Header("Authorization") String authorization, @Query("q") String q);
+
+    @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
+    @GET("centers/{case_id}/users")
+    Call<ResponseBody> getUsers(@Header("Authorization") String authorization, @Path("case_id") String caseId);
+
+    @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
+    @FormUrlEncoded
+    @PUT("centers/{case_id}/users/{user_id}")
+    Call<ResponseBody> userStatus(@Header("Authorization") String authorization, @Path("case_id") String caseId, @Path("user_id") String userId, @Field("status")String status);
+
 
 }

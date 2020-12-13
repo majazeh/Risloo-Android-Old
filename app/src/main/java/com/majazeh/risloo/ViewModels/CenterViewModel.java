@@ -27,7 +27,7 @@ public class CenterViewModel extends AndroidViewModel {
          ---------- Voids ----------
     */
 
-    public void centers(String q ) throws JSONException {
+    public void centers(String q) throws JSONException {
         repository.centers(q);
     }
 
@@ -37,6 +37,10 @@ public class CenterViewModel extends AndroidViewModel {
 
     public void request(String clinicId) throws JSONException {
         repository.request(clinicId);
+    }
+
+    public void users(String clinicId) throws JSONException {
+        repository.users(clinicId);
     }
 
     public void create(String type, String manager, String title, String avatar, String address, String description, ArrayList phones) throws JSONException {
@@ -55,6 +59,10 @@ public class CenterViewModel extends AndroidViewModel {
         repository.counselingCenter(q);
     }
 
+    public void userStatus(String clinicId,String userId,String status) throws JSONException {
+       repository.userStatus(clinicId, userId, status);
+    }
+
     /*
          ---------- Arrays ----------
     */
@@ -67,4 +75,7 @@ public class CenterViewModel extends AndroidViewModel {
         return repository.getMy();
     }
 
+    public ArrayList<Model> getUsers(String clinicId) {
+        return repository.getUsers(clinicId);
+    }
 }

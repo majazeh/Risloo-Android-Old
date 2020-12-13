@@ -41,6 +41,8 @@ public class CenterRepository extends MainRepository {
     public static int allPage = 1;
     public static int myPage = 1;
     public static String search = "";
+    public static String userId = "";
+    public static String status = "";
 
     public CenterRepository(Application application) throws JSONException {
         super(application);
@@ -79,6 +81,22 @@ public class CenterRepository extends MainRepository {
         work = "request";
         workState.setValue(-1);
         workManager("request");
+    }
+
+    public void users(String clinicId) throws JSONException {
+        CenterRepository.clinicId = clinicId;
+        work = "users";
+        workState.setValue(-1);
+        workManager("users");
+    }
+
+    public void userStatus(String clinicId,String userId,String status) throws JSONException {
+        CenterRepository.clinicId = clinicId;
+        CenterRepository.userId = userId;
+        CenterRepository.status = status;
+        work = "userStatus";
+        workState.setValue(-1);
+        workManager("userStatus");
     }
 
     public void create(String type, String manager, String title, String avatar, String address, String description, ArrayList<String> phones) throws JSONException {
@@ -252,6 +270,29 @@ public class CenterRepository extends MainRepository {
             }
         }
     }
+    }
+
+    public ArrayList<Model> getUsers(String clinicId){
+        ArrayList<Model> arrayList = new ArrayList<>();
+        if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + clinicId) != null) {
+            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + clinicId);
+            try {
+                JSONArray data = jsonObject.getJSONArray("data");
+                if (data.length() == 0) {
+                    return null;
+                }
+                for (int i = 0; i < data.length(); i++) {
+                    Model model = new Model(data.getJSONObject(i));
+                    arrayList.add(model);
+                }
+                return arrayList;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 
     /*

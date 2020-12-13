@@ -76,6 +76,11 @@ public class CenterWorker extends Worker {
                 case "getCounselingCenter":
                     getCounselingCenter();
                     break;
+                case "users":
+                    getUsers();
+                    break;
+                case "userStatus":
+                    userStatus();
             }
         }
 
@@ -488,6 +493,99 @@ public class CenterWorker extends Worker {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "counselingCenter");
+                CenterRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
+            CenterRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
+            CenterRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "IOException");
+            CenterRepository.workState.postValue(0);
+        }
+
+    }
+
+    private void getUsers() {
+        try {
+            Call<ResponseBody> call = centerApi.getUsers(token(), CenterRepository.clinicId);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                if (successBody.getJSONArray("data").length() != 0){
+                        if (CenterRepository.myPage == 1) {
+                            FileManager.writeObjectToCache(context, successBody, "centers" + "/" + CenterRepository.clinicId);
+                        } else {
+                            JSONObject jsonObject = FileManager.readObjectFromCache(context, "centers" + "/" + CenterRepository.clinicId);
+                            JSONArray data;
+                            try {
+                                data = jsonObject.getJSONArray("data");
+                                for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
+                                    JSONArray jsonArray = successBody.getJSONArray("data");
+                                    data.put(jsonArray.getJSONObject(i));
+                                }
+                                jsonObject.put("data", data);
+                                FileManager.writeObjectToCache(context, jsonObject, "centers" + "/" + CenterRepository.clinicId);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                }else{
+                    FileManager.deleteFileFromCache(context, "centers" + "/" + CenterRepository.clinicId);
+                }
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "users");
+                CenterRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "users");
+                CenterRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
+            CenterRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
+            CenterRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "IOException");
+            CenterRepository.workState.postValue(0);
+        }
+
+    }
+
+    private void userStatus() {
+        try {
+            Call<ResponseBody> call = centerApi.userStatus(token(), CenterRepository.clinicId, CenterRepository.userId,CenterRepository.status);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "userStatus");
+                CenterRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "userStatus");
                 CenterRepository.workState.postValue(0);
             }
 
