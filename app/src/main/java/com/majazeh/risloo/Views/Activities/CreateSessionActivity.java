@@ -47,6 +47,7 @@ import com.majazeh.risloo.ViewModels.CaseViewModel;
 import com.majazeh.risloo.ViewModels.RoomViewModel;
 import com.majazeh.risloo.ViewModels.SessionViewModel;
 import com.majazeh.risloo.Views.Adapters.SearchAdapter;
+import com.majazeh.risloo.Views.Adapters.SearchCaseAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,7 +67,8 @@ public class CreateSessionActivity extends AppCompatActivity {
     private Model roomModel;
 
     // Adapters
-    private SearchAdapter roomDialogAdapter, caseDialogAdapter, statusDialogAdapter;
+    private SearchAdapter roomDialogAdapter, statusDialogAdapter;
+    private SearchCaseAdapter caseDialogAdapter;
 
     // Vars
     public String roomId = "", roomName = "", roomTitle = "", caseId = "", caseName = "", timestamp = "", startedAtTime = "", startedAtDate = "", duration = "", statusId = "", statusTitle = "";
@@ -129,8 +131,9 @@ public class CreateSessionActivity extends AppCompatActivity {
         caseViewModel = new ViewModelProvider(this).get(CaseViewModel.class);
 
         roomDialogAdapter = new SearchAdapter(this);
-        caseDialogAdapter = new SearchAdapter(this);
         statusDialogAdapter = new SearchAdapter(this);
+
+        caseDialogAdapter = new SearchCaseAdapter(this);
 
         extras = getIntent().getExtras();
 
@@ -848,7 +851,7 @@ public class CreateSessionActivity extends AppCompatActivity {
                     caseDialogImageView.setVisibility(View.GONE);
 
                     CaseRepository.page = 1;
-                    caseViewModel.cases(roomId, q);
+                    caseViewModel.cases(roomId, q, "case_dashboard");
 
                     observeWork("caseViewModel");
                     break;

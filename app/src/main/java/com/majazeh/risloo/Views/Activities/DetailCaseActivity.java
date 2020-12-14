@@ -58,7 +58,7 @@ public class DetailCaseActivity extends AppCompatActivity {
     private DetailCaseSessionsAdapter detailCaseSessionsAdapter;
 
     // Vars
-    public String caseId = "", caseName = "", roomId = "", roomName = "", roomTitle = "", roomUrl = "", clients = "";
+    public String caseId = "", caseName = "", roomId = "", roomName = "", roomTitle = "", roomUrl = "", sessionId = "", clients = "";
 
     // Objects
     private Bundle extras;
@@ -343,7 +343,11 @@ public class DetailCaseActivity extends AppCompatActivity {
                 ArrayList<Model> meetings = new ArrayList<>();
 
                 for (int j = 0; j < sessions.length(); j++) {
-                    JSONObject session = sessions.getJSONObject(j);
+                    JSONObject session = (JSONObject) sessions.get(j);
+
+                    if (j == 0) {
+                        sessionId = session.get("id").toString();
+                    }
 
                     meetings.add(new Model(session));
                 }
