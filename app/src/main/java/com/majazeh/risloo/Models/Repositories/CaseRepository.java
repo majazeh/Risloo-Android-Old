@@ -45,12 +45,17 @@ public class CaseRepository extends MainRepository {
         workState.setValue(-1);
     }
 
-    public void cases(String roomId, String Q) throws JSONException {
+    public void cases(String roomId, String Q,String usage) throws JSONException {
         RoomRepository.roomId = roomId;
         CaseRepository.Q = Q;
+        CaseRepository.usage = usage;
         work = "getAll";
         workState.setValue(-1);
         workManager("getAll");
+    }
+
+    public void cases(String roomId, String Q) throws JSONException {
+        cases(roomId, Q,"");
     }
 
     public void general(String caseId,String usage) throws JSONException {

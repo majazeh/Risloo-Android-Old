@@ -72,7 +72,7 @@ public class CaseWorker extends Worker {
 
     public void getAll() {
         try {
-            Call<ResponseBody> call = caseApi.getAll(token(), RoomRepository.roomId, CaseRepository.page, CaseRepository.Q);
+            Call<ResponseBody> call = caseApi.getAll(token(), RoomRepository.roomId, CaseRepository.page, CaseRepository.Q,CaseRepository.usage);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {

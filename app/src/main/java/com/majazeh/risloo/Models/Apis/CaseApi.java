@@ -16,7 +16,7 @@ import retrofit2.http.Query;
 public interface CaseApi {
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("cases")
-    Call<ResponseBody> getAll(@Header("Authorization") String authorization,@Query("room") String room, @Query("page") int page, @Query("q") String q);
+    Call<ResponseBody> getAll(@Header("Authorization") String authorization,@Query("room") String room, @Query("page") int page, @Query("q") String q,@Query("usage")String usage);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("cases/{caseId}")
