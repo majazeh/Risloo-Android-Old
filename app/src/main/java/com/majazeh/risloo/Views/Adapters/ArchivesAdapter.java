@@ -150,7 +150,6 @@ public class ArchivesAdapter extends RecyclerView.Adapter<ArchivesAdapter.Archiv
             holder.continueTextView.setOnClickListener(v -> {
                 holder.continueTextView.setClickable(false);
                 handler.postDelayed(() -> holder.continueTextView.setClickable(true), 250);
-                continueDialog.show();
 
                 showDialog(holder.serialTextView.getText().toString());
             });
