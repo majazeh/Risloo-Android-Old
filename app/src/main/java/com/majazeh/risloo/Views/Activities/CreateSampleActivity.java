@@ -50,6 +50,7 @@ import com.majazeh.risloo.ViewModels.RoomViewModel;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.Views.Adapters.CheckBoxAdapter;
 import com.majazeh.risloo.Views.Adapters.SearchAdapter;
+import com.majazeh.risloo.Views.Adapters.SearchCaseAdapter;
 import com.majazeh.risloo.Views.Adapters.SpinnerAdapter;
 
 import org.json.JSONArray;
@@ -70,12 +71,13 @@ public class CreateSampleActivity extends AppCompatActivity {
     private Model roomModel;
 
     // Adapters
-    private SearchAdapter scaleDialogAdapter, roomDialogAdapter, caseDialogAdapter, referenceDialogAdapter;
+    private SearchAdapter scaleDialogAdapter, roomDialogAdapter, referenceDialogAdapter;
+    private SearchCaseAdapter caseDialogAdapter;
     public SpinnerAdapter scaleRecyclerViewAdapter, referenceRecyclerViewAdapter;
     private CheckBoxAdapter caseRecyclerViewAdapter;
 
     // Vars
-    public String roomId = "", roomName = "", roomTitle = "", caseId = "", caseName = "", count = "";
+    public String roomId = "", roomName = "", roomTitle = "", caseId = "", caseName = "", count = "", sessionId;
     private boolean scaleException = false, roomException = false, caseException = false, referenceException = false;
 
     // Objects
@@ -136,8 +138,9 @@ public class CreateSampleActivity extends AppCompatActivity {
 
         scaleDialogAdapter = new SearchAdapter(this);
         roomDialogAdapter = new SearchAdapter(this);
-        caseDialogAdapter = new SearchAdapter(this);
         referenceDialogAdapter = new SearchAdapter(this);
+
+        caseDialogAdapter = new SearchCaseAdapter(this);
 
         scaleRecyclerViewAdapter = new SpinnerAdapter(this);
         referenceRecyclerViewAdapter = new SpinnerAdapter(this);
@@ -787,6 +790,8 @@ public class CreateSampleActivity extends AppCompatActivity {
             caseName = extras.getString("case_name");
         if (extras.getString("count") != null)
             count = extras.getString("count");
+        if (extras.getString("session_id") != null)
+            sessionId = extras.getString("session_id");
 
         if (extras.getString("scales") != null) {
             try {
@@ -1078,7 +1083,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     caseDialogImageView.setVisibility(View.GONE);
 
                     CaseRepository.page = 1;
-                    caseViewModel.cases(roomId, q);
+                    caseViewModel.cases(roomId, q, "case_dashboard");
 
                     observeWork("caseViewModel");
                     break;
@@ -1106,7 +1111,7 @@ public class CreateSampleActivity extends AppCompatActivity {
 
             progressDialog.show();
 
-            sampleViewModel.create(scaleRecyclerViewAdapter.getIds(), roomId, caseId, referenceRecyclerViewAdapter.getIds(), caseRecyclerViewAdapter.getChecks(), count);
+            sampleViewModel.create(scaleRecyclerViewAdapter.getIds(), roomId, caseId, referenceRecyclerViewAdapter.getIds(), caseRecyclerViewAdapter.getChecks(), count, sessionId);
             observeWork("sampleViewModel");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -1368,6 +1373,23 @@ public class CreateSampleActivity extends AppCompatActivity {
                     if (!caseId.equals(model.get("id").toString())) {
                         caseId = model.get("id").toString();
 
+                        // Sessions
+                        if (model.attributes.has("sessions") && !model.attributes.isNull("sessions")) {
+                            JSONArray sessions = (JSONArray) model.get("sessions");
+
+                            if (sessions.length() != 0) {
+                                for (int j = 0; j < 1; j++) {
+                                    JSONObject session = (JSONObject) sessions.get(j);
+
+                                    sessionId = session.get("id").toString();
+                                }
+                            } else {
+                                sessionId = "";
+                            }
+                        } else {
+                            sessionId = "";
+                        }
+
                         ArrayList<Model> cases = new ArrayList<>();
 
                         StringBuilder name = new StringBuilder();
@@ -1398,6 +1420,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                     } else if (caseId.equals(model.get("id").toString())) {
                         caseId = "";
                         caseName = "";
+
+                        sessionId = "";
 
                         caseTextView.setText(getResources().getString(R.string.CreateSampleCase));
                         caseTextView.setTextColor(getResources().getColor(R.color.Mischka));

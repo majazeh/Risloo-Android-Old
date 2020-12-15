@@ -177,57 +177,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                     holder.titleTextView.setText(detail.get("title").toString());
                     holder.titleTextView.setVisibility(View.VISIBLE);
                     break;
-                case "getCases":
-                    StringBuilder name = new StringBuilder();
-                    JSONArray clients = (JSONArray) model.get("clients");
-
-                    for (int j = 0; j < clients.length(); j++) {
-                        JSONObject client = (JSONObject) clients.get(j);
-                        JSONObject user = (JSONObject) client.get("user");
-
-                        if (j == clients.length() - 1) {
-                            name.append(user.get("name").toString());
-                        } else {
-                            name.append(user.get("name").toString()).append(" - ");
-                        }
-                    }
-
-                    holder.nameTextView.setText(name.toString());
-
-                    switch (theory) {
-                        case "CreateSample":
-                            if (((CreateSampleActivity) Objects.requireNonNull(activity)).caseId.equals(model.get("id").toString())) {
-                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
-                            } else {
-                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
-                            }
-                            break;
-
-                        case "CreateSession":
-                            if (((CreateSessionActivity) Objects.requireNonNull(activity)).caseId.equals(model.get("id").toString())) {
-                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
-                            } else {
-                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
-                            }
-                            break;
-
-                        case "EditSession":
-                            if (((EditSessionActivity) Objects.requireNonNull(activity)).caseId.equals(model.get("id").toString())) {
-                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
-                            } else {
-                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
-                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
-                            }
-                            break;
-                    }
-
-                    holder.titleTextView.setVisibility(View.GONE);
-                    break;
                 case "getReferences":
                     JSONObject user = (JSONObject) model.get("user");
                     holder.nameTextView.setText(user.get("name").toString());
