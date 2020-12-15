@@ -223,7 +223,13 @@ public class DetailCaseActivity extends AppCompatActivity {
             addReferenceTextView.setClickable(false);
             handler.postDelayed(() -> addReferenceTextView.setClickable(true), 250);
 
-            // TODO : Call Add Reference
+            Intent createUserActivity = (new Intent(this, CreateUserActivity.class));
+
+            createUserActivity.putExtra("loaded", true);
+            createUserActivity.putExtra("room_id", roomId);
+
+            startActivityForResult(createUserActivity, 100);
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
 
         addSessionTextView.setOnClickListener(v -> {
