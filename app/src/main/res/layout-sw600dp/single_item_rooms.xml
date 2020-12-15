@@ -108,9 +108,9 @@
                         android:layout_marginRight="@dimen/_6sdp"
                         android:padding="@dimen/_4sdp"
                         android:contentDescription="@string/AppImageContent"
-                        android:background="@drawable/draw_8sdp_solid_solitude"
+                        android:background="@drawable/draw_8sdp_solid_primary"
                         android:src="@drawable/ic_users_light"
-                        app:tint="@color/Grey" />
+                        app:tint="@color/White" />
 
                 </LinearLayout>
 

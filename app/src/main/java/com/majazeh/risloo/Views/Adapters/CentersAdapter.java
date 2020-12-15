@@ -134,8 +134,8 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                     holder.usersImageView.setVisibility(View.VISIBLE);
 
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                        holder.editImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude_ripple_quartz);
-                        holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude_ripple_quartz);
+                        holder.editImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
+                        holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
                     }
                 } else {
                     holder.editImageView.setVisibility(View.GONE);
@@ -157,8 +157,8 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                     holder.usersImageView.setVisibility(View.VISIBLE);
 
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                        holder.editImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude_ripple_quartz);
-                        holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude_ripple_quartz);
+                        holder.editImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
+                        holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
                     }
                 } else {
                     holder.editImageView.setVisibility(View.GONE);

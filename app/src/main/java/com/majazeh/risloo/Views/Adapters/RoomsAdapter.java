@@ -87,7 +87,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
                     holder.usersImageView.setVisibility(View.VISIBLE);
 
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                        holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude_ripple_quartz);
+                        holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
                     }
                 } else {
                     holder.usersImageView.setVisibility(View.GONE);
@@ -98,7 +98,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
                     holder.usersImageView.setVisibility(View.VISIBLE);
 
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                        holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude_ripple_quartz);
+                        holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
                     }
                 } else {
                     holder.usersImageView.setVisibility(View.GONE);

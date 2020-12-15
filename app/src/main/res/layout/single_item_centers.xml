@@ -112,9 +112,9 @@
                             android:layout_marginRight="@dimen/_6sdp"
                             android:padding="@dimen/_6sdp"
                             android:contentDescription="@string/AppImageContent"
-                            android:background="@drawable/draw_8sdp_solid_solitude"
+                            android:background="@drawable/draw_8sdp_solid_primary"
                             android:src="@drawable/ic_edit_light"
-                            app:tint="@color/Grey" />
+                            app:tint="@color/White" />
 
                         <ImageView
                             android:id="@+id/single_item_centers_users_imageView"
@@ -123,9 +123,9 @@
                             android:layout_marginRight="@dimen/_6sdp"
                             android:padding="@dimen/_4sdp"
                             android:contentDescription="@string/AppImageContent"
-                            android:background="@drawable/draw_8sdp_solid_solitude"
+                            android:background="@drawable/draw_8sdp_solid_primary"
                             android:src="@drawable/ic_users_light"
-                            app:tint="@color/Grey" />
+                            app:tint="@color/White" />
 
                     </LinearLayout>
 
