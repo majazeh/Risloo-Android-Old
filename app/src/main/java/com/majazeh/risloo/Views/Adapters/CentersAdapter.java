@@ -130,11 +130,15 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
 
                 if (authViewModel.hasAccess() || acceptation.get("position").toString().equals("manager")) {
                     holder.editImageView.setVisibility(View.VISIBLE);
+                    holder.usersImageView.setVisibility(View.VISIBLE);
+
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                         holder.editImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude_ripple_quartz);
+                        holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude_ripple_quartz);
                     }
                 } else {
                     holder.editImageView.setVisibility(View.GONE);
+                    holder.usersImageView.setVisibility(View.GONE);
                 }
 
             } else {
@@ -148,11 +152,16 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                 }
 
                 if (authViewModel.hasAccess()) {
+                    holder.editImageView.setVisibility(View.VISIBLE);
+                    holder.usersImageView.setVisibility(View.VISIBLE);
+
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                         holder.editImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude_ripple_quartz);
+                        holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude_ripple_quartz);
                     }
                 } else {
                     holder.editImageView.setVisibility(View.GONE);
+                    holder.usersImageView.setVisibility(View.GONE);
                 }
             }
 
@@ -411,13 +420,13 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
 
-            holder.peopleImageView.setOnClickListener(v -> {
-                holder.peopleImageView.setClickable(false);
-                handler.postDelayed(() -> holder.peopleImageView.setClickable(true), 250);
+            holder.usersImageView.setOnClickListener(v -> {
+                holder.usersImageView.setClickable(false);
+                handler.postDelayed(() -> holder.usersImageView.setClickable(true), 250);
 
                 clearProgress();
 
-                // TODO : See What This Function Do And Then Add The Code
+                // TODO : Call Index Users
             });
 
         } catch (JSONException e) {
@@ -585,7 +594,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
         public CircleImageView avatarImageView;
         public TextView titleTextView, subTitleTextView, requestTextView, managerTextView, descriptionTextView, addressTextView;
         public RecyclerView phoneRecyclerView;
-        public ImageView gradientImageView, editImageView, peopleImageView, expandImageView;
+        public ImageView gradientImageView, editImageView, usersImageView, expandImageView;
         public LinearLayout expandLinearLayout, managerLinearLayout, descriptionLinearLayout, addressLinearLayout, phoneLinearLayout;
 
         public CentersHolder(View view) {
@@ -596,7 +605,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
             requestTextView = view.findViewById(R.id.single_item_centers_request_textView);
             gradientImageView = view.findViewById(R.id.single_item_centers_gradient_imageView);
             editImageView = view.findViewById(R.id.single_item_centers_edit_imageView);
-            peopleImageView = view.findViewById(R.id.single_item_centers_people_imageView);
+            usersImageView = view.findViewById(R.id.single_item_centers_users_imageView);
             expandImageView = view.findViewById(R.id.single_item_centers_expand_imageView);
             expandLinearLayout = view.findViewById(R.id.single_item_centers_expand_linearLayout);
             managerTextView = view.findViewById(R.id.single_item_centers_manager_textView);
