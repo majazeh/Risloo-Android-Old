@@ -35,6 +35,7 @@ import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.ViewModels.CaseViewModel;
 import com.majazeh.risloo.ViewModels.SessionViewModel;
 import com.majazeh.risloo.Views.Adapters.DetailCaseReferencesAdapter;
+import com.majazeh.risloo.Views.Adapters.DetailCaseSamplesAdapter;
 import com.majazeh.risloo.Views.Adapters.DetailCaseSessionsAdapter;
 import com.squareup.picasso.Picasso;
 
@@ -56,6 +57,7 @@ public class DetailCaseActivity extends AppCompatActivity {
     // Adapters
     private DetailCaseReferencesAdapter detailCaseReferencesAdapter;
     private DetailCaseSessionsAdapter detailCaseSessionsAdapter;
+    private DetailCaseSamplesAdapter detailCaseSamplesAdapter;
 
     // Vars
     public String caseId = "", caseName = "", roomId = "", roomName = "", roomTitle = "", roomUrl = "", sessionId = "", clients = "";
@@ -74,9 +76,9 @@ public class DetailCaseActivity extends AppCompatActivity {
     private ImageView infoImageView;
     private TextView infoTextView;
     private CircleImageView roomAvatarImageView;
-    private TextView nameTextView, roomTitleTextView, roomSubTitleTextView, roomTypeTextView, complaintTextView, createdCaseDateTextView, lastSessionDateTextView, sessionsCountTextView, testsCountTextView, addReferenceTextView, emptyReferencesTextView, addSessionTextView, emptySessionsTextView;
-    private LinearLayout sessionsHintLinearLayout;
-    private RecyclerView referencesRecyclerView, sessionsRecyclerView;
+    private TextView nameTextView, roomTitleTextView, roomSubTitleTextView, roomTypeTextView, complaintTextView, createdCaseDateTextView, lastSessionDateTextView, sessionsCountTextView, testsCountTextView, addReferenceTextView, emptyReferencesTextView, addSessionTextView, emptySessionsTextView, createSampleTextView, emptySamplesTextView;
+    private LinearLayout sessionsHintLinearLayout, samplesHintLinearLayout;
+    private RecyclerView referencesRecyclerView, sessionsRecyclerView, samplesRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +110,7 @@ public class DetailCaseActivity extends AppCompatActivity {
 
         detailCaseReferencesAdapter = new DetailCaseReferencesAdapter(this);
         detailCaseSessionsAdapter = new DetailCaseSessionsAdapter(this);
+        detailCaseSamplesAdapter = new DetailCaseSamplesAdapter(this);
 
         handler = new Handler();
 
@@ -146,11 +149,14 @@ public class DetailCaseActivity extends AppCompatActivity {
 
         addReferenceTextView = findViewById(R.id.activity_detail_case_add_reference_textView);
         addSessionTextView = findViewById(R.id.activity_detail_case_add_session_textView);
+        createSampleTextView = findViewById(R.id.activity_detail_case_create_sample_textView);
 
         emptyReferencesTextView = findViewById(R.id.activity_detail_case_references_empty_textView);
         emptySessionsTextView = findViewById(R.id.activity_detail_case_sessions_empty_textView);
+        emptySamplesTextView = findViewById(R.id.activity_detail_case_samples_empty_textView);
 
         sessionsHintLinearLayout = findViewById(R.id.activity_detail_case_sessions_hint_linearLayout);
+        samplesHintLinearLayout = findViewById(R.id.activity_detail_case_samples_hint_linearLayout);
 
         referencesRecyclerView = findViewById(R.id.activity_detail_case_references_recyclerView);
         referencesRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", 0, (int) getResources().getDimension(R.dimen._4sdp), 0));
@@ -160,6 +166,10 @@ public class DetailCaseActivity extends AppCompatActivity {
         sessionsRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", 0, (int) getResources().getDimension(R.dimen._4sdp), 0));
         sessionsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         sessionsRecyclerView.setHasFixedSize(false);
+        samplesRecyclerView = findViewById(R.id.activity_detail_case_samples_recyclerView);
+        samplesRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", 0, (int) getResources().getDimension(R.dimen._4sdp), 0));
+        samplesRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        samplesRecyclerView.setHasFixedSize(false);
     }
 
     private void detector() {
@@ -168,6 +178,7 @@ public class DetailCaseActivity extends AppCompatActivity {
 
             addReferenceTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
             addSessionTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
+            createSampleTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
         }
     }
 
@@ -212,7 +223,7 @@ public class DetailCaseActivity extends AppCompatActivity {
             addReferenceTextView.setClickable(false);
             handler.postDelayed(() -> addReferenceTextView.setClickable(true), 250);
 
-
+            // TODO : Call Add Reference
         });
 
         addSessionTextView.setOnClickListener(v -> {
@@ -229,6 +240,25 @@ public class DetailCaseActivity extends AppCompatActivity {
             createSessionActivity.putExtra("case_name", caseName);
 
             startActivityForResult(createSessionActivity, 100);
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+        });
+
+        createSampleTextView.setOnClickListener(v -> {
+            createSampleTextView.setClickable(false);
+            handler.postDelayed(() -> createSampleTextView.setClickable(true), 250);
+
+            Intent createSampleActivity = (new Intent(this, CreateSampleActivity.class));
+
+            createSampleActivity.putExtra("loaded", true);
+            createSampleActivity.putExtra("room_id", roomId);
+            createSampleActivity.putExtra("room_name", roomName);
+            createSampleActivity.putExtra("room_title", roomTitle);
+            createSampleActivity.putExtra("case_id", caseId);
+            createSampleActivity.putExtra("case_name", caseName);
+            createSampleActivity.putExtra("session_id", sessionId);
+            createSampleActivity.putExtra("clients", clients);
+
+            startActivityForResult(createSampleActivity, 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
     }
@@ -358,6 +388,24 @@ public class DetailCaseActivity extends AppCompatActivity {
                 sessionsHintLinearLayout.setVisibility(View.GONE);
             }
 
+            // Samples
+            JSONArray samples = (JSONArray) data.get("samples");
+
+            if (samples.length() != 0) {
+                ArrayList<Model> scales = new ArrayList<>();
+
+                for (int j = 0; j < samples.length(); j++) {
+                    JSONObject sample = (JSONObject) samples.get(j);
+
+                    scales.add(new Model(sample));
+                }
+
+                setRecyclerView(scales, samplesRecyclerView, "samples");
+            } else {
+                emptySamplesTextView.setVisibility(View.VISIBLE);
+                samplesHintLinearLayout.setVisibility(View.GONE);
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -372,6 +420,10 @@ public class DetailCaseActivity extends AppCompatActivity {
             case "sessions":
                 detailCaseSessionsAdapter.setSession(arrayList);
                 recyclerView.setAdapter(detailCaseSessionsAdapter);
+                break;
+            case "samples":
+                detailCaseSamplesAdapter.setSample(arrayList);
+                recyclerView.setAdapter(detailCaseSamplesAdapter);
                 break;
         }
     }

@@ -340,7 +340,6 @@
                                         android:paddingLeft="@dimen/_8sdp"
                                         android:paddingRight="@dimen/_8sdp"
                                         android:gravity="center"
-                                        android:visibility="invisible"
                                         android:text="@string/DetailCaseAddReference"
                                         android:textSize="@dimen/_8ssp"
                                         android:textStyle="bold"
@@ -392,7 +391,7 @@
                         <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/_16sdp"
+                            android:layout_marginBottom="@dimen/_8sdp"
                             android:layout_marginLeft="@dimen/_16sdp"
                             android:layout_marginRight="@dimen/_16sdp"
                             app:cardBackgroundColor="@color/Snow"
@@ -457,6 +456,17 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
+                                        android:layout_weight="0.9"
+                                        android:gravity="right|center"
+                                        android:text="@string/DetailCaseSessionId"
+                                        android:textSize="@dimen/_9ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/Mischka"
+                                        android:textAlignment="gravity" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="1"
                                         android:gravity="right|center"
                                         android:text="@string/DetailCaseSessionStartedAt"
@@ -468,6 +478,8 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
+                                        android:layout_marginRight="@dimen/_4sdp"
+                                        android:layout_marginLeft="@dimen/_4sdp"
                                         android:layout_weight="1"
                                         android:gravity="right|center"
                                         android:text="@string/DetailCaseSessionDuration"
@@ -490,7 +502,7 @@
                                     <View
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
-                                        android:layout_weight="1.1" />
+                                        android:layout_weight="1" />
 
                                 </LinearLayout>
 
@@ -507,6 +519,143 @@
                                     android:visibility="gone"
                                     android:gravity="center"
                                     android:text="@string/DetailCaseEmptySession"
+                                    android:textSize="@dimen/_8ssp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/Mischka"
+                                    android:textAlignment="gravity" />
+
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_16sdp"
+                            android:layout_marginLeft="@dimen/_16sdp"
+                            android:layout_marginRight="@dimen/_16sdp"
+                            app:cardBackgroundColor="@color/Snow"
+                            app:cardCornerRadius="@dimen/_16sdp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/_12sdp"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layoutDirection="ltr"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/activity_detail_case_create_sample_textView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center|left"
+                                        android:paddingTop="@dimen/_3sdp"
+                                        android:paddingBottom="@dimen/_3sdp"
+                                        android:paddingLeft="@dimen/_8sdp"
+                                        android:paddingRight="@dimen/_8sdp"
+                                        android:gravity="center"
+                                        android:text="@string/DetailCaseCreateSample"
+                                        android:textSize="@dimen/_8ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/White"
+                                        android:textAlignment="gravity"
+                                        android:background="@drawable/draw_8sdp_solid_primary"/>
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:gravity="right|center"
+                                        android:text="@string/DetailCaseSamples"
+                                        android:textSize="@dimen/_10ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/Nero"
+                                        android:textAlignment="gravity" />
+
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_1sdp"
+                                    android:layout_marginTop="@dimen/_8sdp"
+                                    android:layout_marginBottom="@dimen/_12sdp"
+                                    android:background="@color/Quartz" />
+
+                                <LinearLayout
+                                    android:id="@+id/activity_detail_case_samples_hint_linearLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/_8sdp"
+                                    android:layoutDirection="rtl"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="right|center"
+                                        android:text="@string/DetailCaseSampleTitle"
+                                        android:textSize="@dimen/_9ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/Mischka"
+                                        android:textAlignment="gravity" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginRight="@dimen/_4sdp"
+                                        android:layout_marginLeft="@dimen/_2sdp"
+                                        android:layout_weight="1"
+                                        android:gravity="right|center"
+                                        android:text="@string/DetailCaseSampleStatus"
+                                        android:textSize="@dimen/_9ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/Mischka"
+                                        android:textAlignment="gravity" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginRight="@dimen/_2sdp"
+                                        android:layout_marginLeft="@dimen/_4sdp"
+                                        android:layout_weight="1"
+                                        android:gravity="right|center"
+                                        android:text="@string/DetailCaseSampleSessionId"
+                                        android:textSize="@dimen/_9ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/Mischka"
+                                        android:textAlignment="gravity" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="right|center"
+                                        android:text="@string/DetailCaseSampleReference"
+                                        android:textSize="@dimen/_9ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/Mischka"
+                                        android:textAlignment="gravity" />
+
+                                </LinearLayout>
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/activity_detail_case_samples_recyclerView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:overScrollMode="never" />
+
+                                <TextView
+                                    android:id="@+id/activity_detail_case_samples_empty_textView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:gravity="center"
+                                    android:text="@string/DetailCaseEmptySample"
                                     android:textSize="@dimen/_8ssp"
                                     android:textStyle="bold"
                                     android:textColor="@color/Mischka"
