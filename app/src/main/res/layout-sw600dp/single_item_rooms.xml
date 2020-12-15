@@ -102,15 +102,14 @@
                         android:background="@drawable/draw_8sdp_solid_solitude"/>
 
                     <ImageView
-                        android:id="@+id/single_item_rooms_people_imageView"
+                        android:id="@+id/single_item_rooms_users_imageView"
                         android:layout_width="@dimen/_22sdp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="@dimen/_6sdp"
-                        android:visibility="invisible"
-                        android:padding="@dimen/_6sdp"
+                        android:padding="@dimen/_4sdp"
                         android:contentDescription="@string/AppImageContent"
                         android:background="@drawable/draw_8sdp_solid_solitude"
-                        android:src="@drawable/ic_user_light"
+                        android:src="@drawable/ic_users_light"
                         app:tint="@color/Grey" />
 
                 </LinearLayout>

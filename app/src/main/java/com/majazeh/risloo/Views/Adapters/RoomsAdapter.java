@@ -2,6 +2,7 @@ package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.StringManager;
+import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Activities.ImageActivity;
 import com.majazeh.risloo.Views.Activities.RoomsActivity;
 import com.majazeh.risloo.Views.Fragments.AllRoomsFragment;
@@ -31,6 +33,9 @@ import java.util.Objects;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder> {
+
+    // ViewModels
+    private AuthViewModel authViewModel;
 
     // Vars
     private ArrayList<Model> rooms;
@@ -72,6 +77,32 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
                 holder.typeTextView.setText(activity.getResources().getString(R.string.RoomsPersonalClinic));
             } else {
                 holder.typeTextView.setText(detail.get("title").toString());
+            }
+
+            // Acceptation
+            if (model.attributes.has("acceptation") && !model.attributes.isNull("acceptation")) {
+                JSONObject acceptation = (JSONObject) model.get("acceptation");
+
+                if (authViewModel.hasAccess() || acceptation.get("position").toString().equals("manager")) {
+                    holder.usersImageView.setVisibility(View.VISIBLE);
+
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                        holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude_ripple_quartz);
+                    }
+                } else {
+                    holder.usersImageView.setVisibility(View.GONE);
+                }
+
+            } else {
+                if (authViewModel.hasAccess()) {
+                    holder.usersImageView.setVisibility(View.VISIBLE);
+
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                        holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude_ripple_quartz);
+                    }
+                } else {
+                    holder.usersImageView.setVisibility(View.GONE);
+                }
             }
 
             // Avatar
@@ -159,13 +190,13 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
                 }
             });
 
-            holder.peopleImageView.setOnClickListener(v -> {
-                holder.peopleImageView.setClickable(false);
-                handler.postDelayed(() -> holder.peopleImageView.setClickable(true), 250);
+            holder.usersImageView.setOnClickListener(v -> {
+                holder.usersImageView.setClickable(false);
+                handler.postDelayed(() -> holder.usersImageView.setClickable(true), 250);
 
                 clearProgress();
 
-                // TODO : See What This Function Do And Then Add The Code
+                // TODO : Call Index Users
             });
 
         } catch (JSONException e) {
@@ -179,6 +210,8 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
     }
 
     private void initializer(View view) {
+        authViewModel = ((RoomsActivity) Objects.requireNonNull(activity)).authViewModel;
+
         handler = new Handler();
     }
 
@@ -204,7 +237,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
 
         public CircleImageView avatarImageView;
         public TextView titleTextView, subTitleTextView, typeTextView;
-        public ImageView gradientImageView, peopleImageView;
+        public ImageView gradientImageView, usersImageView;
 
         public RoomsHolder(View view) {
             super(view);
@@ -213,7 +246,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
             subTitleTextView = view.findViewById(R.id.single_item_rooms_subtitle_textView);
             typeTextView = view.findViewById(R.id.single_item_rooms_type_textView);
             gradientImageView = view.findViewById(R.id.single_item_rooms_gradient_imageView);
-            peopleImageView = view.findViewById(R.id.single_item_rooms_people_imageView);
+            usersImageView = view.findViewById(R.id.single_item_rooms_users_imageView);
         }
     }
 
