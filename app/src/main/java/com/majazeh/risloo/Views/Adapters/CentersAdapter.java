@@ -30,6 +30,7 @@ import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
@@ -240,7 +241,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                 Picasso.get().load(R.color.Solitude).placeholder(R.color.Solitude).into(holder.avatarImageView);
 
                 holder.subTitleTextView.setVisibility(View.VISIBLE);
-                holder.subTitleTextView.setText(detail.get("title").toString().charAt(0) + String.valueOf(detail.get("title").toString().substring(detail.get("title").toString().lastIndexOf(" ") + 1).charAt(0)));
+                holder.subTitleTextView.setText(StringManager.firstChars(detail.get("title").toString()));
             }
 
             // CreatedAt

@@ -281,7 +281,7 @@ public class DetailCaseActivity extends AppCompatActivity {
                     Picasso.get().load(R.color.Solitude).placeholder(R.color.Solitude).into(roomAvatarImageView);
 
                     roomSubTitleTextView.setVisibility(View.VISIBLE);
-                    roomSubTitleTextView.setText(roomName.charAt(0) + String.valueOf(roomName.substring(roomName.lastIndexOf(" ") + 1).charAt(0)));
+                    roomSubTitleTextView.setText(StringManager.firstChars(roomName));
                 }
             }
 

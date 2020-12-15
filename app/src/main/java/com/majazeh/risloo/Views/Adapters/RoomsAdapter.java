@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Views.Activities.ImageActivity;
 import com.majazeh.risloo.Views.Activities.RoomsActivity;
 import com.majazeh.risloo.Views.Fragments.AllRoomsFragment;
@@ -88,7 +89,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
                 Picasso.get().load(R.color.Solitude).placeholder(R.color.Solitude).into(holder.avatarImageView);
 
                 holder.subTitleTextView.setVisibility(View.VISIBLE);
-                holder.subTitleTextView.setText(manager.get("name").toString().charAt(0) + String.valueOf(manager.get("name").toString().substring(manager.get("name").toString().lastIndexOf(" ") + 1).charAt(0)));
+                holder.subTitleTextView.setText(StringManager.firstChars(manager.get("name").toString()));
             }
 
             // CreatedAt
