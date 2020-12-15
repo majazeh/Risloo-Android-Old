@@ -19,6 +19,7 @@ import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Generators.JSONGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Workers.SampleWorker;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -201,7 +202,7 @@ public class SampleRepository extends MainRepository {
         workManager("sendPrerequisite");
     }
 
-    public void create(ArrayList scales, String room, String casse, ArrayList roomReferences, ArrayList caseReferences, String count,String sessionId) throws JSONException {
+    public void create(ArrayList scales, String room, String casse, ArrayList roomReferences, ArrayList caseReferences, String count, String sessionId) throws JSONException {
         if (scales.size() != 0)
             SampleRepository.createData.put("scale_id", scales);
         if (!room.equals(""))
@@ -215,7 +216,7 @@ public class SampleRepository extends MainRepository {
         }
         if (!count.equals(""))
             SampleRepository.createData.put("count", count);
-        if (!sessionId.equals("")){
+        if (!sessionId.equals("")) {
             createData.put("session_id", sessionId);
         }
         work = "create";
@@ -250,7 +251,6 @@ public class SampleRepository extends MainRepository {
         workStateCreate.setValue(-1);
         workManager("getScales");
     }
-
 
 
     public void general(String sampleId) throws JSONException {
@@ -371,6 +371,18 @@ public class SampleRepository extends MainRepository {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void cachePictures(Model model) throws JSONException {
+        if (model.get("type").equals("image_url"))
+            Picasso.get().load((String) model.get("image_url")+".png").fetch();
+        JSONObject answer = (JSONObject) model.get("answer");
+        if (answer.getString("type").equals("optional_images")) {
+            JSONArray options = answer.getJSONArray("options");
+            for (int i = 0; i < options.length(); i++) {
+                Picasso.get().load(options.getString(i)+".png").fetch();
+            }
+        }
     }
 
     public ArrayList getOptions(int index) {
@@ -498,7 +510,7 @@ public class SampleRepository extends MainRepository {
                     String key = keys.next();
                     if (key.endsWith("png")) {
                         JSONObject object = new JSONObject();
-                        String title = key.substring(key.indexOf('_')+1);
+                        String title = key.substring(key.indexOf('_') + 1);
                         title = title.replace('_', ' ');
                         title = title.toUpperCase();
                         object.put("title", title);
@@ -724,7 +736,7 @@ public class SampleRepository extends MainRepository {
         }
     }
 
-    public ArrayList<Model> getScales(){
+    public ArrayList<Model> getScales() {
         try {
             if (scalesQ.equals("")) {
                 if (FileManager.readObjectFromCache(application.getApplicationContext(), "scales") != null) {
@@ -738,10 +750,10 @@ public class SampleRepository extends MainRepository {
                 } else {
                     return null;
                 }
-            }else{
-                if (scales.size() == 0){
+            } else {
+                if (scales.size() == 0) {
                     return null;
-                }else{
+                } else {
                     return scales;
                 }
             }
@@ -751,9 +763,9 @@ public class SampleRepository extends MainRepository {
         }
     }
 
-    public ArrayList<Model> getLocalScales(){
+    public ArrayList<Model> getLocalScales() {
         try {
-            JSONArray data = new JSONArray( JSONGenerator.getJSON(application.getApplicationContext(), "localScales.json"));
+            JSONArray data = new JSONArray(JSONGenerator.getJSON(application.getApplicationContext(), "localScales.json"));
             ArrayList<Model> arrayList = new ArrayList<>();
             for (int i = 0; i < data.length(); i++) {
                 arrayList.add(new Model(data.getJSONObject(i)));

@@ -29,6 +29,7 @@ public class CenterRepository extends MainRepository {
     // Vars
     public static HashMap createData = new HashMap();
     public static HashMap editData = new HashMap();
+    public static HashMap addUserData = new HashMap();
     public static ArrayList<Model> getAll;
     public static ArrayList<Model> getMy;
     public static ArrayList<Model> personalClinic;
@@ -97,6 +98,18 @@ public class CenterRepository extends MainRepository {
         work = "userStatus";
         workState.setValue(-1);
         workManager("userStatus");
+    }
+
+    public void addUser(String clinicId, String number,String position) throws JSONException {
+        if (!clinicId.equals(""))
+            CenterRepository.clinicId = clinicId;
+        if (!number.equals(""))
+            addUserData.put("number", number);
+        if (!position.equals(""))
+            addUserData.put("position", position);
+        work = "addUser";
+        workState.setValue(-1);
+        workManager("addUser");
     }
 
     public void create(String type, String manager, String title, String avatar, String address, String description, ArrayList<String> phones) throws JSONException {

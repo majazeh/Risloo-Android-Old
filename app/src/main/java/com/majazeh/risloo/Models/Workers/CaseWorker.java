@@ -64,6 +64,8 @@ public class CaseWorker extends Worker {
                 case "create":
                     create();
                     break;
+                case "addUser":
+                    addUser();
             }
         }
 
@@ -72,7 +74,7 @@ public class CaseWorker extends Worker {
 
     public void getAll() {
         try {
-            Call<ResponseBody> call = caseApi.getAll(token(), RoomRepository.roomId, CaseRepository.page, CaseRepository.Q,CaseRepository.usage);
+            Call<ResponseBody> call = caseApi.getAll(token(), RoomRepository.roomId, CaseRepository.page, CaseRepository.Q, CaseRepository.usage);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -145,7 +147,7 @@ public class CaseWorker extends Worker {
 
     public void getGeneral() {
         try {
-            Call<ResponseBody> call = caseApi.getGeneral(token(), CaseRepository.caseId,CaseRepository.usage);
+            Call<ResponseBody> call = caseApi.getGeneral(token(), CaseRepository.caseId, CaseRepository.usage);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -195,6 +197,41 @@ public class CaseWorker extends Worker {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "create");
+                CaseRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
+            CaseRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "IOException");
+            CaseRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
+            CaseRepository.workState.postValue(0);
+        }
+    }
+
+    private void addUser() {
+        try {
+            Call<ResponseBody> call = caseApi.addUser(token(), CaseRepository.caseId, CaseRepository.addUserData);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "addUser");
+                CaseRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "addUser");
                 CaseRepository.workState.postValue(0);
             }
 

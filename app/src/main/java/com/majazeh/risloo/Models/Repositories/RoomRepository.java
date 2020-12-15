@@ -97,6 +97,13 @@ public class RoomRepository extends MainRepository {
         workManager("getReferences");
     }
 
+    public void users(String roomId) throws JSONException {
+        RoomRepository.roomId = roomId;
+        work = "users";
+        workState.setValue(-1);
+        workManager("users");
+    }
+
     public void references(String roomId, String q ) throws JSONException {
     references(roomId,q,"");
     }
@@ -155,7 +162,28 @@ public class RoomRepository extends MainRepository {
         }
     }
 
-
+    public ArrayList<Model> getUsers(String roomId){
+        ArrayList<Model> arrayList = new ArrayList<>();
+        if (FileManager.readObjectFromCache(application.getApplicationContext(), "rooms" + "/" + roomId) != null) {
+            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "rooms" + "/" + roomId);
+            try {
+                JSONArray data = jsonObject.getJSONArray("data");
+                if (data.length() == 0) {
+                    return null;
+                }
+                for (int i = 0; i < data.length(); i++) {
+                    Model model = new Model(data.getJSONObject(i));
+                    arrayList.add(model);
+                }
+                return arrayList;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
 
 
     private void workManager(String work) throws JSONException {

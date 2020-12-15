@@ -2,6 +2,7 @@ package com.majazeh.risloo.Views.Fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Views.Activities.SampleActivity;
+import com.majazeh.risloo.Views.Adapters.ImageOptionalAdapter;
 import com.majazeh.risloo.Views.Adapters.OptionalAdapter;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 
@@ -26,7 +29,7 @@ import java.util.Objects;
 public class PictureOptionalFragment extends Fragment {
 
     // Adapters
-    private OptionalAdapter adapter;
+    private ImageOptionalAdapter adapter;
 
     // Objects
     private Activity activity;
@@ -53,7 +56,7 @@ public class PictureOptionalFragment extends Fragment {
     }
 
     private void initializer(View view) {
-        adapter = new OptionalAdapter(activity);
+        adapter = new ImageOptionalAdapter(activity);
 
         questionTextView = view.findViewById(R.id.fragment_picture_optional_question_textView);
 
@@ -70,9 +73,8 @@ public class PictureOptionalFragment extends Fragment {
         answerRecyclerView.setAdapter(adapter);
 
         try {
-            questionTextView.setText(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getItem(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getIndex()).get("text").toString());
+            Picasso.get().load((String)((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getItem(((SampleActivity) Objects.requireNonNull(getActivity())).viewModel.getIndex()).get("image_url")+".png").into(questionImageView);
 
-//            questionImageView.setImageResource();
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -9,6 +9,7 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.majazeh.risloo.Entities.Model;
+import com.majazeh.risloo.Models.Repositories.CaseRepository;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Apis.CenterApi;
@@ -81,6 +82,7 @@ public class CenterWorker extends Worker {
                     break;
                 case "userStatus":
                     userStatus();
+                    break;
             }
         }
 
@@ -606,6 +608,41 @@ public class CenterWorker extends Worker {
             CenterRepository.workState.postValue(0);
         }
 
+    }
+
+    private void addUser() {
+        try {
+            Call<ResponseBody> call = centerApi.addUser(token(), CenterRepository.clinicId, CenterRepository.addUserData);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "addUser");
+                CenterRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "addUser");
+                CenterRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
+            CenterRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "IOException");
+            CenterRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
+            CenterRepository.workState.postValue(0);
+        }
     }
 
 }

@@ -51,6 +51,7 @@ import com.majazeh.risloo.Views.Fragments.PrerequisiteFragment;
 import com.majazeh.risloo.Views.Fragments.TextPictoralFragment;
 import com.majazeh.risloo.Views.Fragments.TextOptionalFragment;
 import com.majazeh.risloo.Views.Fragments.TextTypingFragment;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 
@@ -289,7 +290,6 @@ public class SampleActivity extends AppCompatActivity {
             case "sample":
                 setButtonText();
                 setProgress();
-
                 switch (viewModel.getType(viewModel.getIndex())) {
                     case "textTyping":
                         loadFragment(new TextTypingFragment(this), R.anim.fade_in, R.anim.fade_out);
@@ -303,7 +303,7 @@ public class SampleActivity extends AppCompatActivity {
                     case "pictureTyping":
                         loadFragment(new PictureTypingFragment(this), R.anim.fade_in, R.anim.fade_out);
                         break;
-                    case "pictureOptional":
+                    case "optional_images":
                         loadFragment(new PictureOptionalFragment(this), R.anim.fade_in, R.anim.fade_out);
                         break;
                     case "picturePictoral":
@@ -380,6 +380,7 @@ public class SampleActivity extends AppCompatActivity {
         switch (method) {
             case "getSingle":
                 try {
+
                     viewModel.sample(sampleId);
                     observeWorkSample();
                 } catch (JSONException e) {
@@ -476,6 +477,14 @@ public class SampleActivity extends AppCompatActivity {
 
                                 SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                             }
+                        }
+                        try {
+                            for (int i = 0; i < viewModel.getSize(); i++) {
+                                viewModel.cachePictures(viewModel.getItem(i));
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
                     } else {
                         // Show Description

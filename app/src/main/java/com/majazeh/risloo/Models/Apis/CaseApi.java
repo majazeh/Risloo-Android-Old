@@ -27,4 +27,8 @@ public interface CaseApi {
     @POST("rooms/{roomId}/cases")
     Call<ResponseBody> create(@Header("Authorization") String authorization, @Path("roomId") String roomId, @Body HashMap body);
 
+
+    @Headers({"content-type: application/json", "Accept-Language:fa"})
+    @POST(" cases/{case_id}/users")
+    Call<ResponseBody> addUser(@Header("Authorization") String authorization, @Path("case_id") String caseId, @Body HashMap body);
 }

@@ -46,6 +46,9 @@ public class CaseViewModel extends AndroidViewModel {
         repository.create(roomId,references,chiefComplaint);
     }
 
+    public void addUser(String caseId, ArrayList<String> clients) throws JSONException {
+        repository.addUser(caseId, clients);
+    }
 
     public ArrayList<Model> getCases() {
         return repository.getCases();

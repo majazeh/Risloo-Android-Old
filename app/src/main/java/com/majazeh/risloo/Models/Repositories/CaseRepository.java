@@ -33,8 +33,9 @@ public class CaseRepository extends MainRepository {
     public static String work = "";
     public static MutableLiveData<Integer> workState;
     public static HashMap createData;
+    public static HashMap addUserData;
     public static String Q = "";
-    public static String usage= "";
+    public static String usage = "";
 
 
     public CaseRepository(Application application) {
@@ -42,10 +43,11 @@ public class CaseRepository extends MainRepository {
         cases = new ArrayList<>();
         workState = new MediatorLiveData<>();
         createData = new HashMap();
+        addUserData = new HashMap();
         workState.setValue(-1);
     }
 
-    public void cases(String roomId, String Q,String usage) throws JSONException {
+    public void cases(String roomId, String Q, String usage) throws JSONException {
         RoomRepository.roomId = roomId;
         CaseRepository.Q = Q;
         CaseRepository.usage = usage;
@@ -55,16 +57,17 @@ public class CaseRepository extends MainRepository {
     }
 
     public void cases(String roomId, String Q) throws JSONException {
-        cases(roomId, Q,"");
+        cases(roomId, Q, "");
     }
 
-    public void general(String caseId,String usage) throws JSONException {
+    public void general(String caseId, String usage) throws JSONException {
         CaseRepository.caseId = caseId;
         CaseRepository.usage = usage;
         work = "getGeneral";
         workState.setValue(-1);
         workManager("getGeneral");
     }
+
     public void general(String caseId) throws JSONException {
         general(caseId, "");
     }
@@ -79,6 +82,16 @@ public class CaseRepository extends MainRepository {
         work = "create";
         workState.setValue(-1);
         workManager("create");
+    }
+
+    public void addUser(String caseId, ArrayList<String> clients) throws JSONException {
+        if (!caseId.equals(""))
+            CaseRepository.caseId = caseId;
+        if (clients.size() != 0)
+            addUserData.put("client_id", clients);
+        work = "addUser";
+        workState.setValue(-1);
+        workManager("addUser");
     }
 
     public ArrayList<Model> getCases() {

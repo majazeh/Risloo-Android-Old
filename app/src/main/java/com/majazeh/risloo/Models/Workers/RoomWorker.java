@@ -71,6 +71,9 @@ public class RoomWorker extends Worker {
                 case "getReferences":
                     getReferences();
                     break;
+                case "users":
+                    getUsers();
+                    break;
             }
         }
         return Result.success();
@@ -304,4 +307,62 @@ public class RoomWorker extends Worker {
             RoomRepository.workState.postValue(0);
         }
     }
+
+    private void getUsers() {
+        try {
+            Call<ResponseBody> call = roomApi.getUsers(token(), RoomRepository.roomId);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                if (successBody.getJSONArray("data").length() != 0){
+                    if (RoomRepository.myPage == 1) {
+                        FileManager.writeObjectToCache(context, successBody, "rooms" + "/" + RoomRepository.roomId);
+                    } else {
+                        JSONObject jsonObject = FileManager.readObjectFromCache(context, "rooms" + "/" + RoomRepository.roomId);
+                        JSONArray data;
+                        try {
+                            data = jsonObject.getJSONArray("data");
+                            for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
+                                JSONArray jsonArray = successBody.getJSONArray("data");
+                                data.put(jsonArray.getJSONObject(i));
+                            }
+                            jsonObject.put("data", data);
+                            FileManager.writeObjectToCache(context, jsonObject, "rooms" + "/" + RoomRepository.roomId);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }else{
+                    FileManager.deleteFileFromCache(context, "rooms" + "/" + RoomRepository.roomId);
+                }
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "users");
+                RoomRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "users");
+                RoomRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
+            RoomRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
+            RoomRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "IOException");
+            RoomRepository.workState.postValue(0);
+        }
+
+    }
+
 }

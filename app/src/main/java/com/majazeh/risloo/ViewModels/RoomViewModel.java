@@ -60,4 +60,8 @@ public class RoomViewModel extends AndroidViewModel {
     public ArrayList<Model> getSuggestRoom() throws JSONException {
         return repository.getSuggest(getClass().getSimpleName());
     }
+
+    public ArrayList<Model> getUsers(String roomId) {
+        return repository.getUsers(roomId);
+    }
 }

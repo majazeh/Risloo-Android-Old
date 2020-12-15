@@ -160,6 +160,10 @@ public class SampleViewModel extends AndroidViewModel {
         return repository.getSize();
     }
 
+    public void cachePictures(Model model) throws JSONException {
+        repository.cachePictures(model);
+    }
+
     /*
          ---------- Ints ----------
     */
