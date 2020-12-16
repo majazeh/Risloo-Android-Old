@@ -35,6 +35,7 @@ public class RoomRepository extends MainRepository {
     public static ArrayList<Model> rooms;
     public static ArrayList<Model> myRooms;
     public static ArrayList<Model> myManagementRooms;
+    public static ArrayList<Model> users;
     public static String roomQ = "";
     public static int allPage = 1;
     public static int myPage = 1;
@@ -45,7 +46,8 @@ public class RoomRepository extends MainRepository {
     public static ArrayList<Model> references;
     public static ArrayList<Model> suggestRoom;
     public static ArrayList<Integer> suggestRoomCount;
-    public static String usage= "";
+    public static String usage = "";
+    public static String notInCase = "";
 
 
     public RoomRepository(Application application) {
@@ -54,6 +56,7 @@ public class RoomRepository extends MainRepository {
         myRooms = new ArrayList<>();
         myManagementRooms = new ArrayList<>();
         suggestRoomCount = new ArrayList<>();
+        users = new ArrayList<>();
         suggestRoom = new ArrayList<>();
         references = new ArrayList<>();
         workState = new MutableLiveData<>();
@@ -88,13 +91,18 @@ public class RoomRepository extends MainRepository {
         workManager("getMyManagement");
     }
 
-    public void references(String roomId, String q , String usage) throws JSONException {
+    public void references(String roomId, String q, String usage, String notInCase) throws JSONException {
         RoomRepository.roomId = roomId;
         RoomRepository.referencesQ = q;
         RoomRepository.usage = usage;
+        RoomRepository.notInCase = notInCase;
         work = "getReferences";
         workState.setValue(-1);
         workManager("getReferences");
+    }
+
+    public void references(String roomId, String q, String usage) throws JSONException {
+        references(roomId, q, usage, "");
     }
 
     public void users(String roomId) throws JSONException {
@@ -104,8 +112,8 @@ public class RoomRepository extends MainRepository {
         workManager("users");
     }
 
-    public void references(String roomId, String q ) throws JSONException {
-    references(roomId,q,"");
+    public void references(String roomId, String q) throws JSONException {
+        references(roomId, q, "");
     }
 
     public ArrayList<Model> getAll() {
@@ -162,7 +170,7 @@ public class RoomRepository extends MainRepository {
         }
     }
 
-    public ArrayList<Model> getUsers(String roomId){
+    public ArrayList<Model> getUsers(String roomId) {
         ArrayList<Model> arrayList = new ArrayList<>();
         if (FileManager.readObjectFromCache(application.getApplicationContext(), "rooms" + "/" + roomId) != null) {
             JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "rooms" + "/" + roomId);

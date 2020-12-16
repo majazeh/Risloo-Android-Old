@@ -37,6 +37,10 @@ public class RoomViewModel extends AndroidViewModel {
         repository.references(roomId, q);
     }
 
+    public void references(String roomId, String q,String usage,String notInCase) throws JSONException {
+        repository.references(roomId, q,usage,notInCase);
+    }
+
     public void references(String roomId, String q,String usage) throws JSONException {
         repository.references(roomId, q,usage);
     }

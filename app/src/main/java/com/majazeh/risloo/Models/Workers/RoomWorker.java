@@ -97,7 +97,7 @@ public class RoomWorker extends Worker {
                 JSONObject jsonObject = FileManager.readObjectFromCache(context, "rooms");
 
                 if (data.length() != 0) {
-                    if (RoomRepository.roomQ.equals("")){
+                    if (RoomRepository.roomQ.equals("")) {
                         if (RoomRepository.allPage == 1) {
                             FileManager.writeObjectToCache(context, successBody, "rooms");
                         } else {
@@ -108,7 +108,7 @@ public class RoomWorker extends Worker {
                             jsonObject.put("data", data);
                             FileManager.writeObjectToCache(context, jsonObject, "rooms");
                         }
-                    }else{
+                    } else {
                         if (RoomRepository.allPage == 1) {
                             RoomRepository.rooms.clear();
                         }
@@ -118,7 +118,7 @@ public class RoomWorker extends Worker {
                         }
                     }
 
-                }else if (RoomRepository.allPage == 1) {
+                } else if (RoomRepository.allPage == 1) {
                     RoomRepository.rooms.clear();
                 }
 
@@ -148,6 +148,7 @@ public class RoomWorker extends Worker {
             RoomRepository.workState.postValue(0);
         }
     }
+
     private void getMy() {
         try {
             Call<ResponseBody> call = roomApi.getMyRooms(token(), RoomRepository.myPage, RoomRepository.roomQ);
@@ -159,7 +160,7 @@ public class RoomWorker extends Worker {
                 JSONObject jsonObject = FileManager.readObjectFromCache(context, "myRooms");
 
                 if (data.length() != 0) {
-                    if (RoomRepository.roomQ.equals("")){
+                    if (RoomRepository.roomQ.equals("")) {
                         if (RoomRepository.myPage == 1) {
                             FileManager.writeObjectToCache(context, successBody, "myRooms");
                         } else {
@@ -170,7 +171,7 @@ public class RoomWorker extends Worker {
                             jsonObject.put("data", data);
                             FileManager.writeObjectToCache(context, jsonObject, "myRooms");
                         }
-                    }else{
+                    } else {
                         if (RoomRepository.myPage == 1) {
                             RoomRepository.myRooms.clear();
                         }
@@ -180,7 +181,7 @@ public class RoomWorker extends Worker {
                         }
                     }
 
-                }else if (RoomRepository.myPage == 1) {
+                } else if (RoomRepository.myPage == 1) {
                     RoomRepository.myRooms.clear();
                 }
 
@@ -221,16 +222,16 @@ public class RoomWorker extends Worker {
                 JSONArray data = successBody.getJSONArray("data");
 
                 if (data.length() != 0) {
-                        if (RoomRepository.myManagementPage == 1) {
-                            RoomRepository.myManagementRooms.clear();
-                        }
-                        for (int i = 0; i < data.length(); i++) {
-                            JSONObject object = data.getJSONObject(i);
-                            RoomRepository.myManagementRooms.add(new Model(object));
-                        }
+                    if (RoomRepository.myManagementPage == 1) {
+                        RoomRepository.myManagementRooms.clear();
+                    }
+                    for (int i = 0; i < data.length(); i++) {
+                        JSONObject object = data.getJSONObject(i);
+                        RoomRepository.myManagementRooms.add(new Model(object));
+                    }
 
 
-                }else if (RoomRepository.myManagementPage == 1) {
+                } else if (RoomRepository.myManagementPage == 1) {
                     RoomRepository.myManagementRooms.clear();
                 }
 
@@ -263,7 +264,7 @@ public class RoomWorker extends Worker {
 
     private void getReferences() {
         try {
-            Call<ResponseBody> call = roomApi.getReferences(token(), RoomRepository.roomId, RoomRepository.referencesQ,RoomRepository.usage);
+            Call<ResponseBody> call = roomApi.getReferences(token(), RoomRepository.roomId, RoomRepository.referencesQ, RoomRepository.usage, RoomRepository.notInCase);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -273,11 +274,21 @@ public class RoomWorker extends Worker {
                 if (RoomRepository.references.size() != 0) {
                     RoomRepository.references.clear();
                 }
+                if (RoomRepository.users.size() != 0) {
+                    RoomRepository.users.clear();
+                }
 
                 if (data.length() != 0) {
+                    if (RoomRepository.notInCase.equals("")){
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
                         RoomRepository.references.add(new Model(object));
+                    }
+                    }else{
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject object = data.getJSONObject(i);
+                            RoomRepository.users.add(new Model(object));
+                        }
                     }
                 }
 
@@ -315,7 +326,7 @@ public class RoomWorker extends Worker {
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
-                if (successBody.getJSONArray("data").length() != 0){
+                if (successBody.getJSONArray("data").length() != 0) {
                     if (RoomRepository.myPage == 1) {
                         FileManager.writeObjectToCache(context, successBody, "rooms" + "/" + RoomRepository.roomId);
                     } else {
@@ -334,7 +345,7 @@ public class RoomWorker extends Worker {
                         }
                     }
 
-                }else{
+                } else {
                     FileManager.deleteFileFromCache(context, "rooms" + "/" + RoomRepository.roomId);
                 }
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "users");

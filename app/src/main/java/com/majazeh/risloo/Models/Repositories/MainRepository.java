@@ -1,6 +1,8 @@
 package com.majazeh.risloo.Models.Repositories;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Utils.Generators.FilterGenerator;
@@ -20,10 +22,12 @@ public class MainRepository {
     public Application application;
     private FilterGenerator filterGenerator;
     public static JSONObject meta;
+    private SharedPreferences sharedPreferences;
 
     public MainRepository(Application application) {
         this.application = application;
         filterGenerator = new FilterGenerator();
+        sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
     }
 
     public MainRepository() {
@@ -107,6 +111,13 @@ public class MainRepository {
             }
         }
         return suggestList;
+    }
+
+    public boolean admin(){
+        if (sharedPreferences.getString("type","").equals("admin")){
+            return true;
+        }else
+            return false;
     }
 
 }
