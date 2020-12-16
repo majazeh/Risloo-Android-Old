@@ -672,6 +672,7 @@
     <string name="CreateSampleRoom">اتاق درمان</string>
     <string name="CreateSampleCase">پرونده</string>
     <string name="CreateSampleReference">مراجعان</string>
+    <string name="CreateSampleSession">جلسه</string>
     <string name="CreateSampleCount">تعداد</string>
 
     <string name="CreateSampleCreate">ایجاد نمونه</string>
@@ -680,6 +681,7 @@
     <string name="CreateSampleRoomDialogTitle">اتاق درمان مورد نظر خودتان را جستجو کنید.</string>
     <string name="CreateSampleCaseDialogTitle">پرونده مورد نظر خودتان را جستجو کنید.</string>
     <string name="CreateSampleReferenceDialogTitle">مراجعان مورد نظر خودتان را جستجو کنید.</string>
+    <string name="CreateSampleSessionDialogTitle">جلسه مورد نظر خودتان را جستجو کنید.</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

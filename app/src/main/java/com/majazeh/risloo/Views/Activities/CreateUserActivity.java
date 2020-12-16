@@ -35,12 +35,14 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.majazeh.risloo.Entities.Model;
+import com.majazeh.risloo.Models.Repositories.CaseRepository;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
+import com.majazeh.risloo.ViewModels.CaseViewModel;
 import com.majazeh.risloo.ViewModels.RoomViewModel;
 import com.majazeh.risloo.Views.Adapters.SearchAdapter;
 import com.majazeh.risloo.Views.Adapters.SpinnerAdapter;
@@ -54,13 +56,14 @@ public class CreateUserActivity extends AppCompatActivity {
 
     // ViewModels
     private RoomViewModel roomViewModel;
+    private CaseViewModel caseViewModel;
 
     // Adapters
     private SearchAdapter referenceDialogAdapter;
     public SpinnerAdapter referenceRecyclerViewAdapter;
 
     // Vars
-    public String roomId = "";
+    public String roomId = "", caseId = "";
     private boolean referenceException = false;
 
     // Objects
@@ -112,6 +115,7 @@ public class CreateUserActivity extends AppCompatActivity {
 
     private void initializer() {
         roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
+        caseViewModel = new ViewModelProvider(this).get(CaseViewModel.class);
 
         referenceDialogAdapter = new SearchAdapter(this);
 
@@ -263,7 +267,7 @@ public class CreateUserActivity extends AppCompatActivity {
                 handler.removeCallbacksAndMessages(null);
                 handler.postDelayed(() -> {
                     if (referenceDialogEditText.length() != 0) {
-                        getData("getReferences", roomId, referenceDialogEditText.getText().toString().trim());
+                        getData("getReferences", roomId, caseId, referenceDialogEditText.getText().toString().trim());
                     } else {
                         referenceDialogRecyclerView.setAdapter(null);
 
@@ -314,6 +318,8 @@ public class CreateUserActivity extends AppCompatActivity {
 
         if (extras.getString("room_id") != null)
             roomId = extras.getString("room_id");
+        if (extras.getString("case_id") != null)
+            caseId = extras.getString("case_id");
     }
 
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
@@ -372,14 +378,14 @@ public class CreateUserActivity extends AppCompatActivity {
         }
     }
 
-    private void getData(String method, String roomId, String q) {
+    private void getData(String method, String roomId, String caseId, String q) {
         try {
             switch (method) {
                 case "getReferences":
                     referenceDialogProgressBar.setVisibility(View.VISIBLE);
                     referenceDialogImageView.setVisibility(View.GONE);
 
-                    roomViewModel.references(roomId, q, "create_case");
+                    roomViewModel.references(roomId, q, "", caseId);
 
                     observeWork("roomViewModel");
                     break;
@@ -390,39 +396,39 @@ public class CreateUserActivity extends AppCompatActivity {
     }
 
     private void doWork() {
-//        try {
-//            progressDialog.show();
-//
-//            userViewModel.create(roomId, referenceRecyclerViewAdapter.getIds());
-//            observeWork("userViewModel");
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            progressDialog.show();
+
+            caseViewModel.addUser(caseId, referenceRecyclerViewAdapter.getIds());
+            observeWork("caseViewModel");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void observeWork(String method) {
         switch (method) {
-            case "userViewModel":
-//                UserRepository.workState.observe((LifecycleOwner) this, integer -> {
-//                    if (UserRepository.work.equals("create")) {
-//                        if (integer == 1) {
-//                            setResult(RESULT_OK, null);
-//                            finish();
-//
-//                            progressDialog.dismiss();
-//                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-//                            UserRepository.workState.removeObservers((LifecycleOwner) this);
-//                        } else if (integer == 0) {
-//                            progressDialog.dismiss();
-//                            observeException();
-//                            UserRepository.workState.removeObservers((LifecycleOwner) this);
-//                        } else if (integer == -2) {
-//                            progressDialog.dismiss();
-//                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-//                            UserRepository.workState.removeObservers((LifecycleOwner) this);
-//                        }
-//                    }
-//                });
+            case "caseViewModel":
+                CaseRepository.workState.observe((LifecycleOwner) this, integer -> {
+                    if (CaseRepository.work.equals("addUser")) {
+                        if (integer == 1) {
+                            setResult(RESULT_OK, null);
+                            finish();
+
+                            progressDialog.dismiss();
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            CaseRepository.workState.removeObservers((LifecycleOwner) this);
+                        } else if (integer == 0) {
+                            progressDialog.dismiss();
+                            observeException();
+                            CaseRepository.workState.removeObservers((LifecycleOwner) this);
+                        } else if (integer == -2) {
+                            progressDialog.dismiss();
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            CaseRepository.workState.removeObservers((LifecycleOwner) this);
+                        }
+                    }
+                });
                 break;
 
             case "roomViewModel":
@@ -452,11 +458,11 @@ public class CreateUserActivity extends AppCompatActivity {
     }
 
     private void observeException() {
-        if (ExceptionGenerator.current_exception.equals("create")) {
+        if (ExceptionGenerator.current_exception.equals("addUser")) {
             String exceptionToast = "";
 
-            if (!ExceptionGenerator.errors.isNull("roomId")) {
-                exceptionToast = ExceptionGenerator.getErrorBody("roomId");
+            if (!ExceptionGenerator.errors.isNull("case_id")) {
+                exceptionToast = ExceptionGenerator.getErrorBody("case_id");
             }
             if (!ExceptionGenerator.errors.isNull("client_id")) {
                 errorException("reference");

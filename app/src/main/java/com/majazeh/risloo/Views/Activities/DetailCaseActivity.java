@@ -60,7 +60,7 @@ public class DetailCaseActivity extends AppCompatActivity {
     private DetailCaseSamplesAdapter detailCaseSamplesAdapter;
 
     // Vars
-    public String caseId = "", caseName = "", roomId = "", roomName = "", roomTitle = "", roomUrl = "", sessionId = "", clients = "";
+    public String caseId = "", caseName = "", roomId = "", roomName = "", roomTitle = "", roomUrl = "", sessionId = "", sessionName = "", clients = "";
 
     // Objects
     private Bundle extras;
@@ -227,6 +227,7 @@ public class DetailCaseActivity extends AppCompatActivity {
 
             createUserActivity.putExtra("loaded", true);
             createUserActivity.putExtra("room_id", roomId);
+            createUserActivity.putExtra("case_id", caseId);
 
             startActivityForResult(createUserActivity, 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
@@ -262,6 +263,7 @@ public class DetailCaseActivity extends AppCompatActivity {
             createSampleActivity.putExtra("case_id", caseId);
             createSampleActivity.putExtra("case_name", caseName);
             createSampleActivity.putExtra("session_id", sessionId);
+            createSampleActivity.putExtra("session_name", sessionName);
             createSampleActivity.putExtra("clients", clients);
 
             startActivityForResult(createSampleActivity, 100);
@@ -383,6 +385,7 @@ public class DetailCaseActivity extends AppCompatActivity {
 
                     if (j == 0) {
                         sessionId = session.get("id").toString();
+                        sessionName = session.get("status").toString();
                     }
 
                     meetings.add(new Model(session));

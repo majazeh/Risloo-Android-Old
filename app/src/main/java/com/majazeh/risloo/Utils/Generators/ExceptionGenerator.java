@@ -57,6 +57,9 @@ public class ExceptionGenerator {
                     case "SelectRoomFirstException":
                         fa_message_text = "لطفا اول اتاق درمانی انتخاب کنید.";
                         break;
+                    case "SelectCaseFirstException":
+                        fa_message_text = "لطفا اول پرونده درمانی انتخاب کنید.";
+                        break;
                     case "EmptyScalesForFilterException":
                         fa_message_text = "آزمونی برای انتخاب موجود نیست.";
                         break;

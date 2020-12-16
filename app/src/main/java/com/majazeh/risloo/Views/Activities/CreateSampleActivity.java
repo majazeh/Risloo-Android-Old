@@ -39,6 +39,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Repositories.CaseRepository;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
+import com.majazeh.risloo.Models.Repositories.SessionRepository;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.R;
@@ -48,6 +49,7 @@ import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.CaseViewModel;
 import com.majazeh.risloo.ViewModels.RoomViewModel;
 import com.majazeh.risloo.ViewModels.SampleViewModel;
+import com.majazeh.risloo.ViewModels.SessionViewModel;
 import com.majazeh.risloo.Views.Adapters.CheckBoxAdapter;
 import com.majazeh.risloo.Views.Adapters.SearchAdapter;
 import com.majazeh.risloo.Views.Adapters.SearchCaseAdapter;
@@ -66,19 +68,20 @@ public class CreateSampleActivity extends AppCompatActivity {
     private SampleViewModel sampleViewModel;
     private RoomViewModel roomViewModel;
     private CaseViewModel caseViewModel;
+    public SessionViewModel sessionViewModel;
 
     // Model
     private Model roomModel;
 
     // Adapters
-    private SearchAdapter scaleDialogAdapter, roomDialogAdapter, referenceDialogAdapter;
+    private SearchAdapter scaleDialogAdapter, roomDialogAdapter, referenceDialogAdapter, sessionDialogAdapter;
     private SearchCaseAdapter caseDialogAdapter;
     public SpinnerAdapter scaleRecyclerViewAdapter, referenceRecyclerViewAdapter;
     private CheckBoxAdapter caseRecyclerViewAdapter;
 
     // Vars
-    public String roomId = "", roomName = "", roomTitle = "", caseId = "", caseName = "", count = "", sessionId = "";
-    private boolean scaleException = false, roomException = false, caseException = false, referenceException = false;
+    public String roomId = "", roomName = "", roomTitle = "", caseId = "", caseName = "", count = "", sessionId = "", sessionName = "";
+    private boolean scaleException = false, roomException = false, caseException = false, referenceException = false, sessionException = false;
 
     // Objects
     private Bundle extras;
@@ -91,21 +94,21 @@ public class CreateSampleActivity extends AppCompatActivity {
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
     private TabLayout typeTabLayout;
-    private FrameLayout scaleFrameLayout, roomFrameLayout, caseFrameLayout, referenceFrameLayout;
-    private LinearLayout roomLinearLayout;
+    private FrameLayout scaleFrameLayout, roomFrameLayout, caseFrameLayout, referenceFrameLayout, sessionFrameLayout;
+    private LinearLayout roomLinearLayout, sessionLinearLayout;
     private LinearLayout referenceCaseLayout, referenceRoomLayout;
-    public TextView scaleTextView, scaleCountTextView, roomNameTextView, roomTitleTextView, caseTextView, referenceTextView, casesTextView;
+    public TextView scaleTextView, scaleCountTextView, roomNameTextView, roomTitleTextView, caseTextView, referenceTextView, sessionNameTextView, sessionIdTextView, casesTextView;
     public EditText countEditText;
     private RecyclerView scaleRecyclerView, referenceRecyclerView, casesRecyclerView;
     private Button createButton;
-    private Dialog scaleDialog, roomDialog, caseDialog, referenceDialog, progressDialog;
-    private TextView scaleDialogTitleTextView, roomDialogTitleTextView, caseDialogTitleTextView, referenceDialogTitleTextView, scaleDialogConfirm, referenceDialogConfirm;;
-    private CoordinatorLayout scaleDialogSearchLayout, roomDialogSearchLayout, caseDialogSearchLayout, referenceDialogSearchLayout;
-    private EditText scaleDialogEditText, roomDialogEditText, caseDialogEditText, referenceDialogEditText;
-    private ImageView scaleDialogImageView, roomDialogImageView, caseDialogImageView, referenceDialogImageView;
-    private ProgressBar scaleDialogProgressBar, roomDialogProgressBar, caseDialogProgressBar, referenceDialogProgressBar;
-    private TextView scaleDialogTextView, roomDialogTextView, caseDialogTextView, referenceDialogTextView;
-    private RecyclerView scaleDialogRecyclerView, roomDialogRecyclerView, caseDialogRecyclerView, referenceDialogRecyclerView;
+    private Dialog scaleDialog, roomDialog, caseDialog, referenceDialog, sessionDialog, progressDialog;
+    private TextView scaleDialogTitleTextView, roomDialogTitleTextView, caseDialogTitleTextView, referenceDialogTitleTextView, sessionDialogTitleTextView, scaleDialogConfirm, referenceDialogConfirm;;
+    private CoordinatorLayout scaleDialogSearchLayout, roomDialogSearchLayout, caseDialogSearchLayout, referenceDialogSearchLayout, sessionDialogSearchLayout;
+    private EditText scaleDialogEditText, roomDialogEditText, caseDialogEditText, referenceDialogEditText, sessionDialogEditText;
+    private ImageView scaleDialogImageView, roomDialogImageView, caseDialogImageView, referenceDialogImageView, sessionDialogImageView;
+    private ProgressBar scaleDialogProgressBar, roomDialogProgressBar, caseDialogProgressBar, referenceDialogProgressBar, sessionDialogProgressBar;
+    private TextView scaleDialogTextView, roomDialogTextView, caseDialogTextView, referenceDialogTextView, sessionDialogTextView;
+    private RecyclerView scaleDialogRecyclerView, roomDialogRecyclerView, caseDialogRecyclerView, referenceDialogRecyclerView, sessionDialogRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,10 +138,12 @@ public class CreateSampleActivity extends AppCompatActivity {
         sampleViewModel = new ViewModelProvider(this).get(SampleViewModel.class);
         roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
         caseViewModel = new ViewModelProvider(this).get(CaseViewModel.class);
+        sessionViewModel = new ViewModelProvider(this).get(SessionViewModel.class);
 
         scaleDialogAdapter = new SearchAdapter(this);
         roomDialogAdapter = new SearchAdapter(this);
         referenceDialogAdapter = new SearchAdapter(this);
+        sessionDialogAdapter = new SearchAdapter(this);
 
         caseDialogAdapter = new SearchCaseAdapter(this);
 
@@ -177,8 +182,10 @@ public class CreateSampleActivity extends AppCompatActivity {
         roomFrameLayout = findViewById(R.id.activity_create_sample_room_frameLayout);
         caseFrameLayout = findViewById(R.id.activity_create_sample_case_frameLayout);
         referenceFrameLayout = findViewById(R.id.activity_create_sample_reference_room_frameLayout);
+        sessionFrameLayout = findViewById(R.id.activity_create_sample_session_frameLayout);
 
         roomLinearLayout = findViewById(R.id.activity_create_sample_room_linearLayout);
+        sessionLinearLayout = findViewById(R.id.activity_create_sample_session_linearLayout);
 
         referenceRoomLayout = findViewById(R.id.activity_create_sample_reference_roomLayout);
         referenceCaseLayout = findViewById(R.id.activity_create_sample_reference_caseLayout);
@@ -189,6 +196,8 @@ public class CreateSampleActivity extends AppCompatActivity {
         roomTitleTextView = findViewById(R.id.activity_create_sample_room_title_textView);
         caseTextView = findViewById(R.id.activity_create_sample_case_textView);
         referenceTextView = findViewById(R.id.activity_create_sample_reference_room_textView);
+        sessionNameTextView = findViewById(R.id.activity_create_sample_session_name_textView);
+        sessionIdTextView = findViewById(R.id.activity_create_sample_session_id_textView);
         casesTextView = findViewById(R.id.activity_create_sample_reference_case_textView);
 
         countEditText = findViewById(R.id.activity_create_sample_count_editText);
@@ -226,6 +235,11 @@ public class CreateSampleActivity extends AppCompatActivity {
         referenceDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         referenceDialog.setContentView(R.layout.dialog_search);
         referenceDialog.setCancelable(true);
+        sessionDialog = new Dialog(this, R.style.DialogTheme);
+        Objects.requireNonNull(sessionDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+        sessionDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        sessionDialog.setContentView(R.layout.dialog_search);
+        sessionDialog.setCancelable(true);
         progressDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -252,6 +266,11 @@ public class CreateSampleActivity extends AppCompatActivity {
         layoutParamsReferenceDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParamsReferenceDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
         referenceDialog.getWindow().setAttributes(layoutParamsReferenceDialog);
+        WindowManager.LayoutParams layoutParamsSessionDialog = new WindowManager.LayoutParams();
+        layoutParamsSessionDialog.copyFrom(sessionDialog.getWindow().getAttributes());
+        layoutParamsSessionDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsSessionDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        sessionDialog.getWindow().setAttributes(layoutParamsSessionDialog);
 
         scaleDialogTitleTextView = scaleDialog.findViewById(R.id.dialog_search_title_textView);
         scaleDialogTitleTextView.setText(getResources().getString(R.string.CreateSampleScaleDialogTitle));
@@ -261,6 +280,8 @@ public class CreateSampleActivity extends AppCompatActivity {
         caseDialogTitleTextView.setText(getResources().getString(R.string.CreateSampleCaseDialogTitle));
         referenceDialogTitleTextView = referenceDialog.findViewById(R.id.dialog_search_title_textView);
         referenceDialogTitleTextView.setText(getResources().getString(R.string.CreateSampleReferenceDialogTitle));
+        sessionDialogTitleTextView = sessionDialog.findViewById(R.id.dialog_search_title_textView);
+        sessionDialogTitleTextView.setText(getResources().getString(R.string.CreateSampleSessionDialogTitle));
 
         scaleDialogConfirm = scaleDialog.findViewById(R.id.dialog_search_confirm_textView);
         referenceDialogConfirm = referenceDialog.findViewById(R.id.dialog_search_confirm_textView);
@@ -273,26 +294,32 @@ public class CreateSampleActivity extends AppCompatActivity {
         caseDialogSearchLayout.setVisibility(View.VISIBLE);
         referenceDialogSearchLayout = referenceDialog.findViewById(R.id.dialog_search_coordinatorLayout);
         referenceDialogSearchLayout.setVisibility(View.VISIBLE);
+        sessionDialogSearchLayout = sessionDialog.findViewById(R.id.dialog_search_coordinatorLayout);
+        sessionDialogSearchLayout.setVisibility(View.VISIBLE);
 
         scaleDialogEditText = scaleDialog.findViewById(R.id.dialog_search_editText);
         roomDialogEditText = roomDialog.findViewById(R.id.dialog_search_editText);
         caseDialogEditText = caseDialog.findViewById(R.id.dialog_search_editText);
         referenceDialogEditText = referenceDialog.findViewById(R.id.dialog_search_editText);
+        sessionDialogEditText = sessionDialog.findViewById(R.id.dialog_search_editText);
 
         scaleDialogImageView = scaleDialog.findViewById(R.id.dialog_search_imageView);
         roomDialogImageView = roomDialog.findViewById(R.id.dialog_search_imageView);
         caseDialogImageView = caseDialog.findViewById(R.id.dialog_search_imageView);
         referenceDialogImageView = referenceDialog.findViewById(R.id.dialog_search_imageView);
+        sessionDialogImageView = sessionDialog.findViewById(R.id.dialog_search_imageView);
 
         scaleDialogProgressBar = scaleDialog.findViewById(R.id.dialog_search_progressBar);
         roomDialogProgressBar = roomDialog.findViewById(R.id.dialog_search_progressBar);
         caseDialogProgressBar = caseDialog.findViewById(R.id.dialog_search_progressBar);
         referenceDialogProgressBar = referenceDialog.findViewById(R.id.dialog_search_progressBar);
+        sessionDialogProgressBar = sessionDialog.findViewById(R.id.dialog_search_progressBar);
 
         scaleDialogTextView = scaleDialog.findViewById(R.id.dialog_search_textView);
         roomDialogTextView = roomDialog.findViewById(R.id.dialog_search_textView);
         caseDialogTextView = caseDialog.findViewById(R.id.dialog_search_textView);
         referenceDialogTextView = referenceDialog.findViewById(R.id.dialog_search_textView);
+        sessionDialogTextView = sessionDialog.findViewById(R.id.dialog_search_textView);
 
         scaleDialogRecyclerView = scaleDialog.findViewById(R.id.dialog_search_recyclerView);
         scaleDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
@@ -313,6 +340,11 @@ public class CreateSampleActivity extends AppCompatActivity {
         referenceDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
         referenceDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         referenceDialogRecyclerView.setHasFixedSize(true);
+
+        sessionDialogRecyclerView = sessionDialog.findViewById(R.id.dialog_search_recyclerView);
+        sessionDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
+        sessionDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        sessionDialogRecyclerView.setHasFixedSize(true);
     }
 
     private void detector() {
@@ -349,6 +381,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                         referenceCaseLayout.setVisibility(View.GONE);
 
                         resetData("case");
+
+                        resetData("session");
 
                         resetData("caseReference");
 
@@ -454,6 +488,26 @@ public class CreateSampleActivity extends AppCompatActivity {
                 }
             }
             return false;
+        });
+
+        sessionLinearLayout.setOnClickListener(v -> {
+            sessionLinearLayout.setClickable(false);
+            handler.postDelayed(() -> sessionLinearLayout.setClickable(true), 250);
+
+            if (sessionException) {
+                clearException("session");
+            }
+
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+            }
+
+            if (!caseId.isEmpty()) {
+                sessionDialog.show();
+            } else {
+                ExceptionGenerator.getException(false, 0, null, "SelectCaseFirstException");
+                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+            }
         });
 
         countEditText.setOnTouchListener((v, event) -> {
@@ -571,6 +625,20 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                     controlEditText.focus(referenceDialogEditText);
                     controlEditText.select(referenceDialogEditText);
+                }
+            }
+            return false;
+        });
+
+        sessionDialogEditText.setOnTouchListener((v, event) -> {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
+                if (!sessionDialogEditText.hasFocus()) {
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
+                    }
+
+                    controlEditText.focus(sessionDialogEditText);
+                    controlEditText.select(sessionDialogEditText);
                 }
             }
             return false;
@@ -694,6 +762,34 @@ public class CreateSampleActivity extends AppCompatActivity {
             }
         });
 
+        sessionDialogEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                handler.removeCallbacksAndMessages(null);
+                handler.postDelayed(() -> {
+                    if (sessionDialogEditText.length() != 0) {
+                        getData("getSessions", caseId, sessionDialogEditText.getText().toString().trim());
+                    } else {
+                        sessionDialogRecyclerView.setAdapter(null);
+
+                        if (sessionDialogTextView.getVisibility() == View.VISIBLE) {
+                            sessionDialogTextView.setVisibility(View.GONE);
+                        }
+                    }
+                }, 750);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         scaleDialogConfirm.setOnClickListener(v -> {
             resetData("scaleDialog");
 
@@ -771,6 +867,19 @@ public class CreateSampleActivity extends AppCompatActivity {
 
             referenceDialog.dismiss();
         });
+
+        sessionDialog.setOnCancelListener(dialog -> {
+            resetData("sessionDialog");
+
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+                controlEditText.input().getText().clear();
+
+                handler.removeCallbacksAndMessages(null);
+            }
+
+            sessionDialog.dismiss();
+        });
     }
 
     private void setData() {
@@ -792,6 +901,8 @@ public class CreateSampleActivity extends AppCompatActivity {
             count = extras.getString("count");
         if (extras.getString("session_id") != null)
             sessionId = extras.getString("session_id");
+        if (extras.getString("session_name") != null)
+            sessionName = sessionViewModel.getFAStatus(extras.getString("session_name"));
 
         if (extras.getString("scales") != null) {
             try {
@@ -846,6 +957,14 @@ public class CreateSampleActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+        }
+
+        if (!sessionId.equals("")) {
+            sessionNameTextView.setText(sessionName);
+            sessionNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+
+            sessionIdTextView.setText(sessionId);
+            sessionIdTextView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -911,6 +1030,18 @@ public class CreateSampleActivity extends AppCompatActivity {
                     }
                 }
                 break;
+            case "getSessions":
+                sessionDialogAdapter.setValues(arrayList, method, "CreateSample");
+                recyclerView.setAdapter(sessionDialogAdapter);
+
+                if (arrayList.size() == 0) {
+                    sessionDialogTextView.setVisibility(View.VISIBLE);
+                } else {
+                    if (sessionDialogTextView.getVisibility() == View.VISIBLE) {
+                        sessionDialogTextView.setVisibility(View.GONE);
+                    }
+                }
+                break;
         }
     }
 
@@ -935,6 +1066,11 @@ public class CreateSampleActivity extends AppCompatActivity {
                 } else if (typeTabLayout.getSelectedTabPosition() == 1) {
                     casesRecyclerView.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 }
+                break;
+            case "session":
+                sessionException = true;
+                sessionFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
             case "count":
                 countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
@@ -962,6 +1098,10 @@ public class CreateSampleActivity extends AppCompatActivity {
                 } else if (typeTabLayout.getSelectedTabPosition() == 1) {
                     casesRecyclerView.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 }
+                break;
+            case "session":
+                sessionException = false;
+                sessionFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 break;
         }
     }
@@ -998,6 +1138,18 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                     referenceRecyclerViewAdapter.clearValues();
                     referenceRecyclerView.setAdapter(null);
+                }
+                break;
+            case "session":
+                if (!sessionId.equals("")) {
+                    sessionId = "";
+                    sessionName = "";
+
+                    sessionNameTextView.setText(getResources().getString(R.string.CreateSampleSession));
+                    sessionNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+
+                    sessionIdTextView.setText(sessionId);
+                    sessionIdTextView.setVisibility(View.GONE);
                 }
                 break;
             case "count":
@@ -1053,6 +1205,13 @@ public class CreateSampleActivity extends AppCompatActivity {
                 if (referenceDialogTextView.getVisibility() == View.VISIBLE) {
                     referenceDialogTextView.setVisibility(View.GONE);
                 }
+            case "sessionDialog":
+                SessionRepository.sessions.clear();
+                sessionDialogRecyclerView.setAdapter(null);
+
+                if (sessionDialogTextView.getVisibility() == View.VISIBLE) {
+                    sessionDialogTextView.setVisibility(View.GONE);
+                }
                 break;
         }
     }
@@ -1094,6 +1253,14 @@ public class CreateSampleActivity extends AppCompatActivity {
                     roomViewModel.references(roomId, q);
 
                     observeWork("roomViewModel");
+                    break;
+                case "getSessions":
+                    sessionDialogProgressBar.setVisibility(View.VISIBLE);
+                    sessionDialogImageView.setVisibility(View.GONE);
+
+                    sessionViewModel.SessionsOfCase(roomId, q);
+
+                    observeWork("sessionViewModel");
                     break;
             }
         } catch (JSONException e) {
@@ -1229,6 +1396,30 @@ public class CreateSampleActivity extends AppCompatActivity {
                     }
                 });
                 break;
+
+            case "sessionViewModel":
+                SessionRepository.workState.observe((LifecycleOwner) this, integer -> {
+                    if (SessionRepository.work.equals("getSessionsOfCase")) {
+                        if (integer == 1) {
+                            setRecyclerView(SessionRepository.sessions, sessionDialogRecyclerView, "getSessions");
+
+                            sessionDialogProgressBar.setVisibility(View.GONE);
+                            sessionDialogImageView.setVisibility(View.VISIBLE);
+                            SessionRepository.workState.removeObservers((LifecycleOwner) this);
+                        } else if (integer == 0) {
+                            sessionDialogProgressBar.setVisibility(View.GONE);
+                            sessionDialogImageView.setVisibility(View.VISIBLE);
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            SessionRepository.workState.removeObservers((LifecycleOwner) this);
+                        } else if (integer == -2) {
+                            sessionDialogProgressBar.setVisibility(View.GONE);
+                            sessionDialogImageView.setVisibility(View.VISIBLE);
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            SessionRepository.workState.removeObservers((LifecycleOwner) this);
+                        }
+                    }
+                });
+                break;
         }
     }
 
@@ -1262,6 +1453,14 @@ public class CreateSampleActivity extends AppCompatActivity {
                     exceptionToast = ExceptionGenerator.getErrorBody("client_id");
                 } else {
                     exceptionToast += (" و " + ExceptionGenerator.getErrorBody("client_id"));
+                }
+            }
+            if (!ExceptionGenerator.errors.isNull("session_id")) {
+                errorException("session");
+                if (exceptionToast.equals("")) {
+                    exceptionToast = ExceptionGenerator.getErrorBody("session_id");
+                } else {
+                    exceptionToast += (" و " + ExceptionGenerator.getErrorBody("session_id"));
                 }
             }
             if (!ExceptionGenerator.errors.isNull("count")) {
@@ -1353,6 +1552,8 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                     resetData("caseReference");
 
+                    resetData("session");
+
                     resetData("count");
 
                     resetData("roomReference");
@@ -1372,23 +1573,6 @@ public class CreateSampleActivity extends AppCompatActivity {
                 case "getCases":
                     if (!caseId.equals(model.get("id").toString())) {
                         caseId = model.get("id").toString();
-
-                        // Sessions
-                        if (model.attributes.has("sessions") && !model.attributes.isNull("sessions")) {
-                            JSONArray sessions = (JSONArray) model.get("sessions");
-
-                            if (sessions.length() != 0) {
-                                for (int j = 0; j < 1; j++) {
-                                    JSONObject session = (JSONObject) sessions.get(j);
-
-                                    sessionId = session.get("id").toString();
-                                }
-                            } else {
-                                sessionId = "";
-                            }
-                        } else {
-                            sessionId = "";
-                        }
 
                         ArrayList<Model> cases = new ArrayList<>();
 
@@ -1421,8 +1605,6 @@ public class CreateSampleActivity extends AppCompatActivity {
                         caseId = "";
                         caseName = "";
 
-                        sessionId = "";
-
                         caseTextView.setText(getResources().getString(R.string.CreateSampleCase));
                         caseTextView.setTextColor(getResources().getColor(R.color.Mischka));
 
@@ -1432,6 +1614,8 @@ public class CreateSampleActivity extends AppCompatActivity {
                         caseRecyclerViewAdapter.clearValues();
                         casesRecyclerView.setAdapter(null);
                     }
+
+                    resetData("session");
 
                     resetData("caseDialog");
 
@@ -1480,6 +1664,42 @@ public class CreateSampleActivity extends AppCompatActivity {
                             referenceDialogConfirm.setVisibility(View.VISIBLE);
                         }
                     }
+                    break;
+
+                    case "getSessions":
+                    if (!sessionId.equals(model.get("id").toString())) {
+                        sessionId = model.get("id").toString();
+
+                        String faStatus = sessionViewModel.getFAStatus(model.get("status").toString());
+
+                        sessionName = faStatus;
+
+                        sessionNameTextView.setText(sessionName);
+                        sessionNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+
+                        sessionIdTextView.setText(sessionId);
+                        sessionIdTextView.setVisibility(View.VISIBLE);
+                    } else if (roomId.equals(model.get("id").toString())) {
+                        sessionId = "";
+                        sessionName = "";
+
+                        sessionNameTextView.setText(getResources().getString(R.string.CreateSampleSession));
+                        sessionNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+
+                        sessionIdTextView.setText(sessionId);
+                        sessionIdTextView.setVisibility(View.GONE);
+                    }
+
+                    resetData("sessionDialog");
+
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
+                        controlEditText.input().getText().clear();
+
+                        handler.removeCallbacksAndMessages(null);
+                    }
+
+                    sessionDialog.dismiss();
                     break;
             }
         } catch (JSONException e) {

@@ -23,6 +23,7 @@ import com.majazeh.risloo.Views.Activities.EditCaseActivity;
 import com.majazeh.risloo.Views.Activities.EditCenterActivity;
 import com.majazeh.risloo.Views.Activities.EditSessionActivity;
 import com.majazeh.risloo.Views.Activities.SamplesActivity;
+import com.majazeh.risloo.Views.Activities.SessionsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -215,6 +216,26 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
                         case "CreateUser":
                             if (((CreateUserActivity) Objects.requireNonNull(activity)).referenceRecyclerViewAdapter.getIds().contains(model.get("id").toString())) {
+                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
+                            } else {
+                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                            }
+                            break;
+                    }
+
+                    holder.titleTextView.setText(model.get("id").toString());
+                    holder.titleTextView.setVisibility(View.VISIBLE);
+                    break;
+                case "getSessions":
+                    String faStatus = ((CreateSampleActivity) Objects.requireNonNull(activity)).sessionViewModel.getFAStatus(model.get("status").toString());
+
+                    holder.nameTextView.setText(faStatus);
+
+                    switch (theory) {
+                        case "CreateSample":
+                            if (((CreateSampleActivity) Objects.requireNonNull(activity)).sessionId.equals(model.get("id").toString())) {
                                 holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
                             } else {
