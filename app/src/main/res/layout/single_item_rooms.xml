@@ -90,6 +90,8 @@
                         android:id="@+id/single_item_rooms_type_textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:maxWidth="@dimen/_100sdp"
+                        android:maxLines="2"
                         android:paddingTop="@dimen/_3sdp"
                         android:paddingBottom="@dimen/_3sdp"
                         android:paddingLeft="@dimen/_8sdp"
@@ -102,16 +104,16 @@
                         android:background="@drawable/draw_8sdp_solid_solitude"/>
 
                     <ImageView
-                        android:id="@+id/single_item_rooms_people_imageView"
+                        android:id="@+id/single_item_rooms_users_imageView"
                         android:layout_width="@dimen/_22sdp"
-                        android:layout_height="match_parent"
+                        android:layout_height="@dimen/_22sdp"
                         android:layout_marginRight="@dimen/_6sdp"
-                        android:visibility="invisible"
-                        android:padding="@dimen/_6sdp"
+                        android:layout_gravity="top"
+                        android:padding="@dimen/_4sdp"
                         android:contentDescription="@string/AppImageContent"
-                        android:background="@drawable/draw_8sdp_solid_solitude"
-                        android:src="@drawable/ic_user_light"
-                        app:tint="@color/Grey" />
+                        android:background="@drawable/draw_8sdp_solid_primary"
+                        android:src="@drawable/ic_users_light"
+                        app:tint="@color/White" />
 
                 </LinearLayout>
 

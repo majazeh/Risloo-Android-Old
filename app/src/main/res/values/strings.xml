@@ -463,18 +463,25 @@
     <string name="DetailCaseAddReference">افزودن مراجع</string>
     <string name="DetailCaseEmptyReference">مراجعی موجود نیست</string>
 
-    <string name="DetailCaseCreateSample">ساختن نمونه</string>
-
     <string name="DetailCaseSessions">جلسات و نوبت‌ها</string>
     <string name="DetailCaseAddSession">افزودن جلسه</string>
     <string name="DetailCaseEmptySession">جلسه‌ی موجود نیست</string>
-
     <string name="DetailCaseEditSession">ویرایش</string>
 
+    <string name="DetailCaseSessionId">#</string>
     <string name="DetailCaseSessionStartedAt">شروع</string>
     <string name="DetailCaseSessionDuration">مدت جلسه</string>
     <string name="DetailCaseSessionMinute">دقیقه</string>
     <string name="DetailCaseSessionStatus">وضعیت</string>
+
+    <string name="DetailCaseSamples">نمونه‌ها</string>
+    <string name="DetailCaseCreateSample">ساختن نمونه</string>
+    <string name="DetailCaseEmptySample">نمونه‌ی موجود نیست</string>
+
+    <string name="DetailCaseSampleTitle">عنوان</string>
+    <string name="DetailCaseSampleStatus">وضعیت</string>
+    <string name="DetailCaseSampleSessionId"># جلسه</string>
+    <string name="DetailCaseSampleReference">مراجع</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -557,6 +564,19 @@
     <string name="EditSessionDateDialogTitle">تاریخ شروع جلسه را انتخاب کنید.</string>
     <string name="EditSessionDateDialogPositive">ثبت</string>
     <string name="EditSessionDateDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // CreateUser strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="CreateUserTitle">ایجاد کاربر</string>
+
+    <string name="CreateUserReference">مراجعان</string>
+
+    <string name="CreateUserCreate">ایجاد کاربر</string>
+
+    <string name="CreateUserReferenceDialogTitle">مراجعان مورد نظر خودتان را جستجو کنید.</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

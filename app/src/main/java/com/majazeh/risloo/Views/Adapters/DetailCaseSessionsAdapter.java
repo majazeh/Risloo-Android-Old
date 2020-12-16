@@ -60,6 +60,8 @@ public class DetailCaseSessionsAdapter extends RecyclerView.Adapter<DetailCaseSe
             // ID
             if (model.attributes.has("id") && !model.attributes.isNull("id")) {
                 editSessionIntent.putExtra("id", model.get("id").toString());
+
+                holder.idTextView.setText(model.get("id").toString());
             }
 
             editSessionIntent.putExtra("room_id", ((DetailCaseActivity) Objects.requireNonNull(activity)).roomId);
@@ -126,10 +128,11 @@ public class DetailCaseSessionsAdapter extends RecyclerView.Adapter<DetailCaseSe
 
     public class DetailCaseSessionsHolder extends RecyclerView.ViewHolder {
 
-        public TextView startedAtTextView, durationTextView, statusTextView, editTextView;
+        public TextView idTextView, startedAtTextView, durationTextView, statusTextView, editTextView;
 
         public DetailCaseSessionsHolder(View view) {
             super(view);
+            idTextView = view.findViewById(R.id.single_item_detail_case_sessions_id_textView);
             startedAtTextView = view.findViewById(R.id.single_item_detail_case_sessions_started_at_textView);
             durationTextView = view.findViewById(R.id.single_item_detail_case_sessions_duration_textView);
             statusTextView = view.findViewById(R.id.single_item_detail_case_sessions_status_textView);

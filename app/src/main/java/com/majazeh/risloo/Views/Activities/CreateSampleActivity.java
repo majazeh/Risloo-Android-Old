@@ -77,7 +77,7 @@ public class CreateSampleActivity extends AppCompatActivity {
     private CheckBoxAdapter caseRecyclerViewAdapter;
 
     // Vars
-    public String roomId = "", roomName = "", roomTitle = "", caseId = "", caseName = "", count = "", sessionId;
+    public String roomId = "", roomName = "", roomTitle = "", caseId = "", caseName = "", count = "", sessionId = "";
     private boolean scaleException = false, roomException = false, caseException = false, referenceException = false;
 
     // Objects

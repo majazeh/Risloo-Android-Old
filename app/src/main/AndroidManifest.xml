@@ -128,6 +128,9 @@
             android:name=".Views.Activities.CreateCaseActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".Views.Activities.CreateUserActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".Views.Activities.EditCenterActivity"
             android:screenOrientation="portrait" />
         <activity
