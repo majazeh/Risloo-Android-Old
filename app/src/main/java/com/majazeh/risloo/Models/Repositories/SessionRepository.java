@@ -104,8 +104,9 @@ public class SessionRepository extends MainRepository {
         workManager("update");
     }
 
-    public void SessionsOfCase(String caseId) throws JSONException {
+    public void SessionsOfCase(String caseId,String Q) throws JSONException {
         CaseRepository.caseId = caseId;
+        SessionRepository.Q = Q;
         work = "getSessionsOfCase";
         workState.setValue(-1);
         workManager("getSessionsOfCase");

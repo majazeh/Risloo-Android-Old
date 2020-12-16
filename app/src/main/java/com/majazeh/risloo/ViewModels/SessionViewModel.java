@@ -54,8 +54,8 @@ public class SessionViewModel extends AndroidViewModel {
         repository.update(sessionId, caseId, started_at, duration, status);
     }
 
-    public void SessionsOfCase(String caseId) throws JSONException {
-        repository.SessionsOfCase(caseId);
+    public void SessionsOfCase(String caseId,String q) throws JSONException {
+        repository.SessionsOfCase(caseId,q);
     }
     public void Report(String sessionId,String report,String encryptionType) throws JSONException {
         repository.Report(sessionId,report,encryptionType);

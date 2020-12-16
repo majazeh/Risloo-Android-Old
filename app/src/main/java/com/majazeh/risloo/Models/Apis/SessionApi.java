@@ -34,11 +34,11 @@ public interface SessionApi {
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("sessions")
-    Call<ResponseBody> getSessionsOfCase(@Header("Authorization") String authorization, @Query("case") String caseId);
+    Call<ResponseBody> getSessionsOfCase(@Header("Authorization") String authorization, @Query("case") String caseId, @Query("q") String q);
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @FormUrlEncoded
     @PUT("sessions/{sessionId}")
-    Call<ResponseBody> Report(@Header("Authorization") String authorization, @Path("sessionId") String sessionId, @Field("report") String report,@Field("encryption_type")String encryptionType);
+    Call<ResponseBody> Report(@Header("Authorization") String authorization, @Path("sessionId") String sessionId, @Field("report") String report, @Field("encryption_type") String encryptionType);
 
 }

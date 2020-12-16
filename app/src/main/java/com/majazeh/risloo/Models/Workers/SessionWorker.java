@@ -265,7 +265,7 @@ public class SessionWorker extends Worker {
 
     public void getSessionsOfCase() {
         try {
-            Call<ResponseBody> call = sessionApi.getSessionsOfCase(token(), CaseRepository.caseId);
+            Call<ResponseBody> call = sessionApi.getSessionsOfCase(token(), CaseRepository.caseId,SessionRepository.Q);
 
             SessionRepository.sessions.clear();
             Response<ResponseBody> bodyResponse = call.execute();
