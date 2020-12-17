@@ -45,8 +45,8 @@ public class RoomViewModel extends AndroidViewModel {
         repository.references(roomId, q,usage);
     }
 
-    public void users(String roomId,int page) throws JSONException {
-        repository.users(roomId,page);
+    public void users(String roomId) throws JSONException {
+        repository.users(roomId);
     }
 
     public ArrayList<Model> getAll() {

@@ -85,9 +85,8 @@ public class CenterRepository extends MainRepository {
         workManager("request");
     }
 
-    public void users(String clinicId,int page) throws JSONException {
+    public void users(String clinicId) throws JSONException {
         CenterRepository.clinicId = clinicId;
-        CenterRepository.usersPage = page;
         work = "users";
         workState.setValue(-1);
         workManager("users");

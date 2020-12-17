@@ -106,9 +106,8 @@ public class RoomRepository extends MainRepository {
         references(roomId, q, usage, "");
     }
 
-    public void users(String roomId,int page) throws JSONException {
+    public void users(String roomId) throws JSONException {
         RoomRepository.roomId = roomId;
-        RoomRepository.usersPage = page;
         work = "users";
         workState.setValue(-1);
         workManager("users");
