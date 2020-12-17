@@ -47,7 +47,7 @@ public interface CenterApi {
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("centers/{case_id}/users")
-    Call<ResponseBody> getUsers(@Header("Authorization") String authorization, @Path("case_id") String caseId,@Query("page")String page);
+    Call<ResponseBody> getUsers(@Header("Authorization") String authorization, @Path("case_id") String caseId,@Query("page")int page);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @FormUrlEncoded

@@ -27,6 +27,6 @@ public interface RoomApi {
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("rooms/{room_id}/users")
-    Call<ResponseBody> getUsers(@Header("Authorization") String authorization, @Path("room_id") String roomId, @Query("page") String page);
+    Call<ResponseBody> getUsers(@Header("Authorization") String authorization, @Path("room_id") String roomId, @Query("page") int page);
 
 }
