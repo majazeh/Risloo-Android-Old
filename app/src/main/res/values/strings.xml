@@ -567,6 +567,25 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // Users strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="UsersTitle">کاربران</string>
+
+    <string name="UsersUser">کاربر</string>
+    <string name="UsersCreator">سازنده</string>
+    <string name="UsersStatus">موقعیت / وضعیت</string>
+    <string name="UsersAcceptation">زمان پذیرش</string>
+
+    <string name="UsersSearched">جستجو:</string>
+
+    <string name="UsersSearchDialogTitle">کاربر مورد نظر خودتان را جستجو کنید.</string>
+    <string name="UsersSearchDialogInput">کاربر</string>
+    <string name="UsersSearchDialogPositive">جستجو</string>
+    <string name="UsersSearchDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     // CreateUser strings
     ////////////////////////////////////////////////////////////////////////////////
 

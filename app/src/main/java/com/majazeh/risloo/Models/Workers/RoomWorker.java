@@ -332,7 +332,7 @@ public class RoomWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 if (successBody.getJSONArray("data").length() != 0) {
-                    if (RoomRepository.myPage == 1) {
+                    if (RoomRepository.usersPage == 1) {
                         FileManager.writeObjectToCache(context, successBody, "rooms" + "/" + RoomRepository.roomId);
                     } else {
                         JSONObject jsonObject = FileManager.readObjectFromCache(context, "rooms" + "/" + RoomRepository.roomId);

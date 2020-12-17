@@ -20,6 +20,7 @@ import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Activities.ImageActivity;
 import com.majazeh.risloo.Views.Activities.RoomsActivity;
+import com.majazeh.risloo.Views.Activities.UsersActivity;
 import com.majazeh.risloo.Views.Fragments.AllRoomsFragment;
 import com.majazeh.risloo.Views.Fragments.MyRoomsFragment;
 import com.squareup.picasso.Picasso;
@@ -65,10 +66,20 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
         try {
             Intent imageIntent = (new Intent(activity, ImageActivity.class));
 
+            Intent usersIntent = (new Intent(activity, UsersActivity.class));
+            usersIntent.putExtra("type", "rooms");
+
+            // ID
+            if (model.attributes.has("id") && !model.attributes.isNull("id")) {
+                usersIntent.putExtra("room_id", model.get("id").toString());
+            }
+
             JSONObject manager = (JSONObject) model.get("manager");
             imageIntent.putExtra("title", manager.get("name").toString());
 
             holder.titleTextView.setText(manager.get("name").toString());
+
+            usersIntent.putExtra("room_name", manager.get("name").toString());
 
             JSONObject center = (JSONObject) model.get("center");
             JSONObject detail = (JSONObject) center.get("detail");
@@ -196,7 +207,8 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
 
                 clearProgress();
 
-                // TODO : Call Index Users
+                activity.startActivityForResult(usersIntent, 100);
+                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
 
         } catch (JSONException e) {

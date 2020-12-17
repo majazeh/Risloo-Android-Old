@@ -37,6 +37,7 @@ import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.Views.Activities.CentersActivity;
 import com.majazeh.risloo.Views.Activities.EditCenterActivity;
 import com.majazeh.risloo.Views.Activities.ImageActivity;
+import com.majazeh.risloo.Views.Activities.UsersActivity;
 import com.majazeh.risloo.Views.Fragments.AllCentersFragment;
 import com.majazeh.risloo.Views.Fragments.MyCentersFragment;
 import com.squareup.picasso.Picasso;
@@ -92,9 +93,14 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
             Intent imageIntent = (new Intent(activity, ImageActivity.class));
             Intent editCenterIntent = (new Intent(activity, EditCenterActivity.class));
 
+            Intent usersIntent = (new Intent(activity, UsersActivity.class));
+            usersIntent.putExtra("type", "centers");
+
             // ID
             if (model.attributes.has("id") && !model.attributes.isNull("id")) {
                 editCenterIntent.putExtra("id", model.get("id").toString());
+
+                usersIntent.putExtra("clinic_id", model.get("id").toString());
             }
 
             // Manager
@@ -177,6 +183,8 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
             if (detail.has("title") && !detail.isNull("title")) {
                 imageIntent.putExtra("title", detail.get("title").toString());
                 editCenterIntent.putExtra("title", detail.get("title").toString());
+
+                usersIntent.putExtra("clinic_name", detail.get("title").toString());
 
                 holder.titleTextView.setText(detail.get("title").toString());
             }
@@ -427,7 +435,8 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
 
                 clearProgress();
 
-                // TODO : Call Index Users
+                activity.startActivityForResult(usersIntent, 100);
+                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
 
         } catch (JSONException e) {

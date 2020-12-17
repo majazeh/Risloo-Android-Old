@@ -525,7 +525,7 @@ public class CenterWorker extends Worker {
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 if (successBody.getJSONArray("data").length() != 0) {
-                    if (CenterRepository.myPage == 1) {
+                    if (CenterRepository.usersPage == 1) {
                         FileManager.writeObjectToCache(context, successBody, "centers" + "/" + CenterRepository.clinicId);
                     } else {
                         JSONObject jsonObject = FileManager.readObjectFromCache(context, "centers" + "/" + CenterRepository.clinicId);
