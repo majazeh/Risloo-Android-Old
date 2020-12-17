@@ -572,10 +572,10 @@
 
     <string name="UsersTitle">کاربران</string>
 
-    <string name="UsersUser">کاربر</string>
+    <string name="UsersReference">کاربر</string>
     <string name="UsersCreator">سازنده</string>
+    <string name="UsersAcceptedAt">زمان پذیرش</string>
     <string name="UsersStatus">موقعیت / وضعیت</string>
-    <string name="UsersAcceptation">زمان پذیرش</string>
 
     <string name="UsersSearched">جستجو:</string>
 
