@@ -39,7 +39,7 @@ public class CenterRepository extends MainRepository {
     public static String clinicId = "";
     public static String personalClinicQ = "";
     public static String counselingCenterQ = "";
-    public static String usersQ = "";
+    public static String usersPage = "";
     public static int allPage = 1;
     public static int myPage = 1;
     public static String search = "";
@@ -85,9 +85,9 @@ public class CenterRepository extends MainRepository {
         workManager("request");
     }
 
-    public void users(String clinicId,String q) throws JSONException {
+    public void users(String clinicId,String page) throws JSONException {
         CenterRepository.clinicId = clinicId;
-        CenterRepository.usersQ = q;
+        CenterRepository.usersPage = page;
         work = "users";
         workState.setValue(-1);
         workManager("users");

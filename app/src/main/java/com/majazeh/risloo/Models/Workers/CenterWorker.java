@@ -519,7 +519,7 @@ public class CenterWorker extends Worker {
 
     private void getUsers() {
         try {
-            Call<ResponseBody> call = centerApi.getUsers(token(), CenterRepository.clinicId, CenterRepository.usersQ);
+            Call<ResponseBody> call = centerApi.getUsers(token(), CenterRepository.clinicId, CenterRepository.usersPage);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {

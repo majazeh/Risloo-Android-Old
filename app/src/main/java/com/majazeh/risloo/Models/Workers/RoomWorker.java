@@ -326,7 +326,7 @@ public class RoomWorker extends Worker {
 
     private void getUsers() {
         try {
-            Call<ResponseBody> call = roomApi.getUsers(token(), RoomRepository.roomId,RoomRepository.usersQ);
+            Call<ResponseBody> call = roomApi.getUsers(token(), RoomRepository.roomId,RoomRepository.usersPage);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
