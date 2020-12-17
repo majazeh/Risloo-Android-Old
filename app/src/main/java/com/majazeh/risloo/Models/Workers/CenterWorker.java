@@ -105,41 +105,41 @@ public class CenterWorker extends Worker {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
                 if (successBody.getJSONArray("data").length() != 0) {
-                if (CenterRepository.search.equals("")){
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        FileManager.deletePageFromCache(context, "centers" + "/" + "all", CenterRepository.allPage, 15);
-                    }
+                    if (CenterRepository.search.equals("")) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            FileManager.deletePageFromCache(context, "centers" + "/" + "all", CenterRepository.allPage, 15);
+                        }
 
-                    if (CenterRepository.allPage == 1) {
-                        FileManager.writeObjectToCache(context, successBody, "centers" + "/" + "all");
-                    } else {
-                        JSONObject jsonObject = FileManager.readObjectFromCache(context, "centers" + "/" + "all");
-                        JSONArray data;
-                        try {
-                            data = jsonObject.getJSONArray("data");
-                            for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
-                                JSONArray jsonArray = successBody.getJSONArray("data");
-                                data.put(jsonArray.getJSONObject(i));
+                        if (CenterRepository.allPage == 1) {
+                            FileManager.writeObjectToCache(context, successBody, "centers" + "/" + "all");
+                        } else {
+                            JSONObject jsonObject = FileManager.readObjectFromCache(context, "centers" + "/" + "all");
+                            JSONArray data;
+                            try {
+                                data = jsonObject.getJSONArray("data");
+                                for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
+                                    JSONArray jsonArray = successBody.getJSONArray("data");
+                                    data.put(jsonArray.getJSONObject(i));
+                                }
+                                jsonObject.put("data", data);
+                                FileManager.writeObjectToCache(context, jsonObject, "centers" + "/" + "all");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                            jsonObject.put("data", data);
-                            FileManager.writeObjectToCache(context, jsonObject, "centers" + "/" + "all");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        }
+                    } else {
+
+                        if (CenterRepository.allPage == 1) {
+                            CenterRepository.getAll.clear();
+                        }
+                        JSONArray data = successBody.getJSONArray("data");
+
+                        for (int i = 0; i < data.length(); i++) {
+                            CenterRepository.getAll.add(new Model(data.getJSONObject(i)));
                         }
                     }
-                }else{
 
-                    if (CenterRepository.allPage == 1){
-                        CenterRepository.getAll.clear();
-                    }
-                JSONArray data = successBody.getJSONArray("data");
-
-                for (int i = 0; i < data.length(); i++) {
-                    CenterRepository.getAll.add(new Model(data.getJSONObject(i)));
-                }
-                }
-
-                } else if (CenterRepository.allPage == 1){
+                } else if (CenterRepository.allPage == 1) {
                     CenterRepository.getAll.clear();
                 }
 
@@ -178,7 +178,7 @@ public class CenterWorker extends Worker {
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
-                if (successBody.getJSONArray("data").length() != 0){
+                if (successBody.getJSONArray("data").length() != 0) {
                     if (CenterRepository.search.equals("")) {
                         if (CenterRepository.myPage == 1) {
                             FileManager.writeObjectToCache(context, successBody, "centers" + "/" + "my");
@@ -204,7 +204,7 @@ public class CenterWorker extends Worker {
                             CenterRepository.getMy.add(new Model(data.getJSONObject(i)));
                         }
                     }
-            }else if (CenterRepository.myPage == 1){
+                } else if (CenterRepository.myPage == 1) {
                     CenterRepository.getMy.clear();
                 }
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "my");
@@ -519,31 +519,31 @@ public class CenterWorker extends Worker {
 
     private void getUsers() {
         try {
-            Call<ResponseBody> call = centerApi.getUsers(token(), CenterRepository.clinicId,CenterRepository.usersQ);
+            Call<ResponseBody> call = centerApi.getUsers(token(), CenterRepository.clinicId, CenterRepository.usersQ);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
-                if (successBody.getJSONArray("data").length() != 0){
-                        if (CenterRepository.myPage == 1) {
-                            FileManager.writeObjectToCache(context, successBody, "centers" + "/" + CenterRepository.clinicId);
-                        } else {
-                            JSONObject jsonObject = FileManager.readObjectFromCache(context, "centers" + "/" + CenterRepository.clinicId);
-                            JSONArray data;
-                            try {
-                                data = jsonObject.getJSONArray("data");
-                                for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
-                                    JSONArray jsonArray = successBody.getJSONArray("data");
-                                    data.put(jsonArray.getJSONObject(i));
-                                }
-                                jsonObject.put("data", data);
-                                FileManager.writeObjectToCache(context, jsonObject, "centers" + "/" + CenterRepository.clinicId);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                if (successBody.getJSONArray("data").length() != 0) {
+                    if (CenterRepository.myPage == 1) {
+                        FileManager.writeObjectToCache(context, successBody, "centers" + "/" + CenterRepository.clinicId);
+                    } else {
+                        JSONObject jsonObject = FileManager.readObjectFromCache(context, "centers" + "/" + CenterRepository.clinicId);
+                        JSONArray data;
+                        try {
+                            data = jsonObject.getJSONArray("data");
+                            for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
+                                JSONArray jsonArray = successBody.getJSONArray("data");
+                                data.put(jsonArray.getJSONObject(i));
                             }
+                            jsonObject.put("data", data);
+                            FileManager.writeObjectToCache(context, jsonObject, "centers" + "/" + CenterRepository.clinicId);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
+                    }
 
-                }else{
+                } else {
                     FileManager.deleteFileFromCache(context, "centers" + "/" + CenterRepository.clinicId);
                 }
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "users");
@@ -576,7 +576,7 @@ public class CenterWorker extends Worker {
 
     private void userStatus() {
         try {
-            Call<ResponseBody> call = centerApi.userStatus(token(), CenterRepository.clinicId, CenterRepository.userId,CenterRepository.status);
+            Call<ResponseBody> call = centerApi.userStatus(token(), CenterRepository.clinicId, CenterRepository.userId, CenterRepository.status);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
