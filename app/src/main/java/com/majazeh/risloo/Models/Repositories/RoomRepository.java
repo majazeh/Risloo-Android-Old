@@ -43,6 +43,7 @@ public class RoomRepository extends MainRepository {
     public static MutableLiveData<Integer> workState;
     public static String roomId = "";
     public static String referencesQ = "";
+    public static String usersQ = "";
     public static ArrayList<Model> references;
     public static ArrayList<Model> suggestRoom;
     public static ArrayList<Integer> suggestRoomCount;
@@ -105,8 +106,9 @@ public class RoomRepository extends MainRepository {
         references(roomId, q, usage, "");
     }
 
-    public void users(String roomId) throws JSONException {
+    public void users(String roomId,String q) throws JSONException {
         RoomRepository.roomId = roomId;
+        RoomRepository.usersQ = q;
         work = "users";
         workState.setValue(-1);
         workManager("users");

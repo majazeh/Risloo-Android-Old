@@ -23,10 +23,10 @@ public interface RoomApi {
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @GET("rooms/{room_id}/users?status=accepted")
-    Call<ResponseBody> getReferences(@Header("Authorization") String authorization, @Path("room_id") String roomId, @Query("q") String q,@Query("usage")String usage,@Query("not_in_case") String notInCase);
+    Call<ResponseBody> getReferences(@Header("Authorization") String authorization, @Path("room_id") String roomId, @Query("q") String q, @Query("usage") String usage, @Query("not_in_case") String notInCase);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("rooms/{room_id}/users")
-    Call<ResponseBody> getUsers(@Header("Authorization") String authorization, @Path("room_id") String roomId);
+    Call<ResponseBody> getUsers(@Header("Authorization") String authorization, @Path("room_id") String roomId, @Query("q") String q);
 
 }

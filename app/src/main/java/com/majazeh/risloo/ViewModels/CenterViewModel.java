@@ -39,8 +39,8 @@ public class CenterViewModel extends AndroidViewModel {
         repository.request(clinicId);
     }
 
-    public void users(String clinicId) throws JSONException {
-        repository.users(clinicId);
+    public void users(String clinicId,String q) throws JSONException {
+        repository.users(clinicId,q);
     }
 
     public void create(String type, String manager, String title, String avatar, String address, String description, ArrayList phones) throws JSONException {

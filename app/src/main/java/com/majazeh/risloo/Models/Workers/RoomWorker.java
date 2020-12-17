@@ -2,6 +2,9 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
+import android.text.format.Formatter;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -21,10 +24,13 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
+
+import static android.content.Context.WIFI_SERVICE;
 
 public class RoomWorker extends Worker {
     // Apis
@@ -93,15 +99,15 @@ public class RoomWorker extends Worker {
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
-                JSONArray data = successBody.getJSONArray("data");
-                JSONObject jsonObject = FileManager.readObjectFromCache(context, "rooms");
 
-                if (data.length() != 0) {
+                if (successBody.getJSONArray("data").length() != 0) {
                     if (RoomRepository.roomQ.equals("")) {
                         if (RoomRepository.allPage == 1) {
                             FileManager.writeObjectToCache(context, successBody, "rooms");
                         } else {
-                            for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject = FileManager.readObjectFromCache(context, "rooms");
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
                                 JSONArray jsonArray = successBody.getJSONArray("data");
                                 data.put(jsonArray.getJSONObject(i));
                             }
@@ -112,8 +118,8 @@ public class RoomWorker extends Worker {
                         if (RoomRepository.allPage == 1) {
                             RoomRepository.rooms.clear();
                         }
-                        for (int i = 0; i < data.length(); i++) {
-                            JSONObject object = data.getJSONObject(i);
+                        for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
+                            JSONObject object = successBody.getJSONArray("data").getJSONObject(i);
                             RoomRepository.rooms.add(new Model(object));
                         }
                     }
@@ -152,19 +158,18 @@ public class RoomWorker extends Worker {
     private void getMy() {
         try {
             Call<ResponseBody> call = roomApi.getMyRooms(token(), RoomRepository.myPage, RoomRepository.roomQ);
-
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
-                JSONArray data = successBody.getJSONArray("data");
-                JSONObject jsonObject = FileManager.readObjectFromCache(context, "myRooms");
 
-                if (data.length() != 0) {
+                if (successBody.getJSONArray("data").length() != 0) {
                     if (RoomRepository.roomQ.equals("")) {
                         if (RoomRepository.myPage == 1) {
                             FileManager.writeObjectToCache(context, successBody, "myRooms");
                         } else {
-                            for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject = FileManager.readObjectFromCache(context, "myRooms");
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
                                 JSONArray jsonArray = successBody.getJSONArray("data");
                                 data.put(jsonArray.getJSONObject(i));
                             }
@@ -175,8 +180,8 @@ public class RoomWorker extends Worker {
                         if (RoomRepository.myPage == 1) {
                             RoomRepository.myRooms.clear();
                         }
-                        for (int i = 0; i < data.length(); i++) {
-                            JSONObject object = data.getJSONObject(i);
+                        for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
+                            JSONObject object = successBody.getJSONArray("data").getJSONObject(i);
                             RoomRepository.myRooms.add(new Model(object));
                         }
                     }
@@ -279,12 +284,12 @@ public class RoomWorker extends Worker {
                 }
 
                 if (data.length() != 0) {
-                    if (RoomRepository.notInCase.equals("")){
-                    for (int i = 0; i < data.length(); i++) {
-                        JSONObject object = data.getJSONObject(i);
-                        RoomRepository.references.add(new Model(object));
-                    }
-                    }else{
+                    if (RoomRepository.notInCase.equals("")) {
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject object = data.getJSONObject(i);
+                            RoomRepository.references.add(new Model(object));
+                        }
+                    } else {
                         for (int i = 0; i < data.length(); i++) {
                             JSONObject object = data.getJSONObject(i);
                             RoomRepository.users.add(new Model(object));
@@ -321,7 +326,7 @@ public class RoomWorker extends Worker {
 
     private void getUsers() {
         try {
-            Call<ResponseBody> call = roomApi.getUsers(token(), RoomRepository.roomId);
+            Call<ResponseBody> call = roomApi.getUsers(token(), RoomRepository.roomId,RoomRepository.usersQ);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {

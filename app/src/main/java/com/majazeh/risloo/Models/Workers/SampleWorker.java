@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -468,33 +469,29 @@ public class SampleWorker extends Worker {
     private void getScales() {
         try {
             Call<ResponseBody> call = sampleApi.getScales(token(), SampleRepository.scalesPage, SampleRepository.scalesQ);
-
+            Log.e("a", SampleRepository.scalesQ+ "mm");
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
-                JSONArray data = successBody.getJSONArray("data");
-                JSONObject jsonObject = FileManager.readObjectFromCache(context, "scales");
-
-                if (data.length() != 0) {
-
+                if (successBody.getJSONArray("data").length() != 0) {
                     if (SampleRepository.scalesQ.equals("")) {
                         if (SampleRepository.scalesPage == 1) {
                             FileManager.writeObjectToCache(context, successBody, "scales");
                         } else {
-                            for (int i = 0; i < data.length(); i++) {
+                            JSONObject jsonObject = FileManager.readObjectFromCache(context, "scales");
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
                                 JSONArray jsonArray = successBody.getJSONArray("data");
                                 data.put(jsonArray.getJSONObject(i));
                             }
-                            jsonObject.put("data", data);
                             FileManager.writeObjectToCache(context, jsonObject, "scales");
-
                         }
                     } else {
                         if (SampleRepository.scalesPage == 1) {
                             SampleRepository.scales.clear();
                         }
-                        for (int i = 0; i < data.length(); i++) {
-                            JSONObject object = data.getJSONObject(i);
+                        for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
+                            JSONObject object = successBody.getJSONArray("data").getJSONObject(i);
                             SampleRepository.scales.add(new Model(object));
                         }
                     }
