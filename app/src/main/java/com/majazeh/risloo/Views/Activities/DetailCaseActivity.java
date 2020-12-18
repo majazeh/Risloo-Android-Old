@@ -226,8 +226,9 @@ public class DetailCaseActivity extends AppCompatActivity {
             Intent createUserActivity = (new Intent(this, CreateUserActivity.class));
 
             createUserActivity.putExtra("loaded", true);
-            createUserActivity.putExtra("room_id", roomId);
+            createUserActivity.putExtra("type", "case");
             createUserActivity.putExtra("case_id", caseId);
+            createUserActivity.putExtra("room_id", roomId);
 
             startActivityForResult(createUserActivity, 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);

@@ -210,7 +210,22 @@ public class UsersActivity extends AppCompatActivity {
             toolbarCreateImageView.setClickable(false);
             handler.postDelayed(() -> toolbarCreateImageView.setClickable(true), 250);
 
-            // TODO : Call Create User
+            Intent createUserActivity = (new Intent(this, CreateUserActivity.class));
+
+            createUserActivity.putExtra("loaded", true);
+            switch (type) {
+                case "centers":
+                    createUserActivity.putExtra("type", "center");
+                    createUserActivity.putExtra("clinic_id", clinicId);
+                    break;
+                case "rooms":
+                    createUserActivity.putExtra("type", "room");
+                    createUserActivity.putExtra("room_id", roomId);
+                    break;
+            }
+
+            startActivityForResult(createUserActivity, 100);
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
 
         toolbarSearchImageView.setOnClickListener(v -> {

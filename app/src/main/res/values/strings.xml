@@ -592,10 +592,13 @@
     <string name="CreateUserTitle">ایجاد کاربر</string>
 
     <string name="CreateUserReference">مراجعان</string>
+    <string name="CreateUserMobile">شماره موبایل</string>
+    <string name="CreateUserStatus">موقعیت / وضعیت</string>
 
     <string name="CreateUserCreate">ایجاد کاربر</string>
 
     <string name="CreateUserReferenceDialogTitle">مراجعان مورد نظر خودتان را جستجو کنید.</string>
+    <string name="CreateUserStatusDialogTitle">موقعیت / وضعیت مورد نظر خودتان را انتخاب کنید.</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
