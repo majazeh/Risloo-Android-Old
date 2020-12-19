@@ -44,7 +44,6 @@ import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.ViewModels.RoomViewModel;
 import com.majazeh.risloo.Views.Adapters.CentersAdapter;
-import com.majazeh.risloo.Views.Adapters.RoomsAdapter;
 import com.majazeh.risloo.Views.Adapters.UsersAdapter;
 
 import org.json.JSONException;
@@ -57,12 +56,11 @@ public class UsersActivity extends AppCompatActivity {
     // ViewModels
     private AuthViewModel authViewModel;
     public CenterViewModel centerViewModel;
-    public RoomViewModel roomViewModel;
+    private RoomViewModel roomViewModel;
 
     // Adapters
     private UsersAdapter usersRecyclerViewAdapter;
     private CentersAdapter centersRecyclerViewAdapter;
-    private RoomsAdapter roomsRecyclerViewAdapter;
 
     // Vars
     private String search = "", type = "", clinicId = "", roomId = "", title = "";
@@ -126,7 +124,6 @@ public class UsersActivity extends AppCompatActivity {
 
         usersRecyclerViewAdapter = new UsersAdapter(this);
         centersRecyclerViewAdapter = new CentersAdapter(this);
-        roomsRecyclerViewAdapter = new RoomsAdapter(this);
 
         extras = getIntent().getExtras();
 
@@ -224,9 +221,16 @@ public class UsersActivity extends AppCompatActivity {
             toolbarCreateImageView.setClickable(false);
             handler.postDelayed(() -> toolbarCreateImageView.setClickable(true), 250);
 
+            if (finished) {
+                if (pagingProgressBar.isShown()) {
+                    loading = false;
+                    pagingProgressBar.setVisibility(View.GONE);
+                }
+            }
+
             Intent createUserActivity = (new Intent(this, CreateUserActivity.class));
 
-            createUserActivity.putExtra("loaded", true);
+            createUserActivity.putExtra("loaded", finished);
             switch (type) {
                 case "centers":
                     createUserActivity.putExtra("type", "center");
@@ -432,10 +436,6 @@ public class UsersActivity extends AppCompatActivity {
     }
 
     private void setData() {
-        if (!Objects.requireNonNull(extras).getBoolean("loaded")) {
-            setResult(RESULT_OK, null);
-        }
-
         if (extras.getString("type") != null)
             type = extras.getString("type");
         if (extras.getString("clinic_id") != null)
@@ -501,13 +501,6 @@ public class UsersActivity extends AppCompatActivity {
                                 if (CenterRepository.usersPage == 1) {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
                                 }
-
-//                                for (int i = 0; i < (centerViewModel.getUsersRooms(clinicId).size(); i++) {
-//                                    expands.put(i, false);
-//                                }
-//
-//                                centersRecyclerViewAdapter.setCenter(centerViewModel.getUsersRooms(clinicId), expands, "user");
-//                                rcRecyclerView.setAdapter(centersRecyclerViewAdapter);
                             } else {
                                 // User is Empty
 
@@ -569,13 +562,6 @@ public class UsersActivity extends AppCompatActivity {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
                                 }
 
-//                                for (int i = 0; i < (centerViewModel.getUsersRooms(clinicId).size(); i++) {
-//                                    expands.put(i, false);
-//                                }
-//
-//                                centersRecyclerViewAdapter.setCenter(centerViewModel.getUsersRooms(clinicId), expands, "user");
-//                                rcRecyclerView.setAdapter(centersRecyclerViewAdapter);
-
                                 if (pagingProgressBar.getVisibility() == View.VISIBLE) {
                                     pagingProgressBar.setVisibility(View.GONE);
                                 }
@@ -609,8 +595,12 @@ public class UsersActivity extends AppCompatActivity {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
                                 }
 
-//                                roomsRecyclerViewAdapter.setRoom(roomViewModel.getUsersCenters(roomId));
-//                                rcRecyclerView.setAdapter(roomsRecyclerViewAdapter);
+//                                for (int i = 0; i < roomViewModel.getUsersCenters(roomId).size(); i++) {
+//                                    expands.put(i, false);
+//                                }
+//
+//                                centersRecyclerViewAdapter.setCenter(roomViewModel.getUsersCenters(roomId), expands, "user");
+//                                rcRecyclerView.setAdapter(centersRecyclerViewAdapter);
                             } else {
                                 // User is Empty
 
@@ -672,8 +662,12 @@ public class UsersActivity extends AppCompatActivity {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
                                 }
 
-//                                roomsRecyclerViewAdapter.setRoom(roomViewModel.getUsersCenters(roomId));
-//                                rcRecyclerView.setAdapter(roomsRecyclerViewAdapter);
+//                                for (int i = 0; i < roomViewModel.getUsersCenters(roomId).size(); i++) {
+//                                    expands.put(i, false);
+//                                }
+//
+//                                centersRecyclerViewAdapter.setCenter(roomViewModel.getUsersCenters(roomId), expands, "user");
+//                                rcRecyclerView.setAdapter(centersRecyclerViewAdapter);
 
                                 if (pagingProgressBar.getVisibility() == View.VISIBLE) {
                                     pagingProgressBar.setVisibility(View.GONE);
@@ -698,6 +692,7 @@ public class UsersActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
+                setResult(RESULT_OK, null);
                 relaunchData();
             }
         }

@@ -531,8 +531,8 @@ public class CreateUserActivity extends AppCompatActivity {
                     break;
 
                 case "room":
-                    roomViewModel.addUser(roomId, referenceRecyclerViewAdapter.getIds());
-                    observeWork("roomViewModel");
+//                    roomViewModel.addUser(roomId, referenceRecyclerViewAdapter.getIds());
+//                    observeWork("roomViewModel");
                     break;
 
                 case "center":
