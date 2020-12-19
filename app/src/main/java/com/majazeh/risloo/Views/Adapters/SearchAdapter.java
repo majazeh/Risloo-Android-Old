@@ -271,6 +271,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
                             }
                             break;
+
+                        case "CreateUser":
+                            if (((CreateUserActivity) Objects.requireNonNull(activity)).statusId.equals(model.get("en_title").toString())) {
+                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
+                            } else {
+                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                            }
+                            break;
                     }
 
                     holder.titleTextView.setVisibility(View.GONE);

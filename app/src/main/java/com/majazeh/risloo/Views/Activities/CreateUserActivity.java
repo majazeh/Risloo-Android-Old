@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Repositories.CaseRepository;
+import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
@@ -43,6 +45,7 @@ import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.ViewModels.CaseViewModel;
+import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.ViewModels.RoomViewModel;
 import com.majazeh.risloo.Views.Adapters.SearchAdapter;
 import com.majazeh.risloo.Views.Adapters.SpinnerAdapter;
@@ -55,16 +58,17 @@ import java.util.Objects;
 public class CreateUserActivity extends AppCompatActivity {
 
     // ViewModels
+    private CenterViewModel centerViewModel;
     private RoomViewModel roomViewModel;
     private CaseViewModel caseViewModel;
 
     // Adapters
-    private SearchAdapter referenceDialogAdapter;
+    private SearchAdapter referenceDialogAdapter, statusDialogAdapter;
     public SpinnerAdapter referenceRecyclerViewAdapter;
 
     // Vars
-    public String roomId = "", caseId = "";
-    private boolean referenceException = false;
+    public String type = "", caseId = "", roomId = "", clinicId = "", mobile = "", statusId = "", statusTitle = "";
+    private boolean referenceException = false, statusException = false;
 
     // Objects
     private Bundle extras;
@@ -76,18 +80,20 @@ public class CreateUserActivity extends AppCompatActivity {
     private RelativeLayout toolbarLayout;
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
-    private FrameLayout referenceFrameLayout;
-    public TextView referenceTextView;
+    private LinearLayout clinicLinearLayout;
+    private FrameLayout referenceFrameLayout, statusFrameLayout;
+    public TextView referenceTextView, statusTextView;
+    private EditText mobileEditText;
     private RecyclerView referenceRecyclerView;
     private Button createButton;
-    private Dialog referenceDialog, progressDialog;
-    private TextView referenceDialogTitleTextView, referenceDialogConfirm;
+    private Dialog referenceDialog, statusDialog, progressDialog;
+    private TextView referenceDialogTitleTextView, statusDialogTitleTextView, referenceDialogConfirm;
     private CoordinatorLayout referenceDialogSearchLayout;
     private EditText referenceDialogEditText;
     private ImageView referenceDialogImageView;
     private ProgressBar referenceDialogProgressBar;
     private TextView referenceDialogTextView;
-    private RecyclerView referenceDialogRecyclerView;
+    private RecyclerView referenceDialogRecyclerView, statusDialogRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,10 +120,12 @@ public class CreateUserActivity extends AppCompatActivity {
     }
 
     private void initializer() {
+        centerViewModel = new ViewModelProvider(this).get(CenterViewModel.class);
         roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
         caseViewModel = new ViewModelProvider(this).get(CaseViewModel.class);
 
         referenceDialogAdapter = new SearchAdapter(this);
+        statusDialogAdapter = new SearchAdapter(this);
 
         referenceRecyclerViewAdapter = new SpinnerAdapter(this);
 
@@ -142,9 +150,15 @@ public class CreateUserActivity extends AppCompatActivity {
         toolbarTextView.setText(getResources().getString(R.string.CreateUserTitle));
         toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
+        clinicLinearLayout = findViewById(R.id.activity_create_user_clinic_linearLayout);
+
         referenceFrameLayout = findViewById(R.id.activity_create_user_reference_frameLayout);
+        statusFrameLayout = findViewById(R.id.activity_create_user_status_frameLayout);
 
         referenceTextView = findViewById(R.id.activity_create_user_reference_textView);
+        statusTextView = findViewById(R.id.activity_create_user_status_textView);
+
+        mobileEditText = findViewById(R.id.activity_create_user_mobile_editText);
 
         referenceRecyclerView = findViewById(R.id.activity_create_user_reference_recyclerView);
         referenceRecyclerView.setLayoutManager(referenceLayoutManager);
@@ -157,6 +171,11 @@ public class CreateUserActivity extends AppCompatActivity {
         referenceDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         referenceDialog.setContentView(R.layout.dialog_search);
         referenceDialog.setCancelable(true);
+        statusDialog = new Dialog(this, R.style.DialogTheme);
+        Objects.requireNonNull(statusDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+        statusDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        statusDialog.setContentView(R.layout.dialog_search);
+        statusDialog.setCancelable(true);
         progressDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -168,9 +187,16 @@ public class CreateUserActivity extends AppCompatActivity {
         layoutParamsReferenceDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParamsReferenceDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
         referenceDialog.getWindow().setAttributes(layoutParamsReferenceDialog);
+        WindowManager.LayoutParams layoutParamsStatusDialog = new WindowManager.LayoutParams();
+        layoutParamsStatusDialog.copyFrom(statusDialog.getWindow().getAttributes());
+        layoutParamsStatusDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsStatusDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        statusDialog.getWindow().setAttributes(layoutParamsStatusDialog);
 
         referenceDialogTitleTextView = referenceDialog.findViewById(R.id.dialog_search_title_textView);
         referenceDialogTitleTextView.setText(getResources().getString(R.string.CreateUserReferenceDialogTitle));
+        statusDialogTitleTextView = statusDialog.findViewById(R.id.dialog_search_title_textView);
+        statusDialogTitleTextView.setText(getResources().getString(R.string.CreateUserStatusDialogTitle));
 
         referenceDialogConfirm = referenceDialog.findViewById(R.id.dialog_search_confirm_textView);
 
@@ -189,6 +215,11 @@ public class CreateUserActivity extends AppCompatActivity {
         referenceDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
         referenceDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         referenceDialogRecyclerView.setHasFixedSize(true);
+
+        statusDialogRecyclerView = statusDialog.findViewById(R.id.dialog_search_recyclerView);
+        statusDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
+        statusDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        statusDialogRecyclerView.setHasFixedSize(true);
     }
 
     private void detector() {
@@ -226,19 +257,71 @@ public class CreateUserActivity extends AppCompatActivity {
             return false;
         });
 
+        mobileEditText.setOnTouchListener((v, event) -> {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
+                if (!mobileEditText.hasFocus()) {
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
+                    }
+
+                    controlEditText.focus(mobileEditText);
+                    controlEditText.select(mobileEditText);
+                }
+            }
+            return false;
+        });
+
+        statusTextView.setOnClickListener(v -> {
+            statusTextView.setClickable(false);
+            handler.postDelayed(() -> statusTextView.setClickable(true), 250);
+
+            if (statusException) {
+                clearException("status");
+            }
+
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+            }
+
+//            setRecyclerView(centerViewModel.getLocalCenterStatus(), statusDialogRecyclerView, "getStatus");
+
+            statusDialog.show();
+        });
+
         createButton.setOnClickListener(v -> {
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
             }
 
-            if (referenceRecyclerViewAdapter.getValues().size() == 0) {
-                errorException("reference");
-            }
+            switch (type) {
+                case "case":
+                case "room":
+                    if (referenceRecyclerViewAdapter.getValues().size() == 0) {
+                        errorException("reference");
+                    }
 
-            if (referenceRecyclerViewAdapter.getValues().size() != 0) {
-                clearException("reference");
+                    if (referenceRecyclerViewAdapter.getValues().size() != 0) {
+                        clearException("reference");
 
-                doWork();
+                        doWork();
+                    }
+                    break;
+
+                case "center":
+                    if (mobileEditText.length() == 0) {
+                        controlEditText.error(this, mobileEditText);
+                    }
+                    if (statusId.isEmpty()) {
+                        errorException("status");
+                    }
+
+                    if (mobileEditText.length() != 0 && !statusId.isEmpty()) {
+                        controlEditText.clear(this, mobileEditText);
+                        clearException("status");
+
+                        doWork();
+                    }
+                    break;
             }
         });
 
@@ -309,6 +392,8 @@ public class CreateUserActivity extends AppCompatActivity {
 
             referenceDialog.dismiss();
         });
+
+        statusDialog.setOnCancelListener(dialog -> statusDialog.dismiss());
     }
 
     private void setData() {
@@ -316,10 +401,27 @@ public class CreateUserActivity extends AppCompatActivity {
             setResult(RESULT_OK, null);
         }
 
-        if (extras.getString("room_id") != null)
-            roomId = extras.getString("room_id");
+        if (extras.getString("type") != null)
+            type = extras.getString("type");
         if (extras.getString("case_id") != null)
             caseId = extras.getString("case_id");
+        if (extras.getString("room_id") != null)
+            roomId = extras.getString("room_id");
+        if (extras.getString("clinic_id") != null)
+            clinicId = extras.getString("clinic_id");
+
+        switch (type) {
+            case "case":
+            case "room":
+                referenceFrameLayout.setVisibility(View.VISIBLE);
+                clinicLinearLayout.setVisibility(View.GONE);
+                break;
+
+            case "center":
+                referenceFrameLayout.setVisibility(View.GONE);
+                clinicLinearLayout.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
@@ -340,6 +442,10 @@ public class CreateUserActivity extends AppCompatActivity {
                     }
                 }
                 break;
+            case "getStatus":
+                statusDialogAdapter.setValues(arrayList, method, "CreateUser");
+                recyclerView.setAdapter(statusDialogAdapter);
+                break;
         }
     }
 
@@ -349,6 +455,13 @@ public class CreateUserActivity extends AppCompatActivity {
                 referenceException = true;
                 referenceFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
+            case "mobile":
+                mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
+            case "status":
+                statusException = true;
+                statusFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
         }
     }
 
@@ -357,6 +470,10 @@ public class CreateUserActivity extends AppCompatActivity {
             case "reference":
                 referenceException = false;
                 referenceFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                break;
+            case "status":
+                statusException = false;
+                statusFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 break;
         }
     }
@@ -385,7 +502,15 @@ public class CreateUserActivity extends AppCompatActivity {
                     referenceDialogProgressBar.setVisibility(View.VISIBLE);
                     referenceDialogImageView.setVisibility(View.GONE);
 
-                    roomViewModel.references(roomId, q, "", caseId);
+                    switch (type) {
+                        case "case":
+                            roomViewModel.references(roomId, q, "", caseId);
+                            break;
+
+                        case "room":
+                            // TODO : Check & Place
+                            break;
+                    }
 
                     observeWork("roomViewModel");
                     break;
@@ -399,8 +524,24 @@ public class CreateUserActivity extends AppCompatActivity {
         try {
             progressDialog.show();
 
-            caseViewModel.addUser(caseId, referenceRecyclerViewAdapter.getIds());
-            observeWork("caseViewModel");
+            switch (type) {
+                case "case":
+                    caseViewModel.addUser(caseId, referenceRecyclerViewAdapter.getIds());
+                    observeWork("caseViewModel");
+                    break;
+
+                case "room":
+//                    roomViewModel.addUser(roomId, referenceRecyclerViewAdapter.getIds());
+//                    observeWork("roomViewModel");
+                    break;
+
+                case "center":
+                    mobile = mobileEditText.getText().toString().trim();
+
+                    centerViewModel.addUser(clinicId, mobile, statusId);
+                    observeWork("centerViewModel");
+                    break;
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -431,9 +572,49 @@ public class CreateUserActivity extends AppCompatActivity {
                 });
                 break;
 
+            case "centerViewModel":
+                CenterRepository.workState.observe((LifecycleOwner) this, integer -> {
+                    if (CenterRepository.work.equals("addUser")) {
+                        if (integer == 1) {
+                            setResult(RESULT_OK, null);
+                            finish();
+
+                            progressDialog.dismiss();
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                        } else if (integer == 0) {
+                            progressDialog.dismiss();
+                            observeException();
+                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                        } else if (integer == -2) {
+                            progressDialog.dismiss();
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                        }
+                    }
+                });
+                break;
+
             case "roomViewModel":
                 RoomRepository.workState.observe((LifecycleOwner) this, integer -> {
-                    if (RoomRepository.work.equals("getReferences")) {
+                    if (RoomRepository.work.equals("addUser")) {
+                        if (integer == 1) {
+                            setResult(RESULT_OK, null);
+                            finish();
+
+                            progressDialog.dismiss();
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            RoomRepository.workState.removeObservers((LifecycleOwner) this);
+                        } else if (integer == 0) {
+                            progressDialog.dismiss();
+                            observeException();
+                            RoomRepository.workState.removeObservers((LifecycleOwner) this);
+                        } else if (integer == -2) {
+                            progressDialog.dismiss();
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            RoomRepository.workState.removeObservers((LifecycleOwner) this);
+                        }
+                    } else if (RoomRepository.work.equals("getReferences")) {
                         if (integer == 1) {
                             setRecyclerView(RoomRepository.references, referenceDialogRecyclerView, "getReferences");
 
@@ -461,16 +642,56 @@ public class CreateUserActivity extends AppCompatActivity {
         if (ExceptionGenerator.current_exception.equals("addUser")) {
             String exceptionToast = "";
 
-            if (!ExceptionGenerator.errors.isNull("case_id")) {
-                exceptionToast = ExceptionGenerator.getErrorBody("case_id");
-            }
-            if (!ExceptionGenerator.errors.isNull("client_id")) {
-                errorException("reference");
-                if (exceptionToast.equals("")) {
-                    exceptionToast = ExceptionGenerator.getErrorBody("client_id");
-                } else {
-                    exceptionToast += (" و " + ExceptionGenerator.getErrorBody("client_id"));
-                }
+            switch (type) {
+                case "case":
+                    if (!ExceptionGenerator.errors.isNull("case_id")) {
+                        exceptionToast = ExceptionGenerator.getErrorBody("case_id");
+                    }
+                    if (!ExceptionGenerator.errors.isNull("client_id")) {
+                        errorException("reference");
+                        if (exceptionToast.equals("")) {
+                            exceptionToast = ExceptionGenerator.getErrorBody("client_id");
+                        } else {
+                            exceptionToast += (" و " + ExceptionGenerator.getErrorBody("client_id"));
+                        }
+                    }
+                    break;
+
+                case "room":
+                    if (!ExceptionGenerator.errors.isNull("room_id")) {
+                        exceptionToast = ExceptionGenerator.getErrorBody("room_id");
+                    }
+                    if (!ExceptionGenerator.errors.isNull("client_id")) {
+                        errorException("reference");
+                        if (exceptionToast.equals("")) {
+                            exceptionToast = ExceptionGenerator.getErrorBody("client_id");
+                        } else {
+                            exceptionToast += (" و " + ExceptionGenerator.getErrorBody("client_id"));
+                        }
+                    }
+                    break;
+
+                case "center":
+                    if (!ExceptionGenerator.errors.isNull("center_id")) {
+                        exceptionToast = ExceptionGenerator.getErrorBody("center_id");
+                    }
+                    if (!ExceptionGenerator.errors.isNull("number")) {
+                        errorException("mobile");
+                        if (exceptionToast.equals("")) {
+                            exceptionToast = ExceptionGenerator.getErrorBody("number");
+                        } else {
+                            exceptionToast += (" و " + ExceptionGenerator.getErrorBody("number"));
+                        }
+                    }
+                    if (!ExceptionGenerator.errors.isNull("status")) {
+                        errorException("status");
+                        if (exceptionToast.equals("")) {
+                            exceptionToast = ExceptionGenerator.getErrorBody("status");
+                        } else {
+                            exceptionToast += (" و " + ExceptionGenerator.getErrorBody("status"));
+                        }
+                    }
+                    break;
             }
             Toast.makeText(this, exceptionToast, Toast.LENGTH_SHORT).show();
         } else {
@@ -508,6 +729,24 @@ public class CreateUserActivity extends AppCompatActivity {
                             referenceDialogConfirm.setVisibility(View.VISIBLE);
                         }
                     }
+                    break;
+
+                case "getStatus":
+                    if (!statusId.equals(model.get("en_title").toString())) {
+                        statusId = model.get("en_title").toString();
+                        statusTitle = model.get("fa_title").toString();
+
+                        statusTextView.setText(statusTitle);
+                        statusTextView.setTextColor(getResources().getColor(R.color.Grey));
+                    } else if (statusId.equals(model.get("en_title").toString())) {
+                        statusId = "";
+                        statusTitle = "";
+
+                        statusTextView.setText(getResources().getString(R.string.CreateUserStatus));
+                        statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                    }
+
+                    statusDialog.dismiss();
                     break;
             }
         } catch (JSONException e) {
