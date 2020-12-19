@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public class RoomRepository extends MainRepository {
     public static String work = "";
@@ -173,8 +174,8 @@ public class RoomRepository extends MainRepository {
 
     public ArrayList<Model> getUsers(String roomId) {
         ArrayList<Model> arrayList = new ArrayList<>();
-        if (FileManager.readObjectFromCache(application.getApplicationContext(), "rooms" + "/" + roomId) != null) {
-            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "rooms" + "/" + roomId);
+        if (FileManager.readObjectFromCache(application.getApplicationContext(), "roomUsers" + "/" + roomId) != null) {
+            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "roomUsers" + "/" + roomId);
             try {
                 JSONArray data = jsonObject.getJSONArray("data");
                 if (data.length() == 0) {

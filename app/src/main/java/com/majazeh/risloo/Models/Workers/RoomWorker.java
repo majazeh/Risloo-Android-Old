@@ -333,9 +333,9 @@ public class RoomWorker extends Worker {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 if (successBody.getJSONArray("data").length() != 0) {
                     if (RoomRepository.usersPage == 1) {
-                        FileManager.writeObjectToCache(context, successBody, "rooms" + "/" + RoomRepository.roomId);
+                        FileManager.writeObjectToCache(context, successBody, "roomUsers" + "/" + RoomRepository.roomId);
                     } else {
-                        JSONObject jsonObject = FileManager.readObjectFromCache(context, "rooms" + "/" + RoomRepository.roomId);
+                        JSONObject jsonObject = FileManager.readObjectFromCache(context, "roomUsers" + "/" + RoomRepository.roomId);
                         JSONArray data;
                         try {
                             data = jsonObject.getJSONArray("data");
@@ -344,14 +344,14 @@ public class RoomWorker extends Worker {
                                 data.put(jsonArray.getJSONObject(i));
                             }
                             jsonObject.put("data", data);
-                            FileManager.writeObjectToCache(context, jsonObject, "rooms" + "/" + RoomRepository.roomId);
+                            FileManager.writeObjectToCache(context, jsonObject, "roomUsers" + "/" + RoomRepository.roomId);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
 
-                } else {
-                    FileManager.deleteFileFromCache(context, "rooms" + "/" + RoomRepository.roomId);
+                } else if (RoomRepository.usersPage == 1){
+                    FileManager.deleteFileFromCache(context, "roomUsers" + "/" + RoomRepository.roomId);
                 }
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "users");
                 RoomRepository.workState.postValue(1);

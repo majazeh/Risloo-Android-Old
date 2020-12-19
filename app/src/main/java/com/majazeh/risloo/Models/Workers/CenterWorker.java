@@ -526,9 +526,9 @@ public class CenterWorker extends Worker {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 if (successBody.getJSONArray("data").length() != 0) {
                     if (CenterRepository.usersPage == 1) {
-                        FileManager.writeObjectToCache(context, successBody, "centers" + "/" + CenterRepository.clinicId);
+                        FileManager.writeObjectToCache(context, successBody, "centerUsers" + "/" + CenterRepository.clinicId);
                     } else {
-                        JSONObject jsonObject = FileManager.readObjectFromCache(context, "centers" + "/" + CenterRepository.clinicId);
+                        JSONObject jsonObject = FileManager.readObjectFromCache(context, "centerUsers" + "/" + CenterRepository.clinicId);
                         JSONArray data;
                         try {
                             data = jsonObject.getJSONArray("data");
@@ -537,14 +537,14 @@ public class CenterWorker extends Worker {
                                 data.put(jsonArray.getJSONObject(i));
                             }
                             jsonObject.put("data", data);
-                            FileManager.writeObjectToCache(context, jsonObject, "centers" + "/" + CenterRepository.clinicId);
+                            FileManager.writeObjectToCache(context, jsonObject, "centerUsers" + "/" + CenterRepository.clinicId);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
 
-                } else {
-                    FileManager.deleteFileFromCache(context, "centers" + "/" + CenterRepository.clinicId);
+                } else if (CenterRepository.usersPage == 1){
+                    FileManager.deleteFileFromCache(context, "centerUsers" + "/" + CenterRepository.clinicId);
                 }
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "users");
                 CenterRepository.workState.postValue(1);

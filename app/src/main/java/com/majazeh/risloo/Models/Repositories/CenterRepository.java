@@ -288,8 +288,8 @@ public class CenterRepository extends MainRepository {
 
     public ArrayList<Model> getUsers(String clinicId){
         ArrayList<Model> arrayList = new ArrayList<>();
-        if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + clinicId) != null) {
-            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + clinicId);
+        if (FileManager.readObjectFromCache(application.getApplicationContext(), "centerUsers" + "/" + clinicId) != null) {
+            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centerUsers" + "/" + clinicId);
             try {
                 JSONArray data = jsonObject.getJSONArray("data");
                 if (data.length() == 0) {
