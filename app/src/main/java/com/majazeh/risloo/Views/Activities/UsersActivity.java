@@ -496,7 +496,7 @@ public class UsersActivity extends AppCompatActivity {
                                 usersRecyclerViewAdapter.setUser(centerViewModel.getUsers(clinicId));
                                 if (CenterRepository.usersPage == 1) {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
-//                                    rcRecyclerView.setAdapter(centersRecyclerViewAdapter);
+                                    rcRecyclerView.setAdapter(centersRecyclerViewAdapter);
                                 }
                             } else {
                                 // User is Empty
@@ -557,7 +557,7 @@ public class UsersActivity extends AppCompatActivity {
                                 usersRecyclerViewAdapter.setUser(centerViewModel.getUsers(clinicId));
                                 if (CenterRepository.usersPage == 1) {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
-//                                    rcRecyclerView.setAdapter(centersRecyclerViewAdapter);
+                                    rcRecyclerView.setAdapter(centersRecyclerViewAdapter);
                                 }
 
                                 if (pagingProgressBar.getVisibility() == View.VISIBLE) {
@@ -589,10 +589,9 @@ public class UsersActivity extends AppCompatActivity {
                                 mainLayout.setVisibility(View.VISIBLE);
 
                                 usersRecyclerViewAdapter.setUser(roomViewModel.getUsers(roomId));
-//                                roomsRecyclerViewAdapter.setRoom(roomViewModel.getUsers(roomId));
                                 if (RoomRepository.usersPage == 1) {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
-//                                    rcRecyclerView.setAdapter(roomsRecyclerViewAdapter);
+                                    rcRecyclerView.setAdapter(roomsRecyclerViewAdapter);
                                 }
                             } else {
                                 // User is Empty
@@ -651,10 +650,9 @@ public class UsersActivity extends AppCompatActivity {
                                 mainLayout.setVisibility(View.VISIBLE);
 
                                 usersRecyclerViewAdapter.setUser(roomViewModel.getUsers(roomId));
-//                                roomsRecyclerViewAdapter.setRoom(roomViewModel.getUsers(roomId));
                                 if (RoomRepository.usersPage == 1) {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
-//                                    rcRecyclerView.setAdapter(roomsRecyclerViewAdapter);
+                                    rcRecyclerView.setAdapter(roomsRecyclerViewAdapter);
                                 }
 
                                 if (pagingProgressBar.getVisibility() == View.VISIBLE) {
