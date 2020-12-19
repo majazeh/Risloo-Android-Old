@@ -17,6 +17,7 @@ import androidx.work.WorkManager;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Workers.RoomWorker;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
+import com.majazeh.risloo.Utils.Generators.JSONGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 
 import org.json.JSONArray;
@@ -191,6 +192,20 @@ public class RoomRepository extends MainRepository {
                 return null;
             }
         } else {
+            return null;
+        }
+    }
+
+    public ArrayList<Model> getLocalPosition() {
+        try {
+            JSONArray data = new JSONArray(JSONGenerator.getJSON(application.getApplicationContext(), "localPosition.json"));
+            ArrayList<Model> arrayList = new ArrayList<>();
+            for (int i = 0; i < data.length(); i++) {
+                arrayList.add(new Model(data.getJSONObject(i)));
+            }
+            return arrayList;
+        } catch (JSONException e) {
+            e.printStackTrace();
             return null;
         }
     }

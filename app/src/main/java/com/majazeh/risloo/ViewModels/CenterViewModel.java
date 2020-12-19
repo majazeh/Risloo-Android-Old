@@ -82,4 +82,8 @@ public class CenterViewModel extends AndroidViewModel {
     public ArrayList<Model> getUsers(String clinicId) {
         return repository.getUsers(clinicId);
     }
+
+    public ArrayList<Model> getLocalPosition() {
+        return repository.getLocalPosition();
+    }
 }

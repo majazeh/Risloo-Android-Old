@@ -72,4 +72,8 @@ public class RoomViewModel extends AndroidViewModel {
     public ArrayList<Model> getUsers(String roomId) {
         return repository.getUsers(roomId);
     }
+
+    public ArrayList<Model> getLocalPosition() {
+        return repository.getLocalPosition();
+    }
 }
