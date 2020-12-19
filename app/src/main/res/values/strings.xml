@@ -581,6 +581,10 @@
     <string name="UsersAwaiting">در انتظار</string>
     <string name="UsersAccepted">پذیرفته شد</string>
 
+    <string name="UsersAccept">پدیرفتن</string>
+    <string name="UsersSuspend">تعلیق</string>
+    <string name="UsersCreate">ایجاد اتاق درمان</string>
+
     <string name="UsersSearched">جستجو:</string>
 
     <string name="UsersSearchDialogTitle">کاربر مورد نظر خودتان را جستجو کنید.</string>

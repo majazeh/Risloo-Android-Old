@@ -497,7 +497,7 @@ public class UsersActivity extends AppCompatActivity {
                                 infoLayout.setVisibility(View.GONE);
                                 mainLayout.setVisibility(View.VISIBLE);
 
-                                usersRecyclerViewAdapter.setUser(centerViewModel.getUsers(clinicId));
+                                usersRecyclerViewAdapter.setUser(centerViewModel.getUsers(clinicId), "center");
                                 if (CenterRepository.usersPage == 1) {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
                                 }
@@ -557,7 +557,7 @@ public class UsersActivity extends AppCompatActivity {
                                 infoLayout.setVisibility(View.GONE);
                                 mainLayout.setVisibility(View.VISIBLE);
 
-                                usersRecyclerViewAdapter.setUser(centerViewModel.getUsers(clinicId));
+                                usersRecyclerViewAdapter.setUser(centerViewModel.getUsers(clinicId), "center");
                                 if (CenterRepository.usersPage == 1) {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
                                 }
@@ -590,7 +590,7 @@ public class UsersActivity extends AppCompatActivity {
                                 infoLayout.setVisibility(View.GONE);
                                 mainLayout.setVisibility(View.VISIBLE);
 
-                                usersRecyclerViewAdapter.setUser(roomViewModel.getUsers(roomId));
+                                usersRecyclerViewAdapter.setUser(roomViewModel.getUsers(roomId), "room");
                                 if (RoomRepository.usersPage == 1) {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
                                 }
@@ -657,7 +657,7 @@ public class UsersActivity extends AppCompatActivity {
                                 infoLayout.setVisibility(View.GONE);
                                 mainLayout.setVisibility(View.VISIBLE);
 
-                                usersRecyclerViewAdapter.setUser(roomViewModel.getUsers(roomId));
+                                usersRecyclerViewAdapter.setUser(roomViewModel.getUsers(roomId), "room");
                                 if (RoomRepository.usersPage == 1) {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
                                 }

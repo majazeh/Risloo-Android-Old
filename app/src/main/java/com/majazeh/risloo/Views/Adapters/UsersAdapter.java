@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,6 +27,7 @@ import java.util.Objects;
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder> {
 
     // Vars
+    private String type = "";
     private ArrayList<Model> users;
 
     // Objects
@@ -87,27 +90,55 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
                 holder.acceptedAtLinearLayout.setVisibility(View.GONE);
             }
 
-            // Position
+            // Position & Acceptation
             if (model.attributes.has("position") && !model.attributes.isNull("position")) {
                 String enPosition = model.get("position").toString();
                 String faPosition = ((UsersActivity) Objects.requireNonNull(activity)).centerViewModel.getFAPosition(model.get("position").toString());
 
-                String acceptation = "";
-
                 if (model.attributes.has("kicked_at") && !model.attributes.isNull("kicked_at")) {
-                    acceptation = activity.getResources().getString(R.string.UsersKicked);
+                    holder.acceptationTextView.setText(activity.getResources().getString(R.string.UsersKicked));
                 } else {
                     if (model.attributes.has("accepted_at") && !model.attributes.isNull("accepted_at"))
-                        acceptation = activity.getResources().getString(R.string.UsersAccepted);
+                        holder.acceptationTextView.setText(activity.getResources().getString(R.string.UsersAccepted));
                     else
-                        acceptation = activity.getResources().getString(R.string.UsersAwaiting);
+                        holder.acceptationTextView.setText(activity.getResources().getString(R.string.UsersAwaiting));
                 }
 
-                holder.positionTextView.setText(faPosition + "\n" + acceptation);
+                holder.positionTextView.setText(faPosition);
                 holder.positionLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.positionLinearLayout.setVisibility(View.GONE);
             }
+
+            holder.positionFrameLayout.setOnClickListener(v -> {
+                holder.positionFrameLayout.setClickable(false);
+                handler.postDelayed(() -> holder.positionFrameLayout.setClickable(true), 250);
+
+                if (type.equals("center")) {
+//                    showDialog(model);
+                }
+            });
+
+            holder.acceptTextView.setOnClickListener(v -> {
+                holder.acceptTextView.setClickable(false);
+                handler.postDelayed(() -> holder.acceptTextView.setClickable(true), 250);
+
+                // TODO : Check & Insert
+            });
+
+            holder.suspendTextView.setOnClickListener(v -> {
+                holder.suspendTextView.setClickable(false);
+                handler.postDelayed(() -> holder.suspendTextView.setClickable(true), 250);
+
+                // TODO : Check & Insert
+            });
+
+            holder.createTextView.setOnClickListener(v -> {
+                holder.createTextView.setClickable(false);
+                handler.postDelayed(() -> holder.createTextView.setClickable(true), 250);
+
+                // TODO : Check & Insert
+            });
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -123,15 +154,19 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
         handler = new Handler();
     }
 
-    public void setUser(ArrayList<Model> users) {
+    public void setUser(ArrayList<Model> users, String type) {
         this.users = users;
+        this.type = type;
         notifyDataSetChanged();
     }
 
     public class UsersHolder extends RecyclerView.ViewHolder {
 
-        public TextView serialTextView, referenceTextView, creatorTextView, acceptedAtTextView, positionTextView;
+        public TextView serialTextView, referenceTextView, creatorTextView, acceptedAtTextView, positionTextView, acceptationTextView;
         public LinearLayout referenceLinearLayout, creatorLinearLayout, acceptedAtLinearLayout, positionLinearLayout;
+        public LinearLayout positionFrameLayout;
+        public ImageView positionImageView;
+        public TextView acceptTextView, suspendTextView, createTextView;
 
         public UsersHolder(View view) {
             super(view);
@@ -140,10 +175,16 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
             creatorTextView = view.findViewById(R.id.single_item_users_creator_textView);
             acceptedAtTextView = view.findViewById(R.id.single_item_users_accepted_at_textView);
             positionTextView = view.findViewById(R.id.single_item_users_position_textView);
+            acceptationTextView = view.findViewById(R.id.single_item_users_acceptation_textView);
             referenceLinearLayout = view.findViewById(R.id.single_item_users_reference_linearLayout);
             creatorLinearLayout = view.findViewById(R.id.single_item_users_creator_linearLayout);
             acceptedAtLinearLayout = view.findViewById(R.id.single_item_users_accepted_at_linearLayout);
             positionLinearLayout = view.findViewById(R.id.single_item_users_position_linearLayout);
+            positionFrameLayout = view.findViewById(R.id.single_item_users_position_frameLayout);
+            positionImageView = view.findViewById(R.id.single_item_users_position_imageView);
+            acceptTextView = view.findViewById(R.id.single_item_users_accept_textView);
+            suspendTextView = view.findViewById(R.id.single_item_users_suspend_textView);
+            createTextView = view.findViewById(R.id.single_item_users_create_textView);
         }
     }
 

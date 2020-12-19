@@ -17,16 +17,81 @@
         android:layout_margin="@dimen/_12sdp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/single_item_users_serial_textView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_8sdp"
-            android:gravity="center|right"
-            android:textSize="@dimen/_14ssp"
-            android:textStyle="bold"
-            android:textColor="@color/Nero"
-            android:textAlignment="gravity" />
+            android:baselineAligned="false"
+            android:layoutDirection="ltr"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/single_item_users_accept_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginRight="@dimen/_6sdp"
+                android:paddingTop="@dimen/_3sdp"
+                android:paddingBottom="@dimen/_3sdp"
+                android:paddingLeft="@dimen/_8sdp"
+                android:paddingRight="@dimen/_8sdp"
+                android:visibility="gone"
+                android:gravity="center"
+                android:text="@string/UsersAccept"
+                android:textSize="@dimen/_9ssp"
+                android:textStyle="bold"
+                android:textColor="@color/White"
+                android:textAlignment="gravity"
+                android:background="@drawable/draw_8sdp_solid_islamicgreen"/>
+
+            <TextView
+                android:id="@+id/single_item_users_suspend_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:layout_marginRight="@dimen/_6sdp"
+                android:paddingTop="@dimen/_3sdp"
+                android:paddingBottom="@dimen/_3sdp"
+                android:paddingLeft="@dimen/_8sdp"
+                android:paddingRight="@dimen/_8sdp"
+                android:visibility="gone"
+                android:gravity="center"
+                android:text="@string/UsersSuspend"
+                android:textSize="@dimen/_9ssp"
+                android:textStyle="bold"
+                android:textColor="@color/White"
+                android:textAlignment="gravity"
+                android:background="@drawable/draw_8sdp_solid_violetred"/>
+
+            <TextView
+                android:id="@+id/single_item_users_create_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|left"
+                android:paddingTop="@dimen/_3sdp"
+                android:paddingBottom="@dimen/_3sdp"
+                android:paddingLeft="@dimen/_8sdp"
+                android:paddingRight="@dimen/_8sdp"
+                android:visibility="gone"
+                android:gravity="center"
+                android:text="@string/UsersCreate"
+                android:textSize="@dimen/_9ssp"
+                android:textStyle="bold"
+                android:textColor="@color/White"
+                android:textAlignment="gravity"
+                android:background="@drawable/draw_8sdp_solid_primary"/>
+
+            <TextView
+                android:id="@+id/single_item_users_serial_textView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center|right"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                android:textColor="@color/Nero"
+                android:textAlignment="gravity" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -217,15 +282,57 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/single_item_users_position_textView"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center|right"
-                    android:textSize="@dimen/_9ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Grey"
-                    android:textAlignment="gravity" />
+                    android:orientation="horizontal"
+                    android:layoutDirection="rtl">
+
+                    <LinearLayout
+                        android:id="@+id/single_item_users_position_frameLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_marginLeft="@dimen/_6sdp"
+                        android:orientation="horizontal"
+                        android:layoutDirection="rtl"
+                        android:background="@drawable/draw_8sdp_solid_solitude">
+
+                        <TextView
+                            android:id="@+id/single_item_users_position_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:paddingLeft="@dimen/_8sdp"
+                            android:paddingRight="@dimen/_8sdp"
+                            android:gravity="center|right"
+                            android:textSize="@dimen/_9ssp"
+                            android:textStyle="bold"
+                            android:textColor="@color/Grey"
+                            android:textAlignment="gravity" />
+
+                        <ImageView
+                            android:id="@+id/single_item_users_position_imageView"
+                            android:layout_width="@dimen/_8sdp"
+                            android:layout_height="@dimen/_8sdp"
+                            android:layout_marginLeft="@dimen/_8sdp"
+                            android:layout_gravity="center|left"
+                            android:contentDescription="@string/AppImageContent"
+                            android:src="@drawable/ic_chevron_down"
+                            android:visibility="gone"
+                            app:tint="@color/Mischka" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/single_item_users_acceptation_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center|right"
+                        android:textSize="@dimen/_9ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Grey"
+                        android:textAlignment="gravity" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
