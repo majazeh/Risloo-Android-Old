@@ -92,7 +92,18 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
                 String enPosition = model.get("position").toString();
                 String faPosition = ((UsersActivity) Objects.requireNonNull(activity)).centerViewModel.getFAPosition(model.get("position").toString());
 
-                holder.positionTextView.setText(faPosition);
+                String acceptation = "";
+
+                if (model.attributes.has("kicked_at") && !model.attributes.isNull("kicked_at")) {
+                    acceptation = activity.getResources().getString(R.string.UsersKicked);
+                } else {
+                    if (model.attributes.has("accepted_at") && !model.attributes.isNull("accepted_at"))
+                        acceptation = activity.getResources().getString(R.string.UsersAccepted);
+                    else
+                        acceptation = activity.getResources().getString(R.string.UsersAwaiting);
+                }
+
+                holder.positionTextView.setText(faPosition + "\n" + acceptation);
                 holder.positionLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.positionLinearLayout.setVisibility(View.GONE);

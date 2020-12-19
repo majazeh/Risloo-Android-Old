@@ -577,6 +577,10 @@
     <string name="UsersAcceptedAt">زمان پذیرش</string>
     <string name="UsersPosition">موقعیت</string>
 
+    <string name="UsersKicked">رد شد</string>
+    <string name="UsersAwaiting">در انتظار</string>
+    <string name="UsersAccepted">پذیرفته شد</string>
+
     <string name="UsersSearched">جستجو:</string>
 
     <string name="UsersSearchDialogTitle">کاربر مورد نظر خودتان را جستجو کنید.</string>
