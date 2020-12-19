@@ -1,10 +1,14 @@
 package com.majazeh.risloo.Models.Apis;
 
+import java.util.HashMap;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -28,5 +32,9 @@ public interface RoomApi {
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("rooms/{room_id}/users")
     Call<ResponseBody> getUsers(@Header("Authorization") String authorization, @Path("room_id") String roomId, @Query("page") int page);
+
+    @Headers({"content-type: application/json", "Accept-Language:fa"})
+    @POST("rooms/{room_id}/users")
+    Call<ResponseBody> addUser(@Header("Authorization") String authorization, @Path("room_id") String roomId, @Body HashMap body);
 
 }

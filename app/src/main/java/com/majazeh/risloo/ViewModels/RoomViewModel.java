@@ -49,7 +49,11 @@ public class RoomViewModel extends AndroidViewModel {
         repository.users(roomId);
     }
 
-    public ArrayList<Model> getAll() {
+    public void addUser(String roomId, ArrayList<String> users) throws JSONException {
+        repository.addUser(roomId, users);
+    }
+
+        public ArrayList<Model> getAll() {
         return repository.getAll();
     }
 

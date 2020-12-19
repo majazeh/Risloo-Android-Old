@@ -3,6 +3,7 @@ package com.majazeh.risloo.Models.Workers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -10,6 +11,7 @@ import androidx.work.WorkerParameters;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Repositories.CaseRepository;
+import com.majazeh.risloo.Models.Repositories.RoomRepository;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Models.Apis.CenterApi;
@@ -83,6 +85,11 @@ public class CenterWorker extends Worker {
                 case "userStatus":
                     userStatus();
                     break;
+                case "addUser":
+                    addUser();
+                    break;
+                case "getReferences":
+                    getReferences();
             }
         }
 
@@ -543,7 +550,7 @@ public class CenterWorker extends Worker {
                         }
                     }
 
-                } else if (CenterRepository.usersPage == 1){
+                } else if (CenterRepository.usersPage == 1) {
                     FileManager.deleteFileFromCache(context, "centerUsers" + "/" + CenterRepository.clinicId);
                 }
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "users");
@@ -643,6 +650,54 @@ public class CenterWorker extends Worker {
             ExceptionGenerator.getException(false, 0, null, "JSONException");
             CenterRepository.workState.postValue(0);
         }
+    }
+
+    private void getReferences() {
+        try {
+            Call<ResponseBody> call = centerApi.getReferences(token(), RoomRepository.roomId, RoomRepository.roomId);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONArray data = successBody.getJSONArray("data");
+
+                if (CenterRepository.references.size() != 0) {
+                    CenterRepository.references.clear();
+                }
+
+                if (data.length() != 0) {
+                    for (int i = 0; i < data.length(); i++) {
+                        JSONObject object = data.getJSONObject(i);
+                        CenterRepository.references.add(new Model(object));
+                    }
+                }
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "getReferences");
+                CenterRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "getReferences");
+                CenterRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
+            CenterRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
+            CenterRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "IOException");
+            CenterRepository.workState.postValue(0);
+        }
+
     }
 
 }

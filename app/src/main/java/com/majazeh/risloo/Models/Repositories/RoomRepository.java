@@ -24,16 +24,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.logging.Logger;
 
 public class RoomRepository extends MainRepository {
     public static String work = "";
+    public static String usage = "";
+    public static String notInCase = "";
+    public static HashMap addUserData = new HashMap();
     public static ArrayList<Model> rooms;
     public static ArrayList<Model> myRooms;
     public static ArrayList<Model> myManagementRooms;
@@ -49,8 +54,6 @@ public class RoomRepository extends MainRepository {
     public static ArrayList<Model> references;
     public static ArrayList<Model> suggestRoom;
     public static ArrayList<Integer> suggestRoomCount;
-    public static String usage = "";
-    public static String notInCase = "";
 
 
     public RoomRepository(Application application) {
@@ -114,6 +117,17 @@ public class RoomRepository extends MainRepository {
         workState.setValue(-1);
         workManager("users");
     }
+
+    public void addUser(String roomId, ArrayList<String> users) throws JSONException {
+        if (!roomId.equals(""))
+            RoomRepository.roomId = roomId;
+        if (users.size() != 0)
+            addUserData.put("user_id", users);
+        work = "addUser";
+        workState.setValue(-1);
+        workManager("addUser");
+    }
+
 
     public void references(String roomId, String q) throws JSONException {
         references(roomId, q, "");
@@ -202,8 +216,8 @@ public class RoomRepository extends MainRepository {
             JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "roomUsers" + "/" + roomId);
             try {
                 JSONObject room = jsonObject.getJSONObject("room");
-                    Model model = new Model(room.getJSONObject("center"));
-                    arrayList.add(model);
+                Model model = new Model(room.getJSONObject("center"));
+                arrayList.add(model);
                 return arrayList;
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -229,7 +243,7 @@ public class RoomRepository extends MainRepository {
     }
 
 
-    public String getENStatus(String faStatus){
+    public String getENStatus(String faStatus) {
         ArrayList<Model> arrayList = getLocalPosition();
         for (int i = 0; i < arrayList.size(); i++) {
             try {
@@ -243,7 +257,7 @@ public class RoomRepository extends MainRepository {
         return null;
     }
 
-    public String getFAStatus(String enStatus){
+    public String getFAStatus(String enStatus) {
         ArrayList<Model> arrayList = getLocalPosition();
         for (int i = 0; i < arrayList.size(); i++) {
             try {

@@ -12,6 +12,7 @@ import androidx.work.WorkerParameters;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Apis.RoomApi;
+import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
 import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
@@ -379,6 +380,41 @@ public class RoomWorker extends Worker {
             RoomRepository.workState.postValue(0);
         }
 
+    }
+
+    private void addUser() {
+        try {
+            Call<ResponseBody> call = roomApi.addUser(token(), RoomRepository.roomId, RoomRepository.addUserData);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "addUser");
+                RoomRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "addUser");
+                RoomRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
+            RoomRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "IOException");
+            RoomRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
+            RoomRepository.workState.postValue(0);
+        }
     }
 
 }
