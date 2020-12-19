@@ -43,6 +43,8 @@ import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.ViewModels.RoomViewModel;
+import com.majazeh.risloo.Views.Adapters.CentersAdapter;
+import com.majazeh.risloo.Views.Adapters.RoomsAdapter;
 import com.majazeh.risloo.Views.Adapters.UsersAdapter;
 
 import org.json.JSONException;
@@ -58,6 +60,8 @@ public class UsersActivity extends AppCompatActivity {
 
     // Adapters
     private UsersAdapter usersRecyclerViewAdapter;
+    private CentersAdapter centersRecyclerViewAdapter;
+    private RoomsAdapter roomsRecyclerViewAdapter;
 
     // Vars
     private String search = "", type = "", clinicId = "", roomId = "", title = "";
@@ -79,7 +83,7 @@ public class UsersActivity extends AppCompatActivity {
     private LinearLayout infoLayout, loadingLayout;
     private ImageView searchImageView, infoImageView;
     private TextView searchTextView, infoTextView;
-    private RecyclerView usersRecyclerView;
+    private RecyclerView usersRecyclerView, rcRecyclerView;
     public ProgressBar pagingProgressBar;
     private Dialog searchDialog;
     private TextView searchDialogTitle, searchDialogPositive, searchDialogNegative;
@@ -117,6 +121,8 @@ public class UsersActivity extends AppCompatActivity {
         roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
 
         usersRecyclerViewAdapter = new UsersAdapter(this);
+        centersRecyclerViewAdapter = new CentersAdapter(this);
+        roomsRecyclerViewAdapter = new RoomsAdapter(this);
 
         extras = getIntent().getExtras();
 
@@ -159,6 +165,10 @@ public class UsersActivity extends AppCompatActivity {
         usersRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
         usersRecyclerView.setLayoutManager(layoutManager);
         usersRecyclerView.setHasFixedSize(true);
+        rcRecyclerView = findViewById(R.id.activity_users_rc_recyclerView);
+        rcRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
+        rcRecyclerView.setLayoutManager(layoutManager);
+        rcRecyclerView.setHasFixedSize(true);
 
         pagingProgressBar = findViewById(R.id.activity_users_progressBar);
 
@@ -486,6 +496,7 @@ public class UsersActivity extends AppCompatActivity {
                                 usersRecyclerViewAdapter.setUser(centerViewModel.getUsers(clinicId));
                                 if (CenterRepository.usersPage == 1) {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
+//                                    rcRecyclerView.setAdapter(centersRecyclerViewAdapter);
                                 }
                             } else {
                                 // User is Empty
@@ -546,6 +557,7 @@ public class UsersActivity extends AppCompatActivity {
                                 usersRecyclerViewAdapter.setUser(centerViewModel.getUsers(clinicId));
                                 if (CenterRepository.usersPage == 1) {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
+//                                    rcRecyclerView.setAdapter(centersRecyclerViewAdapter);
                                 }
 
                                 if (pagingProgressBar.getVisibility() == View.VISIBLE) {
@@ -569,16 +581,18 @@ public class UsersActivity extends AppCompatActivity {
                         finished = false;
                         loading = true;
                         if (integer == 1) {
-                            if (roomViewModel.getUsers(clinicId) != null) {
+                            if (roomViewModel.getUsers(roomId) != null) {
                                 // Show Users
 
                                 loadingLayout.setVisibility(View.GONE);
                                 infoLayout.setVisibility(View.GONE);
                                 mainLayout.setVisibility(View.VISIBLE);
 
-                                usersRecyclerViewAdapter.setUser(roomViewModel.getUsers(clinicId));
+                                usersRecyclerViewAdapter.setUser(roomViewModel.getUsers(roomId));
+//                                roomsRecyclerViewAdapter.setRoom(roomViewModel.getUsers(roomId));
                                 if (RoomRepository.usersPage == 1) {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
+//                                    rcRecyclerView.setAdapter(roomsRecyclerViewAdapter);
                                 }
                             } else {
                                 // User is Empty
@@ -607,7 +621,7 @@ public class UsersActivity extends AppCompatActivity {
 
                             RoomRepository.workState.removeObservers((LifecycleOwner) this);
                         } else if (integer != -1) {
-                            if (roomViewModel.getUsers(clinicId) == null) {
+                            if (roomViewModel.getUsers(roomId) == null) {
                                 // Users is Empty
 
                                 loadingLayout.setVisibility(View.GONE);
@@ -636,9 +650,11 @@ public class UsersActivity extends AppCompatActivity {
                                 infoLayout.setVisibility(View.GONE);
                                 mainLayout.setVisibility(View.VISIBLE);
 
-                                usersRecyclerViewAdapter.setUser(roomViewModel.getUsers(clinicId));
+                                usersRecyclerViewAdapter.setUser(roomViewModel.getUsers(roomId));
+//                                roomsRecyclerViewAdapter.setRoom(roomViewModel.getUsers(roomId));
                                 if (RoomRepository.usersPage == 1) {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
+//                                    rcRecyclerView.setAdapter(roomsRecyclerViewAdapter);
                                 }
 
                                 if (pagingProgressBar.getVisibility() == View.VISIBLE) {

@@ -97,6 +97,12 @@
                 android:visibility="gone">
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activity_users_rc_recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="always" />
+
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/activity_users_recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
