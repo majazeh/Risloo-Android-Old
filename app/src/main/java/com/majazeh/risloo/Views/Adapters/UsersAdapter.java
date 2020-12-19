@@ -14,11 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.DateManager;
+import com.majazeh.risloo.Views.Activities.UsersActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder> {
 
@@ -87,7 +89,10 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
 
             // Status
             if (model.attributes.has("position") && !model.attributes.isNull("position")) {
-                holder.statusTextView.setText(model.get("position").toString());
+                String enPosition = model.get("position").toString();
+                String faPosition = ((UsersActivity) Objects.requireNonNull(activity)).centerViewModel.getFAPosition(model.get("position").toString());
+
+                holder.statusTextView.setText(faPosition);
                 holder.statusLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.statusLinearLayout.setVisibility(View.GONE);

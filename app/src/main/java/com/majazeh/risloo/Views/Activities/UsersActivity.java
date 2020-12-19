@@ -55,8 +55,8 @@ public class UsersActivity extends AppCompatActivity {
 
     // ViewModels
     private AuthViewModel authViewModel;
-    private CenterViewModel centerViewModel;
-    private RoomViewModel roomViewModel;
+    public CenterViewModel centerViewModel;
+    public RoomViewModel roomViewModel;
 
     // Adapters
     private UsersAdapter usersRecyclerViewAdapter;

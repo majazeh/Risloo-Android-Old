@@ -283,7 +283,7 @@ public class CreateUserActivity extends AppCompatActivity {
                 controlEditText.clear(this, controlEditText.input());
             }
 
-//            setRecyclerView(centerViewModel.getLocalCenterStatus(), statusDialogRecyclerView, "getStatus");
+            setRecyclerView(centerViewModel.getLocalPosition(), statusDialogRecyclerView, "getStatus");
 
             statusDialog.show();
         });
@@ -508,7 +508,7 @@ public class CreateUserActivity extends AppCompatActivity {
                             break;
 
                         case "room":
-                            // TODO : Check & Place
+                            roomViewModel.references(roomId, q, "", "");
                             break;
                     }
 
@@ -531,8 +531,8 @@ public class CreateUserActivity extends AppCompatActivity {
                     break;
 
                 case "room":
-//                    roomViewModel.addUser(roomId, referenceRecyclerViewAdapter.getIds());
-//                    observeWork("roomViewModel");
+                    roomViewModel.addUser(roomId, referenceRecyclerViewAdapter.getIds());
+                    observeWork("roomViewModel");
                     break;
 
                 case "center":
