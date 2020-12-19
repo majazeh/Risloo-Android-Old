@@ -196,6 +196,24 @@ public class RoomRepository extends MainRepository {
         }
     }
 
+    public ArrayList<Model> getUsersCenters(String roomId) {
+        ArrayList<Model> arrayList = new ArrayList<>();
+        if (FileManager.readObjectFromCache(application.getApplicationContext(), "roomUsers" + "/" + roomId) != null) {
+            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "roomUsers" + "/" + roomId);
+            try {
+                JSONObject room = jsonObject.getJSONObject("room");
+                    Model model = new Model(room.getJSONObject("center"));
+                    arrayList.add(model);
+                return arrayList;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
     public ArrayList<Model> getLocalPosition() {
         try {
             JSONArray data = new JSONArray(JSONGenerator.getJSON(application.getApplicationContext(), "localPosition.json"));
@@ -208,6 +226,35 @@ public class RoomRepository extends MainRepository {
             e.printStackTrace();
             return null;
         }
+    }
+
+
+    public String getENStatus(String faStatus){
+        ArrayList<Model> arrayList = getLocalPosition();
+        for (int i = 0; i < arrayList.size(); i++) {
+            try {
+                if (faStatus.equals(arrayList.get(i).get("fa_title")))
+                    return (String) arrayList.get(i).get("en_title");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
+    }
+
+    public String getFAStatus(String enStatus){
+        ArrayList<Model> arrayList = getLocalPosition();
+        for (int i = 0; i < arrayList.size(); i++) {
+            try {
+                if (enStatus.equals(arrayList.get(i).get("en_title")))
+                    return (String) arrayList.get(i).get("fa_title");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
     }
 
 

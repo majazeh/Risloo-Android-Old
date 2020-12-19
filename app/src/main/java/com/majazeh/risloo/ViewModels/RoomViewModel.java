@@ -37,12 +37,12 @@ public class RoomViewModel extends AndroidViewModel {
         repository.references(roomId, q);
     }
 
-    public void references(String roomId, String q,String usage,String notInCase) throws JSONException {
-        repository.references(roomId, q,usage,notInCase);
+    public void references(String roomId, String q, String usage, String notInCase) throws JSONException {
+        repository.references(roomId, q, usage, notInCase);
     }
 
-    public void references(String roomId, String q,String usage) throws JSONException {
-        repository.references(roomId, q,usage);
+    public void references(String roomId, String q, String usage) throws JSONException {
+        repository.references(roomId, q, usage);
     }
 
     public void users(String roomId) throws JSONException {
@@ -58,7 +58,7 @@ public class RoomViewModel extends AndroidViewModel {
     }
 
     public void addSuggestRoom(Model model) throws JSONException {
-        repository.addSuggest(model,getClass().getSimpleName());
+        repository.addSuggest(model, getClass().getSimpleName());
     }
 
     public void addSuggestRoom(Model model, Integer rank) throws JSONException {
@@ -75,5 +75,17 @@ public class RoomViewModel extends AndroidViewModel {
 
     public ArrayList<Model> getLocalPosition() {
         return repository.getLocalPosition();
+    }
+
+    public String getENPosition(String faStatus) {
+        return repository.getENStatus(faStatus);
+    }
+
+    public String getFAPosition(String enStatus){
+        return repository.getFAStatus(enStatus);
+    }
+
+    public ArrayList<Model> getUsersCenters(String roomId) {
+        return repository.getUsersCenters(roomId);
     }
 }

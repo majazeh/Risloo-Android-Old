@@ -324,6 +324,34 @@ public class CenterRepository extends MainRepository {
         }
     }
 
+    public String getENStatus(String faStatus){
+        ArrayList<Model> arrayList = getLocalPosition();
+        for (int i = 0; i < arrayList.size(); i++) {
+            try {
+                if (faStatus.equals(arrayList.get(i).get("fa_title")))
+                    return (String) arrayList.get(i).get("en_title");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
+    }
+
+    public String getFAStatus(String enStatus){
+        ArrayList<Model> arrayList = getLocalPosition();
+        for (int i = 0; i < arrayList.size(); i++) {
+            try {
+                if (enStatus.equals(arrayList.get(i).get("en_title")))
+                    return (String) arrayList.get(i).get("fa_title");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
+    }
+
     /*
          ---------- Work ----------
     */

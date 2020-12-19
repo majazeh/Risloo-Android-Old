@@ -86,4 +86,13 @@ public class CenterViewModel extends AndroidViewModel {
     public ArrayList<Model> getLocalPosition() {
         return repository.getLocalPosition();
     }
+
+
+    public String getENPosition(String faStatus) {
+        return repository.getENStatus(faStatus);
+    }
+
+    public String getFAPosition(String enStatus){
+        return repository.getFAStatus(enStatus);
+    }
 }
