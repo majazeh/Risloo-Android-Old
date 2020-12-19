@@ -87,15 +87,15 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
                 holder.acceptedAtLinearLayout.setVisibility(View.GONE);
             }
 
-            // Status
+            // Position
             if (model.attributes.has("position") && !model.attributes.isNull("position")) {
                 String enPosition = model.get("position").toString();
                 String faPosition = ((UsersActivity) Objects.requireNonNull(activity)).centerViewModel.getFAPosition(model.get("position").toString());
 
-                holder.statusTextView.setText(faPosition);
-                holder.statusLinearLayout.setVisibility(View.VISIBLE);
+                holder.positionTextView.setText(faPosition);
+                holder.positionLinearLayout.setVisibility(View.VISIBLE);
             } else {
-                holder.statusLinearLayout.setVisibility(View.GONE);
+                holder.positionLinearLayout.setVisibility(View.GONE);
             }
 
         } catch (JSONException e) {
@@ -119,8 +119,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
 
     public class UsersHolder extends RecyclerView.ViewHolder {
 
-        public TextView serialTextView, referenceTextView, creatorTextView, acceptedAtTextView, statusTextView;
-        public LinearLayout referenceLinearLayout, creatorLinearLayout, acceptedAtLinearLayout, statusLinearLayout;
+        public TextView serialTextView, referenceTextView, creatorTextView, acceptedAtTextView, positionTextView;
+        public LinearLayout referenceLinearLayout, creatorLinearLayout, acceptedAtLinearLayout, positionLinearLayout;
 
         public UsersHolder(View view) {
             super(view);
@@ -128,11 +128,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
             referenceTextView = view.findViewById(R.id.single_item_users_reference_textView);
             creatorTextView = view.findViewById(R.id.single_item_users_creator_textView);
             acceptedAtTextView = view.findViewById(R.id.single_item_users_accepted_at_textView);
-            statusTextView = view.findViewById(R.id.single_item_users_status_textView);
+            positionTextView = view.findViewById(R.id.single_item_users_position_textView);
             referenceLinearLayout = view.findViewById(R.id.single_item_users_reference_linearLayout);
             creatorLinearLayout = view.findViewById(R.id.single_item_users_creator_linearLayout);
             acceptedAtLinearLayout = view.findViewById(R.id.single_item_users_accepted_at_linearLayout);
-            statusLinearLayout = view.findViewById(R.id.single_item_users_status_linearLayout);
+            positionLinearLayout = view.findViewById(R.id.single_item_users_position_linearLayout);
         }
     }
 

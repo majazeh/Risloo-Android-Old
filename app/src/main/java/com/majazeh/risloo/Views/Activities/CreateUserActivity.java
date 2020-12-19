@@ -63,12 +63,12 @@ public class CreateUserActivity extends AppCompatActivity {
     private CaseViewModel caseViewModel;
 
     // Adapters
-    private SearchAdapter referenceDialogAdapter, statusDialogAdapter;
+    private SearchAdapter referenceDialogAdapter, positionDialogAdapter;
     public SpinnerAdapter referenceRecyclerViewAdapter;
 
     // Vars
-    public String type = "", caseId = "", roomId = "", clinicId = "", mobile = "", statusId = "", statusTitle = "";
-    private boolean referenceException = false, statusException = false;
+    public String type = "", caseId = "", roomId = "", clinicId = "", mobile = "", positionId = "", positionTitle = "";
+    private boolean referenceException = false, positionException = false;
 
     // Objects
     private Bundle extras;
@@ -81,19 +81,19 @@ public class CreateUserActivity extends AppCompatActivity {
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
     private LinearLayout clinicLinearLayout;
-    private FrameLayout referenceFrameLayout, statusFrameLayout;
-    public TextView referenceTextView, statusTextView;
+    private FrameLayout referenceFrameLayout, positionFrameLayout;
+    public TextView referenceTextView, positionTextView;
     private EditText mobileEditText;
     private RecyclerView referenceRecyclerView;
     private Button createButton;
-    private Dialog referenceDialog, statusDialog, progressDialog;
-    private TextView referenceDialogTitleTextView, statusDialogTitleTextView, referenceDialogConfirm;
+    private Dialog referenceDialog, positionDialog, progressDialog;
+    private TextView referenceDialogTitleTextView, positionDialogTitleTextView, referenceDialogConfirm;
     private CoordinatorLayout referenceDialogSearchLayout;
     private EditText referenceDialogEditText;
     private ImageView referenceDialogImageView;
     private ProgressBar referenceDialogProgressBar;
     private TextView referenceDialogTextView;
-    private RecyclerView referenceDialogRecyclerView, statusDialogRecyclerView;
+    private RecyclerView referenceDialogRecyclerView, positionDialogRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +125,7 @@ public class CreateUserActivity extends AppCompatActivity {
         caseViewModel = new ViewModelProvider(this).get(CaseViewModel.class);
 
         referenceDialogAdapter = new SearchAdapter(this);
-        statusDialogAdapter = new SearchAdapter(this);
+        positionDialogAdapter = new SearchAdapter(this);
 
         referenceRecyclerViewAdapter = new SpinnerAdapter(this);
 
@@ -153,10 +153,10 @@ public class CreateUserActivity extends AppCompatActivity {
         clinicLinearLayout = findViewById(R.id.activity_create_user_clinic_linearLayout);
 
         referenceFrameLayout = findViewById(R.id.activity_create_user_reference_frameLayout);
-        statusFrameLayout = findViewById(R.id.activity_create_user_status_frameLayout);
+        positionFrameLayout = findViewById(R.id.activity_create_user_position_frameLayout);
 
         referenceTextView = findViewById(R.id.activity_create_user_reference_textView);
-        statusTextView = findViewById(R.id.activity_create_user_status_textView);
+        positionTextView = findViewById(R.id.activity_create_user_position_textView);
 
         mobileEditText = findViewById(R.id.activity_create_user_mobile_editText);
 
@@ -171,11 +171,11 @@ public class CreateUserActivity extends AppCompatActivity {
         referenceDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         referenceDialog.setContentView(R.layout.dialog_search);
         referenceDialog.setCancelable(true);
-        statusDialog = new Dialog(this, R.style.DialogTheme);
-        Objects.requireNonNull(statusDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
-        statusDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        statusDialog.setContentView(R.layout.dialog_search);
-        statusDialog.setCancelable(true);
+        positionDialog = new Dialog(this, R.style.DialogTheme);
+        Objects.requireNonNull(positionDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+        positionDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        positionDialog.setContentView(R.layout.dialog_search);
+        positionDialog.setCancelable(true);
         progressDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -187,16 +187,16 @@ public class CreateUserActivity extends AppCompatActivity {
         layoutParamsReferenceDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParamsReferenceDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
         referenceDialog.getWindow().setAttributes(layoutParamsReferenceDialog);
-        WindowManager.LayoutParams layoutParamsStatusDialog = new WindowManager.LayoutParams();
-        layoutParamsStatusDialog.copyFrom(statusDialog.getWindow().getAttributes());
-        layoutParamsStatusDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParamsStatusDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        statusDialog.getWindow().setAttributes(layoutParamsStatusDialog);
+        WindowManager.LayoutParams layoutParamsPositionDialog = new WindowManager.LayoutParams();
+        layoutParamsPositionDialog.copyFrom(positionDialog.getWindow().getAttributes());
+        layoutParamsPositionDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsPositionDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        positionDialog.getWindow().setAttributes(layoutParamsPositionDialog);
 
         referenceDialogTitleTextView = referenceDialog.findViewById(R.id.dialog_search_title_textView);
         referenceDialogTitleTextView.setText(getResources().getString(R.string.CreateUserReferenceDialogTitle));
-        statusDialogTitleTextView = statusDialog.findViewById(R.id.dialog_search_title_textView);
-        statusDialogTitleTextView.setText(getResources().getString(R.string.CreateUserStatusDialogTitle));
+        positionDialogTitleTextView = positionDialog.findViewById(R.id.dialog_search_title_textView);
+        positionDialogTitleTextView.setText(getResources().getString(R.string.CreateUserPositionDialogTitle));
 
         referenceDialogConfirm = referenceDialog.findViewById(R.id.dialog_search_confirm_textView);
 
@@ -216,10 +216,10 @@ public class CreateUserActivity extends AppCompatActivity {
         referenceDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         referenceDialogRecyclerView.setHasFixedSize(true);
 
-        statusDialogRecyclerView = statusDialog.findViewById(R.id.dialog_search_recyclerView);
-        statusDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
-        statusDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        statusDialogRecyclerView.setHasFixedSize(true);
+        positionDialogRecyclerView = positionDialog.findViewById(R.id.dialog_search_recyclerView);
+        positionDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
+        positionDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        positionDialogRecyclerView.setHasFixedSize(true);
     }
 
     private void detector() {
@@ -271,21 +271,21 @@ public class CreateUserActivity extends AppCompatActivity {
             return false;
         });
 
-        statusTextView.setOnClickListener(v -> {
-            statusTextView.setClickable(false);
-            handler.postDelayed(() -> statusTextView.setClickable(true), 250);
+        positionTextView.setOnClickListener(v -> {
+            positionTextView.setClickable(false);
+            handler.postDelayed(() -> positionTextView.setClickable(true), 250);
 
-            if (statusException) {
-                clearException("status");
+            if (positionException) {
+                clearException("position");
             }
 
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
             }
 
-            setRecyclerView(centerViewModel.getLocalPosition(), statusDialogRecyclerView, "getStatus");
+            setRecyclerView(centerViewModel.getLocalPosition(), positionDialogRecyclerView, "getPosition");
 
-            statusDialog.show();
+            positionDialog.show();
         });
 
         createButton.setOnClickListener(v -> {
@@ -311,13 +311,13 @@ public class CreateUserActivity extends AppCompatActivity {
                     if (mobileEditText.length() == 0) {
                         controlEditText.error(this, mobileEditText);
                     }
-                    if (statusId.isEmpty()) {
-                        errorException("status");
+                    if (positionId.isEmpty()) {
+                        errorException("position");
                     }
 
-                    if (mobileEditText.length() != 0 && !statusId.isEmpty()) {
+                    if (mobileEditText.length() != 0 && !positionId.isEmpty()) {
                         controlEditText.clear(this, mobileEditText);
-                        clearException("status");
+                        clearException("position");
 
                         doWork();
                     }
@@ -393,7 +393,7 @@ public class CreateUserActivity extends AppCompatActivity {
             referenceDialog.dismiss();
         });
 
-        statusDialog.setOnCancelListener(dialog -> statusDialog.dismiss());
+        positionDialog.setOnCancelListener(dialog -> positionDialog.dismiss());
     }
 
     private void setData() {
@@ -442,9 +442,9 @@ public class CreateUserActivity extends AppCompatActivity {
                     }
                 }
                 break;
-            case "getStatus":
-                statusDialogAdapter.setValues(arrayList, method, "CreateUser");
-                recyclerView.setAdapter(statusDialogAdapter);
+            case "getPosition":
+                positionDialogAdapter.setValues(arrayList, method, "CreateUser");
+                recyclerView.setAdapter(positionDialogAdapter);
                 break;
         }
     }
@@ -458,9 +458,9 @@ public class CreateUserActivity extends AppCompatActivity {
             case "mobile":
                 mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
-            case "status":
-                statusException = true;
-                statusFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+            case "position":
+                positionException = true;
+                positionFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
         }
     }
@@ -471,9 +471,9 @@ public class CreateUserActivity extends AppCompatActivity {
                 referenceException = false;
                 referenceFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 break;
-            case "status":
-                statusException = false;
-                statusFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+            case "position":
+                positionException = false;
+                positionFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 break;
         }
     }
@@ -538,7 +538,7 @@ public class CreateUserActivity extends AppCompatActivity {
                 case "center":
                     mobile = mobileEditText.getText().toString().trim();
 
-                    centerViewModel.addUser(clinicId, mobile, statusId);
+                    centerViewModel.addUser(clinicId, mobile, positionId);
                     observeWork("centerViewModel");
                     break;
             }
@@ -683,12 +683,12 @@ public class CreateUserActivity extends AppCompatActivity {
                             exceptionToast += (" و " + ExceptionGenerator.getErrorBody("number"));
                         }
                     }
-                    if (!ExceptionGenerator.errors.isNull("status")) {
-                        errorException("status");
+                    if (!ExceptionGenerator.errors.isNull("position")) {
+                        errorException("position");
                         if (exceptionToast.equals("")) {
-                            exceptionToast = ExceptionGenerator.getErrorBody("status");
+                            exceptionToast = ExceptionGenerator.getErrorBody("position");
                         } else {
-                            exceptionToast += (" و " + ExceptionGenerator.getErrorBody("status"));
+                            exceptionToast += (" و " + ExceptionGenerator.getErrorBody("position"));
                         }
                     }
                     break;
@@ -731,22 +731,22 @@ public class CreateUserActivity extends AppCompatActivity {
                     }
                     break;
 
-                case "getStatus":
-                    if (!statusId.equals(model.get("en_title").toString())) {
-                        statusId = model.get("en_title").toString();
-                        statusTitle = model.get("fa_title").toString();
+                case "getPosition":
+                    if (!positionId.equals(model.get("en_title").toString())) {
+                        positionId = model.get("en_title").toString();
+                        positionTitle = model.get("fa_title").toString();
 
-                        statusTextView.setText(statusTitle);
-                        statusTextView.setTextColor(getResources().getColor(R.color.Grey));
-                    } else if (statusId.equals(model.get("en_title").toString())) {
-                        statusId = "";
-                        statusTitle = "";
+                        positionTextView.setText(positionTitle);
+                        positionTextView.setTextColor(getResources().getColor(R.color.Grey));
+                    } else if (positionId.equals(model.get("en_title").toString())) {
+                        positionId = "";
+                        positionTitle = "";
 
-                        statusTextView.setText(getResources().getString(R.string.CreateUserStatus));
-                        statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        positionTextView.setText(getResources().getString(R.string.CreateUserPosition));
+                        positionTextView.setTextColor(getResources().getColor(R.color.Mischka));
                     }
 
-                    statusDialog.dismiss();
+                    positionDialog.dismiss();
                     break;
             }
         } catch (JSONException e) {

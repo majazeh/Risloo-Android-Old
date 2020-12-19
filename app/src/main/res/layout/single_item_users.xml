@@ -184,7 +184,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/single_item_users_status_linearLayout"
+                android:id="@+id/single_item_users_position_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -209,7 +209,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center|right"
-                        android:text="@string/UsersStatus"
+                        android:text="@string/UsersPosition"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal"
                         android:textColor="@color/Mischka"
@@ -218,7 +218,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/single_item_users_status_textView"
+                    android:id="@+id/single_item_users_position_textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|right"

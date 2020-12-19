@@ -23,9 +23,7 @@ import com.majazeh.risloo.Views.Activities.EditCaseActivity;
 import com.majazeh.risloo.Views.Activities.EditCenterActivity;
 import com.majazeh.risloo.Views.Activities.EditSessionActivity;
 import com.majazeh.risloo.Views.Activities.SamplesActivity;
-import com.majazeh.risloo.Views.Activities.SessionsActivity;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -271,9 +269,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
                             }
                             break;
+                    }
 
+                    holder.titleTextView.setVisibility(View.GONE);
+                    break;
+                 case "getPosition":
+                    holder.nameTextView.setText(model.get("fa_title").toString());
+
+                    switch (theory) {
                         case "CreateUser":
-                            if (((CreateUserActivity) Objects.requireNonNull(activity)).statusId.equals(model.get("en_title").toString())) {
+                            if (((CreateUserActivity) Objects.requireNonNull(activity)).positionId.equals(model.get("en_title").toString())) {
                                 holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
                             } else {

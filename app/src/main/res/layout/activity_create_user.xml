@@ -98,19 +98,19 @@
                         android:background="@drawable/draw_16sdp_border_quartz" />
 
                     <FrameLayout
-                        android:id="@+id/activity_create_user_status_frameLayout"
+                        android:id="@+id/activity_create_user_position_frameLayout"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_36sdp"
                         android:background="@drawable/draw_16sdp_border_quartz">
 
                         <TextView
-                            android:id="@+id/activity_create_user_status_textView"
+                            android:id="@+id/activity_create_user_position_textView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:paddingLeft="@dimen/_16sdp"
                             android:paddingRight="@dimen/_16sdp"
                             android:gravity="center|right"
-                            android:text="@string/CreateUserStatus"
+                            android:text="@string/CreateUserPosition"
                             android:textSize="@dimen/_12ssp"
                             android:textStyle="normal"
                             android:textColor="@color/Mischka"
