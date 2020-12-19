@@ -49,6 +49,7 @@ import com.majazeh.risloo.Views.Adapters.UsersAdapter;
 
 import org.json.JSONException;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public class UsersActivity extends AppCompatActivity {
@@ -65,6 +66,7 @@ public class UsersActivity extends AppCompatActivity {
 
     // Vars
     private String search = "", type = "", clinicId = "", roomId = "", title = "";
+    private HashMap<Integer, Boolean> expands;
     public boolean loading = false, finished = true;
 
     // Objects
@@ -116,6 +118,8 @@ public class UsersActivity extends AppCompatActivity {
     }
 
     private void initializer() {
+        expands = new HashMap<>();
+
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         centerViewModel = new ViewModelProvider(this).get(CenterViewModel.class);
         roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
@@ -496,8 +500,14 @@ public class UsersActivity extends AppCompatActivity {
                                 usersRecyclerViewAdapter.setUser(centerViewModel.getUsers(clinicId));
                                 if (CenterRepository.usersPage == 1) {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
-                                    rcRecyclerView.setAdapter(centersRecyclerViewAdapter);
                                 }
+
+//                                for (int i = 0; i < (centerViewModel.getUsersRooms(clinicId).size(); i++) {
+//                                    expands.put(i, false);
+//                                }
+//
+//                                centersRecyclerViewAdapter.setCenter(centerViewModel.getUsersRooms(clinicId), expands, "user");
+//                                rcRecyclerView.setAdapter(centersRecyclerViewAdapter);
                             } else {
                                 // User is Empty
 
@@ -557,8 +567,14 @@ public class UsersActivity extends AppCompatActivity {
                                 usersRecyclerViewAdapter.setUser(centerViewModel.getUsers(clinicId));
                                 if (CenterRepository.usersPage == 1) {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
-                                    rcRecyclerView.setAdapter(centersRecyclerViewAdapter);
                                 }
+
+//                                for (int i = 0; i < (centerViewModel.getUsersRooms(clinicId).size(); i++) {
+//                                    expands.put(i, false);
+//                                }
+//
+//                                centersRecyclerViewAdapter.setCenter(centerViewModel.getUsersRooms(clinicId), expands, "user");
+//                                rcRecyclerView.setAdapter(centersRecyclerViewAdapter);
 
                                 if (pagingProgressBar.getVisibility() == View.VISIBLE) {
                                     pagingProgressBar.setVisibility(View.GONE);
@@ -591,8 +607,10 @@ public class UsersActivity extends AppCompatActivity {
                                 usersRecyclerViewAdapter.setUser(roomViewModel.getUsers(roomId));
                                 if (RoomRepository.usersPage == 1) {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
-                                    rcRecyclerView.setAdapter(roomsRecyclerViewAdapter);
                                 }
+
+//                                roomsRecyclerViewAdapter.setRoom(roomViewModel.getUsersCenters(roomId));
+//                                rcRecyclerView.setAdapter(roomsRecyclerViewAdapter);
                             } else {
                                 // User is Empty
 
@@ -652,8 +670,10 @@ public class UsersActivity extends AppCompatActivity {
                                 usersRecyclerViewAdapter.setUser(roomViewModel.getUsers(roomId));
                                 if (RoomRepository.usersPage == 1) {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
-                                    rcRecyclerView.setAdapter(roomsRecyclerViewAdapter);
                                 }
+
+//                                roomsRecyclerViewAdapter.setRoom(roomViewModel.getUsersCenters(roomId));
+//                                rcRecyclerView.setAdapter(roomsRecyclerViewAdapter);
 
                                 if (pagingProgressBar.getVisibility() == View.VISIBLE) {
                                     pagingProgressBar.setVisibility(View.GONE);
