@@ -167,7 +167,7 @@ public class UsersActivity extends AppCompatActivity {
         usersRecyclerView.setHasFixedSize(true);
         rcRecyclerView = findViewById(R.id.activity_users_rc_recyclerView);
         rcRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
-        rcRecyclerView.setLayoutManager(layoutManager);
+        rcRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rcRecyclerView.setHasFixedSize(true);
 
         pagingProgressBar = findViewById(R.id.activity_users_progressBar);
