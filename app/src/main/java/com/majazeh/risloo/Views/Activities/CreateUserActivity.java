@@ -704,12 +704,12 @@ public class CreateUserActivity extends AppCompatActivity {
                     if (!ExceptionGenerator.errors.isNull("center_id")) {
                         exceptionToast = ExceptionGenerator.getErrorBody("center_id");
                     }
-                    if (!ExceptionGenerator.errors.isNull("number")) {
+                    if (!ExceptionGenerator.errors.isNull("mobile")) {
                         errorException("mobile");
                         if (exceptionToast.equals("")) {
-                            exceptionToast = ExceptionGenerator.getErrorBody("number");
+                            exceptionToast = ExceptionGenerator.getErrorBody("mobile");
                         } else {
-                            exceptionToast += (" و " + ExceptionGenerator.getErrorBody("number"));
+                            exceptionToast += (" و " + ExceptionGenerator.getErrorBody("mobile"));
                         }
                     }
                     if (!ExceptionGenerator.errors.isNull("position")) {
