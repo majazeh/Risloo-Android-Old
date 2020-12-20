@@ -132,6 +132,9 @@
             android:name=".Views.Activities.CreateSessionActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".Views.Activities.CreateRoomActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".Views.Activities.CreateCaseActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -396,6 +396,21 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // CreateRoom strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="CreateRoomTitle">ایجاد اتاق درمان</string>
+
+    <string name="CreateRoomCenter">مرکز درمان</string>
+    <string name="CreateRoomPsychology">روانشناس</string>
+
+    <string name="CreateRoomCreate">ایجاد اتاق</string>
+
+    <string name="CreateRoomCenterDialogTitle">مرکز درمان مورد نظر خودتان را جستجو کنید.</string>
+    <string name="CreateRoomPsychologyDialogTitle">روانشناس مورد نظر خودتان را جستجو کنید.</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     // Cases strings
     ////////////////////////////////////////////////////////////////////////////////
 
