@@ -96,17 +96,31 @@
                 android:layout_height="match_parent"
                 android:visibility="gone">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/activity_users_rc_recyclerView"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:overScrollMode="always" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/activity_users_recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:overScrollMode="always" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/activity_users_rc_recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:overScrollMode="never" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_2sdp"
+                        android:layout_marginLeft="@dimen/_32sdp"
+                        android:layout_marginRight="@dimen/_32sdp"
+                        android:background="@color/Solitude" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/activity_users_recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:overScrollMode="always" />
+
+                </LinearLayout>
 
                 <ProgressBar
                     android:id="@+id/activity_users_progressBar"

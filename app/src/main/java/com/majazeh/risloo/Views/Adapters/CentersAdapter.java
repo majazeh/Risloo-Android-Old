@@ -372,6 +372,12 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                 }
             }
 
+            if (type.equals("user")) {
+                holder.usersImageView.setVisibility(View.GONE);
+            } else {
+                holder.usersImageView.setVisibility(View.VISIBLE);
+            }
+
             if (expands.get(i)) {
                 holder.expandLinearLayout.setVisibility(View.VISIBLE);
                 holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_up));
@@ -396,7 +402,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                     expands.put(i, !expands.get(i));
                     notifyDataSetChanged();
                 } else {
-                    if (type.equals("all")) {
+                    if (!type.equals("my")) {
                         showDialog(i, model, holder.titleTextView.getText().toString());
                     } else {
                         ExceptionGenerator.getException(false, 0, null, "CantRequestException");
@@ -450,8 +456,13 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
     }
 
     private void initializer(View view) {
-        authViewModel = ((CentersActivity) Objects.requireNonNull(activity)).authViewModel;
-        centerViewModel = ((CentersActivity) Objects.requireNonNull(activity)).centerViewModel;
+        if (type.equals("user")) {
+            authViewModel = ((UsersActivity) Objects.requireNonNull(activity)).authViewModel;
+            centerViewModel = ((UsersActivity) Objects.requireNonNull(activity)).centerViewModel;
+        } else {
+            authViewModel = ((CentersActivity) Objects.requireNonNull(activity)).authViewModel;
+            centerViewModel = ((CentersActivity) Objects.requireNonNull(activity)).centerViewModel;
+        }
 
         handler = new Handler();
     }
@@ -587,15 +598,22 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
     }
 
     private void clearProgress() {
-        Fragment allFragment = ((CentersActivity) Objects.requireNonNull(activity)).tabCentersAdapter.allFragment;
-        if (((AllCentersFragment) allFragment).pagingProgressBar.isShown()) {
-            ((CentersActivity) Objects.requireNonNull(activity)).loadingAll = false;
-            ((AllCentersFragment) allFragment).pagingProgressBar.setVisibility(View.GONE);
-        }
-        Fragment myFragment = ((CentersActivity) Objects.requireNonNull(activity)).tabCentersAdapter.myFragment;
-        if (((MyCentersFragment) myFragment).pagingProgressBar.isShown()) {
-            ((CentersActivity) Objects.requireNonNull(activity)).loadingMy = false;
-            ((MyCentersFragment) myFragment).pagingProgressBar.setVisibility(View.GONE);
+        if (type.equals("user")) {
+            if (((UsersActivity) Objects.requireNonNull(activity)).pagingProgressBar.isShown()) {
+                ((UsersActivity) Objects.requireNonNull(activity)).loading = false;
+                ((UsersActivity) Objects.requireNonNull(activity)).pagingProgressBar.setVisibility(View.GONE);
+            }
+        } else {
+            Fragment allFragment = ((CentersActivity) Objects.requireNonNull(activity)).tabCentersAdapter.allFragment;
+            if (((AllCentersFragment) allFragment).pagingProgressBar.isShown()) {
+                ((CentersActivity) Objects.requireNonNull(activity)).loadingAll = false;
+                ((AllCentersFragment) allFragment).pagingProgressBar.setVisibility(View.GONE);
+            }
+            Fragment myFragment = ((CentersActivity) Objects.requireNonNull(activity)).tabCentersAdapter.myFragment;
+            if (((MyCentersFragment) myFragment).pagingProgressBar.isShown()) {
+                ((CentersActivity) Objects.requireNonNull(activity)).loadingMy = false;
+                ((MyCentersFragment) myFragment).pagingProgressBar.setVisibility(View.GONE);
+            }
         }
     }
 

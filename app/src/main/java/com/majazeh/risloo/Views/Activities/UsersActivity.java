@@ -54,7 +54,7 @@ import java.util.Objects;
 public class UsersActivity extends AppCompatActivity {
 
     // ViewModels
-    private AuthViewModel authViewModel;
+    public AuthViewModel authViewModel;
     public CenterViewModel centerViewModel;
     private RoomViewModel roomViewModel;
 
@@ -593,14 +593,14 @@ public class UsersActivity extends AppCompatActivity {
                                 usersRecyclerViewAdapter.setUser(roomViewModel.getUsers(roomId), "room");
                                 if (RoomRepository.usersPage == 1) {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
-                                }
 
-//                                for (int i = 0; i < roomViewModel.getUsersCenters(roomId).size(); i++) {
-//                                    expands.put(i, false);
-//                                }
-//
-//                                centersRecyclerViewAdapter.setCenter(roomViewModel.getUsersCenters(roomId), expands, "user");
-//                                rcRecyclerView.setAdapter(centersRecyclerViewAdapter);
+                                    for (int i = 0; i < roomViewModel.getUsersCenters(roomId).size(); i++) {
+                                        expands.put(i, false);
+                                    }
+
+                                    centersRecyclerViewAdapter.setCenter(roomViewModel.getUsersCenters(roomId), expands, "user");
+                                    rcRecyclerView.setAdapter(centersRecyclerViewAdapter);
+                                }
                             } else {
                                 // User is Empty
 
@@ -660,14 +660,14 @@ public class UsersActivity extends AppCompatActivity {
                                 usersRecyclerViewAdapter.setUser(roomViewModel.getUsers(roomId), "room");
                                 if (RoomRepository.usersPage == 1) {
                                     usersRecyclerView.setAdapter(usersRecyclerViewAdapter);
-                                }
 
-//                                for (int i = 0; i < roomViewModel.getUsersCenters(roomId).size(); i++) {
-//                                    expands.put(i, false);
-//                                }
-//
-//                                centersRecyclerViewAdapter.setCenter(roomViewModel.getUsersCenters(roomId), expands, "user");
-//                                rcRecyclerView.setAdapter(centersRecyclerViewAdapter);
+                                    for (int i = 0; i < roomViewModel.getUsersCenters(roomId).size(); i++) {
+                                        expands.put(i, false);
+                                    }
+
+                                    centersRecyclerViewAdapter.setCenter(roomViewModel.getUsersCenters(roomId), expands, "user");
+                                    rcRecyclerView.setAdapter(centersRecyclerViewAdapter);
+                                }
 
                                 if (pagingProgressBar.getVisibility() == View.VISIBLE) {
                                     pagingProgressBar.setVisibility(View.GONE);
