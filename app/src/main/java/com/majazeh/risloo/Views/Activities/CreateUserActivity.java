@@ -690,12 +690,12 @@ public class CreateUserActivity extends AppCompatActivity {
                     if (!ExceptionGenerator.errors.isNull("room_id")) {
                         exceptionToast = ExceptionGenerator.getErrorBody("room_id");
                     }
-                    if (!ExceptionGenerator.errors.isNull("client_id")) {
+                    if (!ExceptionGenerator.errors.isNull("user_id")) {
                         errorException("reference");
                         if (exceptionToast.equals("")) {
-                            exceptionToast = ExceptionGenerator.getErrorBody("client_id");
+                            exceptionToast = ExceptionGenerator.getErrorBody("user_id");
                         } else {
-                            exceptionToast += (" و " + ExceptionGenerator.getErrorBody("client_id"));
+                            exceptionToast += (" و " + ExceptionGenerator.getErrorBody("user_id"));
                         }
                     }
                     break;
