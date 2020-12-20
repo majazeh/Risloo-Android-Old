@@ -481,7 +481,17 @@ public class CreateUserActivity extends AppCompatActivity {
     private void resetData(String method) {
         switch (method) {
             case "referenceDialog":
-                RoomRepository.references.clear();
+
+                switch (type) {
+                    case "room":
+                        RoomRepository.users.clear();
+                        break;
+                        
+                    case "center":
+                        CenterRepository.users.clear();
+                        break;
+                }
+
                 referenceDialogRecyclerView.setAdapter(null);
 
                 if (referenceDialogConfirm.getVisibility() == View.VISIBLE) {
@@ -505,14 +515,15 @@ public class CreateUserActivity extends AppCompatActivity {
                     switch (type) {
                         case "case":
                             roomViewModel.references(roomId, q, "", caseId);
+                            observeWork("roomViewModel");
                             break;
 
                         case "room":
-                            roomViewModel.references(roomId, q, "", "");
+                            centerViewModel.references(roomId, q);
+                            observeWork("centerViewModel");
                             break;
                     }
 
-                    observeWork("roomViewModel");
                     break;
             }
         } catch (JSONException e) {
@@ -531,8 +542,8 @@ public class CreateUserActivity extends AppCompatActivity {
                     break;
 
                 case "room":
-//                    roomViewModel.addUser(roomId, referenceRecyclerViewAdapter.getIds());
-//                    observeWork("roomViewModel");
+                    roomViewModel.addUser(roomId, referenceRecyclerViewAdapter.getIds());
+                    observeWork("roomViewModel");
                     break;
 
                 case "center":
@@ -591,6 +602,24 @@ public class CreateUserActivity extends AppCompatActivity {
                             Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                             CenterRepository.workState.removeObservers((LifecycleOwner) this);
                         }
+                    } else if (CenterRepository.work.equals("getReferences")) {
+                        if (integer == 1) {
+                            setRecyclerView(CenterRepository.users, referenceDialogRecyclerView, "getReferences");
+
+                            referenceDialogProgressBar.setVisibility(View.GONE);
+                            referenceDialogImageView.setVisibility(View.VISIBLE);
+                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                        } else if (integer == 0) {
+                            referenceDialogProgressBar.setVisibility(View.GONE);
+                            referenceDialogImageView.setVisibility(View.VISIBLE);
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                        } else if (integer == -2) {
+                            referenceDialogProgressBar.setVisibility(View.GONE);
+                            referenceDialogImageView.setVisibility(View.VISIBLE);
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                        }
                     }
                 });
                 break;
@@ -616,7 +645,7 @@ public class CreateUserActivity extends AppCompatActivity {
                         }
                     } else if (RoomRepository.work.equals("getReferences")) {
                         if (integer == 1) {
-                            setRecyclerView(RoomRepository.references, referenceDialogRecyclerView, "getReferences");
+                            setRecyclerView(RoomRepository.users, referenceDialogRecyclerView, "getReferences");
 
                             referenceDialogProgressBar.setVisibility(View.GONE);
                             referenceDialogImageView.setVisibility(View.VISIBLE);
