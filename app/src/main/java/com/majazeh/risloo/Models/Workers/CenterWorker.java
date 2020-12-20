@@ -3,14 +3,12 @@ package com.majazeh.risloo.Models.Workers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Repositories.CaseRepository;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
@@ -654,21 +652,21 @@ public class CenterWorker extends Worker {
 
     private void getReferences() {
         try {
-            Call<ResponseBody> call = centerApi.getReferences(token(), RoomRepository.roomId, RoomRepository.roomId);
+            Call<ResponseBody> call = centerApi.getReferences(token(), RoomRepository.roomId, RoomRepository.roomId,CenterRepository.usersQ);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONArray data = successBody.getJSONArray("data");
 
-                if (CenterRepository.references.size() != 0) {
-                    CenterRepository.references.clear();
+                if (CenterRepository.users.size() != 0) {
+                    CenterRepository.users.clear();
                 }
 
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
-                        CenterRepository.references.add(new Model(object));
+                        CenterRepository.users.add(new Model(object));
                     }
                 }
 

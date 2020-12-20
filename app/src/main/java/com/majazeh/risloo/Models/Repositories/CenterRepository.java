@@ -35,10 +35,11 @@ public class CenterRepository extends MainRepository {
     public static ArrayList<Model> getMy;
     public static ArrayList<Model> personalClinic;
     public static ArrayList<Model> counselingCenter;
-    public static ArrayList<Model> references;
+    public static ArrayList<Model> users;
     public static MutableLiveData<Integer> workState;
     public static String work = "";
     public static String clinicId = "";
+    public static String usersQ = "";
     public static String personalClinicQ = "";
     public static String counselingCenterQ = "";
     public static int usersPage = 1;
@@ -57,7 +58,7 @@ public class CenterRepository extends MainRepository {
         getMy = new ArrayList<>();
         personalClinic = new ArrayList<>();
         counselingCenter = new ArrayList<>();
-        references = new ArrayList<>();
+        users = new ArrayList<>();
         workState = new MutableLiveData<>();
         workState.setValue(-1);
     }
@@ -103,8 +104,9 @@ public class CenterRepository extends MainRepository {
         workManager("userStatus");
     }
 
-    public void references(String roomId) throws JSONException {
+    public void references(String roomId,String q) throws JSONException {
         RoomRepository.roomId = roomId;
+        CenterRepository.usersQ = q;
         work = "getReferences";
         workState.setValue(-1);
         workManager("getReferences");

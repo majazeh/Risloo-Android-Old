@@ -47,16 +47,16 @@ public interface CenterApi {
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("centers/{case_id}/users")
-    Call<ResponseBody> getUsers(@Header("Authorization") String authorization, @Path("case_id") String caseId,@Query("page")int page);
+    Call<ResponseBody> getUsers(@Header("Authorization") String authorization, @Path("case_id") String caseId, @Query("page") int page);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("centers/{room_id}/users")
-    Call<ResponseBody> getReferences(@Header("Authorization") String authorization, @Path("room_id") String roomId,@Query("acceptation_room")String acceptationRoom);
+    Call<ResponseBody> getReferences(@Header("Authorization") String authorization, @Path("room_id") String roomId, @Query("acceptation_room") String acceptationRoom, @Query("q") String q);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @FormUrlEncoded
     @PUT("centers/{case_id}/users/{user_id}")
-    Call<ResponseBody> userStatus(@Header("Authorization") String authorization, @Path("case_id") String caseId, @Path("user_id") String userId, @Field("status")String status);
+    Call<ResponseBody> userStatus(@Header("Authorization") String authorization, @Path("case_id") String caseId, @Path("user_id") String userId, @Field("status") String status);
 
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @POST("centers/{center_id}/users")

@@ -29,6 +29,8 @@
         tools:ignore="UnusedAttribute"
         tools:replace="android:label">
 
+        <meta-data android:name="io.sentry.dsn" android:value="https://61dbf1d9827e47adbabcc2a3dde71e06@o494110.ingest.sentry.io/5564421" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.majazeh.risloo.fileprovider"

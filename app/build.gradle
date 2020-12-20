@@ -70,6 +70,8 @@ dependencies {
 
     implementation 'com.amitshekhar.android:android-networking:1.0.0' // Upload File
 
+    implementation 'io.sentry:sentry-android:3.1.0' // Sentry
+
     implementation 'com.github.samanzamani.persiandate:PersianDate:0.8' // Persian Date
 
     testImplementation 'junit:junit:4.13' // Unit Framework
