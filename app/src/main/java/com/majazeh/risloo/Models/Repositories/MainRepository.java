@@ -120,4 +120,29 @@ public class MainRepository {
             return false;
     }
 
+    public boolean psychologist(){
+        if (sharedPreferences.getString("type", "").equals("psychologist")){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean manager(){
+        if (sharedPreferences.getString("type", "").equals("manager")){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean operator(){
+        if (sharedPreferences.getString("type", "").equals("operator")){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    
 }

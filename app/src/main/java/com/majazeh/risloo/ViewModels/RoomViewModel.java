@@ -45,7 +45,19 @@ public class RoomViewModel extends AndroidViewModel {
         repository.references(roomId, q, usage);
     }
 
-    public void users(String roomId) throws JSONException {
+    public void create(String counselingCenterId, String psychologistId) throws JSONException {
+        repository.create(counselingCenterId, psychologistId);
+    }
+
+        public void getCounselingCenter() throws JSONException {
+        repository.getCounselingCenter();
+    }
+
+    public void getPsychologists(String clinicId) throws JSONException {
+        repository.getPsychologists(clinicId);
+    }
+
+        public void users(String roomId) throws JSONException {
         repository.users(roomId);
     }
 

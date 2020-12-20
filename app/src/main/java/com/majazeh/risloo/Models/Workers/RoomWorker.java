@@ -2,9 +2,6 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.wifi.WifiManager;
-import android.text.format.Formatter;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -14,7 +11,6 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Apis.RoomApi;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
-import com.majazeh.risloo.Models.Repositories.SampleRepository;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Generators.RetroGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
@@ -25,13 +21,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
-import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
-
-import static android.content.Context.WIFI_SERVICE;
 
 public class RoomWorker extends Worker {
     // Apis
@@ -80,6 +73,12 @@ public class RoomWorker extends Worker {
                     break;
                 case "users":
                     getUsers();
+                    break;
+                case "getCounselingCenter":
+                    getCounselingCenters();
+                    break;
+                case "getPsychologists":
+                    getPsychologists();
                     break;
             }
         }
@@ -322,6 +321,135 @@ public class RoomWorker extends Worker {
 
             ExceptionGenerator.getException(false, 0, null, "JSONException");
             RoomRepository.workState.postValue(0);
+        }
+    }
+
+    private void getCounselingCenters() {
+        try {
+            Call<ResponseBody> call = roomApi.getCounselingCenters(token());
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONArray data = successBody.getJSONArray("data");
+
+                if (RoomRepository.counselingCenters.size() != 0) {
+                    RoomRepository.counselingCenters.clear();
+                }
+
+                if (data.length() != 0) {
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject object = data.getJSONObject(i);
+                            RoomRepository.counselingCenters.add(new Model(object));
+                    }
+                }
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "getCounselingCenter");
+                RoomRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "getCounselingCenter");
+                RoomRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
+            RoomRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "IOException");
+            RoomRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
+            RoomRepository.workState.postValue(0);
+        }
+    }
+
+    private void getPsychologists() {
+        try {
+            Call<ResponseBody> call = roomApi.getPsychologists(token(),CenterRepository.clinicId);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                JSONArray data = successBody.getJSONArray("data");
+
+                if (RoomRepository.Psychologist.size() != 0) {
+                    RoomRepository.Psychologist.clear();
+                }
+
+                if (data.length() != 0) {
+                    for (int i = 0; i < data.length(); i++) {
+                        JSONObject object = data.getJSONObject(i);
+                        RoomRepository.Psychologist.add(new Model(object));
+                    }
+                }
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "getPsychologists");
+                RoomRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "getPsychologists");
+                RoomRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
+            RoomRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "IOException");
+            RoomRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
+            RoomRepository.workState.postValue(0);
+        }
+    }
+
+    private void create() {
+        try {
+            Call<ResponseBody> call = roomApi.create(token(), RoomRepository.createData);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "create");
+                CenterRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "create");
+                CenterRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
+            CenterRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
+            CenterRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "IOException");
+            CenterRepository.workState.postValue(0);
         }
     }
 

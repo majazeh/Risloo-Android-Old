@@ -2,12 +2,9 @@ package com.majazeh.risloo.Models.Repositories;
 
 import android.app.Application;
 import android.content.Context;
-import android.icu.text.Edits;
 import android.net.ConnectivityManager;
-import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.work.Constraints;
 import androidx.work.Data;
 import androidx.work.NetworkType;
@@ -24,25 +21,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 public class RoomRepository extends MainRepository {
     public static String work = "";
     public static String usage = "";
     public static String notInCase = "";
     public static HashMap addUserData = new HashMap();
+    public static HashMap createData = new HashMap();
     public static ArrayList<Model> rooms;
     public static ArrayList<Model> myRooms;
     public static ArrayList<Model> myManagementRooms;
     public static ArrayList<Model> users;
+    public static ArrayList<Model> counselingCenters;
+    public static ArrayList<Model> Psychologist;
     public static String roomQ = "";
     public static int allPage = 1;
     public static int myPage = 1;
@@ -65,6 +59,8 @@ public class RoomRepository extends MainRepository {
         users = new ArrayList<>();
         suggestRoom = new ArrayList<>();
         references = new ArrayList<>();
+        counselingCenters = new ArrayList<>();
+        Psychologist = new ArrayList<>();
         workState = new MutableLiveData<>();
 
         workState.setValue(-1);
@@ -107,6 +103,17 @@ public class RoomRepository extends MainRepository {
         workManager("getReferences");
     }
 
+    public void create(String counselingCenterId, String psychologistId) throws JSONException {
+        if (!counselingCenterId.equals(""))
+            CenterRepository.createData.put("counseling_center_id", counselingCenterId);
+        if (!psychologistId.equals(""))
+            CenterRepository.createData.put("psychologist_id", psychologistId);
+
+        work = "create";
+        workState.setValue(-1);
+        workManager("create");
+    }
+
     public void references(String roomId, String q, String usage) throws JSONException {
         references(roomId, q, usage, "");
     }
@@ -126,6 +133,19 @@ public class RoomRepository extends MainRepository {
         work = "addUser";
         workState.setValue(-1);
         workManager("addUser");
+    }
+
+    public void getCounselingCenter() throws JSONException {
+        work = "getCounselingCenter";
+        workState.setValue(-1);
+        workManager("getCounselingCenter");
+    }
+
+    public void getPsychologists(String clinicId) throws JSONException {
+        CenterRepository.clinicId = clinicId;
+        work = "getPsychologists";
+        workState.setValue(-1);
+        workManager("getPsychologists");
     }
 
 
