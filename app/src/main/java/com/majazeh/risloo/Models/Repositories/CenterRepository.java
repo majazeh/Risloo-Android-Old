@@ -116,7 +116,7 @@ public class CenterRepository extends MainRepository {
         if (!clinicId.equals(""))
             CenterRepository.clinicId = clinicId;
         if (!number.equals(""))
-            addUserData.put("number", number);
+            addUserData.put("mobile", number);
         if (!position.equals(""))
             addUserData.put("position", position);
         work = "addUser";

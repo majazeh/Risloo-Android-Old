@@ -74,6 +74,9 @@ public class RoomWorker extends Worker {
                 case "users":
                     getUsers();
                     break;
+                case "addUser":
+                    addUser();
+                    break;
                 case "getCounselingCenter":
                     getCounselingCenters();
                     break;
