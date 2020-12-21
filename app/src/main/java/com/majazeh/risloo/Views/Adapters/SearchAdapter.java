@@ -15,6 +15,7 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Views.Activities.CreateCaseActivity;
 import com.majazeh.risloo.Views.Activities.CreateCenterActivity;
+import com.majazeh.risloo.Views.Activities.CreateRoomActivity;
 import com.majazeh.risloo.Views.Activities.CreateSampleActivity;
 import com.majazeh.risloo.Views.Activities.CreateSessionActivity;
 import com.majazeh.risloo.Views.Activities.CreateUserActivity;
@@ -177,6 +178,42 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                     holder.titleTextView.setText(detail.get("title").toString());
                     holder.titleTextView.setVisibility(View.VISIBLE);
                     break;
+                case "getCenters":
+                    holder.nameTextView.setText(model.get("name").toString());
+
+                    switch (theory) {
+                        case "CreateRoom":
+                            if (((CreateRoomActivity) Objects.requireNonNull(activity)).centerId.equals(model.get("id").toString())) {
+                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
+                            } else {
+                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                            }
+                            break;
+                    }
+
+                    holder.titleTextView.setText(model.get("id").toString());
+                    holder.titleTextView.setVisibility(View.VISIBLE);
+                    break;
+                case "getPsychologies":
+                    holder.nameTextView.setText(model.get("name").toString());
+
+                    switch (theory) {
+                        case "CreateRoom":
+                            if (((CreateRoomActivity) Objects.requireNonNull(activity)).psychologyId.equals(model.get("id").toString())) {
+                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
+                            } else {
+                                holder.nameTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz); else holder.itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude);
+                            }
+                            break;
+                    }
+
+                    holder.titleTextView.setText(model.get("id").toString());
+                    holder.titleTextView.setVisibility(View.VISIBLE);
+                    break;
                 case "getReferences":
                     JSONObject user = (JSONObject) model.get("user");
                     holder.nameTextView.setText(user.get("name").toString());
@@ -273,7 +310,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
                     holder.titleTextView.setVisibility(View.GONE);
                     break;
-                 case "getPosition":
+                 case "getPositions":
                     holder.nameTextView.setText(model.get("fa_title").toString());
 
                     switch (theory) {
@@ -365,6 +402,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                         break;
                     case "EditSession":
                         ((EditSessionActivity) Objects.requireNonNull(activity)).observeSearchAdapter(model, method);
+                        break;
+                    case "CreateRoom":
+                        ((CreateRoomActivity) Objects.requireNonNull(activity)).observeSearchAdapter(model, method);
                         break;
                     case "CreateUser":
                         ((CreateUserActivity) Objects.requireNonNull(activity)).observeSearchAdapter(model, method);

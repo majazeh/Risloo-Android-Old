@@ -283,7 +283,7 @@ public class CreateUserActivity extends AppCompatActivity {
                 controlEditText.clear(this, controlEditText.input());
             }
 
-            setRecyclerView(centerViewModel.getLocalPosition(), positionDialogRecyclerView, "getPosition");
+            setRecyclerView(centerViewModel.getLocalPosition(), positionDialogRecyclerView, "getPositions");
 
             positionDialog.show();
         });
@@ -442,7 +442,7 @@ public class CreateUserActivity extends AppCompatActivity {
                     }
                 }
                 break;
-            case "getPosition":
+            case "getPositions":
                 positionDialogAdapter.setValues(arrayList, method, "CreateUser");
                 recyclerView.setAdapter(positionDialogAdapter);
                 break;
@@ -760,7 +760,7 @@ public class CreateUserActivity extends AppCompatActivity {
                     }
                     break;
 
-                case "getPosition":
+                case "getPositions":
                     if (!positionId.equals(model.get("en_title").toString())) {
                         positionId = model.get("en_title").toString();
                         positionTitle = model.get("fa_title").toString();
