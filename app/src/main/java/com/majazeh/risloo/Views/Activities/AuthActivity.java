@@ -192,12 +192,6 @@ public class AuthActivity extends AppCompatActivity {
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }, 50);
 
-            } else if (id == R.id.tool_sessions) {
-                handler.postDelayed(() -> {
-                    startActivity(new Intent(this, SessionsActivity.class));
-                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                }, 50);
-
             } else if (id == R.id.tool_rooms) {
                 handler.postDelayed(() -> {
                     startActivity(new Intent(this, RoomsActivity.class));
@@ -207,6 +201,12 @@ public class AuthActivity extends AppCompatActivity {
             } else if (id == R.id.tool_cases) {
                 handler.postDelayed(() -> {
                     startActivity(new Intent(this, CasesActivity.class));
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                }, 50);
+
+            } else if (id == R.id.tool_sessions) {
+                handler.postDelayed(() -> {
+                    startActivity(new Intent(this, SessionsActivity.class));
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }, 50);
             }

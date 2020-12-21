@@ -31,10 +31,6 @@
                     android:icon="@drawable/ic_hospital_light"
                     android:title="@string/AuthCenters"/>
                 <item
-                    android:id="@+id/tool_sessions"
-                    android:icon="@drawable/ic_stethoscope_light"
-                    android:title="@string/AuthSessions"/>
-                <item
                     android:id="@+id/tool_rooms"
                     android:icon="@drawable/ic_room_light"
                     android:title="@string/AuthRooms"/>
@@ -42,6 +38,10 @@
                     android:id="@+id/tool_cases"
                     android:icon="@drawable/ic_case_light"
                     android:title="@string/AuthCases"/>
+                <item
+                    android:id="@+id/tool_sessions"
+                    android:icon="@drawable/ic_stethoscope_light"
+                    android:title="@string/AuthSessions"/>
             </group>
         </menu>
     </item>
