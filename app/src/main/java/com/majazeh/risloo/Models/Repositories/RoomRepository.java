@@ -36,8 +36,9 @@ public class RoomRepository extends MainRepository {
     public static ArrayList<Model> myManagementRooms;
     public static ArrayList<Model> users;
     public static ArrayList<Model> counselingCenters;
-    public static ArrayList<Model> Psychologist;
+    public static ArrayList<Model> psychologist;
     public static String roomQ = "";
+    public static String psychologistsQ = "";
     public static int allPage = 1;
     public static int myPage = 1;
     public static int myManagementPage = 1;
@@ -60,7 +61,7 @@ public class RoomRepository extends MainRepository {
         suggestRoom = new ArrayList<>();
         references = new ArrayList<>();
         counselingCenters = new ArrayList<>();
-        Psychologist = new ArrayList<>();
+        psychologist = new ArrayList<>();
         workState = new MutableLiveData<>();
 
         workState.setValue(-1);
@@ -141,8 +142,9 @@ public class RoomRepository extends MainRepository {
         workManager("getCounselingCenter");
     }
 
-    public void getPsychologists(String clinicId) throws JSONException {
+    public void getPsychologists(String clinicId,String q) throws JSONException {
         CenterRepository.clinicId = clinicId;
+        RoomRepository.psychologistsQ = q;
         work = "getPsychologists";
         workState.setValue(-1);
         workManager("getPsychologists");

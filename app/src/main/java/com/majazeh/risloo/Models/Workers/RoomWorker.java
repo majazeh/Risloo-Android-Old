@@ -376,21 +376,21 @@ public class RoomWorker extends Worker {
 
     private void getPsychologists() {
         try {
-            Call<ResponseBody> call = roomApi.getPsychologists(token(),CenterRepository.clinicId);
+            Call<ResponseBody> call = roomApi.getPsychologists(token(),CenterRepository.clinicId,RoomRepository.psychologistsQ);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
                 JSONArray data = successBody.getJSONArray("data");
 
-                if (RoomRepository.Psychologist.size() != 0) {
-                    RoomRepository.Psychologist.clear();
+                if (RoomRepository.psychologist.size() != 0) {
+                    RoomRepository.psychologist.clear();
                 }
 
                 if (data.length() != 0) {
                     for (int i = 0; i < data.length(); i++) {
                         JSONObject object = data.getJSONObject(i);
-                        RoomRepository.Psychologist.add(new Model(object));
+                        RoomRepository.psychologist.add(new Model(object));
                     }
                 }
 
