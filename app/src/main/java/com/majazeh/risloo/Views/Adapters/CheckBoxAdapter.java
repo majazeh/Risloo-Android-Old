@@ -12,15 +12,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Views.Activities.CreateSampleActivity;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckBoxHolder> {
 
     // Vars
-    private String method, theory;
+    private String checked;
     private ArrayList<Model> values = new ArrayList<>();
     private ArrayList<String> checks = new ArrayList<>();
 
@@ -47,7 +50,35 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
         Model model = values.get(i);
 
         try {
-            holder.titleCheckBox.setText(model.get("name").toString());
+
+            // User
+            if (model.attributes.has("user") && !model.attributes.isNull("user")) {
+                JSONObject user = (JSONObject) model.get("user");
+
+                holder.titleCheckBox.setText(user.get("name").toString());
+            }
+
+            switch (checked) {
+                case "single":
+                    if (((CreateSampleActivity) Objects.requireNonNull(activity)).clientId.equals(model.get("id").toString())) {
+                        checks.add(model.get("id").toString());
+
+                        holder.titleCheckBox.setChecked(true);
+                    } else {
+                        holder.titleCheckBox.setChecked(false);
+                    }
+                    break;
+
+                case "all":
+                    checks.add(model.get("id").toString());
+
+                    holder.titleCheckBox.setChecked(true);
+                    break;
+
+                default:
+                    holder.titleCheckBox.setChecked(false);
+                    break;
+            }
 
             holder.titleCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 holder.itemView.setClickable(false);
@@ -77,11 +108,10 @@ public class CheckBoxAdapter extends RecyclerView.Adapter<CheckBoxAdapter.CheckB
         handler = new Handler();
     }
 
-    public void setValues(ArrayList<Model> values, ArrayList<String> checks, String method, String theory) {
+    public void setValues(ArrayList<Model> values, ArrayList<String> checks, String checked) {
         this.values = values;
         this.checks = checks;
-        this.method = method;
-        this.theory = theory;
+        this.checked = checked;
         notifyDataSetChanged();
     }
 

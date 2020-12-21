@@ -67,6 +67,11 @@ public class DetailCaseReferencesAdapter extends RecyclerView.Adapter<DetailCase
             createSampleIntent.putExtra("session_name", ((DetailCaseActivity) Objects.requireNonNull(activity)).sessionName);
             createSampleIntent.putExtra("clients", ((DetailCaseActivity) Objects.requireNonNull(activity)).clients);
 
+            // ID
+            if (model.attributes.has("id") && !model.attributes.isNull("id")) {
+                createSampleIntent.putExtra("client_id", model.get("id").toString());
+            }
+
             // User
             if (model.attributes.has("user") && !model.attributes.isNull("user")) {
                 JSONObject user = (JSONObject) model.get("user");

@@ -80,7 +80,7 @@ public class CreateSampleActivity extends AppCompatActivity {
     private CheckBoxAdapter caseRecyclerViewAdapter;
 
     // Vars
-    public String roomId = "", roomName = "", roomTitle = "", caseId = "", caseName = "", count = "", sessionId = "", sessionName = "";
+    public String roomId = "", roomName = "", roomTitle = "", caseId = "", caseName = "", count = "", sessionId = "", sessionName = "", clientId = "";
     private boolean scaleException = false, roomException = false, caseException = false, referenceException = false, sessionException = false;
 
     // Objects
@@ -420,7 +420,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     controlEditText.clear(this, controlEditText.input());
                 }
 
-                setRecyclerView(sampleViewModel.getLocalScales(), scaleDialogRecyclerView, "getScales");
+                setRecyclerView(sampleViewModel.getLocalScales(), scaleDialogRecyclerView, "getScales", "");
 
                 scaleDialog.show();
             }
@@ -441,7 +441,7 @@ public class CreateSampleActivity extends AppCompatActivity {
 
             try {
                 if (roomViewModel.getSuggestRoom().size() != 0) {
-                    setRecyclerView(roomViewModel.getSuggestRoom(), roomDialogRecyclerView, "getRooms");
+                    setRecyclerView(roomViewModel.getSuggestRoom(), roomDialogRecyclerView, "getRooms", "");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -657,7 +657,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     if (scaleDialogEditText.length() != 0) {
                         getData("getScales", "", scaleDialogEditText.getText().toString().trim());
                     } else {
-                        setRecyclerView(sampleViewModel.getLocalScales(), scaleDialogRecyclerView, "getScales");
+                        setRecyclerView(sampleViewModel.getLocalScales(), scaleDialogRecyclerView, "getScales", "");
 
                         if (scaleDialogTextView.getVisibility() == View.VISIBLE) {
                             scaleDialogTextView.setVisibility(View.GONE);
@@ -687,7 +687,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     } else {
                         try {
                             if (roomViewModel.getSuggestRoom().size() != 0) {
-                                setRecyclerView(roomViewModel.getSuggestRoom(), roomDialogRecyclerView, "getRooms");
+                                setRecyclerView(roomViewModel.getSuggestRoom(), roomDialogRecyclerView, "getRooms", "");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -903,6 +903,8 @@ public class CreateSampleActivity extends AppCompatActivity {
             sessionId = extras.getString("session_id");
         if (extras.getString("session_name") != null)
             sessionName = sessionViewModel.getFAStatus(extras.getString("session_name"));
+        if (extras.getString("client_id") != null)
+            clientId = extras.getString("client_id");
 
         if (extras.getString("scales") != null) {
             try {
@@ -947,12 +949,15 @@ public class CreateSampleActivity extends AppCompatActivity {
 
                     for (int j = 0; j < clients.length(); j++) {
                         JSONObject client = (JSONObject) clients.get(j);
-                        JSONObject user = (JSONObject) client.get("user");
 
-                        cases.add(new Model(user));
+                        cases.add(new Model(client));
                     }
 
-                    setRecyclerView(cases, casesRecyclerView, "cases");
+                    if (!clientId.equals("")) {
+                        setRecyclerView(cases, casesRecyclerView, "cases", "single");
+                    } else {
+                        setRecyclerView(cases, casesRecyclerView, "cases", "all");
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -968,7 +973,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         }
     }
 
-    private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
+    private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method, String checked) {
         switch (method) {
             case "scales":
                 scaleRecyclerViewAdapter.setValues(scaleRecyclerViewAdapter.getValues(), scaleRecyclerViewAdapter.getIds(), method, "CreateSample");
@@ -979,7 +984,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 recyclerView.setAdapter(referenceRecyclerViewAdapter);
                 break;
             case "cases":
-                caseRecyclerViewAdapter.setValues(arrayList, new ArrayList<>(), method, "CreateSample");
+                caseRecyclerViewAdapter.setValues(arrayList, new ArrayList<>(), checked);
                 recyclerView.setAdapter(caseRecyclerViewAdapter);
                 break;
             case "getScales":
@@ -1310,7 +1315,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                             break;
                         case "getScales":
                             if (integer == 1) {
-                                setRecyclerView(SampleRepository.scales, scaleDialogRecyclerView, "getScales");
+                                setRecyclerView(SampleRepository.scales, scaleDialogRecyclerView, "getScales", "");
 
                                 scaleDialogProgressBar.setVisibility(View.GONE);
                                 scaleDialogImageView.setVisibility(View.VISIBLE);
@@ -1335,7 +1340,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 RoomRepository.workState.observe((LifecycleOwner) this, integer -> {
                     if (RoomRepository.work.equals("getAll")) {
                         if (integer == 1) {
-                            setRecyclerView(RoomRepository.rooms, roomDialogRecyclerView, "getRooms");
+                            setRecyclerView(RoomRepository.rooms, roomDialogRecyclerView, "getRooms", "");
 
                             roomDialogProgressBar.setVisibility(View.GONE);
                             roomDialogImageView.setVisibility(View.VISIBLE);
@@ -1353,7 +1358,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         }
                     } else if (RoomRepository.work.equals("getReferences")) {
                         if (integer == 1) {
-                            setRecyclerView(RoomRepository.references, referenceDialogRecyclerView, "getReferences");
+                            setRecyclerView(RoomRepository.references, referenceDialogRecyclerView, "getReferences", "");
 
                             referenceDialogProgressBar.setVisibility(View.GONE);
                             referenceDialogImageView.setVisibility(View.VISIBLE);
@@ -1377,7 +1382,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 CaseRepository.workState.observe((LifecycleOwner) this, integer -> {
                     if (CaseRepository.work.equals("getAll")) {
                         if (integer == 1) {
-                            setRecyclerView(CaseRepository.cases, caseDialogRecyclerView, "getCases");
+                            setRecyclerView(CaseRepository.cases, caseDialogRecyclerView, "getCases", "");
 
                             caseDialogProgressBar.setVisibility(View.GONE);
                             caseDialogImageView.setVisibility(View.VISIBLE);
@@ -1401,7 +1406,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                 SessionRepository.workState.observe((LifecycleOwner) this, integer -> {
                     if (SessionRepository.work.equals("getSessionsOfCase")) {
                         if (integer == 1) {
-                            setRecyclerView(SessionRepository.sessions, sessionDialogRecyclerView, "getSessions");
+                            setRecyclerView(SessionRepository.sessions, sessionDialogRecyclerView, "getSessions", "");
 
                             sessionDialogProgressBar.setVisibility(View.GONE);
                             sessionDialogImageView.setVisibility(View.VISIBLE);
@@ -1487,7 +1492,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         scaleRecyclerViewAdapter.getValues().add(model);
                         scaleRecyclerViewAdapter.getIds().add(model.get("id").toString());
 
-                        setRecyclerView(null, scaleRecyclerView, "scales");
+                        setRecyclerView(null, scaleRecyclerView, "scales", "");
                     } else {
                         scaleRecyclerViewAdapter.removeValue(scalePosition);
 
@@ -1583,7 +1588,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                             JSONObject client = (JSONObject) clients.get(j);
                             JSONObject user = (JSONObject) client.get("user");
 
-                            cases.add(new Model(user));
+                            cases.add(new Model(client));
 
                             if (j == clients.length() - 1) {
                                 name.append(user.get("name").toString());
@@ -1600,7 +1605,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         casesTextView.setVisibility(View.VISIBLE);
                         casesRecyclerView.setVisibility(View.VISIBLE);
 
-                        setRecyclerView(cases, casesRecyclerView, "cases");
+                        setRecyclerView(cases, casesRecyclerView, "cases", "");
                     } else if (caseId.equals(model.get("id").toString())) {
                         caseId = "";
                         caseName = "";
@@ -1636,7 +1641,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         referenceRecyclerViewAdapter.getValues().add(model);
                         referenceRecyclerViewAdapter.getIds().add(model.get("id").toString());
 
-                        setRecyclerView(null, referenceRecyclerView, "references");
+                        setRecyclerView(null, referenceRecyclerView, "references", "");
                     } else {
                         referenceRecyclerViewAdapter.removeValue(referencePosition);
 
