@@ -2,6 +2,7 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -426,7 +427,7 @@ public class RoomWorker extends Worker {
 
     private void create() {
         try {
-            Call<ResponseBody> call = roomApi.create(token(), RoomRepository.createData);
+            Call<ResponseBody> call = roomApi.create(token(),CenterRepository.clinicId, RoomRepository.createData);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {

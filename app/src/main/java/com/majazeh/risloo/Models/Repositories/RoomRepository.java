@@ -106,10 +106,9 @@ public class RoomRepository extends MainRepository {
     }
 
     public void create(String counselingCenterId, String psychologistId) throws JSONException {
-        if (!counselingCenterId.equals(""))
-            CenterRepository.createData.put("counseling_center_id", counselingCenterId);
+           CenterRepository.clinicId = counselingCenterId;
         if (!psychologistId.equals(""))
-            CenterRepository.createData.put("psychologist_id", psychologistId);
+            RoomRepository.createData.put("psychologist_id", psychologistId);
 
         work = "create";
         workState.setValue(-1);
