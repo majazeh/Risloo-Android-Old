@@ -43,7 +43,7 @@ public interface RoomApi {
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("centers?my_position=manager&type=counseling_center")
-    Call<ResponseBody> getCounselingCenters(@Header("Authorization") String authorization);
+    Call<ResponseBody> getCounselingCenters(@Header("Authorization") String authorization,@Query("q") String q);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @GET("centers/{center_id}/users?position=manager,operator,psychologist,under_supervision&has_room=no")

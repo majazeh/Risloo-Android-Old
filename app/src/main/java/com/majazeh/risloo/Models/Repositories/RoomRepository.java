@@ -39,6 +39,7 @@ public class RoomRepository extends MainRepository {
     public static ArrayList<Model> psychologist;
     public static String roomQ = "";
     public static String psychologistsQ = "";
+    public static String counselingCenterQ = "";
     public static int allPage = 1;
     public static int myPage = 1;
     public static int myManagementPage = 1;
@@ -136,8 +137,9 @@ public class RoomRepository extends MainRepository {
         workManager("addUser");
     }
 
-    public void getCounselingCenter() throws JSONException {
+    public void getCounselingCenter(String q) throws JSONException {
         work = "getCounselingCenter";
+        RoomRepository.counselingCenterQ = q;
         workState.setValue(-1);
         workManager("getCounselingCenter");
     }

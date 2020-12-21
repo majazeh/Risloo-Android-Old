@@ -329,7 +329,7 @@ public class RoomWorker extends Worker {
 
     private void getCounselingCenters() {
         try {
-            Call<ResponseBody> call = roomApi.getCounselingCenters(token());
+            Call<ResponseBody> call = roomApi.getCounselingCenters(token(),RoomRepository.counselingCenterQ);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
