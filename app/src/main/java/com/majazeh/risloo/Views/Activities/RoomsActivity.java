@@ -69,7 +69,7 @@ public class RoomsActivity extends AppCompatActivity {
 
     // Widgets
     private RelativeLayout toolbarLayout;
-    private ImageView toolbarImageView, toolbarSearchImageView;
+    private ImageView toolbarImageView, toolbarCreateImageView, toolbarSearchImageView;
     private TextView toolbarTextView;
     private LinearLayout searchLayout;
     private RelativeLayout mainLayout;
@@ -126,7 +126,11 @@ public class RoomsActivity extends AppCompatActivity {
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
-        toolbarSearchImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
+        toolbarCreateImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
+        toolbarCreateImageView.setVisibility(View.VISIBLE);
+        toolbarCreateImageView.setImageResource(R.drawable.ic_plus_light);
+        ImageViewCompat.setImageTintList(toolbarCreateImageView, AppCompatResources.getColorStateList(this, R.color.IslamicGreen));
+        toolbarSearchImageView = findViewById(R.id.layout_toolbar_thirdly_imageView);
         toolbarSearchImageView.setImageResource(R.drawable.ic_search_light);
         ImageViewCompat.setImageTintList(toolbarSearchImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
 
@@ -177,6 +181,7 @@ public class RoomsActivity extends AppCompatActivity {
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
+            toolbarCreateImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
             toolbarSearchImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
 
             searchImageView.setBackgroundResource(R.drawable.draw_rectangle_solid_snow_ripple_violetred);
@@ -191,6 +196,27 @@ public class RoomsActivity extends AppCompatActivity {
 
             finish();
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        toolbarCreateImageView.setOnClickListener(v -> {
+            toolbarCreateImageView.setClickable(false);
+            handler.postDelayed(() -> toolbarCreateImageView.setClickable(true), 250);
+
+            if (finished) {
+                Fragment allFragment = tabRoomsAdapter.allFragment;
+                if (((AllRoomsFragment) allFragment).pagingProgressBar.isShown()) {
+                    loadingAll = false;
+                    ((AllRoomsFragment) allFragment).pagingProgressBar.setVisibility(View.GONE);
+                }
+                Fragment myFragment = tabRoomsAdapter.myFragment;
+                if (((MyRoomsFragment) myFragment).pagingProgressBar.isShown()) {
+                    loadingMy = false;
+                    ((MyRoomsFragment) myFragment).pagingProgressBar.setVisibility(View.GONE);
+                }
+            }
+
+            startActivityForResult(new Intent(this, CreateRoomActivity.class).putExtra("loaded", finished), 100);
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
 
         toolbarSearchImageView.setOnClickListener(v -> {
