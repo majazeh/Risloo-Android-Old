@@ -473,7 +473,7 @@ public class CreateRoomActivity extends AppCompatActivity {
     private void resetData(String method) {
         switch (method) {
             case "centerDialog":
-                CenterRepository.centers.clear();
+                CenterRepository.counselingCenter.clear();
                 centerDialogRecyclerView.setAdapter(null);
 
                 if (centerDialogTextView.getVisibility() == View.VISIBLE) {
@@ -481,7 +481,7 @@ public class CreateRoomActivity extends AppCompatActivity {
                 }
                 break;
             case "psychologyDialog":
-                RoomRepository.psychologies.clear();
+                RoomRepository.psychologist.clear();
                 psychologyDialogRecyclerView.setAdapter(null);
 
                 if (psychologyDialogTextView.getVisibility() == View.VISIBLE) {
@@ -498,8 +498,7 @@ public class CreateRoomActivity extends AppCompatActivity {
                     centerDialogProgressBar.setVisibility(View.VISIBLE);
                     centerDialogImageView.setVisibility(View.GONE);
 
-                    CenterRepository.allPage = 1;
-                    centerViewModel.centers(q);
+                    centerViewModel.counselingCenter(q);
 
                     observeWork("centerViewModel");
                     break;
@@ -551,7 +550,7 @@ public class CreateRoomActivity extends AppCompatActivity {
                         }
                     } else if (RoomRepository.work.equals("getPsychologists")) {
                         if (integer == 1) {
-                            setRecyclerView(RoomRepository.psychologies, psychologyDialogRecyclerView, "getPsychologies");
+                            setRecyclerView(RoomRepository.psychologist, psychologyDialogRecyclerView, "getPsychologies");
 
                             psychologyDialogProgressBar.setVisibility(View.GONE);
                             psychologyDialogImageView.setVisibility(View.VISIBLE);
@@ -573,9 +572,9 @@ public class CreateRoomActivity extends AppCompatActivity {
 
             case "centerViewModel":
                 CenterRepository.workState.observe((LifecycleOwner) this, integer -> {
-                    if (CenterRepository.work.equals("getAll")) {
+                    if (CenterRepository.work.equals("getCounselingCenter")) {
                         if (integer == 1) {
-                            setRecyclerView(CenterRepository.centers, centerDialogRecyclerView, "getCenters");
+                            setRecyclerView(CenterRepository.counselingCenter, centerDialogRecyclerView, "getCenters");
 
                             centerDialogProgressBar.setVisibility(View.GONE);
                             centerDialogImageView.setVisibility(View.VISIBLE);

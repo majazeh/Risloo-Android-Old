@@ -1,6 +1,8 @@
 package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.DateManager;
+import com.majazeh.risloo.ViewModels.AuthViewModel;
+import com.majazeh.risloo.Views.Activities.CreateRoomActivity;
 import com.majazeh.risloo.Views.Activities.UsersActivity;
 
 import org.json.JSONException;
@@ -24,6 +28,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder> {
+
+    // ViewModels
+    private AuthViewModel authViewModel;
 
     // Vars
     private String type = "";
@@ -103,6 +110,16 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
                         holder.acceptationTextView.setText(activity.getResources().getString(R.string.UsersAwaiting));
                 }
 
+//                if (authViewModel.hasAccess() && enPosition.equals("manager") && type.equals("room")) {
+//                    holder.createTextView.setVisibility(View.VISIBLE);
+//
+//                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+//                        holder.createTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
+//                    }
+//                } else {
+//                    holder.createTextView.setVisibility(View.GONE);
+//                }
+
                 holder.positionTextView.setText(faPosition);
                 holder.positionLinearLayout.setVisibility(View.VISIBLE);
             } else {
@@ -136,7 +153,18 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
                 holder.createTextView.setClickable(false);
                 handler.postDelayed(() -> holder.createTextView.setClickable(true), 250);
 
-                // TODO : Check & Insert
+                clearProgress();
+
+                Intent createRoomIntent = (new Intent(activity, CreateRoomActivity.class));
+
+                createRoomIntent.putExtra("loaded", true);
+//                createRoomIntent.putExtra("center_id", );
+//                createRoomIntent.putExtra("center_name", );
+//                createRoomIntent.putExtra("psychology_id", );
+//                createRoomIntent.putExtra("psychology_name", );
+
+                activity.startActivityForResult(createRoomIntent, 100);
+                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
 
         } catch (JSONException e) {
@@ -150,7 +178,16 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
     }
 
     private void initializer(View view) {
+        authViewModel = ((UsersActivity) Objects.requireNonNull(activity)).authViewModel;
+
         handler = new Handler();
+    }
+
+    private void clearProgress() {
+        if (((UsersActivity) Objects.requireNonNull(activity)).pagingProgressBar.isShown()) {
+            ((UsersActivity) Objects.requireNonNull(activity)).loading = false;
+            ((UsersActivity) Objects.requireNonNull(activity)).pagingProgressBar.setVisibility(View.GONE);
+        }
     }
 
     public void setUser(ArrayList<Model> users, String type) {
