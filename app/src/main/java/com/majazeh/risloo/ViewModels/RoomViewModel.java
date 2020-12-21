@@ -53,8 +53,8 @@ public class RoomViewModel extends AndroidViewModel {
         repository.getCounselingCenter();
     }
 
-    public void getPsychologists(String clinicId) throws JSONException {
-        repository.getPsychologists(clinicId);
+    public void getPsychologists(String clinicId,String q) throws JSONException {
+        repository.getPsychologists(clinicId,q);
     }
 
         public void users(String roomId) throws JSONException {
