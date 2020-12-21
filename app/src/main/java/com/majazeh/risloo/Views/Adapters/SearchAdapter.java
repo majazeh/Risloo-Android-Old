@@ -179,7 +179,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                     holder.titleTextView.setVisibility(View.VISIBLE);
                     break;
                 case "getCenters":
-                    holder.nameTextView.setText(model.get("name").toString());
+                    JSONObject detail2 = (JSONObject) model.get("detail");
+                    holder.nameTextView.setText(detail2.get("title").toString());
 
                     switch (theory) {
                         case "CreateRoom":
@@ -197,7 +198,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                     holder.titleTextView.setVisibility(View.VISIBLE);
                     break;
                 case "getPsychologies":
-                    holder.nameTextView.setText(model.get("name").toString());
+                    JSONObject creator = (JSONObject) model.get("creator");
+                    holder.nameTextView.setText(creator.get("name").toString());
 
                     switch (theory) {
                         case "CreateRoom":

@@ -74,6 +74,9 @@ public class RoomWorker extends Worker {
                 case "users":
                     getUsers();
                     break;
+                case "create":
+                    create();
+                    break;
                 case "addUser":
                     addUser();
                     break;
@@ -430,29 +433,29 @@ public class RoomWorker extends Worker {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "create");
-                CenterRepository.workState.postValue(1);
+                RoomRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "create");
-                CenterRepository.workState.postValue(0);
+                RoomRepository.workState.postValue(0);
             }
 
         } catch (SocketTimeoutException e) {
             e.printStackTrace();
 
             ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
-            CenterRepository.workState.postValue(0);
+            RoomRepository.workState.postValue(0);
         } catch (JSONException e) {
             e.printStackTrace();
 
             ExceptionGenerator.getException(false, 0, null, "JSONException");
-            CenterRepository.workState.postValue(0);
+            RoomRepository.workState.postValue(0);
         } catch (IOException e) {
             e.printStackTrace();
 
             ExceptionGenerator.getException(false, 0, null, "IOException");
-            CenterRepository.workState.postValue(0);
+            RoomRepository.workState.postValue(0);
         }
     }
 

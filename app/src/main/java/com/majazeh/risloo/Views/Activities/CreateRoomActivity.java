@@ -33,18 +33,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
-import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.ViewModels.RoomViewModel;
 import com.majazeh.risloo.Views.Adapters.SearchAdapter;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -53,7 +52,6 @@ public class CreateRoomActivity extends AppCompatActivity {
 
     // ViewModels
     private RoomViewModel roomViewModel;
-    private CenterViewModel centerViewModel;
 
     // Adapters
     private SearchAdapter centerDialogAdapter, psychologyDialogAdapter;
@@ -110,7 +108,6 @@ public class CreateRoomActivity extends AppCompatActivity {
 
     private void initializer() {
         roomViewModel = new ViewModelProvider(this).get(RoomViewModel.class);
-        centerViewModel = new ViewModelProvider(this).get(CenterViewModel.class);
 
         centerDialogAdapter = new SearchAdapter(this);
         psychologyDialogAdapter = new SearchAdapter(this);
@@ -473,7 +470,7 @@ public class CreateRoomActivity extends AppCompatActivity {
     private void resetData(String method) {
         switch (method) {
             case "centerDialog":
-                CenterRepository.counselingCenter.clear();
+                RoomRepository.counselingCenters.clear();
                 centerDialogRecyclerView.setAdapter(null);
 
                 if (centerDialogTextView.getVisibility() == View.VISIBLE) {
@@ -498,19 +495,16 @@ public class CreateRoomActivity extends AppCompatActivity {
                     centerDialogProgressBar.setVisibility(View.VISIBLE);
                     centerDialogImageView.setVisibility(View.GONE);
 
-                    centerViewModel.counselingCenter(q);
-
-                    observeWork("centerViewModel");
+                    roomViewModel.getCounselingCenter(q);
                     break;
                 case "getPsychologies":
                     psychologyDialogProgressBar.setVisibility(View.VISIBLE);
                     psychologyDialogImageView.setVisibility(View.GONE);
 
                     roomViewModel.getPsychologists(centerId, q);
-
-                    observeWork("roomViewModel");
                     break;
             }
+            observeWork("roomViewModel");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -548,6 +542,24 @@ public class CreateRoomActivity extends AppCompatActivity {
                             Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                             RoomRepository.workState.removeObservers((LifecycleOwner) this);
                         }
+                    } else if (RoomRepository.work.equals("getCounselingCenter")) {
+                        if (integer == 1) {
+                            setRecyclerView(RoomRepository.counselingCenters, centerDialogRecyclerView, "getCenters");
+
+                            centerDialogProgressBar.setVisibility(View.GONE);
+                            centerDialogImageView.setVisibility(View.VISIBLE);
+                            RoomRepository.workState.removeObservers((LifecycleOwner) this);
+                        } else if (integer == 0) {
+                            centerDialogProgressBar.setVisibility(View.GONE);
+                            centerDialogImageView.setVisibility(View.VISIBLE);
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            RoomRepository.workState.removeObservers((LifecycleOwner) this);
+                        } else if (integer == -2) {
+                            centerDialogProgressBar.setVisibility(View.GONE);
+                            centerDialogImageView.setVisibility(View.VISIBLE);
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            RoomRepository.workState.removeObservers((LifecycleOwner) this);
+                        }
                     } else if (RoomRepository.work.equals("getPsychologists")) {
                         if (integer == 1) {
                             setRecyclerView(RoomRepository.psychologist, psychologyDialogRecyclerView, "getPsychologies");
@@ -565,30 +577,6 @@ public class CreateRoomActivity extends AppCompatActivity {
                             psychologyDialogImageView.setVisibility(View.VISIBLE);
                             Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                             RoomRepository.workState.removeObservers((LifecycleOwner) this);
-                        }
-                    }
-                });
-                break;
-
-            case "centerViewModel":
-                CenterRepository.workState.observe((LifecycleOwner) this, integer -> {
-                    if (CenterRepository.work.equals("getCounselingCenter")) {
-                        if (integer == 1) {
-                            setRecyclerView(CenterRepository.counselingCenter, centerDialogRecyclerView, "getCenters");
-
-                            centerDialogProgressBar.setVisibility(View.GONE);
-                            centerDialogImageView.setVisibility(View.VISIBLE);
-                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
-                        } else if (integer == 0) {
-                            centerDialogProgressBar.setVisibility(View.GONE);
-                            centerDialogImageView.setVisibility(View.VISIBLE);
-                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
-                        } else if (integer == -2) {
-                            centerDialogProgressBar.setVisibility(View.GONE);
-                            centerDialogImageView.setVisibility(View.VISIBLE);
-                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
                         }
                     }
                 });
@@ -625,7 +613,8 @@ public class CreateRoomActivity extends AppCompatActivity {
                     if (!centerId.equals(model.get("id").toString())) {
                         centerId = model.get("id").toString();
 
-                        centerName = model.get("name").toString();
+                        JSONObject detail = (JSONObject) model.get("detail");
+                        centerName = detail.get("title").toString();
 
                         centerNameTextView.setText(centerName);
                         centerNameTextView.setTextColor(getResources().getColor(R.color.Grey));
@@ -659,7 +648,8 @@ public class CreateRoomActivity extends AppCompatActivity {
                     if (!psychologyId.equals(model.get("id").toString())) {
                         psychologyId = model.get("id").toString();
 
-                        psychologyName = model.get("name").toString();
+                        JSONObject creator = (JSONObject) model.get("creator");
+                        psychologyName = creator.get("name").toString();
 
                         psychologyNameTextView.setText(psychologyName);
                         psychologyNameTextView.setTextColor(getResources().getColor(R.color.Grey));
