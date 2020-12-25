@@ -514,6 +514,8 @@
     <string name="SessionsStatus">وضعیت</string>
 
     <string name="SessionsEdit">ویرایش</string>
+    <string name="SessionsCreatePractice">گزارش</string>
+    <string name="SessionsPractices">تمرین ها</string>
 
     <string name="SessionsSearched">جستجو:</string>
 
@@ -596,7 +598,7 @@
     <string name="UsersAwaiting">در انتظار</string>
     <string name="UsersAccepted">پذیرفته شد</string>
 
-    <string name="UsersAccept">پدیرفتن</string>
+    <string name="UsersAccept">پذیرفتن</string>
     <string name="UsersSuspend">تعلیق</string>
     <string name="UsersCreate">ایجاد اتاق درمان</string>
 
@@ -794,145 +796,6 @@
     ////////////////////////////////////////////////////////////////////////////////
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // sample strings
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -954,5 +817,60 @@
     <string name="SampleCancelDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
+
+    // createPractice strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="createPracticeTitle">ارسال تمرین</string>
+
+    <string name="createPracticeName">عنوان</string>
+    <string name="createPracticeContent">محتوا</string>
+    <string name="createPracticeFile">ضمیمه</string>
+
+    <string name="createPracticeSuffixPNG">PNG</string>
+    <string name="createPracticeSuffixJPG">JPG</string>
+    <string name="createPracticeSuffixJPEG">JPEG</string>
+    <string name="createPracticeSuffixGIF">GIF</string>
+    <string name="createPracticeSuffixDOC">DOC</string>
+    <string name="createPracticeSuffixPDF">PDF</string>
+    <string name="createPracticeSuffixMP4">MP4</string>
+
+    <string name="createPracticeSend">ارسال</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // Practices strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="practicesToolbarTitle">تمرین ها</string>
+
+
+    <string name="PracticesTitle">عنوان</string>
+    <string name="PracticesContent">محتوا</string>
+    <string name="PracticesGetFile">دریافت ضمیمه</string>
+    <string name="PracticesNote">یادداشت</string>
+    <string name="PracticesSendHomework">ارسال تکلیف</string>
+    <string name="PracticesGetHomework">دریافت تکلیف</string>
+
+    <string name="PracticesSearched">جستجو:</string>
+
+    <string name="PracticesSearchDialogTitle">تمرین مورد نظر خودتان را جستجو کنید.</string>
+    <string name="PracticesSearchDialogInput">تمرین ها</string>
+    <string name="PracticesSearchDialogPositive">جستجو</string>
+    <string name="PracticesSearchDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // Practices strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="ReportToolbarTitle">گزارش</string>
+    <string name="Report">گزارش</string>
+    <string name="ReportSend">ارسال</string>
+    <string name="ReportType">نوع رمز نگاری</string>
+    <string name="ReportDialogTitle">نوع رمز نگاری مورد نظر خودتان را انتخاب کنید.</string>
+
+
+
 
 </resources>

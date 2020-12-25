@@ -46,11 +46,23 @@ public class SessionViewModel extends AndroidViewModel {
         repository.general(sessionId);
     }
 
-    public void create(String roomId, String caseId, String started_at, String duration, String status) throws JSONException {
+    public void practices(String sessionId) throws JSONException {
+    repository.practices(sessionId);
+    }
+
+        public void create(String roomId, String caseId, String started_at, String duration, String status) throws JSONException {
         repository.create(roomId, caseId, started_at, duration, status);
     }
 
-    public void update(String sessionId, String caseId, String started_at, String duration, String status) throws JSONException {
+    public void createPractice(String sessionId, String title, String content, String fileAttachment) throws JSONException {
+    repository.createPractice(sessionId, title, content, fileAttachment);
+    }
+
+    public void createHomework(String sessionId, String practiceId, String fileAttachment) throws JSONException {
+    repository.createHomework(sessionId, practiceId, fileAttachment);
+    }
+
+        public void update(String sessionId, String caseId, String started_at, String duration, String status) throws JSONException {
         repository.update(sessionId, caseId, started_at, duration, status);
     }
 
@@ -73,7 +85,11 @@ public class SessionViewModel extends AndroidViewModel {
         return repository.getLocalSessionStatus();
     }
 
-    public ArrayList<Model> getSessions() {
+    public ArrayList<Model> getPractices(String sessionId) {
+    return repository.getPractices(sessionId);
+    }
+
+        public ArrayList<Model> getSessions() {
         return repository.getSessions();
     }
 
@@ -85,6 +101,10 @@ public class SessionViewModel extends AndroidViewModel {
         return repository.getSessionsOfCase();
     }
 
+    public ArrayList<Model> getReportType(boolean key) throws JSONException {
+        return repository.getReportType(key);
+    }
+
     public String getENStatus(String faStatus){
         return repository.getENStatus(faStatus);
     }
@@ -92,6 +112,7 @@ public class SessionViewModel extends AndroidViewModel {
     public String getFAStatus(String enStatus){
         return repository.getFAStatus(enStatus);
     }
+
 
 
 }

@@ -22,6 +22,7 @@ import android.text.InputType;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -32,10 +33,13 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.majazeh.risloo.Models.Repositories.CaseRepository;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
@@ -63,7 +67,7 @@ public class UsersActivity extends AppCompatActivity {
     private CentersAdapter centersRecyclerViewAdapter;
 
     // Vars
-    private String search = "", type = "", clinicId = "", roomId = "", title = "";
+    public String search = "", type = "", clinicId = "", roomId = "", title = "";
     private HashMap<Integer, Boolean> expands;
     public boolean loading = false, finished = true;
 
@@ -482,13 +486,14 @@ public class UsersActivity extends AppCompatActivity {
         getData();
     }
 
-    private void observeWork(String method) {
+    public void observeWork(String method) {
         switch (method) {
             case "centerViewModel":
                 CenterRepository.workState.observe((LifecycleOwner) this, integer -> {
                     if (CenterRepository.work.equals("users")) {
                         finished = false;
                         loading = true;
+                        Log.e("test", "1");
                         if (integer == 1) {
                             if (centerViewModel.getUsers(clinicId) != null) {
                                 // Show Users
@@ -572,6 +577,17 @@ public class UsersActivity extends AppCompatActivity {
 
                                 CenterRepository.workState.removeObservers((LifecycleOwner) this);
                             }
+                        }
+                    }else if (CenterRepository.work.equals("userStatus")){
+
+                        if (integer == 1){
+                            relaunchData();
+                        }else if (integer == 0){
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
+                        }else if (integer == -2){
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            CenterRepository.workState.removeObservers((LifecycleOwner) this);
                         }
                     }
                 });

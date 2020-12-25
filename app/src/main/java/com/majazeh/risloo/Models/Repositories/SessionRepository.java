@@ -2,8 +2,9 @@ package com.majazeh.risloo.Models.Repositories;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
-import android.se.omapi.Session;
+
 
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -31,14 +32,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 public class SessionRepository extends MainRepository {
     public static int page = 1;
+    public static int practicesPage = 1;
     public static ArrayList<Model> sessions;
+    public static ArrayList<Model> practices;
     public static String sessionId = "";
+    public static String practiceId = "";
     public static String work = "";
     public static MutableLiveData<Integer> workState;
     public static HashMap createData;
@@ -46,17 +51,22 @@ public class SessionRepository extends MainRepository {
     public static String Q = "";
     public static String report = "";
     public static String encryptionType = "";
+    public static String fileTitle = "";
+    public static String fileContent = "";
+    public static String fileAttachment = "";
+
 
     public SessionRepository(Application application) {
         super(application);
         sessions = new ArrayList<>();
+        practices = new ArrayList<>();
         workState = new MediatorLiveData<>();
         createData = new HashMap();
         updateData = new HashMap();
         workState.setValue(-1);
     }
 
-    public void sessions( String Q) throws JSONException {
+    public void sessions(String Q) throws JSONException {
         SessionRepository.Q = Q;
         work = "getAll";
         workState.setValue(-1);
@@ -70,7 +80,15 @@ public class SessionRepository extends MainRepository {
         workManager("getGeneral");
     }
 
+    public void practices(String sessionId) throws JSONException {
+        SessionRepository.sessionId = sessionId;
+        work = "getPractices";
+        workState.setValue(-1);
+        workManager("getPractices");
+    }
+
     public void create(String roomId, String caseId, String started_at, String duration, String status) throws JSONException {
+        createData.clear();
         if (!roomId.equals(""))
             RoomRepository.roomId = roomId;
         if (!caseId.equals(""))
@@ -104,7 +122,7 @@ public class SessionRepository extends MainRepository {
         workManager("update");
     }
 
-    public void SessionsOfCase(String caseId,String Q) throws JSONException {
+    public void SessionsOfCase(String caseId, String Q) throws JSONException {
         CaseRepository.caseId = caseId;
         SessionRepository.Q = Q;
         work = "getSessionsOfCase";
@@ -112,13 +130,32 @@ public class SessionRepository extends MainRepository {
         workManager("getSessionsOfCase");
     }
 
-    public void Report(String sessionId,String report,String encryptionType) throws JSONException {
+    public void Report(String sessionId, String report, String encryptionType) throws JSONException {
         SessionRepository.sessionId = sessionId;
         SessionRepository.report = report;
         SessionRepository.encryptionType = encryptionType;
         work = "Report";
         workState.setValue(-1);
         workManager("Report");
+    }
+
+    public void createPractice(String sessionId, String title, String content, String fileAttachment) throws JSONException {
+        SessionRepository.sessionId = sessionId;
+        SessionRepository.fileTitle = title;
+        SessionRepository.fileContent = content;
+        SessionRepository.fileAttachment = fileAttachment;
+        work = "createPractice";
+        workState.setValue(-1);
+        workManager("createPractice");
+    }
+
+    public void createHomework(String sessionId, String practiceId, String fileAttachment) throws JSONException {
+        SessionRepository.sessionId = sessionId;
+        SessionRepository.practiceId = practiceId;
+        SessionRepository.fileAttachment = fileAttachment;
+        work = "createHomework";
+        workState.setValue(-1);
+        workManager("createHomework");
     }
 
     public ArrayList<Model> getLocalSessionStatus() {
@@ -162,6 +199,25 @@ public class SessionRepository extends MainRepository {
         }
     }
 
+    public ArrayList<Model> getPractices(String sessionId) {
+        try {
+            if (FileManager.readObjectFromCache(application.getApplicationContext(), "practices" + "/" + sessionId) != null) {
+                ArrayList<Model> arrayList = new ArrayList<>();
+                JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "practices" + "/" + sessionId);
+                JSONArray data = jsonObject.getJSONArray("data");
+                for (int i = 0; i < data.length(); i++) {
+                    arrayList.add(new Model(data.getJSONObject(i)));
+                }
+                return arrayList;
+            } else {
+                return null;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public JSONObject getGeneral(String sessionId) {
         if (FileManager.readObjectFromCache(application.getApplicationContext(), "sessionDetail" + "/" + sessionId) != null)
             return FileManager.readObjectFromCache(application.getApplicationContext(), "sessionDetail" + "/" + sessionId);
@@ -169,11 +225,26 @@ public class SessionRepository extends MainRepository {
             return null;
     }
 
-    public ArrayList<Model> getSessionsOfCase(){
+    public ArrayList<Model> getReportType(boolean key) throws JSONException {
+        ArrayList arrayList = new ArrayList<Model>();
+        if (key) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("fa_title", "رمزگذاری توسط کلید عمومی من");
+            jsonObject.put("en_title", "publicKey");
+            arrayList.add(new Model(jsonObject));
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("fa_title", "بدون رمزنگاری");
+        jsonObject.put("en_title", "none");
+        arrayList.add(new Model(jsonObject));
+        return arrayList;
+    }
+
+    public ArrayList<Model> getSessionsOfCase() {
         return sessions;
     }
 
-    public String getENStatus(String faStatus){
+    public String getENStatus(String faStatus) {
         ArrayList<Model> arrayList = getLocalSessionStatus();
         for (int i = 0; i < arrayList.size(); i++) {
             try {
@@ -187,7 +258,7 @@ public class SessionRepository extends MainRepository {
         return null;
     }
 
-    public String getFAStatus(String enStatus){
+    public String getFAStatus(String enStatus) {
         ArrayList<Model> arrayList = getLocalSessionStatus();
         for (int i = 0; i < arrayList.size(); i++) {
             try {

@@ -52,8 +52,8 @@ public class MainRepository {
         }
     }
 
-    public void addSuggest(Model model,String module) throws JSONException {
-        addSuggest(model, 1,module);
+    public void addSuggest(Model model, String module) throws JSONException {
+        addSuggest(model, 1, module);
     }
 
     public void addSuggest(Model model, Integer rank, String module) throws JSONException {
@@ -113,36 +113,67 @@ public class MainRepository {
         return suggestList;
     }
 
-    public boolean admin(){
-        if (sharedPreferences.getString("type","").equals("admin")){
+    public boolean admin() {
+        if (sharedPreferences.getString("type", "").equals("admin")) {
             return true;
-        }else
+        } else
             return false;
     }
 
-    public boolean psychologist(){
-        if (sharedPreferences.getString("type", "").equals("psychologist")){
+    public boolean haveCenter() {
+        if (sharedPreferences.getBoolean("haveCenter", false) == true) {
             return true;
-        }else{
+        } else
             return false;
-        }
     }
 
-    public boolean manager(){
-        if (sharedPreferences.getString("type", "").equals("manager")){
+    public boolean psychologist() {
+        if (sharedPreferences.getString("type", "").equals("psychologist")) {
             return true;
-        }else{
-            return false;
-        }
-    }
-
-    public boolean operator(){
-        if (sharedPreferences.getString("type", "").equals("operator")){
-            return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    
+    public boolean psychologist(JSONObject client) throws JSONException {
+        if (sharedPreferences.getString("userId","").equals(client.getString("id")) && client.getString("type").equals("psychologist")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean manager() {
+        if (sharedPreferences.getString("type", "").equals("manager")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean manager(JSONObject client) throws JSONException {
+        if (sharedPreferences.getString("userId","").equals(client.getString("id")) && client.getString("type").equals("manager")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean operator() {
+        if (sharedPreferences.getString("type", "").equals("operator")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean operator(JSONObject client) throws JSONException {
+        if (sharedPreferences.getString("userId","").equals(client.getString("id")) && client.getString("type").equals("operator")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 }

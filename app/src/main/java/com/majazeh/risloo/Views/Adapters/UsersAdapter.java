@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,22 +104,32 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
 
                 if (model.attributes.has("kicked_at") && !model.attributes.isNull("kicked_at")) {
                     holder.acceptationTextView.setText(activity.getResources().getString(R.string.UsersKicked));
+                    holder.acceptTextView.setVisibility(View.VISIBLE);
+                    holder.suspendTextView.setVisibility(View.GONE);
+
                 } else {
-                    if (model.attributes.has("accepted_at") && !model.attributes.isNull("accepted_at"))
+                    if (model.attributes.has("accepted_at") && !model.attributes.isNull("accepted_at")) {
                         holder.acceptationTextView.setText(activity.getResources().getString(R.string.UsersAccepted));
-                    else
+                        holder.acceptTextView.setVisibility(View.GONE);
+                        holder.suspendTextView.setVisibility(View.VISIBLE);
+                    } else {
                         holder.acceptationTextView.setText(activity.getResources().getString(R.string.UsersAwaiting));
+                        holder.acceptTextView.setVisibility(View.VISIBLE);
+                        holder.suspendTextView.setVisibility(View.VISIBLE);
+                    }
                 }
 
-//                if (authViewModel.hasAccess() && enPosition.equals("manager") && type.equals("room")) {
-//                    holder.createTextView.setVisibility(View.VISIBLE);
-//
-//                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-//                        holder.createTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
-//                    }
-//                } else {
-//                    holder.createTextView.setVisibility(View.GONE);
-//                }
+                if (enPosition.equals("manager")) {
+                    holder.createTextView.setVisibility(View.VISIBLE);
+                    holder.acceptTextView.setVisibility(View.GONE);
+                    holder.suspendTextView.setVisibility(View.GONE);
+
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                        holder.createTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
+                    }
+                } else {
+                    holder.createTextView.setVisibility(View.GONE);
+                }
 
                 holder.positionTextView.setText(faPosition);
                 holder.positionLinearLayout.setVisibility(View.VISIBLE);
@@ -139,7 +150,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
                 holder.acceptTextView.setClickable(false);
                 handler.postDelayed(() -> holder.acceptTextView.setClickable(true), 250);
 
-                // TODO : Check & Insert
+                try {
+                    ((UsersActivity) Objects.requireNonNull(activity)).centerViewModel.userStatus(((UsersActivity) Objects.requireNonNull(activity)).clinicId,model.get("id").toString(),"accept");
+                    ((UsersActivity) Objects.requireNonNull(activity)).observeWork("centerViewModel");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             });
 
             holder.suspendTextView.setOnClickListener(v -> {
@@ -147,6 +163,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
                 handler.postDelayed(() -> holder.suspendTextView.setClickable(true), 250);
 
                 // TODO : Check & Insert
+                try {
+
+                    ((UsersActivity) Objects.requireNonNull(activity)).centerViewModel.userStatus(((UsersActivity) Objects.requireNonNull(activity)).clinicId,model.get("id").toString(),"kick");
+                    ((UsersActivity) Objects.requireNonNull(activity)).observeWork("centerViewModel");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             });
 
             holder.createTextView.setOnClickListener(v -> {

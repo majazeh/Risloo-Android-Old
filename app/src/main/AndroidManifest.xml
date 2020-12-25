@@ -28,6 +28,9 @@
         android:windowSoftInputMode="adjustResize"
         tools:ignore="UnusedAttribute"
         tools:replace="android:label">
+        <activity android:name=".Views.Activities.ReportActivity"></activity>
+        <activity android:name=".Views.Activities.PracticesActivity" />
+        <activity android:name=".Views.Activities.CreatePracticeActivity" />
 
         <meta-data
             android:name="io.sentry.dsn"
@@ -45,8 +48,8 @@
 
         <activity
             android:name=".Views.Activities.SplashActivity"
-            android:theme="@style/LauncherTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/LauncherTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

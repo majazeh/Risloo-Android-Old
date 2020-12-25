@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/single_item_sessions"
+    android:id="@+id/single_item_practices"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     app:cardBackgroundColor="@color/Snow"
     app:cardCornerRadius="@dimen/_16sdp"
-    tools:context=".Views.Activities.SessionsActivity">
+    tools:context=".Views.Activities.PracticesActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/single_item_sessions_edit_textView"
+                android:id="@+id/single_item_practices_get_practice_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
@@ -35,7 +35,7 @@
                 android:paddingLeft="@dimen/_8sdp"
                 android:paddingRight="@dimen/_8sdp"
                 android:gravity="center"
-                android:text="@string/SessionsEdit"
+                android:text="@string/PracticesGetFile"
                 android:textSize="@dimen/_9ssp"
                 android:textStyle="bold"
                 android:textColor="@color/White"
@@ -43,7 +43,7 @@
                 android:background="@drawable/draw_8sdp_solid_primary"/>
 
             <TextView
-                android:id="@+id/single_item_sessions_report_textView"
+                android:id="@+id/single_item_practices_send_homework_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
@@ -53,15 +53,16 @@
                 android:paddingRight="@dimen/_8sdp"
                 android:gravity="center"
                 android:layout_marginLeft="@dimen/_5sdp"
-                android:text="@string/SessionsCreatePractice"
+                android:text="@string/PracticesSendHomework"
                 android:textSize="@dimen/_9ssp"
                 android:textStyle="bold"
+                android:visibility="gone"
                 android:textColor="@color/Mischka"
                 android:textAlignment="gravity"
                 android:background="@drawable/draw_8sdp_solid_solitude"/>
 
             <TextView
-                android:id="@+id/single_item_sessions_practices"
+                android:id="@+id/single_item_practices_get_homework_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
@@ -70,8 +71,9 @@
                 android:paddingLeft="@dimen/_8sdp"
                 android:paddingRight="@dimen/_8sdp"
                 android:gravity="center"
+                android:visibility="gone"
                 android:layout_marginLeft="@dimen/_5sdp"
-                android:text="@string/SessionsPractices"
+                android:text="@string/PracticesGetHomework"
                 android:textSize="@dimen/_9ssp"
                 android:textStyle="bold"
                 android:textColor="@color/Mischka"
@@ -79,7 +81,7 @@
                 android:background="@drawable/draw_8sdp_solid_solitude"/>
 
             <TextView
-                android:id="@+id/single_item_sessions_serial_textView"
+                android:id="@+id/single_item_practices_serial_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center|right"
@@ -98,7 +100,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/single_item_sessions_room_linearLayout"
+                android:id="@+id/single_item_practices_title_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -123,7 +125,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center|right"
-                        android:text="@string/SessionsRoom"
+                        android:text="@string/PracticesTitle"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal"
                         android:textColor="@color/Mischka"
@@ -132,7 +134,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/single_item_sessions_room_textView"
+                    android:id="@+id/single_item_practices_title_textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|right"
@@ -144,7 +146,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/single_item_sessions_case_linearLayout"
+                android:id="@+id/single_item_practices_note_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -162,14 +164,14 @@
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:layout_gravity="center"
                         android:contentDescription="@string/AppImageContent"
-                        android:src="@drawable/ic_case_light"
+                        android:src="@drawable/ic_room_light"
                         app:tint="@color/Mischka" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center|right"
-                        android:text="@string/SessionsCase"
+                        android:text="@string/PracticesNote"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal"
                         android:textColor="@color/Mischka"
@@ -178,53 +180,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/single_item_sessions_case_textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|right"
-                    android:textSize="@dimen/_9ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Grey"
-                    android:textAlignment="gravity" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/single_item_sessions_reference_linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layoutDirection="rtl">
-
-                    <ImageView
-                        android:layout_width="@dimen/_9sdp"
-                        android:layout_height="@dimen/_9sdp"
-                        android:layout_marginLeft="@dimen/_4sdp"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/AppImageContent"
-                        android:src="@drawable/ic_user_light"
-                        app:tint="@color/Mischka" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center|right"
-                        android:text="@string/SessionsReference"
-                        android:textSize="@dimen/_9ssp"
-                        android:textStyle="normal"
-                        android:textColor="@color/Mischka"
-                        android:textAlignment="gravity" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/single_item_sessions_reference_textView"
+                    android:id="@+id/single_item_practices_note_textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|right"
@@ -246,7 +202,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/single_item_sessions_started_at_linearLayout"
+                android:id="@+id/single_item_practices_content_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -271,7 +227,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center|right"
-                        android:text="@string/SessionsStartedAt"
+                        android:text="@string/PracticesContent"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal"
                         android:textColor="@color/Mischka"
@@ -280,99 +236,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/single_item_sessions_started_at_textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|right"
-                    android:textSize="@dimen/_9ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Grey"
-                    android:textAlignment="gravity" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/single_item_sessions_duration_linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layoutDirection="rtl">
-
-                    <ImageView
-                        android:layout_width="@dimen/_9sdp"
-                        android:layout_height="@dimen/_9sdp"
-                        android:layout_marginLeft="@dimen/_4sdp"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/AppImageContent"
-                        android:src="@drawable/ic_clock_light"
-                        app:tint="@color/Mischka" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center|right"
-                        android:text="@string/SessionsDuration"
-                        android:textSize="@dimen/_9ssp"
-                        android:textStyle="normal"
-                        android:textColor="@color/Mischka"
-                        android:textAlignment="gravity" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/single_item_sessions_duration_textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|right"
-                    android:textSize="@dimen/_9ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Grey"
-                    android:textAlignment="gravity" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/single_item_sessions_status_linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layoutDirection="rtl">
-
-                    <ImageView
-                        android:layout_width="@dimen/_9sdp"
-                        android:layout_height="@dimen/_9sdp"
-                        android:layout_marginLeft="@dimen/_4sdp"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/AppImageContent"
-                        android:src="@drawable/ic_dot_light"
-                        app:tint="@color/Mischka" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center|right"
-                        android:text="@string/SessionsStatus"
-                        android:textSize="@dimen/_9ssp"
-                        android:textStyle="normal"
-                        android:textColor="@color/Mischka"
-                        android:textAlignment="gravity" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/single_item_sessions_status_textView"
+                    android:id="@+id/single_item_practices_content_textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|right"
