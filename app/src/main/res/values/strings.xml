@@ -605,7 +605,7 @@
 
     <string name="CreateCaseRoom">اتاق درمان</string>
     <string name="CreateCaseReference">مراجعان</string>
-    <string name="CreateCaseComplaint">شکایت اصلی</string>
+    <string name="CreateCaseComplaint">مسئله</string>
 
     <string name="CreateCaseCreate">ایجاد پرونده</string>
 
@@ -621,7 +621,7 @@
 
     <string name="EditCaseRoom">اتاق درمان</string>
     <string name="EditCaseReference">مراجعان</string>
-    <string name="EditCaseComplaint">شکایت اصلی</string>
+    <string name="EditCaseComplaint">مسئله</string>
 
     <string name="EditCaseEdit">ویرایش</string>
 
@@ -636,7 +636,7 @@
     <string name="DetailCaseTitle">مشخصات پرونده</string>
 
     <string name="DetailCaseName">پرونده درمانی</string>
-    <string name="DetailCaseComplaint">شکایت اصلی</string>
+    <string name="DetailCaseComplaint">مسئله</string>
     <string name="DetailCaseCreatedCaseDate">تاریخ ساخت پرونده</string>
     <string name="DetailCaseLastSessionDate">تاریخ آخرین جلسه</string>
     <string name="DetailCaseSessionsCount">جلسات مشاوره</string>

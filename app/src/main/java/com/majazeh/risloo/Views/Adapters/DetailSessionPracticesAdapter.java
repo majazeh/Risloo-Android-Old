@@ -1,34 +1,51 @@
 package com.majazeh.risloo.Views.Adapters;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
+import com.majazeh.risloo.Models.Repositories.SessionRepository;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
+import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Utils.Managers.IntentManager;
 import com.majazeh.risloo.Utils.Managers.PermissionManager;
+import com.majazeh.risloo.Views.Activities.DetailSessionActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DetailSessionPracticesAdapter extends RecyclerView.Adapter<DetailSessionPracticesAdapter.DetailSessionPracticesHolder> {
 
     // Vars
+    private int position;
+    private Model model;
     private ArrayList<Model> practices;
 
     // Objects
     private Activity activity;
     private Handler handler;
+
+    // Widgets
+    private Dialog progressDialog;
 
     public DetailSessionPracticesAdapter(Activity activity) {
         this.activity = activity;
@@ -122,7 +139,12 @@ public class DetailSessionPracticesAdapter extends RecyclerView.Adapter<DetailSe
                         e.printStackTrace();
                     }
                 } else {
+                    if (PermissionManager.filePermission(activity)) {
+                        IntentManager.file(activity);
+                    }
 
+                    position = i;
+                    this.model = model;
                 }
             });
 
@@ -138,11 +160,75 @@ public class DetailSessionPracticesAdapter extends RecyclerView.Adapter<DetailSe
 
     private void initializer(View view) {
         handler = new Handler();
+
+        progressDialog = new Dialog(activity, R.style.DialogTheme);
+        Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+        progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        progressDialog.setContentView(R.layout.dialog_progress);
+        progressDialog.setCancelable(false);
+    }
+
+    public void doWork(String sessionId, String attachment) {
+        try {
+            progressDialog.show();
+
+            ((DetailSessionActivity) Objects.requireNonNull(activity)).sessionViewModel.createHomework(sessionId, model.get("id").toString(), attachment);
+            observeWork(position, model, sessionId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void observeWork(int position, Model model, String sessionId) {
+        SessionRepository.workState.observeForever(new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if (SessionRepository.work.equals("createHomework")) {
+                    if (integer == 1) {
+
+                        try {
+                            JSONObject allJsonObject = FileManager.readObjectFromCache(activity.getApplicationContext(), "practices" + "/" + sessionId);
+                            JSONArray allPractices = (JSONArray) allJsonObject.get("data");
+
+                            for (int i = 0; i < allPractices.length(); i++) {
+                                JSONObject user = allPractices.getJSONObject(i);
+
+                                if (model.get("id").toString().equals(user.get("id").toString())) {
+                                    Model changedModel = new Model(user);
+
+                                    replacePractice(position, changedModel);
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        progressDialog.dismiss();
+                        Toast.makeText(activity, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                        SessionRepository.workState.removeObserver(this);
+                    } else if (integer == 0) {
+                        progressDialog.dismiss();
+                        Toast.makeText(activity, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                        SessionRepository.workState.removeObserver(this);
+                    } else if (integer == -2) {
+                        progressDialog.dismiss();
+                        Toast.makeText(activity, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                        SessionRepository.workState.removeObserver(this);
+                    }
+                }
+            }
+        });
     }
 
     public void setPractice(ArrayList<Model> practices) {
         this.practices = practices;
         notifyDataSetChanged();
+    }
+
+    public void replacePractice(int position, Model model) {
+        practices.set(position, model);
+        notifyItemChanged(position);
+        notifyItemRangeChanged(position, getItemCount());
     }
 
     public class DetailSessionPracticesHolder extends RecyclerView.ViewHolder {

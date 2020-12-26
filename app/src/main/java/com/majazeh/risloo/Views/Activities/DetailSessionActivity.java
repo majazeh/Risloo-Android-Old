@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,11 +25,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Repositories.SessionRepository;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
+import com.majazeh.risloo.Utils.Managers.IntentManager;
+import com.majazeh.risloo.Utils.Managers.PathManager;
 import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
@@ -46,7 +52,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class DetailSessionActivity extends AppCompatActivity {
 
     // ViewModels
-    private SessionViewModel sessionViewModel;
+    public SessionViewModel sessionViewModel;
 
     // Adapters
     private DetailSessionPracticesAdapter detailSessionPracticesAdapter;
@@ -58,6 +64,7 @@ public class DetailSessionActivity extends AppCompatActivity {
     private Bundle extras;
     private Handler handler;
     private ClickableSpan retrySpan;
+    private PathManager pathManager;
 
     // Widgets
     private RelativeLayout toolbarLayout;
@@ -101,6 +108,8 @@ public class DetailSessionActivity extends AppCompatActivity {
         detailSessionPracticesAdapter = new DetailSessionPracticesAdapter(this);
 
         handler = new Handler();
+
+        pathManager = new PathManager();
 
         extras = getIntent().getExtras();
         sessionId = Objects.requireNonNull(extras).getString("id");
@@ -198,7 +207,7 @@ public class DetailSessionActivity extends AppCompatActivity {
             createReportActivity.putExtra("loaded", true);
             createReportActivity.putExtra("session_id", sessionId);
 
-            startActivityForResult(createReportActivity, 100);
+            startActivityForResult(createReportActivity, 200);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
 
@@ -211,7 +220,7 @@ public class DetailSessionActivity extends AppCompatActivity {
             createPracticeActivity.putExtra("loaded", true);
             createPracticeActivity.putExtra("session_id", sessionId);
 
-            startActivityForResult(createPracticeActivity, 100);
+            startActivityForResult(createPracticeActivity, 200);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
     }
@@ -380,12 +389,38 @@ public class DetailSessionActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 100) {
+            if (grantResults.length > 0) {
+                for (int grantResult : grantResults) {
+                    if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+                }
+                IntentManager.file(this);
+            }
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
+                Uri uri = Objects.requireNonNull(data).getData();
+
+                String attachment = pathManager.getLocalPath(this, uri);
+
+                detailSessionPracticesAdapter.doWork(sessionId, attachment);
+
+            } else if (requestCode == 200) {
                 relaunchData("getGeneral");
+            }
+        } else if (resultCode == RESULT_CANCELED) {
+            if (requestCode == 100) {
+                ExceptionGenerator.getException(false, 0, null, "FileException");
+                Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -394,6 +429,8 @@ public class DetailSessionActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
+
+        FileManager.deleteFolderFromCache(this, "documents");
     }
 
 }
