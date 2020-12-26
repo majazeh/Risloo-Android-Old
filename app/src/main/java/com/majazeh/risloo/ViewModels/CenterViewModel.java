@@ -63,7 +63,11 @@ public class CenterViewModel extends AndroidViewModel {
         repository.userStatus(clinicId, userId, status);
     }
 
-    public void references(String roomId, String q) throws JSONException {
+    public void userPosition(String clinicId, String userId, String position) throws JSONException {
+        repository.userPosition(clinicId, userId, position);
+    }
+
+        public void references(String roomId, String q) throws JSONException {
         repository.references(roomId, q);
     }
 

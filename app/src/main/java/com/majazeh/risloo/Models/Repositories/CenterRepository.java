@@ -40,6 +40,7 @@ public class CenterRepository extends MainRepository {
     public static MutableLiveData<Integer> workState;
     public static String work = "";
     public static String clinicId = "";
+    public static String position = "";
     public static String usersQ = "";
     public static String personalClinicQ = "";
     public static String counselingCenterQ = "";
@@ -103,6 +104,15 @@ public class CenterRepository extends MainRepository {
         work = "userStatus";
         workState.setValue(-1);
         workManager("userStatus");
+    }
+
+    public void userPosition(String clinicId, String userId, String position) throws JSONException {
+        CenterRepository.clinicId = clinicId;
+        CenterRepository.userId = userId;
+        CenterRepository.position = position;
+        work = "userPosition";
+        workState.setValue(-1);
+        workManager("userPosition");
     }
 
     public void references(String roomId, String q) throws JSONException {

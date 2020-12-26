@@ -190,6 +190,10 @@ public class AuthRepository extends MainRepository {
         return items.birthday();
     }
 
+    public String getPublicKey() {
+        return items.publicKey();
+    }
+
     public String getAvatar() {
         return items.avatar();
     }

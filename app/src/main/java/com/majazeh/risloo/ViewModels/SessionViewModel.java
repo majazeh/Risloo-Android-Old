@@ -47,30 +47,31 @@ public class SessionViewModel extends AndroidViewModel {
     }
 
     public void practices(String sessionId) throws JSONException {
-    repository.practices(sessionId);
+        repository.practices(sessionId);
     }
 
-        public void create(String roomId, String caseId, String started_at, String duration, String status) throws JSONException {
+    public void create(String roomId, String caseId, String started_at, String duration, String status) throws JSONException {
         repository.create(roomId, caseId, started_at, duration, status);
     }
 
     public void createPractice(String sessionId, String title, String content, String fileAttachment) throws JSONException {
-    repository.createPractice(sessionId, title, content, fileAttachment);
+        repository.createPractice(sessionId, title, content, fileAttachment);
     }
 
     public void createHomework(String sessionId, String practiceId, String fileAttachment) throws JSONException {
-    repository.createHomework(sessionId, practiceId, fileAttachment);
+        repository.createHomework(sessionId, practiceId, fileAttachment);
     }
 
-        public void update(String sessionId, String caseId, String started_at, String duration, String status) throws JSONException {
+    public void update(String sessionId, String caseId, String started_at, String duration, String status) throws JSONException {
         repository.update(sessionId, caseId, started_at, duration, status);
     }
 
-    public void SessionsOfCase(String caseId,String q) throws JSONException {
-        repository.SessionsOfCase(caseId,q);
+    public void SessionsOfCase(String caseId, String q) throws JSONException {
+        repository.SessionsOfCase(caseId, q);
     }
-    public void Report(String sessionId,String report,String encryptionType) throws JSONException {
-        repository.Report(sessionId,report,encryptionType);
+
+    public void Report(String sessionId, String report, String encryptionType) throws JSONException {
+        repository.Report(sessionId, report, encryptionType);
     }
 
     public String encrypt(String text, String publicKey) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException {
@@ -78,7 +79,7 @@ public class SessionViewModel extends AndroidViewModel {
     }
 
     public String decrypt(String result, String privateKey) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, InvalidKeySpecException {
-       return repository.decrypt(result, privateKey);
+        return repository.decrypt(result, privateKey);
     }
 
     public ArrayList<Model> getLocalSessionStatus() {
@@ -86,10 +87,10 @@ public class SessionViewModel extends AndroidViewModel {
     }
 
     public ArrayList<Model> getPractices(String sessionId) {
-    return repository.getPractices(sessionId);
+        return repository.getPractices(sessionId);
     }
 
-        public ArrayList<Model> getSessions() {
+    public ArrayList<Model> getSessions() {
         return repository.getSessions();
     }
 
@@ -97,7 +98,7 @@ public class SessionViewModel extends AndroidViewModel {
         return repository.getGeneral(sessionId);
     }
 
-    public ArrayList<Model> getSessionsOfCase(){
+    public ArrayList<Model> getSessionsOfCase() {
         return repository.getSessionsOfCase();
     }
 
@@ -105,14 +106,13 @@ public class SessionViewModel extends AndroidViewModel {
         return repository.getReportType(key);
     }
 
-    public String getENStatus(String faStatus){
+    public String getENStatus(String faStatus) {
         return repository.getENStatus(faStatus);
     }
 
-    public String getFAStatus(String enStatus){
+    public String getFAStatus(String enStatus) {
         return repository.getFAStatus(enStatus);
     }
-
 
 
 }

@@ -58,6 +58,11 @@ public interface CenterApi {
     @PUT("centers/{case_id}/users/{user_id}")
     Call<ResponseBody> userStatus(@Header("Authorization") String authorization, @Path("case_id") String caseId, @Path("user_id") String userId, @Field("status") String status);
 
+    @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
+    @FormUrlEncoded
+    @PUT("centers/{case_id}/users/{user_id}")
+    Call<ResponseBody> userPosition(@Header("Authorization") String authorization, @Path("case_id") String caseId, @Path("user_id") String userId, @Field("position") String position);
+
     @Headers({"content-type: application/json", "Accept-Language:fa"})
     @POST("centers/{center_id}/users")
     Call<ResponseBody> addUser(@Header("Authorization") String authorization, @Path("center_id") String centerId, @Body HashMap body);

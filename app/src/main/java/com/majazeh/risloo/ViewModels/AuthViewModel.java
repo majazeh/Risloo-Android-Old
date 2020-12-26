@@ -119,6 +119,10 @@ public class AuthViewModel extends AndroidViewModel {
         return repository.getBirthday();
     }
 
+    public String getPublicKey() {
+        return repository.getPublicKey();
+    }
+
     public String getAvatar() {
         return repository.getAvatar();
     }

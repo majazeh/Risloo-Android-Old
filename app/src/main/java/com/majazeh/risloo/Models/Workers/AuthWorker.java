@@ -491,6 +491,12 @@ public class AuthWorker extends Worker {
                     editor.putString("birthday", "");
                 }
 
+                if (data.has("public_key") && !data.isNull("public_key")) {
+                    editor.putString("public_key", data.getString("public_key"));
+                } else {
+                    editor.putString("public_key", "");
+                }
+
                 if (!data.isNull("avatar") && data.get("avatar").getClass().getName().equals("org.json.JSONObject")) {
                     JSONObject avatar = data.getJSONObject("avatar");
                     JSONObject medium = avatar.getJSONObject("medium");

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.majazeh.risloo.Entities.Model;
+import com.majazeh.risloo.Models.Items.AuthItems;
 import com.majazeh.risloo.Utils.Generators.FilterGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 

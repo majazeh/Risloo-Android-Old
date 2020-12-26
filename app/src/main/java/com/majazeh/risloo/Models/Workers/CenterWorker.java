@@ -88,6 +88,10 @@ public class CenterWorker extends Worker {
                     break;
                 case "getReferences":
                     getReferences();
+                    break;
+                case "userPosition":
+                    userPosition();
+                    break;
             }
         }
 
@@ -586,6 +590,7 @@ public class CenterWorker extends Worker {
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                FileManager.writeObjectToCache(context, successBody, "centerUsers" + "/" + CenterRepository.clinicId);
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "userStatus");
                 CenterRepository.workState.postValue(1);
@@ -593,6 +598,43 @@ public class CenterWorker extends Worker {
                 JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "userStatus");
+                CenterRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
+            CenterRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
+            CenterRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "IOException");
+            CenterRepository.workState.postValue(0);
+        }
+
+    }
+
+    private void userPosition() {
+        try {
+            Call<ResponseBody> call = centerApi.userPosition(token(), CenterRepository.clinicId, CenterRepository.userId, CenterRepository.position);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+                FileManager.writeObjectToCache(context, successBody, "centerUsers" + "/" + CenterRepository.clinicId);
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "userPosition");
+                CenterRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "userPosition");
                 CenterRepository.workState.postValue(0);
             }
 

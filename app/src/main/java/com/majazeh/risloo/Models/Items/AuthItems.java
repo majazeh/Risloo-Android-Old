@@ -125,6 +125,13 @@ public class AuthItems {
         return "";
     }
 
+    public String publicKey() {
+        if (!sharedPreferences.getString("public_key", "").equals("")) {
+            return DateManager.gregorianToJalali(sharedPreferences.getString("public_key", ""));
+        }
+        return "";
+    }
+
     public String avatar() {
         if (!sharedPreferences.getString("avatar", "").equals("")) {
             return sharedPreferences.getString("avatar", "");
