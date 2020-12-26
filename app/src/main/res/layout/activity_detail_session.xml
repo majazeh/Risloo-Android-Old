@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_detail_session"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:fitsSystemWindows="true"
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="blocksDescendants"
+    tools:context=".Views.Activities.DetailSessionActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutDirection="rtl"
+        android:orientation="vertical"
+        android:background="@color/White">
+
+        <include layout="@layout/layout_toolbar" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/Quartz" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/activity_detail_session_mainLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbarSize="0dp"
+                    android:overScrollMode="never">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_16sdp"
+                            android:layout_marginBottom="@dimen/_8sdp"
+                            android:layout_marginLeft="@dimen/_16sdp"
+                            android:layout_marginRight="@dimen/_16sdp"
+                            app:cardBackgroundColor="@color/Snow"
+                            app:cardCornerRadius="@dimen/_16sdp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/_12sdp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="right|center"
+                                    android:text="@string/DetailSessionName"
+                                    android:textSize="@dimen/_10ssp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/Nero"
+                                    android:textAlignment="gravity" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_1sdp"
+                                    android:layout_marginTop="@dimen/_8sdp"
+                                    android:layout_marginBottom="@dimen/_12sdp"
+                                    android:background="@color/Quartz" />
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <FrameLayout
+                                        android:id="@+id/activity_detail_session_room_avatar_frameLayout"
+                                        android:layout_width="@dimen/_44sdp"
+                                        android:layout_height="@dimen/_44sdp"
+                                        android:layout_alignParentTop="true"
+                                        android:layout_alignParentRight="true">
+
+                                        <de.hdodenhof.circleimageview.CircleImageView
+                                            android:id="@+id/activity_detail_session_room_avatar_imageView"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent" />
+
+                                        <TextView
+                                            android:id="@+id/activity_detail_session_room_subtitle_textView"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:gravity="center"
+                                            android:visibility="gone"
+                                            android:textSize="@dimen/_12ssp"
+                                            android:textStyle="bold"
+                                            android:textColor="@color/Grey"
+                                            android:textAlignment="gravity"/>
+
+                                    </FrameLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_toLeftOf="@id/activity_detail_session_room_avatar_frameLayout"
+                                        android:layout_marginRight="@dimen/_12sdp"
+                                        android:layout_centerVertical="true"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:id="@+id/activity_detail_session_room_title_textView"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="right"
+                                            android:textSize="@dimen/_12ssp"
+                                            android:textStyle="bold"
+                                            android:textColor="@color/Grey"
+                                            android:textAlignment="gravity"/>
+
+                                        <TextView
+                                            android:id="@+id/activity_detail_session_room_type_textView"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/_minus4sdp"
+                                            android:gravity="right"
+                                            android:textSize="@dimen/_9ssp"
+                                            android:textStyle="bold"
+                                            android:textColor="@color/Mischka"
+                                            android:textAlignment="gravity" />
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_8sdp"
+                            android:layout_marginLeft="@dimen/_16sdp"
+                            android:layout_marginRight="@dimen/_16sdp"
+                            app:cardBackgroundColor="@color/Snow"
+                            app:cardCornerRadius="@dimen/_16sdp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/_12sdp"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layoutDirection="ltr"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/activity_detail_session_add_report_textView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center|left"
+                                        android:paddingTop="@dimen/_3sdp"
+                                        android:paddingBottom="@dimen/_3sdp"
+                                        android:paddingLeft="@dimen/_8sdp"
+                                        android:paddingRight="@dimen/_8sdp"
+                                        android:gravity="center"
+                                        android:text="@string/DetailSessionAddReport"
+                                        android:textSize="@dimen/_8ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/White"
+                                        android:textAlignment="gravity"
+                                        android:background="@drawable/draw_8sdp_solid_primary"/>
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:gravity="right|center"
+                                        android:text="@string/DetailSessionReport"
+                                        android:textSize="@dimen/_10ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/Nero"
+                                        android:textAlignment="gravity" />
+
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_1sdp"
+                                    android:layout_marginTop="@dimen/_8sdp"
+                                    android:layout_marginBottom="@dimen/_12sdp"
+                                    android:background="@color/Quartz" />
+
+                                <TextView
+                                    android:id="@+id/activity_detail_session_report_textView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:gravity="right"
+                                    android:textSize="@dimen/_8ssp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/Mischka"
+                                    android:textAlignment="gravity" />
+
+                                <TextView
+                                    android:id="@+id/activity_detail_session_report_empty_textView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:gravity="center"
+                                    android:text="@string/DetailSessionEmptyReport"
+                                    android:textSize="@dimen/_8ssp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/Mischka"
+                                    android:textAlignment="gravity" />
+
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/_16sdp"
+                            android:layout_marginLeft="@dimen/_16sdp"
+                            android:layout_marginRight="@dimen/_16sdp"
+                            app:cardBackgroundColor="@color/Snow"
+                            app:cardCornerRadius="@dimen/_16sdp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="@dimen/_12sdp"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layoutDirection="ltr"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/activity_detail_session_add_practice_textView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center|left"
+                                        android:paddingTop="@dimen/_3sdp"
+                                        android:paddingBottom="@dimen/_3sdp"
+                                        android:paddingLeft="@dimen/_8sdp"
+                                        android:paddingRight="@dimen/_8sdp"
+                                        android:gravity="center"
+                                        android:text="@string/DetailSessionAddPractice"
+                                        android:textSize="@dimen/_8ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/White"
+                                        android:textAlignment="gravity"
+                                        android:background="@drawable/draw_8sdp_solid_primary"/>
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:gravity="right|center"
+                                        android:text="@string/DetailSessionPractices"
+                                        android:textSize="@dimen/_10ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/Nero"
+                                        android:textAlignment="gravity" />
+
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_1sdp"
+                                    android:layout_marginTop="@dimen/_8sdp"
+                                    android:layout_marginBottom="@dimen/_12sdp"
+                                    android:background="@color/Quartz" />
+
+                                <LinearLayout
+                                    android:id="@+id/activity_detail_session_practices_hint_linearLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/_8sdp"
+                                    android:layoutDirection="rtl"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="right|center"
+                                        android:text="@string/DetailSessionPracticeId"
+                                        android:textSize="@dimen/_9ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/Mischka"
+                                        android:textAlignment="gravity" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginRight="@dimen/_4sdp"
+                                        android:layout_marginLeft="@dimen/_2sdp"
+                                        android:layout_weight="1"
+                                        android:gravity="right|center"
+                                        android:text="@string/DetailSessionPracticeName"
+                                        android:textSize="@dimen/_9ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/Mischka"
+                                        android:textAlignment="gravity" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginRight="@dimen/_2sdp"
+                                        android:layout_marginLeft="@dimen/_4sdp"
+                                        android:layout_weight="1"
+                                        android:gravity="right|center"
+                                        android:text="@string/DetailSessionPracticeContent"
+                                        android:textSize="@dimen/_9ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/Mischka"
+                                        android:textAlignment="gravity" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginRight="@dimen/_2sdp"
+                                        android:layout_marginLeft="@dimen/_4sdp"
+                                        android:layout_weight="1"
+                                        android:visibility="gone"
+                                        android:gravity="right|center"
+                                        android:text="@string/DetailSessionPracticeNote"
+                                        android:textSize="@dimen/_9ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/Mischka"
+                                        android:textAlignment="gravity" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="left|center"
+                                        android:text="@string/DetailSessionPracticeAttachment"
+                                        android:textSize="@dimen/_9ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/Mischka"
+                                        android:textAlignment="gravity" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="left|center"
+                                        android:text="@string/DetailSessionPracticeHomeWork"
+                                        android:textSize="@dimen/_9ssp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/Mischka"
+                                        android:textAlignment="gravity" />
+
+                                </LinearLayout>
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/activity_detail_session_practices_recyclerView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:overScrollMode="never" />
+
+                                <TextView
+                                    android:id="@+id/activity_detail_session_practices_empty_textView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:visibility="gone"
+                                    android:gravity="center"
+                                    android:text="@string/DetailSessionEmptyPractice"
+                                    android:textSize="@dimen/_8ssp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/Mischka"
+                                    android:textAlignment="gravity" />
+
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+
+                </androidx.core.widget.NestedScrollView>
+
+            </FrameLayout>
+
+            <include layout="@layout/layout_info" />
+
+            <include layout="@layout/layout_loading" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_gravity="bottom"
+        android:background="@color/Quartz" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

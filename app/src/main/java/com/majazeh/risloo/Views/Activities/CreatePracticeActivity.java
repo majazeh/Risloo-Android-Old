@@ -52,7 +52,7 @@ public class CreatePracticeActivity extends AppCompatActivity {
 
     // Vars
     private String sessionId = "", title = "", content = "", practice = "";
-    private boolean createPracticeException = false;
+    private boolean practiceException = false;
 
     // Objects
     private Bundle extras;
@@ -65,10 +65,10 @@ public class CreatePracticeActivity extends AppCompatActivity {
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
     private EditText titleEditText, contentEditText;
-    private LinearLayout createPracticeLinearLayout;
-    private ImageView createPracticeImageView;
-    private TextView suffixTextView, createPracticeTextView;
-    private Button sendButton;
+    private LinearLayout practiceLinearLayout;
+    private ImageView practiceImageView;
+    private TextView suffixTextView, practiceTextView;
+    private Button createButton;
     private Dialog progressDialog;
 
     @Override
@@ -114,20 +114,20 @@ public class CreatePracticeActivity extends AppCompatActivity {
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
-        toolbarTextView.setText(getResources().getString(R.string.createPracticeTitle));
+        toolbarTextView.setText(getResources().getString(R.string.CreatePracticeTitle));
         toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         titleEditText = findViewById(R.id.activity_create_practice_title_editText);
         contentEditText = findViewById(R.id.activity_create_practice_content_editText);
 
-        createPracticeLinearLayout = findViewById(R.id.activity_create_practice_file_linearLayout);
+        practiceLinearLayout = findViewById(R.id.activity_create_practice_file_linearLayout);
 
-        createPracticeImageView = findViewById(R.id.activity_create_practice_file_imageView);
+        practiceImageView = findViewById(R.id.activity_create_practice_file_imageView);
 
         suffixTextView = findViewById(R.id.activity_create_practice_suffix_textView);
-        createPracticeTextView = findViewById(R.id.activity_create_practice_file_textView);
+        practiceTextView = findViewById(R.id.activity_create_practice_file_textView);
 
-        sendButton = findViewById(R.id.activity_create_practice_send_button);
+        createButton = findViewById(R.id.activity_create_practice_button);
 
         progressDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
@@ -140,9 +140,9 @@ public class CreatePracticeActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
 
-            createPracticeLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude_ripple_quartz);
+            practiceLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude_ripple_quartz);
 
-            sendButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
+            createButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
         }
     }
 
@@ -184,11 +184,11 @@ public class CreatePracticeActivity extends AppCompatActivity {
             return false;
         });
 
-        createPracticeLinearLayout.setOnClickListener(v -> {
-            createPracticeLinearLayout.setClickable(false);
-            handler.postDelayed(() -> createPracticeLinearLayout.setClickable(true), 250);
+        practiceLinearLayout.setOnClickListener(v -> {
+            practiceLinearLayout.setClickable(false);
+            handler.postDelayed(() -> practiceLinearLayout.setClickable(true), 250);
 
-            if (createPracticeException) {
+            if (practiceException) {
                 clearException("practice");
             }
 
@@ -201,7 +201,7 @@ public class CreatePracticeActivity extends AppCompatActivity {
             }
         });
 
-        sendButton.setOnClickListener(v -> {
+        createButton.setOnClickListener(v -> {
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
             }
@@ -240,11 +240,11 @@ public class CreatePracticeActivity extends AppCompatActivity {
                 contentEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
             case "practice":
-                createPracticeException = true;
+                practiceException = true;
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    createPracticeLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_violetred20p_ripple_violetred);
+                    practiceLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_violetred20p_ripple_violetred);
                 } else {
-                    createPracticeLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_violetred20p);
+                    practiceLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_violetred20p);
                 }
                 break;
         }
@@ -253,11 +253,11 @@ public class CreatePracticeActivity extends AppCompatActivity {
     private void clearException(String type) {
         switch (type) {
             case "practice":
-                createPracticeException = false;
+                practiceException = false;
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    createPracticeLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude_ripple_quartz);
+                    practiceLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude_ripple_quartz);
                 } else {
-                    createPracticeLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude);
+                    practiceLinearLayout.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude);
                 }
                 break;
         }
@@ -270,7 +270,7 @@ public class CreatePracticeActivity extends AppCompatActivity {
         try {
             progressDialog.show();
 
-            sessionViewModel.createPractice(sessionId,title, content, practice);
+            sessionViewModel.createPractice(sessionId, title, content, practice);
             observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -354,33 +354,33 @@ public class CreatePracticeActivity extends AppCompatActivity {
 
                 practice = pathManager.getLocalPath(this, uri);
 
-                createPracticeTextView.setText(StringManager.substring(practice, '/'));
-                createPracticeTextView.setTextColor(getResources().getColor(R.color.Nero));
+                practiceTextView.setText(StringManager.substring(practice, '/'));
+                practiceTextView.setTextColor(getResources().getColor(R.color.Nero));
 
-                createPracticeImageView.setVisibility(View.GONE);
+                practiceImageView.setVisibility(View.GONE);
                 suffixTextView.setVisibility(View.VISIBLE);
 
                 switch (StringManager.substring(practice, '.')) {
                     case "png":
-                        suffixTextView.setText(getResources().getString(R.string.createPracticeSuffixPNG));
+                        suffixTextView.setText(getResources().getString(R.string.CreatePracticeSuffixPNG));
                         break;
                     case "jpg":
-                        suffixTextView.setText(getResources().getString(R.string.createPracticeSuffixJPG));
+                        suffixTextView.setText(getResources().getString(R.string.CreatePracticeSuffixJPG));
                         break;
                     case "jpeg":
-                        suffixTextView.setText(getResources().getString(R.string.createPracticeSuffixJPEG));
+                        suffixTextView.setText(getResources().getString(R.string.CreatePracticeSuffixJPEG));
                         break;
                     case "gif":
-                        suffixTextView.setText(getResources().getString(R.string.createPracticeSuffixGIF));
+                        suffixTextView.setText(getResources().getString(R.string.CreatePracticeSuffixGIF));
                         break;
                     case "doc":
-                        suffixTextView.setText(getResources().getString(R.string.createPracticeSuffixDOC));
+                        suffixTextView.setText(getResources().getString(R.string.CreatePracticeSuffixDOC));
                         break;
                     case "pdf":
-                        suffixTextView.setText(getResources().getString(R.string.createPracticeSuffixPDF));
+                        suffixTextView.setText(getResources().getString(R.string.CreatePracticeSuffixPDF));
                         break;
                     case "mp4":
-                        suffixTextView.setText(getResources().getString(R.string.createPracticeSuffixMP4));
+                        suffixTextView.setText(getResources().getString(R.string.CreatePracticeSuffixMP4));
                         break;
                     default:
                         suffixTextView.setText(StringManager.substring(practice, '.'));

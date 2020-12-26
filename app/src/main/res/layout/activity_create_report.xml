@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_report"
+    android:id="@+id/activity_create_report"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbarSize="0dp"
@@ -13,7 +13,7 @@
     android:fitsSystemWindows="true"
     android:focusableInTouchMode="true"
     android:descendantFocusability="blocksDescendants"
-    tools:context=".Views.Activities.ReportActivity">
+    tools:context=".Views.Activities.CreateReportActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -40,20 +40,20 @@
                 android:orientation="vertical">
 
                 <FrameLayout
-                    android:id="@+id/report_type_frameLayout"
+                    android:id="@+id/activity_create_report_encryption_type_frameLayout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
                     android:layout_marginBottom="@dimen/_8sdp"
                     android:background="@drawable/draw_16sdp_border_quartz">
 
                     <TextView
-                        android:id="@+id/report_type_textView"
+                        android:id="@+id/activity_create_report_encryption_type_textView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingLeft="@dimen/_16sdp"
                         android:paddingRight="@dimen/_16sdp"
                         android:gravity="center|right"
-                        android:text="@string/ReportType"
+                        android:text="@string/CreateReportEncryptionType"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="normal"
                         android:textColor="@color/Mischka"
@@ -71,7 +71,7 @@
                 </FrameLayout>
 
                 <EditText
-                    android:id="@+id/report_editText"
+                    android:id="@+id/activity_create_report_description_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_24sdp"
@@ -82,7 +82,7 @@
                     android:paddingRight="@dimen/_16sdp"
                     android:imeOptions="actionDone"
                     android:inputType="textMultiLine"
-                    android:hint="@string/Report"
+                    android:hint="@string/CreateReportDescription"
                     android:gravity="top|right"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"
@@ -92,14 +92,12 @@
                     android:importantForAutofill="no"
                     android:background="@drawable/draw_16sdp_border_quartz" />
 
-
-
                 <Button
-                    android:id="@+id/activity_attachment_send_button"
+                    android:id="@+id/activity_create_report_button"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
                     android:gravity="center"
-                    android:text="@string/AttachmentSend"
+                    android:text="@string/CreateReportCreate"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold"
                     android:textColor="@color/White"

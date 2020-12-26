@@ -57,6 +57,35 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // Outro strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="OutroTitle">نمونه شما با موفقیت تکمیل شد!</string>
+
+    <string name="OutroDescription">برای اطلاع دادن ریسلو از نتایج نمونه شما لازم است که فایل نمونه را بصورت انترنتی یا پیامکی ارسال نمایید.</string>
+
+    <string name="OutroInternet">ارسال إینترنتی نمونه به ریسلو</string>
+    <string name="OutroSMS">ارسال پیامکی نمونه به ریسلو</string>
+    <string name="OutroDownload">دریافت فایل نمونه</string>
+    <string name="OutroLater">بعدن ارسال کنم</string>
+
+    <string name="OutroInternetDialogTitle">ارسال إینترنتی</string>
+    <string name="OutroInternetDialogDescription">نتایج نمونه شما از طریق اینترنت به ریسلو ارسال می شود و سپس می توانید نمونه جدیدی را شروع کنید.</string>
+    <string name="OutroInternetDialogPositive">ارسال</string>
+    <string name="OutroInternetDialogNegative">بستن</string>
+
+    <string name="OutroSMSDialogTitle">ارسال پیامکی</string>
+    <string name="OutroSMSDialogDescription">نتایج نمونه شما از طریق پیامک به ریسلو ارسال می شود در نظر داشته باشید که تعداد پیامک های ارسالی شما به حجم فایل نمونه بستگی دارد.</string>
+    <string name="OutroSMSDialogPositive">ارسال</string>
+    <string name="OutroSMSDialogNegative">بستن</string>
+
+    <string name="OutroDownloadDialogTitle">دریافت فایل</string>
+    <string name="OutroDownloadDialogDescription">با دریافت فایل نمونه شما می توانید بعدن بصورت دستی در اختیار ریسلو از راه آپلود دادن قرار دهید.</string>
+    <string name="OutroDownloadDialogPositive">دریافت</string>
+    <string name="OutroDownloadDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     // Auth strings
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -142,6 +171,32 @@
     <string name="RegisterWomanHint">زن</string>
     <string name="RegisterPasswordHint">رمز عبور</string>
     <string name="RegisterButton">ثبت نام</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // Archives strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="ArchivesTitle">بایگانی نمونه‌ها</string>
+
+    <string name="ArchivesCount">عدد</string>
+
+    <string name="ArchivesCode">کد</string>
+    <string name="ArchivesCase">پرونده</string>
+    <string name="ArchivesRoom">اتاق درمان</string>
+    <string name="ArchivesReference">مراجعان</string>
+
+    <string name="ArchivesStatusOpen">باز شده</string>
+
+    <string name="ArchivesContinue">تکمیل نمونه</string>
+    <string name="ArchivesDelete">پاک کردن</string>
+    <string name="ArchivesRestore">بازیابی نمونه</string>
+    <string name="ArchivesDeleted">نمونه شما با موفقیت پاک شد</string>
+
+    <string name="ArchivesContinueDialogTitle">تکمیل نمونه؟</string>
+    <string name="ArchivesContinueDialogDescription">شما می توانید روند کار را از نمونه خود ادامه دهید و آن را به اتمام برسانید و به ریسلو تحویل دهید.</string>
+    <string name="ArchivesContinueDialogPositive">تکمیل نمونه</string>
+    <string name="ArchivesContinueDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -288,6 +343,119 @@
     <string name="AttachmentSuffixMP4">MP4</string>
 
     <string name="AttachmentSend">ارسال</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // Samples strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="SamplesTitle">نمونه‌ها</string>
+
+    <string name="SamplesCode">کد</string>
+    <string name="SamplesCase">پرونده</string>
+    <string name="SamplesRoom">اتاق درمان</string>
+    <string name="SamplesReference">مراجعان</string>
+
+    <string name="SamplesStatusSeald">باز نشده</string>
+    <string name="SamplesStatusOpen">باز شده</string>
+    <string name="SamplesStatusClosed">بسته شده</string>
+    <string name="SamplesStatusScoring">نمره گذاری</string>
+    <string name="SamplesStatusCreatingFiles">ساخت فایل‌ها</string>
+    <string name="SamplesStatusDone">تمام شده</string>
+
+    <string name="SamplesStart">شروع نمونه</string>
+
+    <string name="SamplesStartDialogTitle">شروع نمونه؟</string>
+    <string name="SamplesStartDialogDescription">شما با شروع نمونه، می توانید آزمون مورد نظر خودتان را اجرا کنید. البته هنگام اجرای آزمون، این امکان وجود دارد که با بستن آن، اجرای آن را به زمانی دیگری موکول کنید.</string>
+    <string name="SamplesStartDialogPositive">شروع نمونه</string>
+    <string name="SamplesStartDialogNegative">بستن</string>
+
+    <string name="SamplesFiltered">فیلترها:</string>
+
+    <string name="SamplesFilterDialogTitle">فیلتر کردن نمونه‌ها براساس:</string>
+    <string name="SamplesFilterDialogُScale">آزمون</string>
+    <string name="SamplesFilterDialogRoom">اتاق درمان</string>
+    <string name="SamplesFilterDialogStatus">وضعیت</string>
+    <string name="SamplesFilterDialogClose">بستن</string>
+
+    <string name="SamplesScaleDialogTitle">آزمون مورد نظر خودتان را انتخاب کنید.</string>
+    <string name="SamplesRoomDialogTitle">اتاق درمان مورد نظر خودتان را جستجو کنید.</string>
+    <string name="SamplesStatusDialogTitle">وضعیت مورد نظر خودتان را انتخاب کنید.</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // CreateSample strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="CreateSampleTitle">ایجاد نمونه</string>
+
+    <string name="CreateSampleScale">مقیاس</string>
+    <string name="CreateSampleRoom">اتاق درمان</string>
+    <string name="CreateSampleCase">پرونده</string>
+    <string name="CreateSampleReference">مراجعان</string>
+    <string name="CreateSampleSession">جلسه</string>
+    <string name="CreateSampleCount">تعداد</string>
+
+    <string name="CreateSampleCreate">ایجاد نمونه</string>
+
+    <string name="CreateSampleScaleDialogTitle">مقیاس‌های مورد نظر خودتان را جستجو کنید.</string>
+    <string name="CreateSampleRoomDialogTitle">اتاق درمان مورد نظر خودتان را جستجو کنید.</string>
+    <string name="CreateSampleCaseDialogTitle">پرونده مورد نظر خودتان را جستجو کنید.</string>
+    <string name="CreateSampleReferenceDialogTitle">مراجعان مورد نظر خودتان را جستجو کنید.</string>
+    <string name="CreateSampleSessionDialogTitle">جلسه مورد نظر خودتان را جستجو کنید.</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // DetailSample strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="DetailSampleTitle">مشخصات نمونه</string>
+
+    <string name="DetailSampleCode">کد</string>
+    <string name="DetailSampleCase">پرونده</string>
+    <string name="DetailSampleRoom">اتاق درمان</string>
+    <string name="DetailSampleReference">مراجعان</string>
+
+    <string name="DetailSampleStatusSeald">باز نشده</string>
+    <string name="DetailSampleStatusOpen">باز شده</string>
+    <string name="DetailSampleStatusClosed">بسته شده</string>
+    <string name="DetailSampleStatusScoring">نمره گذاری</string>
+    <string name="DetailSampleStatusCreatingFiles">ساخت فایل ها</string>
+    <string name="DetailSampleStatusDone">تمام شده</string>
+
+    <string name="DetailSampleClose">بستن نمونه</string>
+    <string name="DetailSampleScore">نمره‌دهی</string>
+
+    <string name="DetailSampleScoring">در حال نمره‌گذاری …</string>
+
+    <string name="DetailSampleForm">مواد نمونه</string>
+    <string name="DetailSampleResult">نمره نمونه</string>
+    <string name="DetailSampleEdit">ویریش فرم</string>
+
+    <string name="DetailSampleGeneral">عمومی</string>
+    <string name="DetailSamplePrerequisite">پیش نیاز‌ها</string>
+    <string name="DetailSampleAnswer">گویه‌ها</string>
+
+    <string name="DetailSampleDownloadDialogTitle">فرمت مورد نظر خودتان را انتخاب کنید.</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // Scales strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="ScalesTitle">ارزیابی‌ها</string>
+
+    <string name="ScalesEdit">ویرایش</string>
+    <string name="ScalesVersion">نسخه</string>
+
+    <string name="ScalesCreate">ساختن نمونه</string>
+
+    <string name="ScalesSearched">جستجو:</string>
+
+    <string name="ScalesSearchDialogTitle">مقیاس مورد نظر خودتان را جستجو کنید.</string>
+    <string name="ScalesSearchDialogInput">مقیاس</string>
+    <string name="ScalesSearchDialogPositive">جستجو</string>
+    <string name="ScalesSearchDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -514,8 +682,6 @@
     <string name="SessionsStatus">وضعیت</string>
 
     <string name="SessionsEdit">ویرایش</string>
-    <string name="SessionsCreatePractice">گزارش</string>
-    <string name="SessionsPractices">تمرین ها</string>
 
     <string name="SessionsSearched">جستجو:</string>
 
@@ -584,6 +750,34 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // DetailSession strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="DetailSessionTitle">مشخصات جلسه</string>
+
+    <string name="DetailSessionName">جلسه درمانی</string>
+
+    <string name="DetailSessionPractices">تمرین‌ها</string>
+    <string name="DetailSessionAddPractice">ایجاد تمرین</string>
+    <string name="DetailSessionEmptyPractice">تمرینی موجود نیست</string>
+
+    <string name="DetailSessionPracticeId">#</string>
+    <string name="DetailSessionPracticeName">عنوان</string>
+    <string name="DetailSessionPracticeContent">محتوا</string>
+    <string name="DetailSessionPracticeNote">یادداشت</string>
+    <string name="DetailSessionPracticeAttachment">ضمیمه</string>
+    <string name="DetailSessionPracticeHomeWork">تکلیف</string>
+
+    <string name="DetailSessionPracticeAttachmentDownload">تمرین</string>
+    <string name="DetailSessionPracticeHomeWorkSend">ارسال</string>
+    <string name="DetailSessionPracticeHomeWorkDownload">دریافت</string>
+
+    <string name="DetailSessionReport">متن گزارش</string>
+    <string name="DetailSessionAddReport">ثبت گزارش</string>
+    <string name="DetailSessionEmptyReport">گزارشی موجود نیست</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     // Users strings
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -627,176 +821,81 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // Scales strings
+    // CreatePractice strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="ScalesTitle">ارزیابی‌ها</string>
+    <string name="CreatePracticeTitle">ایجاد تمرین</string>
 
-    <string name="ScalesEdit">ویرایش</string>
-    <string name="ScalesVersion">نسخه</string>
+    <string name="CreatePracticeName">عنوان</string>
+    <string name="CreatePracticeContent">محتوا</string>
+    <string name="CreatePracticeFile">فایل تمرین</string>
 
-    <string name="ScalesCreate">ساختن نمونه</string>
+    <string name="CreatePracticeSuffixPNG">PNG</string>
+    <string name="CreatePracticeSuffixJPG">JPG</string>
+    <string name="CreatePracticeSuffixJPEG">JPEG</string>
+    <string name="CreatePracticeSuffixGIF">GIF</string>
+    <string name="CreatePracticeSuffixDOC">DOC</string>
+    <string name="CreatePracticeSuffixPDF">PDF</string>
+    <string name="CreatePracticeSuffixMP4">MP4</string>
 
-    <string name="ScalesSearched">جستجو:</string>
-
-    <string name="ScalesSearchDialogTitle">مقیاس مورد نظر خودتان را جستجو کنید.</string>
-    <string name="ScalesSearchDialogInput">مقیاس</string>
-    <string name="ScalesSearchDialogPositive">جستجو</string>
-    <string name="ScalesSearchDialogNegative">بستن</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // Archives strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="ArchivesTitle">بایگانی نمونه‌ها</string>
-
-    <string name="ArchivesCount">عدد</string>
-
-    <string name="ArchivesCode">کد</string>
-    <string name="ArchivesCase">پرونده</string>
-    <string name="ArchivesRoom">اتاق درمان</string>
-    <string name="ArchivesReference">مراجعان</string>
-
-    <string name="ArchivesStatusOpen">باز شده</string>
-
-    <string name="ArchivesContinue">تکمیل نمونه</string>
-    <string name="ArchivesDelete">پاک کردن</string>
-    <string name="ArchivesRestore">بازیابی نمونه</string>
-    <string name="ArchivesDeleted">نمونه شما با موفقیت پاک شد</string>
-
-    <string name="ArchivesContinueDialogTitle">تکمیل نمونه؟</string>
-    <string name="ArchivesContinueDialogDescription">شما می توانید روند کار را از نمونه خود ادامه دهید و آن را به اتمام برسانید و به ریسلو تحویل دهید.</string>
-    <string name="ArchivesContinueDialogPositive">تکمیل نمونه</string>
-    <string name="ArchivesContinueDialogNegative">بستن</string>
+    <string name="CreatePracticeCreate">ایجاد تمرین</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // Samples strings
+    // CreateReport strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="SamplesTitle">نمونه‌ها</string>
+    <string name="CreateReportTitle">ثبت گزارش</string>
 
-    <string name="SamplesCode">کد</string>
-    <string name="SamplesCase">پرونده</string>
-    <string name="SamplesRoom">اتاق درمان</string>
-    <string name="SamplesReference">مراجعان</string>
+    <string name="CreateReportEncryptionType">نوع رمز نگاری</string>
+    <string name="CreateReportDescription">متن گزارش</string>
 
-    <string name="SamplesStatusSeald">باز نشده</string>
-    <string name="SamplesStatusOpen">باز شده</string>
-    <string name="SamplesStatusClosed">بسته شده</string>
-    <string name="SamplesStatusScoring">نمره گذاری</string>
-    <string name="SamplesStatusCreatingFiles">ساخت فایل‌ها</string>
-    <string name="SamplesStatusDone">تمام شده</string>
+    <string name="CreateReportCreate">ثبت گزارش</string>
 
-    <string name="SamplesStart">شروع نمونه</string>
-
-    <string name="SamplesStartDialogTitle">شروع نمونه؟</string>
-    <string name="SamplesStartDialogDescription">شما با شروع نمونه، می توانید آزمون مورد نظر خودتان را اجرا کنید. البته هنگام اجرای آزمون، این امکان وجود دارد که با بستن آن، اجرای آن را به زمانی دیگری موکول کنید.</string>
-    <string name="SamplesStartDialogPositive">شروع نمونه</string>
-    <string name="SamplesStartDialogNegative">بستن</string>
-
-    <string name="SamplesFiltered">فیلترها:</string>
-
-    <string name="SamplesFilterDialogTitle">فیلتر کردن نمونه‌ها براساس:</string>
-    <string name="SamplesFilterDialogُScale">آزمون</string>
-    <string name="SamplesFilterDialogRoom">اتاق درمان</string>
-    <string name="SamplesFilterDialogStatus">وضعیت</string>
-    <string name="SamplesFilterDialogClose">بستن</string>
-
-    <string name="SamplesScaleDialogTitle">آزمون مورد نظر خودتان را انتخاب کنید.</string>
-    <string name="SamplesRoomDialogTitle">اتاق درمان مورد نظر خودتان را جستجو کنید.</string>
-    <string name="SamplesStatusDialogTitle">وضعیت مورد نظر خودتان را انتخاب کنید.</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // CreateSample strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="CreateSampleTitle">ایجاد نمونه</string>
-
-    <string name="CreateSampleScale">مقیاس</string>
-    <string name="CreateSampleRoom">اتاق درمان</string>
-    <string name="CreateSampleCase">پرونده</string>
-    <string name="CreateSampleReference">مراجعان</string>
-    <string name="CreateSampleSession">جلسه</string>
-    <string name="CreateSampleCount">تعداد</string>
-
-    <string name="CreateSampleCreate">ایجاد نمونه</string>
-
-    <string name="CreateSampleScaleDialogTitle">مقیاس‌های مورد نظر خودتان را جستجو کنید.</string>
-    <string name="CreateSampleRoomDialogTitle">اتاق درمان مورد نظر خودتان را جستجو کنید.</string>
-    <string name="CreateSampleCaseDialogTitle">پرونده مورد نظر خودتان را جستجو کنید.</string>
-    <string name="CreateSampleReferenceDialogTitle">مراجعان مورد نظر خودتان را جستجو کنید.</string>
-    <string name="CreateSampleSessionDialogTitle">جلسه مورد نظر خودتان را جستجو کنید.</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // DetailSample strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="DetailSampleTitle">مشخصات نمونه</string>
-
-    <string name="DetailSampleCode">کد</string>
-    <string name="DetailSampleCase">پرونده</string>
-    <string name="DetailSampleRoom">اتاق درمان</string>
-    <string name="DetailSampleReference">مراجعان</string>
-
-    <string name="DetailSampleStatusSeald">باز نشده</string>
-    <string name="DetailSampleStatusOpen">باز شده</string>
-    <string name="DetailSampleStatusClosed">بسته شده</string>
-    <string name="DetailSampleStatusScoring">نمره گذاری</string>
-    <string name="DetailSampleStatusCreatingFiles">ساخت فایل ها</string>
-    <string name="DetailSampleStatusDone">تمام شده</string>
-
-    <string name="DetailSampleClose">بستن نمونه</string>
-    <string name="DetailSampleScore">نمره‌دهی</string>
-
-    <string name="DetailSampleScoring">در حال نمره‌گذاری …</string>
-
-    <string name="DetailSampleForm">مواد نمونه</string>
-    <string name="DetailSampleResult">نمره نمونه</string>
-    <string name="DetailSampleEdit">ویریش فرم</string>
-
-    <string name="DetailSampleGeneral">عمومی</string>
-    <string name="DetailSamplePrerequisite">پیش نیاز‌ها</string>
-    <string name="DetailSampleAnswer">گویه‌ها</string>
-
-    <string name="DetailSampleDownloadDialogTitle">فرمت مورد نظر خودتان را انتخاب کنید.</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // Outro strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="OutroTitle">نمونه شما با موفقیت تکمیل شد!</string>
-
-    <string name="OutroDescription">برای اطلاع دادن ریسلو از نتایج نمونه شما لازم است که فایل نمونه را بصورت انترنتی یا پیامکی ارسال نمایید.</string>
-
-    <string name="OutroInternet">ارسال إینترنتی نمونه به ریسلو</string>
-    <string name="OutroSMS">ارسال پیامکی نمونه به ریسلو</string>
-    <string name="OutroDownload">دریافت فایل نمونه</string>
-    <string name="OutroLater">بعدن ارسال کنم</string>
-
-    <string name="OutroInternetDialogTitle">ارسال إینترنتی</string>
-    <string name="OutroInternetDialogDescription">نتایج نمونه شما از طریق اینترنت به ریسلو ارسال می شود و سپس می توانید نمونه جدیدی را شروع کنید.</string>
-    <string name="OutroInternetDialogPositive">ارسال</string>
-    <string name="OutroInternetDialogNegative">بستن</string>
-
-    <string name="OutroSMSDialogTitle">ارسال پیامکی</string>
-    <string name="OutroSMSDialogDescription">نتایج نمونه شما از طریق پیامک به ریسلو ارسال می شود در نظر داشته باشید که تعداد پیامک های ارسالی شما به حجم فایل نمونه بستگی دارد.</string>
-    <string name="OutroSMSDialogPositive">ارسال</string>
-    <string name="OutroSMSDialogNegative">بستن</string>
-
-    <string name="OutroDownloadDialogTitle">دریافت فایل</string>
-    <string name="OutroDownloadDialogDescription">با دریافت فایل نمونه شما می توانید بعدن بصورت دستی در اختیار ریسلو از راه آپلود دادن قرار دهید.</string>
-    <string name="OutroDownloadDialogPositive">دریافت</string>
-    <string name="OutroDownloadDialogNegative">بستن</string>
+    <string name="CreateReportEncryptionTypeDialogTitle">رمز نگاری مورد نظر خودتان را انتخاب کنید.</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
 
-    // sample strings
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Sample strings
     ////////////////////////////////////////////////////////////////////////////////
 
     <string name="SamplePrerequisite">کاربر گرامی، قبل از شروع نمونه اطلاعات زیر را تکمیل نمایید.</string>
@@ -811,66 +910,12 @@
     <string name="SampleCloseDialogUnAnswered">بی پاسخ</string>
     <string name="SampleCloseDialogPositive">اتمام</string>
     <string name="SampleCloseDialogNegative">بستن</string>
+
     <string name="SampleCancelDialogTitle">خروج از نمونه؟</string>
     <string name="SampleCancelDialogDescription">با خارج شدن از آزمون، نمونه شما از بین نمی رود و شما می توانید از بایگانی خود آن را ادامه دهید.</string>
     <string name="SampleCancelDialogPositive">خروج</string>
     <string name="SampleCancelDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
-
-    // createPractice strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="createPracticeTitle">ارسال تمرین</string>
-
-    <string name="createPracticeName">عنوان</string>
-    <string name="createPracticeContent">محتوا</string>
-    <string name="createPracticeFile">ضمیمه</string>
-
-    <string name="createPracticeSuffixPNG">PNG</string>
-    <string name="createPracticeSuffixJPG">JPG</string>
-    <string name="createPracticeSuffixJPEG">JPEG</string>
-    <string name="createPracticeSuffixGIF">GIF</string>
-    <string name="createPracticeSuffixDOC">DOC</string>
-    <string name="createPracticeSuffixPDF">PDF</string>
-    <string name="createPracticeSuffixMP4">MP4</string>
-
-    <string name="createPracticeSend">ارسال</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // Practices strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="practicesToolbarTitle">تمرین ها</string>
-
-
-    <string name="PracticesTitle">عنوان</string>
-    <string name="PracticesContent">محتوا</string>
-    <string name="PracticesGetFile">دریافت ضمیمه</string>
-    <string name="PracticesNote">یادداشت</string>
-    <string name="PracticesSendHomework">ارسال تکلیف</string>
-    <string name="PracticesGetHomework">دریافت تکلیف</string>
-
-    <string name="PracticesSearched">جستجو:</string>
-
-    <string name="PracticesSearchDialogTitle">تمرین مورد نظر خودتان را جستجو کنید.</string>
-    <string name="PracticesSearchDialogInput">تمرین ها</string>
-    <string name="PracticesSearchDialogPositive">جستجو</string>
-    <string name="PracticesSearchDialogNegative">بستن</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // Practices strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="ReportToolbarTitle">گزارش</string>
-    <string name="Report">گزارش</string>
-    <string name="ReportSend">ارسال</string>
-    <string name="ReportType">نوع رمز نگاری</string>
-    <string name="ReportDialogTitle">نوع رمز نگاری مورد نظر خودتان را انتخاب کنید.</string>
-
-
-
 
 </resources>

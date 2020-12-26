@@ -16,10 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.DateManager;
-import com.majazeh.risloo.Views.Activities.CreatePracticeActivity;
+import com.majazeh.risloo.Views.Activities.DetailSessionActivity;
 import com.majazeh.risloo.Views.Activities.EditSessionActivity;
-import com.majazeh.risloo.Views.Activities.PracticesActivity;
-import com.majazeh.risloo.Views.Activities.ReportActivity;
 import com.majazeh.risloo.Views.Activities.SessionsActivity;
 
 import org.json.JSONArray;
@@ -59,18 +57,16 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
         try {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                 holder.editTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
+                holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_solid_snow_ripple_quartz);
             }
 
             Intent editSessionIntent = (new Intent(activity, EditSessionActivity.class));
-            Intent createPracticesIntent = (new Intent(activity, CreatePracticeActivity.class));
-            Intent reportIntent = (new Intent(activity, ReportActivity.class));
-            Intent practicesIntent = (new Intent(activity, PracticesActivity.class));
+            Intent detailSessionIntent = (new Intent(activity, DetailSessionActivity.class));
 
             // ID
             if (model.attributes.has("id") && !model.attributes.isNull("id")) {
                 editSessionIntent.putExtra("id", model.get("id").toString());
-                createPracticesIntent.putExtra("id", model.get("id").toString());
-                practicesIntent.putExtra("id", model.get("id").toString());
+                detailSessionIntent.putExtra("id", model.get("id").toString());
 
                 holder.serialTextView.setText(model.get("id").toString());
             }
@@ -178,23 +174,13 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
 
-            holder.reportTextView.setOnClickListener(view -> {
-                holder.reportTextView.setClickable(false);
-                handler.postDelayed(() -> holder.reportTextView.setClickable(true), 250);
+            holder.itemView.setOnClickListener(v -> {
+                holder.itemView.setClickable(false);
+                handler.postDelayed(() -> holder.itemView.setClickable(true), 250);
 
                 clearProgress();
 
-                activity.startActivityForResult(reportIntent, 100);
-                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
-            });
-
-            holder.practicesTextView.setOnClickListener(view -> {
-                holder.practicesTextView.setClickable(false);
-                handler.postDelayed(() -> holder.practicesTextView.setClickable(true), 250);
-
-                clearProgress();
-
-                activity.startActivityForResult(practicesIntent, 100);
+                activity.startActivityForResult(detailSessionIntent,100);
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
 
@@ -226,7 +212,7 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
 
     public class SessionsHolder extends RecyclerView.ViewHolder {
 
-        public TextView serialTextView, roomTextView, caseTextView, referenceTextView, startedAtTextView, durationTextView, statusTextView, editTextView, reportTextView, practicesTextView;
+        public TextView serialTextView, roomTextView, caseTextView, referenceTextView, startedAtTextView, durationTextView, statusTextView, editTextView;
         public LinearLayout roomLinearLayout, caseLinearLayout, referenceLinearLayout, startedAtLinearLayout, durationLinearLayout, statusLinearLayout;
 
         public SessionsHolder(View view) {
@@ -239,15 +225,12 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
             durationTextView = view.findViewById(R.id.single_item_sessions_duration_textView);
             statusTextView = view.findViewById(R.id.single_item_sessions_status_textView);
             editTextView = view.findViewById(R.id.single_item_sessions_edit_textView);
-            reportTextView = view.findViewById(R.id.single_item_sessions_report_textView);
-            practicesTextView = view.findViewById(R.id.single_item_sessions_practices);
             roomLinearLayout = view.findViewById(R.id.single_item_sessions_room_linearLayout);
             caseLinearLayout = view.findViewById(R.id.single_item_sessions_case_linearLayout);
             referenceLinearLayout = view.findViewById(R.id.single_item_sessions_reference_linearLayout);
             startedAtLinearLayout = view.findViewById(R.id.single_item_sessions_started_at_linearLayout);
             durationLinearLayout = view.findViewById(R.id.single_item_sessions_duration_linearLayout);
             statusLinearLayout = view.findViewById(R.id.single_item_sessions_status_linearLayout);
-
         }
     }
 
