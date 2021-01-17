@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_account"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusable="true"
-    android:fitsSystemWindows="true"
-    android:focusableInTouchMode="true"
     android:descendantFocusability="blocksDescendants"
+    android:fitsSystemWindows="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context=".Views.Activities.AccountActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/White"
         android:layoutDirection="rtl"
-        android:orientation="vertical"
-        android:background="@color/White">
+        android:orientation="vertical">
 
         <include layout="@layout/layout_toolbar" />
 
@@ -29,19 +28,19 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_24sdp"
-            android:layout_marginBottom="@dimen/_24sdp"
             android:layout_marginLeft="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_24sdp"
             android:layout_marginRight="@dimen/_16sdp"
+            android:layout_marginBottom="@dimen/_24sdp"
             app:cardBackgroundColor="@color/Snow"
             app:cardCornerRadius="@dimen/_16sdp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/_10sdp"
+                android:layoutDirection="rtl"
                 android:orientation="horizontal"
-                android:layoutDirection="rtl">
+                android:padding="@dimen/_10sdp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/activity_account_avatar_circleImageView"
@@ -49,8 +48,8 @@
                     android:layout_height="@dimen/_64sdp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/_12sdp"
-                    app:civ_border_width="@dimen/_4sdp"
-                    app:civ_border_color="@color/White"/>
+                    app:civ_border_color="@color/White"
+                    app:civ_border_width="@dimen/_4sdp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -64,10 +63,35 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/_4sdp"
                         android:gravity="right"
-                        android:textSize="@dimen/_14ssp"
-                        android:textStyle="bold"
+                        android:textAlignment="gravity"
                         android:textColor="@color/PrimaryDark"
-                        android:textAlignment="gravity" />
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_24sdp"
+                        android:layoutDirection="rtl"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/activity_account_cryptography_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:background="@drawable/draw_8sdp_solid_snow_border_quartz"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/_8sdp"
+                            android:paddingRight="@dimen/_8sdp"
+                            android:text="@string/AccountCryptography"
+                            android:textAlignment="gravity"
+                            android:textColor="@color/Mischka"
+                            android:textSize="@dimen/_8ssp"
+                            android:textStyle="bold" />
+
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -80,30 +104,30 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/_3sdp"
+                            android:background="@drawable/draw_8sdp_solid_snow_border_quartz"
+                            android:gravity="center"
                             android:paddingLeft="@dimen/_8sdp"
                             android:paddingRight="@dimen/_8sdp"
-                            android:gravity="center"
                             android:text="@string/AccountEdit"
-                            android:textSize="@dimen/_8ssp"
-                            android:textStyle="bold"
-                            android:textColor="@color/Mischka"
                             android:textAlignment="gravity"
-                            android:background="@drawable/draw_8sdp_solid_snow_border_quartz" />
+                            android:textColor="@color/Mischka"
+                            android:textSize="@dimen/_8ssp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/activity_account_send_textView"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginRight="@dimen/_3sdp"
+                            android:background="@drawable/draw_8sdp_solid_snow_border_quartz"
+                            android:gravity="center"
                             android:paddingLeft="@dimen/_8sdp"
                             android:paddingRight="@dimen/_8sdp"
-                            android:gravity="center"
                             android:text="@string/AccountSend"
-                            android:textSize="@dimen/_8ssp"
-                            android:textStyle="bold"
-                            android:textColor="@color/Mischka"
                             android:textAlignment="gravity"
-                            android:background="@drawable/draw_8sdp_solid_snow_border_quartz" />
+                            android:textColor="@color/Mischka"
+                            android:textSize="@dimen/_8ssp"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
@@ -129,15 +153,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/_12sdp"
+                android:background="@color/White"
+                android:gravity="right"
                 android:paddingLeft="@dimen/_6sdp"
                 android:paddingRight="@dimen/_6sdp"
-                android:gravity="right"
                 android:text="@string/AccountInfo"
-                android:textSize="@dimen/_11ssp"
-                android:textStyle="bold"
-                android:textColor="@color/Nero"
                 android:textAlignment="gravity"
-                android:background="@color/White"/>
+                android:textColor="@color/Nero"
+                android:textSize="@dimen/_11ssp"
+                android:textStyle="bold" />
 
         </FrameLayout>
 

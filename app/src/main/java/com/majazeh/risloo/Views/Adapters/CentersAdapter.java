@@ -135,16 +135,24 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                 }
                 holder.requestTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude);
 
-                if (authViewModel.hasAccess() || acceptation.get("position").toString().equals("manager")) {
+
+                if (authViewModel.editCenter(model)) {
                     holder.editImageView.setVisibility(View.VISIBLE);
-                    holder.usersImageView.setVisibility(View.VISIBLE);
 
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                         holder.editImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
-                        holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
                     }
                 } else {
                     holder.editImageView.setVisibility(View.GONE);
+                }
+
+                if (authViewModel.centerUsers(model)) {
+                    holder.usersImageView.setVisibility(View.VISIBLE);
+
+                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                        holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
+                    }
+                } else {
                     holder.usersImageView.setVisibility(View.GONE);
                 }
 

@@ -32,6 +32,7 @@ import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
+import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.CaseViewModel;
 import com.majazeh.risloo.ViewModels.SessionViewModel;
 import com.majazeh.risloo.Views.Adapters.DetailCaseReferencesAdapter;
@@ -53,6 +54,7 @@ public class DetailCaseActivity extends AppCompatActivity {
     // ViewModels
     private CaseViewModel caseViewModel;
     public SessionViewModel sessionViewModel;
+    public AuthViewModel authViewModel;
 
     // Adapters
     private DetailCaseReferencesAdapter detailCaseReferencesAdapter;
@@ -107,6 +109,7 @@ public class DetailCaseActivity extends AppCompatActivity {
     private void initializer() {
         caseViewModel = new ViewModelProvider(this).get(CaseViewModel.class);
         sessionViewModel = new ViewModelProvider(this).get(SessionViewModel.class);
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
         detailCaseReferencesAdapter = new DetailCaseReferencesAdapter(this);
         detailCaseSessionsAdapter = new DetailCaseSessionsAdapter(this);
@@ -148,6 +151,7 @@ public class DetailCaseActivity extends AppCompatActivity {
         testsCountTextView = findViewById(R.id.activity_detail_case_tests_count_textView);
 
         addReferenceTextView = findViewById(R.id.activity_detail_case_add_reference_textView);
+
         addSessionTextView = findViewById(R.id.activity_detail_case_add_session_textView);
         createSampleTextView = findViewById(R.id.activity_detail_case_create_sample_textView);
 
@@ -290,6 +294,16 @@ public class DetailCaseActivity extends AppCompatActivity {
     private void setData() {
         try {
             JSONObject data = FileManager.readObjectFromCache(this, "caseDetail" + "/" + caseId);
+
+            if (authViewModel.caseDetails(new Model(data))){
+                addReferenceTextView.setVisibility(View.VISIBLE);
+                addSessionTextView.setVisibility(View.VISIBLE);
+                createSampleTextView.setVisibility(View.VISIBLE);
+            }else{
+                addReferenceTextView.setVisibility(View.GONE);
+                addSessionTextView.setVisibility(View.GONE);
+                createSampleTextView.setVisibility(View.GONE);
+            }
 
             // Room
             if (data.has("room") && !data.isNull("room")) {

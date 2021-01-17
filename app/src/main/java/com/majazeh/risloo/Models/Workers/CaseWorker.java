@@ -3,6 +3,7 @@ package com.majazeh.risloo.Models.Workers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -22,6 +23,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.util.logging.Logger;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -113,6 +115,7 @@ public class CaseWorker extends Worker {
                         }
                     } else if (CaseRepository.page == 1) {
                         CaseRepository.cases.clear();
+                        FileManager.deletePageFromCache(context, "cases");
                     }
 
                     ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "all");

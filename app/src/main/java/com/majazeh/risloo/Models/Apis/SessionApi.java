@@ -12,6 +12,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
@@ -48,5 +49,9 @@ public interface SessionApi {
     @GET("sessions/{session_id}/practices")
     Call<ResponseBody> getPractices(@Header("Authorization") String authorization,@Path("session_id") String sessionId, @Query("page") int page);
 
+    @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
+    @Multipart
+    @POST("sessions/{session_id}/practices")
+    Call<ResponseBody> createPractices(@Header("Authorization") String authorization,@Path("session_id") String sessionId,@Part MultipartBody.Part file , @Part("title") RequestBody title,  @Part("content") RequestBody content);
 
 }

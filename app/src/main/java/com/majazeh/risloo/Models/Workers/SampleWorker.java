@@ -229,6 +229,7 @@ public class SampleWorker extends Worker {
                     }
                 } else if (SampleRepository.samplesPage == 1) {
                     SampleRepository.getAll.clear();
+                    FileManager.deletePageFromCache(context, "samples" + "/" + "all");
                 }
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "all");
@@ -469,7 +470,6 @@ public class SampleWorker extends Worker {
     private void getScales() {
         try {
             Call<ResponseBody> call = sampleApi.getScales(token(), SampleRepository.scalesPage, SampleRepository.scalesQ);
-            Log.e("a", SampleRepository.scalesQ+ "mm");
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
@@ -497,6 +497,7 @@ public class SampleWorker extends Worker {
                     }
                 } else if (SampleRepository.scalesPage == 1) {
                     SampleRepository.scales.clear();
+                    FileManager.deletePageFromCache(context, "samples" + "/" + "all");
                 }
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "scales");

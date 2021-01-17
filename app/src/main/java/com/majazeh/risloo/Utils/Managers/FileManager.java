@@ -246,6 +246,13 @@ public class FileManager {
         }
     }
 
+    public static void deletePageFromCache(Context context, String fileName) {
+        File file = new File(context.getCacheDir(), fileName);
+        if (file.exists()) {
+           file.delete();
+        }
+    }
+
     public static boolean hasFileInCache(Context context, String fileName) {
         return new File(context.getCacheDir(), fileName).exists();
     }

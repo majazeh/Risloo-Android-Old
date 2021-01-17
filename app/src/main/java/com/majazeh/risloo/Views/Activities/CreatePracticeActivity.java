@@ -212,11 +212,11 @@ public class CreatePracticeActivity extends AppCompatActivity {
             if (contentEditText.length() == 0) {
                 controlEditText.error(this, contentEditText);
             }
-            if (practice.equals("")) {
-                errorException("practice");
-            }
+//            if (practice.equals("")) {
+//                errorException("practice");
+//            }
 
-            if (titleEditText.length() != 0 && contentEditText.length() != 0 && !practice.equals("")) {
+            if (titleEditText.length() != 0 && contentEditText.length() != 0 ) {
                 controlEditText.clear(this, titleEditText);
                 controlEditText.clear(this, contentEditText);
                 clearException("practice");
@@ -227,8 +227,8 @@ public class CreatePracticeActivity extends AppCompatActivity {
     }
 
     private void setData() {
-        if (extras.getString("id") != null)
-            sessionId = extras.getString("id");
+        if (extras.getString("session_id") != null)
+            sessionId = extras.getString("session_id");
     }
 
     private void errorException(String type) {

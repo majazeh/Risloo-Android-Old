@@ -194,6 +194,10 @@ public class AuthRepository extends MainRepository {
         return items.publicKey();
     }
 
+    public String getPrivateKey() {
+        return items.privateKey();
+    }
+
     public String getAvatar() {
         return items.avatar();
     }

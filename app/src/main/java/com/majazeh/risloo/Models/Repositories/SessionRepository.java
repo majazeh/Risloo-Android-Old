@@ -2,7 +2,6 @@ package com.majazeh.risloo.Models.Repositories;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 
 
@@ -134,9 +133,9 @@ public class SessionRepository extends MainRepository {
         SessionRepository.sessionId = sessionId;
         SessionRepository.report = report;
         SessionRepository.encryptionType = encryptionType;
-        work = "Report";
+        work = "createReport";
         workState.setValue(-1);
-        workManager("Report");
+        workManager("createReport");
     }
 
     public void createPractice(String sessionId, String title, String content, String fileAttachment) throws JSONException {
@@ -225,9 +224,9 @@ public class SessionRepository extends MainRepository {
             return null;
     }
 
-    public ArrayList<Model> getReportType(boolean key) throws JSONException {
+    public ArrayList<Model> getReportType(String key) throws JSONException {
         ArrayList arrayList = new ArrayList<Model>();
-        if (key) {
+        if (!key.equals("")) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("fa_title", "رمزگذاری توسط کلید عمومی من");
             jsonObject.put("en_title", "publicKey");

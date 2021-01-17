@@ -136,13 +136,14 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
             });
 
             holder.itemView.setOnClickListener(v -> {
-                holder.itemView.setClickable(false);
-                handler.postDelayed(() -> holder.itemView.setClickable(true), 250);
+                        holder.itemView.setClickable(false);
+                        handler.postDelayed(() -> holder.itemView.setClickable(true), 250);
 
-                clearProgress();
+                        clearProgress();
 
-                activity.startActivityForResult(detailCaseIntent,100);
-                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+                        activity.startActivityForResult(detailCaseIntent, 100);
+                        activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+
             });
 
         } catch (JSONException e) {

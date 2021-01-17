@@ -3,6 +3,7 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Items.AuthItems;
@@ -121,60 +122,116 @@ public class MainRepository {
             return false;
     }
 
-    public boolean haveCenter() {
-        if (sharedPreferences.getBoolean("haveCenter", false) == true) {
+
+    public boolean roomManager(Model data) throws JSONException {
+        JSONObject room;
+        if (data.get("room") != null) {
+            room = (JSONObject) data.get("room");
+        } else if (data.get("case") != null) {
+           JSONObject cases = (JSONObject) data.get("case");
+            room = (JSONObject) cases.get("room");
+        } else {
+            room = data.attributes;
+        }
+        JSONObject center = (JSONObject) room.get("center");
+        if (!center.isNull("acceptation")) {
+            JSONObject roomManager = room.getJSONObject("manager");
+            if (roomManager.getString("id").equals(sharedPreferences.getString("userId", ""))) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public boolean centerManager(Model data) throws JSONException {
+        JSONObject center;
+        if (data.get("room") != null) {
+            JSONObject room = (JSONObject) data.get("room");
+            center = room.getJSONObject("center");
+        } else {
+            center = data.attributes;
+        }
+        if (!center.isNull("acceptation")) {
+            JSONObject centerManager = center.getJSONObject("manager");
+            if (centerManager.getString("id").equals(sharedPreferences.getString("userId", ""))) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+    }
+
+    public boolean roomAccess() {
+        if (sharedPreferences.getString("createRoomAccess", "").equals("true")) {
             return true;
         } else
             return false;
+
     }
 
-    public boolean psychologist() {
-        if (sharedPreferences.getString("type", "").equals("psychologist")) {
-            return true;
+    public boolean operator(Model data) throws JSONException {
+        JSONObject center;
+        if (data.get("room") != null) {
+            JSONObject room = (JSONObject) data.get("room");
+            center = room.getJSONObject("center");
+        } else if (data.get("case") != null) {
+            JSONObject cases = (JSONObject) data.get("case");
+            JSONObject room = (JSONObject) cases.get("room");
+            center = room.getJSONObject("center");
+        } else {
+            center = data.attributes;
+        }
+        if (!center.isNull("acceptation")) {
+            JSONObject acceptation = center.getJSONObject("acceptation");
+            if (acceptation.getString("position").equals("operator")) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
     }
 
-    public boolean psychologist(JSONObject client) throws JSONException {
-        if (sharedPreferences.getString("userId","").equals(client.getString("id")) && client.getString("type").equals("psychologist")) {
-            return true;
+    public boolean psychologist(Model data) throws JSONException {
+        JSONObject center;
+        if (data.get("room") != null) {
+            JSONObject room = (JSONObject) data.get("room");
+            center = room.getJSONObject("center");
+        } else if (data.get("case") != null) {
+            JSONObject cases = (JSONObject) data.get("case");
+            JSONObject room = (JSONObject) cases.get("room");
+            center = room.getJSONObject("center");
+        } else {
+            center = data.attributes;
+        }
+        if (!center.isNull("acceptation")) {
+
+            JSONObject acceptation = center.getJSONObject("acceptation");
+            if (acceptation.getString("position").equals("psychologist")) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
     }
 
-    public boolean manager() {
-        if (sharedPreferences.getString("type", "").equals("manager")) {
+
+    public boolean client(Model data) throws JSONException {
+        JSONObject client = (JSONObject) data.get("client");
+        if (client.getString("id").equals(sharedPreferences.getString("userId", ""))) {
             return true;
         } else {
             return false;
         }
     }
-
-    public boolean manager(JSONObject client) throws JSONException {
-        if (sharedPreferences.getString("userId","").equals(client.getString("id")) && client.getString("type").equals("manager")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean operator() {
-        if (sharedPreferences.getString("type", "").equals("operator")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean operator(JSONObject client) throws JSONException {
-        if (sharedPreferences.getString("userId","").equals(client.getString("id")) && client.getString("type").equals("operator")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 
 }

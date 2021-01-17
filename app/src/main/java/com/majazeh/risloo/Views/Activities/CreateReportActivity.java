@@ -15,13 +15,16 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,8 +42,13 @@ import com.majazeh.risloo.Views.Adapters.SearchAdapter;
 
 import org.json.JSONException;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.Objects;
+
+import javax.crypto.NoSuchPaddingException;
 
 public class CreateReportActivity extends AppCompatActivity {
 
@@ -67,9 +75,10 @@ public class CreateReportActivity extends AppCompatActivity {
     private FrameLayout encryptionTypeFrameLayout;
     public TextView encryptionTypeTextView;
     private EditText descriptionEditText;
-    private Button createButton;
+    private Button createButton, cryptographyButton;
     private Dialog encryptionTypeDialog, progressDialog;
-    private TextView encryptionTypeDialogTitleTextView;
+    private TextView encryptionTypeDialogTitleTextView,cryptographyTextView;
+    private LinearLayout cryptographyLayout;
     private RecyclerView encryptionTypeDialogRecyclerView;
 
     @Override
@@ -108,6 +117,9 @@ public class CreateReportActivity extends AppCompatActivity {
 
         controlEditText = new ControlEditText();
 
+        cryptographyLayout = findViewById(R.id.activity_create_report_cryptography_layout);
+        cryptographyLayout.setVisibility(View.GONE);
+
         toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
 
@@ -126,6 +138,8 @@ public class CreateReportActivity extends AppCompatActivity {
         descriptionEditText = findViewById(R.id.activity_create_report_description_editText);
 
         createButton = findViewById(R.id.activity_create_report_button);
+
+        cryptographyButton = findViewById(R.id.activity_create_report_cryptography_button);
 
         encryptionTypeDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(encryptionTypeDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
@@ -147,6 +161,8 @@ public class CreateReportActivity extends AppCompatActivity {
         encryptionTypeDialogTitleTextView = encryptionTypeDialog.findViewById(R.id.dialog_search_title_textView);
         encryptionTypeDialogTitleTextView.setText(getResources().getString(R.string.CreateReportEncryptionTypeDialogTitle));
 
+        cryptographyTextView = findViewById(R.id.activity_create_report_cryptography_textView);
+
         encryptionTypeDialogRecyclerView = encryptionTypeDialog.findViewById(R.id.dialog_search_recyclerView);
         encryptionTypeDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
         encryptionTypeDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -158,6 +174,7 @@ public class CreateReportActivity extends AppCompatActivity {
             toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
 
             createButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
+            cryptographyButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
         }
     }
 
@@ -183,7 +200,11 @@ public class CreateReportActivity extends AppCompatActivity {
                 controlEditText.clear(this, controlEditText.input());
             }
 
-//            setRecyclerView(sessionViewModel.getReportType(authViewModel.getPublicKey()), encryptionTypeDialogRecyclerView, "getEncryptionTypes");
+            try {
+                setRecyclerView(sessionViewModel.getReportType(authViewModel.getPublicKey()), encryptionTypeDialogRecyclerView, "getEncryptionTypes");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
             encryptionTypeDialog.show();
         });
@@ -221,6 +242,24 @@ public class CreateReportActivity extends AppCompatActivity {
                 doWork();
             }
         });
+
+        cryptographyButton.setOnClickListener(view -> {
+            try {
+                report = sessionViewModel.encrypt(report, authViewModel.getPublicKey());
+                descriptionEditText.setText(report);
+                descriptionEditText.setTextColor(getResources().getColor(R.color.Grey));
+                cryptographyButton.setClickable(false);
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (NoSuchPaddingException e) {
+                e.printStackTrace();
+            } catch (InvalidKeySpecException e) {
+                e.printStackTrace();
+            } catch (InvalidKeyException e) {
+                e.printStackTrace();
+            }
+        });
+
 
         encryptionTypeDialog.setOnCancelListener(dialog -> encryptionTypeDialog.dismiss());
     }
@@ -365,6 +404,13 @@ public class CreateReportActivity extends AppCompatActivity {
 
                         encryptionTypeTextView.setText(getResources().getString(R.string.CreateReportEncryptionType));
                         encryptionTypeTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                    }
+
+                    if (encryptionTypeId.equals("publicKey")){
+                        cryptographyLayout.setVisibility(View.VISIBLE);
+                        cryptographyButton.setClickable(true);
+                    }else{
+                        cryptographyLayout.setVisibility(View.GONE);
                     }
 
                     encryptionTypeDialog.dismiss();

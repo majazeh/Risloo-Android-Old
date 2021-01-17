@@ -94,7 +94,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
             if (model.attributes.has("acceptation") && !model.attributes.isNull("acceptation")) {
                 JSONObject acceptation = (JSONObject) model.get("acceptation");
 
-                if (authViewModel.hasAccess() || acceptation.get("position").toString().equals("manager")) {
+                if (authViewModel.roomUsers(model)) {
                     holder.usersImageView.setVisibility(View.VISIBLE);
 
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {

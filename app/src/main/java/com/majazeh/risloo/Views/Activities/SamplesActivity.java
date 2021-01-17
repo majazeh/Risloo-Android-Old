@@ -156,7 +156,10 @@ public class SamplesActivity extends AppCompatActivity {
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
         toolbarCreateImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
-        toolbarCreateImageView.setVisibility(View.VISIBLE);
+        if (authViewModel.createSample())
+            toolbarCreateImageView.setVisibility(View.VISIBLE);
+        else
+            toolbarCreateImageView.setVisibility(View.GONE);
         toolbarCreateImageView.setImageResource(R.drawable.ic_plus_light);
         ImageViewCompat.setImageTintList(toolbarCreateImageView, AppCompatResources.getColorStateList(this, R.color.IslamicGreen));
         toolbarFilterImageView = findViewById(R.id.layout_toolbar_thirdly_imageView);
@@ -730,7 +733,7 @@ public class SamplesActivity extends AppCompatActivity {
                         } else {
                             scale = model.get("id").toString();
 
-                            for (int i = 0; i< filterRecyclerViewAdapter.getValues().size(); i++) {
+                            for (int i = 0; i < filterRecyclerViewAdapter.getValues().size(); i++) {
                                 if (filterRecyclerViewAdapter.getIds().get(i).charAt(0) == model.get("id").toString().charAt(0)) {
                                     filterRecyclerViewAdapter.replaceValue(i, model);
                                     break;
@@ -740,7 +743,7 @@ public class SamplesActivity extends AppCompatActivity {
                     } else if (scale.equals(model.get("id").toString())) {
                         scale = "";
 
-                        for (int i = 0; i< filterRecyclerViewAdapter.getValues().size(); i++) {
+                        for (int i = 0; i < filterRecyclerViewAdapter.getValues().size(); i++) {
                             if (filterRecyclerViewAdapter.getIds().get(i).equals(model.get("id").toString())) {
                                 filterRecyclerViewAdapter.removeValue(i);
                                 break;
@@ -771,7 +774,7 @@ public class SamplesActivity extends AppCompatActivity {
                         } else {
                             room = roomModel.get("id").toString();
 
-                            for (int i = 0; i< filterRecyclerViewAdapter.getValues().size(); i++) {
+                            for (int i = 0; i < filterRecyclerViewAdapter.getValues().size(); i++) {
                                 if (filterRecyclerViewAdapter.getIds().get(i).charAt(0) == model.get("id").toString().charAt(0)) {
                                     filterRecyclerViewAdapter.replaceValue(i, roomModel);
                                     break;
@@ -781,7 +784,7 @@ public class SamplesActivity extends AppCompatActivity {
                     } else if (room.equals(roomModel.get("id").toString())) {
                         room = "";
 
-                        for (int i = 0; i< filterRecyclerViewAdapter.getValues().size(); i++) {
+                        for (int i = 0; i < filterRecyclerViewAdapter.getValues().size(); i++) {
                             if (filterRecyclerViewAdapter.getIds().get(i).equals(roomModel.get("id").toString())) {
                                 filterRecyclerViewAdapter.removeValue(i);
                                 break;
@@ -815,7 +818,7 @@ public class SamplesActivity extends AppCompatActivity {
                         } else {
                             status = model.get("id").toString();
 
-                            for (int i = 0; i< filterRecyclerViewAdapter.getValues().size(); i++) {
+                            for (int i = 0; i < filterRecyclerViewAdapter.getValues().size(); i++) {
                                 if (filterRecyclerViewAdapter.getIds().get(i).charAt(0) != 'R' && filterRecyclerViewAdapter.getIds().get(i).charAt(0) != '$') {
                                     filterRecyclerViewAdapter.replaceValue(i, model);
                                     break;
@@ -825,7 +828,7 @@ public class SamplesActivity extends AppCompatActivity {
                     } else if (status.equals(model.get("id").toString())) {
                         status = "";
 
-                        for (int i = 0; i< filterRecyclerViewAdapter.getValues().size(); i++) {
+                        for (int i = 0; i < filterRecyclerViewAdapter.getValues().size(); i++) {
                             if (filterRecyclerViewAdapter.getIds().get(i).equals(model.get("id").toString())) {
                                 filterRecyclerViewAdapter.removeValue(i);
                                 break;

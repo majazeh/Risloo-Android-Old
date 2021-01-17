@@ -19,6 +19,7 @@ import android.os.Handler;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -37,6 +38,7 @@ import com.majazeh.risloo.Utils.Managers.PathManager;
 import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
+import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.SessionViewModel;
 import com.majazeh.risloo.Views.Adapters.DetailSessionPracticesAdapter;
 import com.squareup.picasso.Picasso;
@@ -44,14 +46,22 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.Objects;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DetailSessionActivity extends AppCompatActivity {
 
     // ViewModels
+    private AuthViewModel authViewModel;
     public SessionViewModel sessionViewModel;
 
     // Adapters
@@ -71,7 +81,7 @@ public class DetailSessionActivity extends AppCompatActivity {
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
     private FrameLayout mainLayout;
-    private LinearLayout infoLayout, loadingLayout;
+    private LinearLayout infoLayout, loadingLayout,reportLayout;
     private ImageView infoImageView;
     private TextView infoTextView;
     private CircleImageView roomAvatarImageView;
@@ -104,6 +114,8 @@ public class DetailSessionActivity extends AppCompatActivity {
 
     private void initializer() {
         sessionViewModel = new ViewModelProvider(this).get(SessionViewModel.class);
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+
 
         detailSessionPracticesAdapter = new DetailSessionPracticesAdapter(this);
 
@@ -128,6 +140,7 @@ public class DetailSessionActivity extends AppCompatActivity {
         mainLayout = findViewById(R.id.activity_detail_session_mainLayout);
         infoLayout = findViewById(R.id.layout_info_linearLayout);
         loadingLayout = findViewById(R.id.layout_loading_linearLayout);
+        reportLayout = findViewById(R.id.activity_detail_session_add_report_layout);
 
         infoImageView = findViewById(R.id.layout_info_imageView);
         infoTextView = findViewById(R.id.layout_info_textView);
@@ -206,6 +219,7 @@ public class DetailSessionActivity extends AppCompatActivity {
 
             createReportActivity.putExtra("loaded", true);
             createReportActivity.putExtra("session_id", sessionId);
+            createReportActivity.putExtra("report", report);
 
             startActivityForResult(createReportActivity, 200);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
@@ -243,6 +257,12 @@ public class DetailSessionActivity extends AppCompatActivity {
     private void setData() {
         try {
             JSONObject data = FileManager.readObjectFromCache(this, "sessionDetail" + "/" + sessionId);
+
+            if (authViewModel.report(new Model(FileManager.readObjectFromCache(this, "sessionDetail" + "/" + sessionId)))){
+                reportLayout.setVisibility(View.VISIBLE);
+            }else{
+                reportLayout.setVisibility(View.GONE);
+            }
 
             // Case
             if (data.has("case") && !data.isNull("case")) {
@@ -284,10 +304,17 @@ public class DetailSessionActivity extends AppCompatActivity {
 
             // Report
             if (data.has("report") && !data.isNull("report")) {
-                report = data.get("report").toString();
+                if (!authViewModel.getPrivateKey().equals("")){
+                    report = sessionViewModel.decrypt(data.get("report").toString(),authViewModel.getPrivateKey());
 
-                reportTextView.setText(report);
-                reportTextView.setVisibility(View.VISIBLE);
+                    reportTextView.setText(report);
+                    reportTextView.setVisibility(View.VISIBLE);
+                }else {
+                    report = data.get("report").toString();
+
+                    reportTextView.setText(report);
+                    reportTextView.setVisibility(View.VISIBLE);
+                }
             } else {
                 emptyReportTextView.setVisibility(View.VISIBLE);
             }
@@ -305,6 +332,18 @@ public class DetailSessionActivity extends AppCompatActivity {
             }
 
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        } catch (InvalidKeySpecException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
             e.printStackTrace();
         }
     }

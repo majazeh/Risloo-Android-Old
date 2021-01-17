@@ -55,7 +55,7 @@ public class AccountActivity extends AppCompatActivity {
     private ImageView toolbarImageView, toolbarLogOutImageView;
     private TextView toolbarTextView;
     private CircleImageView avatarCircleImageView;
-    private TextView nameTextView, editTextView, sendTextView;
+    private TextView nameTextView, editTextView, sendTextView, cryptographyTextView;
     private RecyclerView accountRecyclerView;
     private Dialog logOutDialog, progressDialog;
     private TextView logOutDialogTitle, logOutDialogDescription, logOutDialogPositive, logOutDialogNegative;
@@ -111,6 +111,7 @@ public class AccountActivity extends AppCompatActivity {
         nameTextView = findViewById(R.id.activity_account_name_textView);
         editTextView = findViewById(R.id.activity_account_edit_textView);
         sendTextView = findViewById(R.id.activity_account_send_textView);
+        cryptographyTextView = findViewById(R.id.activity_account_cryptography_textView);
 
         accountRecyclerView = findViewById(R.id.activity_account_recyclerView);
         accountRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._8sdp), (int) getResources().getDimension(R.dimen._32sdp)));
@@ -152,6 +153,7 @@ public class AccountActivity extends AppCompatActivity {
 
             editTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
             sendTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
+            cryptographyTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
 
             logOutDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
             logOutDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
@@ -203,6 +205,15 @@ public class AccountActivity extends AppCompatActivity {
 
             startActivity(new Intent(this, AttachmentActivity.class));
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+        });
+
+        cryptographyTextView.setOnClickListener(view -> {
+            cryptographyTextView.setClickable(false);
+            handler.postDelayed(() -> cryptographyTextView.setClickable(true), 250);
+
+            startActivity(new Intent(this, CryptographyActivity.class));
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+
         });
 
         logOutDialogPositive.setOnClickListener(v -> {

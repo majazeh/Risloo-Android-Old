@@ -123,8 +123,138 @@ public class AuthViewModel extends AndroidViewModel {
         return repository.getPublicKey();
     }
 
+    public String getPrivateKey() {
+        return repository.getPrivateKey();
+    }
+
     public String getAvatar() {
         return repository.getAvatar();
     }
+
+
+    public boolean admin() {
+        return repository.admin();
+    }
+
+    public boolean roomManager(Model data) throws JSONException {
+        return repository.roomManager(data);
+    }
+
+    public boolean client(Model data) throws JSONException {
+        return repository.client(data);
+    }
+
+    public boolean centerManager(Model data) throws JSONException {
+        return repository.centerManager(data);
+    }
+
+    public boolean operator(Model data) throws JSONException {
+        return repository.operator(data);
+    }
+
+    public boolean openSample(Model data) throws JSONException {
+        if (admin() || roomManager(data) || client(data) || centerManager(data) || operator(data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean openSampleDetail(Model data) throws JSONException {
+        if (admin() || roomManager(data) || centerManager(data) || operator(data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean createSample() {
+        if (hasAccess()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean createCenter() {
+        if (admin()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean editCenter(Model data) throws JSONException {
+        if (admin() ||centerManager(data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean centerUsers(Model data) throws JSONException {
+        if (admin() ||centerManager(data) || operator(data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean roomUsers(Model data) throws JSONException {
+        if (admin() ||roomManager(data) || centerUsers(data) || operator(data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean addRoomUsers(Model data) throws JSONException {
+        if (admin() ||centerManager(data) || operator(data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean createRoom() {
+        if (admin() ||repository.roomAccess()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean createCase() {
+        if (hasAccess()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean  caseDetails(Model data) throws JSONException {
+        if (operator(data) ||centerManager(data) || roomManager(data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean  createSession() {
+        if (repository.hasAccess()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean report(Model data) throws JSONException {
+        if (roomManager(data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 }

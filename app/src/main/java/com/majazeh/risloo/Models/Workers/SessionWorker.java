@@ -10,13 +10,12 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.ANRequest;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Apis.CaseApi;
 import com.majazeh.risloo.Models.Apis.SessionApi;
-import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.Models.Repositories.CaseRepository;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
 import com.majazeh.risloo.Models.Repositories.SessionRepository;
@@ -31,10 +30,13 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
-import java.util.logging.Logger;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SessionWorker extends Worker {
@@ -81,7 +83,7 @@ public class SessionWorker extends Worker {
                 case "getSessionsOfCase":
                     getSessionsOfCase();
                     break;
-                case "Report":
+                case "createReport":
                     Report();
                     break;
                 case "createPractice":
@@ -89,6 +91,9 @@ public class SessionWorker extends Worker {
                     break;
                 case "getPractices":
                     getPractices();
+                    break;
+                case "createHomework":
+                    createHomework();
             }
         }
 
@@ -137,6 +142,7 @@ public class SessionWorker extends Worker {
                         }
                     } else if (SessionRepository.page == 1) {
                         SessionRepository.sessions.clear();
+                        FileManager.deletePageFromCache(context, "sessions");
                     }
 
                     ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "all");
@@ -279,7 +285,7 @@ public class SessionWorker extends Worker {
 
     public void getSessionsOfCase() {
         try {
-            Call<ResponseBody> call = sessionApi.getSessionsOfCase(token(), CaseRepository.caseId,SessionRepository.Q);
+            Call<ResponseBody> call = sessionApi.getSessionsOfCase(token(), CaseRepository.caseId, SessionRepository.Q);
 
             SessionRepository.sessions.clear();
             Response<ResponseBody> bodyResponse = call.execute();
@@ -326,7 +332,7 @@ public class SessionWorker extends Worker {
 
     public void Report() {
         try {
-            Call<ResponseBody> call = sessionApi.Report(token(), SessionRepository.sessionId, SessionRepository.report,SessionRepository.encryptionType);
+            Call<ResponseBody> call = sessionApi.Report(token(), SessionRepository.sessionId, SessionRepository.report, SessionRepository.encryptionType);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -359,13 +365,14 @@ public class SessionWorker extends Worker {
 
     private void createPractice() {
         File attachment = new File(SessionRepository.fileAttachment);
-        AndroidNetworking.upload("https://bapi.risloo.ir/api/sessions/"+ SessionRepository.sessionId + "/practices")
-                .addHeaders("Authorization", token())
-                .addMultipartFile("attachment", attachment)
-                .addMultipartParameter("title", SessionRepository.fileTitle)
-                .addMultipartParameter("content", SessionRepository.fileContent)
-                .setPriority(Priority.HIGH)
-                .build()
+        ANRequest.MultiPartBuilder multiPartBuilder = AndroidNetworking.upload("https://bapi.risloo.ir/api/sessions/" + SessionRepository.sessionId + "/practices");
+        multiPartBuilder.addHeaders("Authorization", token());
+        if (!SessionRepository.fileAttachment.equals(""))
+        multiPartBuilder.addMultipartFile("attachment", attachment);
+        multiPartBuilder.addMultipartParameter("title", SessionRepository.fileTitle);
+        multiPartBuilder.addMultipartParameter("content", SessionRepository.fileContent);
+        multiPartBuilder.setPriority(Priority.MEDIUM);
+        multiPartBuilder.build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
 
                     @Override
@@ -389,7 +396,6 @@ public class SessionWorker extends Worker {
                     public void onError(ANError error) {
                         try {
                             JSONObject errorBody = new JSONObject(error.getErrorBody());
-
                             ExceptionGenerator.getException(true, error.getErrorCode(), errorBody, "createPractice");
                             SessionRepository.workState.postValue(0);
                         } catch (JSONException e) {
@@ -405,7 +411,7 @@ public class SessionWorker extends Worker {
 
     private void createHomework() {
         File attachment = new File(SessionRepository.fileAttachment);
-        AndroidNetworking.upload("https://bapi.risloo.ir/api/sessions/"+ SessionRepository.sessionId + "/practices/" + SessionRepository.practiceId)
+        AndroidNetworking.upload("https://bapi.risloo.ir/api/sessions/" + SessionRepository.sessionId + "/practices/" + SessionRepository.practiceId)
                 .addHeaders("Authorization", token())
                 .addMultipartFile("attachment", attachment)
                 .setPriority(Priority.HIGH)
@@ -433,7 +439,6 @@ public class SessionWorker extends Worker {
                     public void onError(ANError error) {
                         try {
                             JSONObject errorBody = new JSONObject(error.getErrorBody());
-
                             ExceptionGenerator.getException(true, error.getErrorCode(), errorBody, "createHomework");
                             SessionRepository.workState.postValue(0);
                         } catch (JSONException e) {
@@ -449,34 +454,36 @@ public class SessionWorker extends Worker {
 
     public void getPractices() {
         try {
-            Call<ResponseBody> call = sessionApi.getPractices(token(),SessionRepository.sessionId, SessionRepository.practicesPage);
+            Call<ResponseBody> call = sessionApi.getPractices(token(), SessionRepository.sessionId, SessionRepository.practicesPage);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 try {
                     JSONObject successBody = new JSONObject(bodyResponse.body().string());
                     if (successBody.getJSONArray("data").length() != 0) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                                FileManager.deletePageFromCache(context, "practices" + "/" + SessionRepository.sessionId, SessionRepository.page, 15);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            FileManager.deletePageFromCache(context, "practices" + "/" + SessionRepository.sessionId, SessionRepository.page, 15);
+                        }
+
+                        if (SessionRepository.practicesPage == 1) {
+                            FileManager.writeObjectToCache(context, successBody, "practices" + "/" + SessionRepository.sessionId);
+
+                        } else {
+                            JSONObject jsonObject = FileManager.readObjectFromCache(context, "practices" + "/" + SessionRepository.sessionId);
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
+                                JSONArray jsonArray = successBody.getJSONArray("data");
+                                data.put(jsonArray.getJSONObject(i));
                             }
+                            jsonObject.put("data", data);
+                            FileManager.writeObjectToCache(context, jsonObject, "practices" + "/" + SessionRepository.sessionId);
 
-                            if (SessionRepository.practicesPage == 1) {
-                                FileManager.writeObjectToCache(context, successBody, "practices" + "/" + SessionRepository.sessionId);
-
-                            } else {
-                                JSONObject jsonObject = FileManager.readObjectFromCache(context, "practices" + "/" + SessionRepository.sessionId);
-                                JSONArray data = jsonObject.getJSONArray("data");
-                                for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
-                                    JSONArray jsonArray = successBody.getJSONArray("data");
-                                    data.put(jsonArray.getJSONObject(i));
-                                }
-                                jsonObject.put("data", data);
-                                FileManager.writeObjectToCache(context, jsonObject, "practices" + "/" + SessionRepository.sessionId);
-
-                            }
+                        }
 
                     } else if (SessionRepository.practicesPage == 1) {
                         SessionRepository.practices.clear();
+                        FileManager.deletePageFromCache(context, "practices" + "/" + SessionRepository.sessionId);
+
                     }
 
                     ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "getPractices");

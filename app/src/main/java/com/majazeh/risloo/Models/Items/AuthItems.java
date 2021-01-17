@@ -127,7 +127,14 @@ public class AuthItems {
 
     public String publicKey() {
         if (!sharedPreferences.getString("public_key", "").equals("")) {
-            return DateManager.gregorianToJalali(sharedPreferences.getString("public_key", ""));
+            return sharedPreferences.getString("public_key", "");
+        }
+        return "";
+    }
+
+    public String privateKey() {
+        if (!sharedPreferences.getString("private_key", "").equals("")) {
+            return sharedPreferences.getString("private_key", "");
         }
         return "";
     }

@@ -102,7 +102,7 @@ public class SessionViewModel extends AndroidViewModel {
         return repository.getSessionsOfCase();
     }
 
-    public ArrayList<Model> getReportType(boolean key) throws JSONException {
+    public ArrayList<Model> getReportType(String key) throws JSONException {
         return repository.getReportType(key);
     }
 

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.DateManager;
+import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Views.Activities.DetailCaseActivity;
 import com.majazeh.risloo.Views.Activities.EditSessionActivity;
 
@@ -97,6 +98,12 @@ public class DetailCaseSessionsAdapter extends RecyclerView.Adapter<DetailCaseSe
                 editSessionIntent.putExtra("fa_status", faStatus);
 
                 holder.statusTextView.setText(faStatus);
+            }
+
+            if (((DetailCaseActivity) Objects.requireNonNull(activity)).authViewModel.caseDetails(new Model(FileManager.readObjectFromCache(activity, "caseDetail" + "/" + ((DetailCaseActivity) Objects.requireNonNull(activity)).caseId)))){
+                holder.editTextView.setVisibility(View.VISIBLE);
+            }else{
+                holder.editTextView.setVisibility(View.GONE);
             }
 
             holder.editTextView.setOnClickListener(v -> {

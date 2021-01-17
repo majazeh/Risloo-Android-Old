@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_create_report"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbarSize="0dp"
-    android:overScrollMode="never"
-    android:fillViewport="true"
-    android:focusable="true"
-    android:fitsSystemWindows="true"
-    android:focusableInTouchMode="true"
     android:descendantFocusability="blocksDescendants"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:overScrollMode="never"
+    android:scrollbarSize="0dp"
     tools:context=".Views.Activities.CreateReportActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layoutDirection="rtl"
-        android:background="@color/White">
+        android:background="@color/White"
+        android:layoutDirection="rtl">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,8 +35,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/_24sdp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/_24sdp">
 
                 <FrameLayout
                     android:id="@+id/activity_create_report_encryption_type_frameLayout"
@@ -50,20 +49,20 @@
                         android:id="@+id/activity_create_report_encryption_type_textView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:gravity="center|right"
                         android:paddingLeft="@dimen/_16sdp"
                         android:paddingRight="@dimen/_16sdp"
-                        android:gravity="center|right"
                         android:text="@string/CreateReportEncryptionType"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="normal"
+                        android:textAlignment="gravity"
                         android:textColor="@color/Mischka"
-                        android:textAlignment="gravity" />
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="normal" />
 
                     <ImageView
                         android:layout_width="@dimen/_12sdp"
                         android:layout_height="@dimen/_12sdp"
-                        android:layout_marginLeft="@dimen/_12sdp"
                         android:layout_gravity="center|left"
+                        android:layout_marginLeft="@dimen/_12sdp"
                         android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_chevron_down"
                         app:tint="@color/Mischka" />
@@ -75,35 +74,73 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_24sdp"
-                    android:minHeight="@dimen/_72sdp"
-                    android:paddingTop="@dimen/_8sdp"
-                    android:paddingBottom="@dimen/_8sdp"
-                    android:paddingLeft="@dimen/_16sdp"
-                    android:paddingRight="@dimen/_16sdp"
-                    android:imeOptions="actionDone"
-                    android:inputType="textMultiLine"
-                    android:hint="@string/CreateReportDescription"
+                    android:background="@drawable/draw_16sdp_border_quartz"
                     android:gravity="top|right"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="normal"
+                    android:hint="@string/CreateReportDescription"
+                    android:imeOptions="actionDone"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine"
+                    android:minHeight="@dimen/_72sdp"
+                    android:paddingLeft="@dimen/_16sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingRight="@dimen/_16sdp"
+                    android:paddingBottom="@dimen/_8sdp"
+                    android:textAlignment="gravity"
                     android:textColor="@color/Grey"
                     android:textColorHint="@color/Mischka"
-                    android:textAlignment="gravity"
-                    android:importantForAutofill="no"
-                    android:background="@drawable/draw_16sdp_border_quartz" />
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="normal" />
+
+                <LinearLayout
+                    android:id="@+id/activity_create_report_cryptography_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/activity_create_report_cryptography_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center|right"
+                        android:paddingLeft="@dimen/_16sdp"
+                        android:paddingRight="@dimen/_16sdp"
+                        android:text="@string/CreateReportCryptographyText"
+                        android:textAlignment="gravity"
+                        android:textColor="@color/Mischka"
+                        android:layout_marginBottom="@dimen/_12sdp"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="normal" />
+
+                    <Button
+                        android:id="@+id/activity_create_report_cryptography_button"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_36sdp"
+                        android:background="@drawable/draw_16sdp_solid_primary"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/_16sdp"
+                        android:paddingRight="@dimen/_16sdp"
+                        android:text="@string/CreateReportCryptography"
+                        android:layout_marginBottom="@dimen/_24sdp"
+                        android:textAlignment="gravity"
+                        android:textColor="@color/White"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/activity_create_report_button"
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
+                    android:background="@drawable/draw_16sdp_solid_primary"
                     android:gravity="center"
                     android:text="@string/CreateReportCreate"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/White"
                     android:textAlignment="gravity"
-                    android:background="@drawable/draw_16sdp_solid_primary"
-                    style="?android:attr/borderlessButtonStyle"/>
+                    android:textColor="@color/White"
+                    android:textSize="@dimen/_12ssp"
+                    android:textStyle="bold" />
+
 
             </LinearLayout>
 

@@ -156,6 +156,7 @@
                             app:cardCornerRadius="@dimen/_16sdp">
 
                             <LinearLayout
+                                android:id="@+id/activity_detail_session_add_report_layout"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_margin="@dimen/_12sdp"

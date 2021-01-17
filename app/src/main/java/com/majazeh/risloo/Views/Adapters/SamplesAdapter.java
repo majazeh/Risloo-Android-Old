@@ -98,7 +98,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
                         holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                         ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
 
-                        if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.hasAccess()) {
+                        if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.openSample(model)) {
                             holder.startTextView.setVisibility(View.VISIBLE);
                         } else {
                             holder.startTextView.setVisibility(View.INVISIBLE);
@@ -110,7 +110,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
                         holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                         ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
 
-                        if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.hasAccess()) {
+                        if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.openSample(model)) {
                             holder.startTextView.setVisibility(View.VISIBLE);
                         } else {
                             holder.startTextView.setVisibility(View.INVISIBLE);
@@ -211,13 +211,19 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
             });
 
             holder.itemView.setOnClickListener(v -> {
-                holder.itemView.setClickable(false);
-                handler.postDelayed(() -> holder.itemView.setClickable(true), 250);
+                try {
+                    if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.openSampleDetail(model)) {
+                        holder.itemView.setClickable(false);
+                        handler.postDelayed(() -> holder.itemView.setClickable(true), 250);
 
-                clearProgress();
+                        clearProgress();
 
-                activity.startActivityForResult(detailSampleIntent,100);
-                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+                        activity.startActivityForResult(detailSampleIntent, 100);
+                        activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             });
 
         } catch (JSONException e) {
@@ -304,7 +310,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
 
         clearProgress();
 
-        activity.startActivityForResult(new Intent(activity, SampleActivity.class),100);
+        activity.startActivityForResult(new Intent(activity, SampleActivity.class), 100);
     }
 
     public void setSample(ArrayList<Model> samples) {

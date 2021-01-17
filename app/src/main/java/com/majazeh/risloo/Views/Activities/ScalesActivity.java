@@ -50,7 +50,7 @@ import java.util.Objects;
 public class ScalesActivity extends AppCompatActivity {
 
     // ViewModels
-    private AuthViewModel authViewModel;
+    public AuthViewModel authViewModel;
     private SampleViewModel sampleViewModel;
 
     // Adapters

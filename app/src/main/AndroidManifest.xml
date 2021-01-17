@@ -28,6 +28,7 @@
         android:windowSoftInputMode="adjustResize"
         tools:ignore="UnusedAttribute"
         tools:replace="android:label">
+        <activity android:name=".Views.Activities.CryptographyActivity"></activity>
 
         <meta-data
             android:name="io.sentry.dsn"

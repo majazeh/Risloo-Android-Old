@@ -12,6 +12,7 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Apis.RoomApi;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
+import com.majazeh.risloo.Models.Repositories.SessionRepository;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Generators.RetroGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
@@ -133,6 +134,7 @@ public class RoomWorker extends Worker {
 
                 } else if (RoomRepository.allPage == 1) {
                     RoomRepository.rooms.clear();
+                    FileManager.deletePageFromCache(context, "rooms");
                 }
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "rooms");
@@ -195,6 +197,8 @@ public class RoomWorker extends Worker {
 
                 } else if (RoomRepository.myPage == 1) {
                     RoomRepository.myRooms.clear();
+                    FileManager.deletePageFromCache(context, "myRooms");
+
                 }
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "rooms");
