@@ -52,10 +52,10 @@ public class AccountActivity extends AppCompatActivity {
 
     // Widgets
     private RelativeLayout toolbarLayout;
-    private ImageView toolbarImageView, toolbarLogOutImageView;
+    private ImageView toolbarImageView, toolbarLogOutImageView, toolbarEditAccountImageView;
     private TextView toolbarTextView;
     private CircleImageView avatarCircleImageView;
-    private TextView nameTextView, editTextView, sendTextView, cryptographyTextView;
+    private TextView nameTextView, cryptoTextView, attachmentTextView;
     private RecyclerView accountRecyclerView;
     private Dialog logOutDialog, progressDialog;
     private TextView logOutDialogTitle, logOutDialogDescription, logOutDialogPositive, logOutDialogNegative;
@@ -101,6 +101,10 @@ public class AccountActivity extends AppCompatActivity {
         toolbarLogOutImageView.setVisibility(View.VISIBLE);
         toolbarLogOutImageView.setImageResource(R.drawable.ic_power_light);
         ImageViewCompat.setImageTintList(toolbarLogOutImageView, AppCompatResources.getColorStateList(this, R.color.VioletRed));
+        toolbarEditAccountImageView = findViewById(R.id.layout_toolbar_thirdly_imageView);
+        toolbarEditAccountImageView.setVisibility(View.VISIBLE);
+        toolbarEditAccountImageView.setImageResource(R.drawable.ic_edit_light);
+        ImageViewCompat.setImageTintList(toolbarEditAccountImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.AccountTitle));
@@ -109,9 +113,8 @@ public class AccountActivity extends AppCompatActivity {
         avatarCircleImageView = findViewById(R.id.activity_account_avatar_circleImageView);
 
         nameTextView = findViewById(R.id.activity_account_name_textView);
-        editTextView = findViewById(R.id.activity_account_edit_textView);
-        sendTextView = findViewById(R.id.activity_account_send_textView);
-        cryptographyTextView = findViewById(R.id.activity_account_cryptography_textView);
+        cryptoTextView = findViewById(R.id.activity_account_crypto_textView);
+        attachmentTextView = findViewById(R.id.activity_account_attachment_textView);
 
         accountRecyclerView = findViewById(R.id.activity_account_recyclerView);
         accountRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._8sdp), (int) getResources().getDimension(R.dimen._32sdp)));
@@ -150,10 +153,10 @@ public class AccountActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
             toolbarLogOutImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
+            toolbarEditAccountImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
 
-            editTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
-            sendTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
-            cryptographyTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
+            cryptoTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
+            attachmentTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
 
             logOutDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
             logOutDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
@@ -176,6 +179,14 @@ public class AccountActivity extends AppCompatActivity {
             logOutDialog.show();
         });
 
+        toolbarEditAccountImageView.setOnClickListener(v -> {
+            toolbarEditAccountImageView.setClickable(false);
+            handler.postDelayed(() -> toolbarEditAccountImageView.setClickable(true), 250);
+
+            startActivityForResult(new Intent(this, EditAccountActivity.class), 100);
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+        });
+
         avatarCircleImageView.setOnClickListener(v -> {
             avatarCircleImageView.setClickable(false);
             handler.postDelayed(() -> avatarCircleImageView.setClickable(true), 250);
@@ -191,29 +202,20 @@ public class AccountActivity extends AppCompatActivity {
             }
         });
 
-        editTextView.setOnClickListener(v -> {
-            editTextView.setClickable(false);
-            handler.postDelayed(() -> editTextView.setClickable(true), 250);
+        cryptoTextView.setOnClickListener(v -> {
+            cryptoTextView.setClickable(false);
+            handler.postDelayed(() -> cryptoTextView.setClickable(true), 250);
 
-            startActivityForResult(new Intent(this, EditAccountActivity.class), 100);
+            startActivity(new Intent(this, CryptoActivity.class));
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
 
-        sendTextView.setOnClickListener(v -> {
-            sendTextView.setClickable(false);
-            handler.postDelayed(() -> sendTextView.setClickable(true), 250);
+        attachmentTextView.setOnClickListener(v -> {
+            attachmentTextView.setClickable(false);
+            handler.postDelayed(() -> attachmentTextView.setClickable(true), 250);
 
             startActivity(new Intent(this, AttachmentActivity.class));
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
-        });
-
-        cryptographyTextView.setOnClickListener(view -> {
-            cryptographyTextView.setClickable(false);
-            handler.postDelayed(() -> cryptographyTextView.setClickable(true), 250);
-
-            startActivity(new Intent(this, CryptographyActivity.class));
-            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
-
         });
 
         logOutDialogPositive.setOnClickListener(v -> {

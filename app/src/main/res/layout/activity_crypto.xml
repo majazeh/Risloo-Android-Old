@@ -1,62 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_cryptography"
+    android:id="@+id/activity_crypto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbarSize="0dp"
-    android:overScrollMode="never"
-    android:fillViewport="true"
     android:focusable="true"
     android:fitsSystemWindows="true"
     android:focusableInTouchMode="true"
-    android:descendantFocusability="blocksDescendants"
-    tools:context=".Views.Activities.CryptographyActivity">
+    tools:context=".Views.Activities.CryptoActivity">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layoutDirection="rtl"
+        android:orientation="vertical"
         android:background="@color/White">
 
-        <LinearLayout
+        <include layout="@layout/layout_toolbar" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/Quartz" />
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <include layout="@layout/layout_toolbar" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_1sdp"
-                android:background="@color/Quartz" />
+            android:scrollbarSize="0dp"
+            android:overScrollMode="always">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/_24sdp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/activity_cryptography_publicKey_textView"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activity_crypto_publicKey_recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="top|right"
-                    android:text="@string/CryptographyPublicKeyText"
-                    android:visibility="visible"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Grey"
-                    android:textAlignment="gravity"/>
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false" />
 
                 <EditText
-                    android:id="@+id/activity_cryptography_publicKey_editText"
+                    android:id="@+id/activity_crypto_publicKey_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_24sdp"
+                    android:layout_marginLeft="@dimen/_24sdp"
+                    android:layout_marginRight="@dimen/_24sdp"
                     android:minHeight="@dimen/_144sdp"
                     android:paddingTop="@dimen/_8sdp"
                     android:paddingBottom="@dimen/_8sdp"
@@ -64,7 +57,7 @@
                     android:paddingRight="@dimen/_16sdp"
                     android:imeOptions="actionDone"
                     android:inputType="textMultiLine"
-                    android:hint="@string/CryptographyPublicKeyEditText"
+                    android:hint="@string/CryptoPublicKey"
                     android:gravity="top|right"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"
@@ -74,25 +67,21 @@
                     android:importantForAutofill="no"
                     android:background="@drawable/draw_16sdp_border_quartz" />
 
-
-                <TextView
-                    android:id="@+id/activity_cryptography_privateKey_textView"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/activity_crypto_privateKey_recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="top|right"
-                    android:text="@string/CryptographyPrivateKeyText"
-                    android:visibility="visible"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Grey"
-                    android:textAlignment="gravity"/>
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false" />
 
                 <EditText
-                    android:id="@+id/activity_cryptography_privateKey_editText"
+                    android:id="@+id/activity_crypto_privateKey_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_24sdp"
+                    android:layout_marginLeft="@dimen/_24sdp"
+                    android:layout_marginRight="@dimen/_24sdp"
                     android:minHeight="@dimen/_144sdp"
                     android:paddingTop="@dimen/_8sdp"
                     android:paddingBottom="@dimen/_8sdp"
@@ -100,7 +89,7 @@
                     android:paddingRight="@dimen/_16sdp"
                     android:imeOptions="actionDone"
                     android:inputType="textMultiLine"
-                    android:hint="@string/CryptographyPrivateKeyEditText"
+                    android:hint="@string/CryptoPrivateKey"
                     android:gravity="top|right"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"
@@ -112,14 +101,14 @@
 
             </LinearLayout>
 
-        </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_1sdp"
-            android:layout_gravity="bottom"
-            android:background="@color/Quartz" />
+    </LinearLayout>
 
-    </FrameLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_gravity="bottom"
+        android:background="@color/Quartz" />
 
-</ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".Entities.App"
@@ -28,7 +27,6 @@
         android:windowSoftInputMode="adjustResize"
         tools:ignore="UnusedAttribute"
         tools:replace="android:label">
-        <activity android:name=".Views.Activities.CryptographyActivity"></activity>
 
         <meta-data
             android:name="io.sentry.dsn"
@@ -83,6 +81,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.EditAccountActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.CryptoActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.AttachmentActivity"

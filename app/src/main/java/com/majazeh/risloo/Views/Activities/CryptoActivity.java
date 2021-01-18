@@ -7,20 +7,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -31,34 +22,33 @@ import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
-import com.majazeh.risloo.Views.Adapters.AccountAdapter;
-import com.squareup.picasso.Picasso;
+import com.majazeh.risloo.ViewModels.CryptoViewModel;
+import com.majazeh.risloo.Views.Adapters.ListAdapter;
 
 import org.json.JSONException;
 
-import java.util.Objects;
-import java.util.logging.Logger;
-
-import de.hdodenhof.circleimageview.CircleImageView;
-
-public class CryptographyActivity extends AppCompatActivity {
+public class CryptoActivity extends AppCompatActivity {
 
     // ViewModels
     private AuthViewModel authViewModel;
+    public CryptoViewModel cryptoViewModel;
+
+    // Adapters
+    private ListAdapter publicListAdapter, privateListAdapter;
+
+    // Vars
+    private String publicKey = "", privateKey = "";
 
     // Objects
     private Handler handler;
-
-    // Widgets
-    private ImageView toolbarImageView;
-    private RelativeLayout toolbarLayout;
-    private TextView toolbarTextView;
-    private EditText privateKeyEditText, publicKeyEditText;
     private ControlEditText controlEditText;
 
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
-
+    // Widgets
+    private RelativeLayout toolbarLayout;
+    private ImageView toolbarImageView;
+    private TextView toolbarTextView;
+    private RecyclerView publicKeyRecyclerview, privateKeyRecyclerview;
+    private EditText publicKeyEditText, privateKeyEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +56,7 @@ public class CryptographyActivity extends AppCompatActivity {
 
         decorator();
 
-        setContentView(R.layout.activity_cryptography);
+        setContentView(R.layout.activity_crypto);
 
         initializer();
 
@@ -75,7 +65,6 @@ public class CryptographyActivity extends AppCompatActivity {
         listener();
 
         setData();
-
     }
 
     private void decorator() {
@@ -86,33 +75,38 @@ public class CryptographyActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        editor.apply();
-
-
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+        cryptoViewModel = new ViewModelProvider(this).get(CryptoViewModel.class);
 
-        publicKeyEditText = findViewById(R.id.activity_cryptography_publicKey_editText);
-        privateKeyEditText = findViewById(R.id.activity_cryptography_privateKey_editText);
+        publicListAdapter = new ListAdapter(this);
+        privateListAdapter = new ListAdapter(this);
+
+        handler = new Handler();
 
         controlEditText = new ControlEditText();
 
-        handler = new Handler();
+        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
 
-        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
-        toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
-
-
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
-        toolbarTextView.setText(getResources().getString(R.string.CryptographyTitle));
+        toolbarTextView.setText(getResources().getString(R.string.CryptoTitle));
         toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
+        publicKeyRecyclerview = findViewById(R.id.activity_crypto_publicKey_recyclerView);
+        publicKeyRecyclerview.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._24sdp), (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._24sdp)));
+        publicKeyRecyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        publicKeyRecyclerview.setHasFixedSize(true);
+        privateKeyRecyclerview = findViewById(R.id.activity_crypto_privateKey_recyclerView);
+        privateKeyRecyclerview.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._24sdp), (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._24sdp)));
+        privateKeyRecyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        privateKeyRecyclerview.setHasFixedSize(true);
 
+        publicKeyEditText = findViewById(R.id.activity_crypto_publicKey_editText);
+        privateKeyEditText = findViewById(R.id.activity_crypto_privateKey_editText);
     }
 
     private void detector() {
@@ -121,13 +115,14 @@ public class CryptographyActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private void listener() {
         toolbarImageView.setOnClickListener(v -> {
             toolbarImageView.setClickable(false);
             handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
-            editor.putString("public_key", publicKeyEditText.getText().toString());
-            editor.putString("private_key", privateKeyEditText.getText().toString());
-            editor.apply();
+
+            // TODO : Send Keys to Server
+
             finish();
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
         });
@@ -159,23 +154,39 @@ public class CryptographyActivity extends AppCompatActivity {
             }
             return false;
         });
-
     }
 
     private void setData() {
-        if (!sharedPreferences.getString("public_key", "").equals("")) {
-            publicKeyEditText.setText(sharedPreferences.getString("public_key", ""));
+        if (authViewModel.getPublicKey().equals("")) {
+            publicKeyEditText.setHint(getResources().getString(R.string.CryptoPublicKey));
+        } else {
+            publicKey = authViewModel.getPublicKey();
+            publicKeyEditText.setText(publicKey);
         }
-        if (!sharedPreferences.getString("public_key", "").equals("")) {
-            privateKeyEditText.setText(sharedPreferences.getString("private_key", ""));
+
+        if (authViewModel.getPrivateKey().equals("")) {
+            privateKeyEditText.setHint(getResources().getString(R.string.CryptoPrivateKey));
+        } else {
+            privateKey = authViewModel.getPrivateKey();
+            privateKeyEditText.setText(privateKey);
+        }
+
+        try {
+            publicListAdapter.setList(cryptoViewModel.getAll("public"), "CryptoPublic");
+            privateListAdapter.setList(cryptoViewModel.getAll("private"), "CryptoPrivate");
+            publicKeyRecyclerview.setAdapter(publicListAdapter);
+            privateKeyRecyclerview.setAdapter(privateListAdapter);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        editor.putString("public_key", publicKeyEditText.getText().toString());
-        editor.putString("private_key", privateKeyEditText.getText().toString());
-        editor.apply();
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
+
+        // TODO : Send Keys to Server
     }
+
 }
