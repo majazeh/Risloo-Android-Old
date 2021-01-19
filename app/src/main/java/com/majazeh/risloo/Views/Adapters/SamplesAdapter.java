@@ -25,8 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
-import com.majazeh.risloo.ViewModels.AuthViewModel;
-import com.majazeh.risloo.Views.Activities.DetailCaseActivity;
 import com.majazeh.risloo.Views.Activities.SampleActivity;
 import com.majazeh.risloo.Views.Activities.DetailSampleActivity;
 import com.majazeh.risloo.Views.Activities.SamplesActivity;
@@ -77,21 +75,31 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
             Intent detailSampleIntent = (new Intent(activity, DetailSampleActivity.class));
 
             // ID
-            if (model.attributes.has("id") && !model.attributes.isNull("id")) {
+            if (model.attributes.has("id") && !model.attributes.isNull("id") && !model.attributes.get("id").equals("")) {
                 detailSampleIntent.putExtra("id", model.get("id").toString());
 
                 holder.serialTextView.setText(model.get("id").toString());
             }
 
             // Scale
-            if (model.attributes.has("scale") && !model.attributes.isNull("scale")) {
+            if (model.attributes.has("scale") && !model.attributes.isNull("scale") && !model.attributes.get("scale").equals("")) {
                 JSONObject scale = (JSONObject) model.get("scale");
 
                 holder.scaleTextView.setText(scale.get("title").toString());
             }
 
+            // Version
+            if (model.attributes.has("version") && !model.attributes.isNull("version") && !model.attributes.get("version").equals("")) {
+                holder.scaleTextView.append(" " + model.get("version").toString());
+            }
+
+            // Edition
+            if (model.attributes.has("edition") && !model.attributes.isNull("edition") && !model.attributes.get("edition").equals("")) {
+                holder.scaleTextView.append(" " + model.get("edition").toString());
+            }
+
             // Status
-            if (model.attributes.has("status") && !model.attributes.isNull("status")) {
+            if (model.attributes.has("status") && !model.attributes.isNull("status") && !model.attributes.get("status").equals("")) {
                 switch (model.get("status").toString()) {
                     case "seald":
                         holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusSeald));
@@ -160,7 +168,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
             }
 
             // Reference
-            if (model.attributes.has("client") && !model.attributes.isNull("client")) {
+            if (model.attributes.has("client") && !model.attributes.isNull("client") && !model.attributes.get("client").equals("")) {
                 JSONObject client = (JSONObject) model.get("client");
 
                 holder.referenceHintTextView.setText(activity.getResources().getString(R.string.SamplesReference));
@@ -179,7 +187,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
             }
 
             // Case
-            if (model.attributes.has("case") && !model.attributes.isNull("case")) {
+            if (model.attributes.has("case") && !model.attributes.isNull("case") && !model.attributes.get("case").equals("")) {
                 JSONObject casse = (JSONObject) model.get("case");
 
                 holder.caseTextView.setText(casse.get("id").toString());
@@ -189,7 +197,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
             }
 
             // Room
-            if (model.attributes.has("room") && !model.attributes.isNull("room")) {
+            if (model.attributes.has("room") && !model.attributes.isNull("room") && !model.attributes.get("room").equals("")) {
                 JSONObject room = (JSONObject) model.get("room");
 
                 JSONObject manager = (JSONObject) room.get("manager");
@@ -203,6 +211,13 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
                 holder.roomLinearLayout.setVisibility(View.GONE);
             }
 
+            // Sample Access
+            if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.openSample(model)) {
+                holder.startTextView.setVisibility(View.VISIBLE);
+            } else {
+                holder.startTextView.setVisibility(View.GONE);
+            }
+
             holder.startTextView.setOnClickListener(v -> {
                 holder.startTextView.setClickable(false);
                 handler.postDelayed(() -> holder.startTextView.setClickable(true), 250);
@@ -210,20 +225,21 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
                 showDialog(holder.serialTextView.getText().toString());
             });
 
+            // Sample Detail Access
+            if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.openSampleDetail(model)) {
+                holder.itemView.setEnabled(true);
+            } else {
+                holder.itemView.setEnabled(false);
+            }
+
             holder.itemView.setOnClickListener(v -> {
-                try {
-                    if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.openSampleDetail(model)) {
-                        holder.itemView.setClickable(false);
-                        handler.postDelayed(() -> holder.itemView.setClickable(true), 250);
+                holder.itemView.setClickable(false);
+                handler.postDelayed(() -> holder.itemView.setClickable(true), 250);
 
-                        clearProgress();
+                clearProgress();
 
-                        activity.startActivityForResult(detailSampleIntent, 100);
-                        activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                activity.startActivityForResult(detailSampleIntent, 100);
+                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
 
         } catch (JSONException e) {

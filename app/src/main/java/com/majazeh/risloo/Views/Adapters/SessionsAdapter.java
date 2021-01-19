@@ -64,7 +64,7 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
             Intent detailSessionIntent = (new Intent(activity, DetailSessionActivity.class));
 
             // ID
-            if (model.attributes.has("id") && !model.attributes.isNull("id")) {
+            if (model.attributes.has("id") && !model.attributes.isNull("id") && !model.attributes.get("id").equals("")) {
                 editSessionIntent.putExtra("id", model.get("id").toString());
                 detailSessionIntent.putExtra("id", model.get("id").toString());
 
@@ -72,7 +72,7 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
             }
 
             // Case
-            if (model.attributes.has("case") && !model.attributes.isNull("case")) {
+            if (model.attributes.has("case") && !model.attributes.isNull("case") && !model.attributes.get("case").equals("")) {
                 JSONObject casse = (JSONObject) model.get("case");
                 editSessionIntent.putExtra("case_id", casse.get("id").toString());
 
@@ -117,7 +117,7 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
             }
 
             // Reference
-            if (model.attributes.has("client") && !model.attributes.isNull("client")) {
+            if (model.attributes.has("client") && !model.attributes.isNull("client") && !model.attributes.get("client").equals("")) {
                 JSONObject client = (JSONObject) model.get("client");
 
                 holder.referenceTextView.setText(client.get("name").toString());
@@ -127,7 +127,7 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
             }
 
             // StartedAt
-            if (model.attributes.has("started_at") && !model.attributes.isNull("started_at")) {
+            if (model.attributes.has("started_at") && !model.attributes.isNull("started_at") && !model.attributes.get("started_at").equals("")) {
                 String startedAtTime = DateManager.dateToString("HH:mm", DateManager.timestampToDate(Long.parseLong(model.get("started_at").toString())));
                 String startedAtDate = DateManager.gregorianToJalali(DateManager.dateToString("yyyy-MM-dd", DateManager.timestampToDate(Long.parseLong(model.get("started_at").toString()))));
 
@@ -141,7 +141,7 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
             }
 
             // Duration
-            if (model.attributes.has("duration") && !model.attributes.isNull("duration")) {
+            if (model.attributes.has("duration") && !model.attributes.isNull("duration") && !model.attributes.get("duration").equals("")) {
                 editSessionIntent.putExtra("duration", model.get("duration").toString());
 
                 holder.durationTextView.setText(model.get("duration").toString() + " " + activity.getResources().getString(R.string.SessionsMinute));
@@ -151,7 +151,7 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
             }
 
             // Status
-            if (model.attributes.has("status") && !model.attributes.isNull("status")) {
+            if (model.attributes.has("status") && !model.attributes.isNull("status") && !model.attributes.get("status").equals("")) {
                 String enStatus = model.get("status").toString();
                 String faStatus = ((SessionsActivity) Objects.requireNonNull(activity)).sessionViewModel.getFAStatus(model.get("status").toString());
 
@@ -164,6 +164,13 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
                 holder.statusLinearLayout.setVisibility(View.GONE);
             }
 
+//            // Edit Session Access
+//            if (((SessionsActivity) Objects.requireNonNull(activity)).authViewModel.editSession(model)) {
+//                holder.editTextView.setVisibility(View.VISIBLE);
+//            } else {
+//                holder.editTextView.setVisibility(View.GONE);
+//            }
+
             holder.editTextView.setOnClickListener(v -> {
                 holder.editTextView.setClickable(false);
                 handler.postDelayed(() -> holder.editTextView.setClickable(true), 250);
@@ -173,6 +180,13 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
                 activity.startActivityForResult(editSessionIntent, 100);
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
+
+//            // Session Detail Access
+//            if (((SessionsActivity) Objects.requireNonNull(activity)).authViewModel.openSessionDetail(model)) {
+//                holder.itemView.setEnabled(true);
+//            } else {
+//                holder.itemView.setEnabled(false);
+//            }
 
             holder.itemView.setOnClickListener(v -> {
                 holder.itemView.setClickable(false);

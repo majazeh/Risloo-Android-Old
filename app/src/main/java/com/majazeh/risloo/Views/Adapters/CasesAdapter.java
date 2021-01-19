@@ -65,7 +65,7 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
             Intent detailCaseIntent = (new Intent(activity, DetailCaseActivity.class));
 
             // ID
-            if (model.attributes.has("id") && !model.attributes.isNull("id")) {
+            if (model.attributes.has("id") && !model.attributes.isNull("id") && !model.attributes.get("id").equals("")) {
                 editCaseIntent.putExtra("id", model.get("id").toString());
                 detailCaseIntent.putExtra("id", model.get("id").toString());
 
@@ -73,7 +73,7 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
             }
 
             // Room
-            if (model.attributes.has("room") && !model.attributes.isNull("room")) {
+            if (model.attributes.has("room") && !model.attributes.isNull("room") && !model.attributes.get("room").equals("")) {
                 JSONObject room = (JSONObject) model.get("room");
                 editCaseIntent.putExtra("room_id", room.get("id").toString());
 
@@ -120,10 +120,17 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
             }
 
             // Complaint
-            if (model.attributes.has("detail") && !model.attributes.isNull("detail")) {
+            if (model.attributes.has("detail") && !model.attributes.isNull("detail") && !model.attributes.get("detail").equals("")) {
                 JSONObject detail = (JSONObject) model.get("detail");
                 editCaseIntent.putExtra("complaint", detail.get("chief_complaint").toString());
             }
+
+//            // Edit Case Access
+//            if (((CasesActivity) Objects.requireNonNull(activity)).authViewModel.editCase(model)) {
+//                holder.editTextView.setVisibility(View.VISIBLE);
+//            } else {
+//                holder.editTextView.setVisibility(View.GONE);
+//            }
 
             holder.editTextView.setOnClickListener(v -> {
                 holder.editTextView.setClickable(false);
@@ -135,15 +142,21 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
 
+//            // Case Detail Access
+//            if (((CasesActivity) Objects.requireNonNull(activity)).authViewModel.openCaseDetail(model)) {
+//                holder.itemView.setEnabled(true);
+//            } else {
+//                holder.itemView.setEnabled(false);
+//            }
+
             holder.itemView.setOnClickListener(v -> {
-                        holder.itemView.setClickable(false);
-                        handler.postDelayed(() -> holder.itemView.setClickable(true), 250);
+                holder.itemView.setClickable(false);
+                handler.postDelayed(() -> holder.itemView.setClickable(true), 250);
 
-                        clearProgress();
+                clearProgress();
 
-                        activity.startActivityForResult(detailCaseIntent, 100);
-                        activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
-
+                activity.startActivityForResult(detailCaseIntent, 100);
+                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
 
         } catch (JSONException e) {

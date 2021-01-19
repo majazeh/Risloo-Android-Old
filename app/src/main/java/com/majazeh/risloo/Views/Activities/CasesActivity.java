@@ -57,14 +57,16 @@ public class CasesActivity extends AppCompatActivity {
     private CasesAdapter casesRecyclerViewAdapter;
 
     // Vars
-    private String search = "";
+    private String search = "", roomId = "", roomName = "", roomTitle = "";
     public boolean loading = false, finished = true;
 
     // Objects
+    private Bundle extras;
     private Handler handler;
     private ControlEditText controlEditText;
     private LinearLayoutManager layoutManager;
     private ClickableSpan retrySpan;
+    private Intent createCaseIntent;
 
     // Widgets
     private RelativeLayout toolbarLayout;
@@ -95,6 +97,8 @@ public class CasesActivity extends AppCompatActivity {
 
         listener();
 
+        setData();
+
         getData();
     }
 
@@ -111,11 +115,15 @@ public class CasesActivity extends AppCompatActivity {
 
         casesRecyclerViewAdapter = new CasesAdapter(this);
 
+        extras = getIntent().getExtras();
+
         handler = new Handler();
 
         controlEditText = new ControlEditText();
 
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+        createCaseIntent = new Intent(this, CreateCaseActivity.class);
 
         toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
@@ -124,10 +132,6 @@ public class CasesActivity extends AppCompatActivity {
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
         toolbarCreateImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
-        if (authViewModel.createCase())
-            toolbarCreateImageView.setVisibility(View.VISIBLE);
-        else
-            toolbarCreateImageView.setVisibility(View.GONE);
         toolbarCreateImageView.setImageResource(R.drawable.ic_plus_light);
         ImageViewCompat.setImageTintList(toolbarCreateImageView, AppCompatResources.getColorStateList(this, R.color.IslamicGreen));
         toolbarSearchImageView = findViewById(R.id.layout_toolbar_thirdly_imageView);
@@ -212,7 +216,7 @@ public class CasesActivity extends AppCompatActivity {
                 }
             }
 
-            startActivityForResult(new Intent(this, CreateCaseActivity.class).putExtra("loaded", finished), 100);
+            startActivityForResult(createCaseIntent.putExtra("loaded", finished), 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
 
@@ -273,7 +277,7 @@ public class CasesActivity extends AppCompatActivity {
                         try {
                             if (!loading) {
                                 pagingProgressBar.setVisibility(View.VISIBLE);
-                                caseViewModel.cases("", search);
+                                caseViewModel.cases(roomId, search);
                                 observeWork();
                             }
                         } catch (JSONException e) {
@@ -341,6 +345,27 @@ public class CasesActivity extends AppCompatActivity {
         });
     }
 
+    private void setData() {
+        if (extras.getString("room_id") != null)
+            roomId = extras.getString("room_id");
+        if (extras.getString("room_name") != null)
+            roomName = extras.getString("room_name");
+        if (extras.getString("room_title") != null)
+            roomTitle = extras.getString("room_title");
+
+        if (!roomId.equals("")) {
+            createCaseIntent.putExtra("room_id", roomId);
+            createCaseIntent.putExtra("room_name", roomName);
+            createCaseIntent.putExtra("room_title", roomTitle);
+        }
+
+        if (authViewModel.createCase()) {
+            toolbarCreateImageView.setVisibility(View.VISIBLE);
+        } else {
+            toolbarCreateImageView.setVisibility(View.GONE);
+        }
+    }
+
     private void setInfoLayout(String type) {
         switch (type) {
             case "error":
@@ -398,7 +423,7 @@ public class CasesActivity extends AppCompatActivity {
 
     private void getData() {
         try {
-            caseViewModel.cases("", search);
+            caseViewModel.cases(roomId, search);
             CaseRepository.page = 1;
             observeWork();
         } catch (JSONException e) {

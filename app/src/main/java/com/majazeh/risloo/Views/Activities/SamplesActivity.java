@@ -118,6 +118,8 @@ public class SamplesActivity extends AppCompatActivity {
 
         listener();
 
+        setData();
+
         getData("getSamples", "");
     }
 
@@ -156,10 +158,6 @@ public class SamplesActivity extends AppCompatActivity {
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
         toolbarCreateImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
-        if (authViewModel.createSample())
-            toolbarCreateImageView.setVisibility(View.VISIBLE);
-        else
-            toolbarCreateImageView.setVisibility(View.GONE);
         toolbarCreateImageView.setImageResource(R.drawable.ic_plus_light);
         ImageViewCompat.setImageTintList(toolbarCreateImageView, AppCompatResources.getColorStateList(this, R.color.IslamicGreen));
         toolbarFilterImageView = findViewById(R.id.layout_toolbar_thirdly_imageView);
@@ -403,6 +401,14 @@ public class SamplesActivity extends AppCompatActivity {
         });
 
         statusDialog.setOnCancelListener(dialog -> statusDialog.dismiss());
+    }
+
+    private void setData() {
+        if (authViewModel.createSample()) {
+            toolbarCreateImageView.setVisibility(View.VISIBLE);
+        } else {
+            toolbarCreateImageView.setVisibility(View.GONE);
+        }
     }
 
     private void setInfoLayout(String type) {

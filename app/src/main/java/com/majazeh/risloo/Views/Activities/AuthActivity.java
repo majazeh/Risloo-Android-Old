@@ -200,7 +200,7 @@ public class AuthActivity extends AppCompatActivity {
 
             } else if (id == R.id.tool_cases) {
                 handler.postDelayed(() -> {
-                    startActivity(new Intent(this, CasesActivity.class));
+                    startActivity(new Intent(this, CasesActivity.class).putExtra("", ""));
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }, 50);
 

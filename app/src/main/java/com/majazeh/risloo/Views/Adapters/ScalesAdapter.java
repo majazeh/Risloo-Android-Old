@@ -61,17 +61,17 @@ public class ScalesAdapter extends RecyclerView.Adapter<ScalesAdapter.ScalesHold
             createSampleIntent.putExtra("loaded", true);
 
             // ID
-            if (model.attributes.has("id") && !model.attributes.isNull("id")) {
+            if (model.attributes.has("id") && !model.attributes.isNull("id") && !model.attributes.get("id").equals("")) {
                 holder.serialTextView.setText(model.get("id").toString());
             }
 
             // Title
-            if (model.attributes.has("title") && !model.attributes.isNull("title")) {
+            if (model.attributes.has("title") && !model.attributes.isNull("title") && !model.attributes.get("title").equals("")) {
                 holder.scaleTextView.setText(model.get("title").toString());
             }
 
             // Edition
-            if (model.attributes.has("edition") && !model.attributes.isNull("edition")) {
+            if (model.attributes.has("edition") && !model.attributes.isNull("edition") && !model.attributes.get("edition").equals("")) {
                 holder.editTextView.setText(model.get("edition").toString());
                 holder.editLinearLayout.setVisibility(View.VISIBLE);
             } else {
@@ -79,16 +79,19 @@ public class ScalesAdapter extends RecyclerView.Adapter<ScalesAdapter.ScalesHold
             }
 
             // Version
-            if (model.attributes.has("version") && !model.attributes.isNull("version")) {
+            if (model.attributes.has("version") && !model.attributes.isNull("version") && !model.attributes.get("version").equals("")) {
                 holder.versionTextView.setText(model.get("version").toString());
                 holder.versionLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.versionLinearLayout.setVisibility(View.GONE);
             }
-            if (((ScalesActivity) Objects.requireNonNull(activity)).authViewModel.createSample())
+
+            // Create Sample Access
+            if (((ScalesActivity) Objects.requireNonNull(activity)).authViewModel.createSample()) {
                 holder.createTextView.setVisibility(View.VISIBLE);
-            else
+            } else {
                 holder.createTextView.setVisibility(View.GONE);
+            }
 
             holder.createTextView.setOnClickListener(v -> {
                 holder.createTextView.setClickable(false);

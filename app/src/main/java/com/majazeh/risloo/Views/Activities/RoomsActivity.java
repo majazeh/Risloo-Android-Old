@@ -96,6 +96,8 @@ public class RoomsActivity extends AppCompatActivity {
 
         listener();
 
+        setData();
+
         getData("getAll");
     }
 
@@ -127,10 +129,6 @@ public class RoomsActivity extends AppCompatActivity {
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
         toolbarCreateImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
-        if (authViewModel.createRoom())
-            toolbarCreateImageView.setVisibility(View.VISIBLE);
-        else
-            toolbarCreateImageView.setVisibility(View.GONE);
         toolbarCreateImageView.setImageResource(R.drawable.ic_plus_light);
         ImageViewCompat.setImageTintList(toolbarCreateImageView, AppCompatResources.getColorStateList(this, R.color.IslamicGreen));
         toolbarSearchImageView = findViewById(R.id.layout_toolbar_thirdly_imageView);
@@ -354,6 +352,14 @@ public class RoomsActivity extends AppCompatActivity {
 
             searchDialog.dismiss();
         });
+    }
+
+    private void setData() {
+        if (authViewModel.createRoom()) {
+            toolbarCreateImageView.setVisibility(View.VISIBLE);
+        } else {
+            toolbarCreateImageView.setVisibility(View.GONE);
+        }
     }
 
     private void setInfoLayout(String type) {

@@ -90,6 +90,11 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
         Model model = centers.get(i);
 
         try {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                holder.editImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
+                holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
+            }
+
             Intent imageIntent = (new Intent(activity, ImageActivity.class));
             Intent editCenterIntent = (new Intent(activity, EditCenterActivity.class));
 
@@ -97,14 +102,14 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
             usersIntent.putExtra("type", "centers");
 
             // ID
-            if (model.attributes.has("id") && !model.attributes.isNull("id")) {
+            if (model.attributes.has("id") && !model.attributes.isNull("id") && !model.attributes.get("id").equals("")) {
                 editCenterIntent.putExtra("id", model.get("id").toString());
 
                 usersIntent.putExtra("clinic_id", model.get("id").toString());
             }
 
             // Manager
-            if (model.attributes.has("manager") && !model.attributes.isNull("manager")) {
+            if (model.attributes.has("manager") && !model.attributes.isNull("manager") && !model.attributes.get("manager").equals("")) {
                 JSONObject manager = (JSONObject) model.get("manager");
                 editCenterIntent.putExtra("manager_id", manager.get("id").toString());
                 editCenterIntent.putExtra("manager_name", manager.get("name").toString());
@@ -116,7 +121,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
             }
 
             // Acceptation
-            if (model.attributes.has("acceptation") && !model.attributes.isNull("acceptation")) {
+            if (model.attributes.has("acceptation") && !model.attributes.isNull("acceptation") && !model.attributes.get("acceptation").equals("")) {
                 JSONObject acceptation = (JSONObject) model.get("acceptation");
 
                 if (acceptation.get("position").toString().equals("manager")) {
@@ -135,27 +140,6 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                 }
                 holder.requestTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude);
 
-
-                if (authViewModel.editCenter(model)) {
-                    holder.editImageView.setVisibility(View.VISIBLE);
-
-                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                        holder.editImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
-                    }
-                } else {
-                    holder.editImageView.setVisibility(View.GONE);
-                }
-
-                if (authViewModel.centerUsers(model)) {
-                    holder.usersImageView.setVisibility(View.VISIBLE);
-
-                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                        holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
-                    }
-                } else {
-                    holder.usersImageView.setVisibility(View.GONE);
-                }
-
             } else {
                 holder.requestTextView.setText(activity.getResources().getString(R.string.CentersRequest));
                 holder.requestTextView.setTextColor(activity.getResources().getColor(R.color.White));
@@ -165,30 +149,17 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                 } else {
                     holder.requestTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary);
                 }
-
-                if (authViewModel.hasAccess()) {
-                    holder.editImageView.setVisibility(View.VISIBLE);
-                    holder.usersImageView.setVisibility(View.VISIBLE);
-
-                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                        holder.editImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
-                        holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
-                    }
-                } else {
-                    holder.editImageView.setVisibility(View.GONE);
-                    holder.usersImageView.setVisibility(View.GONE);
-                }
             }
 
             // Type
-            if (model.attributes.has("type") && !model.attributes.isNull("type")) {
+            if (model.attributes.has("type") && !model.attributes.isNull("type") && !model.attributes.get("type").equals("")) {
                 editCenterIntent.putExtra("type", model.get("type").toString());
             }
 
             JSONObject detail = (JSONObject) model.get("detail");
 
             // Title
-            if (detail.has("title") && !detail.isNull("title")) {
+            if (detail.has("title") && !detail.isNull("title") && !detail.get("title").equals("")) {
                 imageIntent.putExtra("title", detail.get("title").toString());
                 editCenterIntent.putExtra("title", detail.get("title").toString());
 
@@ -198,7 +169,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
             }
 
             // Description
-            if (detail.has("description") && !detail.isNull("description")) {
+            if (detail.has("description") && !detail.isNull("description") && !detail.get("description").equals("")) {
                 editCenterIntent.putExtra("description", detail.get("description").toString());
 
                 holder.descriptionTextView.setText(detail.get("description").toString());
@@ -208,7 +179,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
             }
 
             // Address
-            if (detail.has("address") && !detail.isNull("address")) {
+            if (detail.has("address") && !detail.isNull("address") && !detail.get("address").equals("")) {
                 editCenterIntent.putExtra("address", detail.get("address").toString());
 
                 holder.addressTextView.setText(detail.get("address").toString());
@@ -218,7 +189,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
             }
 
             // Phone
-            if (detail.has("phone_numbers") && !detail.isNull("phone_numbers")) {
+            if (detail.has("phone_numbers") && !detail.isNull("phone_numbers") && !detail.get("phone_numbers").equals("")) {
                 JSONArray phoneNumbers = (JSONArray) detail.get("phone_numbers");
                 editCenterIntent.putExtra("phone_numbers", detail.get("phone_numbers").toString());
 
@@ -243,7 +214,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
             }
 
             // Avatar
-            if (detail.has("avatar") && !detail.isNull("avatar")) {
+            if (detail.has("avatar") && !detail.isNull("avatar") && detail.get("avatar").getClass().getName().equals("org.json.JSONObject")) {
                 JSONObject avatar = (JSONObject) detail.get("avatar");
                 JSONObject medium = (JSONObject) avatar.get("medium");
 
@@ -261,7 +232,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
             }
 
             // CreatedAt
-            if (model.attributes.has("created_at") && !model.attributes.isNull("created_at")) {
+            if (model.attributes.has("created_at") && !model.attributes.isNull("created_at") && !model.attributes.get("created_at").equals("")) {
                 int createdAt = (int) model.get("created_at");
 
                 switch (createdAt % 16) {
@@ -380,26 +351,18 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                 }
             }
 
-            if (type.equals("user")) {
-                holder.usersImageView.setVisibility(View.GONE);
-            } else {
-                holder.usersImageView.setVisibility(View.VISIBLE);
-            }
+            holder.avatarImageView.setOnClickListener(v -> {
+                holder.avatarImageView.setClickable(false);
+                handler.postDelayed(() -> holder.avatarImageView.setClickable(true), 250);
 
-            if (expands.get(i)) {
-                holder.expandLinearLayout.setVisibility(View.VISIBLE);
-                holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_up));
-            } else {
-                holder.expandLinearLayout.setVisibility(View.GONE);
-                holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_down));
-            }
+                if (!detail.isNull("title") && !detail.isNull("avatar")) {
+                    clearProgress();
 
-            holder.itemView.setOnClickListener(v -> {
-                holder.itemView.setClickable(false);
-                handler.postDelayed(() -> holder.itemView.setClickable(true), 250);
-
-                expands.put(i, !expands.get(i));
-                notifyDataSetChanged();
+                    activity.startActivity(imageIntent);
+                } else {
+                    expands.put(i, !expands.get(i));
+                    notifyDataSetChanged();
+                }
             });
 
             holder.requestTextView.setOnClickListener(v -> {
@@ -419,19 +382,12 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                 }
             });
 
-            holder.avatarImageView.setOnClickListener(v -> {
-                holder.avatarImageView.setClickable(false);
-                handler.postDelayed(() -> holder.avatarImageView.setClickable(true), 250);
-
-                if (!detail.isNull("title") && !detail.isNull("avatar")) {
-                    clearProgress();
-
-                    activity.startActivity(imageIntent);
-                } else {
-                    expands.put(i, !expands.get(i));
-                    notifyDataSetChanged();
-                }
-            });
+            // Edit Center Access
+            if (authViewModel.editCenter(model)) {
+                holder.editImageView.setVisibility(View.VISIBLE);
+            } else {
+                holder.editImageView.setVisibility(View.GONE);
+            }
 
             holder.editImageView.setOnClickListener(v -> {
                 holder.editImageView.setClickable(false);
@@ -443,6 +399,13 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
 
+            // Center Users Access
+            if (authViewModel.centerUsers(model) && !type.equals("user")) {
+                holder.usersImageView.setVisibility(View.VISIBLE);
+            } else {
+                holder.usersImageView.setVisibility(View.GONE);
+            }
+
             holder.usersImageView.setOnClickListener(v -> {
                 holder.usersImageView.setClickable(false);
                 handler.postDelayed(() -> holder.usersImageView.setClickable(true), 250);
@@ -451,6 +414,23 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
 
                 activity.startActivityForResult(usersIntent, 100);
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+            });
+
+            // Expand State
+            if (expands.get(i)) {
+                holder.expandLinearLayout.setVisibility(View.VISIBLE);
+                holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_up));
+            } else {
+                holder.expandLinearLayout.setVisibility(View.GONE);
+                holder.expandImageView.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_chevron_down));
+            }
+
+            holder.itemView.setOnClickListener(v -> {
+                holder.itemView.setClickable(false);
+                handler.postDelayed(() -> holder.itemView.setClickable(true), 250);
+
+                expands.put(i, !expands.get(i));
+                notifyDataSetChanged();
             });
 
         } catch (JSONException e) {
