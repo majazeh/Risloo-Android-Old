@@ -151,7 +151,6 @@ public class DetailCaseActivity extends AppCompatActivity {
         testsCountTextView = findViewById(R.id.activity_detail_case_tests_count_textView);
 
         addReferenceTextView = findViewById(R.id.activity_detail_case_add_reference_textView);
-
         addSessionTextView = findViewById(R.id.activity_detail_case_add_session_textView);
         createSampleTextView = findViewById(R.id.activity_detail_case_create_sample_textView);
 
@@ -295,18 +294,18 @@ public class DetailCaseActivity extends AppCompatActivity {
         try {
             JSONObject data = FileManager.readObjectFromCache(this, "caseDetail" + "/" + caseId);
 
-            if (authViewModel.caseDetails(new Model(data))){
+            if (authViewModel.caseDetails(new Model(data))) {
                 addReferenceTextView.setVisibility(View.VISIBLE);
                 addSessionTextView.setVisibility(View.VISIBLE);
                 createSampleTextView.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 addReferenceTextView.setVisibility(View.GONE);
                 addSessionTextView.setVisibility(View.GONE);
                 createSampleTextView.setVisibility(View.GONE);
             }
 
             // Room
-            if (data.has("room") && !data.isNull("room")) {
+            if (data.has("room") && !data.isNull("room") && !data.get("room").equals("")) {
                 JSONObject room = (JSONObject) data.get("room");
                 roomId = room.get("id").toString();
 
@@ -322,8 +321,8 @@ public class DetailCaseActivity extends AppCompatActivity {
                 roomTypeTextView.setText(roomTitle);
 
                 // Avatar
-                if (detail.has("avatar") && !detail.isNull("avatar")) {
-                    JSONObject avatar = detail.getJSONObject("avatar");
+                if (manager.has("avatar") && !manager.isNull("avatar") && manager.get("avatar").getClass().getName().equals("org.json.JSONObject")) {
+                    JSONObject avatar = manager.getJSONObject("avatar");
                     JSONObject medium = avatar.getJSONObject("medium");
                     roomUrl = medium.get("url").toString();
 
@@ -371,7 +370,7 @@ public class DetailCaseActivity extends AppCompatActivity {
             }
 
             // Complaint
-            if (data.has("detail") && !data.isNull("detail")) {
+            if (data.has("detail") && !data.isNull("detail") && !data.get("detail").equals("")) {
                 JSONObject detail = (JSONObject) data.get("detail");
 
                 complaintTextView.setText(detail.get("chief_complaint").toString());
@@ -380,7 +379,7 @@ public class DetailCaseActivity extends AppCompatActivity {
             }
 
             // CreatedAt
-            if (data.has("created_at") && !data.isNull("created_at")) {
+            if (data.has("created_at") && !data.isNull("created_at") && !data.get("created_at").equals("")) {
                 String createdAtDate = DateManager.gregorianToJalali(DateManager.dateToString("yyyy-MM-dd", DateManager.timestampToDate(Long.parseLong(data.get("created_at").toString()))));
                 String createdAtTime = DateManager.dateToString("HH:mm", DateManager.timestampToDate(Long.parseLong(data.get("created_at").toString())));
 

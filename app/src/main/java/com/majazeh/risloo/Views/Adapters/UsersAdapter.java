@@ -81,12 +81,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
             }
 
             // ID
-            if (model.attributes.has("id") && !model.attributes.isNull("id")) {
+            if (model.attributes.has("id") && !model.attributes.isNull("id") && !model.attributes.get("id").equals("")) {
                 holder.serialTextView.setText(model.get("id").toString());
             }
 
             // Creator
-            if (model.attributes.has("creator") && !model.attributes.isNull("creator")) {
+            if (model.attributes.has("creator") && !model.attributes.isNull("creator") && !model.attributes.get("creator").equals("")) {
                 JSONObject creator = (JSONObject) model.get("creator");
 
                 holder.creatorTextView.setText(creator.get("name").toString());
@@ -96,7 +96,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
             }
 
             // Reference
-            if (model.attributes.has("user") && !model.attributes.isNull("user")) {
+            if (model.attributes.has("user") && !model.attributes.isNull("user") && !model.attributes.get("user").equals("")) {
                 JSONObject user = (JSONObject) model.get("user");
 
                 holder.referenceTextView.setText(user.get("name").toString());
@@ -106,7 +106,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
             }
 
             // AcceptedAt
-            if (model.attributes.has("accepted_at") && !model.attributes.isNull("accepted_at")) {
+            if (model.attributes.has("accepted_at") && !model.attributes.isNull("accepted_at") && !model.attributes.get("accepted_at").equals("")) {
                 String acceptedAtTime = DateManager.dateToString("HH:mm", DateManager.timestampToDate(Long.parseLong(model.get("accepted_at").toString())));
                 String acceptedAtDate = DateManager.gregorianToJalali(DateManager.dateToString("yyyy-MM-dd", DateManager.timestampToDate(Long.parseLong(model.get("accepted_at").toString()))));
 
@@ -117,7 +117,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
             }
 
             // Position & Acceptation
-            if (model.attributes.has("position") && !model.attributes.isNull("position")) {
+            if (model.attributes.has("position") && !model.attributes.isNull("position") && !model.attributes.get("position").equals("")) {
                 String enPosition = model.get("position").toString();
                 String faPosition = ((UsersActivity) Objects.requireNonNull(activity)).centerViewModel.getFAPosition(model.get("position").toString());
 

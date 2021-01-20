@@ -13,41 +13,50 @@
         android:layout_height="@dimen/_28sdp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_marginLeft="@dimen/_12sdp"
         android:layout_marginRight="@dimen/_6sdp"
         android:contentDescription="@string/AppImageContent"
         android:padding="@dimen/_6sdp" />
 
     <TextView
         android:id="@+id/layout_toolbar_textView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/layout_toolbar_primary_imageView"
+        android:layout_toRightOf="@id/layout_toolbar_option_linearLayout"
+        android:layout_marginRight="@dimen/_12sdp"
+        android:layout_marginLeft="@dimen/_6sdp"
         android:textSize="@dimen/_14ssp"
         android:textStyle="bold"
         android:textAlignment="gravity" />
 
-    <ImageView
-        android:id="@+id/layout_toolbar_secondary_imageView"
-        android:layout_width="@dimen/_28sdp"
-        android:layout_height="@dimen/_28sdp"
+    <LinearLayout
+        android:id="@+id/layout_toolbar_option_linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="@dimen/_6sdp"
-        android:layout_marginRight="@dimen/_6sdp"
-        android:contentDescription="@string/AppImageContent"
-        android:padding="@dimen/_5sdp"
-        android:visibility="gone"/>
+        android:orientation="horizontal"
+        android:layoutDirection="ltr">
 
-    <ImageView
-        android:id="@+id/layout_toolbar_thirdly_imageView"
-        android:layout_width="@dimen/_28sdp"
-        android:layout_height="@dimen/_28sdp"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/layout_toolbar_secondary_imageView"
-        android:contentDescription="@string/AppImageContent"
-        android:padding="@dimen/_6sdp"
-        android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/layout_toolbar_secondary_imageView"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_28sdp"
+            android:layout_marginLeft="@dimen/_6sdp"
+            android:contentDescription="@string/AppImageContent"
+            android:padding="@dimen/_5sdp"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/layout_toolbar_thirdly_imageView"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_28sdp"
+            android:layout_marginLeft="@dimen/_6sdp"
+            android:contentDescription="@string/AppImageContent"
+            android:padding="@dimen/_6sdp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

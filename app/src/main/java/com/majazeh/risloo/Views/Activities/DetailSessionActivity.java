@@ -19,7 +19,6 @@ import android.os.Handler;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -61,8 +60,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class DetailSessionActivity extends AppCompatActivity {
 
     // ViewModels
-    private AuthViewModel authViewModel;
     public SessionViewModel sessionViewModel;
+    public AuthViewModel authViewModel;
 
     // Adapters
     private DetailSessionPracticesAdapter detailSessionPracticesAdapter;
@@ -81,11 +80,12 @@ public class DetailSessionActivity extends AppCompatActivity {
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
     private FrameLayout mainLayout;
-    private LinearLayout infoLayout, loadingLayout,reportLayout;
+    private LinearLayout infoLayout, loadingLayout, reportLayout;
     private ImageView infoImageView;
     private TextView infoTextView;
     private CircleImageView roomAvatarImageView;
-    private TextView roomTitleTextView, roomSubTitleTextView, roomTypeTextView, reportTextView, addReportTextView, emptyReportTextView, addPracticeTextView, emptyPracticesTextView;
+    private TextView nameTextView, roomTitleTextView, roomSubTitleTextView, roomTypeTextView, addReportTextView, emptyReportTextView, addPracticeTextView, emptyPracticesTextView, reportTextView;
+    private LinearLayout practicesHintLinearLayout;
     private RecyclerView practicesRecyclerView;
 
     @Override
@@ -116,7 +116,6 @@ public class DetailSessionActivity extends AppCompatActivity {
         sessionViewModel = new ViewModelProvider(this).get(SessionViewModel.class);
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
-
         detailSessionPracticesAdapter = new DetailSessionPracticesAdapter(this);
 
         handler = new Handler();
@@ -140,24 +139,28 @@ public class DetailSessionActivity extends AppCompatActivity {
         mainLayout = findViewById(R.id.activity_detail_session_mainLayout);
         infoLayout = findViewById(R.id.layout_info_linearLayout);
         loadingLayout = findViewById(R.id.layout_loading_linearLayout);
-        reportLayout = findViewById(R.id.activity_detail_session_add_report_layout);
 
         infoImageView = findViewById(R.id.layout_info_imageView);
         infoTextView = findViewById(R.id.layout_info_textView);
 
         roomAvatarImageView = findViewById(R.id.activity_detail_session_room_avatar_imageView);
 
+        nameTextView = findViewById(R.id.activity_detail_session_name_textView);
         roomTitleTextView = findViewById(R.id.activity_detail_session_room_title_textView);
         roomSubTitleTextView = findViewById(R.id.activity_detail_session_room_subtitle_textView);
         roomTypeTextView = findViewById(R.id.activity_detail_session_room_type_textView);
 
-        reportTextView = findViewById(R.id.activity_detail_session_report_textView);
+        reportLayout = findViewById(R.id.activity_detail_session_report_linearLayout);
 
         addReportTextView = findViewById(R.id.activity_detail_session_add_report_textView);
         addPracticeTextView = findViewById(R.id.activity_detail_session_add_practice_textView);
 
         emptyReportTextView = findViewById(R.id.activity_detail_session_report_empty_textView);
         emptyPracticesTextView = findViewById(R.id.activity_detail_session_practices_empty_textView);
+
+        practicesHintLinearLayout = findViewById(R.id.activity_detail_session_practices_hint_linearLayout);
+
+        reportTextView = findViewById(R.id.activity_detail_session_report_textView);
 
         practicesRecyclerView = findViewById(R.id.activity_detail_session_practices_recyclerView);
         practicesRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", 0, (int) getResources().getDimension(R.dimen._4sdp), 0));
@@ -258,18 +261,18 @@ public class DetailSessionActivity extends AppCompatActivity {
         try {
             JSONObject data = FileManager.readObjectFromCache(this, "sessionDetail" + "/" + sessionId);
 
-            if (authViewModel.report(new Model(FileManager.readObjectFromCache(this, "sessionDetail" + "/" + sessionId)))){
+            if (authViewModel.report(new Model(data))){
                 reportLayout.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 reportLayout.setVisibility(View.GONE);
             }
 
             // Case
-            if (data.has("case") && !data.isNull("case")) {
+            if (data.has("case") && !data.isNull("case") && !data.get("case").equals("")) {
                 JSONObject casse = (JSONObject) data.get("case");
 
                 // Room
-                if (casse.has("room") && !casse.isNull("room")) {
+                if (casse.has("room") && !casse.isNull("room") && !casse.get("room").equals("")) {
                     JSONObject room = (JSONObject) casse.get("room");
                     roomId = room.get("id").toString();
 
@@ -285,8 +288,8 @@ public class DetailSessionActivity extends AppCompatActivity {
                     roomTypeTextView.setText(roomTitle);
 
                     // Avatar
-                    if (detail.has("avatar") && !detail.isNull("avatar")) {
-                        JSONObject avatar = detail.getJSONObject("avatar");
+                    if (manager.has("avatar") && !manager.isNull("avatar") && manager.get("avatar").getClass().getName().equals("org.json.JSONObject")) {
+                        JSONObject avatar = manager.getJSONObject("avatar");
                         JSONObject medium = avatar.getJSONObject("medium");
                         roomUrl = medium.get("url").toString();
 
@@ -302,25 +305,32 @@ public class DetailSessionActivity extends AppCompatActivity {
                 }
             }
 
+            // Status
+            if (data.has("status") && !data.isNull("status") && !data.get("status").equals("")) {
+                String enStatus = data.get("status").toString();
+                String faStatus = sessionViewModel.getFAStatus(enStatus);
+
+                String status = " " + "(" + faStatus + ")";
+
+                nameTextView.append(StringManager.foreground(status, 0, status.length(), getResources().getColor(R.color.PrimaryDark)));
+            }
+
             // Report
-            if (data.has("report") && !data.isNull("report")) {
-                if (!authViewModel.getPrivateKey().equals("")){
-                    report = sessionViewModel.decrypt(data.get("report").toString(),authViewModel.getPrivateKey());
-
-                    reportTextView.setText(report);
-                    reportTextView.setVisibility(View.VISIBLE);
-                }else {
+            if (data.has("report") && !data.isNull("report") && !data.get("report").equals("")) {
+                if (!authViewModel.getPrivateKey().equals("")) {
+                    report = sessionViewModel.decrypt(data.get("report").toString(), authViewModel.getPrivateKey());
+                } else {
                     report = data.get("report").toString();
-
-                    reportTextView.setText(report);
-                    reportTextView.setVisibility(View.VISIBLE);
                 }
+
+                reportTextView.setText(report);
+                reportTextView.setVisibility(View.VISIBLE);
             } else {
                 emptyReportTextView.setVisibility(View.VISIBLE);
             }
 
             // EncryptionType
-            if (data.has("encryption_type") && !data.isNull("encryption_type")) {
+            if (data.has("encryption_type") && !data.isNull("encryption_type") && !data.get("encryption_type").equals("")) {
                 encryptionType = data.get("encryption_type").toString();
             }
 
@@ -329,21 +339,10 @@ public class DetailSessionActivity extends AppCompatActivity {
                 setRecyclerView(sessionViewModel.getPractices(sessionId), practicesRecyclerView, "practices");
             } else {
                 emptyPracticesTextView.setVisibility(View.VISIBLE);
+                practicesHintLinearLayout.setVisibility(View.GONE);
             }
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
+        } catch (JSONException | NoSuchAlgorithmException | InvalidKeyException | NoSuchPaddingException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException e) {
             e.printStackTrace();
         }
     }

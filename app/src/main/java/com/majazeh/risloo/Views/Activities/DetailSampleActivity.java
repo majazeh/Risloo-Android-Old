@@ -339,20 +339,30 @@ public class DetailSampleActivity extends AppCompatActivity {
             JSONObject data = FileManager.readObjectFromCache(this, "sampleDetail" + "/" + sampleId);
 
             // ID
-            if (data.has("id") && !data.isNull("id")) {
+            if (data.has("id") && !data.isNull("id") && !data.get("id").equals("")) {
                 serialTextView.setText(data.get("id").toString());
             }
 
             // Scale
-            if (data.has("scale") && !data.isNull("scale")) {
+            if (data.has("scale") && !data.isNull("scale") && !data.get("scale").equals("")) {
                 JSONObject scale = (JSONObject) data.get("scale");
                 scaleTitle = scale.getString("title");
 
                 scaleTextView.setText(scaleTitle);
             }
 
+            // Version
+            if (data.has("version") && !data.isNull("version") && !data.get("version").equals("")) {
+                scaleTextView.append(" " + data.get("version").toString());
+            }
+
+            // Edition
+            if (data.has("edition") && !data.isNull("edition") && !data.get("edition").equals("")) {
+                scaleTextView.append(" " + data.get("edition").toString());
+            }
+
             // Status
-            if (data.has("status") && !data.isNull("status")) {
+            if (data.has("status") && !data.isNull("status") && !data.get("status").equals("")) {
                 switch (data.get("status").toString()) {
                     case "seald":
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusSeald));
@@ -460,7 +470,7 @@ public class DetailSampleActivity extends AppCompatActivity {
             }
 
             // Reference
-            if (data.has("client") && !data.isNull("client")) {
+            if (data.has("client") && !data.isNull("client") && !data.get("client").equals("")) {
                 JSONObject client = (JSONObject) data.get("client");
 
                 referenceHintTextView.setText(getResources().getString(R.string.DetailSampleReference));
@@ -479,7 +489,7 @@ public class DetailSampleActivity extends AppCompatActivity {
             }
 
             // Case
-            if (data.has("case") && !data.isNull("case")) {
+            if (data.has("case") && !data.isNull("case") && !data.get("case").equals("")) {
                 JSONObject casse = (JSONObject) data.get("case");
 
                 caseTextView.setText(casse.get("id").toString());
@@ -489,7 +499,7 @@ public class DetailSampleActivity extends AppCompatActivity {
             }
 
             // Room
-            if (data.has("room") && !data.isNull("room")) {
+            if (data.has("room") && !data.isNull("room") && !data.get("room").equals("")) {
                 JSONObject room = (JSONObject) data.get("room");
 
                 JSONObject manager = (JSONObject) room.get("manager");

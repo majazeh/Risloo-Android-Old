@@ -22,6 +22,7 @@ import android.text.InputType;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -140,14 +141,15 @@ public class UsersActivity extends AppCompatActivity {
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
         toolbarCreateImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
-        toolbarCreateImageView.setVisibility(View.GONE);
         toolbarCreateImageView.setImageResource(R.drawable.ic_plus_light);
+        toolbarCreateImageView.setVisibility(View.VISIBLE);
         ImageViewCompat.setImageTintList(toolbarCreateImageView, AppCompatResources.getColorStateList(this, R.color.IslamicGreen));
         toolbarSearchImageView = findViewById(R.id.layout_toolbar_thirdly_imageView);
         toolbarSearchImageView.setImageResource(R.drawable.ic_search_light);
         ImageViewCompat.setImageTintList(toolbarSearchImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
+        toolbarTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen._11ssp));
         toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         searchLayout = findViewById(R.id.activity_users_searchLayout);
@@ -414,7 +416,7 @@ public class UsersActivity extends AppCompatActivity {
     private void resetData(String method) {
         if (method.equals("search")) {
             if (authViewModel.hasAccess()) {
-                toolbarSearchImageView.setVisibility(View.GONE);
+                toolbarSearchImageView.setVisibility(View.VISIBLE);
             } else {
                 toolbarSearchImageView.setVisibility(View.GONE);
             }
@@ -585,15 +587,16 @@ public class UsersActivity extends AppCompatActivity {
                         if (integer == 1) {
                             if (roomViewModel.getUsers(roomId) != null) {
                                 // Show Users
-                                try {
-                                    if (authViewModel.addRoomUsers(roomViewModel.getUsersCenters(roomId).get(0))){
-                                        toolbarCreateImageView.setVisibility(View.VISIBLE);
-                                    }else{
-                                        toolbarCreateImageView.setVisibility(View.GONE);
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+
+//                                try {
+//                                    if (authViewModel.addRoomUsers(roomViewModel.getUsersCenters(roomId).get(0))) {
+//                                        toolbarCreateImageView.setVisibility(View.VISIBLE);
+//                                    } else {
+//                                        toolbarCreateImageView.setVisibility(View.GONE);
+//                                    }
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
 
                                 loadingLayout.setVisibility(View.GONE);
                                 infoLayout.setVisibility(View.GONE);

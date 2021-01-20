@@ -64,6 +64,7 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/activity_detail_session_name_textView"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="right|center"
@@ -156,7 +157,7 @@
                             app:cardCornerRadius="@dimen/_16sdp">
 
                             <LinearLayout
-                                android:id="@+id/activity_detail_session_add_report_layout"
+                                android:id="@+id/activity_detail_session_report_linearLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_margin="@dimen/_12sdp"

@@ -98,9 +98,9 @@ public class CreatePracticeActivity extends AppCompatActivity {
     private void initializer() {
         sessionViewModel = new ViewModelProvider(this).get(SessionViewModel.class);
 
-        handler = new Handler();
-
         extras = getIntent().getExtras();
+
+        handler = new Handler();
 
         controlEditText = new ControlEditText();
 
@@ -212,14 +212,10 @@ public class CreatePracticeActivity extends AppCompatActivity {
             if (contentEditText.length() == 0) {
                 controlEditText.error(this, contentEditText);
             }
-//            if (practice.equals("")) {
-//                errorException("practice");
-//            }
 
             if (titleEditText.length() != 0 && contentEditText.length() != 0 ) {
                 controlEditText.clear(this, titleEditText);
                 controlEditText.clear(this, contentEditText);
-                clearException("practice");
 
                 doWork();
             }
