@@ -294,15 +294,15 @@ public class DetailCaseActivity extends AppCompatActivity {
         try {
             JSONObject data = FileManager.readObjectFromCache(this, "caseDetail" + "/" + caseId);
 
-            if (authViewModel.caseDetails(new Model(data))) {
-                addReferenceTextView.setVisibility(View.VISIBLE);
-                addSessionTextView.setVisibility(View.VISIBLE);
-                createSampleTextView.setVisibility(View.VISIBLE);
-            } else {
-                addReferenceTextView.setVisibility(View.GONE);
-                addSessionTextView.setVisibility(View.GONE);
-                createSampleTextView.setVisibility(View.GONE);
-            }
+//            if (authViewModel.caseDetails(new Model(data))) {
+//                addReferenceTextView.setVisibility(View.VISIBLE);
+//                addSessionTextView.setVisibility(View.VISIBLE);
+//                createSampleTextView.setVisibility(View.VISIBLE);
+//            } else {
+//                addReferenceTextView.setVisibility(View.GONE);
+//                addSessionTextView.setVisibility(View.GONE);
+//                createSampleTextView.setVisibility(View.GONE);
+//            }
 
             // Room
             if (data.has("room") && !data.isNull("room") && !data.get("room").equals("")) {

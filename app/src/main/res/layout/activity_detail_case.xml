@@ -641,6 +641,11 @@
                                         android:textColor="@color/Mischka"
                                         android:textAlignment="gravity" />
 
+                                    <View
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1.1" />
+
                                 </LinearLayout>
 
                                 <androidx.recyclerview.widget.RecyclerView

@@ -58,4 +58,21 @@
         android:textColor="@color/Grey"
         android:textAlignment="gravity" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1.1"
+        android:gravity="top|center">
+
+        <ImageView
+            android:id="@+id/single_item_detail_case_samples_link_textView"
+            android:layout_width="@dimen/_26sdp"
+            android:layout_height="@dimen/_26sdp"
+            android:padding="@dimen/_4sdp"
+            android:contentDescription="@string/AppImageContent"
+            android:src="@drawable/ic_eye_light"
+            app:tint="@color/PrimaryDark" />
+
+    </LinearLayout>
+
 </LinearLayout>

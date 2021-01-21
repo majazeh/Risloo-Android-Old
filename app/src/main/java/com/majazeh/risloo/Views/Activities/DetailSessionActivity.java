@@ -261,11 +261,11 @@ public class DetailSessionActivity extends AppCompatActivity {
         try {
             JSONObject data = FileManager.readObjectFromCache(this, "sessionDetail" + "/" + sessionId);
 
-            if (authViewModel.report(new Model(data))){
-                reportLayout.setVisibility(View.VISIBLE);
-            } else {
-                reportLayout.setVisibility(View.GONE);
-            }
+//            if (authViewModel.report(new Model(data))){
+//                reportLayout.setVisibility(View.VISIBLE);
+//            } else {
+//                reportLayout.setVisibility(View.GONE);
+//            }
 
             // Case
             if (data.has("case") && !data.isNull("case") && !data.get("case").equals("")) {

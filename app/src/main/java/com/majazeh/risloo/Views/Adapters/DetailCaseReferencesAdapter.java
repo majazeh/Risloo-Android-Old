@@ -69,22 +69,22 @@ public class DetailCaseReferencesAdapter extends RecyclerView.Adapter<DetailCase
             createSampleIntent.putExtra("clients", ((DetailCaseActivity) Objects.requireNonNull(activity)).clients);
 
             // ID
-            if (model.attributes.has("id") && !model.attributes.isNull("id")) {
+            if (model.attributes.has("id") && !model.attributes.isNull("id") && !model.attributes.get("id").equals("")) {
                 createSampleIntent.putExtra("client_id", model.get("id").toString());
             }
 
             // User
-            if (model.attributes.has("user") && !model.attributes.isNull("user")) {
+            if (model.attributes.has("user") && !model.attributes.isNull("user") && !model.attributes.get("user").equals("")) {
                 JSONObject user = (JSONObject) model.get("user");
 
                 holder.nameTextView.setText(user.get("name").toString());
             }
 
-           if (((DetailCaseActivity) Objects.requireNonNull(activity)).authViewModel.caseDetails(new Model(FileManager.readObjectFromCache(activity, "caseDetail" + "/" + ((DetailCaseActivity) Objects.requireNonNull(activity)).caseId)))){
-                holder.createTextView.setVisibility(View.VISIBLE);
-            }else{
-               holder.createTextView.setVisibility(View.GONE);
-           }
+//           if (((DetailCaseActivity) Objects.requireNonNull(activity)).authViewModel.caseDetails(new Model(FileManager.readObjectFromCache(activity, "caseDetail" + "/" + ((DetailCaseActivity) Objects.requireNonNull(activity)).caseId)))){
+//                holder.createTextView.setVisibility(View.VISIBLE);
+//            } else {
+//               holder.createTextView.setVisibility(View.GONE);
+//           }
 
             holder.createTextView.setOnClickListener(v -> {
                 holder.createTextView.setClickable(false);
