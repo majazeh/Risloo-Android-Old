@@ -97,7 +97,7 @@ public class CreateSampleActivity extends AppCompatActivity {
     private FrameLayout scaleFrameLayout, roomFrameLayout, caseFrameLayout, referenceFrameLayout, sessionFrameLayout;
     private LinearLayout roomLinearLayout, sessionLinearLayout;
     private LinearLayout referenceCaseLayout, referenceRoomLayout;
-    public TextView scaleTextView, scaleCountTextView, roomNameTextView, roomTitleTextView, caseTextView, referenceTextView, sessionNameTextView, sessionIdTextView, casesTextView;
+    public TextView scaleTextView, scaleCountTextView, roomNameTextView, roomTitleTextView, caseTextView, referenceTextView, referenceCountTextView, sessionNameTextView, sessionIdTextView, casesTextView;
     public EditText countEditText;
     private RecyclerView scaleRecyclerView, referenceRecyclerView, casesRecyclerView;
     private Button createButton;
@@ -196,6 +196,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         roomTitleTextView = findViewById(R.id.activity_create_sample_room_title_textView);
         caseTextView = findViewById(R.id.activity_create_sample_case_textView);
         referenceTextView = findViewById(R.id.activity_create_sample_reference_room_textView);
+        referenceCountTextView = findViewById(R.id.activity_create_sample_reference_count_textView);
         sessionNameTextView = findViewById(R.id.activity_create_sample_session_name_textView);
         sessionIdTextView = findViewById(R.id.activity_create_sample_session_id_textView);
         casesTextView = findViewById(R.id.activity_create_sample_reference_case_textView);
@@ -1651,6 +1652,9 @@ public class CreateSampleActivity extends AppCompatActivity {
                     if (referenceRecyclerViewAdapter.getValues().size() == 0) {
                         referenceTextView.setVisibility(View.VISIBLE);
 
+                        referenceCountTextView.setText("");
+                        referenceCountTextView.setVisibility(View.GONE);
+
                         countEditText.setEnabled(true);
                         countEditText.setFocusableInTouchMode(true);
                         countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
@@ -1659,6 +1663,11 @@ public class CreateSampleActivity extends AppCompatActivity {
                     } else {
                         if (referenceTextView.getVisibility() == View.VISIBLE) {
                             referenceTextView.setVisibility(View.GONE);
+                        }
+
+                        referenceCountTextView.setText(String.valueOf(referenceRecyclerViewAdapter.getValues().size()));
+                        if (referenceCountTextView.getVisibility() == View.GONE) {
+                            referenceCountTextView.setVisibility(View.VISIBLE);
                         }
 
                         countEditText.setEnabled(false);

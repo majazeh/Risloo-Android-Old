@@ -36,14 +36,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/_24sdp"
                 android:orientation="vertical">
 
                 <FrameLayout
                     android:id="@+id/activity_edit_case_room_frameLayout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
-                    android:layout_marginBottom="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_24sdp"
+                    android:layout_marginLeft="@dimen/_24sdp"
+                    android:layout_marginRight="@dimen/_24sdp"
                     android:background="@drawable/draw_16sdp_border_quartz">
 
                     <LinearLayout
@@ -92,33 +93,58 @@
                 </FrameLayout>
 
                 <FrameLayout
-                    android:id="@+id/activity_edit_case_reference_frameLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_8sdp"
-                    android:paddingTop="@dimen/_6sdp"
-                    android:paddingBottom="@dimen/_6sdp"
-                    android:paddingLeft="@dimen/_12sdp"
-                    android:paddingRight="@dimen/_12sdp"
-                    android:background="@drawable/draw_16sdp_border_quartz">
+                    android:layout_height="wrap_content">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/activity_edit_case_reference_recyclerView"
+                    <FrameLayout
+                        android:id="@+id/activity_edit_case_reference_frameLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:minHeight="@dimen/_24sdp"
-                        android:overScrollMode="never" />
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        android:layout_marginLeft="@dimen/_24sdp"
+                        android:layout_marginRight="@dimen/_24sdp"
+                        android:paddingTop="@dimen/_6sdp"
+                        android:paddingBottom="@dimen/_6sdp"
+                        android:paddingLeft="@dimen/_12sdp"
+                        android:paddingRight="@dimen/_12sdp"
+                        android:background="@drawable/draw_16sdp_border_quartz">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/activity_edit_case_reference_recyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="@dimen/_24sdp"
+                            android:overScrollMode="never" />
+
+                        <TextView
+                            android:id="@+id/activity_edit_case_reference_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center|right"
+                            android:text="@string/EditCaseReference"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="normal"
+                            android:textColor="@color/Mischka"
+                            android:textAlignment="gravity" />
+
+                    </FrameLayout>
 
                     <TextView
-                        android:id="@+id/activity_edit_case_reference_textView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center|right"
-                        android:text="@string/EditCaseReference"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="normal"
-                        android:textColor="@color/Mischka"
-                        android:textAlignment="gravity" />
+                        android:id="@+id/activity_edit_case_reference_count_textView"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginLeft="@dimen/_18sdp"
+                        android:layout_gravity="top|left"
+                        android:paddingTop="@dimen/_1sdp"
+                        android:visibility="gone"
+                        android:gravity="center"
+                        android:textSize="@dimen/_11ssp"
+                        android:textStyle="bold"
+                        android:textColor="@color/White"
+                        android:textAlignment="gravity"
+                        android:background="@drawable/draw_oval_solid_primary_border_white"/>
 
                 </FrameLayout>
 
@@ -127,6 +153,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_24sdp"
+                    android:layout_marginLeft="@dimen/_24sdp"
+                    android:layout_marginRight="@dimen/_24sdp"
                     android:minHeight="@dimen/_36sdp"
                     android:paddingTop="@dimen/_8sdp"
                     android:paddingBottom="@dimen/_8sdp"
@@ -148,6 +176,9 @@
                     android:id="@+id/activity_edit_case_button"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
+                    android:layout_marginBottom="@dimen/_24sdp"
+                    android:layout_marginLeft="@dimen/_24sdp"
+                    android:layout_marginRight="@dimen/_24sdp"
                     android:gravity="center"
                     android:text="@string/EditCaseEdit"
                     android:textSize="@dimen/_12ssp"

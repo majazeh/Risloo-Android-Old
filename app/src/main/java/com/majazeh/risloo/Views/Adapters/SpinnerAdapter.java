@@ -118,18 +118,30 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                                 case "Samples":
                                     ((CreateSampleActivity) Objects.requireNonNull(activity)).referenceTextView.setVisibility(View.VISIBLE);
 
+                                    ((CreateSampleActivity) Objects.requireNonNull(activity)).referenceCountTextView.setText("");
+                                    ((CreateSampleActivity) Objects.requireNonNull(activity)).referenceCountTextView.setVisibility(View.GONE);
+
                                     ((CreateSampleActivity) Objects.requireNonNull(activity)).countEditText.setEnabled(true);
                                     ((CreateSampleActivity) Objects.requireNonNull(activity)).countEditText.setFocusableInTouchMode(true);
                                     ((CreateSampleActivity) Objects.requireNonNull(activity)).countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                                     break;
                                 case "CreateCase":
                                     ((CreateCaseActivity) Objects.requireNonNull(activity)).referenceTextView.setVisibility(View.VISIBLE);
+
+                                    ((CreateCaseActivity) Objects.requireNonNull(activity)).referenceCountTextView.setText("");
+                                    ((CreateCaseActivity) Objects.requireNonNull(activity)).referenceCountTextView.setVisibility(View.GONE);
                                     break;
                                 case "EditCase":
                                     ((EditCaseActivity) Objects.requireNonNull(activity)).referenceTextView.setVisibility(View.VISIBLE);
+
+                                    ((EditCaseActivity) Objects.requireNonNull(activity)).referenceCountTextView.setText("");
+                                    ((EditCaseActivity) Objects.requireNonNull(activity)).referenceCountTextView.setVisibility(View.GONE);
                                     break;
                                 case "CreateUser":
                                     ((CreateUserActivity) Objects.requireNonNull(activity)).referenceTextView.setVisibility(View.VISIBLE);
+
+                                    ((CreateUserActivity) Objects.requireNonNull(activity)).referenceCountTextView.setText("");
+                                    ((CreateUserActivity) Objects.requireNonNull(activity)).referenceCountTextView.setVisibility(View.GONE);
                                     break;
                             }
                             break;
@@ -150,6 +162,27 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
                         case "scales":
                             ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleCountTextView.setText(String.valueOf(values.size()));
                             ((CreateSampleActivity) Objects.requireNonNull(activity)).scaleCountTextView.setVisibility(View.VISIBLE);
+                            break;
+
+                        case "references":
+                            switch (theory) {
+                                case "Samples":
+                                    ((CreateSampleActivity) Objects.requireNonNull(activity)).referenceCountTextView.setText(String.valueOf(values.size()));
+                                    ((CreateSampleActivity) Objects.requireNonNull(activity)).referenceCountTextView.setVisibility(View.VISIBLE);
+                                    break;
+                                case "CreateCase":
+                                    ((CreateCaseActivity) Objects.requireNonNull(activity)).referenceCountTextView.setText(String.valueOf(values.size()));
+                                    ((CreateCaseActivity) Objects.requireNonNull(activity)).referenceCountTextView.setVisibility(View.VISIBLE);
+                                    break;
+                                case "EditCase":
+                                    ((EditCaseActivity) Objects.requireNonNull(activity)).referenceCountTextView.setText(String.valueOf(values.size()));
+                                    ((EditCaseActivity) Objects.requireNonNull(activity)).referenceCountTextView.setVisibility(View.VISIBLE);
+                                    break;
+                                case "CreateUser":
+                                    ((CreateUserActivity) Objects.requireNonNull(activity)).referenceCountTextView.setText(String.valueOf(values.size()));
+                                    ((CreateUserActivity) Objects.requireNonNull(activity)).referenceCountTextView.setVisibility(View.VISIBLE);
+                                    break;
+                            }
                             break;
                     }
                 }

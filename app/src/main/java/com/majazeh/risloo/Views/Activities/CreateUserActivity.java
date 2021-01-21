@@ -89,7 +89,7 @@ public class CreateUserActivity extends AppCompatActivity {
     private LinearLayout clinicLinearLayout;
     private FrameLayout referenceFrameLayout, positionFrameLayout, roomFrameLayout;
     private LinearLayout roomLinearLayout;
-    public TextView referenceTextView, positionTextView, roomNameTextView, roomTitleTextView;
+    public TextView referenceTextView, referenceCountTextView, positionTextView, roomNameTextView, roomTitleTextView;
     private EditText mobileEditText;
     private RecyclerView referenceRecyclerView;
     private CheckBox caseCheckbox;
@@ -168,6 +168,7 @@ public class CreateUserActivity extends AppCompatActivity {
         roomLinearLayout = findViewById(R.id.activity_create_user_room_linearLayout);
 
         referenceTextView = findViewById(R.id.activity_create_user_reference_textView);
+        referenceCountTextView = findViewById(R.id.activity_create_user_reference_count_textView);
         positionTextView = findViewById(R.id.activity_create_user_position_textView);
         roomNameTextView = findViewById(R.id.activity_create_user_room_name_textView);
         roomTitleTextView = findViewById(R.id.activity_create_user_room_title_textView);
@@ -956,10 +957,18 @@ public class CreateUserActivity extends AppCompatActivity {
                     if (referenceRecyclerViewAdapter.getValues().size() == 0) {
                         referenceTextView.setVisibility(View.VISIBLE);
 
+                        referenceCountTextView.setText("");
+                        referenceCountTextView.setVisibility(View.GONE);
+
                         referenceDialogConfirm.setVisibility(View.GONE);
                     } else {
                         if (referenceTextView.getVisibility() == View.VISIBLE) {
                             referenceTextView.setVisibility(View.GONE);
+                        }
+
+                        referenceCountTextView.setText(String.valueOf(referenceRecyclerViewAdapter.getValues().size()));
+                        if (referenceCountTextView.getVisibility() == View.GONE) {
+                            referenceCountTextView.setVisibility(View.VISIBLE);
                         }
 
                         if (referenceDialogConfirm.getVisibility() == View.GONE) {
