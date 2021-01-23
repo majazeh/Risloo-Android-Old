@@ -814,6 +814,8 @@
     <string name="UsersSearchDialogPositive">جستجو</string>
     <string name="UsersSearchDialogNegative">بستن</string>
 
+    <string name="UsersPositionDialogTitle">موقعیت مورد نظر خودتان را انتخاب کنید.</string>
+
     ////////////////////////////////////////////////////////////////////////////////
 
     // CreateUser strings

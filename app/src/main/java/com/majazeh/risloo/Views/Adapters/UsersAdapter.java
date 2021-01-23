@@ -99,6 +99,22 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
             if (model.attributes.has("user") && !model.attributes.isNull("user") && !model.attributes.get("user").equals("")) {
                 JSONObject user = (JSONObject) model.get("user");
 
+                if (type.equals("center")) {
+                    if (!user.get("id").toString().equals(((UsersActivity) Objects.requireNonNull(activity)).managerId)) {
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
+                            holder.positionFrameLayout.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
+                        else
+                            holder.positionFrameLayout.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz);
+                        holder.positionImageView.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.positionFrameLayout.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude);
+                        holder.positionImageView.setVisibility(View.GONE);
+                    }
+                } else {
+                    holder.positionFrameLayout.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude);
+                    holder.positionImageView.setVisibility(View.GONE);
+                }
+
                 holder.referenceTextView.setText(user.get("name").toString());
                 holder.referenceLinearLayout.setVisibility(View.VISIBLE);
             } else {
@@ -173,7 +189,11 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
                 holder.positionFrameLayout.setClickable(false);
                 handler.postDelayed(() -> holder.positionFrameLayout.setClickable(true), 250);
 
-//                showDialog(model);
+                if (holder.positionImageView.getVisibility() == View.VISIBLE) {
+                    String position = ((UsersActivity) Objects.requireNonNull(activity)).centerViewModel.getENPosition(holder.positionTextView.getText().toString());
+
+                    ((UsersActivity) Objects.requireNonNull(activity)).showPositionDialog(i, model, position);
+                }
             });
 
             holder.acceptTextView.setOnClickListener(v -> {
@@ -231,11 +251,15 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
         progressDialog.setCancelable(false);
     }
 
-    private void doWork(int position, Model model, String type) {
+    public void doWork(int position, Model model, String type) {
         try {
             progressDialog.show();
 
-            centerViewModel.userStatus(((UsersActivity) Objects.requireNonNull(activity)).clinicId, model.get("id").toString(), type);
+            if (type.equals("accept") || type.equals("kick")) {
+                centerViewModel.userStatus(((UsersActivity) Objects.requireNonNull(activity)).clinicId, model.get("id").toString(), type);
+            } else {
+                centerViewModel.userPosition(((UsersActivity) Objects.requireNonNull(activity)).clinicId, model.get("id").toString(), type);
+            }
             observeWork(position, model);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -246,7 +270,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
         CenterRepository.workState.observeForever(new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
-                if (CenterRepository.work.equals("userStatus")) {
+                if (CenterRepository.work.equals("userStatus") || CenterRepository.work.equals("userPosition")) {
                     if (integer == 1) {
 
                         try {
