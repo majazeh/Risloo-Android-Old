@@ -99,7 +99,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
             if (model.attributes.has("user") && !model.attributes.isNull("user") && !model.attributes.get("user").equals("")) {
                 JSONObject user = (JSONObject) model.get("user");
 
-                if (type.equals("center")) {
+                if (type.equals("center") && ((UsersActivity) Objects.requireNonNull(activity)).centerType.equals("counseling_center")) {
                     if (!user.get("id").toString().equals(((UsersActivity) Objects.requireNonNull(activity)).managerId)) {
                         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
                             holder.positionFrameLayout.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
@@ -129,6 +129,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
                 holder.acceptedAtTextView.setText(acceptedAtDate + " " + acceptedAtTime);
                 holder.timeLinearLayout.setVisibility(View.VISIBLE);
             } else {
+                holder.acceptedAtTextView.setVisibility(View.GONE);
                 holder.timeLinearLayout.setVisibility(View.GONE);
             }
 
@@ -138,6 +139,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
                 String kickedAtDate = DateManager.gregorianToJalali(DateManager.dateToString("yyyy-MM-dd", DateManager.timestampToDate(Long.parseLong(model.get("kicked_at").toString()))));
 
                 holder.kickedAtTextView.setText(kickedAtDate + " " + kickedAtTime);
+            } else {
+                holder.kickedAtTextView.setVisibility(View.GONE);
             }
 
             // Position & Acceptation

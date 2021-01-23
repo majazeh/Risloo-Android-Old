@@ -157,6 +157,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
             // Type
             if (model.attributes.has("type") && !model.attributes.isNull("type") && !model.attributes.get("type").equals("")) {
                 editCenterIntent.putExtra("type", model.get("type").toString());
+                usersIntent.putExtra("center_type", model.get("type").toString());
             }
 
             JSONObject detail = (JSONObject) model.get("detail");

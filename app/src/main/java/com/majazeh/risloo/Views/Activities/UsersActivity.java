@@ -71,7 +71,7 @@ public class UsersActivity extends AppCompatActivity {
     public int userIndex;
     public Model userModel;
     public String userPositionId;
-    public String search = "", type = "", clinicId = "", managerId = "", managerName = "", roomId = "", title = "";
+    public String search = "", type = "", centerType = "", clinicId = "", managerId = "", managerName = "", roomId = "", title = "";
     private HashMap<Integer, Boolean> expands;
     public boolean loading = false, finished = true;
 
@@ -488,6 +488,8 @@ public class UsersActivity extends AppCompatActivity {
     private void setData() {
         if (extras.getString("type") != null)
             type = extras.getString("type");
+        if (extras.getString("center_type") != null)
+            centerType = extras.getString("center_type");
         if (extras.getString("clinic_id") != null)
             clinicId = extras.getString("clinic_id");
         if (extras.getString("clinic_name") != null)
