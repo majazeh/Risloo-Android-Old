@@ -139,6 +139,18 @@
                                             android:textColor="@color/Mischka"
                                             android:textAlignment="gravity" />
 
+                                        <TextView
+                                            android:id="@+id/activity_detail_session_case_id_textView"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="@dimen/_minus2sdp"
+                                            android:gravity="right"
+                                            android:text="@string/DetailSessionCaseId"
+                                            android:textSize="@dimen/_9ssp"
+                                            android:textStyle="bold"
+                                            android:textColor="@color/Mischka"
+                                            android:textAlignment="gravity" />
+
                                     </LinearLayout>
 
                                 </RelativeLayout>

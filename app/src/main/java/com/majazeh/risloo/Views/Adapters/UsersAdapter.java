@@ -110,10 +110,18 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
                 String acceptedAtTime = DateManager.dateToString("HH:mm", DateManager.timestampToDate(Long.parseLong(model.get("accepted_at").toString())));
                 String acceptedAtDate = DateManager.gregorianToJalali(DateManager.dateToString("yyyy-MM-dd", DateManager.timestampToDate(Long.parseLong(model.get("accepted_at").toString()))));
 
-                holder.acceptedAtTextView.setText(acceptedAtDate + "\n" + acceptedAtTime);
-                holder.acceptedAtLinearLayout.setVisibility(View.VISIBLE);
+                holder.acceptedAtTextView.setText(acceptedAtDate + " " + acceptedAtTime);
+                holder.timeLinearLayout.setVisibility(View.VISIBLE);
             } else {
-                holder.acceptedAtLinearLayout.setVisibility(View.GONE);
+                holder.timeLinearLayout.setVisibility(View.GONE);
+            }
+
+            // KickedAt
+            if (model.attributes.has("kicked_at") && !model.attributes.isNull("kicked_at") && !model.attributes.get("kicked_at").equals("")) {
+                String kickedAtTime = DateManager.dateToString("HH:mm", DateManager.timestampToDate(Long.parseLong(model.get("kicked_at").toString())));
+                String kickedAtDate = DateManager.gregorianToJalali(DateManager.dateToString("yyyy-MM-dd", DateManager.timestampToDate(Long.parseLong(model.get("kicked_at").toString()))));
+
+                holder.kickedAtTextView.setText(kickedAtDate + " " + kickedAtTime);
             }
 
             // Position & Acceptation
@@ -296,8 +304,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
 
     public class UsersHolder extends RecyclerView.ViewHolder {
 
-        public TextView serialTextView, referenceTextView, creatorTextView, acceptedAtTextView, positionTextView, acceptationTextView;
-        public LinearLayout referenceLinearLayout, creatorLinearLayout, acceptedAtLinearLayout, positionLinearLayout;
+        public TextView serialTextView, referenceTextView, creatorTextView, acceptedAtTextView, kickedAtTextView, positionTextView, acceptationTextView;
+        public LinearLayout referenceLinearLayout, creatorLinearLayout, timeLinearLayout, positionLinearLayout;
         public LinearLayout positionFrameLayout;
         public ImageView positionImageView;
         public TextView acceptTextView, suspendTextView, createTextView;
@@ -308,11 +316,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
             referenceTextView = view.findViewById(R.id.single_item_users_reference_textView);
             creatorTextView = view.findViewById(R.id.single_item_users_creator_textView);
             acceptedAtTextView = view.findViewById(R.id.single_item_users_accepted_at_textView);
+            kickedAtTextView = view.findViewById(R.id.single_item_users_kicked_at_textView);
             positionTextView = view.findViewById(R.id.single_item_users_position_textView);
             acceptationTextView = view.findViewById(R.id.single_item_users_acceptation_textView);
             referenceLinearLayout = view.findViewById(R.id.single_item_users_reference_linearLayout);
             creatorLinearLayout = view.findViewById(R.id.single_item_users_creator_linearLayout);
-            acceptedAtLinearLayout = view.findViewById(R.id.single_item_users_accepted_at_linearLayout);
+            timeLinearLayout = view.findViewById(R.id.single_item_users_time_linearLayout);
             positionLinearLayout = view.findViewById(R.id.single_item_users_position_linearLayout);
             positionFrameLayout = view.findViewById(R.id.single_item_users_position_frameLayout);
             positionImageView = view.findViewById(R.id.single_item_users_position_imageView);

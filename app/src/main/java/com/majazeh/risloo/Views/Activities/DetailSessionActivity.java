@@ -84,7 +84,7 @@ public class DetailSessionActivity extends AppCompatActivity {
     private ImageView infoImageView;
     private TextView infoTextView;
     private CircleImageView roomAvatarImageView;
-    private TextView nameTextView, roomTitleTextView, roomSubTitleTextView, roomTypeTextView, addReportTextView, emptyReportTextView, addPracticeTextView, emptyPracticesTextView, reportTextView;
+    private TextView nameTextView, roomTitleTextView, roomSubTitleTextView, roomTypeTextView, caseIdTextView, addReportTextView, emptyReportTextView, addPracticeTextView, emptyPracticesTextView, reportTextView;
     private LinearLayout practicesHintLinearLayout;
     private RecyclerView practicesRecyclerView;
 
@@ -149,6 +149,7 @@ public class DetailSessionActivity extends AppCompatActivity {
         roomTitleTextView = findViewById(R.id.activity_detail_session_room_title_textView);
         roomSubTitleTextView = findViewById(R.id.activity_detail_session_room_subtitle_textView);
         roomTypeTextView = findViewById(R.id.activity_detail_session_room_type_textView);
+        caseIdTextView = findViewById(R.id.activity_detail_session_case_id_textView);
 
         reportLayout = findViewById(R.id.activity_detail_session_report_linearLayout);
 
@@ -270,6 +271,11 @@ public class DetailSessionActivity extends AppCompatActivity {
             // Case
             if (data.has("case") && !data.isNull("case") && !data.get("case").equals("")) {
                 JSONObject casse = (JSONObject) data.get("case");
+
+                // ID
+                if (casse.has("id") && !casse.isNull("id") && !casse.get("id").equals("")) {
+                    caseIdTextView.append(" " + casse.get("id").toString());
+                }
 
                 // Room
                 if (casse.has("room") && !casse.isNull("room") && !casse.get("room").equals("")) {

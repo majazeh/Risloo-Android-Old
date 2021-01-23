@@ -673,7 +673,7 @@
 
     <string name="DetailCaseSampleTitle">عنوان</string>
     <string name="DetailCaseSampleStatus">وضعیت</string>
-    <string name="DetailCaseSampleSessionId"># جلسه</string>
+    <string name="DetailCaseSampleSessionId">جلسه</string>
     <string name="DetailCaseSampleReference">مراجع</string>
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -766,6 +766,7 @@
     <string name="DetailSessionTitle">مشخصات جلسه</string>
 
     <string name="DetailSessionName">جلسه درمانی</string>
+    <string name="DetailSessionCaseId">کد پرونده :</string>
 
     <string name="DetailSessionPractices">تمرین‌ها</string>
     <string name="DetailSessionAddPractice">ایجاد تمرین</string>
@@ -795,7 +796,7 @@
 
     <string name="UsersReference">کاربر</string>
     <string name="UsersCreator">سازنده</string>
-    <string name="UsersAcceptedAt">زمان پذیرش</string>
+    <string name="UsersTime">زمان پذیرش و تعلیق</string>
     <string name="UsersPosition">موقعیت</string>
 
     <string name="UsersKicked">رد شد</string>

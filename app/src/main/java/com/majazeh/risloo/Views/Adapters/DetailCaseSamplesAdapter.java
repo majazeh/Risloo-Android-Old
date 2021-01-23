@@ -155,7 +155,7 @@ public class DetailCaseSamplesAdapter extends RecyclerView.Adapter<DetailCaseSam
             statusTextView = view.findViewById(R.id.single_item_detail_case_samples_status_textView);
             sessionIdTextView = view.findViewById(R.id.single_item_detail_case_samples_session_id_textView);
             referenceTextView = view.findViewById(R.id.single_item_detail_case_samples_reference_textView);
-            linkImageView = view.findViewById(R.id.single_item_detail_case_samples_link_textView);
+            linkImageView = view.findViewById(R.id.single_item_detail_case_samples_link_imageView);
         }
     }
 

@@ -203,7 +203,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/single_item_users_accepted_at_linearLayout"
+                android:id="@+id/single_item_users_time_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -228,7 +228,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center|right"
-                        android:text="@string/UsersAcceptedAt"
+                        android:text="@string/UsersTime"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal"
                         android:textColor="@color/Mischka"
@@ -244,6 +244,17 @@
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"
                     android:textColor="@color/Grey"
+                    android:textAlignment="gravity" />
+
+                <TextView
+                    android:id="@+id/single_item_users_kicked_at_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_minus4sdp"
+                    android:gravity="center|right"
+                    android:textSize="@dimen/_9ssp"
+                    android:textStyle="bold"
+                    android:textColor="@color/VioletRed"
                     android:textAlignment="gravity" />
 
             </LinearLayout>
