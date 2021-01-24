@@ -25,9 +25,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Views.Activities.SampleActivity;
 import com.majazeh.risloo.Views.Activities.DetailSampleActivity;
 import com.majazeh.risloo.Views.Activities.SamplesActivity;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -202,10 +204,28 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
 
                 JSONObject manager = (JSONObject) room.get("manager");
 
+                holder.roomTitleTextView.setText(manager.get("name").toString());
+
                 JSONObject center = (JSONObject) room.get("center");
                 JSONObject detail = (JSONObject) center.get("detail");
 
-                holder.roomTextView.setText(detail.get("title").toString());
+                holder.roomTypeTextView.setText(detail.get("title").toString());
+
+                // Avatar
+                if (manager.has("avatar") && !manager.isNull("avatar") && manager.get("avatar").getClass().getName().equals("org.json.JSONObject")) {
+                    JSONObject avatar = manager.getJSONObject("avatar");
+                    JSONObject medium = avatar.getJSONObject("medium");
+
+                    Picasso.get().load(medium.get("url").toString()).placeholder(R.color.Solitude).into(holder.roomAvatarImageView);
+
+                    holder.roomSubTitleTextView.setVisibility(View.GONE);
+                } else {
+                    Picasso.get().load(R.color.Solitude).placeholder(R.color.Solitude).into(holder.roomAvatarImageView);
+
+                    holder.roomSubTitleTextView.setVisibility(View.VISIBLE);
+                    holder.roomSubTitleTextView.setText(StringManager.firstChars(holder.roomTitleTextView.getText().toString()));
+                }
+
                 holder.roomLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.roomLinearLayout.setVisibility(View.GONE);
@@ -343,14 +363,18 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
 
     public class SamplesHolder extends RecyclerView.ViewHolder {
 
-        public TextView scaleTextView, serialTextView, statusTextView, startTextView, referenceHintTextView, referenceTextView, caseTextView, roomTextView;
-        public ImageView statusImageView, referenceHintImageView;
+        public TextView scaleTextView, serialTextView, roomTitleTextView, roomSubTitleTextView, roomTypeTextView, statusTextView, startTextView, referenceHintTextView, referenceTextView, caseTextView;
+        public ImageView roomAvatarImageView, statusImageView, referenceHintImageView;
         public LinearLayout referenceLinearLayout, caseLinearLayout, roomLinearLayout;
 
         public SamplesHolder(View view) {
             super(view);
             scaleTextView = view.findViewById(R.id.single_item_samples_scale_textView);
             serialTextView = view.findViewById(R.id.single_item_samples_serial_textView);
+            roomAvatarImageView = view.findViewById(R.id.single_item_samples_room_avatar_imageView);
+            roomTitleTextView = view.findViewById(R.id.single_item_samples_room_title_textView);
+            roomSubTitleTextView = view.findViewById(R.id.single_item_samples_room_subtitle_textView);
+            roomTypeTextView = view.findViewById(R.id.single_item_samples_room_type_textView);
             statusTextView = view.findViewById(R.id.single_item_samples_status_textView);
             statusImageView = view.findViewById(R.id.single_item_samples_status_imageView);
             startTextView = view.findViewById(R.id.single_item_samples_start_textView);
@@ -358,7 +382,6 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
             referenceHintImageView = view.findViewById(R.id.single_item_samples_reference_hint_imageView);
             referenceTextView = view.findViewById(R.id.single_item_samples_reference_textView);
             caseTextView = view.findViewById(R.id.single_item_samples_case_textView);
-            roomTextView = view.findViewById(R.id.single_item_samples_room_textView);
             referenceLinearLayout = view.findViewById(R.id.single_item_samples_reference_linearLayout);
             caseLinearLayout = view.findViewById(R.id.single_item_samples_case_linearLayout);
             roomLinearLayout = view.findViewById(R.id.single_item_samples_room_linearLayout);

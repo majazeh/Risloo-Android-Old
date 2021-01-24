@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,9 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.DateManager;
+import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Views.Activities.DetailSessionActivity;
 import com.majazeh.risloo.Views.Activities.EditSessionActivity;
 import com.majazeh.risloo.Views.Activities.SessionsActivity;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -103,11 +106,29 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
                     JSONObject manager = (JSONObject) room.get("manager");
                     editSessionIntent.putExtra("room_name", manager.get("name").toString());
 
+                    holder.roomTitleTextView.setText(manager.get("name").toString());
+
                     JSONObject center = (JSONObject) room.get("center");
                     JSONObject detail = (JSONObject) center.get("detail");
                     editSessionIntent.putExtra("room_title", detail.get("title").toString());
 
-                    holder.roomTextView.setText(detail.get("title").toString());
+                    holder.roomTypeTextView.setText(detail.get("title").toString());
+
+                    // Avatar
+                    if (manager.has("avatar") && !manager.isNull("avatar") && manager.get("avatar").getClass().getName().equals("org.json.JSONObject")) {
+                        JSONObject avatar = manager.getJSONObject("avatar");
+                        JSONObject medium = avatar.getJSONObject("medium");
+
+                        Picasso.get().load(medium.get("url").toString()).placeholder(R.color.Solitude).into(holder.roomAvatarImageView);
+
+                        holder.roomSubTitleTextView.setVisibility(View.GONE);
+                    } else {
+                        Picasso.get().load(R.color.Solitude).placeholder(R.color.Solitude).into(holder.roomAvatarImageView);
+
+                        holder.roomSubTitleTextView.setVisibility(View.VISIBLE);
+                        holder.roomSubTitleTextView.setText(StringManager.firstChars(holder.roomTitleTextView.getText().toString()));
+                    }
+
                     holder.roomLinearLayout.setVisibility(View.VISIBLE);
                 } else {
                     holder.roomLinearLayout.setVisibility(View.GONE);
@@ -226,19 +247,23 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
 
     public class SessionsHolder extends RecyclerView.ViewHolder {
 
-        public TextView serialTextView, roomTextView, caseTextView, referenceTextView, startedAtTextView, durationTextView, statusTextView, editTextView;
+        public TextView serialTextView, editTextView, roomTitleTextView, roomSubTitleTextView, roomTypeTextView, caseTextView, referenceTextView, startedAtTextView, durationTextView, statusTextView;
+        public ImageView roomAvatarImageView;
         public LinearLayout roomLinearLayout, caseLinearLayout, referenceLinearLayout, startedAtLinearLayout, durationLinearLayout, statusLinearLayout;
 
         public SessionsHolder(View view) {
             super(view);
             serialTextView = view.findViewById(R.id.single_item_sessions_serial_textView);
-            roomTextView = view.findViewById(R.id.single_item_sessions_room_textView);
+            editTextView = view.findViewById(R.id.single_item_sessions_edit_textView);
+            roomAvatarImageView = view.findViewById(R.id.single_item_sessions_room_avatar_imageView);
+            roomTitleTextView = view.findViewById(R.id.single_item_sessions_room_title_textView);
+            roomSubTitleTextView = view.findViewById(R.id.single_item_sessions_room_subtitle_textView);
+            roomTypeTextView = view.findViewById(R.id.single_item_sessions_room_type_textView);
             caseTextView = view.findViewById(R.id.single_item_sessions_case_textView);
             referenceTextView = view.findViewById(R.id.single_item_sessions_reference_textView);
             startedAtTextView = view.findViewById(R.id.single_item_sessions_started_at_textView);
             durationTextView = view.findViewById(R.id.single_item_sessions_duration_textView);
             statusTextView = view.findViewById(R.id.single_item_sessions_status_textView);
-            editTextView = view.findViewById(R.id.single_item_sessions_edit_textView);
             roomLinearLayout = view.findViewById(R.id.single_item_sessions_room_linearLayout);
             caseLinearLayout = view.findViewById(R.id.single_item_sessions_case_linearLayout);
             referenceLinearLayout = view.findViewById(R.id.single_item_sessions_reference_linearLayout);
