@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,28 +10,62 @@
     android:paddingTop="@dimen/_6sdp"
     android:paddingBottom="@dimen/_6sdp"
     android:paddingLeft="@dimen/_4sdp"
-    android:paddingRight="@dimen/_16sdp"
-    android:orientation="vertical"
-    android:background="@null">
+    android:paddingRight="@dimen/_12sdp">
 
-    <TextView
-        android:id="@+id/single_item_search_name_textView"
+    <FrameLayout
+        android:id="@+id/single_item_search_avatar_frameLayout"
+        android:layout_width="@dimen/_36sdp"
+        android:layout_height="@dimen/_36sdp"
+        android:layout_marginLeft="@dimen/_12sdp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/single_item_search_avatar_imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/single_item_search_char_textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textSize="@dimen/_10ssp"
+            android:textStyle="bold"
+            android:textColor="@color/Grey"
+            android:textAlignment="gravity"/>
+
+    </FrameLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="right"
-        android:textSize="@dimen/_11ssp"
-        android:textStyle="bold"
-        android:textAlignment="gravity" />
+        android:layout_toLeftOf="@id/single_item_search_avatar_frameLayout"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/single_item_search_title_textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_minus4sdp"
-        android:gravity="right"
-        android:visibility="visible"
-        android:textSize="@dimen/_9ssp"
-        android:textStyle="normal"
-        android:textAlignment="gravity" />
+        <TextView
+            android:id="@+id/single_item_search_name_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textSize="@dimen/_10ssp"
+            android:textStyle="bold"
+            android:textColor="@color/Grey"
+            android:textAlignment="gravity" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/single_item_search_title_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_minus4sdp"
+            android:gravity="right"
+            android:textSize="@dimen/_8ssp"
+            android:textStyle="normal"
+            android:textColor="@color/Mischka"
+            android:textAlignment="gravity" />
+
+    </LinearLayout>
+
+</RelativeLayout>
