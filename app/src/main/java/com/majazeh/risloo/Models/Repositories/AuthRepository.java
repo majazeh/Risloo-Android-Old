@@ -166,6 +166,10 @@ public class AuthRepository extends MainRepository {
         return items.userId();
     }
 
+    public String getUserName() {
+        return items.userName();
+    }
+
     public String getName() {
         return items.name();
     }

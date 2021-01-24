@@ -460,6 +460,12 @@ public class AuthWorker extends Worker {
                     editor.putString("userId", "");
                 }
 
+                if (data.has("username") && !data.isNull("username")) {
+                    editor.putString("userName", data.getString("username"));
+                } else {
+                    editor.putString("userName", "");
+                }
+
                 if (data.has("name") && !data.isNull("name")) {
                     editor.putString("name", data.getString("name"));
                 } else {

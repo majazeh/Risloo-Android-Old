@@ -92,6 +92,9 @@
     <string name="AuthUserId">شماره کاربری</string>
     <string name="AuthUserIdDefault">نامشخص</string>
 
+    <string name="AuthUserName">شناسه کاربری</string>
+    <string name="AuthUserNameDefault">نامشخص</string>
+
     <string name="AuthName">نام و نام خانوادگی</string>
     <string name="AuthNameDefault">کاربر تجربی</string>
 

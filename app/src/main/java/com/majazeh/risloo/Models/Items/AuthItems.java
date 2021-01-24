@@ -64,6 +64,13 @@ public class AuthItems {
         return "";
     }
 
+    public String userName() {
+        if (!sharedPreferences.getString("userName", "").equals("")) {
+            return sharedPreferences.getString("userName", "");
+        }
+        return "";
+    }
+
     public String name() {
         if (!sharedPreferences.getString("name", "").equals("")) {
             return sharedPreferences.getString("name", "");
@@ -150,6 +157,9 @@ public class AuthItems {
         JSONArray data = new JSONArray();
         if (!userId().equals("")) {
             data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthUserId)).put("subTitle", userId()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_code_light, null)));
+        }
+        if (!userName().equals("")) {
+            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthUserName)).put("subTitle", userName()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_at_light, null)));
         }
         if (!name().equals("")) {
             data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthName)).put("subTitle", name()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_user_light, null)));
