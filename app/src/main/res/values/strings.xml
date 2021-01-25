@@ -866,14 +866,15 @@
 
     <string name="CreateReportTitle">ثبت گزارش</string>
 
-    <string name="CreateReportEncryptionType">نوع رمز نگاری</string>
-    <string name="CreateReportCryptographyText">قبل از ثبت گزارش، دکمه «رمزگذاری» را بزنید و وقتی رمزگذاری به پایان رسید دکمه «ثبت گزارش» را برای ارسال کلیک کنید</string>
-    <string name="CreateReportCryptography">رمز نگاری</string>
+    <string name="CreateReportEncryption">نوع رمز نگاری</string>
     <string name="CreateReportDescription">متن گزارش</string>
+
+    <string name="CreateReportCryptoHint">قبل از ثبت گزارش، دکمه «رمزگذاری» را بزنید و رمانی که رمزگذاری به پایان رسید دکمه «ثبت گزارش» را برای ارسال کلیک نمایید.</string>
+    <string name="CreateReportCrypto">رمز نگاری</string>
 
     <string name="CreateReportCreate">ثبت گزارش</string>
 
-    <string name="CreateReportEncryptionTypeDialogTitle">رمز نگاری مورد نظر خودتان را انتخاب کنید.</string>
+    <string name="CreateReportEncryptionDialogTitle">رمز نگاری مورد نظر خودتان را انتخاب کنید.</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

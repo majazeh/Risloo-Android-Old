@@ -373,12 +373,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                     holder.avatarFrameLayout.setVisibility(View.GONE);
                     break;
 
-                case "getEncryptionTypes":
+                case "getEncryptions":
                     holder.nameTextView.setText(model.get("fa_title").toString());
 
                     switch (theory) {
                         case "CreateReport":
-                            setActive("textView", null, ((CreateReportActivity) Objects.requireNonNull(activity)).encryptionTypeId, model.get("en_title").toString(), holder.nameTextView, holder.itemView);
+                            setActive("textView", null, ((CreateReportActivity) Objects.requireNonNull(activity)).encryptionId, model.get("en_title").toString(), holder.nameTextView, holder.itemView);
                             break;
                     }
 

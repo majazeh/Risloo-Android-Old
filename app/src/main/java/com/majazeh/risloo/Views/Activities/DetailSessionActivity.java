@@ -274,7 +274,7 @@ public class DetailSessionActivity extends AppCompatActivity {
 
                 // ID
                 if (casse.has("id") && !casse.isNull("id") && !casse.get("id").equals("")) {
-                    caseIdTextView.append(" " + casse.get("id").toString());
+                    caseIdTextView.setText(getResources().getString(R.string.DetailSessionCaseId) + " " + casse.get("id").toString());
                 }
 
                 // Room
@@ -316,9 +316,9 @@ public class DetailSessionActivity extends AppCompatActivity {
                 String enStatus = data.get("status").toString();
                 String faStatus = sessionViewModel.getFAStatus(enStatus);
 
-                String status = " " + "(" + faStatus + ")";
+                String status = getResources().getString(R.string.DetailSessionName) + " " + "(" + faStatus + ")";
 
-                nameTextView.append(StringManager.foreground(status, 0, status.length(), getResources().getColor(R.color.PrimaryDark)));
+                nameTextView.setText(StringManager.foreground(status, 12, status.length(), getResources().getColor(R.color.PrimaryDark)));
             }
 
             // Report

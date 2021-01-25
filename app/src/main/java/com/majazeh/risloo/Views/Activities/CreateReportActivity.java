@@ -15,7 +15,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -57,11 +56,12 @@ public class CreateReportActivity extends AppCompatActivity {
     private AuthViewModel authViewModel;
 
     // Adapters
-    private SearchAdapter encryptionTypeDialogAdapter;
+    private SearchAdapter encryptionDialogAdapter;
 
     // Vars
-    public String sessionId = "", report = "", encryptionTypeId = "", encryptionTypeTitle = "";
-    private boolean encryptionTypeException = false;
+    public String sessionId = "", encryptionId = "", encryptionTitle = "", description = "";
+    private boolean encryptionException = false;
+    private boolean encrypted = false;
 
     // Objects
     private Bundle extras;
@@ -72,14 +72,15 @@ public class CreateReportActivity extends AppCompatActivity {
     private RelativeLayout toolbarLayout;
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
-    private FrameLayout encryptionTypeFrameLayout;
-    public TextView encryptionTypeTextView;
+    private FrameLayout encryptionFrameLayout;
+    public TextView encryptionTextView;
     private EditText descriptionEditText;
-    private Button createButton, cryptographyButton;
-    private Dialog encryptionTypeDialog, progressDialog;
-    private TextView encryptionTypeDialogTitleTextView,cryptographyTextView;
-    private LinearLayout cryptographyLayout;
-    private RecyclerView encryptionTypeDialogRecyclerView;
+    private LinearLayout cryptoLinearLayout;
+    private TextView cryptoTextView;
+    private Button createButton;
+    private Dialog encryptionDialog, progressDialog;
+    private TextView encryptionDialogTitleTextView;
+    private RecyclerView encryptionDialogRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,16 +110,13 @@ public class CreateReportActivity extends AppCompatActivity {
         sessionViewModel = new ViewModelProvider(this).get(SessionViewModel.class);
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
-        encryptionTypeDialogAdapter = new SearchAdapter(this);
+        encryptionDialogAdapter = new SearchAdapter(this);
 
         extras = getIntent().getExtras();
 
         handler = new Handler();
 
         controlEditText = new ControlEditText();
-
-        cryptographyLayout = findViewById(R.id.activity_create_report_cryptography_layout);
-        cryptographyLayout.setVisibility(View.GONE);
 
         toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
@@ -131,50 +129,51 @@ public class CreateReportActivity extends AppCompatActivity {
         toolbarTextView.setText(getResources().getString(R.string.CreateReportTitle));
         toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
-        encryptionTypeFrameLayout = findViewById(R.id.activity_create_report_encryption_type_frameLayout);
+        encryptionFrameLayout = findViewById(R.id.activity_create_report_encryption_frameLayout);
 
-        encryptionTypeTextView = findViewById(R.id.activity_create_report_encryption_type_textView);
+        encryptionTextView = findViewById(R.id.activity_create_report_encryption_textView);
 
         descriptionEditText = findViewById(R.id.activity_create_report_description_editText);
 
+        cryptoLinearLayout = findViewById(R.id.activity_create_report_crypto_linearLayout);
+
+        cryptoTextView = findViewById(R.id.activity_create_report_crypto_textView);
+
         createButton = findViewById(R.id.activity_create_report_button);
 
-        cryptographyButton = findViewById(R.id.activity_create_report_cryptography_button);
-
-        encryptionTypeDialog = new Dialog(this, R.style.DialogTheme);
-        Objects.requireNonNull(encryptionTypeDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
-        encryptionTypeDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        encryptionTypeDialog.setContentView(R.layout.dialog_search);
-        encryptionTypeDialog.setCancelable(true);
+        encryptionDialog = new Dialog(this, R.style.DialogTheme);
+        Objects.requireNonNull(encryptionDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+        encryptionDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        encryptionDialog.setContentView(R.layout.dialog_search);
+        encryptionDialog.setCancelable(true);
         progressDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         progressDialog.setContentView(R.layout.dialog_progress);
         progressDialog.setCancelable(false);
 
-        WindowManager.LayoutParams layoutParamsEncryptionTypeDialog = new WindowManager.LayoutParams();
-        layoutParamsEncryptionTypeDialog.copyFrom(encryptionTypeDialog.getWindow().getAttributes());
-        layoutParamsEncryptionTypeDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParamsEncryptionTypeDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        encryptionTypeDialog.getWindow().setAttributes(layoutParamsEncryptionTypeDialog);
+        WindowManager.LayoutParams layoutParamsEncryptionDialog = new WindowManager.LayoutParams();
+        layoutParamsEncryptionDialog.copyFrom(encryptionDialog.getWindow().getAttributes());
+        layoutParamsEncryptionDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsEncryptionDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        encryptionDialog.getWindow().setAttributes(layoutParamsEncryptionDialog);
 
-        encryptionTypeDialogTitleTextView = encryptionTypeDialog.findViewById(R.id.dialog_search_title_textView);
-        encryptionTypeDialogTitleTextView.setText(getResources().getString(R.string.CreateReportEncryptionTypeDialogTitle));
+        encryptionDialogTitleTextView = encryptionDialog.findViewById(R.id.dialog_search_title_textView);
+        encryptionDialogTitleTextView.setText(getResources().getString(R.string.CreateReportEncryptionDialogTitle));
 
-        cryptographyTextView = findViewById(R.id.activity_create_report_cryptography_textView);
-
-        encryptionTypeDialogRecyclerView = encryptionTypeDialog.findViewById(R.id.dialog_search_recyclerView);
-        encryptionTypeDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
-        encryptionTypeDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        encryptionTypeDialogRecyclerView.setHasFixedSize(true);
+        encryptionDialogRecyclerView = encryptionDialog.findViewById(R.id.dialog_search_recyclerView);
+        encryptionDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
+        encryptionDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        encryptionDialogRecyclerView.setHasFixedSize(true);
     }
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
 
+            cryptoTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_islamicgreen_ripple_solitude);
+
             createButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
-            cryptographyButton.setBackgroundResource(R.drawable.draw_16sdp_solid_primary_ripple_primarydark);
         }
     }
 
@@ -188,12 +187,12 @@ public class CreateReportActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
         });
 
-        encryptionTypeTextView.setOnClickListener(v -> {
-            encryptionTypeTextView.setClickable(false);
-            handler.postDelayed(() -> encryptionTypeTextView.setClickable(true), 250);
+        encryptionTextView.setOnClickListener(v -> {
+            encryptionTextView.setClickable(false);
+            handler.postDelayed(() -> encryptionTextView.setClickable(true), 250);
 
-            if (encryptionTypeException) {
-                clearException("encryptionType");
+            if (encryptionException) {
+                clearException("encryption");
             }
 
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
@@ -201,12 +200,12 @@ public class CreateReportActivity extends AppCompatActivity {
             }
 
             try {
-                setRecyclerView(sessionViewModel.getReportType(authViewModel.getPublicKey()), encryptionTypeDialogRecyclerView, "getEncryptionTypes");
+                setRecyclerView(sessionViewModel.getReportType(authViewModel.getPublicKey()), encryptionDialogRecyclerView, "getEncryptions");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            encryptionTypeDialog.show();
+            encryptionDialog.show();
         });
 
         descriptionEditText.setOnTouchListener((v, event) -> {
@@ -223,45 +222,60 @@ public class CreateReportActivity extends AppCompatActivity {
             return false;
         });
 
+        cryptoTextView.setOnClickListener(v -> {
+            cryptoTextView.setClickable(false);
+            handler.postDelayed(() -> cryptoTextView.setClickable(true), 250);
+
+            if (descriptionEditText.length() != 0) {
+                try {
+                    description = sessionViewModel.encrypt(descriptionEditText.getText().toString().trim(), authViewModel.getPublicKey());
+
+                    descriptionEditText.setText(description);
+                    descriptionEditText.setTextColor(getResources().getColor(R.color.Grey));
+
+                    descriptionEditText.setEnabled(false);
+                    descriptionEditText.setFocusableInTouchMode(false);
+                    descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_solid_solitude_border_quartz);
+
+                    encrypted = true;
+                    cryptoLinearLayout.setVisibility(View.GONE);
+
+                } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidKeyException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         createButton.setOnClickListener(v -> {
             if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
                 controlEditText.clear(this, controlEditText.input());
             }
 
-            if (encryptionTypeId.isEmpty()) {
-                errorException("encryptionType");
+            if (encryptionId.isEmpty()) {
+                errorException("encryption");
             }
             if (descriptionEditText.length() == 0) {
                 controlEditText.error(this, descriptionEditText);
             }
 
-            if (!encryptionTypeId.isEmpty() && descriptionEditText.length() != 0) {
-                clearException("encryptionType");
+            if (!encryptionId.isEmpty() && descriptionEditText.length() != 0) {
+                clearException("encryption");
                 controlEditText.clear(this, descriptionEditText);
 
-                doWork();
+                if (encryptionId.equals("publicKey")) {
+                    if (encrypted) {
+                        doWork();
+                    } else {
+                        ExceptionGenerator.getException(false, 0, null, "EncryptFirstException");
+                        Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    doWork();
+                }
             }
         });
 
-        cryptographyButton.setOnClickListener(view -> {
-            try {
-                report = sessionViewModel.encrypt(report, authViewModel.getPublicKey());
-                descriptionEditText.setText(report);
-                descriptionEditText.setTextColor(getResources().getColor(R.color.Grey));
-                cryptographyButton.setClickable(false);
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (NoSuchPaddingException e) {
-                e.printStackTrace();
-            } catch (InvalidKeySpecException e) {
-                e.printStackTrace();
-            } catch (InvalidKeyException e) {
-                e.printStackTrace();
-            }
-        });
-
-
-        encryptionTypeDialog.setOnCancelListener(dialog -> encryptionTypeDialog.dismiss());
+        encryptionDialog.setOnCancelListener(dialog -> encryptionDialog.dismiss());
     }
 
     private void setData() {
@@ -272,37 +286,37 @@ public class CreateReportActivity extends AppCompatActivity {
         if (extras.getString("session_id") != null)
             sessionId = extras.getString("session_id");
         if (extras.getString("report") != null)
-            report = extras.getString("report");
+            description = extras.getString("report");
         if (extras.getString("encryption_type_id") != null)
-            encryptionTypeId = extras.getString("encryption_type_id");
+            encryptionId = extras.getString("encryption_type_id");
         if (extras.getString("encryption_type_title") != null)
-            encryptionTypeTitle = extras.getString("encryption_type_title");
+            encryptionTitle = extras.getString("encryption_type_title");
 
-        if (!report.equals("")) {
-            descriptionEditText.setText(report);
+        if (!description.equals("")) {
+            descriptionEditText.setText(description);
             descriptionEditText.setTextColor(getResources().getColor(R.color.Grey));
         }
 
-        if (!encryptionTypeId.equals("")) {
-            encryptionTypeTextView.setText(encryptionTypeTitle);
-            encryptionTypeTextView.setTextColor(getResources().getColor(R.color.Grey));
+        if (!encryptionId.equals("")) {
+            encryptionTextView.setText(encryptionTitle);
+            encryptionTextView.setTextColor(getResources().getColor(R.color.Grey));
         }
     }
 
     private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
         switch (method) {
-            case "getEncryptionTypes":
-                encryptionTypeDialogAdapter.setValues(arrayList, method, "CreateReport");
-                recyclerView.setAdapter(encryptionTypeDialogAdapter);
+            case "getEncryptions":
+                encryptionDialogAdapter.setValues(arrayList, method, "CreateReport");
+                recyclerView.setAdapter(encryptionDialogAdapter);
                 break;
         }
     }
 
     private void errorException(String type) {
         switch (type) {
-            case "encryptionType":
-                encryptionTypeException = true;
-                encryptionTypeFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+            case "encryption":
+                encryptionException = true;
+                encryptionFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
             case "description":
                 descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
@@ -312,20 +326,20 @@ public class CreateReportActivity extends AppCompatActivity {
 
     private void clearException(String type) {
         switch (type) {
-            case "encryptionType":
-                encryptionTypeException = false;
-                encryptionTypeFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+            case "encryption":
+                encryptionException = false;
+                encryptionFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 break;
         }
     }
 
     private void doWork() {
-        report = descriptionEditText.getText().toString().trim();
+        description = descriptionEditText.getText().toString().trim();
 
         try {
             progressDialog.show();
 
-            sessionViewModel.Report(sessionId, report, encryptionTypeId);
+            sessionViewModel.Report(sessionId, description, encryptionId);
             observeWork("sessionViewModel");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -367,7 +381,7 @@ public class CreateReportActivity extends AppCompatActivity {
                 exceptionToast = ExceptionGenerator.getErrorBody("session_id");
             }
             if (!ExceptionGenerator.errors.isNull("report")) {
-                errorException("report");
+                errorException("description");
                 if (exceptionToast.equals("")) {
                     exceptionToast = ExceptionGenerator.getErrorBody("report");
                 } else {
@@ -375,7 +389,7 @@ public class CreateReportActivity extends AppCompatActivity {
                 }
             }
             if (!ExceptionGenerator.errors.isNull("encryption_type")) {
-                errorException("encryptionType");
+                errorException("encryption");
                 if (exceptionToast.equals("")) {
                     exceptionToast = ExceptionGenerator.getErrorBody("encryption_type");
                 } else {
@@ -391,29 +405,35 @@ public class CreateReportActivity extends AppCompatActivity {
     public void observeSearchAdapter(Model model, String method) {
         try {
             switch (method) {
-                case "getEncryptionTypes":
-                    if (!encryptionTypeId.equals(model.get("en_title").toString())) {
-                        encryptionTypeId = model.get("en_title").toString();
-                        encryptionTypeTitle = model.get("fa_title").toString();
+                case "getEncryptions":
+                    if (!encryptionId.equals(model.get("en_title").toString())) {
+                        encryptionId = model.get("en_title").toString();
+                        encryptionTitle = model.get("fa_title").toString();
 
-                        encryptionTypeTextView.setText(encryptionTypeTitle);
-                        encryptionTypeTextView.setTextColor(getResources().getColor(R.color.Grey));
-                    } else if (encryptionTypeTitle.equals(model.get("en_title").toString())) {
-                        encryptionTypeTitle = "";
-                        encryptionTypeTitle = "";
+                        encryptionTextView.setText(encryptionTitle);
+                        encryptionTextView.setTextColor(getResources().getColor(R.color.Grey));
+                    } else if (encryptionTitle.equals(model.get("en_title").toString())) {
+                        encryptionId = "";
+                        encryptionTitle = "";
 
-                        encryptionTypeTextView.setText(getResources().getString(R.string.CreateReportEncryptionType));
-                        encryptionTypeTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        encryptionTextView.setText(getResources().getString(R.string.CreateReportEncryption));
+                        encryptionTextView.setTextColor(getResources().getColor(R.color.Mischka));
                     }
 
-                    if (encryptionTypeId.equals("publicKey")){
-                        cryptographyLayout.setVisibility(View.VISIBLE);
-                        cryptographyButton.setClickable(true);
-                    }else{
-                        cryptographyLayout.setVisibility(View.GONE);
+                    if (encryptionId.equals("publicKey")) {
+                        cryptoLinearLayout.setVisibility(View.VISIBLE);
+                    } else {
+                        cryptoLinearLayout.setVisibility(View.GONE);
+                        if (encrypted) {
+                            encrypted = false;
+
+                            descriptionEditText.setEnabled(true);
+                            descriptionEditText.setFocusableInTouchMode(true);
+                            descriptionEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                        }
                     }
 
-                    encryptionTypeDialog.dismiss();
+                    encryptionDialog.dismiss();
                     break;
             }
         } catch (JSONException e) {
