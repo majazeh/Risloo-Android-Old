@@ -132,6 +132,13 @@ public class AuthItems {
         return "";
     }
 
+    public String avatar() {
+        if (!sharedPreferences.getString("avatar", "").equals("")) {
+            return sharedPreferences.getString("avatar", "");
+        }
+        return "";
+    }
+
     public String publicKey() {
         if (!sharedPreferences.getString("public_key", "").equals("")) {
             return sharedPreferences.getString("public_key", "");
@@ -146,11 +153,14 @@ public class AuthItems {
         return "";
     }
 
-    public String avatar() {
-        if (!sharedPreferences.getString("avatar", "").equals("")) {
-            return sharedPreferences.getString("avatar", "");
-        }
-        return "";
+    public void setPublicKey(String key) {
+        editor.putString("public_key", key);
+        editor.apply();
+    }
+
+    public void setPrivateKey(String key) {
+        editor.putString("private_key", key);
+        editor.apply();
     }
 
     private JSONArray data() throws JSONException {

@@ -194,6 +194,10 @@ public class AuthRepository extends MainRepository {
         return items.birthday();
     }
 
+    public String getAvatar() {
+        return items.avatar();
+    }
+
     public String getPublicKey() {
         return items.publicKey();
     }
@@ -202,8 +206,12 @@ public class AuthRepository extends MainRepository {
         return items.privateKey();
     }
 
-    public String getAvatar() {
-        return items.avatar();
+    public void setPublicKey(String key) {
+        items.setPublicKey(key);
+    }
+
+    public void setPrivateKey(String key) {
+        items.setPrivateKey(key);
     }
 
     /*

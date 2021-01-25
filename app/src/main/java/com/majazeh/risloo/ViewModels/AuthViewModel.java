@@ -123,6 +123,10 @@ public class AuthViewModel extends AndroidViewModel {
         return repository.getBirthday();
     }
 
+    public String getAvatar() {
+        return repository.getAvatar();
+    }
+
     public String getPublicKey() {
         return repository.getPublicKey();
     }
@@ -131,10 +135,13 @@ public class AuthViewModel extends AndroidViewModel {
         return repository.getPrivateKey();
     }
 
-    public String getAvatar() {
-        return repository.getAvatar();
+    public void setPublicKey(String key) {
+        repository.setPublicKey(key);
     }
 
+    public void setPrivateKey(String key) {
+        repository.setPrivateKey(key);
+    }
 
     public boolean admin() {
         return repository.admin();

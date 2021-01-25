@@ -121,7 +121,7 @@ public class CryptoActivity extends AppCompatActivity {
             toolbarImageView.setClickable(false);
             handler.postDelayed(() -> toolbarImageView.setClickable(true), 250);
 
-            // TODO : Send Keys to Server
+            saveKeys();
 
             finish();
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
@@ -181,12 +181,20 @@ public class CryptoActivity extends AppCompatActivity {
         }
     }
 
+    private void saveKeys() {
+        publicKey = publicKeyEditText.getText().toString().trim();
+        privateKey = privateKeyEditText.getText().toString().trim();
+
+        authViewModel.setPublicKey(publicKey);
+        authViewModel.setPrivateKey(privateKey);
+    }
+
     @Override
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
 
-        // TODO : Send Keys to Server
+        saveKeys();
     }
 
 }
