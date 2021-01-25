@@ -60,6 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_minus4sdp"
+            android:lineSpacingExtra="@dimen/_minus2sdp"
             android:gravity="right"
             android:textSize="@dimen/_8ssp"
             android:textStyle="normal"

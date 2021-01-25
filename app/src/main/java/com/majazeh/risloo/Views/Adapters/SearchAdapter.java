@@ -11,11 +11,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.Managers.DateManager;
 import com.majazeh.risloo.Utils.Managers.StringManager;
+import com.majazeh.risloo.ViewModels.SessionViewModel;
 import com.majazeh.risloo.Views.Activities.CreateCaseActivity;
 import com.majazeh.risloo.Views.Activities.CreateCenterActivity;
 import com.majazeh.risloo.Views.Activities.CreateRoomActivity;
@@ -31,6 +35,7 @@ import com.majazeh.risloo.Views.Activities.SamplesActivity;
 import com.majazeh.risloo.Views.Activities.UsersActivity;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,6 +43,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHolder> {
+
+    // ViewModels
+    private SessionViewModel sessionViewModel;
 
     // Vars
     private String method, theory;
@@ -98,6 +106,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                     }
                     holder.avatarFrameLayout.setVisibility(View.VISIBLE);
                     break;
+
                 case "getScales":
                     holder.nameTextView.setText(model.get("title").toString());
 
@@ -111,6 +120,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
                     holder.avatarFrameLayout.setVisibility(View.GONE);
                     break;
+
                 case "getRooms":
                     JSONObject manager = (JSONObject) model.get("manager");
                     holder.nameTextView.setText(manager.get("name").toString());
@@ -161,6 +171,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                     }
                     holder.avatarFrameLayout.setVisibility(View.VISIBLE);
                     break;
+
                 case "getCenters":
                     JSONObject detail2 = (JSONObject) model.get("detail");
                     holder.nameTextView.setText(detail2.get("title").toString());
@@ -190,6 +201,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                     }
                     holder.avatarFrameLayout.setVisibility(View.VISIBLE);
                     break;
+
                 case "getPsychologies":
                     JSONObject creator = (JSONObject) model.get("creator");
                     holder.nameTextView.setText(creator.get("name").toString());
@@ -219,6 +231,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                     }
                     holder.avatarFrameLayout.setVisibility(View.VISIBLE);
                     break;
+
                 case "getReferences":
                     JSONObject user = (JSONObject) model.get("user");
                     holder.nameTextView.setText(user.get("name").toString());
@@ -257,8 +270,61 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                     }
                     holder.avatarFrameLayout.setVisibility(View.VISIBLE);
                     break;
+
+                case "getCases":
+                    StringBuilder name = new StringBuilder();
+                    JSONArray clients = (JSONArray) model.get("clients");
+
+                    for (int j = 0; j < clients.length(); j++) {
+                        JSONObject client = (JSONObject) clients.get(j);
+                        JSONObject clientUser = (JSONObject) client.get("user");
+
+                        if (j == clients.length() - 1) {
+                            name.append(clientUser.get("name").toString());
+                        } else {
+                            name.append(clientUser.get("name").toString()).append(" - ");
+                        }
+                    }
+                    holder.nameTextView.setText(name.toString());
+
+                    switch (theory) {
+                        case "CreateSample":
+                            setActive("textView", null, ((CreateSampleActivity) Objects.requireNonNull(activity)).caseId, model.get("id").toString(), holder.nameTextView, holder.itemView);
+                            break;
+                        case "CreateSession":
+                            setActive("textView", null, ((CreateSessionActivity) Objects.requireNonNull(activity)).caseId, model.get("id").toString(), holder.nameTextView, holder.itemView);
+                            break;
+                        case "EditSession":
+                            setActive("textView", null, ((EditSessionActivity) Objects.requireNonNull(activity)).caseId, model.get("id").toString(), holder.nameTextView, holder.itemView);
+                            break;
+                    }
+
+                    holder.titleTextView.setText(model.get("id").toString());
+
+                    // Sessions
+                    if (model.attributes.has("sessions") && !model.attributes.isNull("sessions") && model.attributes.get("sessions").getClass().getName().equals("org.json.JSONArray")) {
+                        JSONArray sessions = (JSONArray) model.get("sessions");
+
+                        if (sessions.length() != 0) {
+                            for (int j = 0; j < 1; j++) {
+                                JSONObject session = (JSONObject) sessions.get(j);
+
+                                String faStatus =sessionViewModel.getFAStatus(session.get("status").toString());
+                                holder.titleTextView.append("\n" + faStatus);
+
+                                String startedAtTime = DateManager.dateToString("HH:mm", DateManager.timestampToDate(Long.parseLong(session.get("started_at").toString())));
+                                String startedAtDate = DateManager.gregorianToJalali(DateManager.dateToString("yyyy-MM-dd", DateManager.timestampToDate(Long.parseLong(session.get("started_at").toString()))));
+                                holder.titleTextView.append("\n" + startedAtDate + "  |  " + startedAtTime);
+                            }
+                        }
+                    }
+                    holder.titleTextView.setVisibility(View.VISIBLE);
+
+                    holder.avatarFrameLayout.setVisibility(View.GONE);
+                    break;
+
                 case "getSessions":
-                    String faStatus = ((CreateSampleActivity) Objects.requireNonNull(activity)).sessionViewModel.getFAStatus(model.get("status").toString());
+                    String faStatus = sessionViewModel.getFAStatus(model.get("status").toString());
                     holder.nameTextView.setText(faStatus);
 
                     switch (theory) {
@@ -272,6 +338,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
                     holder.avatarFrameLayout.setVisibility(View.GONE);
                     break;
+
                 case "getStatus":
                     holder.nameTextView.setText(model.get("fa_title").toString());
 
@@ -288,6 +355,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
                     holder.avatarFrameLayout.setVisibility(View.GONE);
                     break;
+
                 case "getPositions":
                     holder.nameTextView.setText(model.get("fa_title").toString());
 
@@ -304,6 +372,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
                     holder.avatarFrameLayout.setVisibility(View.GONE);
                     break;
+
                 case "getEncryptionTypes":
                     holder.nameTextView.setText(model.get("fa_title").toString());
 
@@ -317,6 +386,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
                     holder.avatarFrameLayout.setVisibility(View.GONE);
                     break;
+
                 case "getScalesFilter":
                     holder.nameTextView.setText(model.get("title").toString());
 
@@ -330,6 +400,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
                     holder.avatarFrameLayout.setVisibility(View.GONE);
                     break;
+
                 case "getStatusFilter":
                     holder.nameTextView.setText(model.get("title").toString());
 
@@ -343,6 +414,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
                     holder.avatarFrameLayout.setVisibility(View.GONE);
                     break;
+
                 case "getURLs":
                     holder.nameTextView.setText(model.get("title").toString());
 
@@ -414,6 +486,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
     }
 
     private void initializer(View view) {
+        sessionViewModel = new ViewModelProvider((FragmentActivity) activity).get(SessionViewModel.class);
+
         handler = new Handler();
     }
 

@@ -52,7 +52,6 @@ import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.ViewModels.SessionViewModel;
 import com.majazeh.risloo.Views.Adapters.CheckBoxAdapter;
 import com.majazeh.risloo.Views.Adapters.SearchAdapter;
-import com.majazeh.risloo.Views.Adapters.SearchCaseAdapter;
 import com.majazeh.risloo.Views.Adapters.SpinnerAdapter;
 
 import org.json.JSONArray;
@@ -74,8 +73,7 @@ public class CreateSampleActivity extends AppCompatActivity {
     private Model roomModel;
 
     // Adapters
-    private SearchAdapter scaleDialogAdapter, roomDialogAdapter, referenceDialogAdapter, sessionDialogAdapter;
-    private SearchCaseAdapter caseDialogAdapter;
+    private SearchAdapter scaleDialogAdapter, roomDialogAdapter, caseDialogAdapter, referenceDialogAdapter, sessionDialogAdapter;
     public SpinnerAdapter scaleRecyclerViewAdapter, referenceRecyclerViewAdapter;
     private CheckBoxAdapter caseRecyclerViewAdapter;
 
@@ -142,10 +140,9 @@ public class CreateSampleActivity extends AppCompatActivity {
 
         scaleDialogAdapter = new SearchAdapter(this);
         roomDialogAdapter = new SearchAdapter(this);
+        caseDialogAdapter = new SearchAdapter(this);
         referenceDialogAdapter = new SearchAdapter(this);
         sessionDialogAdapter = new SearchAdapter(this);
-
-        caseDialogAdapter = new SearchCaseAdapter(this);
 
         scaleRecyclerViewAdapter = new SpinnerAdapter(this);
         referenceRecyclerViewAdapter = new SpinnerAdapter(this);
