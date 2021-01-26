@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Views.Activities.CreateCaseActivity;
 import com.majazeh.risloo.Views.Activities.CreateCenterActivity;
 import com.majazeh.risloo.Views.Activities.CreateSampleActivity;
@@ -21,6 +23,7 @@ import com.majazeh.risloo.Views.Activities.CreateUserActivity;
 import com.majazeh.risloo.Views.Activities.EditCaseActivity;
 import com.majazeh.risloo.Views.Activities.EditCenterActivity;
 import com.majazeh.risloo.Views.Activities.SamplesActivity;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,19 +67,50 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
 
             switch (method) {
                 case "scales":
-                    holder.titleTextView.setText(model.get("title").toString());
+                    holder.nameTextView.setText(model.get("title").toString());
+
+                    holder.titleTextView.setVisibility(View.GONE);
+
+                    holder.avatarFrameLayout.setVisibility(View.GONE);
                     break;
                 case "references":
                     JSONObject user = (JSONObject) model.get("user");
-                    holder.titleTextView.setText(user.get("name").toString());
+                    holder.nameTextView.setText(user.get("name").toString());
+
+                    holder.titleTextView.setText(model.get("id").toString());
+                    holder.titleTextView.setVisibility(View.VISIBLE);
+
+                    // Avatar
+                    if (user.has("avatar") && !user.isNull("avatar") && user.get("avatar").getClass().getName().equals("org.json.JSONObject")) {
+                        JSONObject avatar = (JSONObject) user.get("avatar");
+                        JSONObject medium = (JSONObject) avatar.get("medium");
+
+                        Picasso.get().load(medium.get("url").toString()).placeholder(R.color.White).into(holder.avatarImageView);
+
+                        holder.charTextView.setVisibility(View.GONE);
+                    } else {
+                        Picasso.get().load(R.color.White).placeholder(R.color.White).into(holder.avatarImageView);
+
+                        holder.charTextView.setVisibility(View.VISIBLE);
+                        holder.charTextView.setText(StringManager.firstChars(holder.nameTextView.getText().toString()));
+                    }
+                    holder.avatarFrameLayout.setVisibility(View.VISIBLE);
                     break;
                 case "phones":
-                    holder.titleTextView.setText(model.get("name").toString());
+                    holder.nameTextView.setText(model.get("name").toString());
+
+                    holder.titleTextView.setVisibility(View.GONE);
+
+                    holder.avatarFrameLayout.setVisibility(View.GONE);
                     break;
                 case "scalesFilter":
                 case "roomsFilter":
                 case "statusFilter":
-                    holder.titleTextView.setText(model.get("title").toString());
+                    holder.nameTextView.setText(model.get("title").toString());
+
+                    holder.titleTextView.setVisibility(View.GONE);
+
+                    holder.avatarFrameLayout.setVisibility(View.GONE);
                     break;
             }
 
@@ -244,13 +278,18 @@ public class SpinnerAdapter extends RecyclerView.Adapter<SpinnerAdapter.SpinnerH
 
     public class SpinnerHolder extends RecyclerView.ViewHolder {
 
-        public TextView titleTextView;
-        public ImageView deleteImageView;
+        public TextView charTextView, nameTextView, titleTextView;
+        public ImageView deleteImageView, avatarImageView;
+        public FrameLayout avatarFrameLayout;
 
         public SpinnerHolder(View view) {
             super(view);
+            charTextView = view.findViewById(R.id.single_item_spinner_char_textView);
+            nameTextView = view.findViewById(R.id.single_item_spinner_name_textView);
             titleTextView = view.findViewById(R.id.single_item_spinner_title_textView);
             deleteImageView = view.findViewById(R.id.single_item_spinner_delete_imageView);
+            avatarImageView = view.findViewById(R.id.single_item_spinner_avatar_imageView);
+            avatarFrameLayout = view.findViewById(R.id.single_item_spinner_avatar_frameLayout);
         }
     }
 
