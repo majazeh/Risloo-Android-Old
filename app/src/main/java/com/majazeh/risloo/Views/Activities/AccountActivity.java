@@ -55,7 +55,7 @@ public class AccountActivity extends AppCompatActivity {
     private ImageView toolbarImageView, toolbarLogOutImageView, toolbarEditAccountImageView;
     private TextView toolbarTextView;
     private CircleImageView avatarCircleImageView;
-    private TextView nameTextView, cryptoTextView, attachmentTextView;
+    private TextView nameTextView, cryptoTextView;
     private RecyclerView accountRecyclerView;
     private Dialog logOutDialog, progressDialog;
     private TextView logOutDialogTitle, logOutDialogDescription, logOutDialogPositive, logOutDialogNegative;
@@ -114,7 +114,6 @@ public class AccountActivity extends AppCompatActivity {
 
         nameTextView = findViewById(R.id.activity_account_name_textView);
         cryptoTextView = findViewById(R.id.activity_account_crypto_textView);
-        attachmentTextView = findViewById(R.id.activity_account_attachment_textView);
 
         accountRecyclerView = findViewById(R.id.activity_account_recyclerView);
         accountRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._8sdp), (int) getResources().getDimension(R.dimen._32sdp)));
@@ -156,7 +155,6 @@ public class AccountActivity extends AppCompatActivity {
             toolbarEditAccountImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
 
             cryptoTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
-            attachmentTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
 
             logOutDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
             logOutDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
@@ -207,14 +205,6 @@ public class AccountActivity extends AppCompatActivity {
             handler.postDelayed(() -> cryptoTextView.setClickable(true), 250);
 
             startActivity(new Intent(this, CryptoActivity.class));
-            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
-        });
-
-        attachmentTextView.setOnClickListener(v -> {
-            attachmentTextView.setClickable(false);
-            handler.postDelayed(() -> attachmentTextView.setClickable(true), 250);
-
-            startActivity(new Intent(this, AttachmentActivity.class));
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         });
 

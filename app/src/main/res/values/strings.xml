@@ -125,6 +125,7 @@
     <string name="AuthSample">نمونه</string>
     <string name="AuthSamples">نمونه‌ها</string>
     <string name="AuthScales">ارزیابی‌ها</string>
+    <string name="AuthDocuments">اسناد و مدارک</string>
 
     <string name="AuthTreatment">درمان</string>
     <string name="AuthCenters">مراکز درمان</string>
@@ -294,7 +295,6 @@
     <string name="AccountTitle">حساب کاربری</string>
 
     <string name="AccountCrypto">رمز نگاری</string>
-    <string name="AccountAttachment">ارسال مدارک هویتی</string>
 
     <string name="AccountInfo">مشخصات کاربر</string>
 
@@ -335,27 +335,6 @@
 
     <string name="CryptoPublicKey">کلید عمومی</string>
     <string name="CryptoPrivateKey">کلید خصوصی</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // Attachment strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="AttachmentTitle">ارسال مدارک هویتی</string>
-
-    <string name="AttachmentName">عنوان</string>
-    <string name="AttachmentDescription">توضیحات</string>
-    <string name="AttachmentFile">فایل مدارک هویتی</string>
-
-    <string name="AttachmentSuffixPNG">PNG</string>
-    <string name="AttachmentSuffixJPG">JPG</string>
-    <string name="AttachmentSuffixJPEG">JPEG</string>
-    <string name="AttachmentSuffixGIF">GIF</string>
-    <string name="AttachmentSuffixDOC">DOC</string>
-    <string name="AttachmentSuffixPDF">PDF</string>
-    <string name="AttachmentSuffixMP4">MP4</string>
-
-    <string name="AttachmentSend">ارسال</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -469,6 +448,49 @@
     <string name="ScalesSearchDialogInput">مقیاس</string>
     <string name="ScalesSearchDialogPositive">جستجو</string>
     <string name="ScalesSearchDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // Documents strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="DocumentsTitle">اسناد و مدارک</string>
+
+    <string name="DocumentsId">#</string>
+    <string name="DocumentsStatus">وضعیت </string>
+    <string name="DocumentsDescription">توضیحات</string>
+    <string name="DocumentsAttachment">ضمیمه</string>
+
+    <string name="DocumentsAccept">تأیید</string>
+    <string name="DocumentsCancel">رد کردن</string>
+
+    <string name="DocumentsSearched">جستجو:</string>
+
+    <string name="DocumentsSearchDialogTitle">مدرک مورد نظر خودتان را جستجو کنید.</string>
+    <string name="DocumentsSearchDialogInput">مدرک</string>
+    <string name="DocumentsSearchDialogPositive">جستجو</string>
+    <string name="DocumentsSearchDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // Send Document strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="SendDocumentTitle">ارسال مدرک هویتی</string>
+
+    <string name="SendDocumentName">عنوان</string>
+    <string name="SendDocumentDescription">توضیحات</string>
+    <string name="SendDocumentFile">فایل مدارک هویتی</string>
+
+    <string name="SendDocumentSuffixPNG">PNG</string>
+    <string name="SendDocumentSuffixJPG">JPG</string>
+    <string name="SendDocumentSuffixJPEG">JPEG</string>
+    <string name="SendDocumentSuffixGIF">GIF</string>
+    <string name="SendDocumentSuffixDOC">DOC</string>
+    <string name="SendDocumentSuffixPDF">PDF</string>
+    <string name="SendDocumentSuffixMP4">MP4</string>
+
+    <string name="SendDocumentSend">ارسال مدرک</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -877,11 +899,6 @@
     <string name="CreateReportEncryptionDialogTitle">رمز نگاری مورد نظر خودتان را انتخاب کنید.</string>
 
     ////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
 
 
 

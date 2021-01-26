@@ -45,7 +45,7 @@ import org.json.JSONException;
 
 import java.util.Objects;
 
-public class AttachmentActivity extends AppCompatActivity {
+public class SendDocumentActivity extends AppCompatActivity {
 
     // ViewModels
     private AuthViewModel authViewModel;
@@ -76,7 +76,7 @@ public class AttachmentActivity extends AppCompatActivity {
 
         decorator();
 
-        setContentView(R.layout.activity_attachment);
+        setContentView(R.layout.activity_send_document);
 
         initializer();
 
@@ -109,20 +109,20 @@ public class AttachmentActivity extends AppCompatActivity {
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
-        toolbarTextView.setText(getResources().getString(R.string.AttachmentTitle));
+        toolbarTextView.setText(getResources().getString(R.string.SendDocumentTitle));
         toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
-        titleEditText = findViewById(R.id.activity_attachment_title_editText);
-        descriptionEditText = findViewById(R.id.activity_attachment_description_editText);
+        titleEditText = findViewById(R.id.activity_send_document_name_editText);
+        descriptionEditText = findViewById(R.id.activity_send_document_description_editText);
 
-        attachmentLinearLayout = findViewById(R.id.activity_attachment_file_linearLayout);
+        attachmentLinearLayout = findViewById(R.id.activity_send_document_file_linearLayout);
 
-        attachmentImageView = findViewById(R.id.activity_attachment_file_imageView);
+        attachmentImageView = findViewById(R.id.activity_send_document_file_imageView);
 
-        suffixTextView = findViewById(R.id.activity_attachment_suffix_textView);
-        attachmentTextView = findViewById(R.id.activity_attachment_file_textView);
+        suffixTextView = findViewById(R.id.activity_send_document_suffix_textView);
+        attachmentTextView = findViewById(R.id.activity_send_document_file_textView);
 
-        sendButton = findViewById(R.id.activity_attachment_send_button);
+        sendButton = findViewById(R.id.activity_send_document_send_button);
 
         progressDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
@@ -351,25 +351,25 @@ public class AttachmentActivity extends AppCompatActivity {
 
                 switch (StringManager.substring(attachment, '.')) {
                     case "png":
-                        suffixTextView.setText(getResources().getString(R.string.AttachmentSuffixPNG));
+                        suffixTextView.setText(getResources().getString(R.string.SendDocumentSuffixPNG));
                         break;
                     case "jpg":
-                        suffixTextView.setText(getResources().getString(R.string.AttachmentSuffixJPG));
+                        suffixTextView.setText(getResources().getString(R.string.SendDocumentSuffixJPG));
                         break;
                     case "jpeg":
-                        suffixTextView.setText(getResources().getString(R.string.AttachmentSuffixJPEG));
+                        suffixTextView.setText(getResources().getString(R.string.SendDocumentSuffixJPEG));
                         break;
                     case "gif":
-                        suffixTextView.setText(getResources().getString(R.string.AttachmentSuffixGIF));
+                        suffixTextView.setText(getResources().getString(R.string.SendDocumentSuffixGIF));
                         break;
                     case "doc":
-                        suffixTextView.setText(getResources().getString(R.string.AttachmentSuffixDOC));
+                        suffixTextView.setText(getResources().getString(R.string.SendDocumentSuffixDOC));
                         break;
                     case "pdf":
-                        suffixTextView.setText(getResources().getString(R.string.AttachmentSuffixPDF));
+                        suffixTextView.setText(getResources().getString(R.string.SendDocumentSuffixPDF));
                         break;
                     case "mp4":
-                        suffixTextView.setText(getResources().getString(R.string.AttachmentSuffixMP4));
+                        suffixTextView.setText(getResources().getString(R.string.SendDocumentSuffixMP4));
                         break;
                     default:
                         suffixTextView.setText(StringManager.substring(attachment, '.'));

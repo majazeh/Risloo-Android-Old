@@ -86,9 +86,6 @@
             android:name=".Views.Activities.CryptoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Views.Activities.AttachmentActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".Views.Activities.ArchivesActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -102,6 +99,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.ScalesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.DocumentsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.CentersActivity"
@@ -129,6 +129,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.CreateSampleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.SendDocumentActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.CreateCenterActivity"
