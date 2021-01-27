@@ -63,7 +63,7 @@ public class AuthViewModel extends AndroidViewModel {
         repository.logOut();
     }
 
-    public void attachment(String title, String description, String attachment) throws JSONException {
+    public void sendDocument(String title, String description, String attachment) throws JSONException {
         repository.attachment(title, description, attachment);
     }
 
@@ -81,6 +81,130 @@ public class AuthViewModel extends AndroidViewModel {
 
     public boolean hasAccess() {
         return repository.hasAccess();
+    }
+
+    public boolean admin() {
+        return repository.admin();
+    }
+
+    public boolean operator(Model model) throws JSONException {
+        return repository.operator(model);
+    }
+
+    public boolean psychologist(Model model) throws JSONException {
+        return repository.psychologist(model);
+    }
+
+    public boolean centerManager(Model model) throws JSONException {
+        return repository.centerManager(model);
+    }
+
+    public boolean roomManager(Model model) throws JSONException {
+        return repository.roomManager(model);
+    }
+
+    public boolean client(Model model) throws JSONException {
+        return repository.client(model);
+    }
+
+    public boolean roomAccess() {
+        return repository.roomAccess();
+    }
+
+    public boolean counselingCenter() {
+        return true;
+    }
+
+    public boolean personalClinic() {
+        return true;
+    }
+
+    public boolean openSample(Model model) throws JSONException {
+        return admin() || operator(model) || centerManager(model) || roomManager(model) || client(model);
+    }
+
+    public boolean openDetailSample(Model model) throws JSONException {
+        return admin() || operator(model) || centerManager(model) || roomManager(model);
+    }
+
+    public boolean openDetailCase(Model model) throws JSONException {
+        return admin() || operator(model) || centerManager(model) || roomManager(model);
+    }
+
+    public boolean openDetailSession(Model model) throws JSONException {
+        return admin() || true;
+    }
+
+    public boolean showDrawerItems() {
+        return hasAccess();
+    }
+
+    public boolean showCenterUsers(Model model) throws JSONException {
+        return admin() || operator(model) || centerManager(model);
+    }
+
+    public boolean showRoomUsers(Model model) throws JSONException {
+        return admin() || operator(model) || centerManager(model) || roomManager(model);
+    }
+
+    public boolean showReports(Model model) throws JSONException {
+        return roomManager(model);
+    }
+
+    public boolean showPractices(Model model) throws JSONException {
+        return admin() || roomManager(model) || client(model);
+    }
+
+    public boolean createSample(Model model) throws JSONException {
+        return admin() || operator(model) || psychologist(model) || centerManager(model) || hasAccess();
+    }
+
+    public boolean createCenter() {
+        return admin();
+    }
+
+    public boolean createRoom() {
+        return admin() || roomAccess() || counselingCenter();
+    }
+
+    public boolean createCase(Model model) throws JSONException {
+        return admin() || operator(model) || psychologist(model) || centerManager(model);
+    }
+
+    public boolean createSession() {
+        return admin() || hasAccess();
+    }
+
+    public boolean createReport(Model model) throws JSONException {
+        return roomManager(model);
+    }
+
+    public boolean createPractice(Model model) throws JSONException {
+        return admin() || roomManager(model);
+    }
+
+    public boolean createCenterUsers(Model model) throws JSONException {
+        return admin() || true;
+    }
+
+    public boolean createRoomUsers(Model model) throws JSONException {
+        return admin() || operator(model) || centerManager(model) ;
+    }
+
+    public boolean createCaseUsers(Model model) throws JSONException {
+        return admin() || true;
+    }
+
+    public boolean editCenter(Model model) throws JSONException {
+        return admin() || centerManager(model);
+    }
+
+    public boolean editCase(Model model) throws JSONException {
+        return admin() || true;
+    }
+
+    public boolean editSession(Model model) throws JSONException {
+        return admin() || operator(model) || centerManager(model) || roomManager(model);
     }
 
     /*
@@ -142,130 +266,5 @@ public class AuthViewModel extends AndroidViewModel {
     public void setPrivateKey(String key) {
         repository.setPrivateKey(key);
     }
-
-    public boolean admin() {
-        return repository.admin();
-    }
-
-    public boolean roomManager(Model data) throws JSONException {
-        return repository.roomManager(data);
-    }
-
-    public boolean client(Model data) throws JSONException {
-        return repository.client(data);
-    }
-
-    public boolean centerManager(Model data) throws JSONException {
-        return repository.centerManager(data);
-    }
-
-    public boolean operator(Model data) throws JSONException {
-        return repository.operator(data);
-    }
-
-    public boolean openSample(Model data) throws JSONException {
-        if (admin() || roomManager(data) || client(data) || centerManager(data) || operator(data)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean openSampleDetail(Model data) throws JSONException {
-        if (admin() || roomManager(data) || centerManager(data) || operator(data)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean createSample() {
-        if (hasAccess()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean createCenter() {
-        if (admin()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean editCenter(Model data) throws JSONException {
-        if (admin() ||centerManager(data)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean centerUsers(Model data) throws JSONException {
-        if (admin() ||centerManager(data) || operator(data)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean roomUsers(Model data) throws JSONException {
-        if (admin() ||roomManager(data) || centerUsers(data) || operator(data)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean addRoomUsers(Model data) throws JSONException {
-        if (admin() ||centerManager(data) || operator(data)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean createRoom() {
-        if (admin() ||repository.roomAccess()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean createCase() {
-        if (hasAccess()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean  caseDetails(Model data) throws JSONException {
-        if (operator(data) ||centerManager(data) || roomManager(data)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean  createSession() {
-        if (repository.hasAccess()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean report(Model data) throws JSONException {
-        if (roomManager(data)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 
 }

@@ -204,7 +204,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
             });
 
             // Room Users Access
-            if (authViewModel.roomUsers(model)) {
+            if (authViewModel.showRoomUsers(model)) {
                 holder.usersImageView.setVisibility(View.VISIBLE);
             } else {
                 holder.usersImageView.setVisibility(View.GONE);

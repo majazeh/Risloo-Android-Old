@@ -404,7 +404,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
             });
 
             // Center Users Access
-            if (authViewModel.centerUsers(model) && !type.equals("user")) {
+            if (authViewModel.showCenterUsers(model) && !type.equals("user")) {
                 holder.usersImageView.setVisibility(View.VISIBLE);
             } else {
                 holder.usersImageView.setVisibility(View.GONE);

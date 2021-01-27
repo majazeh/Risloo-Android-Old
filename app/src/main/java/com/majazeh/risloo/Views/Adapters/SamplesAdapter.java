@@ -246,7 +246,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
             });
 
             // Sample Detail Access
-            if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.openSampleDetail(model)) {
+            if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.openDetailSample(model)) {
                 holder.itemView.setEnabled(true);
             } else {
                 holder.itemView.setEnabled(false);

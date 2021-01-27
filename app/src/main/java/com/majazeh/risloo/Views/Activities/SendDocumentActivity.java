@@ -259,7 +259,7 @@ public class SendDocumentActivity extends AppCompatActivity {
         try {
             progressDialog.show();
 
-            authViewModel.attachment(title, description, attachment);
+            authViewModel.sendDocument(title, description, attachment);
             observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
