@@ -678,9 +678,13 @@
 
             </FrameLayout>
 
-            <include layout="@layout/layout_info" />
+            <include
+                layout="@layout/layout_info"
+                android:visibility="gone" />
 
-            <include layout="@layout/layout_loading" />
+            <include
+                layout="@layout/layout_loading"
+                android:visibility="visible" />
 
         </FrameLayout>
 

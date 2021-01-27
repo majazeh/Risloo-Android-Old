@@ -129,7 +129,6 @@ public class DetailCaseActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.DetailCaseTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         mainLayout = findViewById(R.id.activity_detail_case_mainLayout);
         infoLayout = findViewById(R.id.layout_info_linearLayout);

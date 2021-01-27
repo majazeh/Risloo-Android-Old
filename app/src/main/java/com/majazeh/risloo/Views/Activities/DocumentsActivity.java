@@ -131,7 +131,6 @@ public class DocumentsActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.DocumentsTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         searchLayout = findViewById(R.id.activity_documents_searchLayout);
 

@@ -147,7 +147,6 @@ public class EditSessionActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.EditSessionTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         roomFrameLayout = findViewById(R.id.activity_edit_session_room_frameLayout);
         caseFrameLayout = findViewById(R.id.activity_edit_session_case_frameLayout);

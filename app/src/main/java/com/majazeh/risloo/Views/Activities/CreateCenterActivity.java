@@ -170,7 +170,6 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CreateCenterTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         typeTabLayout = findViewById(R.id.activity_create_center_type_tabLayout);
 

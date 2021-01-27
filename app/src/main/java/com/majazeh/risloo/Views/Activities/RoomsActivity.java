@@ -137,7 +137,6 @@ public class RoomsActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.RoomsTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         searchLayout = findViewById(R.id.activity_rooms_searchLayout);
 

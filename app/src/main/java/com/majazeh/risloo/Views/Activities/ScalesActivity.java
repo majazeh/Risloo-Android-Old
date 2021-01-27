@@ -129,7 +129,6 @@ public class ScalesActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.ScalesTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         searchLayout = findViewById(R.id.activity_scales_searchLayout);
 

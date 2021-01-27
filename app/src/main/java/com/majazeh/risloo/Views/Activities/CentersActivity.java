@@ -137,7 +137,6 @@ public class CentersActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CentersTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         searchLayout = findViewById(R.id.activity_centers_searchLayout);
 

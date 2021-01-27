@@ -127,7 +127,6 @@ public class CreateReportActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CreateReportTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         encryptionFrameLayout = findViewById(R.id.activity_create_report_encryption_frameLayout);
 

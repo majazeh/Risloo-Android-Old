@@ -134,7 +134,6 @@ public class SessionsActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.SessionsTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         searchLayout = findViewById(R.id.activity_sessions_searchLayout);
 

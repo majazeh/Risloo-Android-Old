@@ -166,7 +166,6 @@ public class SamplesActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.SamplesTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         swipeLayout = findViewById(R.id.activity_samples_swipeLayout);
         swipeLayout.setColorSchemeResources(R.color.Primary);

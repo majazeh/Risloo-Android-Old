@@ -134,7 +134,6 @@ public class DetailSessionActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.DetailSessionTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         mainLayout = findViewById(R.id.activity_detail_session_mainLayout);
         infoLayout = findViewById(R.id.layout_info_linearLayout);

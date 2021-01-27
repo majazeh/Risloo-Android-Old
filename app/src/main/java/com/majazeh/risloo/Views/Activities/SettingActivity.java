@@ -79,7 +79,6 @@ public class SettingActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.SettingTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         settingsRecyclerView = findViewById(R.id.activity_setting_recyclerView);
         settingsRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", 0, 0, 0));

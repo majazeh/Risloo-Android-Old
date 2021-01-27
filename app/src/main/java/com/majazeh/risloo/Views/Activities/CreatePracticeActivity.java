@@ -115,7 +115,6 @@ public class CreatePracticeActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CreatePracticeTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         titleEditText = findViewById(R.id.activity_create_practice_title_editText);
         contentEditText = findViewById(R.id.activity_create_practice_content_editText);

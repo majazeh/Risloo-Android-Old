@@ -110,7 +110,6 @@ public class SendDocumentActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.SendDocumentTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         titleEditText = findViewById(R.id.activity_send_document_name_editText);
         descriptionEditText = findViewById(R.id.activity_send_document_description_editText);

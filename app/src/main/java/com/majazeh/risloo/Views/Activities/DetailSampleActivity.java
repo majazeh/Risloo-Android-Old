@@ -144,7 +144,6 @@ public class DetailSampleActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.DetailSampleTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         mainLayout = findViewById(R.id.activity_detail_sample_mainLayout);
         infoLayout = findViewById(R.id.layout_info_linearLayout);

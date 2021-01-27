@@ -150,7 +150,6 @@ public class EditCaseActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.EditCaseTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         roomFrameLayout = findViewById(R.id.activity_edit_case_room_frameLayout);
         referenceFrameLayout = findViewById(R.id.activity_edit_case_reference_frameLayout);

@@ -167,7 +167,6 @@ public class EditCenterActivity extends AppCompatActivity {
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         titleEditText = findViewById(R.id.activity_edit_center_title_editText);
         descriptionEditText = findViewById(R.id.activity_edit_center_description_editText);

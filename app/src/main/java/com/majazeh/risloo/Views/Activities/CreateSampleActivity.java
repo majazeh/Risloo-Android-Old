@@ -171,7 +171,6 @@ public class CreateSampleActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CreateSampleTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         typeTabLayout = findViewById(R.id.activity_create_sample_type_tabLayout);
 

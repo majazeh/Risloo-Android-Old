@@ -90,7 +90,6 @@ public class CallUsActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CallUsTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         nameEditText = findViewById(R.id.activity_call_us_name_editText);
         mobileEditText = findViewById(R.id.activity_call_us_mobile_editText);

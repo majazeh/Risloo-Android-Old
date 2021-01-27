@@ -157,7 +157,6 @@ public class CreateUserActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CreateUserTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         clinicLinearLayout = findViewById(R.id.activity_create_user_clinic_linearLayout);
 

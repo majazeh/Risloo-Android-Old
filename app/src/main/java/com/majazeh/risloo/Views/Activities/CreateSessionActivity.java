@@ -147,7 +147,6 @@ public class CreateSessionActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CreateSessionTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         roomFrameLayout = findViewById(R.id.activity_create_session_room_frameLayout);
         caseFrameLayout = findViewById(R.id.activity_create_session_case_frameLayout);

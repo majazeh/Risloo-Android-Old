@@ -149,7 +149,6 @@ public class CreateCaseActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CreateCaseTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         roomFrameLayout = findViewById(R.id.activity_create_case_room_frameLayout);
         referenceFrameLayout = findViewById(R.id.activity_create_case_reference_frameLayout);

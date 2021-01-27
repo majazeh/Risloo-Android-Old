@@ -120,7 +120,6 @@ public class AuthActivity extends AppCompatActivity {
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         avatarCircleImageView = findViewById(R.id.activity_auth_avatar_circleImageView);
 

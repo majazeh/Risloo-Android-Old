@@ -79,7 +79,6 @@ public class TAConditionActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.TAConditionTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         taConditionRecyclerView = findViewById(R.id.activity_ta_condition_recyclerView);
         taConditionRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._24sdp), (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._24sdp)));
