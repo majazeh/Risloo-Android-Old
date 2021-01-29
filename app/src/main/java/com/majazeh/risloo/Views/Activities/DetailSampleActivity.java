@@ -259,8 +259,8 @@ public class DetailSampleActivity extends AppCompatActivity {
                 doWork("close");
             } else if (actionTextView.getText().toString().equals(getResources().getString(R.string.DetailSampleScore))) {
                 statusTextView.setText(getResources().getString(R.string.DetailSampleStatusScoring));
-                statusTextView.setTextColor(getResources().getColor(R.color.MoonYellow));
-                ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
+                statusTextView.setTextColor(getResources().getColor(R.color.OrangePeel));
+                ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.OrangePeel));
 
                 setButton(actionTextView, false);
 
@@ -398,8 +398,8 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                     case "scoring":
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusScoring));
-                        statusTextView.setTextColor(getResources().getColor(R.color.MoonYellow));
-                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
+                        statusTextView.setTextColor(getResources().getColor(R.color.OrangePeel));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.OrangePeel));
 
                         actionTextView.setVisibility(View.INVISIBLE);
 
@@ -408,8 +408,8 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                     case "craeting_files":
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusCreatingFiles));
-                        statusTextView.setTextColor(getResources().getColor(R.color.MoonYellow));
-                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.MoonYellow));
+                        statusTextView.setTextColor(getResources().getColor(R.color.OrangePeel));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.OrangePeel));
 
                         actionTextView.setVisibility(View.INVISIBLE);
 

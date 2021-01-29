@@ -74,7 +74,7 @@
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_times"
-                        app:tint="@color/VioletRed"/>
+                        app:tint="@color/CoralRed"/>
 
                     <TextView
                         android:id="@+id/activity_sessions_search_textView"

@@ -87,11 +87,11 @@ public class ScalesAdapter extends RecyclerView.Adapter<ScalesAdapter.ScalesHold
             }
 
             // Create Sample Access
-            if (((ScalesActivity) Objects.requireNonNull(activity)).authViewModel.createSample()) {
-                holder.createTextView.setVisibility(View.VISIBLE);
-            } else {
-                holder.createTextView.setVisibility(View.GONE);
-            }
+//            if (((ScalesActivity) Objects.requireNonNull(activity)).authViewModel.createSample()) {
+//                holder.createTextView.setVisibility(View.VISIBLE);
+//            } else {
+//                holder.createTextView.setVisibility(View.GONE);
+//            }
 
             holder.createTextView.setOnClickListener(v -> {
                 holder.createTextView.setClickable(false);

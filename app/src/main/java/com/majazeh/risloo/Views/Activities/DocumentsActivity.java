@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.widget.ImageViewCompat;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,7 +32,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
@@ -41,8 +39,6 @@ import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Adapters.DocumentsAdapter;
-
-import org.json.JSONException;
 
 import java.util.Objects;
 
@@ -124,7 +120,7 @@ public class DocumentsActivity extends AppCompatActivity {
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
         toolbarSendImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
         toolbarSendImageView.setImageResource(R.drawable.ic_plus_light);
-        ImageViewCompat.setImageTintList(toolbarSendImageView, AppCompatResources.getColorStateList(this, R.color.IslamicGreen));
+        ImageViewCompat.setImageTintList(toolbarSendImageView, AppCompatResources.getColorStateList(this, R.color.MountainMeadow));
         toolbarSearchImageView = findViewById(R.id.layout_toolbar_thirdly_imageView);
         toolbarSearchImageView.setImageResource(R.drawable.ic_search_light);
         ImageViewCompat.setImageTintList(toolbarSearchImageView, AppCompatResources.getColorStateList(this, R.color.Nero));

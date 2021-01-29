@@ -25,7 +25,7 @@
         android:layout_marginLeft="@dimen/_4sdp"
         android:contentDescription="@string/AppImageContent"
         android:src="@drawable/ic_times"
-        app:tint="@color/VioletRed"/>
+        app:tint="@color/CoralRed"/>
 
     <FrameLayout
         android:id="@+id/single_item_spinner_avatar_frameLayout"

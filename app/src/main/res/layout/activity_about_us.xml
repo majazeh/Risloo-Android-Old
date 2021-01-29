@@ -46,7 +46,7 @@
                     android:padding="@dimen/_18sdp"
                     android:contentDescription="@string/AppImageContent"
                     android:background="@drawable/draw_16sdp_solid_primary"
-                    android:src="@drawable/ic_brain_light"
+                    android:src="@drawable/logo_text"
                     app:tint="@color/White" />
 
                 <androidx.recyclerview.widget.RecyclerView

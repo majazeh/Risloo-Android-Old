@@ -100,7 +100,7 @@ public class AccountActivity extends AppCompatActivity {
         toolbarLogOutImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
         toolbarLogOutImageView.setVisibility(View.VISIBLE);
         toolbarLogOutImageView.setImageResource(R.drawable.ic_power_light);
-        ImageViewCompat.setImageTintList(toolbarLogOutImageView, AppCompatResources.getColorStateList(this, R.color.VioletRed));
+        ImageViewCompat.setImageTintList(toolbarLogOutImageView, AppCompatResources.getColorStateList(this, R.color.CoralRed));
         toolbarEditAccountImageView = findViewById(R.id.layout_toolbar_thirdly_imageView);
         toolbarEditAccountImageView.setVisibility(View.VISIBLE);
         toolbarEditAccountImageView.setImageResource(R.drawable.ic_edit_light);
@@ -142,7 +142,7 @@ public class AccountActivity extends AppCompatActivity {
         logOutDialogDescription.setText(getResources().getString(R.string.AccountLogOutDialogDescription));
         logOutDialogPositive = logOutDialog.findViewById(R.id.dialog_action_positive_textView);
         logOutDialogPositive.setText(getResources().getString(R.string.AccountLogOutDialogPositive));
-        logOutDialogPositive.setTextColor(getResources().getColor(R.color.VioletRed));
+        logOutDialogPositive.setTextColor(getResources().getColor(R.color.CoralRed));
         logOutDialogNegative = logOutDialog.findViewById(R.id.dialog_action_negative_textView);
         logOutDialogNegative.setText(getResources().getString(R.string.AccountLogOutDialogNegative));
     }

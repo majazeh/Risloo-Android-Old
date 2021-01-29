@@ -21,7 +21,7 @@
         android:layout_marginBottom="@dimen/_24sdp"
         android:layout_gravity="center"
         android:contentDescription="@string/AppImageContent"
-        android:src="@drawable/ic_brain_light"
+        android:src="@drawable/logo_text"
         app:tint="@color/White" />
 
     <LinearLayout

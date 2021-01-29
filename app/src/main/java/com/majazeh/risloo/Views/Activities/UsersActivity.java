@@ -152,7 +152,7 @@ public class UsersActivity extends AppCompatActivity {
         toolbarCreateImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
         toolbarCreateImageView.setImageResource(R.drawable.ic_plus_light);
         toolbarCreateImageView.setVisibility(View.VISIBLE);
-        ImageViewCompat.setImageTintList(toolbarCreateImageView, AppCompatResources.getColorStateList(this, R.color.IslamicGreen));
+        ImageViewCompat.setImageTintList(toolbarCreateImageView, AppCompatResources.getColorStateList(this, R.color.MountainMeadow));
         toolbarSearchImageView = findViewById(R.id.layout_toolbar_thirdly_imageView);
         toolbarSearchImageView.setImageResource(R.drawable.ic_search_light);
         ImageViewCompat.setImageTintList(toolbarSearchImageView, AppCompatResources.getColorStateList(this, R.color.Nero));

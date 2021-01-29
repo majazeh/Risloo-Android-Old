@@ -51,7 +51,6 @@ import com.majazeh.risloo.Views.Fragments.PrerequisiteFragment;
 import com.majazeh.risloo.Views.Fragments.TextPictoralFragment;
 import com.majazeh.risloo.Views.Fragments.TextOptionalFragment;
 import com.majazeh.risloo.Views.Fragments.TextTypingFragment;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 
@@ -189,7 +188,7 @@ public class SampleActivity extends AppCompatActivity {
         cancelDialogDescription.setText(getResources().getString(R.string.SampleCancelDialogDescription));
         cancelDialogPositive = cancelDialog.findViewById(R.id.dialog_action_positive_textView);
         cancelDialogPositive.setText(getResources().getString(R.string.SampleCancelDialogPositive));
-        cancelDialogPositive.setTextColor(getResources().getColor(R.color.VioletRed));
+        cancelDialogPositive.setTextColor(getResources().getColor(R.color.CoralRed));
         cancelDialogNegative = cancelDialog.findViewById(R.id.dialog_action_negative_textView);
         cancelDialogNegative.setText(getResources().getString(R.string.SampleCancelDialogNegative));
     }

@@ -137,16 +137,16 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
 
                     case "scoring":
                         holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusScoring));
-                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.MoonYellow));
-                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.MoonYellow));
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.OrangePeel));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.OrangePeel));
 
                         holder.startTextView.setVisibility(View.INVISIBLE);
                         break;
 
                     case "craeting_files":
                         holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusCreatingFiles));
-                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.MoonYellow));
-                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.MoonYellow));
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.OrangePeel));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.OrangePeel));
 
                         holder.startTextView.setVisibility(View.INVISIBLE);
                         break;
