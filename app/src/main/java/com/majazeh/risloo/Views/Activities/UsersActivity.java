@@ -22,6 +22,7 @@ import android.text.InputType;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -33,6 +34,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
 import com.majazeh.risloo.R;
@@ -44,10 +46,12 @@ import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.CenterViewModel;
 import com.majazeh.risloo.ViewModels.RoomViewModel;
 import com.majazeh.risloo.Views.Adapters.CentersAdapter;
+import com.majazeh.risloo.Views.Adapters.SearchAdapter;
 import com.majazeh.risloo.Views.Adapters.UsersAdapter;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -61,9 +65,13 @@ public class UsersActivity extends AppCompatActivity {
     // Adapters
     private UsersAdapter usersRecyclerViewAdapter;
     private CentersAdapter centersRecyclerViewAdapter;
+    private SearchAdapter positionDialogAdapter;
 
     // Vars
-    private String search = "", type = "", clinicId = "", roomId = "", title = "";
+    public int userIndex;
+    public Model userModel;
+    public String userPositionId;
+    public String search = "", type = "", centerType = "", clinicId = "", managerId = "", managerName = "", roomId = "", title = "";
     private HashMap<Integer, Boolean> expands;
     public boolean loading = false, finished = true;
 
@@ -85,9 +93,10 @@ public class UsersActivity extends AppCompatActivity {
     private TextView searchTextView, infoTextView;
     private RecyclerView usersRecyclerView, rcRecyclerView;
     public ProgressBar pagingProgressBar;
-    private Dialog searchDialog;
-    private TextView searchDialogTitle, searchDialogPositive, searchDialogNegative;
+    private Dialog searchDialog, positionDialog;
+    private TextView searchDialogTitle, searchDialogPositive, searchDialogNegative, positionDialogTitleTextView;
     private EditText searchDialogInput;
+    private RecyclerView positionDialogRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +133,7 @@ public class UsersActivity extends AppCompatActivity {
 
         usersRecyclerViewAdapter = new UsersAdapter(this);
         centersRecyclerViewAdapter = new CentersAdapter(this);
+        positionDialogAdapter = new SearchAdapter(this);
 
         extras = getIntent().getExtras();
 
@@ -140,15 +150,15 @@ public class UsersActivity extends AppCompatActivity {
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
         toolbarCreateImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
-        toolbarCreateImageView.setVisibility(View.VISIBLE);
         toolbarCreateImageView.setImageResource(R.drawable.ic_plus_light);
-        ImageViewCompat.setImageTintList(toolbarCreateImageView, AppCompatResources.getColorStateList(this, R.color.IslamicGreen));
+        toolbarCreateImageView.setVisibility(View.VISIBLE);
+        ImageViewCompat.setImageTintList(toolbarCreateImageView, AppCompatResources.getColorStateList(this, R.color.MountainMeadow));
         toolbarSearchImageView = findViewById(R.id.layout_toolbar_thirdly_imageView);
         toolbarSearchImageView.setImageResource(R.drawable.ic_search_light);
         ImageViewCompat.setImageTintList(toolbarSearchImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
+        toolbarTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen._11ssp));
 
         searchLayout = findViewById(R.id.activity_users_searchLayout);
 
@@ -178,12 +188,22 @@ public class UsersActivity extends AppCompatActivity {
         searchDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         searchDialog.setContentView(R.layout.dialog_type);
         searchDialog.setCancelable(true);
+        positionDialog = new Dialog(this, R.style.DialogTheme);
+        Objects.requireNonNull(positionDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+        positionDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        positionDialog.setContentView(R.layout.dialog_search);
+        positionDialog.setCancelable(true);
 
         WindowManager.LayoutParams layoutParamsSearch = new WindowManager.LayoutParams();
         layoutParamsSearch.copyFrom(searchDialog.getWindow().getAttributes());
         layoutParamsSearch.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParamsSearch.height = WindowManager.LayoutParams.WRAP_CONTENT;
         searchDialog.getWindow().setAttributes(layoutParamsSearch);
+        WindowManager.LayoutParams layoutParamsPosition = new WindowManager.LayoutParams();
+        layoutParamsPosition.copyFrom(positionDialog.getWindow().getAttributes());
+        layoutParamsPosition.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsPosition.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        positionDialog.getWindow().setAttributes(layoutParamsPosition);
 
         searchDialogTitle = searchDialog.findViewById(R.id.dialog_type_title_textView);
         searchDialogTitle.setText(getResources().getString(R.string.UsersSearchDialogTitle));
@@ -195,6 +215,14 @@ public class UsersActivity extends AppCompatActivity {
         searchDialogPositive.setTextColor(getResources().getColor(R.color.PrimaryDark));
         searchDialogNegative = searchDialog.findViewById(R.id.dialog_type_negative_textView);
         searchDialogNegative.setText(getResources().getString(R.string.UsersSearchDialogNegative));
+
+        positionDialogTitleTextView = positionDialog.findViewById(R.id.dialog_search_title_textView);
+        positionDialogTitleTextView.setText(getResources().getString(R.string.UsersPositionDialogTitle));
+
+        positionDialogRecyclerView = positionDialog.findViewById(R.id.dialog_search_recyclerView);
+        positionDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
+        positionDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        positionDialogRecyclerView.setHasFixedSize(true);
     }
 
     private void detector() {
@@ -378,6 +406,18 @@ public class UsersActivity extends AppCompatActivity {
 
             searchDialog.dismiss();
         });
+
+        positionDialog.setOnCancelListener(dialog -> positionDialog.dismiss());
+    }
+
+    public void showPositionDialog(int index, Model model, String position) {
+        userIndex = index;
+        userModel = model;
+        userPositionId = position;
+
+        setRecyclerView(centerViewModel.getLocalPosition(), positionDialogRecyclerView, "getPositions");
+
+        positionDialog.show();
     }
 
     private void setInfoLayout(String type) {
@@ -405,6 +445,15 @@ public class UsersActivity extends AppCompatActivity {
         }
     }
 
+    private void setRecyclerView(ArrayList<Model> arrayList, RecyclerView recyclerView, String method) {
+        switch (method) {
+            case "getPositions":
+                positionDialogAdapter.setValues(arrayList, method, "Users");
+                recyclerView.setAdapter(positionDialogAdapter);
+                break;
+        }
+    }
+
     private void errorException(String type) {
         if (type.equals("searchDialog")) {
             searchDialogInput.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
@@ -414,7 +463,7 @@ public class UsersActivity extends AppCompatActivity {
     private void resetData(String method) {
         if (method.equals("search")) {
             if (authViewModel.hasAccess()) {
-                toolbarSearchImageView.setVisibility(View.GONE);
+                toolbarSearchImageView.setVisibility(View.VISIBLE);
             } else {
                 toolbarSearchImageView.setVisibility(View.GONE);
             }
@@ -438,10 +487,16 @@ public class UsersActivity extends AppCompatActivity {
     private void setData() {
         if (extras.getString("type") != null)
             type = extras.getString("type");
+        if (extras.getString("center_type") != null)
+            centerType = extras.getString("center_type");
         if (extras.getString("clinic_id") != null)
             clinicId = extras.getString("clinic_id");
         if (extras.getString("clinic_name") != null)
             title = getResources().getString(R.string.UsersTitle) + " " + extras.getString("clinic_name");
+        if (extras.getString("manager_id") != null)
+            managerId = extras.getString("manager_id");
+        if (extras.getString("manager_name") != null)
+            managerName = extras.getString("manager_name");
         if (extras.getString("room_id") != null)
             roomId = extras.getString("room_id");
         if (extras.getString("room_name") != null)
@@ -586,6 +641,16 @@ public class UsersActivity extends AppCompatActivity {
                             if (roomViewModel.getUsers(roomId) != null) {
                                 // Show Users
 
+//                                try {
+//                                    if (authViewModel.addRoomUsers(roomViewModel.getUsersCenters(roomId).get(0))) {
+//                                        toolbarCreateImageView.setVisibility(View.VISIBLE);
+//                                    } else {
+//                                        toolbarCreateImageView.setVisibility(View.GONE);
+//                                    }
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+
                                 loadingLayout.setVisibility(View.GONE);
                                 infoLayout.setVisibility(View.GONE);
                                 mainLayout.setVisibility(View.VISIBLE);
@@ -683,6 +748,22 @@ public class UsersActivity extends AppCompatActivity {
                     }
                 });
                 break;
+        }
+    }
+
+    public void observeSearchAdapter(Model model, String method) {
+        try {
+            switch (method) {
+                case "getPositions":
+                    if (!userPositionId.equals(model.get("en_title").toString())) {
+                        usersRecyclerViewAdapter.doWork(userIndex, userModel, userPositionId);
+                    }
+
+                    positionDialog.dismiss();
+                    break;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 

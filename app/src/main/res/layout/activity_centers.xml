@@ -74,7 +74,7 @@
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_times"
-                        app:tint="@color/VioletRed"/>
+                        app:tint="@color/CoralRed"/>
 
                     <TextView
                         android:id="@+id/activity_centers_search_textView"
@@ -147,9 +147,13 @@
 
             </RelativeLayout>
 
-            <include layout="@layout/layout_info" />
+            <include
+                layout="@layout/layout_info"
+                android:visibility="gone" />
 
-            <include layout="@layout/layout_loading" />
+            <include
+                layout="@layout/layout_loading"
+                android:visibility="visible" />
 
         </LinearLayout>
 

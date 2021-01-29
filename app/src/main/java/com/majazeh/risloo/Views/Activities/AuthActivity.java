@@ -120,7 +120,6 @@ public class AuthActivity extends AppCompatActivity {
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         avatarCircleImageView = findViewById(R.id.activity_auth_avatar_circleImageView);
 
@@ -186,6 +185,12 @@ public class AuthActivity extends AppCompatActivity {
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }, 50);
 
+            } else if (id == R.id.tool_documents) {
+                handler.postDelayed(() -> {
+                    startActivity(new Intent(this, DocumentsActivity.class));
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                }, 50);
+
             } else if (id == R.id.tool_centers) {
                 handler.postDelayed(() -> {
                     startActivity(new Intent(this, CentersActivity.class));
@@ -200,7 +205,7 @@ public class AuthActivity extends AppCompatActivity {
 
             } else if (id == R.id.tool_cases) {
                 handler.postDelayed(() -> {
-                    startActivity(new Intent(this, CasesActivity.class));
+                    startActivity(new Intent(this, CasesActivity.class).putExtra("", ""));
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }, 50);
 
@@ -218,13 +223,21 @@ public class AuthActivity extends AppCompatActivity {
 
     private void setData() {
         if (!authViewModel.getToken().equals("")) {
-            navigationView.getMenu().findItem(R.id.tool_samples).setVisible(true);
-            navigationView.getMenu().findItem(R.id.tool_scales).setVisible(true);
-            navigationView.getMenu().findItem(R.id.tool_centers).setVisible(true);
-            navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(true);
-            navigationView.getMenu().findItem(R.id.tool_rooms).setVisible(true);
-            navigationView.getMenu().findItem(R.id.tool_cases).setVisible(true);
-
+            if (authViewModel.hasAccess()) {
+                navigationView.getMenu().findItem(R.id.tool_samples).setVisible(true);
+                navigationView.getMenu().findItem(R.id.tool_scales).setVisible(true);
+                navigationView.getMenu().findItem(R.id.tool_centers).setVisible(true);
+                navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(true);
+                navigationView.getMenu().findItem(R.id.tool_rooms).setVisible(true);
+                navigationView.getMenu().findItem(R.id.tool_cases).setVisible(true);
+            }else{
+                navigationView.getMenu().findItem(R.id.tool_samples).setVisible(false);
+                navigationView.getMenu().findItem(R.id.tool_scales).setVisible(false);
+                navigationView.getMenu().findItem(R.id.tool_centers).setVisible(true);
+                navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(false);
+                navigationView.getMenu().findItem(R.id.tool_rooms).setVisible(false);
+                navigationView.getMenu().findItem(R.id.tool_cases).setVisible(false);
+            }
             avatarCircleImageView.setVisibility(View.VISIBLE);
             if (authViewModel.getAvatar().equals("")) {
                 avatarCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_light));

@@ -4,18 +4,18 @@
     // app colors
     ////////////////////////////////////////////////////////////////////////////////
 
-    <color name="Primary">#5867DD</color>
-    <color name="PrimaryDark">#4652B1</color>
-    <color name="Accent">#1DC9B7</color>
+    <color name="Primary">#007BA4</color>
+    <color name="PrimaryDark">#006283</color>
+    <color name="Accent">#00A47B</color>
 
     ////////////////////////////////////////////////////////////////////////////////
 
     // customize colors
     ////////////////////////////////////////////////////////////////////////////////
 
-    <color name="IslamicGreen">#008A00</color>
-    <color name="MoonYellow">#FFB822</color>
-    <color name="VioletRed">#FD397A</color>
+    <color name="MountainMeadow">#10B981</color>
+    <color name="OrangePeel">#F59E0B</color>
+    <color name="CoralRed">#EF4444</color>
 
     <color name="White">#FFFFFF</color>
     <color name="Snow">#FAFAFA</color>
@@ -30,10 +30,10 @@
     // percent colors
     ////////////////////////////////////////////////////////////////////////////////
 
-    <color name="Primary5P">#0D5867DD</color>
-    <color name="Primary20P">#335867DD</color>
+    <color name="Primary5P">#0D007BA4</color>
+    <color name="Primary20P">#33007BA4</color>
 
-    <color name="VioletRed20P">#33FD397A</color>
+    <color name="VioletRed20P">#33EF4444</color>
 
     <color name="White15P">#26FFFFFF</color>
     <color name="Mischka25P">#40A0A9B8</color>

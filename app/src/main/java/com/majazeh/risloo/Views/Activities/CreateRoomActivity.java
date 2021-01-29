@@ -127,7 +127,6 @@ public class CreateRoomActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CreateRoomTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         centerFrameLayout = findViewById(R.id.activity_create_room_center_frameLayout);
         psychologyFrameLayout = findViewById(R.id.activity_create_room_psychology_frameLayout);

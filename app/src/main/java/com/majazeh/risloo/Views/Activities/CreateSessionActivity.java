@@ -47,7 +47,6 @@ import com.majazeh.risloo.ViewModels.CaseViewModel;
 import com.majazeh.risloo.ViewModels.RoomViewModel;
 import com.majazeh.risloo.ViewModels.SessionViewModel;
 import com.majazeh.risloo.Views.Adapters.SearchAdapter;
-import com.majazeh.risloo.Views.Adapters.SearchCaseAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,8 +66,7 @@ public class CreateSessionActivity extends AppCompatActivity {
     private Model roomModel;
 
     // Adapters
-    private SearchAdapter roomDialogAdapter, statusDialogAdapter;
-    private SearchCaseAdapter caseDialogAdapter;
+    private SearchAdapter roomDialogAdapter, caseDialogAdapter, statusDialogAdapter;
 
     // Vars
     public String roomId = "", roomName = "", roomTitle = "", caseId = "", caseName = "", timestamp = "", startedAtTime = "", startedAtDate = "", duration = "", statusId = "", statusTitle = "";
@@ -131,9 +129,8 @@ public class CreateSessionActivity extends AppCompatActivity {
         caseViewModel = new ViewModelProvider(this).get(CaseViewModel.class);
 
         roomDialogAdapter = new SearchAdapter(this);
+        caseDialogAdapter = new SearchAdapter(this);
         statusDialogAdapter = new SearchAdapter(this);
-
-        caseDialogAdapter = new SearchCaseAdapter(this);
 
         extras = getIntent().getExtras();
 
@@ -150,7 +147,6 @@ public class CreateSessionActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CreateSessionTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         roomFrameLayout = findViewById(R.id.activity_create_session_room_frameLayout);
         caseFrameLayout = findViewById(R.id.activity_create_session_case_frameLayout);

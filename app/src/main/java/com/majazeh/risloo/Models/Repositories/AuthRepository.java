@@ -166,6 +166,10 @@ public class AuthRepository extends MainRepository {
         return items.userId();
     }
 
+    public String getUserName() {
+        return items.userName();
+    }
+
     public String getName() {
         return items.name();
     }
@@ -192,6 +196,22 @@ public class AuthRepository extends MainRepository {
 
     public String getAvatar() {
         return items.avatar();
+    }
+
+    public String getPublicKey() {
+        return items.publicKey();
+    }
+
+    public String getPrivateKey() {
+        return items.privateKey();
+    }
+
+    public void setPublicKey(String key) {
+        items.setPublicKey(key);
+    }
+
+    public void setPrivateKey(String key) {
+        items.setPrivateKey(key);
     }
 
     /*

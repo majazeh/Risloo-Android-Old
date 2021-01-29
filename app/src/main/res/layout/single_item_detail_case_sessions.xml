@@ -14,7 +14,7 @@
         android:id="@+id/single_item_detail_case_sessions_id_textView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.9"
+        android:layout_weight="0.95"
         android:gravity="top|right"
         android:textSize="@dimen/_9ssp"
         android:textStyle="bold"
@@ -25,6 +25,8 @@
         android:id="@+id/single_item_detail_case_sessions_started_at_textView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginRight="@dimen/_4sdp"
+        android:layout_marginLeft="@dimen/_2sdp"
         android:layout_weight="1"
         android:gravity="top|right"
         android:textSize="@dimen/_9ssp"
@@ -36,9 +38,9 @@
         android:id="@+id/single_item_detail_case_sessions_duration_textView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginRight="@dimen/_4sdp"
+        android:layout_marginRight="@dimen/_2sdp"
         android:layout_marginLeft="@dimen/_4sdp"
-        android:layout_weight="1"
+        android:layout_weight="1.05"
         android:gravity="top|right"
         android:textSize="@dimen/_9ssp"
         android:textStyle="bold"
@@ -60,23 +62,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:gravity="top|left">
+        android:gravity="top|center"
+        android:orientation="horizontal"
+        android:layoutDirection="rtl">
 
-        <TextView
-            android:id="@+id/single_item_detail_case_sessions_edit_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/_3sdp"
-            android:paddingBottom="@dimen/_3sdp"
-            android:paddingLeft="@dimen/_9sdp"
-            android:paddingRight="@dimen/_9sdp"
-            android:gravity="center"
-            android:text="@string/DetailCaseEditSession"
-            android:textSize="@dimen/_8ssp"
-            android:textStyle="bold"
-            android:textColor="@color/PrimaryDark"
-            android:textAlignment="gravity"
-            android:background="@drawable/draw_8sdp_solid_snow_border_quartz"/>
+        <ImageView
+            android:id="@+id/single_item_detail_case_sessions_edit_imageView"
+            android:layout_width="@dimen/_26sdp"
+            android:layout_height="@dimen/_26sdp"
+            android:padding="@dimen/_6sdp"
+            android:contentDescription="@string/AppImageContent"
+            android:src="@drawable/ic_edit_light"
+            app:tint="@color/PrimaryDark" />
+
+        <ImageView
+            android:id="@+id/single_item_detail_case_sessions_link_imageView"
+            android:layout_width="@dimen/_26sdp"
+            android:layout_height="@dimen/_26sdp"
+            android:padding="@dimen/_4sdp"
+            android:contentDescription="@string/AppImageContent"
+            android:src="@drawable/ic_eye_light"
+            app:tint="@color/PrimaryDark" />
 
     </LinearLayout>
 

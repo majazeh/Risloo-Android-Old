@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -41,6 +42,7 @@ import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
+import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
@@ -51,6 +53,7 @@ import com.majazeh.risloo.Views.Adapters.SearchAdapter;
 import com.majazeh.risloo.Views.Adapters.SpinnerAdapter;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -62,13 +65,17 @@ public class CreateUserActivity extends AppCompatActivity {
     private RoomViewModel roomViewModel;
     private CaseViewModel caseViewModel;
 
+    // Model
+    private Model roomModel;
+
     // Adapters
-    private SearchAdapter referenceDialogAdapter, positionDialogAdapter;
+    private SearchAdapter referenceDialogAdapter, positionDialogAdapter, roomDialogAdapter;
     public SpinnerAdapter referenceRecyclerViewAdapter;
 
     // Vars
-    public String type = "", caseId = "", roomId = "", clinicId = "", mobile = "", positionId = "", positionTitle = "";
-    private boolean referenceException = false, positionException = false;
+    public String type = "", caseId = "", roomId = "", roomName = "", roomTitle = "", clinicId = "", mobile = "", name = "", positionId = "", positionTitle = "";
+    private boolean addCase = false;
+    private boolean referenceException = false, positionException = false, roomException = false;
 
     // Objects
     private Bundle extras;
@@ -81,19 +88,21 @@ public class CreateUserActivity extends AppCompatActivity {
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
     private LinearLayout clinicLinearLayout;
-    private FrameLayout referenceFrameLayout, positionFrameLayout;
-    public TextView referenceTextView, positionTextView;
-    private EditText mobileEditText;
+    private FrameLayout referenceFrameLayout, positionFrameLayout, roomFrameLayout;
+    private LinearLayout roomLinearLayout;
+    public TextView referenceTextView, referenceCountTextView, positionTextView, roomNameTextView, roomTitleTextView;
+    private EditText mobileEditText, nameEditText;
     private RecyclerView referenceRecyclerView;
+    private CheckBox caseCheckbox;
     private Button createButton;
-    private Dialog referenceDialog, positionDialog, progressDialog;
-    private TextView referenceDialogTitleTextView, positionDialogTitleTextView, referenceDialogConfirm;
-    private CoordinatorLayout referenceDialogSearchLayout;
-    private EditText referenceDialogEditText;
-    private ImageView referenceDialogImageView;
-    private ProgressBar referenceDialogProgressBar;
-    private TextView referenceDialogTextView;
-    private RecyclerView referenceDialogRecyclerView, positionDialogRecyclerView;
+    private Dialog referenceDialog, positionDialog, roomDialog, progressDialog;
+    private TextView referenceDialogTitleTextView, positionDialogTitleTextView, roomDialogTitleTextView, referenceDialogConfirm;
+    private CoordinatorLayout referenceDialogSearchLayout, roomDialogSearchLayout;
+    private EditText referenceDialogEditText, roomDialogEditText;
+    private ImageView referenceDialogImageView, roomDialogImageView;
+    private ProgressBar referenceDialogProgressBar, roomDialogProgressBar;
+    private TextView referenceDialogTextView, roomDialogTextView;
+    private RecyclerView referenceDialogRecyclerView, positionDialogRecyclerView, roomDialogRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +135,7 @@ public class CreateUserActivity extends AppCompatActivity {
 
         referenceDialogAdapter = new SearchAdapter(this);
         positionDialogAdapter = new SearchAdapter(this);
+        roomDialogAdapter = new SearchAdapter(this);
 
         referenceRecyclerViewAdapter = new SpinnerAdapter(this);
 
@@ -148,21 +158,29 @@ public class CreateUserActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CreateUserTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         clinicLinearLayout = findViewById(R.id.activity_create_user_clinic_linearLayout);
 
         referenceFrameLayout = findViewById(R.id.activity_create_user_reference_frameLayout);
         positionFrameLayout = findViewById(R.id.activity_create_user_position_frameLayout);
+        roomFrameLayout = findViewById(R.id.activity_create_user_room_frameLayout);
+
+        roomLinearLayout = findViewById(R.id.activity_create_user_room_linearLayout);
 
         referenceTextView = findViewById(R.id.activity_create_user_reference_textView);
+        referenceCountTextView = findViewById(R.id.activity_create_user_reference_count_textView);
         positionTextView = findViewById(R.id.activity_create_user_position_textView);
+        roomNameTextView = findViewById(R.id.activity_create_user_room_name_textView);
+        roomTitleTextView = findViewById(R.id.activity_create_user_room_title_textView);
 
         mobileEditText = findViewById(R.id.activity_create_user_mobile_editText);
+        nameEditText = findViewById(R.id.activity_create_user_name_editText);
 
         referenceRecyclerView = findViewById(R.id.activity_create_user_reference_recyclerView);
         referenceRecyclerView.setLayoutManager(referenceLayoutManager);
         referenceRecyclerView.setHasFixedSize(false);
+
+        caseCheckbox = findViewById(R.id.activity_create_user_case_checkBox);
 
         createButton = findViewById(R.id.activity_create_user_button);
 
@@ -176,6 +194,11 @@ public class CreateUserActivity extends AppCompatActivity {
         positionDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         positionDialog.setContentView(R.layout.dialog_search);
         positionDialog.setCancelable(true);
+        roomDialog = new Dialog(this, R.style.DialogTheme);
+        Objects.requireNonNull(roomDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+        roomDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        roomDialog.setContentView(R.layout.dialog_search);
+        roomDialog.setCancelable(true);
         progressDialog = new Dialog(this, R.style.DialogTheme);
         Objects.requireNonNull(progressDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -192,24 +215,37 @@ public class CreateUserActivity extends AppCompatActivity {
         layoutParamsPositionDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParamsPositionDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
         positionDialog.getWindow().setAttributes(layoutParamsPositionDialog);
+        WindowManager.LayoutParams layoutParamsRoomDialog = new WindowManager.LayoutParams();
+        layoutParamsRoomDialog.copyFrom(roomDialog.getWindow().getAttributes());
+        layoutParamsRoomDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParamsRoomDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        roomDialog.getWindow().setAttributes(layoutParamsRoomDialog);
 
         referenceDialogTitleTextView = referenceDialog.findViewById(R.id.dialog_search_title_textView);
         referenceDialogTitleTextView.setText(getResources().getString(R.string.CreateUserReferenceDialogTitle));
         positionDialogTitleTextView = positionDialog.findViewById(R.id.dialog_search_title_textView);
         positionDialogTitleTextView.setText(getResources().getString(R.string.CreateUserPositionDialogTitle));
+        roomDialogTitleTextView = roomDialog.findViewById(R.id.dialog_search_title_textView);
+        roomDialogTitleTextView.setText(getResources().getString(R.string.CreateUserRoomDialogTitle));
 
         referenceDialogConfirm = referenceDialog.findViewById(R.id.dialog_search_confirm_textView);
 
         referenceDialogSearchLayout = referenceDialog.findViewById(R.id.dialog_search_coordinatorLayout);
         referenceDialogSearchLayout.setVisibility(View.VISIBLE);
+        roomDialogSearchLayout = roomDialog.findViewById(R.id.dialog_search_coordinatorLayout);
+        roomDialogSearchLayout.setVisibility(View.VISIBLE);
 
         referenceDialogEditText = referenceDialog.findViewById(R.id.dialog_search_editText);
+        roomDialogEditText = roomDialog.findViewById(R.id.dialog_search_editText);
 
         referenceDialogImageView = referenceDialog.findViewById(R.id.dialog_search_imageView);
+        roomDialogImageView = roomDialog.findViewById(R.id.dialog_search_imageView);
 
         referenceDialogProgressBar = referenceDialog.findViewById(R.id.dialog_search_progressBar);
+        roomDialogProgressBar = roomDialog.findViewById(R.id.dialog_search_progressBar);
 
         referenceDialogTextView = referenceDialog.findViewById(R.id.dialog_search_textView);
+        roomDialogTextView = roomDialog.findViewById(R.id.dialog_search_textView);
 
         referenceDialogRecyclerView = referenceDialog.findViewById(R.id.dialog_search_recyclerView);
         referenceDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
@@ -220,6 +256,11 @@ public class CreateUserActivity extends AppCompatActivity {
         positionDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
         positionDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         positionDialogRecyclerView.setHasFixedSize(true);
+
+        roomDialogRecyclerView = roomDialog.findViewById(R.id.dialog_search_recyclerView);
+        roomDialogRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._4sdp), 0, 0));
+        roomDialogRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        roomDialogRecyclerView.setHasFixedSize(true);
     }
 
     private void detector() {
@@ -271,6 +312,20 @@ public class CreateUserActivity extends AppCompatActivity {
             return false;
         });
 
+        nameEditText.setOnTouchListener((v, event) -> {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
+                if (!nameEditText.hasFocus()) {
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
+                    }
+
+                    controlEditText.focus(nameEditText);
+                    controlEditText.select(nameEditText);
+                }
+            }
+            return false;
+        });
+
         positionTextView.setOnClickListener(v -> {
             positionTextView.setClickable(false);
             handler.postDelayed(() -> positionTextView.setClickable(true), 250);
@@ -286,6 +341,39 @@ public class CreateUserActivity extends AppCompatActivity {
             setRecyclerView(centerViewModel.getLocalPosition(), positionDialogRecyclerView, "getPositions");
 
             positionDialog.show();
+        });
+
+        roomLinearLayout.setOnClickListener(v -> {
+            roomLinearLayout.setClickable(false);
+            handler.postDelayed(() -> roomLinearLayout.setClickable(true), 250);
+
+            if (roomException) {
+                clearException("room");
+            }
+
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+            }
+
+            try {
+                if (roomViewModel.getSuggestRoom().size() != 0) {
+                    setRecyclerView(roomViewModel.getSuggestRoom(), roomDialogRecyclerView, "getRooms");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            roomDialog.show();
+        });
+
+        caseCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                caseCheckbox.setTextColor(getResources().getColor(R.color.Nero));
+                addCase = true;
+            } else {
+                caseCheckbox.setTextColor(getResources().getColor(R.color.Mischka));
+                addCase = false;
+            }
         });
 
         createButton.setOnClickListener(v -> {
@@ -339,6 +427,20 @@ public class CreateUserActivity extends AppCompatActivity {
             return false;
         });
 
+        roomDialogEditText.setOnTouchListener((v, event) -> {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
+                if (!roomDialogEditText.hasFocus()) {
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
+                    }
+
+                    controlEditText.focus(roomDialogEditText);
+                    controlEditText.select(roomDialogEditText);
+                }
+            }
+            return false;
+        });
+
         referenceDialogEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -356,6 +458,40 @@ public class CreateUserActivity extends AppCompatActivity {
 
                         if (referenceDialogTextView.getVisibility() == View.VISIBLE) {
                             referenceDialogTextView.setVisibility(View.GONE);
+                        }
+                    }
+                }, 750);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        roomDialogEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                handler.removeCallbacksAndMessages(null);
+                handler.postDelayed(() -> {
+                    if (roomDialogEditText.length() != 0) {
+                        getData("getRooms", roomId, caseId, roomDialogEditText.getText().toString().trim());
+                    } else {
+                        try {
+                            if (roomViewModel.getSuggestRoom().size() != 0) {
+                                setRecyclerView(roomViewModel.getSuggestRoom(), roomDialogRecyclerView, "getRooms");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (roomDialogTextView.getVisibility() == View.VISIBLE) {
+                            roomDialogTextView.setVisibility(View.GONE);
                         }
                     }
                 }, 750);
@@ -394,6 +530,19 @@ public class CreateUserActivity extends AppCompatActivity {
         });
 
         positionDialog.setOnCancelListener(dialog -> positionDialog.dismiss());
+
+        roomDialog.setOnCancelListener(dialog -> {
+            resetData("roomDialog");
+
+            if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                controlEditText.clear(this, controlEditText.input());
+                controlEditText.input().getText().clear();
+
+                handler.removeCallbacksAndMessages(null);
+            }
+
+            roomDialog.dismiss();
+        });
     }
 
     private void setData() {
@@ -407,6 +556,10 @@ public class CreateUserActivity extends AppCompatActivity {
             caseId = extras.getString("case_id");
         if (extras.getString("room_id") != null)
             roomId = extras.getString("room_id");
+        if (extras.getString("room_name") != null)
+            roomName = extras.getString("room_name");
+        if (extras.getString("room_title") != null)
+            roomTitle = extras.getString("room_title");
         if (extras.getString("clinic_id") != null)
             clinicId = extras.getString("clinic_id");
 
@@ -420,6 +573,14 @@ public class CreateUserActivity extends AppCompatActivity {
             case "center":
                 referenceFrameLayout.setVisibility(View.GONE);
                 clinicLinearLayout.setVisibility(View.VISIBLE);
+
+                if (!roomId.equals("")) {
+                    roomNameTextView.setText(roomName);
+                    roomNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+
+                    roomTitleTextView.setText(roomTitle);
+                    roomTitleTextView.setVisibility(View.VISIBLE);
+                }
                 break;
         }
     }
@@ -446,6 +607,18 @@ public class CreateUserActivity extends AppCompatActivity {
                 positionDialogAdapter.setValues(arrayList, method, "CreateUser");
                 recyclerView.setAdapter(positionDialogAdapter);
                 break;
+            case "getRooms":
+                roomDialogAdapter.setValues(arrayList, method, "CreateUser");
+                recyclerView.setAdapter(roomDialogAdapter);
+
+                if (arrayList.size() == 0) {
+                    roomDialogTextView.setVisibility(View.VISIBLE);
+                } else {
+                    if (roomDialogTextView.getVisibility() == View.VISIBLE) {
+                        roomDialogTextView.setVisibility(View.GONE);
+                    }
+                }
+                break;
         }
     }
 
@@ -458,9 +631,16 @@ public class CreateUserActivity extends AppCompatActivity {
             case "mobile":
                 mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
+            case "name":
+                nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
             case "position":
                 positionException = true;
                 positionFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
+            case "room":
+                roomException = true;
+                roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
         }
     }
@@ -474,6 +654,10 @@ public class CreateUserActivity extends AppCompatActivity {
             case "position":
                 positionException = false;
                 positionFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
+                break;
+            case "room":
+                roomException = false;
+                roomFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
                 break;
         }
     }
@@ -502,6 +686,14 @@ public class CreateUserActivity extends AppCompatActivity {
                     referenceDialogTextView.setVisibility(View.GONE);
                 }
                 break;
+            case "roomDialog":
+                RoomRepository.rooms.clear();
+                roomDialogRecyclerView.setAdapter(null);
+
+                if (roomDialogTextView.getVisibility() == View.VISIBLE) {
+                    roomDialogTextView.setVisibility(View.GONE);
+                }
+                break;
         }
     }
 
@@ -525,6 +717,15 @@ public class CreateUserActivity extends AppCompatActivity {
                     }
 
                     break;
+                case "getRooms":
+                    roomDialogProgressBar.setVisibility(View.VISIBLE);
+                    roomDialogImageView.setVisibility(View.GONE);
+
+                    RoomRepository.allPage = 1;
+                    roomViewModel.rooms(q);
+
+                    observeWork("roomViewModel");
+                    break;
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -547,10 +748,11 @@ public class CreateUserActivity extends AppCompatActivity {
                     break;
 
                 case "center":
-                    mobile = mobileEditText.getText().toString().trim();
-
-                    centerViewModel.addUser(clinicId, mobile, positionId);
-                    observeWork("centerViewModel");
+//                    mobile = mobileEditText.getText().toString().trim();
+//                    name = nameEditText.getText().toString().trim();
+//
+//                    centerViewModel.addUser(clinicId, mobile, name, positionId, roomId, addCase);
+//                    observeWork("centerViewModel");
                     break;
             }
         } catch (JSONException e) {
@@ -661,6 +863,24 @@ public class CreateUserActivity extends AppCompatActivity {
                             Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                             RoomRepository.workState.removeObservers((LifecycleOwner) this);
                         }
+                    } else if (RoomRepository.work.equals("getAll")) {
+                        if (integer == 1) {
+                            setRecyclerView(RoomRepository.rooms, roomDialogRecyclerView, "getRooms");
+
+                            roomDialogProgressBar.setVisibility(View.GONE);
+                            roomDialogImageView.setVisibility(View.VISIBLE);
+                            RoomRepository.workState.removeObservers((LifecycleOwner) this);
+                        } else if (integer == 0) {
+                            roomDialogProgressBar.setVisibility(View.GONE);
+                            roomDialogImageView.setVisibility(View.VISIBLE);
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            RoomRepository.workState.removeObservers((LifecycleOwner) this);
+                        } else if (integer == -2) {
+                            roomDialogProgressBar.setVisibility(View.GONE);
+                            roomDialogImageView.setVisibility(View.VISIBLE);
+                            Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
+                            RoomRepository.workState.removeObservers((LifecycleOwner) this);
+                        }
                     }
                 });
                 break;
@@ -712,12 +932,28 @@ public class CreateUserActivity extends AppCompatActivity {
                             exceptionToast += (" و " + ExceptionGenerator.getErrorBody("mobile"));
                         }
                     }
+                    if (!ExceptionGenerator.errors.isNull("name")) {
+                        errorException("name");
+                        if (exceptionToast.equals("")) {
+                            exceptionToast = ExceptionGenerator.getErrorBody("name");
+                        } else {
+                            exceptionToast += (" و " + ExceptionGenerator.getErrorBody("name"));
+                        }
+                    }
                     if (!ExceptionGenerator.errors.isNull("position")) {
                         errorException("position");
                         if (exceptionToast.equals("")) {
                             exceptionToast = ExceptionGenerator.getErrorBody("position");
                         } else {
                             exceptionToast += (" و " + ExceptionGenerator.getErrorBody("position"));
+                        }
+                    }
+                    if (!ExceptionGenerator.errors.isNull("roomId")) {
+                        errorException("room");
+                        if (exceptionToast.equals("")) {
+                            exceptionToast = ExceptionGenerator.getErrorBody("roomId");
+                        } else {
+                            exceptionToast += (" و " + ExceptionGenerator.getErrorBody("roomId"));
                         }
                     }
                     break;
@@ -748,10 +984,18 @@ public class CreateUserActivity extends AppCompatActivity {
                     if (referenceRecyclerViewAdapter.getValues().size() == 0) {
                         referenceTextView.setVisibility(View.VISIBLE);
 
+                        referenceCountTextView.setText("");
+                        referenceCountTextView.setVisibility(View.GONE);
+
                         referenceDialogConfirm.setVisibility(View.GONE);
                     } else {
                         if (referenceTextView.getVisibility() == View.VISIBLE) {
                             referenceTextView.setVisibility(View.GONE);
+                        }
+
+                        referenceCountTextView.setText(String.valueOf(referenceRecyclerViewAdapter.getValues().size()));
+                        if (referenceCountTextView.getVisibility() == View.GONE) {
+                            referenceCountTextView.setVisibility(View.VISIBLE);
                         }
 
                         if (referenceDialogConfirm.getVisibility() == View.GONE) {
@@ -776,6 +1020,49 @@ public class CreateUserActivity extends AppCompatActivity {
                     }
 
                     positionDialog.dismiss();
+                    break;
+
+                case "getRooms":
+                    if (!roomId.equals(model.get("id").toString())) {
+                        roomModel = model;
+                        roomViewModel.addSuggestRoom(roomModel);
+
+                        roomId = model.get("id").toString();
+
+                        JSONObject manager = (JSONObject) model.get("manager");
+                        roomName = manager.get("name").toString();
+
+                        roomNameTextView.setText(roomName);
+                        roomNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+
+                        JSONObject center = (JSONObject) model.get("center");
+                        JSONObject detail = (JSONObject) center.get("detail");
+                        roomTitle =detail.get("title").toString();
+
+                        roomTitleTextView.setText(roomTitle);
+                        roomTitleTextView.setVisibility(View.VISIBLE);
+                    } else if (roomId.equals(model.get("id").toString())) {
+                        roomId = "";
+                        roomName = "";
+                        roomTitle = "";
+
+                        roomNameTextView.setText(getResources().getString(R.string.CreateCaseRoom));
+                        roomNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+
+                        roomTitleTextView.setText(roomTitle);
+                        roomTitleTextView.setVisibility(View.GONE);
+                    }
+
+                    resetData("roomDialog");
+
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
+                        controlEditText.input().getText().clear();
+
+                        handler.removeCallbacksAndMessages(null);
+                    }
+
+                    roomDialog.dismiss();
                     break;
             }
         } catch (JSONException e) {

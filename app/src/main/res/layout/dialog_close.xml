@@ -71,7 +71,7 @@
                     android:gravity="center"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/IslamicGreen"
+                    android:textColor="@color/MountainMeadow"
                     android:textAlignment="gravity" />
 
                 <TextView
@@ -109,7 +109,7 @@
                     android:gravity="center"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/MoonYellow"
+                    android:textColor="@color/OrangePeel"
                     android:textAlignment="gravity" />
 
                 <TextView

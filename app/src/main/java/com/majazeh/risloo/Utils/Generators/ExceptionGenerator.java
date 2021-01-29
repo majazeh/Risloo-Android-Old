@@ -56,6 +56,8 @@ public class ExceptionGenerator {
                         break;
                     case "SelectRoomFirstException":
                         fa_message_text = "لطفا اول اتاق درمانی انتخاب کنید.";
+                    case "EncryptFirstException":
+                        fa_message_text = "لطفا متن گزارش را رمزنگاری کنید.";
                         break;
                     case "SelectCaseFirstException":
                         fa_message_text = "لطفا اول پرونده درمانی انتخاب کنید.";

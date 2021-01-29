@@ -14,6 +14,7 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Views.Activities.AboutUsActivity;
+import com.majazeh.risloo.Views.Activities.CryptoActivity;
 import com.majazeh.risloo.Views.Activities.TAConditionActivity;
 
 import org.json.JSONException;
@@ -53,14 +54,36 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
         Model model = lists.get(i);
 
         try {
-            holder.titleTextView.setText(model.get("title").toString());
-            holder.descriptionTextView.setText(model.get("description").toString());
+            if (!model.get("title").equals("none")) {
+                holder.titleTextView.setVisibility(View.VISIBLE);
+
+                holder.titleTextView.setText(model.get("title").toString());
+            } else {
+                holder.titleTextView.setVisibility(View.GONE);
+            }
+
+            if (!model.get("description").equals("none")) {
+                holder.descriptionTextView.setVisibility(View.VISIBLE);
+
+                holder.descriptionTextView.setText(model.get("description").toString());
+            } else {
+                holder.descriptionTextView.setVisibility(View.GONE);
+            }
 
             if (model.get("subset").equals("big")) {
-                if (asset.equals("AboutUs")) {
-                    subListBigAdapter.setList(((AboutUsActivity) Objects.requireNonNull(activity)).aboutUsViewModel.getSubset(i));
-                } else if (asset.equals("TACondition")) {
-                    subListBigAdapter.setList(((TAConditionActivity) Objects.requireNonNull(activity)).taConditionViewModel.getSubset(i));
+                switch (asset) {
+                    case "AboutUs":
+                        subListBigAdapter.setList(((AboutUsActivity) Objects.requireNonNull(activity)).aboutUsViewModel.getSubset(i));
+                        break;
+                    case "TACondition":
+                        subListBigAdapter.setList(((TAConditionActivity) Objects.requireNonNull(activity)).taConditionViewModel.getSubset(i));
+                        break;
+                    case "CryptoPublic":
+                        subListBigAdapter.setList(((CryptoActivity) Objects.requireNonNull(activity)).cryptoViewModel.getSubset("public", i));
+                        break;
+                    case "CryptoPrivate":
+                        subListBigAdapter.setList(((CryptoActivity) Objects.requireNonNull(activity)).cryptoViewModel.getSubset("private", i));
+                        break;
                 }
 
                 holder.listRecyclerView.setVisibility(View.VISIBLE);
@@ -71,10 +94,19 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
                 holder.listRecyclerView.setAdapter(subListBigAdapter);
 
             } else if (lists.get(i).get("subset").equals("small")) {
-                if (asset.equals("AboutUs")) {
-                    subListSmallAdapter.setList(((AboutUsActivity) Objects.requireNonNull(activity)).aboutUsViewModel.getSubset(i));
-                } else if (asset.equals("TACondition")) {
-                    subListSmallAdapter.setList(((TAConditionActivity) Objects.requireNonNull(activity)).taConditionViewModel.getSubset(i));
+                switch (asset) {
+                    case "AboutUs":
+                        subListSmallAdapter.setList(((AboutUsActivity) Objects.requireNonNull(activity)).aboutUsViewModel.getSubset(i));
+                        break;
+                    case "TACondition":
+                        subListSmallAdapter.setList(((TAConditionActivity) Objects.requireNonNull(activity)).taConditionViewModel.getSubset(i));
+                        break;
+                    case "CryptoPublic":
+                        subListSmallAdapter.setList(((CryptoActivity) Objects.requireNonNull(activity)).cryptoViewModel.getSubset("public", i));
+                        break;
+                    case "CryptoPrivate":
+                        subListSmallAdapter.setList(((CryptoActivity) Objects.requireNonNull(activity)).cryptoViewModel.getSubset("private", i));
+                        break;
                 }
 
                 holder.listRecyclerView.setVisibility(View.VISIBLE);

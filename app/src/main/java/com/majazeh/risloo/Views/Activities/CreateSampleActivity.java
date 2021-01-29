@@ -52,7 +52,6 @@ import com.majazeh.risloo.ViewModels.SampleViewModel;
 import com.majazeh.risloo.ViewModels.SessionViewModel;
 import com.majazeh.risloo.Views.Adapters.CheckBoxAdapter;
 import com.majazeh.risloo.Views.Adapters.SearchAdapter;
-import com.majazeh.risloo.Views.Adapters.SearchCaseAdapter;
 import com.majazeh.risloo.Views.Adapters.SpinnerAdapter;
 
 import org.json.JSONArray;
@@ -74,8 +73,7 @@ public class CreateSampleActivity extends AppCompatActivity {
     private Model roomModel;
 
     // Adapters
-    private SearchAdapter scaleDialogAdapter, roomDialogAdapter, referenceDialogAdapter, sessionDialogAdapter;
-    private SearchCaseAdapter caseDialogAdapter;
+    private SearchAdapter scaleDialogAdapter, roomDialogAdapter, caseDialogAdapter, referenceDialogAdapter, sessionDialogAdapter;
     public SpinnerAdapter scaleRecyclerViewAdapter, referenceRecyclerViewAdapter;
     private CheckBoxAdapter caseRecyclerViewAdapter;
 
@@ -97,7 +95,7 @@ public class CreateSampleActivity extends AppCompatActivity {
     private FrameLayout scaleFrameLayout, roomFrameLayout, caseFrameLayout, referenceFrameLayout, sessionFrameLayout;
     private LinearLayout roomLinearLayout, sessionLinearLayout;
     private LinearLayout referenceCaseLayout, referenceRoomLayout;
-    public TextView scaleTextView, scaleCountTextView, roomNameTextView, roomTitleTextView, caseTextView, referenceTextView, sessionNameTextView, sessionIdTextView, casesTextView;
+    public TextView scaleTextView, scaleCountTextView, roomNameTextView, roomTitleTextView, caseTextView, referenceTextView, referenceCountTextView, sessionNameTextView, sessionIdTextView, casesTextView;
     public EditText countEditText;
     private RecyclerView scaleRecyclerView, referenceRecyclerView, casesRecyclerView;
     private Button createButton;
@@ -142,10 +140,9 @@ public class CreateSampleActivity extends AppCompatActivity {
 
         scaleDialogAdapter = new SearchAdapter(this);
         roomDialogAdapter = new SearchAdapter(this);
+        caseDialogAdapter = new SearchAdapter(this);
         referenceDialogAdapter = new SearchAdapter(this);
         sessionDialogAdapter = new SearchAdapter(this);
-
-        caseDialogAdapter = new SearchCaseAdapter(this);
 
         scaleRecyclerViewAdapter = new SpinnerAdapter(this);
         referenceRecyclerViewAdapter = new SpinnerAdapter(this);
@@ -174,7 +171,6 @@ public class CreateSampleActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CreateSampleTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         typeTabLayout = findViewById(R.id.activity_create_sample_type_tabLayout);
 
@@ -196,6 +192,7 @@ public class CreateSampleActivity extends AppCompatActivity {
         roomTitleTextView = findViewById(R.id.activity_create_sample_room_title_textView);
         caseTextView = findViewById(R.id.activity_create_sample_case_textView);
         referenceTextView = findViewById(R.id.activity_create_sample_reference_room_textView);
+        referenceCountTextView = findViewById(R.id.activity_create_sample_reference_count_textView);
         sessionNameTextView = findViewById(R.id.activity_create_sample_session_name_textView);
         sessionIdTextView = findViewById(R.id.activity_create_sample_session_id_textView);
         casesTextView = findViewById(R.id.activity_create_sample_reference_case_textView);
@@ -1651,6 +1648,9 @@ public class CreateSampleActivity extends AppCompatActivity {
                     if (referenceRecyclerViewAdapter.getValues().size() == 0) {
                         referenceTextView.setVisibility(View.VISIBLE);
 
+                        referenceCountTextView.setText("");
+                        referenceCountTextView.setVisibility(View.GONE);
+
                         countEditText.setEnabled(true);
                         countEditText.setFocusableInTouchMode(true);
                         countEditText.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);
@@ -1659,6 +1659,11 @@ public class CreateSampleActivity extends AppCompatActivity {
                     } else {
                         if (referenceTextView.getVisibility() == View.VISIBLE) {
                             referenceTextView.setVisibility(View.GONE);
+                        }
+
+                        referenceCountTextView.setText(String.valueOf(referenceRecyclerViewAdapter.getValues().size()));
+                        if (referenceCountTextView.getVisibility() == View.GONE) {
+                            referenceCountTextView.setVisibility(View.VISIBLE);
                         }
 
                         countEditText.setEnabled(false);

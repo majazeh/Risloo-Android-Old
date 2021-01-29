@@ -2,14 +2,14 @@ apply plugin: 'com.android.application' // Android Build Application
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.majazeh.risloo"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
-        versionName "1.1.0"
+        versionName "1.2.0"
         resConfigs "en"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

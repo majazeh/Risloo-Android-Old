@@ -32,6 +32,7 @@ import com.majazeh.risloo.Utils.Managers.FileManager;
 import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
+import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.ViewModels.CaseViewModel;
 import com.majazeh.risloo.ViewModels.SessionViewModel;
 import com.majazeh.risloo.Views.Adapters.DetailCaseReferencesAdapter;
@@ -53,6 +54,7 @@ public class DetailCaseActivity extends AppCompatActivity {
     // ViewModels
     private CaseViewModel caseViewModel;
     public SessionViewModel sessionViewModel;
+    public AuthViewModel authViewModel;
 
     // Adapters
     private DetailCaseReferencesAdapter detailCaseReferencesAdapter;
@@ -107,6 +109,7 @@ public class DetailCaseActivity extends AppCompatActivity {
     private void initializer() {
         caseViewModel = new ViewModelProvider(this).get(CaseViewModel.class);
         sessionViewModel = new ViewModelProvider(this).get(SessionViewModel.class);
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
         detailCaseReferencesAdapter = new DetailCaseReferencesAdapter(this);
         detailCaseSessionsAdapter = new DetailCaseSessionsAdapter(this);
@@ -126,7 +129,6 @@ public class DetailCaseActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.DetailCaseTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         mainLayout = findViewById(R.id.activity_detail_case_mainLayout);
         infoLayout = findViewById(R.id.layout_info_linearLayout);
@@ -291,8 +293,18 @@ public class DetailCaseActivity extends AppCompatActivity {
         try {
             JSONObject data = FileManager.readObjectFromCache(this, "caseDetail" + "/" + caseId);
 
+//            if (authViewModel.caseDetails(new Model(data))) {
+//                addReferenceTextView.setVisibility(View.VISIBLE);
+//                addSessionTextView.setVisibility(View.VISIBLE);
+//                createSampleTextView.setVisibility(View.VISIBLE);
+//            } else {
+//                addReferenceTextView.setVisibility(View.GONE);
+//                addSessionTextView.setVisibility(View.GONE);
+//                createSampleTextView.setVisibility(View.GONE);
+//            }
+
             // Room
-            if (data.has("room") && !data.isNull("room")) {
+            if (data.has("room") && !data.isNull("room") && !data.get("room").equals("")) {
                 JSONObject room = (JSONObject) data.get("room");
                 roomId = room.get("id").toString();
 
@@ -308,8 +320,8 @@ public class DetailCaseActivity extends AppCompatActivity {
                 roomTypeTextView.setText(roomTitle);
 
                 // Avatar
-                if (detail.has("avatar") && !detail.isNull("avatar")) {
-                    JSONObject avatar = detail.getJSONObject("avatar");
+                if (manager.has("avatar") && !manager.isNull("avatar") && manager.get("avatar").getClass().getName().equals("org.json.JSONObject")) {
+                    JSONObject avatar = manager.getJSONObject("avatar");
                     JSONObject medium = avatar.getJSONObject("medium");
                     roomUrl = medium.get("url").toString();
 
@@ -357,7 +369,7 @@ public class DetailCaseActivity extends AppCompatActivity {
             }
 
             // Complaint
-            if (data.has("detail") && !data.isNull("detail")) {
+            if (data.has("detail") && !data.isNull("detail") && !data.get("detail").equals("")) {
                 JSONObject detail = (JSONObject) data.get("detail");
 
                 complaintTextView.setText(detail.get("chief_complaint").toString());
@@ -366,7 +378,7 @@ public class DetailCaseActivity extends AppCompatActivity {
             }
 
             // CreatedAt
-            if (data.has("created_at") && !data.isNull("created_at")) {
+            if (data.has("created_at") && !data.isNull("created_at") && !data.get("created_at").equals("")) {
                 String createdAtDate = DateManager.gregorianToJalali(DateManager.dateToString("yyyy-MM-dd", DateManager.timestampToDate(Long.parseLong(data.get("created_at").toString()))));
                 String createdAtTime = DateManager.dateToString("HH:mm", DateManager.timestampToDate(Long.parseLong(data.get("created_at").toString())));
 

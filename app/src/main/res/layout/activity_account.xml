@@ -76,29 +76,14 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/activity_account_edit_textView"
+                            android:id="@+id/activity_account_crypto_textView"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:layout_marginLeft="@dimen/_6sdp"
                             android:paddingLeft="@dimen/_8sdp"
                             android:paddingRight="@dimen/_8sdp"
                             android:gravity="center"
-                            android:text="@string/AccountEdit"
-                            android:textSize="@dimen/_8ssp"
-                            android:textStyle="bold"
-                            android:textColor="@color/Mischka"
-                            android:textAlignment="gravity"
-                            android:background="@drawable/draw_8sdp_solid_snow_border_quartz" />
-
-                        <TextView
-                            android:id="@+id/activity_account_send_textView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="@dimen/_3sdp"
-                            android:paddingLeft="@dimen/_8sdp"
-                            android:paddingRight="@dimen/_8sdp"
-                            android:gravity="center"
-                            android:text="@string/AccountSend"
+                            android:text="@string/AccountCrypto"
                             android:textSize="@dimen/_8ssp"
                             android:textStyle="bold"
                             android:textColor="@color/Mischka"

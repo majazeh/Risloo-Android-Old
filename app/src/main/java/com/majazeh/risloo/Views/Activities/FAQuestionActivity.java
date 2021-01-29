@@ -86,7 +86,6 @@ public class FAQuestionActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.FAQuestionTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         faQuestionRecyclerView = findViewById(R.id.activity_fa_question_recyclerView);
         faQuestionRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));

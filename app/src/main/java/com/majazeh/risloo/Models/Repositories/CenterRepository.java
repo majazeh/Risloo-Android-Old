@@ -3,6 +3,7 @@ package com.majazeh.risloo.Models.Repositories;
 import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.work.Constraints;
@@ -39,6 +40,7 @@ public class CenterRepository extends MainRepository {
     public static MutableLiveData<Integer> workState;
     public static String work = "";
     public static String clinicId = "";
+    public static String position = "";
     public static String usersQ = "";
     public static String personalClinicQ = "";
     public static String counselingCenterQ = "";
@@ -95,7 +97,7 @@ public class CenterRepository extends MainRepository {
         workManager("users");
     }
 
-    public void userStatus(String clinicId,String userId,String status) throws JSONException {
+    public void userStatus(String clinicId, String userId, String status) throws JSONException {
         CenterRepository.clinicId = clinicId;
         CenterRepository.userId = userId;
         CenterRepository.status = status;
@@ -104,7 +106,16 @@ public class CenterRepository extends MainRepository {
         workManager("userStatus");
     }
 
-    public void references(String roomId,String q) throws JSONException {
+    public void userPosition(String clinicId, String userId, String position) throws JSONException {
+        CenterRepository.clinicId = clinicId;
+        CenterRepository.userId = userId;
+        CenterRepository.position = position;
+        work = "userPosition";
+        workState.setValue(-1);
+        workManager("userPosition");
+    }
+
+    public void references(String roomId, String q) throws JSONException {
         RoomRepository.roomId = roomId;
         CenterRepository.usersQ = q;
         work = "getReferences";
@@ -112,7 +123,7 @@ public class CenterRepository extends MainRepository {
         workManager("getReferences");
     }
 
-    public void addUser(String clinicId, String number,String position) throws JSONException {
+    public void addUser(String clinicId, String number, String position) throws JSONException {
         if (!clinicId.equals(""))
             CenterRepository.clinicId = clinicId;
         if (!number.equals(""))
@@ -185,35 +196,35 @@ public class CenterRepository extends MainRepository {
     */
 
     public ArrayList<Model> getAll() {
-        if (search.equals("")){
+        if (search.equals("")) {
             ArrayList<Model> arrayList = new ArrayList<>();
-        if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + "all") != null) {
-            JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + "all");
-            try {
-                JSONArray data = jsonObject.getJSONArray("data");
-                if (data.length() == 0) {
+            if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + "all") != null) {
+                JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + "all");
+                try {
+                    JSONArray data = jsonObject.getJSONArray("data");
+                    if (data.length() == 0) {
+                        return null;
+                    }
+                    for (int i = 0; i < data.length(); i++) {
+                        Model model = new Model(data.getJSONObject(i));
+                        arrayList.add(model);
+                    }
+                    return arrayList;
+                } catch (JSONException e) {
+                    e.printStackTrace();
                     return null;
                 }
-                for (int i = 0; i < data.length(); i++) {
-                    Model model = new Model(data.getJSONObject(i));
-                    arrayList.add(model);
-                }
-                return arrayList;
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } else {
                 return null;
             }
         } else {
-            return null;
-        }
-    }else{
-            if (isNetworkConnected(application.getApplicationContext())){
-                if (getAll.size() == 0){
+            if (isNetworkConnected(application.getApplicationContext())) {
+                if (getAll.size() == 0) {
                     return null;
-                }else {
+                } else {
                     return getAll;
                 }
-            }else{
+            } else {
                 if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + "all") != null) {
                     JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + "all");
                     try {
@@ -222,11 +233,11 @@ public class CenterRepository extends MainRepository {
                             return null;
                         }
                         for (int i = 0; i < data.length(); i++) {
-                           getAll.add(new Model(data.getJSONObject(0)));
+                            getAll.add(new Model(data.getJSONObject(0)));
                         }
-                        if (getAll.size() == 0){
+                        if (getAll.size() == 0) {
                             return null;
-                        }else {
+                        } else {
                             return getAll;
                         }
                     } catch (JSONException e) {
@@ -262,42 +273,41 @@ public class CenterRepository extends MainRepository {
             } else {
                 return null;
             }
-        }
-        else{
-        if (isNetworkConnected(application.getApplicationContext())){
-            if (getMy.size() == 0){
-                return null;
-            }else {
-                return getMy;
-            }
-        }else{
-            if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + "my") != null) {
-                JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + "my");
-                try {
-                    JSONArray data = jsonObject.getJSONArray("data");
-                    if (data.length() == 0) {
-                        return null;
-                    }
-                    for (int i = 0; i < data.length(); i++) {
-                        getMy.add(new Model(data.getJSONObject(0)));
-                    }
-                    if (getMy.size() == 0){
-                        return null;
-                    }else {
-                        return getMy;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        } else {
+            if (isNetworkConnected(application.getApplicationContext())) {
+                if (getMy.size() == 0) {
                     return null;
+                } else {
+                    return getMy;
                 }
             } else {
-                return null;
+                if (FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + "my") != null) {
+                    JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centers" + "/" + "my");
+                    try {
+                        JSONArray data = jsonObject.getJSONArray("data");
+                        if (data.length() == 0) {
+                            return null;
+                        }
+                        for (int i = 0; i < data.length(); i++) {
+                            getMy.add(new Model(data.getJSONObject(0)));
+                        }
+                        if (getMy.size() == 0) {
+                            return null;
+                        } else {
+                            return getMy;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
             }
         }
     }
-    }
 
-    public ArrayList<Model> getUsers(String clinicId){
+    public ArrayList<Model> getUsers(String clinicId) {
         ArrayList<Model> arrayList = new ArrayList<>();
         if (FileManager.readObjectFromCache(application.getApplicationContext(), "centerUsers" + "/" + clinicId) != null) {
             JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "centerUsers" + "/" + clinicId);
@@ -334,7 +344,7 @@ public class CenterRepository extends MainRepository {
         }
     }
 
-    public String getENStatus(String faStatus){
+    public String getENStatus(String faStatus) {
         ArrayList<Model> arrayList = getLocalPosition();
         for (int i = 0; i < arrayList.size(); i++) {
             try {
@@ -348,7 +358,7 @@ public class CenterRepository extends MainRepository {
         return null;
     }
 
-    public String getFAStatus(String enStatus){
+    public String getFAStatus(String enStatus) {
         ArrayList<Model> arrayList = getLocalPosition();
         for (int i = 0; i < arrayList.size(); i++) {
             try {

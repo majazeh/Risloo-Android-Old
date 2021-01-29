@@ -84,7 +84,7 @@ public class CreateCaseActivity extends AppCompatActivity {
     private TextView toolbarTextView;
     private FrameLayout roomFrameLayout, referenceFrameLayout;
     private LinearLayout roomLinearLayout;
-    public TextView roomNameTextView, roomTitleTextView, referenceTextView;
+    public TextView roomNameTextView, roomTitleTextView, referenceTextView, referenceCountTextView;
     private EditText complaintEditText;
     private RecyclerView referenceRecyclerView;
     private Button createButton;
@@ -149,7 +149,6 @@ public class CreateCaseActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CreateCaseTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         roomFrameLayout = findViewById(R.id.activity_create_case_room_frameLayout);
         referenceFrameLayout = findViewById(R.id.activity_create_case_reference_frameLayout);
@@ -159,6 +158,7 @@ public class CreateCaseActivity extends AppCompatActivity {
         roomNameTextView = findViewById(R.id.activity_create_case_room_name_textView);
         roomTitleTextView = findViewById(R.id.activity_create_case_room_title_textView);
         referenceTextView = findViewById(R.id.activity_create_case_reference_textView);
+        referenceCountTextView = findViewById(R.id.activity_create_case_reference_count_textView);
 
         complaintEditText = findViewById(R.id.activity_create_case_complaint_editText);
 
@@ -796,10 +796,18 @@ public class CreateCaseActivity extends AppCompatActivity {
                     if (referenceRecyclerViewAdapter.getValues().size() == 0) {
                         referenceTextView.setVisibility(View.VISIBLE);
 
+                        referenceCountTextView.setText("");
+                        referenceCountTextView.setVisibility(View.GONE);
+
                         referenceDialogConfirm.setVisibility(View.GONE);
                     } else {
                         if (referenceTextView.getVisibility() == View.VISIBLE) {
                             referenceTextView.setVisibility(View.GONE);
+                        }
+
+                        referenceCountTextView.setText(String.valueOf(referenceRecyclerViewAdapter.getValues().size()));
+                        if (referenceCountTextView.getVisibility() == View.GONE) {
+                            referenceCountTextView.setVisibility(View.VISIBLE);
                         }
 
                         if (referenceDialogConfirm.getVisibility() == View.GONE) {

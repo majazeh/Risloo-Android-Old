@@ -440,7 +440,12 @@ public class AuthWorker extends Worker {
                     for (int i = 0; i < centers.length(); i++) {
                         JSONObject center = centers.getJSONObject(i);
                         JSONObject acceptation = center.getJSONObject("acceptation");
-
+                        if (center.getString("type").equals("counseling center")){
+                            JSONObject manager = center.getJSONObject("manager");
+                            if (manager.getString("id").equals(data.getString("id"))){
+                                editor.putString("createRoomAccess", "true");
+                            }
+                        }
                         if (acceptation.getString("position").equals("operator") || acceptation.getString("position").equals("manager") || acceptation.getString("position").equals("psychologist")) {
                             hasAccess = true;
                         }
@@ -453,6 +458,12 @@ public class AuthWorker extends Worker {
                     editor.putString("userId", data.getString("id"));
                 } else {
                     editor.putString("userId", "");
+                }
+
+                if (data.has("username") && !data.isNull("username")) {
+                    editor.putString("userName", data.getString("username"));
+                } else {
+                    editor.putString("userName", "");
                 }
 
                 if (data.has("name") && !data.isNull("name")) {
@@ -489,6 +500,12 @@ public class AuthWorker extends Worker {
                     editor.putString("birthday", data.getString("birthday"));
                 } else {
                     editor.putString("birthday", "");
+                }
+
+                if (data.has("public_key") && !data.isNull("public_key")) {
+                    editor.putString("public_key", data.getString("public_key"));
+                } else {
+                    editor.putString("public_key", "");
                 }
 
                 if (!data.isNull("avatar") && data.get("avatar").getClass().getName().equals("org.json.JSONObject")) {
@@ -647,6 +664,8 @@ public class AuthWorker extends Worker {
                 editor.remove("gender");
                 editor.remove("birthday");
                 editor.remove("avatar");
+                editor.remove("public_key");
+                editor.remove("private_key");
 
                 editor.apply();
 
@@ -666,6 +685,8 @@ public class AuthWorker extends Worker {
                 editor.remove("gender");
                 editor.remove("birthday");
                 editor.remove("avatar");
+                editor.remove("public_key");
+                editor.remove("private_key");
 
                 editor.apply();
 

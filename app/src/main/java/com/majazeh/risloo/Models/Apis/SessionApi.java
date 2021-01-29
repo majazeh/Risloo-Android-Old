@@ -2,6 +2,8 @@ package com.majazeh.risloo.Models.Apis;
 
 import java.util.HashMap;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -10,8 +12,10 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -40,5 +44,14 @@ public interface SessionApi {
     @FormUrlEncoded
     @PUT("sessions/{sessionId}")
     Call<ResponseBody> Report(@Header("Authorization") String authorization, @Path("sessionId") String sessionId, @Field("report") String report, @Field("encryption_type") String encryptionType);
+
+    @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
+    @GET("sessions/{session_id}/practices")
+    Call<ResponseBody> getPractices(@Header("Authorization") String authorization,@Path("session_id") String sessionId, @Query("page") int page);
+
+    @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
+    @Multipart
+    @POST("sessions/{session_id}/practices")
+    Call<ResponseBody> createPractices(@Header("Authorization") String authorization,@Path("session_id") String sessionId,@Part MultipartBody.Part file , @Part("title") RequestBody title,  @Part("content") RequestBody content);
 
 }

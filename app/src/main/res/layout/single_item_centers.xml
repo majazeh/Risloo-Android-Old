@@ -97,7 +97,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:maxWidth="@dimen/_100sdp"
-                            android:maxLines="2"
                             android:paddingTop="@dimen/_3sdp"
                             android:paddingBottom="@dimen/_3sdp"
                             android:paddingLeft="@dimen/_8sdp"

@@ -36,37 +36,60 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/_24sdp"
                 android:orientation="vertical">
 
                 <FrameLayout
-                    android:id="@+id/activity_create_user_reference_frameLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_24sdp"
-                    android:paddingTop="@dimen/_6sdp"
-                    android:paddingBottom="@dimen/_6sdp"
-                    android:paddingLeft="@dimen/_12sdp"
-                    android:paddingRight="@dimen/_12sdp"
-                    android:background="@drawable/draw_16sdp_border_quartz">
+                    android:layout_height="wrap_content">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/activity_create_user_reference_recyclerView"
+                    <FrameLayout
+                        android:id="@+id/activity_create_user_reference_frameLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:minHeight="@dimen/_24sdp"
-                        android:overScrollMode="never" />
+                        android:layout_marginTop="@dimen/_24sdp"
+                        android:layout_marginLeft="@dimen/_24sdp"
+                        android:layout_marginRight="@dimen/_24sdp"
+                        android:paddingTop="@dimen/_6sdp"
+                        android:paddingBottom="@dimen/_6sdp"
+                        android:paddingLeft="@dimen/_12sdp"
+                        android:paddingRight="@dimen/_12sdp"
+                        android:background="@drawable/draw_16sdp_border_quartz">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/activity_create_user_reference_recyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="@dimen/_24sdp"
+                            android:overScrollMode="never" />
+
+                        <TextView
+                            android:id="@+id/activity_create_user_reference_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center|right"
+                            android:text="@string/CreateUserReference"
+                            android:textSize="@dimen/_12ssp"
+                            android:textStyle="normal"
+                            android:textColor="@color/Mischka"
+                            android:textAlignment="gravity" />
+
+                    </FrameLayout>
 
                     <TextView
-                        android:id="@+id/activity_create_user_reference_textView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center|right"
-                        android:text="@string/CreateUserReference"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="normal"
-                        android:textColor="@color/Mischka"
-                        android:textAlignment="gravity" />
+                        android:id="@+id/activity_create_user_reference_count_textView"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_22sdp"
+                        android:layout_marginLeft="@dimen/_18sdp"
+                        android:layout_gravity="top|left"
+                        android:paddingTop="@dimen/_1sdp"
+                        android:visibility="gone"
+                        android:gravity="center"
+                        android:textSize="@dimen/_11ssp"
+                        android:textStyle="bold"
+                        android:textColor="@color/White"
+                        android:textAlignment="gravity"
+                        android:background="@drawable/draw_oval_solid_primary_border_white"/>
 
                 </FrameLayout>
 
@@ -74,7 +97,9 @@
                     android:id="@+id/activity_create_user_clinic_linearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_24sdp"
+                    android:layout_marginTop="@dimen/_24sdp"
+                    android:layout_marginLeft="@dimen/_24sdp"
+                    android:layout_marginRight="@dimen/_24sdp"
                     android:visibility="gone"
                     android:orientation="vertical">
 
@@ -97,10 +122,30 @@
                         android:importantForAutofill="no"
                         android:background="@drawable/draw_16sdp_border_quartz" />
 
+                    <EditText
+                        android:id="@+id/activity_create_user_name_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        android:paddingLeft="@dimen/_16sdp"
+                        android:paddingRight="@dimen/_16sdp"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:hint="@string/CreateUserName"
+                        android:gravity="center|right"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Grey"
+                        android:textColorHint="@color/Mischka"
+                        android:textAlignment="gravity"
+                        android:importantForAutofill="no"
+                        android:background="@drawable/draw_16sdp_border_quartz" />
+
                     <FrameLayout
                         android:id="@+id/activity_create_user_position_frameLayout"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_36sdp"
+                        android:layout_marginBottom="@dimen/_8sdp"
                         android:background="@drawable/draw_16sdp_border_quartz">
 
                         <TextView
@@ -127,12 +172,82 @@
 
                     </FrameLayout>
 
+                    <FrameLayout
+                        android:id="@+id/activity_create_user_room_frameLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        android:background="@drawable/draw_16sdp_border_quartz">
+
+                        <LinearLayout
+                            android:id="@+id/activity_create_user_room_linearLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingLeft="@dimen/_16sdp"
+                            android:paddingRight="@dimen/_16sdp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/activity_create_user_room_name_textView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="right"
+                                android:text="@string/CreateUserRoom"
+                                android:textSize="@dimen/_12ssp"
+                                android:textStyle="normal"
+                                android:textColor="@color/Mischka"
+                                android:textAlignment="gravity" />
+
+                            <TextView
+                                android:id="@+id/activity_create_user_room_title_textView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_minus4sdp"
+                                android:gravity="right"
+                                android:visibility="gone"
+                                android:textSize="@dimen/_9ssp"
+                                android:textStyle="normal"
+                                android:textColor="@color/Mischka"
+                                android:textAlignment="gravity" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="@dimen/_12sdp"
+                            android:layout_height="@dimen/_12sdp"
+                            android:layout_marginLeft="@dimen/_12sdp"
+                            android:layout_gravity="center|left"
+                            android:contentDescription="@string/AppImageContent"
+                            android:src="@drawable/ic_chevron_down"
+                            app:tint="@color/Mischka" />
+
+                    </FrameLayout>
+
+                    <CheckBox
+                        android:id="@+id/activity_create_user_case_checkBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_36sdp"
+                        android:layoutDirection="rtl"
+                        android:paddingLeft="@dimen/_6sdp"
+                        android:paddingRight="@dimen/_2sdp"
+                        android:checked="false"
+                        android:gravity="center|right"
+                        android:text="@string/CreateUserCase"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="normal"
+                        android:textColor="@color/Mischka"
+                        android:textAlignment="gravity"
+                        android:theme="@style/CheckBoxTheme"
+                        android:background="@drawable/draw_16sdp_solid_primary5p" />
+
                 </LinearLayout>
 
                 <Button
                     android:id="@+id/activity_create_user_button"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
+                    android:layout_margin="@dimen/_24sdp"
                     android:gravity="center"
                     android:text="@string/CreateUserCreate"
                     android:textSize="@dimen/_12ssp"

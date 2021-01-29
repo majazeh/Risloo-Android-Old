@@ -134,7 +134,6 @@ public class EditAccountActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.EditAccountTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         avatarCircleImageView = findViewById(R.id.activity_edit_account_avatar_circleImageView);
 

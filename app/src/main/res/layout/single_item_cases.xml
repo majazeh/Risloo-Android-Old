@@ -20,7 +20,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_6sdp"
             android:baselineAligned="false"
             android:layoutDirection="ltr"
             android:orientation="horizontal">
@@ -55,100 +54,151 @@
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:background="@color/Quartz" />
+
         <LinearLayout
+            android:id="@+id/single_item_cases_room_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:layoutDirection="rtl"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/single_item_cases_room_linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:layoutDirection="rtl">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layoutDirection="rtl">
-
-                    <ImageView
-                        android:layout_width="@dimen/_9sdp"
-                        android:layout_height="@dimen/_9sdp"
-                        android:layout_marginLeft="@dimen/_4sdp"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/AppImageContent"
-                        android:src="@drawable/ic_room_light"
-                        app:tint="@color/Mischka" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center|right"
-                        android:text="@string/CasesRoom"
-                        android:textSize="@dimen/_9ssp"
-                        android:textStyle="normal"
-                        android:textColor="@color/Mischka"
-                        android:textAlignment="gravity" />
-
-                </LinearLayout>
+                <ImageView
+                    android:layout_width="@dimen/_9sdp"
+                    android:layout_height="@dimen/_9sdp"
+                    android:layout_marginLeft="@dimen/_4sdp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/AppImageContent"
+                    android:src="@drawable/ic_room_light"
+                    app:tint="@color/Mischka" />
 
                 <TextView
-                    android:id="@+id/single_item_cases_room_textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center|right"
+                    android:text="@string/CasesRoom"
                     android:textSize="@dimen/_9ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Grey"
+                    android:textStyle="normal"
+                    android:textColor="@color/Mischka"
                     android:textAlignment="gravity" />
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/single_item_cases_reference_linearLayout"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp">
+
+                <FrameLayout
+                    android:id="@+id/single_item_cases_room_avatar_frameLayout"
+                    android:layout_width="@dimen/_44sdp"
+                    android:layout_height="@dimen/_44sdp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/single_item_cases_room_avatar_imageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/single_item_cases_room_subtitle_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold"
+                        android:textColor="@color/Grey"
+                        android:textAlignment="gravity"/>
+
+                </FrameLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layoutDirection="rtl">
-
-                    <ImageView
-                        android:layout_width="@dimen/_9sdp"
-                        android:layout_height="@dimen/_9sdp"
-                        android:layout_marginLeft="@dimen/_4sdp"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/AppImageContent"
-                        android:src="@drawable/ic_user_light"
-                        app:tint="@color/Mischka" />
+                    android:layout_toLeftOf="@id/single_item_cases_room_avatar_frameLayout"
+                    android:layout_marginRight="@dimen/_12sdp"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/single_item_cases_room_title_textView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center|right"
-                        android:text="@string/CasesReference"
+                        android:gravity="right"
+                        android:textSize="@dimen/_11ssp"
+                        android:textStyle="bold"
+                        android:textColor="@color/Grey"
+                        android:textAlignment="gravity"/>
+
+                    <TextView
+                        android:id="@+id/single_item_cases_room_type_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_minus4sdp"
+                        android:gravity="right"
                         android:textSize="@dimen/_9ssp"
-                        android:textStyle="normal"
+                        android:textStyle="bold"
                         android:textColor="@color/Mischka"
                         android:textAlignment="gravity" />
 
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/single_item_cases_reference_recyclerView"
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/single_item_cases_reference_linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layoutDirection="rtl">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layoutDirection="rtl">
+
+                <ImageView
+                    android:layout_width="@dimen/_9sdp"
+                    android:layout_height="@dimen/_9sdp"
+                    android:layout_marginLeft="@dimen/_4sdp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/AppImageContent"
+                    android:src="@drawable/ic_user_light"
+                    app:tint="@color/Mischka" />
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:overScrollMode="never" />
+                    android:gravity="center|right"
+                    android:text="@string/CasesReference"
+                    android:textSize="@dimen/_9ssp"
+                    android:textStyle="normal"
+                    android:textColor="@color/Mischka"
+                    android:textAlignment="gravity" />
 
             </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/single_item_cases_reference_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never" />
 
         </LinearLayout>
 

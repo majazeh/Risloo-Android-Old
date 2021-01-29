@@ -18,6 +18,7 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
+import com.majazeh.risloo.Views.Activities.CasesActivity;
 import com.majazeh.risloo.Views.Activities.ImageActivity;
 import com.majazeh.risloo.Views.Activities.RoomsActivity;
 import com.majazeh.risloo.Views.Activities.UsersActivity;
@@ -64,25 +65,35 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
         Model model = rooms.get(i);
 
         try {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                holder.casesImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
+                holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
+            }
+
             Intent imageIntent = (new Intent(activity, ImageActivity.class));
+            Intent casesIntent = (new Intent(activity, CasesActivity.class));
 
             Intent usersIntent = (new Intent(activity, UsersActivity.class));
             usersIntent.putExtra("type", "rooms");
 
             // ID
-            if (model.attributes.has("id") && !model.attributes.isNull("id")) {
+            if (model.attributes.has("id") && !model.attributes.isNull("id") && !model.attributes.get("id").equals("")) {
+                casesIntent.putExtra("room_id", model.get("id").toString());
                 usersIntent.putExtra("room_id", model.get("id").toString());
             }
 
             JSONObject manager = (JSONObject) model.get("manager");
             imageIntent.putExtra("title", manager.get("name").toString());
 
-            holder.titleTextView.setText(manager.get("name").toString());
-
+            casesIntent.putExtra("room_name", manager.get("name").toString());
             usersIntent.putExtra("room_name", manager.get("name").toString());
+
+            holder.titleTextView.setText(manager.get("name").toString());
 
             JSONObject center = (JSONObject) model.get("center");
             JSONObject detail = (JSONObject) center.get("detail");
+
+            casesIntent.putExtra("room_title", detail.get("title").toString());
 
             if (center.get("type").toString().equals("personal_clinic")) {
                 holder.typeTextView.setText(activity.getResources().getString(R.string.RoomsPersonalClinic));
@@ -90,35 +101,9 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
                 holder.typeTextView.setText(detail.get("title").toString());
             }
 
-            // Acceptation
-            if (model.attributes.has("acceptation") && !model.attributes.isNull("acceptation")) {
-                JSONObject acceptation = (JSONObject) model.get("acceptation");
-
-                if (authViewModel.hasAccess() || acceptation.get("position").toString().equals("manager")) {
-                    holder.usersImageView.setVisibility(View.VISIBLE);
-
-                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                        holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
-                    }
-                } else {
-                    holder.usersImageView.setVisibility(View.GONE);
-                }
-
-            } else {
-                if (authViewModel.hasAccess()) {
-                    holder.usersImageView.setVisibility(View.VISIBLE);
-
-                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                        holder.usersImageView.setBackgroundResource(R.drawable.draw_8sdp_solid_primary_ripple_primarydark);
-                    }
-                } else {
-                    holder.usersImageView.setVisibility(View.GONE);
-                }
-            }
-
             // Avatar
-            if (detail.has("avatar") && !detail.isNull("avatar")) {
-                JSONObject avatar = (JSONObject) detail.get("avatar");
+            if (manager.has("avatar") && !manager.isNull("avatar") && manager.get("avatar").getClass().getName().equals("org.json.JSONObject")) {
+                JSONObject avatar = (JSONObject) manager.get("avatar");
                 JSONObject medium = (JSONObject) avatar.get("medium");
 
                 imageIntent.putExtra("bitmap", false);
@@ -135,7 +120,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
             }
 
             // CreatedAt
-            if (model.attributes.has("created_at") && !model.attributes.isNull("created_at")) {
+            if (model.attributes.has("created_at") && !model.attributes.isNull("created_at") && !model.attributes.get("created_at").equals("")) {
                 int createdAt = (int) model.get("created_at");
 
                 switch (createdAt % 16) {
@@ -194,12 +179,36 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
                 holder.avatarImageView.setClickable(false);
                 handler.postDelayed(() -> holder.avatarImageView.setClickable(true), 250);
 
-                if (!manager.isNull("name") && !detail.isNull("avatar")) {
+                if (!manager.isNull("name") && !manager.isNull("avatar")) {
                     clearProgress();
 
                     activity.startActivity(imageIntent);
                 }
             });
+
+//            // Room Cases Access
+//            if (authViewModel.roomCases(model)) {
+//                holder.casesImageView.setVisibility(View.VISIBLE);
+//            } else {
+//                holder.casesImageView.setVisibility(View.GONE);
+//            }
+
+            holder.casesImageView.setOnClickListener(v -> {
+                holder.casesImageView.setClickable(false);
+                handler.postDelayed(() -> holder.casesImageView.setClickable(true), 250);
+
+                clearProgress();
+
+                activity.startActivityForResult(casesIntent, 100);
+                activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+            });
+
+            // Room Users Access
+            if (authViewModel.showRoomUsers(model)) {
+                holder.usersImageView.setVisibility(View.VISIBLE);
+            } else {
+                holder.usersImageView.setVisibility(View.GONE);
+            }
 
             holder.usersImageView.setOnClickListener(v -> {
                 holder.usersImageView.setClickable(false);
@@ -249,7 +258,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
 
         public CircleImageView avatarImageView;
         public TextView titleTextView, subTitleTextView, typeTextView;
-        public ImageView gradientImageView, usersImageView;
+        public ImageView gradientImageView, casesImageView, usersImageView;
 
         public RoomsHolder(View view) {
             super(view);
@@ -258,6 +267,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
             subTitleTextView = view.findViewById(R.id.single_item_rooms_subtitle_textView);
             typeTextView = view.findViewById(R.id.single_item_rooms_type_textView);
             gradientImageView = view.findViewById(R.id.single_item_rooms_gradient_imageView);
+            casesImageView = view.findViewById(R.id.single_item_rooms_cases_imageView);
             usersImageView = view.findViewById(R.id.single_item_rooms_users_imageView);
         }
     }

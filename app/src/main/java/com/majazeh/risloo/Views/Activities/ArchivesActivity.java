@@ -97,7 +97,6 @@ public class ArchivesActivity extends AppCompatActivity implements ItemTouchRecy
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.ArchivesTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         countTextView = findViewById(R.id.activity_archives_count_textView);
 

@@ -103,19 +103,18 @@ public class CryptoUtil {
         byte[] pkcs8EncodedBytes = Base64.decode(privateKeyString, Base64.DEFAULT);
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(pkcs8EncodedBytes);
         KeyFactory kf = KeyFactory.getInstance(CRYPTO_METHOD);
-
         return kf.generatePrivate(keySpec);
     }
 
     private static String getMainPublicKey(String pubKey) {
-        String publickKey = "";
+        String publicKey = "";
         pubKey.trim();
         if (pubKey.startsWith("-----BEGIN PUBLIC KEY-----") && pubKey.endsWith("-----END PUBLIC KEY-----")) {
-            publickKey = pubKey.substring(26, pubKey.length() - 24);
+            publicKey = pubKey.substring(26, pubKey.length() - 24);
         } else {
-            publickKey = pubKey;
+            publicKey = pubKey;
         }
-        return publickKey;
+        return publicKey;
     }
 
     private static String getMainPrivateKey(String privateKey) {

@@ -96,6 +96,8 @@ public class CentersActivity extends AppCompatActivity {
 
         listener();
 
+        setData();
+
         getData("getAll");
     }
 
@@ -127,16 +129,14 @@ public class CentersActivity extends AppCompatActivity {
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
         toolbarCreateImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
-        toolbarCreateImageView.setVisibility(View.VISIBLE);
         toolbarCreateImageView.setImageResource(R.drawable.ic_plus_light);
-        ImageViewCompat.setImageTintList(toolbarCreateImageView, AppCompatResources.getColorStateList(this, R.color.IslamicGreen));
+        ImageViewCompat.setImageTintList(toolbarCreateImageView, AppCompatResources.getColorStateList(this, R.color.MountainMeadow));
         toolbarSearchImageView = findViewById(R.id.layout_toolbar_thirdly_imageView);
         toolbarSearchImageView.setImageResource(R.drawable.ic_search_light);
         ImageViewCompat.setImageTintList(toolbarSearchImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CentersTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         searchLayout = findViewById(R.id.activity_centers_searchLayout);
 
@@ -351,6 +351,14 @@ public class CentersActivity extends AppCompatActivity {
 
             searchDialog.dismiss();
         });
+    }
+
+    private void setData() {
+        if (authViewModel.createCenter()) {
+            toolbarCreateImageView.setVisibility(View.VISIBLE);
+        } else {
+            toolbarCreateImageView.setVisibility(View.GONE);
+        }
     }
 
     private void setInfoLayout(String type) {

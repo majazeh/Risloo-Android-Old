@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".Entities.App"
@@ -45,8 +44,8 @@
 
         <activity
             android:name=".Views.Activities.SplashActivity"
-            android:theme="@style/LauncherTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/LauncherTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -84,7 +83,7 @@
             android:name=".Views.Activities.EditAccountActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Views.Activities.AttachmentActivity"
+            android:name=".Views.Activities.CryptoActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.ArchivesActivity"
@@ -100,6 +99,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.ScalesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.DocumentsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.CentersActivity"
@@ -123,7 +125,13 @@
             android:name=".Views.Activities.DetailCaseActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".Views.Activities.DetailSessionActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".Views.Activities.CreateSampleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.SendDocumentActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.CreateCenterActivity"
@@ -139,6 +147,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.CreateUserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.CreatePracticeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.CreateReportActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Views.Activities.EditCenterActivity"

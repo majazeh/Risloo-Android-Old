@@ -79,7 +79,6 @@ public class AboutUsActivity extends AppCompatActivity {
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.AboutUsTitle));
-        toolbarTextView.setTextColor(getResources().getColor(R.color.Nero));
 
         aboutUsRecyclerView = findViewById(R.id.activity_about_us_recyclerView);
         aboutUsRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._24sdp), (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._24sdp)));

@@ -91,7 +91,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxWidth="@dimen/_100sdp"
-                        android:maxLines="2"
                         android:paddingTop="@dimen/_3sdp"
                         android:paddingBottom="@dimen/_3sdp"
                         android:paddingLeft="@dimen/_8sdp"
@@ -102,6 +101,18 @@
                         android:textColor="@color/Grey"
                         android:textAlignment="gravity"
                         android:background="@drawable/draw_8sdp_solid_solitude"/>
+
+                    <ImageView
+                        android:id="@+id/single_item_rooms_cases_imageView"
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_marginRight="@dimen/_6sdp"
+                        android:layout_gravity="top"
+                        android:padding="@dimen/_5sdp"
+                        android:contentDescription="@string/AppImageContent"
+                        android:background="@drawable/draw_8sdp_solid_primary"
+                        android:src="@drawable/ic_folders_light"
+                        app:tint="@color/White" />
 
                     <ImageView
                         android:id="@+id/single_item_rooms_users_imageView"
