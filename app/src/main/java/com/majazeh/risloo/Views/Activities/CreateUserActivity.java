@@ -42,6 +42,7 @@ import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
+import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
@@ -72,7 +73,7 @@ public class CreateUserActivity extends AppCompatActivity {
     public SpinnerAdapter referenceRecyclerViewAdapter;
 
     // Vars
-    public String type = "", caseId = "", roomId = "", roomName = "", roomTitle = "", clinicId = "", mobile = "", positionId = "", positionTitle = "";
+    public String type = "", caseId = "", roomId = "", roomName = "", roomTitle = "", clinicId = "", mobile = "", name = "", positionId = "", positionTitle = "";
     private boolean addCase = false;
     private boolean referenceException = false, positionException = false, roomException = false;
 
@@ -90,7 +91,7 @@ public class CreateUserActivity extends AppCompatActivity {
     private FrameLayout referenceFrameLayout, positionFrameLayout, roomFrameLayout;
     private LinearLayout roomLinearLayout;
     public TextView referenceTextView, referenceCountTextView, positionTextView, roomNameTextView, roomTitleTextView;
-    private EditText mobileEditText;
+    private EditText mobileEditText, nameEditText;
     private RecyclerView referenceRecyclerView;
     private CheckBox caseCheckbox;
     private Button createButton;
@@ -173,6 +174,7 @@ public class CreateUserActivity extends AppCompatActivity {
         roomTitleTextView = findViewById(R.id.activity_create_user_room_title_textView);
 
         mobileEditText = findViewById(R.id.activity_create_user_mobile_editText);
+        nameEditText = findViewById(R.id.activity_create_user_name_editText);
 
         referenceRecyclerView = findViewById(R.id.activity_create_user_reference_recyclerView);
         referenceRecyclerView.setLayoutManager(referenceLayoutManager);
@@ -305,6 +307,20 @@ public class CreateUserActivity extends AppCompatActivity {
 
                     controlEditText.focus(mobileEditText);
                     controlEditText.select(mobileEditText);
+                }
+            }
+            return false;
+        });
+
+        nameEditText.setOnTouchListener((v, event) -> {
+            if (MotionEvent.ACTION_UP == event.getAction()) {
+                if (!nameEditText.hasFocus()) {
+                    if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                        controlEditText.clear(this, controlEditText.input());
+                    }
+
+                    controlEditText.focus(nameEditText);
+                    controlEditText.select(nameEditText);
                 }
             }
             return false;
@@ -615,6 +631,9 @@ public class CreateUserActivity extends AppCompatActivity {
             case "mobile":
                 mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 break;
+            case "name":
+                nameEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                break;
             case "position":
                 positionException = true;
                 positionFrameLayout.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
@@ -730,8 +749,9 @@ public class CreateUserActivity extends AppCompatActivity {
 
                 case "center":
 //                    mobile = mobileEditText.getText().toString().trim();
+//                    name = nameEditText.getText().toString().trim();
 //
-//                    centerViewModel.addUser(clinicId, mobile, positionId, roomId, addCase);
+//                    centerViewModel.addUser(clinicId, mobile, name, positionId, roomId, addCase);
 //                    observeWork("centerViewModel");
                     break;
             }
@@ -910,6 +930,14 @@ public class CreateUserActivity extends AppCompatActivity {
                             exceptionToast = ExceptionGenerator.getErrorBody("mobile");
                         } else {
                             exceptionToast += (" و " + ExceptionGenerator.getErrorBody("mobile"));
+                        }
+                    }
+                    if (!ExceptionGenerator.errors.isNull("name")) {
+                        errorException("name");
+                        if (exceptionToast.equals("")) {
+                            exceptionToast = ExceptionGenerator.getErrorBody("name");
+                        } else {
+                            exceptionToast += (" و " + ExceptionGenerator.getErrorBody("name"));
                         }
                     }
                     if (!ExceptionGenerator.errors.isNull("position")) {

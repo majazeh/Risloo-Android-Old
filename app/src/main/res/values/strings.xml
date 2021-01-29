@@ -850,9 +850,12 @@
 
     <string name="CreateUserReference">مراجعان</string>
     <string name="CreateUserMobile">شماره موبایل</string>
+    <string name="CreateUserName">نام مراجع</string>
     <string name="CreateUserPosition">موقعیت</string>
     <string name="CreateUserRoom">اتاق درمان</string>
     <string name="CreateUserCase">ساخت پرونده برای این کاربر</string>
+
+    <string name="CreateUserNameHint">(اين نام فقط در مرکز درماني شما کاربرد دارد)</string>
 
     <string name="CreateUserCreate">ایجاد کاربر</string>
 
