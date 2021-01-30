@@ -64,7 +64,7 @@ public class SplashActivity extends AppCompatActivity {
         WindowDecorator windowDecorator = new WindowDecorator();
 
         windowDecorator.darkShowSystemUI(this);
-        windowDecorator.darkSetSystemUIColor(this, getResources().getColor(R.color.Primary), getResources().getColor(R.color.Primary));
+        windowDecorator.darkSetSystemUIColor(this, getResources().getColor(R.color.CoralRed), getResources().getColor(R.color.CoralRed));
     }
 
     private void initializer() {
