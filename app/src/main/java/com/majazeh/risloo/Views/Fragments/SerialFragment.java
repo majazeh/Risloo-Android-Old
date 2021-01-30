@@ -125,7 +125,7 @@ public class SerialFragment extends Fragment {
         });
 
         serialRecoveryTextView.setOnClickListener(v -> {
-            AuthRepository.theory = "recover";
+            AuthRepository.theory = "recovery";
             ((AuthActivity) Objects.requireNonNull(getActivity())).showFragment();
         });
 

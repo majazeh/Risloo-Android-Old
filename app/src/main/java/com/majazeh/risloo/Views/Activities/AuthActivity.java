@@ -226,13 +226,15 @@ public class AuthActivity extends AppCompatActivity {
             if (authViewModel.hasAccess()) {
                 navigationView.getMenu().findItem(R.id.tool_samples).setVisible(true);
                 navigationView.getMenu().findItem(R.id.tool_scales).setVisible(true);
+                navigationView.getMenu().findItem(R.id.tool_documents).setVisible(false);
                 navigationView.getMenu().findItem(R.id.tool_centers).setVisible(true);
                 navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(true);
                 navigationView.getMenu().findItem(R.id.tool_rooms).setVisible(true);
                 navigationView.getMenu().findItem(R.id.tool_cases).setVisible(true);
-            }else{
+            } else {
                 navigationView.getMenu().findItem(R.id.tool_samples).setVisible(false);
                 navigationView.getMenu().findItem(R.id.tool_scales).setVisible(false);
+                navigationView.getMenu().findItem(R.id.tool_documents).setVisible(false);
                 navigationView.getMenu().findItem(R.id.tool_centers).setVisible(true);
                 navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(false);
                 navigationView.getMenu().findItem(R.id.tool_rooms).setVisible(false);
@@ -247,6 +249,7 @@ public class AuthActivity extends AppCompatActivity {
         } else {
             navigationView.getMenu().findItem(R.id.tool_samples).setVisible(false);
             navigationView.getMenu().findItem(R.id.tool_scales).setVisible(false);
+            navigationView.getMenu().findItem(R.id.tool_documents).setVisible(false);
             navigationView.getMenu().findItem(R.id.tool_centers).setVisible(false);
             navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(false);
             navigationView.getMenu().findItem(R.id.tool_rooms).setVisible(false);
@@ -377,7 +380,7 @@ public class AuthActivity extends AppCompatActivity {
                 loadFragment(new RegisterFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
                 break;
             case "mobile":
-            case "recover":
+            case "recovery":
                 toolbarTextView.setText(getResources().getString(R.string.MobileTitle));
                 loadFragment(new MobileFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
                 break;
