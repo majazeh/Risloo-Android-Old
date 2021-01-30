@@ -137,7 +137,7 @@ public class PinFragment extends Fragment {
             @Override
             public void onClick(@NonNull View view) {
                 ((AuthActivity) Objects.requireNonNull(getActivity())).callTimer.setValue(-1);
-                doWork("verification");
+                doWork("recovery");
             }
 
             @Override
@@ -147,7 +147,7 @@ public class PinFragment extends Fragment {
             }
         };
 
-        pinCountDownTimer = new CountDownTimer(60000, 1000) {
+        pinCountDownTimer = new CountDownTimer(300000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 int minutes = (int) (millisUntilFinished / 1000) / 60;

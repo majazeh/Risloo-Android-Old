@@ -170,7 +170,7 @@ public class PasswordFragment extends Fragment {
         passwordLinkSpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                AuthRepository.theory = "recover";
+                AuthRepository.theory = "recovery";
                 ((AuthActivity) Objects.requireNonNull(getActivity())).showFragment();
             }
 
