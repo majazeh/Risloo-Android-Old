@@ -128,7 +128,7 @@ public class AuthRepository extends MainRepository {
         workManager("logOut");
     }
 
-    public void attachment(String title, String description, String attachment) throws JSONException {
+    public void sendDoc(String title, String description, String attachment) throws JSONException {
         AuthRepository.fileTitle = title;
         AuthRepository.fileDescription = description;
         AuthRepository.fileAttachment = attachment;
@@ -150,8 +150,8 @@ public class AuthRepository extends MainRepository {
          ---------- Booleans ----------
     */
 
-    public boolean hasAccess() {
-        return items.hasAccess();
+    public boolean auth() {
+        return items.auth();
     }
 
     /*

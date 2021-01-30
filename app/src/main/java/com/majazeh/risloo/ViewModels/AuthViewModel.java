@@ -64,7 +64,7 @@ public class AuthViewModel extends AndroidViewModel {
     }
 
     public void sendDocument(String title, String description, String attachment) throws JSONException {
-        repository.attachment(title, description, attachment);
+        repository.sendDoc(title, description, attachment);
     }
 
     /*
@@ -76,11 +76,11 @@ public class AuthViewModel extends AndroidViewModel {
     }
 
     /*
-         ---------- Booleans ----------
+         ---------- Policies ----------
     */
 
     public boolean auth() {
-        return repository.hasAccess();
+        return repository.auth();
     }
 
     public boolean admin() {
@@ -118,6 +118,10 @@ public class AuthViewModel extends AndroidViewModel {
     public boolean personalClinic() {
         return true;
     }
+
+    /*
+         ---------- Booleans ----------
+    */
 
     public boolean openSample(Model model) throws JSONException {
         return admin() || operator(model) || centerManager(model) || roomManager(model) || client(model);
