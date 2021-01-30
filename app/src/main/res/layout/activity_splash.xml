@@ -6,7 +6,7 @@
     android:id="@+id/activity_splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Primary"
+    android:background="@color/CoralRed"
     android:layoutDirection="rtl"
     android:focusable="true"
     android:fitsSystemWindows="true"
