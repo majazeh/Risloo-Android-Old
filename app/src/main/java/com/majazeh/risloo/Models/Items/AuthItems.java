@@ -46,7 +46,7 @@ public class AuthItems {
         return items;
     }
 
-    public boolean hasAccess() {
+    public boolean auth() {
         return sharedPreferences.getBoolean("hasAccess", false);
     }
 
