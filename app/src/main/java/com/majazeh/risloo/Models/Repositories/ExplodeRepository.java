@@ -70,7 +70,7 @@ public class ExplodeRepository extends MainRepository {
     }
 
     public String newVersion() {
-        return "1.1.0";
+        return "نسخه جدید";
     }
 
     /*
