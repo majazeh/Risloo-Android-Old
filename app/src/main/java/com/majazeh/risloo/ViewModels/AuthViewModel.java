@@ -79,7 +79,7 @@ public class AuthViewModel extends AndroidViewModel {
          ---------- Booleans ----------
     */
 
-    public boolean hasAccess() {
+    public boolean auth() {
         return repository.hasAccess();
     }
 
@@ -136,7 +136,7 @@ public class AuthViewModel extends AndroidViewModel {
     }
 
     public boolean showDrawerItems() {
-        return hasAccess();
+        return auth();
     }
 
     public boolean showCenterUsers(Model model) throws JSONException {
@@ -156,7 +156,7 @@ public class AuthViewModel extends AndroidViewModel {
     }
 
     public boolean createSample(Model model) throws JSONException {
-        return admin() || operator(model) || psychologist(model) || centerManager(model) || hasAccess();
+        return admin() || operator(model) || psychologist(model) || centerManager(model) || auth();
     }
 
     public boolean createCenter() {
@@ -172,7 +172,7 @@ public class AuthViewModel extends AndroidViewModel {
     }
 
     public boolean createSession() {
-        return admin() || hasAccess();
+        return admin() || auth();
     }
 
     public boolean createReport(Model model) throws JSONException {
