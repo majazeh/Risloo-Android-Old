@@ -223,7 +223,7 @@ public class AuthActivity extends AppCompatActivity {
 
     private void setData() {
         if (!authViewModel.getToken().equals("")) {
-            if (authViewModel.hasAccess()) {
+            if (authViewModel.auth()) {
                 navigationView.getMenu().findItem(R.id.tool_samples).setVisible(true);
                 navigationView.getMenu().findItem(R.id.tool_scales).setVisible(true);
                 navigationView.getMenu().findItem(R.id.tool_documents).setVisible(false);
