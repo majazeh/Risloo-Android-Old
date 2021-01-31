@@ -121,6 +121,11 @@ public class AuthRepository extends MainRepository {
         workState.setValue(-1);
         workManager("avatar");
     }
+    public void documents() throws JSONException {
+        work = "documents";
+        workState.setValue(-1);
+        workManager("documents");
+    }
 
     public void logOut() throws JSONException {
         work = "logOut";

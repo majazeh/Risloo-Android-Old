@@ -59,6 +59,10 @@ public class AuthViewModel extends AndroidViewModel {
         repository.avatar();
     }
 
+    public void documents() throws JSONException {
+        repository.documents();
+    }
+
     public void logOut() throws JSONException {
         repository.logOut();
     }
@@ -97,6 +101,10 @@ public class AuthViewModel extends AndroidViewModel {
 
     public boolean centerManager(Model model) throws JSONException {
         return repository.centerManager(model);
+    }
+
+    public boolean centerOwner(Model model) throws JSONException {
+        return repository.centerOwner(model);
     }
 
     public boolean roomManager(Model model) throws JSONException {
@@ -188,7 +196,7 @@ public class AuthViewModel extends AndroidViewModel {
     }
 
     public boolean createRoomUsers(Model model) throws JSONException {
-        return admin() || operator(model) || centerManager(model) ;
+        return admin() || operator(model) || centerManager(model);
     }
 
     public boolean createCaseUsers(Model model) throws JSONException {

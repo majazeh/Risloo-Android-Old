@@ -2,6 +2,7 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -11,7 +12,9 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Apis.AuthApi;
+import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.Utils.Generators.RetroGenerator;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
@@ -85,6 +88,9 @@ public class AuthWorker extends Worker {
                     break;
                 case "logOut":
                     logOut();
+                    break;
+                case "documents":
+                    documents();
                     break;
                 case "attachment":
                     attachment();
@@ -360,7 +366,7 @@ public class AuthWorker extends Worker {
     private void recovery() {
         try {
             Call<ResponseBody> call = api.recovery(AuthRepository.mobile);
-
+            System.out.println(AuthRepository.mobile);
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
@@ -696,6 +702,67 @@ public class AuthWorker extends Worker {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "logOut");
+                AuthRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
+            AuthRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
+            AuthRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "IOException");
+            AuthRepository.workState.postValue(0);
+        }
+    }
+
+    private void documents(){
+        try {
+            Call<ResponseBody> call = api.documents(token());
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+
+                if (successBody.getJSONArray("data").length() != 0) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            FileManager.deletePageFromCache(context, "documents");
+                        }
+                            FileManager.writeObjectToCache(context, successBody, "documents");
+
+                            JSONObject jsonObject = FileManager.readObjectFromCache(context, "documents");
+                            JSONArray data;
+                            try {
+                                data = jsonObject.getJSONArray("data");
+                                for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
+                                    JSONArray jsonArray = successBody.getJSONArray("data");
+                                    data.put(jsonArray.getJSONObject(i));
+                                }
+                                jsonObject.put("data", data);
+                                FileManager.writeObjectToCache(context, jsonObject, "documents");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+
+
+                } else {
+                    FileManager.deletePageFromCache(context, "documents");
+                }
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "documents");
+                AuthRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "documents");
                 AuthRepository.workState.postValue(0);
             }
 

@@ -155,6 +155,27 @@ public class MainRepository {
             center = data.attributes;
         }
         if (!center.isNull("acceptation")) {
+            JSONObject centerManager = center.getJSONObject("acceptation");
+            if (centerManager.getString("position").equals("manager")) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+    }
+
+    public boolean centerOwner(Model data) throws JSONException {
+        JSONObject center;
+        if (data.get("room") != null) {
+            JSONObject room = (JSONObject) data.get("room");
+            center = room.getJSONObject("center");
+        } else {
+            center = data.attributes;
+        }
+        if (!center.isNull("manager")) {
             JSONObject centerManager = center.getJSONObject("manager");
             if (centerManager.getString("id").equals(sharedPreferences.getString("userId", ""))) {
                 return true;
