@@ -224,23 +224,20 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void setData() {
+        navigationView.getMenu().findItem(R.id.tool_centers).setVisible(authViewModel.indexCenter());
+        navigationView.getMenu().findItem(R.id.tool_rooms).setVisible(authViewModel.indexRoom());
+        navigationView.getMenu().findItem(R.id.tool_cases).setVisible(authViewModel.indexCase());
+        navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(authViewModel.indexSession());
+
         if (!authViewModel.getToken().equals("")) {
             if (authViewModel.auth()) {
                 navigationView.getMenu().findItem(R.id.tool_samples).setVisible(true);
                 navigationView.getMenu().findItem(R.id.tool_scales).setVisible(true);
                 navigationView.getMenu().findItem(R.id.tool_documents).setVisible(false);
-                navigationView.getMenu().findItem(R.id.tool_centers).setVisible(true);
-                navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(true);
-                navigationView.getMenu().findItem(R.id.tool_rooms).setVisible(true);
-                navigationView.getMenu().findItem(R.id.tool_cases).setVisible(true);
             } else {
                 navigationView.getMenu().findItem(R.id.tool_samples).setVisible(false);
                 navigationView.getMenu().findItem(R.id.tool_scales).setVisible(false);
                 navigationView.getMenu().findItem(R.id.tool_documents).setVisible(false);
-                navigationView.getMenu().findItem(R.id.tool_centers).setVisible(true);
-                navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(false);
-                navigationView.getMenu().findItem(R.id.tool_rooms).setVisible(false);
-                navigationView.getMenu().findItem(R.id.tool_cases).setVisible(false);
             }
             avatarCircleImageView.setVisibility(View.VISIBLE);
             if (authViewModel.getAvatar().equals("")) {
@@ -252,10 +249,6 @@ public class AuthActivity extends AppCompatActivity {
             navigationView.getMenu().findItem(R.id.tool_samples).setVisible(false);
             navigationView.getMenu().findItem(R.id.tool_scales).setVisible(false);
             navigationView.getMenu().findItem(R.id.tool_documents).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_centers).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_rooms).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_cases).setVisible(false);
 
             avatarCircleImageView.setVisibility(View.GONE);
         }

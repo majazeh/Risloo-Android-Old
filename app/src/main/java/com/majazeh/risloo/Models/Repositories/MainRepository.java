@@ -196,7 +196,7 @@ public class MainRepository {
 
     }
 
-    public boolean operator(Model data) throws JSONException {
+    public boolean centerOperator(Model data) throws JSONException {
         JSONObject center;
         if (data.get("room") != null) {
             JSONObject room = (JSONObject) data.get("room");
@@ -246,7 +246,7 @@ public class MainRepository {
     }
 
 
-    public boolean client(Model data) throws JSONException {
+    public boolean sessionClient(Model data) throws JSONException {
         JSONObject client = (JSONObject) data.get("client");
         if (client.getString("id").equals(sharedPreferences.getString("userId", ""))) {
             return true;

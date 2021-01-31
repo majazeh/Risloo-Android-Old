@@ -185,12 +185,12 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
                 holder.statusLinearLayout.setVisibility(View.GONE);
             }
 
-//            // Edit Session Access
-//            if (((SessionsActivity) Objects.requireNonNull(activity)).authViewModel.editSession(model)) {
-//                holder.editTextView.setVisibility(View.VISIBLE);
-//            } else {
-//                holder.editTextView.setVisibility(View.GONE);
-//            }
+            // Edit Session Access
+            if (((SessionsActivity) Objects.requireNonNull(activity)).authViewModel.editSession(model)) {
+                holder.editTextView.setVisibility(View.VISIBLE);
+            } else {
+                holder.editTextView.setVisibility(View.GONE);
+            }
 
             holder.editTextView.setOnClickListener(v -> {
                 holder.editTextView.setClickable(false);
@@ -202,12 +202,12 @@ public class SessionsAdapter extends RecyclerView.Adapter<SessionsAdapter.Sessio
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
 
-//            // Session Detail Access
-//            if (((SessionsActivity) Objects.requireNonNull(activity)).authViewModel.openSessionDetail(model)) {
-//                holder.itemView.setEnabled(true);
-//            } else {
-//                holder.itemView.setEnabled(false);
-//            }
+            // Detail Session Access
+            if (((SessionsActivity) Objects.requireNonNull(activity)).authViewModel.detailSession(model)) {
+                holder.itemView.setEnabled(true);
+            } else {
+                holder.itemView.setEnabled(false);
+            }
 
             holder.itemView.setOnClickListener(v -> {
                 holder.itemView.setClickable(false);

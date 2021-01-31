@@ -108,7 +108,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
                         holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                         ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
 
-                        if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.openSample(model)) {
+                        if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.startSample(model)) {
                             holder.startTextView.setVisibility(View.VISIBLE);
                         } else {
                             holder.startTextView.setVisibility(View.INVISIBLE);
@@ -120,7 +120,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
                         holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
                         ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
 
-                        if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.openSample(model)) {
+                        if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.startSample(model)) {
                             holder.startTextView.setVisibility(View.VISIBLE);
                         } else {
                             holder.startTextView.setVisibility(View.INVISIBLE);
@@ -232,7 +232,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
             }
 
             // Sample Access
-            if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.openSample(model)) {
+            if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.startSample(model)) {
                 holder.startTextView.setVisibility(View.VISIBLE);
             } else {
                 holder.startTextView.setVisibility(View.GONE);
@@ -245,8 +245,8 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
                 showDialog(holder.serialTextView.getText().toString());
             });
 
-            // Sample Detail Access
-            if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.openDetailSample(model)) {
+            // Detail Sample Access
+            if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.detailSample(model)) {
                 holder.itemView.setEnabled(true);
             } else {
                 holder.itemView.setEnabled(false);

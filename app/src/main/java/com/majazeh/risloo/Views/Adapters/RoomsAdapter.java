@@ -186,12 +186,12 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
                 }
             });
 
-//            // Room Cases Access
-//            if (authViewModel.roomCases(model)) {
-//                holder.casesImageView.setVisibility(View.VISIBLE);
-//            } else {
-//                holder.casesImageView.setVisibility(View.GONE);
-//            }
+            // Room Cases Access
+            if (authViewModel.indexRoomCases(model)) {
+                holder.casesImageView.setVisibility(View.VISIBLE);
+            } else {
+                holder.casesImageView.setVisibility(View.GONE);
+            }
 
             holder.casesImageView.setOnClickListener(v -> {
                 holder.casesImageView.setClickable(false);
@@ -204,7 +204,7 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
             });
 
             // Room Users Access
-            if (authViewModel.showRoomUsers(model)) {
+            if (authViewModel.indexRoomUsers(model)) {
                 holder.usersImageView.setVisibility(View.VISIBLE);
             } else {
                 holder.usersImageView.setVisibility(View.GONE);

@@ -15,12 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
+import com.majazeh.risloo.Views.Activities.DetailCaseActivity;
 import com.majazeh.risloo.Views.Activities.DetailSampleActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DetailCaseSamplesAdapter extends RecyclerView.Adapter<DetailCaseSamplesAdapter.DetailCaseSamplesHolder> {
 
@@ -111,11 +113,12 @@ public class DetailCaseSamplesAdapter extends RecyclerView.Adapter<DetailCaseSam
                 holder.referenceTextView.setText(client.get("name").toString());
             }
 
-//            if (((DetailCaseActivity) Objects.requireNonNull(activity)).authViewModel.caseDetails(new Model(FileManager.readObjectFromCache(activity, "caseDetail" + "/" + ((DetailCaseActivity) Objects.requireNonNull(activity)).caseId)))){
-//                holder.createTextView.setVisibility(View.VISIBLE);
-//            } else {
-//               holder.createTextView.setVisibility(View.GONE);
-//           }
+            // Detail Sample Access
+            if (((DetailCaseActivity) Objects.requireNonNull(activity)).authViewModel.detailSample(model)) {
+                holder.linkImageView.setVisibility(View.VISIBLE);
+            } else {
+                holder.linkImageView.setVisibility(View.GONE);
+            }
 
             holder.linkImageView.setOnClickListener(v -> {
                 holder.linkImageView.setClickable(false);
