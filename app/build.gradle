@@ -15,11 +15,21 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        release {
+            storeFile file('F:\\Programming\\Android Studio\\Store Projects\\Published Apps\\Risloo\\Risloo.jks')
+            storePassword 'Risl00#2020!!@@'
+            keyAlias 'Risloo'
+            keyPassword 'Risl00#2020!!@@'
+        }
+    }
+
     buildTypes {
         release {
             debuggable false
             minifyEnabled true
             shrinkResources true
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile ('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
