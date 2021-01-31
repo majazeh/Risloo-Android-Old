@@ -68,7 +68,7 @@ public class AuthViewModel extends AndroidViewModel {
     }
 
     public void sendDocument(String title, String description, String attachment) throws JSONException {
-        repository.attachment(title, description, attachment);
+        repository.sendDoc(title, description, attachment);
     }
 
     /*
@@ -80,11 +80,11 @@ public class AuthViewModel extends AndroidViewModel {
     }
 
     /*
-         ---------- Booleans ----------
+         ---------- Policies ----------
     */
 
-    public boolean hasAccess() {
-        return repository.hasAccess();
+    public boolean auth() {
+        return repository.auth();
     }
 
     public boolean admin() {
@@ -127,6 +127,10 @@ public class AuthViewModel extends AndroidViewModel {
         return true;
     }
 
+    /*
+         ---------- Booleans ----------
+    */
+
     public boolean openSample(Model model) throws JSONException {
         return admin() || operator(model) || centerManager(model) || roomManager(model) || client(model);
     }
@@ -144,7 +148,7 @@ public class AuthViewModel extends AndroidViewModel {
     }
 
     public boolean showDrawerItems() {
-        return hasAccess();
+        return auth();
     }
 
     public boolean showCenterUsers(Model model) throws JSONException {
@@ -164,7 +168,7 @@ public class AuthViewModel extends AndroidViewModel {
     }
 
     public boolean createSample(Model model) throws JSONException {
-        return admin() || operator(model) || psychologist(model) || centerManager(model) || hasAccess();
+        return admin() || operator(model) || psychologist(model) || centerManager(model) || auth();
     }
 
     public boolean createCenter() {
@@ -180,7 +184,7 @@ public class AuthViewModel extends AndroidViewModel {
     }
 
     public boolean createSession() {
-        return admin() || hasAccess();
+        return admin() || auth();
     }
 
     public boolean createReport(Model model) throws JSONException {

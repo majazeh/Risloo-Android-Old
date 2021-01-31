@@ -63,14 +63,14 @@ public class ExplodeRepository extends MainRepository {
     public String currentVersion() {
         try {
             PackageInfo packageInfo = application.getPackageManager().getPackageInfo(application.getPackageName(), 0);
-            return packageInfo.versionName;
+            return packageInfo.versionName + " " + "بتا";
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         } return null;
     }
 
     public String newVersion() {
-        return "1.1.0";
+        return "نسخه جدید";
     }
 
     /*

@@ -173,7 +173,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
                     }
                 }
 
-                if (authViewModel.hasAccess() && enPosition.equals("manager") && type.equals("center")) {
+                if (authViewModel.auth() && enPosition.equals("manager") && type.equals("center")) {
                     holder.createTextView.setVisibility(View.VISIBLE);
 
                     holder.acceptTextView.setVisibility(View.GONE);

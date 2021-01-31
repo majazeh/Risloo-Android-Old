@@ -468,7 +468,7 @@ public class SamplesActivity extends AppCompatActivity {
 
     private void resetData(String method) {
         if (method.equals("filter")) {
-            if (authViewModel.hasAccess()) {
+            if (authViewModel.auth()) {
                 toolbarFilterImageView.setVisibility(View.VISIBLE);
             } else {
                 toolbarFilterImageView.setVisibility(View.GONE);

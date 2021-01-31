@@ -462,7 +462,7 @@ public class UsersActivity extends AppCompatActivity {
 
     private void resetData(String method) {
         if (method.equals("search")) {
-            if (authViewModel.hasAccess()) {
+            if (authViewModel.auth()) {
                 toolbarSearchImageView.setVisibility(View.VISIBLE);
             } else {
                 toolbarSearchImageView.setVisibility(View.GONE);
