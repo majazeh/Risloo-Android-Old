@@ -248,6 +248,8 @@ public class MainRepository {
         }
     }
 
+
+
     public boolean sessionClient(Model data) throws JSONException {
         JSONObject client = (JSONObject) data.get("client");
         if (client.getString("id").equals(sharedPreferences.getString("userId", ""))) {

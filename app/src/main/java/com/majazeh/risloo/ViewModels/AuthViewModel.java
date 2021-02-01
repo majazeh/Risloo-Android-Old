@@ -91,16 +91,29 @@ public class AuthViewModel extends AndroidViewModel {
         return repository.centerOwner(model);
     }
 
+    public boolean centerOwner() throws JSONException {
+        return repository.centerOwner();
+    }
+
     public boolean centerOperator(Model model) throws JSONException {
         return repository.centerOperator(model);
     }
+
 
     public boolean centerManager(Model model) throws JSONException {
         return repository.centerManager(model);
     }
 
+    public boolean centerManager() throws JSONException {
+        return repository.centerManager();
+    }
+
     public boolean roomManager(Model model) throws JSONException {
         return repository.roomManager(model);
+    }
+
+    public boolean roomManager() throws JSONException {
+        return repository.roomManager();
     }
 
     public boolean sessionClient(Model model) throws JSONException {
@@ -113,6 +126,10 @@ public class AuthViewModel extends AndroidViewModel {
 
     public boolean psychologist(Model model) throws JSONException {
         return repository.psychologist(model);
+    }
+
+    public boolean psychologist() throws JSONException {
+        return repository.psychologist();
     }
 
     public boolean roomAccess() {
