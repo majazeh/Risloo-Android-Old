@@ -227,7 +227,7 @@ public class AuthActivity extends AppCompatActivity {
         navigationView.getMenu().findItem(R.id.tool_centers).setVisible(authViewModel.indexCenter());
         navigationView.getMenu().findItem(R.id.tool_rooms).setVisible(authViewModel.indexRoom());
         navigationView.getMenu().findItem(R.id.tool_cases).setVisible(authViewModel.indexCase());
-        navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(authViewModel.indexSession());
+//        navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(authViewModel.indexSession());
 
         if (!authViewModel.getToken().equals("")) {
             if (authViewModel.auth()) {

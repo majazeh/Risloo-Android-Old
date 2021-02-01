@@ -39,7 +39,7 @@ import com.majazeh.risloo.Utils.Managers.IntentManager;
 import com.majazeh.risloo.Utils.Managers.PathManager;
 import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
-import com.majazeh.risloo.ViewModels.AuthViewModel;
+import com.majazeh.risloo.ViewModels.DocumentViewModel;
 
 import org.json.JSONException;
 
@@ -48,7 +48,7 @@ import java.util.Objects;
 public class SendDocumentActivity extends AppCompatActivity {
 
     // ViewModels
-    private AuthViewModel authViewModel;
+    private DocumentViewModel documentViewModel;
 
     // Vars
     private String title = "", description = "", attachment = "";
@@ -93,7 +93,7 @@ public class SendDocumentActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+        documentViewModel = new ViewModelProvider(this).get(DocumentViewModel.class);
 
         handler = new Handler();
 
@@ -259,7 +259,7 @@ public class SendDocumentActivity extends AppCompatActivity {
         try {
             progressDialog.show();
 
-            authViewModel.sendDocument(title, description, attachment);
+            documentViewModel.sendDocument(title, description, attachment);
             observeWork();
         } catch (JSONException e) {
             e.printStackTrace();

@@ -163,12 +163,12 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
 
-            // Detail Case Access
-            if (((CasesActivity) Objects.requireNonNull(activity)).authViewModel.detailCase(model)) {
-                holder.itemView.setEnabled(true);
-            } else {
-                holder.itemView.setEnabled(false);
-            }
+//            // Detail Case Access
+//            if (((CasesActivity) Objects.requireNonNull(activity)).authViewModel.detailCase(model)) {
+//                holder.itemView.setEnabled(true);
+//            } else {
+//                holder.itemView.setEnabled(false);
+//            }
 
             holder.itemView.setOnClickListener(v -> {
                 holder.itemView.setClickable(false);
