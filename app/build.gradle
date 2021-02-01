@@ -29,10 +29,20 @@ android {
 //    }
 
     buildTypes {
+        debug{
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            applicationIdSuffix ".debug"
+            versionNameSuffix ".debug"
+        }
+
         release {
             debuggable false
             minifyEnabled true
             shrinkResources true
+            applicationIdSuffix ".beta"
+            versionNameSuffix ".beta"
 //            signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile ('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
