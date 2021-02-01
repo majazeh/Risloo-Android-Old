@@ -216,7 +216,15 @@ public class MainRepository {
 
     }
 
-    public boolean operator(Model data) throws JSONException {
+    public boolean currentAuth(String id){
+        if (sharedPreferences.getString("userId", "").equals(id))
+            return true;
+        else
+            return false;
+
+    }
+
+    public boolean centerOperator(Model data) throws JSONException {
         JSONObject center;
         if (data.get("room") != null) {
             JSONObject room = (JSONObject) data.get("room");
@@ -235,6 +243,15 @@ public class MainRepository {
             } else {
                 return false;
             }
+        } else {
+            return false;
+        }
+    }
+
+    public boolean sessionClient(Model data) throws JSONException {
+        JSONObject client = (JSONObject) data.get("client");
+        if (client.getString("id").equals(sharedPreferences.getString("userId", ""))) {
+            return true;
         } else {
             return false;
         }

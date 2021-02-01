@@ -63,14 +63,6 @@ public class AuthViewModel extends AndroidViewModel {
         repository.logOut();
     }
 
-    public void documents() throws JSONException {
-        repository.documents();
-    }
-
-    public void sendDocument(String title, String description, String attachment) throws JSONException {
-        repository.sendDocument(title, description, attachment);
-    }
-
     /*
          ---------- Arrays ----------
     */
@@ -87,8 +79,8 @@ public class AuthViewModel extends AndroidViewModel {
         return repository.auth();
     }
 
-    public boolean currentAuth() {
-        return repository.currentAuth();
+    public boolean currentAuth(String id) {
+        return repository.currentAuth(id);
     }
 
     public boolean admin() {
@@ -199,8 +191,8 @@ public class AuthViewModel extends AndroidViewModel {
         return auth();
     }
 
-    public boolean detailCase(Model model) throws JSONException {
-        return currentAuth() || admin() || centerOperator(model) || centerManager(model) || roomManager(model);
+    public boolean detailCase(String id,Model model) throws JSONException {
+        return currentAuth(id) || admin() || centerOperator(model) || centerManager(model) || roomManager(model);
     }
 
     public boolean createCase(Model model) throws JSONException {
@@ -219,8 +211,8 @@ public class AuthViewModel extends AndroidViewModel {
         return admin() || centerOperator(model) || centerManager(model) || roomManager(model);
     }
 
-    public boolean indexSession() {
-        return currentAuth();
+    public boolean indexSession(String id) {
+        return currentAuth(id);
     }
 
     public boolean detailSession(Model model) throws JSONException {
