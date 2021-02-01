@@ -29,6 +29,14 @@ android {
 //    }
 
     buildTypes {
+        debug{
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            applicationIdSuffix ".debug"
+            versionNameSuffix ".debug"
+        }
+
         release {
             debuggable false
             minifyEnabled true
