@@ -50,7 +50,7 @@ public class SerialFragment extends Fragment {
     public EditText serialEditText;
     private Button serialButton;
     private LinearLayout serialLinkLinearLayout, serialArchiveLinearLayout;
-    private TextView serialRegisterTextView, serialRecoveryTextView, serialIncompleteTextView, serialArchiveTextView;
+    private TextView serialRegisterTextView, serialRecoverPasswordTextView, serialIncompleteTextView, serialArchiveTextView;
 
     public SerialFragment(@NonNull Activity activity) {
         this.activity = activity;
@@ -87,7 +87,7 @@ public class SerialFragment extends Fragment {
         serialArchiveLinearLayout = view.findViewById(R.id.fragment_serial_archive_linearLayout);
 
         serialRegisterTextView = view.findViewById(R.id.fragment_serial_register_textView);
-        serialRecoveryTextView = view.findViewById(R.id.fragment_serial_recovery_textView);
+        serialRecoverPasswordTextView = view.findViewById(R.id.fragment_serial_recover_password_textView);
         serialIncompleteTextView = view.findViewById(R.id.fragment_serial_incomplete_textView);
         serialArchiveTextView = view.findViewById(R.id.fragment_serial_archive_textView);
     }
@@ -124,8 +124,8 @@ public class SerialFragment extends Fragment {
             ((AuthActivity) Objects.requireNonNull(getActivity())).showFragment();
         });
 
-        serialRecoveryTextView.setOnClickListener(v -> {
-            AuthRepository.theory = "recovery";
+        serialRecoverPasswordTextView.setOnClickListener(v -> {
+            AuthRepository.theory = "recoverPassword";
             ((AuthActivity) Objects.requireNonNull(getActivity())).showFragment();
         });
 

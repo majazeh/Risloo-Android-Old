@@ -104,11 +104,12 @@ public class DetailCaseSessionsAdapter extends RecyclerView.Adapter<DetailCaseSe
                 holder.statusTextView.setText(faStatus);
             }
 
-//            if (((DetailCaseActivity) Objects.requireNonNull(activity)).authViewModel.caseDetails(new Model(FileManager.readObjectFromCache(activity, "caseDetail" + "/" + ((DetailCaseActivity) Objects.requireNonNull(activity)).caseId)))) {
-//                holder.editTextView.setVisibility(View.VISIBLE);
-//            } else {
-//                holder.editTextView.setVisibility(View.GONE);
-//            }
+            // Edit Session Access
+            if (((DetailCaseActivity) Objects.requireNonNull(activity)).authViewModel.editSession(model)) {
+                holder.editImageView.setVisibility(View.VISIBLE);
+            } else {
+                holder.editImageView.setVisibility(View.GONE);
+            }
 
             holder.editImageView.setOnClickListener(v -> {
                 holder.editImageView.setClickable(false);
@@ -118,11 +119,12 @@ public class DetailCaseSessionsAdapter extends RecyclerView.Adapter<DetailCaseSe
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
 
-//            if (((DetailCaseActivity) Objects.requireNonNull(activity)).authViewModel.caseDetails(new Model(FileManager.readObjectFromCache(activity, "caseDetail" + "/" + ((DetailCaseActivity) Objects.requireNonNull(activity)).caseId)))) {
-//                holder.editTextView.setVisibility(View.VISIBLE);
-//            } else {
-//                holder.editTextView.setVisibility(View.GONE);
-//            }
+            // Detail Session Access
+            if (((DetailCaseActivity) Objects.requireNonNull(activity)).authViewModel.detailSession(model)) {
+                holder.linkImageView.setVisibility(View.VISIBLE);
+            } else {
+                holder.linkImageView.setVisibility(View.GONE);
+            }
 
             holder.linkImageView.setOnClickListener(v -> {
                 holder.linkImageView.setClickable(false);
