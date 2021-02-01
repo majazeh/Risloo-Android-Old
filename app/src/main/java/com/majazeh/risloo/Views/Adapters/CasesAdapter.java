@@ -146,12 +146,12 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
                 editCaseIntent.putExtra("complaint", detail.get("chief_complaint").toString());
             }
 
-//            // Edit Case Access
-//            if (((CasesActivity) Objects.requireNonNull(activity)).authViewModel.editCase(model)) {
-//                holder.editTextView.setVisibility(View.VISIBLE);
-//            } else {
-//                holder.editTextView.setVisibility(View.GONE);
-//            }
+            // Edit Case Access
+            if (((CasesActivity) Objects.requireNonNull(activity)).authViewModel.editCase(model)) {
+                holder.editTextView.setVisibility(View.VISIBLE);
+            } else {
+                holder.editTextView.setVisibility(View.GONE);
+            }
 
             holder.editTextView.setOnClickListener(v -> {
                 holder.editTextView.setClickable(false);
@@ -163,12 +163,12 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
                 activity.overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
             });
 
-//            // Case Detail Access
-//            if (((CasesActivity) Objects.requireNonNull(activity)).authViewModel.openCaseDetail(model)) {
-//                holder.itemView.setEnabled(true);
-//            } else {
-//                holder.itemView.setEnabled(false);
-//            }
+            // Detail Case Access
+            if (((CasesActivity) Objects.requireNonNull(activity)).authViewModel.detailCase(model)) {
+                holder.itemView.setEnabled(true);
+            } else {
+                holder.itemView.setEnabled(false);
+            }
 
             holder.itemView.setOnClickListener(v -> {
                 holder.itemView.setClickable(false);

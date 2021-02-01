@@ -176,6 +176,16 @@
     <string name="RegisterPasswordHint">رمز عبور</string>
     <string name="RegisterButton">ثبت نام</string>
 
+    <string name="RecoverPasswordTitle">بازیابی رمز عبور</string>
+    <string name="RecoverPasswordDescription">شماره همراه خود را وارد کنید.</string>
+    <string name="RecoverPasswordHint">شماره همراه</string>
+    <string name="RecoverPasswordButton">دریافت کد</string>
+
+    <string name="ChangePasswordTitle">تغییر رمز عبور</string>
+    <string name="ChangePasswordDescription">رمز عبور جدید را وارد کنید.</string>
+    <string name="ChangePasswordHint">رمز عبور</string>
+    <string name="ChangePasswordButton">تغییر</string>
+
     ////////////////////////////////////////////////////////////////////////////////
 
     // Archives strings

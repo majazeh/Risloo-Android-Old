@@ -36,9 +36,11 @@ import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
+import com.majazeh.risloo.Views.Fragments.ChangePasswordFragment;
 import com.majazeh.risloo.Views.Fragments.MobileFragment;
 import com.majazeh.risloo.Views.Fragments.PasswordFragment;
 import com.majazeh.risloo.Views.Fragments.PinFragment;
+import com.majazeh.risloo.Views.Fragments.RecoverPasswordFragment;
 import com.majazeh.risloo.Views.Fragments.RegisterFragment;
 import com.majazeh.risloo.Views.Fragments.SerialFragment;
 import com.squareup.picasso.Picasso;
@@ -222,23 +224,20 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void setData() {
+        navigationView.getMenu().findItem(R.id.tool_centers).setVisible(authViewModel.indexCenter());
+        navigationView.getMenu().findItem(R.id.tool_rooms).setVisible(authViewModel.indexRoom());
+        navigationView.getMenu().findItem(R.id.tool_cases).setVisible(authViewModel.indexCase());
+        navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(authViewModel.indexSession());
+
         if (!authViewModel.getToken().equals("")) {
             if (authViewModel.auth()) {
                 navigationView.getMenu().findItem(R.id.tool_samples).setVisible(true);
                 navigationView.getMenu().findItem(R.id.tool_scales).setVisible(true);
                 navigationView.getMenu().findItem(R.id.tool_documents).setVisible(false);
-                navigationView.getMenu().findItem(R.id.tool_centers).setVisible(true);
-                navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(true);
-                navigationView.getMenu().findItem(R.id.tool_rooms).setVisible(true);
-                navigationView.getMenu().findItem(R.id.tool_cases).setVisible(true);
             } else {
                 navigationView.getMenu().findItem(R.id.tool_samples).setVisible(false);
                 navigationView.getMenu().findItem(R.id.tool_scales).setVisible(false);
                 navigationView.getMenu().findItem(R.id.tool_documents).setVisible(false);
-                navigationView.getMenu().findItem(R.id.tool_centers).setVisible(true);
-                navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(false);
-                navigationView.getMenu().findItem(R.id.tool_rooms).setVisible(false);
-                navigationView.getMenu().findItem(R.id.tool_cases).setVisible(false);
             }
             avatarCircleImageView.setVisibility(View.VISIBLE);
             if (authViewModel.getAvatar().equals("")) {
@@ -250,10 +249,6 @@ public class AuthActivity extends AppCompatActivity {
             navigationView.getMenu().findItem(R.id.tool_samples).setVisible(false);
             navigationView.getMenu().findItem(R.id.tool_scales).setVisible(false);
             navigationView.getMenu().findItem(R.id.tool_documents).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_centers).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_rooms).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_cases).setVisible(false);
 
             avatarCircleImageView.setVisibility(View.GONE);
         }
@@ -296,6 +291,11 @@ public class AuthActivity extends AppCompatActivity {
                     if (pinFragment != null) {
                         pinFragment.pinEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                     }
+                } else if (type.equals("recovery")) {
+                    ChangePasswordFragment changePasswordFragment = ((ChangePasswordFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                    if (changePasswordFragment != null) {
+                        changePasswordFragment.changePasswordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                    }
                 }
                 break;
 
@@ -328,9 +328,9 @@ public class AuthActivity extends AppCompatActivity {
                 break;
 
             case "recovery":
-                MobileFragment mobileFragment = ((MobileFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
-                if (mobileFragment != null) {
-                    mobileFragment.mobileEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
+                RecoverPasswordFragment recoverPasswordFragment = ((RecoverPasswordFragment) getSupportFragmentManager().findFragmentById(R.id.activity_auth_frameLayout));
+                if (recoverPasswordFragment != null) {
+                    recoverPasswordFragment.recoverPasswordEditText.setBackgroundResource(R.drawable.draw_16sdp_border_violetred);
                 }
                 break;
         }
@@ -375,14 +375,21 @@ public class AuthActivity extends AppCompatActivity {
                 toolbarTextView.setText(getResources().getString(R.string.PinTitle));
                 loadFragment(new PinFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
                 break;
+            case "mobile":
+                toolbarTextView.setText(getResources().getString(R.string.MobileTitle));
+                loadFragment(new MobileFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
+                break;
             case "register":
                 toolbarTextView.setText(getResources().getString(R.string.RegisterTitle));
                 loadFragment(new RegisterFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
                 break;
-            case "mobile":
             case "recovery":
-                toolbarTextView.setText(getResources().getString(R.string.MobileTitle));
-                loadFragment(new MobileFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
+                toolbarTextView.setText(getResources().getString(R.string.ChangePasswordTitle));
+                loadFragment(new ChangePasswordFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
+                break;
+            case "recoverPassword":
+                toolbarTextView.setText(getResources().getString(R.string.RecoverPasswordTitle));
+                loadFragment(new RecoverPasswordFragment(this), R.anim.slide_in_left_with_fade, R.anim.slide_out_right_with_fade);
                 break;
         }
     }
@@ -471,6 +478,11 @@ public class AuthActivity extends AppCompatActivity {
                         errorException(ExceptionGenerator.current_exception, AuthRepository.theory);
                         Toast.makeText(this, ExceptionGenerator.getErrorBody("code"), Toast.LENGTH_SHORT).show();
                     }
+                } else if (AuthRepository.theory.equals("recovery")) {
+                    if (!ExceptionGenerator.errors.isNull("password")) {
+                        errorException(ExceptionGenerator.current_exception, AuthRepository.theory);
+                        Toast.makeText(this, ExceptionGenerator.getErrorBody("password"), Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
 
@@ -512,16 +524,10 @@ public class AuthActivity extends AppCompatActivity {
                 break;
 
             case "verification":
+            case "recovery":
                 if (!ExceptionGenerator.errors.isNull("mobile")) {
                     errorException(ExceptionGenerator.current_exception, "");
                     Toast.makeText(this, ExceptionGenerator.getErrorBody("mobile"), Toast.LENGTH_SHORT).show();
-                }
-                break;
-
-            case "recovery":
-                if (!ExceptionGenerator.errors.isNull("username")) {
-                    errorException(ExceptionGenerator.current_exception, "");
-                    Toast.makeText(this, ExceptionGenerator.getErrorBody("username"), Toast.LENGTH_SHORT).show();
                 }
                 break;
 

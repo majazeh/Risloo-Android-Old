@@ -2,6 +2,7 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -11,7 +12,9 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Apis.AuthApi;
+import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.Utils.Generators.RetroGenerator;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
@@ -85,9 +88,6 @@ public class AuthWorker extends Worker {
                     break;
                 case "logOut":
                     logOut();
-                    break;
-                case "attachment":
-                    attachment();
                     break;
             }
         }
@@ -360,7 +360,7 @@ public class AuthWorker extends Worker {
     private void recovery() {
         try {
             Call<ResponseBody> call = api.recovery(AuthRepository.mobile);
-
+            System.out.println(AuthRepository.mobile);
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
@@ -439,16 +439,31 @@ public class AuthWorker extends Worker {
                 } else {
                     for (int i = 0; i < centers.length(); i++) {
                         JSONObject center = centers.getJSONObject(i);
-                        JSONObject acceptation = center.getJSONObject("acceptation");
-                        if (center.getString("type").equals("counseling center")){
+                        if (!center.isNull("acceptation")){
+                            JSONObject acceptation = center.getJSONObject("acceptation");
+                        if (center.getString("type").equals("counseling center")) {
                             JSONObject manager = center.getJSONObject("manager");
-                            if (manager.getString("id").equals(data.getString("id"))){
+                            if (manager.getString("id").equals(data.getString("id"))) {
                                 editor.putString("createRoomAccess", "true");
+                                editor.putString("centerOwner", "true");
                             }
                         }
-                        if (acceptation.getString("position").equals("operator") || acceptation.getString("position").equals("manager") || acceptation.getString("position").equals("psychologist")) {
+                        if (!acceptation.isNull("meta")){
+                            if (!acceptation.getJSONObject("meta").isNull("room_id")){
+                                editor.putString("roomManager", "true");
+                            }
+                        }
+                        if (acceptation.getString("position").equals("operator")) {
+                            editor.putString("operator", "true");
+                            hasAccess = true;
+                        } else if (acceptation.getString("position").equals("manager")) {
+                            editor.putString("centerManager", "true");
+                            hasAccess = true;
+                        } else if (acceptation.getString("position").equals("psychologist")) {
+                            editor.putString("psychologist", "true");
                             hasAccess = true;
                         }
+                    }
                     }
                 }
 
@@ -715,53 +730,6 @@ public class AuthWorker extends Worker {
             ExceptionGenerator.getException(false, 0, null, "IOException");
             AuthRepository.workState.postValue(0);
         }
-    }
-
-    private void attachment() {
-        File attachment = new File(AuthRepository.fileAttachment);
-
-        AndroidNetworking.upload("https://bapi.risloo.ir/api/documents")
-                .addHeaders("Authorization", token())
-                .addMultipartFile("attachment", attachment)
-                .addMultipartParameter("title", AuthRepository.fileTitle)
-                .addMultipartParameter("description", AuthRepository.fileDescription)
-                .setPriority(Priority.HIGH)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONObject successBody = new JSONObject(response.toString());
-
-                            FileManager.deleteFolderFromCache(context, "documents");
-
-                            ExceptionGenerator.getException(true, 200, successBody, "attachment");
-                            AuthRepository.workState.postValue(1);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-
-                            ExceptionGenerator.getException(false, 0, null, "JSONException");
-                            AuthRepository.workState.postValue(0);
-                        }
-                    }
-
-                    @Override
-                    public void onError(ANError error) {
-                        try {
-                            JSONObject errorBody = new JSONObject(error.getErrorBody());
-
-                            ExceptionGenerator.getException(true, error.getErrorCode(), errorBody, "attachment");
-                            AuthRepository.workState.postValue(0);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-
-                            ExceptionGenerator.getException(false, 0, null, "JSONException");
-                            AuthRepository.workState.postValue(0);
-                        }
-                    }
-
-                });
     }
 
 }

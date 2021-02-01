@@ -123,13 +123,18 @@ public class CenterRepository extends MainRepository {
         workManager("getReferences");
     }
 
-    public void addUser(String clinicId, String number, String position) throws JSONException {
+    public void addUser(String clinicId, String number, String position,int create_case,String nickname) throws JSONException {
         if (!clinicId.equals(""))
             CenterRepository.clinicId = clinicId;
         if (!number.equals(""))
             addUserData.put("mobile", number);
         if (!position.equals(""))
             addUserData.put("position", position);
+        if (create_case != 0){
+            addUserData.put("create_case", create_case);
+            if (!nickname.equals(""))
+                addUserData.put("nickname",nickname );
+        }
         work = "addUser";
         workState.setValue(-1);
         workManager("addUser");

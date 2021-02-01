@@ -101,7 +101,7 @@
                 android:textAlignment="gravity" />
 
             <TextView
-                android:id="@+id/fragment_serial_recovery_textView"
+                android:id="@+id/fragment_serial_recover_password_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/_2sdp"
