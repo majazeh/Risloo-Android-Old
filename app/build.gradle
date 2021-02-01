@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application' // Android Build Application
 
+def keystorePropertiesFile = rootProject.file("keystore.properties") // Initialize RootProject File
+def keystoreProperties = new Properties() // Initialize New Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile)) // Set KeystoreProperties Object.
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -16,11 +20,11 @@ android {
     }
 
     signingConfigs {
-        release {
-            storeFile file('F:\\Programming\\Android Studio\\Store Projects\\Published Apps\\Risloo\\Risloo.jks')
-            storePassword 'Risl00#2020!!@@'
-            keyAlias 'Risloo'
-            keyPassword 'Risl00#2020!!@@'
+        config {
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
         }
     }
 
@@ -29,7 +33,7 @@ android {
             debuggable false
             minifyEnabled true
             shrinkResources true
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile ('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
