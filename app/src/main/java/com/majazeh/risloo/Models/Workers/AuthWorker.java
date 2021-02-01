@@ -89,12 +89,6 @@ public class AuthWorker extends Worker {
                 case "logOut":
                     logOut();
                     break;
-                case "documents":
-                    documents();
-                    break;
-                case "attachment":
-                    attachment();
-                    break;
             }
         }
 
@@ -445,16 +439,31 @@ public class AuthWorker extends Worker {
                 } else {
                     for (int i = 0; i < centers.length(); i++) {
                         JSONObject center = centers.getJSONObject(i);
-                        JSONObject acceptation = center.getJSONObject("acceptation");
-                        if (center.getString("type").equals("counseling center")){
+                        if (!center.isNull("acceptation")){
+                            JSONObject acceptation = center.getJSONObject("acceptation");
+                        if (center.getString("type").equals("counseling center")) {
                             JSONObject manager = center.getJSONObject("manager");
-                            if (manager.getString("id").equals(data.getString("id"))){
+                            if (manager.getString("id").equals(data.getString("id"))) {
                                 editor.putString("createRoomAccess", "true");
+                                editor.putString("centerOwner", "true");
                             }
                         }
-                        if (acceptation.getString("position").equals("operator") || acceptation.getString("position").equals("manager") || acceptation.getString("position").equals("psychologist")) {
+                        if (!acceptation.isNull("meta")){
+                            if (!acceptation.getJSONObject("meta").isNull("room_id")){
+                                editor.putString("roomManager", "true");
+                            }
+                        }
+                        if (acceptation.getString("position").equals("operator")) {
+                            editor.putString("operator", "true");
+                            hasAccess = true;
+                        } else if (acceptation.getString("position").equals("manager")) {
+                            editor.putString("centerManager", "true");
+                            hasAccess = true;
+                        } else if (acceptation.getString("position").equals("psychologist")) {
+                            editor.putString("psychologist", "true");
                             hasAccess = true;
                         }
+                    }
                     }
                 }
 
@@ -721,114 +730,6 @@ public class AuthWorker extends Worker {
             ExceptionGenerator.getException(false, 0, null, "IOException");
             AuthRepository.workState.postValue(0);
         }
-    }
-
-    private void documents(){
-        try {
-            Call<ResponseBody> call = api.documents(token());
-
-            Response<ResponseBody> bodyResponse = call.execute();
-            if (bodyResponse.isSuccessful()) {
-                JSONObject successBody = new JSONObject(bodyResponse.body().string());
-
-                if (successBody.getJSONArray("data").length() != 0) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                            FileManager.deletePageFromCache(context, "documents");
-                        }
-                            FileManager.writeObjectToCache(context, successBody, "documents");
-
-                            JSONObject jsonObject = FileManager.readObjectFromCache(context, "documents");
-                            JSONArray data;
-                            try {
-                                data = jsonObject.getJSONArray("data");
-                                for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
-                                    JSONArray jsonArray = successBody.getJSONArray("data");
-                                    data.put(jsonArray.getJSONObject(i));
-                                }
-                                jsonObject.put("data", data);
-                                FileManager.writeObjectToCache(context, jsonObject, "documents");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-
-
-                } else {
-                    FileManager.deletePageFromCache(context, "documents");
-                }
-
-                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "documents");
-                AuthRepository.workState.postValue(1);
-            } else {
-                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
-
-                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "documents");
-                AuthRepository.workState.postValue(0);
-            }
-
-        } catch (SocketTimeoutException e) {
-            e.printStackTrace();
-
-            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
-            AuthRepository.workState.postValue(0);
-        } catch (JSONException e) {
-            e.printStackTrace();
-
-            ExceptionGenerator.getException(false, 0, null, "JSONException");
-            AuthRepository.workState.postValue(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            ExceptionGenerator.getException(false, 0, null, "IOException");
-            AuthRepository.workState.postValue(0);
-        }
-    }
-
-    private void attachment() {
-        File attachment = new File(AuthRepository.fileAttachment);
-
-        AndroidNetworking.upload("https://bapi.risloo.ir/api/documents")
-                .addHeaders("Authorization", token())
-                .addMultipartFile("attachment", attachment)
-                .addMultipartParameter("title", AuthRepository.fileTitle)
-                .addMultipartParameter("description", AuthRepository.fileDescription)
-                .setPriority(Priority.HIGH)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONObject successBody = new JSONObject(response.toString());
-
-                            FileManager.deleteFolderFromCache(context, "documents");
-
-                            ExceptionGenerator.getException(true, 200, successBody, "attachment");
-                            AuthRepository.workState.postValue(1);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-
-                            ExceptionGenerator.getException(false, 0, null, "JSONException");
-                            AuthRepository.workState.postValue(0);
-                        }
-                    }
-
-                    @Override
-                    public void onError(ANError error) {
-                        try {
-                            JSONObject errorBody = new JSONObject(error.getErrorBody());
-
-                            ExceptionGenerator.getException(true, error.getErrorCode(), errorBody, "attachment");
-                            AuthRepository.workState.postValue(0);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-
-                            ExceptionGenerator.getException(false, 0, null, "JSONException");
-                            AuthRepository.workState.postValue(0);
-                        }
-                    }
-
-                });
     }
 
 }

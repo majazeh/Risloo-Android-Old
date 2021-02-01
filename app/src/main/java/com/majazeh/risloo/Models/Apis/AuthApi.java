@@ -51,8 +51,4 @@ public interface AuthApi {
     @POST("logout")
     Call<ResponseBody> logOut(@Header("Authorization") String authorization);
 
-    @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
-    @GET("documents")
-    Call<ResponseBody> documents(@Header("Authorization") String authorization);
-
 }

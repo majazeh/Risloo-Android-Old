@@ -146,6 +146,13 @@ public class MainRepository {
         }
     }
 
+    public boolean roomManager() throws JSONException {
+        if (sharedPreferences.getString("roomManager", "").equals("true")) {
+            return true;
+        } else
+            return false;
+    }
+
     public boolean centerManager(Model data) throws JSONException {
         JSONObject center;
         if (data.get("room") != null) {
@@ -164,7 +171,13 @@ public class MainRepository {
         } else {
             return false;
         }
+    }
 
+    public boolean centerManager() {
+        if (sharedPreferences.getString("centerManager", "").equals("true")) {
+            return true;
+        } else
+            return false;
     }
 
     public boolean centerOwner(Model data) throws JSONException {
@@ -186,6 +199,13 @@ public class MainRepository {
             return false;
         }
 
+    }
+
+    public boolean centerOwner() {
+        if (sharedPreferences.getString("centerOwner", "").equals("true")) {
+            return true;
+        } else
+            return false;
     }
 
     public boolean roomAccess() {
@@ -220,6 +240,13 @@ public class MainRepository {
         }
     }
 
+    public boolean operator() {
+        if (sharedPreferences.getString("operator", "").equals("true")) {
+            return true;
+        } else
+            return false;
+    }
+
     public boolean psychologist(Model data) throws JSONException {
         JSONObject center;
         if (data.get("room") != null) {
@@ -245,6 +272,13 @@ public class MainRepository {
         }
     }
 
+
+    public boolean psychologist() {
+        if (sharedPreferences.getString("psychologist", "").equals("true")) {
+            return true;
+        } else
+            return false;
+    }
 
     public boolean client(Model data) throws JSONException {
         JSONObject client = (JSONObject) data.get("client");

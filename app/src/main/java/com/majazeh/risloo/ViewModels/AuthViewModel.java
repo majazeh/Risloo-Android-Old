@@ -59,17 +59,11 @@ public class AuthViewModel extends AndroidViewModel {
         repository.avatar();
     }
 
-    public void documents() throws JSONException {
-        repository.documents();
-    }
 
     public void logOut() throws JSONException {
         repository.logOut();
     }
 
-    public void sendDocument(String title, String description, String attachment) throws JSONException {
-        repository.sendDoc(title, description, attachment);
-    }
 
     /*
          ---------- Arrays ----------
@@ -95,20 +89,40 @@ public class AuthViewModel extends AndroidViewModel {
         return repository.operator(model);
     }
 
+    public boolean operator() throws JSONException {
+        return repository.operator();
+    }
+
     public boolean psychologist(Model model) throws JSONException {
         return repository.psychologist(model);
+    }
+
+    public boolean psychologist() throws JSONException {
+        return repository.psychologist();
     }
 
     public boolean centerManager(Model model) throws JSONException {
         return repository.centerManager(model);
     }
 
+    public boolean centerManager() throws JSONException {
+        return repository.centerManager();
+    }
+
     public boolean centerOwner(Model model) throws JSONException {
         return repository.centerOwner(model);
     }
 
+    public boolean centerOwner() throws JSONException {
+        return repository.centerOwner();
+    }
+
     public boolean roomManager(Model model) throws JSONException {
         return repository.roomManager(model);
+    }
+
+    public boolean roomManager() throws JSONException {
+        return repository.roomManager();
     }
 
     public boolean client(Model model) throws JSONException {

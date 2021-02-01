@@ -41,9 +41,6 @@ public class AuthRepository extends MainRepository {
     public static String birthday = "";
     public static String password = "";
     public static String code = "";
-    public static String fileTitle = "";
-    public static String fileDescription = "";
-    public static String fileAttachment = "";
 
     public AuthRepository(@NonNull Application application) throws JSONException {
         super(application);
@@ -121,26 +118,11 @@ public class AuthRepository extends MainRepository {
         workState.setValue(-1);
         workManager("avatar");
     }
-    public void documents() throws JSONException {
-        work = "documents";
-        workState.setValue(-1);
-        workManager("documents");
-    }
 
     public void logOut() throws JSONException {
         work = "logOut";
         workState.setValue(-1);
         workManager("logOut");
-    }
-
-    public void sendDoc(String title, String description, String attachment) throws JSONException {
-        AuthRepository.fileTitle = title;
-        AuthRepository.fileDescription = description;
-        AuthRepository.fileAttachment = attachment;
-
-        work = "attachment";
-        workState.setValue(-1);
-        workManager("attachment");
     }
 
     /*
