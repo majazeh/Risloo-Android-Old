@@ -354,11 +354,11 @@ public class RoomsActivity extends AppCompatActivity {
     }
 
     private void setData() {
-//        if (authViewModel.createRoom()) {
-//            toolbarCreateImageView.setVisibility(View.VISIBLE);
-//        } else {
-//            toolbarCreateImageView.setVisibility(View.GONE);
-//        }
+        if (authViewModel.createRoom()) {
+            toolbarCreateImageView.setVisibility(View.VISIBLE);
+        } else {
+            toolbarCreateImageView.setVisibility(View.GONE);
+        }
     }
 
     private void setInfoLayout(String type) {

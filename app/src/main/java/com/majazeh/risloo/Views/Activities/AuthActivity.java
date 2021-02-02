@@ -224,21 +224,15 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void setData() {
+        navigationView.getMenu().findItem(R.id.tool_samples).setVisible(authViewModel.indexSample());
+        navigationView.getMenu().findItem(R.id.tool_scales).setVisible(authViewModel.indexScale());
+        navigationView.getMenu().findItem(R.id.tool_documents).setVisible(authViewModel.indexDocument());
         navigationView.getMenu().findItem(R.id.tool_centers).setVisible(authViewModel.indexCenter());
         navigationView.getMenu().findItem(R.id.tool_rooms).setVisible(authViewModel.indexRoom());
         navigationView.getMenu().findItem(R.id.tool_cases).setVisible(authViewModel.indexCase());
-//        navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(authViewModel.indexSession());
+        navigationView.getMenu().findItem(R.id.tool_sessions).setVisible(authViewModel.indexSession());
 
         if (!authViewModel.getToken().equals("")) {
-            if (authViewModel.auth()) {
-                navigationView.getMenu().findItem(R.id.tool_samples).setVisible(true);
-                navigationView.getMenu().findItem(R.id.tool_scales).setVisible(true);
-                navigationView.getMenu().findItem(R.id.tool_documents).setVisible(false);
-            } else {
-                navigationView.getMenu().findItem(R.id.tool_samples).setVisible(false);
-                navigationView.getMenu().findItem(R.id.tool_scales).setVisible(false);
-                navigationView.getMenu().findItem(R.id.tool_documents).setVisible(false);
-            }
             avatarCircleImageView.setVisibility(View.VISIBLE);
             if (authViewModel.getAvatar().equals("")) {
                 avatarCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_light));
@@ -246,10 +240,6 @@ public class AuthActivity extends AppCompatActivity {
                 Picasso.get().load(authViewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarCircleImageView);
             }
         } else {
-            navigationView.getMenu().findItem(R.id.tool_samples).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_scales).setVisible(false);
-            navigationView.getMenu().findItem(R.id.tool_documents).setVisible(false);
-
             avatarCircleImageView.setVisibility(View.GONE);
         }
     }

@@ -354,11 +354,11 @@ public class CentersActivity extends AppCompatActivity {
     }
 
     private void setData() {
-//        if (authViewModel.createCenter()) {
-//            toolbarCreateImageView.setVisibility(View.VISIBLE);
-//        } else {
-//            toolbarCreateImageView.setVisibility(View.GONE);
-//        }
+        if (authViewModel.createCenter()) {
+            toolbarCreateImageView.setVisibility(View.VISIBLE);
+        } else {
+            toolbarCreateImageView.setVisibility(View.GONE);
+        }
     }
 
     private void setInfoLayout(String type) {

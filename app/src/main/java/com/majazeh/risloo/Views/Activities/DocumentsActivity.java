@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.widget.ImageViewCompat;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,20 +33,25 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.majazeh.risloo.Models.Repositories.DocumentRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
+import com.majazeh.risloo.ViewModels.DocumentViewModel;
 import com.majazeh.risloo.Views.Adapters.DocumentsAdapter;
+
+import org.json.JSONException;
 
 import java.util.Objects;
 
 public class DocumentsActivity extends AppCompatActivity {
 
     // ViewModels
-    public AuthViewModel authViewModel;
+    private AuthViewModel authViewModel;
+    private DocumentViewModel documentViewModel;
 
     // Adapters
     private DocumentsAdapter documentsRecyclerViewAdapter;
@@ -103,6 +109,7 @@ public class DocumentsActivity extends AppCompatActivity {
 
     private void initializer() {
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+        documentViewModel = new ViewModelProvider(this).get(DocumentViewModel.class);
 
         documentsRecyclerViewAdapter = new DocumentsAdapter(this);
 
@@ -260,15 +267,15 @@ public class DocumentsActivity extends AppCompatActivity {
                     int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
 
                     if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
-//                        try {
-//                            if (!loading) {
-//                                pagingProgressBar.setVisibility(View.VISIBLE);
-//                                authViewModel.documents(search);
-//                                observeWork();
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
+                        try {
+                            if (!loading) {
+                                pagingProgressBar.setVisibility(View.VISIBLE);
+                                documentViewModel.documents(search);
+                                observeWork();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -332,11 +339,11 @@ public class DocumentsActivity extends AppCompatActivity {
     }
 
     private void setData() {
-//        if (authViewModel.sendDocument()) {
+        if (authViewModel.sendDocument()) {
             toolbarSendImageView.setVisibility(View.VISIBLE);
-//        } else {
-//            toolbarSendImageView.setVisibility(View.GONE);
-//        }
+        } else {
+            toolbarSendImageView.setVisibility(View.GONE);
+        }
     }
 
     private void setInfoLayout(String type) {
@@ -395,13 +402,13 @@ public class DocumentsActivity extends AppCompatActivity {
     }
 
     private void getData() {
-//        try {
-//            authViewModel.documents(search);
-//            AuthViewModel.page = 1;
-//            observeWork();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            documentViewModel.documents(search);
+            DocumentRepository.page = 1;
+            observeWork();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void relaunchData() {
@@ -414,96 +421,96 @@ public class DocumentsActivity extends AppCompatActivity {
     }
 
     private void observeWork() {
-//        AuthRepository.workState.observe((LifecycleOwner) this, integer -> {
-//            if (AuthRepository.work.equals("getDocuments")) {
-//                finished = false;
-//                loading = true;
-//                if (integer == 1) {
-//                    if (authViewModel.getDocuments() != null) {
-//                        // Show Documents
-//
-//                        loadingLayout.setVisibility(View.GONE);
-//                        infoLayout.setVisibility(View.GONE);
-//                        mainLayout.setVisibility(View.VISIBLE);
-//
-//                        documentsRecyclerViewAdapter.setDocument(authViewModel.getDocuments());
-//                        if (AuthRepository.page == 1) {
-//                            documentsRecyclerView.setAdapter(documentsRecyclerViewAdapter);
-//                        }
-//                    } else {
-//                        // Documents is Empty
-//
-//                        loadingLayout.setVisibility(View.GONE);
-//                        infoLayout.setVisibility(View.VISIBLE);
-//                        mainLayout.setVisibility(View.GONE);
-//
-//                        if (search.equals("")) {
-//                            setInfoLayout("empty"); // Show Empty
-//                        } else {
-//                            setInfoLayout("search"); // Show Search
-//                        }
-//                    }
-//
-//                    if (pagingProgressBar.getVisibility() == View.VISIBLE) {
-//                        pagingProgressBar.setVisibility(View.GONE);
-//                    }
-//
-//                    loading = false;
-//                    AuthRepository.page++;
-//
-//                    resetData("search");
-//
-//                    finished = true;
-//
-//                    AuthRepository.workState.removeObservers((LifecycleOwner) this);
-//                } else if (integer != -1) {
-//                    if (authViewModel.getDocuments() == null) {
-//                        // Documents is Empty
-//
-//                        loadingLayout.setVisibility(View.GONE);
-//                        infoLayout.setVisibility(View.VISIBLE);
-//                        mainLayout.setVisibility(View.GONE);
-//
-//                        if (integer == 0) {
-//                            setInfoLayout("error"); // Show Error
-//                        } else if (integer == -2) {
-//                            setInfoLayout("connection"); // Show Connection
-//                        }
-//
-//                        if (pagingProgressBar.getVisibility() == View.VISIBLE) {
-//                            pagingProgressBar.setVisibility(View.GONE);
-//                        }
-//
-//                        resetData("search");
-//
-//                        finished = true;
-//
-//                        AuthRepository.workState.removeObservers((LifecycleOwner) this);
-//                    } else {
-//                        // Show Documents
-//
-//                        loadingLayout.setVisibility(View.GONE);
-//                        infoLayout.setVisibility(View.GONE);
-//                        mainLayout.setVisibility(View.VISIBLE);
-//
-//                        documentsRecyclerViewAdapter.setDocument(authViewModel.getDocuments());
-//                        if (AuthRepository.page == 1) {
-//                            documentsRecyclerView.setAdapter(documentsRecyclerViewAdapter);
-//                        }
-//
-//                        if (pagingProgressBar.getVisibility() == View.VISIBLE) {
-//                            pagingProgressBar.setVisibility(View.GONE);
-//                        }
-//
-//                        resetData("search");
-//
-//                        finished = true;
-//
-//                        AuthRepository.workState.removeObservers((LifecycleOwner) this);
-//                    }
-//                }
-//            }
-//        });
+        DocumentRepository.workState.observe((LifecycleOwner) this, integer -> {
+            if (DocumentRepository.work.equals("getDocuments")) {
+                finished = false;
+                loading = true;
+                if (integer == 1) {
+                    if (documentViewModel.getDocuments() != null) {
+                        // Show Documents
+
+                        loadingLayout.setVisibility(View.GONE);
+                        infoLayout.setVisibility(View.GONE);
+                        mainLayout.setVisibility(View.VISIBLE);
+
+                        documentsRecyclerViewAdapter.setDocument(documentViewModel.getDocuments());
+                        if (DocumentRepository.page == 1) {
+                            documentsRecyclerView.setAdapter(documentsRecyclerViewAdapter);
+                        }
+                    } else {
+                        // Documents is Empty
+
+                        loadingLayout.setVisibility(View.GONE);
+                        infoLayout.setVisibility(View.VISIBLE);
+                        mainLayout.setVisibility(View.GONE);
+
+                        if (search.equals("")) {
+                            setInfoLayout("empty"); // Show Empty
+                        } else {
+                            setInfoLayout("search"); // Show Search
+                        }
+                    }
+
+                    if (pagingProgressBar.getVisibility() == View.VISIBLE) {
+                        pagingProgressBar.setVisibility(View.GONE);
+                    }
+
+                    loading = false;
+                    DocumentRepository.page++;
+
+                    resetData("search");
+
+                    finished = true;
+
+                    DocumentRepository.workState.removeObservers((LifecycleOwner) this);
+                } else if (integer != -1) {
+                    if (documentViewModel.getDocuments() == null) {
+                        // Documents is Empty
+
+                        loadingLayout.setVisibility(View.GONE);
+                        infoLayout.setVisibility(View.VISIBLE);
+                        mainLayout.setVisibility(View.GONE);
+
+                        if (integer == 0) {
+                            setInfoLayout("error"); // Show Error
+                        } else if (integer == -2) {
+                            setInfoLayout("connection"); // Show Connection
+                        }
+
+                        if (pagingProgressBar.getVisibility() == View.VISIBLE) {
+                            pagingProgressBar.setVisibility(View.GONE);
+                        }
+
+                        resetData("search");
+
+                        finished = true;
+
+                        DocumentRepository.workState.removeObservers((LifecycleOwner) this);
+                    } else {
+                        // Show Documents
+
+                        loadingLayout.setVisibility(View.GONE);
+                        infoLayout.setVisibility(View.GONE);
+                        mainLayout.setVisibility(View.VISIBLE);
+
+                        documentsRecyclerViewAdapter.setDocument(documentViewModel.getDocuments());
+                        if (DocumentRepository.page == 1) {
+                            documentsRecyclerView.setAdapter(documentsRecyclerViewAdapter);
+                        }
+
+                        if (pagingProgressBar.getVisibility() == View.VISIBLE) {
+                            pagingProgressBar.setVisibility(View.GONE);
+                        }
+
+                        resetData("search");
+
+                        finished = true;
+
+                        DocumentRepository.workState.removeObservers((LifecycleOwner) this);
+                    }
+                }
+            }
+        });
     }
 
     @Override

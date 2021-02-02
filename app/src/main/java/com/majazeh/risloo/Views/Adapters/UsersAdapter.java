@@ -213,6 +213,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersHolder>
                 doWork(i, model, "kick");
             });
 
+            // Create Room Access
+            if (authViewModel.createRoom(model)) {
+                holder.createTextView.setVisibility(View.VISIBLE);
+            } else {
+                holder.createTextView.setVisibility(View.GONE);
+            }
+
             holder.createTextView.setOnClickListener(v -> {
                 holder.createTextView.setClickable(false);
                 handler.postDelayed(() -> holder.createTextView.setClickable(true), 250);

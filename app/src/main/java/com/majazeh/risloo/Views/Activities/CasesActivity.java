@@ -358,11 +358,11 @@ public class CasesActivity extends AppCompatActivity {
             createCaseIntent.putExtra("room_title", roomTitle);
         }
 
-//        if (authViewModel.createCase()) {
-//            toolbarCreateImageView.setVisibility(View.VISIBLE);
-//        } else {
-//            toolbarCreateImageView.setVisibility(View.GONE);
-//        }
+        if (authViewModel.createCase()) {
+            toolbarCreateImageView.setVisibility(View.VISIBLE);
+        } else {
+            toolbarCreateImageView.setVisibility(View.GONE);
+        }
     }
 
     private void setInfoLayout(String type) {

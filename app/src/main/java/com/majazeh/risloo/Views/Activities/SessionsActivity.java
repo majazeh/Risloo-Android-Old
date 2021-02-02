@@ -339,11 +339,11 @@ public class SessionsActivity extends AppCompatActivity {
     }
 
     private void setData() {
-//        if (authViewModel.createSession()) {
-//            toolbarCreateImageView.setVisibility(View.VISIBLE);
-//        } else {
-//            toolbarCreateImageView.setVisibility(View.GONE);
-//        }
+        if (authViewModel.createSession()) {
+            toolbarCreateImageView.setVisibility(View.VISIBLE);
+        } else {
+            toolbarCreateImageView.setVisibility(View.GONE);
+        }
     }
 
     private void setInfoLayout(String type) {

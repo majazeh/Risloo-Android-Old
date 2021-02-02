@@ -26,14 +26,15 @@ public class MainRepository {
     public static JSONObject meta;
     private SharedPreferences sharedPreferences;
 
-    public MainRepository(Application application) {
-        this.application = application;
-        filterGenerator = new FilterGenerator();
-        sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
-    }
-
     public MainRepository() {
 
+    }
+
+    public MainRepository(Application application) {
+        this.application = application;
+
+        filterGenerator = new FilterGenerator();
+        sharedPreferences = application.getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
     }
 
     public void handlerFilters() {
@@ -42,14 +43,9 @@ public class MainRepository {
                 String key = field.getName().substring(0, field.getName().length() - 6);
                 try {
                     this.getClass().getDeclaredField(key + "Filter").set(getClass(), filterGenerator.getFilter(this.meta.getJSONObject("filters"), key));
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (NoSuchFieldException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
+                } catch (IllegalAccessException | NoSuchFieldException | JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }
     }
@@ -74,9 +70,7 @@ public class MainRepository {
 
         jsonObject.put((String) model.get("id"), model.attributes);
         FileManager.writeObjectToCache(application.getApplicationContext(), jsonObject, "suggest" + mainModule);
-
     }
-
 
     public ArrayList<Model> getSuggest(String module) throws JSONException {
         String mainModule = module.substring(0, module.indexOf("ViewModel"));
@@ -115,13 +109,13 @@ public class MainRepository {
         return suggestList;
     }
 
+
     public boolean admin() {
         if (sharedPreferences.getString("type", "").equals("admin")) {
             return true;
         } else
             return false;
     }
-
 
     public boolean roomManager(Model data) throws JSONException {
         JSONObject room;
@@ -146,7 +140,7 @@ public class MainRepository {
         }
     }
 
-    public boolean roomManager() throws JSONException {
+    public boolean roomManager() {
         if (sharedPreferences.getString("roomManager", "").equals("true")) {
             return true;
         } else
@@ -224,6 +218,13 @@ public class MainRepository {
 
     }
 
+    public boolean centerOperator() {
+        if (sharedPreferences.getString("centerOperator", "").equals("true")) {
+            return true;
+        } else
+            return false;
+    }
+
     public boolean centerOperator(Model data) throws JSONException {
         JSONObject center;
         if (data.get("room") != null) {
@@ -247,8 +248,6 @@ public class MainRepository {
             return false;
         }
     }
-
-
 
     public boolean sessionClient(Model data) throws JSONException {
         JSONObject client = (JSONObject) data.get("client");
@@ -290,7 +289,6 @@ public class MainRepository {
             return false;
         }
     }
-
 
     public boolean psychologist() {
         if (sharedPreferences.getString("psychologist", "").equals("true")) {
