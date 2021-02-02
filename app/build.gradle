@@ -1,9 +1,5 @@
 apply plugin: 'com.android.application' // Android Build Application
 
-def keystorePropertiesFile = rootProject.file("keystore.properties") // Initialize RootProject File
-def keystoreProperties = new Properties() // Initialize New Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile)) // Set KeystoreProperties Object.
-
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -19,15 +15,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    signingConfigs {
-        config {
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-        }
-    }
-
     buildTypes {
         debug{
             debuggable true
@@ -35,16 +22,6 @@ android {
             shrinkResources false
             applicationIdSuffix ".debug"
             versionNameSuffix ".debug"
-        }
-
-        release {
-            debuggable false
-            minifyEnabled true
-            shrinkResources true
-            applicationIdSuffix ".beta"
-            versionNameSuffix ".beta"
-            signingConfig signingConfigs.config
-            proguardFiles getDefaultProguardFile ('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
