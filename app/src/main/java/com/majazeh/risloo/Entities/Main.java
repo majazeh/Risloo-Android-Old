@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Objects;
 
 public class Main {
 
@@ -13,21 +12,23 @@ public class Main {
     public ArrayList arrayMap = new ArrayList();
     public JSONObject attributes = new JSONObject();
 
-    public Main(JSONObject attributes) throws JSONException {
-        Iterator keys = attributes.keys();
+    public Main(JSONObject attribute) throws JSONException {
+        Iterator keys = attribute.keys();
 
         while (keys.hasNext()) {
             String key = (String) keys.next();
+
             arrayMap.add(key);
-            this.attributes.put(key, attributes.get(key));
+            attributes.put(key, attribute.get(key));
         }
     }
 
     public Object get(String key) throws JSONException {
-        if (arrayMap.indexOf(key) >= 0)
-            return this.attributes.get(key);
-        else
+        if (arrayMap.indexOf(key) >= 0) {
+            return attributes.get(key);
+        } else {
             return null;
+        }
     }
 
     public void set(String key, Object value) throws JSONException {

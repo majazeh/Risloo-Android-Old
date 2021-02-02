@@ -15,7 +15,7 @@ import androidx.work.WorkManager;
 
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Workers.SessionWorker;
-import com.majazeh.risloo.Utils.CryptoUtil;
+import com.majazeh.risloo.Utils.Managers.CryptoManager;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Generators.JSONGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
@@ -272,11 +272,11 @@ public class SessionRepository extends MainRepository {
     }
 
     public String encrypt(String text, String publicKey) throws InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException {
-        return CryptoUtil.encrypt(text, publicKey);
+        return CryptoManager.encrypt(text, publicKey);
     }
 
     public String decrypt(String result, String privateKey) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, InvalidKeySpecException {
-        return CryptoUtil.decrypt(result, privateKey);
+        return CryptoManager.decrypt(result, privateKey);
     }
 
     private void workManager(String work) throws JSONException {

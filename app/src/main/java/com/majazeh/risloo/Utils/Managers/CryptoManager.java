@@ -1,4 +1,4 @@
-package com.majazeh.risloo.Utils;
+package com.majazeh.risloo.Utils.Managers;
 
 import android.util.Base64;
 import android.util.Log;
@@ -24,7 +24,7 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
-public class CryptoUtil {
+public class CryptoManager {
 
     private final static String CRYPTO_METHOD = "RSA";
     private final static int CRYPTO_BITS = 2048;
