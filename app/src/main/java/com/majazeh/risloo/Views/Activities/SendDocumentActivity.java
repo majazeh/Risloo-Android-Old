@@ -29,9 +29,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.majazeh.risloo.Models.Repositories.DocumentRepository;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
-import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.PermissionManager;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
@@ -259,7 +259,7 @@ public class SendDocumentActivity extends AppCompatActivity {
         try {
             progressDialog.show();
 
-            documentViewModel.sendDocument(title, description, attachment);
+            documentViewModel.send(title, description, attachment);
             observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -267,29 +267,29 @@ public class SendDocumentActivity extends AppCompatActivity {
     }
 
     private void observeWork() {
-        AuthRepository.workState.observe((LifecycleOwner) this, integer -> {
-            if (AuthRepository.work.equals("attachment")) {
+        DocumentRepository.workState.observe((LifecycleOwner) this, integer -> {
+            if (DocumentRepository.work.equals("send")) {
                 if (integer == 1) {
                     finish();
 
                     progressDialog.dismiss();
                     Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                    AuthRepository.workState.removeObservers((LifecycleOwner) this);
+                    DocumentRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     progressDialog.dismiss();
                     observeException();
-                    AuthRepository.workState.removeObservers((LifecycleOwner) this);
+                    DocumentRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     progressDialog.dismiss();
                     Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
-                    AuthRepository.workState.removeObservers((LifecycleOwner) this);
+                    DocumentRepository.workState.removeObservers((LifecycleOwner) this);
                 }
             }
         });
     }
 
     private void observeException() {
-        if (ExceptionGenerator.current_exception.equals("attachment")) {
+        if (ExceptionGenerator.current_exception.equals("send")) {
             String exceptionToast = "";
 
             if (!ExceptionGenerator.errors.isNull("title")) {

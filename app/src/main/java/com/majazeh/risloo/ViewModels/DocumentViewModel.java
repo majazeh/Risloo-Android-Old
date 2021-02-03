@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.Models.Repositories.DocumentRepository;
 
 import org.json.JSONException;
@@ -27,14 +26,17 @@ public class DocumentViewModel extends AndroidViewModel {
     /*
          ---------- Voids ----------
     */
-    public void documents() throws JSONException {
-        repository.documents();
+
+    public void documents(String Q) throws JSONException {
+        repository.documents(Q);
     }
-    public void sendDocument(String title, String description, String attachment) throws JSONException {
-        repository.sendDoc(title, description, attachment);
+
+    public void send(String title, String description, String attachment) throws JSONException {
+        repository.send(title, description, attachment);
     }
 
     public ArrayList<Model> getDocuments(){
         return repository.getDocuments();
     }
+
 }

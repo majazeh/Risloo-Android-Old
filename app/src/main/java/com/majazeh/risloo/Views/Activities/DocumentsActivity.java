@@ -22,6 +22,7 @@ import android.text.InputType;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -256,30 +257,30 @@ public class DocumentsActivity extends AppCompatActivity {
             }
         };
 
-        documentsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0) {
-
-                    int visibleItemCount = layoutManager.getChildCount();
-                    int totalItemCount = layoutManager.getItemCount();
-                    int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
-
-                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
-                        try {
-                            if (!loading) {
-                                pagingProgressBar.setVisibility(View.VISIBLE);
-                                documentViewModel.documents(search);
-                                observeWork();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        });
+//        documentsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                if (dy > 0) {
+//
+//                    int visibleItemCount = layoutManager.getChildCount();
+//                    int totalItemCount = layoutManager.getItemCount();
+//                    int pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
+//
+//                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+//                        try {
+//                            if (!loading) {
+//                                pagingProgressBar.setVisibility(View.VISIBLE);
+//                                documentViewModel.documents(search);
+//                                observeWork();
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            }
+//        });
 
         searchDialogInput.setOnTouchListener((v, event) -> {
             if (MotionEvent.ACTION_UP == event.getAction()) {
@@ -380,7 +381,7 @@ public class DocumentsActivity extends AppCompatActivity {
     private void resetData(String method) {
         if (method.equals("search")) {
             if (authViewModel.auth()) {
-                toolbarSearchImageView.setVisibility(View.VISIBLE);
+                toolbarSearchImageView.setVisibility(View.GONE);
             } else {
                 toolbarSearchImageView.setVisibility(View.GONE);
             }
@@ -404,7 +405,7 @@ public class DocumentsActivity extends AppCompatActivity {
     private void getData() {
         try {
             documentViewModel.documents(search);
-            DocumentRepository.page = 1;
+//            DocumentRepository.page = 1;
             observeWork();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -422,7 +423,7 @@ public class DocumentsActivity extends AppCompatActivity {
 
     private void observeWork() {
         DocumentRepository.workState.observe((LifecycleOwner) this, integer -> {
-            if (DocumentRepository.work.equals("getDocuments")) {
+            if (DocumentRepository.work.equals("getAll")) {
                 finished = false;
                 loading = true;
                 if (integer == 1) {
@@ -434,9 +435,9 @@ public class DocumentsActivity extends AppCompatActivity {
                         mainLayout.setVisibility(View.VISIBLE);
 
                         documentsRecyclerViewAdapter.setDocument(documentViewModel.getDocuments());
-                        if (DocumentRepository.page == 1) {
+//                        if (DocumentRepository.page == 1) {
                             documentsRecyclerView.setAdapter(documentsRecyclerViewAdapter);
-                        }
+//                        }
                     } else {
                         // Documents is Empty
 
@@ -451,14 +452,14 @@ public class DocumentsActivity extends AppCompatActivity {
                         }
                     }
 
-                    if (pagingProgressBar.getVisibility() == View.VISIBLE) {
-                        pagingProgressBar.setVisibility(View.GONE);
-                    }
-
-                    loading = false;
-                    DocumentRepository.page++;
-
-                    resetData("search");
+//                    if (pagingProgressBar.getVisibility() == View.VISIBLE) {
+//                        pagingProgressBar.setVisibility(View.GONE);
+//                    }
+//
+//                    loading = false;
+//                    DocumentRepository.page++;
+//
+//                    resetData("search");
 
                     finished = true;
 
@@ -477,11 +478,11 @@ public class DocumentsActivity extends AppCompatActivity {
                             setInfoLayout("connection"); // Show Connection
                         }
 
-                        if (pagingProgressBar.getVisibility() == View.VISIBLE) {
-                            pagingProgressBar.setVisibility(View.GONE);
-                        }
-
-                        resetData("search");
+//                        if (pagingProgressBar.getVisibility() == View.VISIBLE) {
+//                            pagingProgressBar.setVisibility(View.GONE);
+//                        }
+//
+//                        resetData("search");
 
                         finished = true;
 
@@ -494,15 +495,15 @@ public class DocumentsActivity extends AppCompatActivity {
                         mainLayout.setVisibility(View.VISIBLE);
 
                         documentsRecyclerViewAdapter.setDocument(documentViewModel.getDocuments());
-                        if (DocumentRepository.page == 1) {
+//                        if (DocumentRepository.page == 1) {
                             documentsRecyclerView.setAdapter(documentsRecyclerViewAdapter);
-                        }
-
-                        if (pagingProgressBar.getVisibility() == View.VISIBLE) {
-                            pagingProgressBar.setVisibility(View.GONE);
-                        }
-
-                        resetData("search");
+//                        }
+//
+//                        if (pagingProgressBar.getVisibility() == View.VISIBLE) {
+//                            pagingProgressBar.setVisibility(View.GONE);
+//                        }
+//
+//                        resetData("search");
 
                         finished = true;
 

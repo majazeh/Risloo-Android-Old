@@ -12,9 +12,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.majazeh.risloo.Models.Apis.AuthApi;
 import com.majazeh.risloo.Models.Apis.DocumentApi;
-import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.Models.Repositories.DocumentRepository;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Generators.RetroGenerator;
@@ -27,7 +25,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
-import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -62,11 +59,11 @@ public class DocumentWorker extends Worker {
 
         if (work != null) {
             switch (work) {
-                case "documents":
-                    documents();
+                case "getAll":
+                    getAll();
                     break;
-                case "attachment":
-                    attachment();
+                case "send":
+                    send();
                     break;
             }
         }
@@ -81,7 +78,7 @@ public class DocumentWorker extends Worker {
         return "";
     }
 
-    private void documents() {
+    private void getAll() {
         try {
             Call<ResponseBody> call = api.documents(token());
 
@@ -108,7 +105,6 @@ public class DocumentWorker extends Worker {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
 
                 } else {
                     FileManager.deletePageFromCache(context, "documents");
@@ -141,7 +137,7 @@ public class DocumentWorker extends Worker {
         }
     }
 
-    private void attachment() {
+    private void send() {
         File attachment = new File(DocumentRepository.fileAttachment);
 
         AndroidNetworking.upload("https://bapi.risloo.ir/api/documents")
@@ -160,7 +156,7 @@ public class DocumentWorker extends Worker {
 
                             FileManager.deleteFolderFromCache(context, "documents");
 
-                            ExceptionGenerator.getException(true, 200, successBody, "attachment");
+                            ExceptionGenerator.getException(true, 200, successBody, "send");
                             DocumentRepository.workState.postValue(1);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -175,7 +171,7 @@ public class DocumentWorker extends Worker {
                         try {
                             JSONObject errorBody = new JSONObject(error.getErrorBody());
 
-                            ExceptionGenerator.getException(true, error.getErrorCode(), errorBody, "attachment");
+                            ExceptionGenerator.getException(true, error.getErrorCode(), errorBody, "send");
                             DocumentRepository.workState.postValue(0);
                         } catch (JSONException e) {
                             e.printStackTrace();

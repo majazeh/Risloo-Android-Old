@@ -13,8 +13,7 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
 import com.majazeh.risloo.Entities.Model;
-import com.majazeh.risloo.Models.Items.AuthItems;
-import com.majazeh.risloo.Models.Workers.AuthWorker;
+import com.majazeh.risloo.Models.Workers.DocumentWorker;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 
@@ -27,9 +26,6 @@ import java.util.Objects;
 
 public class DocumentRepository extends MainRepository {
 
-    // Objects
-    private final AuthItems items;
-
     // Vars
     public static MutableLiveData<Integer> workState;
     public static String work = "";
@@ -40,8 +36,6 @@ public class DocumentRepository extends MainRepository {
     public DocumentRepository(@NonNull Application application) throws JSONException {
         super(application);
 
-        items = new AuthItems(application);
-
         workState = new MutableLiveData<>();
         workState.setValue(-1);
     }
@@ -50,19 +44,19 @@ public class DocumentRepository extends MainRepository {
          ---------- Voids ----------
     */
 
-    public void documents() throws JSONException {
-        work = "documents";
+    public void documents(String Q) throws JSONException {
+        work = "getAll";
         workState.setValue(-1);
-        workManager("documents");
+        workManager("getAll");
     }
 
-    public void sendDoc(String title, String description, String attachment) throws JSONException {
+    public void send(String title, String description, String attachment) throws JSONException {
         DocumentRepository.fileTitle = title;
         DocumentRepository.fileDescription = description;
         DocumentRepository.fileAttachment = attachment;
-        work = "attachment";
+        work = "send";
         workState.setValue(-1);
-        workManager("attachment");
+        workManager("send");
     }
 
     public ArrayList<Model> getDocuments(){
@@ -94,7 +88,7 @@ public class DocumentRepository extends MainRepository {
                     .setRequiredNetworkType(NetworkType.CONNECTED)
                     .build();
 
-            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(AuthWorker.class)
+            OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(DocumentWorker.class)
                     .setConstraints(constraints)
                     .setInputData(data(work))
                     .build();

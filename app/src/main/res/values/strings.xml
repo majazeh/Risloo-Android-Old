@@ -468,6 +468,7 @@
 
     <string name="DocumentsId">#</string>
     <string name="DocumentsStatus">وضعیت </string>
+    <string name="DocumentsNote">یادداشت</string>
     <string name="DocumentsDescription">توضیحات</string>
     <string name="DocumentsAttachment">ضمیمه</string>
 
