@@ -65,6 +65,9 @@ public class DocumentWorker extends Worker {
                 case "send":
                     send();
                     break;
+                case "docStatus":
+                    docStatus();
+                    break;
             }
         }
 
@@ -85,29 +88,9 @@ public class DocumentWorker extends Worker {
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
-
+                FileManager.deletePageFromCache(context, "documents");
                 if (successBody.getJSONArray("data").length() != 0) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        FileManager.deletePageFromCache(context, "documents");
-                    }
                     FileManager.writeObjectToCache(context, successBody, "documents");
-
-                    JSONObject jsonObject = FileManager.readObjectFromCache(context, "documents");
-                    JSONArray data;
-                    try {
-                        data = jsonObject.getJSONArray("data");
-                        for (int i = 0; i < successBody.getJSONArray("data").length(); i++) {
-                            JSONArray jsonArray = successBody.getJSONArray("data");
-                            data.put(jsonArray.getJSONObject(i));
-                        }
-                        jsonObject.put("data", data);
-                        FileManager.writeObjectToCache(context, jsonObject, "documents");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                } else {
-                    FileManager.deletePageFromCache(context, "documents");
                 }
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "documents");
@@ -182,6 +165,41 @@ public class DocumentWorker extends Worker {
                     }
 
                 });
+    }
+
+    public void docStatus(){
+        try {
+            Call<ResponseBody> call = api.docStatus(token(),DocumentRepository.documentId,DocumentRepository.documentData);
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(bodyResponse.body().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "docStatus");
+                DocumentRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(bodyResponse.errorBody().string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "docStatus");
+                DocumentRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
+            DocumentRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
+            DocumentRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "IOException");
+            DocumentRepository.workState.postValue(0);
+        }
     }
 
 }

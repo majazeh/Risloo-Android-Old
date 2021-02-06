@@ -35,6 +35,15 @@ public class DocumentViewModel extends AndroidViewModel {
         repository.send(title, description, attachment);
     }
 
+    public String getENStatus(String faStatus) {
+        return repository.getENStatus(faStatus);
+    }
+
+    public String getFAStatus(String enStatus) {
+        return repository.getFAStatus(enStatus);
+    }
+
+
     public ArrayList<Model> getDocuments(){
         return repository.getDocuments();
     }

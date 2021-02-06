@@ -15,6 +15,7 @@ import androidx.work.WorkManager;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Workers.DocumentWorker;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
+import com.majazeh.risloo.Utils.Generators.JSONGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
 
 import org.json.JSONArray;
@@ -22,13 +23,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class DocumentRepository extends MainRepository {
 
     // Vars
     public static MutableLiveData<Integer> workState;
+    public static HashMap<String, String> documentData;
     public static String work = "";
+    public static String documentId = "";
     public static String fileTitle = "";
     public static String fileDescription = "";
     public static String fileAttachment = "";
@@ -37,6 +41,7 @@ public class DocumentRepository extends MainRepository {
         super(application);
 
         workState = new MutableLiveData<>();
+        documentData = new HashMap<String, String>();
         workState.setValue(-1);
     }
 
@@ -59,7 +64,16 @@ public class DocumentRepository extends MainRepository {
         workManager("send");
     }
 
-    public ArrayList<Model> getDocuments(){
+    public void docStatus(String documentId, String status) throws JSONException {
+        DocumentRepository.documentId = documentId;
+        if (!status.equals(""))
+            documentData.put("status", status);
+        work = "docStatus";
+        workState.setValue(-1);
+        workManager("docStatus");
+    }
+
+    public ArrayList<Model> getDocuments() {
         ArrayList<Model> arrayList = new ArrayList<>();
         if (FileManager.readObjectFromCache(application.getApplicationContext(), "documents") != null) {
             JSONObject jsonObject = FileManager.readObjectFromCache(application.getApplicationContext(), "documents");
@@ -98,6 +112,48 @@ public class DocumentRepository extends MainRepository {
             ExceptionGenerator.getException(false, 0, null, "OffLineException");
             workState.postValue(-2);
         }
+    }
+
+    public ArrayList<Model> getLocalDocumentStatus() {
+        try {
+            JSONArray data = new JSONArray(JSONGenerator.getJSON(application.getApplicationContext(), "localDocumentStatus.json"));
+            ArrayList<Model> arrayList = new ArrayList<>();
+            for (int i = 0; i < data.length(); i++) {
+                arrayList.add(new Model(data.getJSONObject(i)));
+            }
+            return arrayList;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String getENStatus(String faStatus) {
+        ArrayList<Model> arrayList = getLocalDocumentStatus();
+        for (int i = 0; i < arrayList.size(); i++) {
+            try {
+                if (faStatus.equals(arrayList.get(i).get("fa_title")))
+                    return (String) arrayList.get(i).get("en_title");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
+    }
+
+    public String getFAStatus(String enStatus) {
+        ArrayList<Model> arrayList = getLocalDocumentStatus();
+        for (int i = 0; i < arrayList.size(); i++) {
+            try {
+                if (enStatus.equals(arrayList.get(i).get("en_title")))
+                    return (String) arrayList.get(i).get("fa_title");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
     }
 
     private boolean isNetworkConnected(Context context) {
