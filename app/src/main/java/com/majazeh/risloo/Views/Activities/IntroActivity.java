@@ -1,11 +1,10 @@
 package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,9 +16,13 @@ import android.widget.TextView;
 import com.duolingo.open.rtlviewpager.RtlViewPager;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
+import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Adapters.IntroAdapter;
 
 public class IntroActivity extends AppCompatActivity {
+
+    // ViewModels
+    private AuthViewModel authViewModel;
 
     // Adapters
     private IntroAdapter introAdapter;
@@ -30,11 +33,9 @@ public class IntroActivity extends AppCompatActivity {
 
     // Objects
     private Handler handler;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
 
     // Widgets
-    private RtlViewPager rtlViewPager;
+    private RtlViewPager introRtlViewPager;
     private TextView nextTextView, skipTextView;
     private LinearLayout dotsLinearLayout;
 
@@ -42,7 +43,7 @@ public class IntroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (firstTimeLaunch()) {
+        if (intro()) {
             decorator();
 
             setContentView(R.layout.activity_intro);
@@ -55,7 +56,7 @@ public class IntroActivity extends AppCompatActivity {
 
             addDots(0);
         } else {
-            launchAuth();
+            launcher();
         }
     }
 
@@ -67,7 +68,7 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     private void initializer() {
-        introLayouts = new int[]{R.layout.single_item_intro_1, R.layout.single_item_intro_2, R.layout.single_item_intro_3, R.layout.single_item_intro_4};
+        introLayouts = new int[]{R.layout.intro_one, R.layout.intro_two, R.layout.intro_three, R.layout.intro_four};
 
         activeColors = getResources().getIntArray(R.array.activeColors);
         inActiveColors = getResources().getIntArray(R.array.inActiveColors);
@@ -78,12 +79,12 @@ public class IntroActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        rtlViewPager = findViewById(R.id.activity_intro_rtlViewPager);
+        introRtlViewPager = findViewById(R.id.intro_rtlViewPager);
 
-        nextTextView = findViewById(R.id.activity_intro_next_textView);
-        skipTextView = findViewById(R.id.activity_intro_skip_textView);
+        nextTextView = findViewById(R.id.next_textView);
+        skipTextView = findViewById(R.id.skip_textView);
 
-        dotsLinearLayout = findViewById(R.id.activity_intro_dots_linearLayout);
+        dotsLinearLayout = findViewById(R.id.dots_linearLayout);
     }
 
     private void listener() {
@@ -98,10 +99,10 @@ public class IntroActivity extends AppCompatActivity {
             skipTextView.setClickable(false);
             handler.postDelayed(() -> skipTextView.setClickable(true), 250);
 
-            launchAuth();
+            launcher();
         });
 
-        rtlViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        introRtlViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int position) {
@@ -130,8 +131,8 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     private void setData() {
-        introAdapter.setLayout(introLayouts);
-        rtlViewPager.setAdapter(introAdapter);
+        introAdapter.setLayouts(introLayouts);
+        introRtlViewPager.setAdapter(introAdapter);
     }
 
     private void addDots(int currentPage) {
@@ -151,30 +152,26 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     private void nextPage() {
-        int currentPage = rtlViewPager.getCurrentItem() + 1;
+        int currentPage = introRtlViewPager.getCurrentItem() + 1;
 
         if (currentPage < introLayouts.length) {
-            rtlViewPager.setCurrentItem(currentPage);
+            introRtlViewPager.setCurrentItem(currentPage);
         } else {
-            launchAuth();
+            launcher();
         }
     }
 
-    private void launchAuth() {
+    private void launcher() {
         startActivity(new Intent(this, AuthActivity.class));
         finish();
 
-        editor.putBoolean("firstLaunch", false);
-        editor.apply();
+        authViewModel.setIntro(false);
     }
 
-    private boolean firstTimeLaunch() {
-        sharedPreferences = getSharedPreferences("sharedPreference", Context.MODE_PRIVATE);
+    private boolean intro() {
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
-        editor = sharedPreferences.edit();
-        editor.apply();
-
-        return sharedPreferences.getBoolean("firstLaunch", true);
+        return authViewModel.getIntro();
     }
 
 }

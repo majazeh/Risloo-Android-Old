@@ -41,15 +41,15 @@
     // Intro Strings
     ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="IntroTitle1">ریسلو</string>
-    <string name="IntroTitle2">آزمون‌</string>
-    <string name="IntroTitle3">اداره مراکز درمان</string>
-    <string name="IntroTitle4">همیار پژوهش و آموزش</string>
+    <string name="IntroTitleOne">ریسلو</string>
+    <string name="IntroTitleTwo">آزمون‌</string>
+    <string name="IntroTitleThree">اداره مراکز درمان</string>
+    <string name="IntroTitleFour">همیار پژوهش و آموزش</string>
 
-    <string name="IntroDescription1">بستری یک‌پارچه که کارهای روان‌شناس را در سه حوزه درمان، آموزش و پژوهش تسهیل می‌کند.</string>
-    <string name="IntroDescription2">آزمون روان‌شناختی مورد نیاز خود را انتخاب کنید و به آسانی آن را اجرا کرده، نمره‌گذاری و تفسیر آن را در اختیار داشته باشید.</string>
-    <string name="IntroDescription3">برنامه‌ریزی‌ کارهای مراکز درمان خود را با ریسلو انجام داده و دغدغه آن‌ها را نداشته باشید.</string>
-    <string name="IntroDescription4">کارهای  پژوهشی و علمی خود را به راحتی در بستری یک‌پارچه ساماندهی کنید.</string>
+    <string name="IntroDescriptionOne">بستری یک‌پارچه که کارهای روان‌شناس را در سه حوزه درمان، آموزش و پژوهش تسهیل می‌کند.</string>
+    <string name="IntroDescriptionTwo">آزمون روان‌شناختی مورد نیاز خود را انتخاب کنید و به آسانی آن را اجرا کرده، نمره‌گذاری و تفسیر آن را در اختیار داشته باشید.</string>
+    <string name="IntroDescriptionThree">برنامه‌ریزی‌ کارهای مراکز درمان خود را با ریسلو انجام داده و دغدغه آن‌ها را نداشته باشید.</string>
+    <string name="IntroDescriptionFour">کارهای  پژوهشی و علمی خود را به راحتی در بستری یک‌پارچه ساماندهی کنید.</string>
 
     <string name="IntroNext">بعدی</string>
     <string name="IntroSkip">رد شدن</string>

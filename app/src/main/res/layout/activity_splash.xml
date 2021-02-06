@@ -1,57 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/CoralRed"
-    android:layoutDirection="rtl"
-    android:focusable="true"
     android:fitsSystemWindows="true"
+    android:focusable="true"
     android:focusableInTouchMode="true"
     android:descendantFocusability="blocksDescendants"
     tools:context=".Views.Activities.SplashActivity">
 
     <ImageView
-        android:id="@+id/activity_splash_logo_imageView"
+        android:id="@+id/logo_imageView"
         android:layout_width="@dimen/_110sdp"
         android:layout_height="@dimen/_110sdp"
-        android:layout_marginBottom="@dimen/_24sdp"
-        android:layout_gravity="center"
         android:contentDescription="@string/AppImageContent"
+        android:scaleType="fitCenter"
         android:src="@drawable/logo_text"
-        app:tint="@color/White" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/version_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
+        android:gravity="center"
+        android:textSize="@dimen/_12ssp"
+        android:textStyle="bold"
+        android:textColor="@color/Solitude"
+        android:textAlignment="gravity"
+        app:layout_constraintBottom_toTopOf="@+id/update_progressBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_goneMarginBottom="@dimen/_16sdp" />
+
+    <ProgressBar
+        android:id="@+id/update_progressBar"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_8sdp"
         android:layout_marginBottom="@dimen/_16sdp"
-        android:orientation="vertical">
+        android:indeterminate="true"
+        android:visibility="gone"
+        android:theme="@style/ProgressBarHorizontalTheme"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/activity_splash_version_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_8sdp"
-            android:layout_gravity="center|bottom"
-            android:gravity="center"
-            android:textSize="@dimen/_12ssp"
-            android:textStyle="bold"
-            android:textColor="@color/Solitude"
-            android:textAlignment="gravity" />
-
-        <ProgressBar
-            android:id="@+id/activity_splash_update_progressBar"
-            android:layout_width="@dimen/_120sdp"
-            android:layout_height="@dimen/_8sdp"
-            android:visibility="gone"
-            android:indeterminate="true"
-            android:theme="@style/ProgressBarHorizontalTheme"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
-
-    </LinearLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

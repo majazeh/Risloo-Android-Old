@@ -50,6 +50,10 @@ public class AuthItems {
         return sharedPreferences.getBoolean("hasAccess", false);
     }
 
+    public boolean intro() {
+        return sharedPreferences.getBoolean("intro", true);
+    }
+
     public String token() {
         if (!sharedPreferences.getString("token", "").equals("")) {
             return sharedPreferences.getString("token", "");
@@ -151,6 +155,11 @@ public class AuthItems {
             return sharedPreferences.getString("private_key", "");
         }
         return "";
+    }
+
+    public void setIntro(boolean intro) {
+        editor.putBoolean("intro", intro);
+        editor.apply();
     }
 
     public void setPublicKey(String key) {

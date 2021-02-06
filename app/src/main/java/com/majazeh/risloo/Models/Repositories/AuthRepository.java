@@ -145,6 +145,10 @@ public class AuthRepository extends MainRepository {
          ---------- Strings ----------
     */
 
+    public boolean getIntro() {
+        return items.intro();
+    }
+
     public String getToken() {
         return items.token();
     }
@@ -191,6 +195,10 @@ public class AuthRepository extends MainRepository {
 
     public String getPrivateKey() {
         return items.privateKey();
+    }
+
+    public void setIntro(boolean intro) {
+        items.setIntro(intro);
     }
 
     public void setPublicKey(String key) {

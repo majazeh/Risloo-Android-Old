@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,11 +22,10 @@ import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.IntentManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
+import com.majazeh.risloo.Utils.Managers.ParamsManager;
 import com.majazeh.risloo.ViewModels.ExplodeViewModel;
 
 import org.json.JSONException;
-
-import java.util.Objects;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -57,7 +55,7 @@ public class SplashActivity extends AppCompatActivity {
 
         listener();
 
-        launchIntro();
+        launcher("intro");
     }
 
     private void decorator() {
@@ -72,22 +70,17 @@ public class SplashActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        versionTextView = findViewById(R.id.activity_splash_version_textView);
+        versionTextView = findViewById(R.id.version_textView);
         versionTextView.setText(currentVersion());
 
-        updateProgressBar = findViewById(R.id.activity_splash_update_progressBar);
+        updateProgressBar = findViewById(R.id.update_progressBar);
 
         updateDialog = new Dialog(this, R.style.DialogTheme);
-        Objects.requireNonNull(updateDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+        updateDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         updateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         updateDialog.setContentView(R.layout.dialog_action);
         updateDialog.setCancelable(true);
-
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-        layoutParams.copyFrom(updateDialog.getWindow().getAttributes());
-        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        updateDialog.getWindow().setAttributes(layoutParams);
+        updateDialog.getWindow().setAttributes(ParamsManager.set(updateDialog));
 
         updateDialogTitle = updateDialog.findViewById(R.id.dialog_action_title_textView);
         updateDialogDescription = updateDialog.findViewById(R.id.dialog_action_description_textView);
@@ -110,7 +103,7 @@ public class SplashActivity extends AppCompatActivity {
             updateDialog.dismiss();
 
             IntentManager.googlePlay(this);
-            finish();
+            launcher("finish");
         });
 
         updateDialogNegative.setOnClickListener(v -> {
@@ -119,9 +112,9 @@ public class SplashActivity extends AppCompatActivity {
             updateDialog.dismiss();
 
             if (explodeViewModel.forceUpdate()) {
-                finish();
+                launcher("finish");
             } else {
-                launchIntro();
+                launcher("intro");
             }
         });
 
@@ -129,9 +122,9 @@ public class SplashActivity extends AppCompatActivity {
             updateDialog.dismiss();
 
             if (explodeViewModel.forceUpdate()) {
-                finish();
+                launcher("finish");
             } else {
-                launchIntro();
+                launcher("intro");
             }
         });
     }
@@ -173,24 +166,24 @@ public class SplashActivity extends AppCompatActivity {
                     if (explodeViewModel.hasUpdate()) {
                         setData();
                     } else {
-                        launchIntro();
+                        launcher("intro");
                     }
 
                     versionTextView.setText(currentVersion());
-                    updateProgressBar.setVisibility(View.INVISIBLE);
+                    updateProgressBar.setVisibility(View.GONE);
                     ExplodeRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
-                    finish();
+                    launcher("finish");
 
                     versionTextView.setText(currentVersion());
-                    updateProgressBar.setVisibility(View.INVISIBLE);
+                    updateProgressBar.setVisibility(View.GONE);
                     Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     ExplodeRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
-                    finish();
+                    launcher("finish");
 
                     versionTextView.setText(currentVersion());
-                    updateProgressBar.setVisibility(View.INVISIBLE);
+                    updateProgressBar.setVisibility(View.GONE);
                     Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     ExplodeRepository.workState.removeObservers((LifecycleOwner) this);
                 }
@@ -198,11 +191,15 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
-    private void launchIntro() {
-        handler.postDelayed(() -> {
-            startActivity(new Intent(this, IntroActivity.class));
+    private void launcher(String activity) {
+        if (activity.equals("intro")) {
+            handler.postDelayed(() -> {
+                startActivity(new Intent(this, IntroActivity.class));
+                finish();
+            }, 1000);
+        } else if (activity.equals("finish")) {
             finish();
-        }, 1000);
+        }
     }
 
     private String currentVersion() {

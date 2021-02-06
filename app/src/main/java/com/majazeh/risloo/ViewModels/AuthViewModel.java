@@ -307,6 +307,10 @@ public class AuthViewModel extends AndroidViewModel {
          ---------- Strings ----------
     */
 
+    public boolean getIntro() {
+        return repository.getIntro();
+    }
+
     public String getToken() {
         return repository.getToken();
     }
@@ -353,6 +357,10 @@ public class AuthViewModel extends AndroidViewModel {
 
     public String getPrivateKey() {
         return repository.getPrivateKey();
+    }
+
+    public void setIntro(boolean intro) {
+        repository.setIntro(intro);
     }
 
     public void setPublicKey(String key) {
