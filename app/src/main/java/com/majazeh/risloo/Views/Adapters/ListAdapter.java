@@ -30,7 +30,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
     // Vars
     private String asset;
-    private ArrayList<Model> lists;
+    private ArrayList<Model> list;
 
     // Objects
     private Activity activity;
@@ -51,21 +51,19 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ListHolder holder, int i) {
-        Model model = lists.get(i);
+        Model model = list.get(i);
 
         try {
             if (!model.get("title").equals("none")) {
+                holder.titleTextView.setText((String) model.get("title"));
                 holder.titleTextView.setVisibility(View.VISIBLE);
-
-                holder.titleTextView.setText(model.get("title").toString());
             } else {
                 holder.titleTextView.setVisibility(View.GONE);
             }
 
             if (!model.get("description").equals("none")) {
+                holder.descriptionTextView.setText((String) model.get("description"));
                 holder.descriptionTextView.setVisibility(View.VISIBLE);
-
-                holder.descriptionTextView.setText(model.get("description").toString());
             } else {
                 holder.descriptionTextView.setVisibility(View.GONE);
             }
@@ -86,14 +84,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
                         break;
                 }
 
-                holder.listRecyclerView.setVisibility(View.VISIBLE);
-
                 holder.listRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", 0, (int) activity.getResources().getDimension(R.dimen._8sdp), (int) activity.getResources().getDimension(R.dimen._12sdp)));
                 holder.listRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
                 holder.listRecyclerView.setHasFixedSize(false);
                 holder.listRecyclerView.setAdapter(subListBigAdapter);
 
-            } else if (lists.get(i).get("subset").equals("small")) {
+                holder.listRecyclerView.setVisibility(View.VISIBLE);
+
+            } else if (list.get(i).get("subset").equals("small")) {
                 switch (asset) {
                     case "AboutUs":
                         subListSmallAdapter.setList(((AboutUsActivity) Objects.requireNonNull(activity)).aboutUsViewModel.getSubset(i));
@@ -109,14 +107,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
                         break;
                 }
 
-                holder.listRecyclerView.setVisibility(View.VISIBLE);
-
                 holder.listRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", 0, (int) activity.getResources().getDimension(R.dimen._6sdp), (int) activity.getResources().getDimension(R.dimen._8sdp)));
                 holder.listRecyclerView.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false));
                 holder.listRecyclerView.setHasFixedSize(false);
                 holder.listRecyclerView.setAdapter(subListSmallAdapter);
 
-            } else if (lists.get(i).get("subset").equals("none")) {
+                holder.listRecyclerView.setVisibility(View.VISIBLE);
+
+            } else if (list.get(i).get("subset").equals("none")) {
                 holder.listRecyclerView.setVisibility(View.GONE);
             }
 
@@ -127,7 +125,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
     @Override
     public int getItemCount() {
-        return lists.size();
+        return list.size();
     }
 
     private void initializer(View view) {
@@ -135,8 +133,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
         subListSmallAdapter = new SubListSmallAdapter(activity);
     }
 
-    public void setList(ArrayList<Model> lists, String asset) {
-        this.lists = lists;
+    public void setList(ArrayList<Model> list, String asset) {
+        this.list = list;
         this.asset = asset;
         notifyDataSetChanged();
     }
@@ -148,9 +146,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
         public ListHolder(View view) {
             super(view);
-            titleTextView = view.findViewById(R.id.single_item_list_title_textView);
-            descriptionTextView = view.findViewById(R.id.single_item_list_description_textView);
-            listRecyclerView = view.findViewById(R.id.single_item_list_recyclerView);
+            titleTextView = view.findViewById(R.id.title_textView);
+            descriptionTextView = view.findViewById(R.id.description_textView);
+            listRecyclerView = view.findViewById(R.id.list_recyclerView);
         }
     }
 

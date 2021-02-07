@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.IntentManager;
+import com.majazeh.risloo.Utils.Managers.ParamsManager;
 import com.majazeh.risloo.ViewModels.ExplodeViewModel;
 import com.majazeh.risloo.Views.Activities.AboutUsActivity;
 import com.majazeh.risloo.Views.Activities.CallUsActivity;
@@ -35,7 +35,6 @@ import com.majazeh.risloo.Views.Activities.TAConditionActivity;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingHolder> {
 
@@ -78,7 +77,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingH
             }
 
             if (i != settings.size() - 1) {
-                holder.titleTextView.setText(model.get("title").toString());
+                holder.titleTextView.setText((String) model.get("title"));
             } else {
                 if (explodeViewModel.hasUpdate()) {
                     holder.titleTextView.setText(activity.getResources().getString(R.string.SettingUpdate));
@@ -88,7 +87,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingH
                     holder.updateTextView.setVisibility(View.INVISIBLE);
                 }
 
-                holder.lineView.setVisibility(View.GONE);
+                holder.separatorView.setVisibility(View.GONE);
             }
 
             holder.avatarImageView.setImageDrawable((Drawable) model.get("image"));
@@ -114,9 +113,9 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingH
     private void initializer(View view) {
         explodeViewModel = new ViewModelProvider((FragmentActivity) activity).get(ExplodeViewModel.class);
 
-        socialDialog = new SocialDialog(activity);
-
         handler = new Handler();
+
+        socialDialog = new SocialDialog(activity);
     }
 
     private void showDialog() {
@@ -137,28 +136,18 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingH
 
     private void initDialog() {
         noUpdateDialog = new Dialog(activity, R.style.DialogTheme);
-        Objects.requireNonNull(noUpdateDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+        noUpdateDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         noUpdateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         noUpdateDialog.setContentView(R.layout.dialog_note);
         noUpdateDialog.setCancelable(true);
+        noUpdateDialog.getWindow().setAttributes(ParamsManager.set(noUpdateDialog));
 
         availableUpdateDialog = new Dialog(activity, R.style.DialogTheme);
-        Objects.requireNonNull(availableUpdateDialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+        availableUpdateDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         availableUpdateDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         availableUpdateDialog.setContentView(R.layout.dialog_action);
         availableUpdateDialog.setCancelable(true);
-
-        WindowManager.LayoutParams layoutParamsNoUpdateDialog = new WindowManager.LayoutParams();
-        layoutParamsNoUpdateDialog.copyFrom(noUpdateDialog.getWindow().getAttributes());
-        layoutParamsNoUpdateDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParamsNoUpdateDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        noUpdateDialog.getWindow().setAttributes(layoutParamsNoUpdateDialog);
-
-        WindowManager.LayoutParams layoutParamsAvailableUpdateDialog = new WindowManager.LayoutParams();
-        layoutParamsAvailableUpdateDialog.copyFrom(availableUpdateDialog.getWindow().getAttributes());
-        layoutParamsAvailableUpdateDialog.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParamsAvailableUpdateDialog.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        availableUpdateDialog.getWindow().setAttributes(layoutParamsAvailableUpdateDialog);
+        availableUpdateDialog.getWindow().setAttributes(ParamsManager.set(availableUpdateDialog));
 
         noUpdateDialogTitle = noUpdateDialog.findViewById(R.id.dialog_note_title_textView);
         noUpdateDialogDescription = noUpdateDialog.findViewById(R.id.dialog_note_description_textView);
@@ -252,7 +241,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingH
         return activity.getResources().getString(R.string.SettingVersion) + " " + explodeViewModel.newVersion() + " " + activity.getResources().getString(R.string.SettingArrived);
     }
 
-    public void setSetting(ArrayList<Model> settings) {
+    public void setSettings(ArrayList<Model> settings) {
         this.settings = settings;
         notifyDataSetChanged();
     }
@@ -261,14 +250,14 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingH
 
         public ImageView avatarImageView;
         public TextView titleTextView, updateTextView;
-        public View lineView;
+        public View separatorView;
 
         public SettingHolder(View view) {
             super(view);
-            avatarImageView = view.findViewById(R.id.single_item_setting_avatar_imageView);
-            titleTextView = view.findViewById(R.id.single_item_setting_title_textView);
-            updateTextView = view.findViewById(R.id.single_item_setting_update_textView);
-            lineView = view.findViewById(R.id.single_item_setting_line_view);
+            avatarImageView = view.findViewById(R.id.avatar_imageView);
+            titleTextView = view.findViewById(R.id.title_textView);
+            updateTextView = view.findViewById(R.id.update_textView);
+            separatorView = view.findViewById(R.id.separator_view);
         }
     }
 

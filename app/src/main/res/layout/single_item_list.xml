@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/single_item_list"
@@ -10,34 +9,34 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/single_item_list_title_textView"
+        android:id="@+id/title_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_4sdp"
         android:visibility="gone"
-        android:gravity="right"
+        android:gravity="start"
         android:textSize="@dimen/_13ssp"
         android:textStyle="bold"
         android:textColor="@color/PrimaryDark"
         android:textAlignment="gravity" />
 
     <TextView
-        android:id="@+id/single_item_list_description_textView"
+        android:id="@+id/description_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:gravity="right"
+        android:gravity="start"
         android:textSize="@dimen/_12ssp"
         android:textStyle="normal"
         android:textColor="@color/Grey"
         android:textAlignment="gravity" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/single_item_list_recyclerView"
+        android:id="@+id/list_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_6sdp"
-        android:visibility="gone"
-        android:overScrollMode="never" />
+        android:overScrollMode="never"
+        android:visibility="gone" />
 
 </LinearLayout>

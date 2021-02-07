@@ -77,7 +77,7 @@ public class FAQuestionActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout = findViewById(R.id.toolbar_include);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
@@ -87,7 +87,7 @@ public class FAQuestionActivity extends AppCompatActivity {
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.FAQuestionTitle));
 
-        faQuestionRecyclerView = findViewById(R.id.activity_fa_question_recyclerView);
+        faQuestionRecyclerView = findViewById(R.id.fa_question_recyclerView);
         faQuestionRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._4sdp), (int) getResources().getDimension(R.dimen._16sdp)));
         faQuestionRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         faQuestionRecyclerView.setHasFixedSize(true);
@@ -115,7 +115,7 @@ public class FAQuestionActivity extends AppCompatActivity {
                 expands.put(i, false);
             }
 
-            faQuestionAdapter.setFAQuestion(faQuestionViewModel.getAll(), expands);
+            faQuestionAdapter.setFAQuestions(faQuestionViewModel.getAll(), expands);
             faQuestionRecyclerView.setAdapter(faQuestionAdapter);
         } catch (JSONException e) {
             e.printStackTrace();

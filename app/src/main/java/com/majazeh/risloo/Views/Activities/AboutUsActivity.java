@@ -70,7 +70,7 @@ public class AboutUsActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout = findViewById(R.id.toolbar_include);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
@@ -80,7 +80,7 @@ public class AboutUsActivity extends AppCompatActivity {
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.AboutUsTitle));
 
-        aboutUsRecyclerView = findViewById(R.id.activity_about_us_recyclerView);
+        aboutUsRecyclerView = findViewById(R.id.about_us_recyclerView);
         aboutUsRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._24sdp), (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._24sdp)));
         aboutUsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         aboutUsRecyclerView.setHasFixedSize(true);

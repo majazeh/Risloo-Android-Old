@@ -57,6 +57,75 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // Setting Strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="SettingTitle">تنظمیات</string>
+
+    <string name="SettingAboutUs">درباره ما</string>
+    <string name="SettingFAQuestion">سؤالات متداول</string>
+    <string name="SettingTACondition">قوانین و مقررات</string>
+    <string name="SettingCallUs">ارتباط با ما</string>
+    <string name="SettingFollow">دنبال کردن</string>
+    <string name="SettingShare">اشتراک گذاری</string>
+    <string name="SettingRate">نظرسنجی</string>
+
+    <string name="SettingVersion">نسخه</string>
+    <string name="SettingArrived">رسید</string>
+    <string name="SettingUpdate">به روز رسانی</string>
+    <string name="SettingNew">نسخه جدید</string>
+
+    <string name="SettingShareLink">https://play.google.com/store/apps/details?id=com.majazeh.risloo</string>
+    <string name="SettingShareChooser">اشتراک گذاری برنامه</string>
+
+    <string name="SettingLinkTelegram">risloo_ir</string>
+    <string name="SettingLinkInstagram">risloo_ir</string>
+    <string name="SettingLinkFacebook">100053471781226</string>
+    <string name="SettingLinkTwitter">risloo_ir</string>
+
+    <string name="SettingFollowDialogTitle">ما را در شبکه‌های اجتماعی دنبال کنید.</string>
+    <string name="SettingFollowDialogTelegram">تلگرام</string>
+    <string name="SettingFollowDialogInstagram">اینستگرام</string>
+    <string name="SettingFollowDialogFacebook">فیسبوک</string>
+    <string name="SettingFollowDialogTwitter">توییتر</string>
+    <string name="SettingFollowDialogClose">بستن</string>
+
+    <string name="SettingNoUpdateDialogDescription">شما آخرین نسخه ریسلو را دارید. در صورت وجود نسخه جدید به شما اطلاع داده خواهد شد.</string>
+    <string name="SettingNoUpdateDialogConfirm">بستن</string>
+
+    <string name="SettingAvailableUpdateDialogDescription">برای استفاده بهتر از ریسلو لطفا بروز رسانی کنید. همیشه در تلاشیم که بهترین خدمات به شما إرائه دهیم.</string>
+    <string name="SettingAvailableUpdateDialogPositive">به روز رسانی</string>
+    <string name="SettingAvailableUpdateDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // AboutUs Strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="AboutUsTitle">درباره ما</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // FAQuestion strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="FAQuestionTitle">سؤالات متداول</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // TACondition strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="TAConditionTitle">قوانین و مقررات</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
     // Outro strings
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -211,69 +280,6 @@
     <string name="ArchivesContinueDialogDescription">شما می توانید روند کار را از نمونه خود ادامه دهید و آن را به اتمام برسانید و به ریسلو تحویل دهید.</string>
     <string name="ArchivesContinueDialogPositive">تکمیل نمونه</string>
     <string name="ArchivesContinueDialogNegative">بستن</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // Setting Strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="SettingTitle">تنظمیات</string>
-
-    <string name="SettingAboutUs">درباره ما</string>
-    <string name="SettingFAQuestion">سؤالات متداول</string>
-    <string name="SettingTACondition">قوانین و مقررات</string>
-    <string name="SettingCallUs">ارتباط با ما</string>
-    <string name="SettingFollow">دنبال کردن</string>
-    <string name="SettingShare">اشتراک گذاری</string>
-    <string name="SettingRate">نظرسنجی</string>
-
-    <string name="SettingVersion">نسخه</string>
-    <string name="SettingArrived">رسید</string>
-    <string name="SettingUpdate">به روز رسانی</string>
-    <string name="SettingNew">نسخه جدید</string>
-
-    <string name="SettingShareLink">ApplicationLink</string>
-    <string name="SettingShareChooser">اشتراک گذاری برنامه</string>
-
-    <string name="SettingLinkTelegram">risloo_ir</string>
-    <string name="SettingLinkInstagram">risloo_ir</string>
-    <string name="SettingLinkFacebook">100053471781226</string>
-    <string name="SettingLinkTwitter">risloo_ir</string>
-
-    <string name="SettingFollowDialogTitle">ما را در شبکه‌های اجتماعی دنبال کنید.</string>
-    <string name="SettingFollowDialogTelegram">تلگرام</string>
-    <string name="SettingFollowDialogInstagram">اینستگرام</string>
-    <string name="SettingFollowDialogFacebook">فیسبوک</string>
-    <string name="SettingFollowDialogTwitter">توییتر</string>
-    <string name="SettingFollowDialogClose">بستن</string>
-
-    <string name="SettingNoUpdateDialogDescription">شما آخرین نسخه ریسلو را دارید. در صورت وجود نسخه جدید به شما اطلاع داده خواهد شد.</string>
-    <string name="SettingNoUpdateDialogConfirm">بستن</string>
-
-    <string name="SettingAvailableUpdateDialogDescription">برای استفاده بهتر از ریسلو لطفا بروز رسانی کنید. همیشه در تلاشیم که بهترین خدمات به شما إرائه دهیم.</string>
-    <string name="SettingAvailableUpdateDialogPositive">به روز رسانی</string>
-    <string name="SettingAvailableUpdateDialogNegative">بستن</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // AboutUs Strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="AboutUsTitle">درباره ما</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // FAQuestion strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="FAQuestionTitle">سؤالات متداول</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // TACondition strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="TAConditionTitle">قوانین و مقررات</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 

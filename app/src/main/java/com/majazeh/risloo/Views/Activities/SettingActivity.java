@@ -37,7 +37,7 @@ public class SettingActivity extends AppCompatActivity {
     private RelativeLayout toolbarLayout;
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
-    private RecyclerView settingsRecyclerView;
+    private RecyclerView settingRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,7 @@ public class SettingActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout = findViewById(R.id.toolbar_include);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
@@ -80,10 +80,10 @@ public class SettingActivity extends AppCompatActivity {
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.SettingTitle));
 
-        settingsRecyclerView = findViewById(R.id.activity_setting_recyclerView);
-        settingsRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", 0, 0, 0));
-        settingsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        settingsRecyclerView.setHasFixedSize(true);
+        settingRecyclerView = findViewById(R.id.setting_recyclerView);
+        settingRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", 0, 0, 0));
+        settingRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        settingRecyclerView.setHasFixedSize(true);
     }
 
     private void detector() {
@@ -104,8 +104,8 @@ public class SettingActivity extends AppCompatActivity {
 
     private void setData() {
         try {
-            settingAdapter.setSetting(settingViewModel.getAll());
-            settingsRecyclerView.setAdapter(settingAdapter);
+            settingAdapter.setSettings(settingViewModel.getAll());
+            settingRecyclerView.setAdapter(settingAdapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }

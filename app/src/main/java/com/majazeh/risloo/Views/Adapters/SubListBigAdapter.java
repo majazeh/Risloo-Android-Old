@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class SubListBigAdapter extends RecyclerView.Adapter<SubListBigAdapter.SubListBigHolder> {
 
     // Vars
-    private ArrayList<Model> lists;
+    private ArrayList<Model> list;
 
     // Objects
     private Activity activity;
@@ -37,11 +37,11 @@ public class SubListBigAdapter extends RecyclerView.Adapter<SubListBigAdapter.Su
 
     @Override
     public void onBindViewHolder(@NonNull SubListBigHolder holder, int i) {
-        Model model = lists.get(i);
+        Model model = list.get(i);
 
         try {
-            holder.titleTextView.setText(model.get("title").toString());
-            holder.descriptionTextView.setText(model.get("description").toString());
+            holder.titleTextView.setText((String) model.get("title"));
+            holder.descriptionTextView.setText((String) model.get("description"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -49,11 +49,11 @@ public class SubListBigAdapter extends RecyclerView.Adapter<SubListBigAdapter.Su
 
     @Override
     public int getItemCount() {
-        return lists.size();
+        return list.size();
     }
 
-    public void setList(ArrayList<Model> lists) {
-        this.lists = lists;
+    public void setList(ArrayList<Model> list) {
+        this.list = list;
         notifyDataSetChanged();
     }
 
@@ -63,8 +63,8 @@ public class SubListBigAdapter extends RecyclerView.Adapter<SubListBigAdapter.Su
 
         public SubListBigHolder(View view) {
             super(view);
-            titleTextView = view.findViewById(R.id.single_item_sublist_big_title_textView);
-            descriptionTextView = view.findViewById(R.id.single_item_sublist_big_description_textView);
+            titleTextView = view.findViewById(R.id.title_textView);
+            descriptionTextView = view.findViewById(R.id.description_textView);
         }
     }
 

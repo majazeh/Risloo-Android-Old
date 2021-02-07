@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/single_item_sublist_small"
@@ -14,15 +13,16 @@
         android:layout_width="@dimen/_8sdp"
         android:layout_height="@dimen/_8sdp"
         android:layout_marginTop="@dimen/_6sdp"
-        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
         android:contentDescription="@string/AppImageContent"
+        android:scaleType="fitCenter"
         android:background="@drawable/draw_oval_border_grey" />
 
     <TextView
-        android:id="@+id/single_item_sublist_small_title_textView"
+        android:id="@+id/title_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="right"
+        android:gravity="start"
         android:textSize="@dimen/_12ssp"
         android:textStyle="normal"
         android:textColor="@color/Grey"

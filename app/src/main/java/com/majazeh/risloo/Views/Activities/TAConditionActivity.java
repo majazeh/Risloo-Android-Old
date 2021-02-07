@@ -70,7 +70,7 @@ public class TAConditionActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout = findViewById(R.id.toolbar_include);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
@@ -80,7 +80,7 @@ public class TAConditionActivity extends AppCompatActivity {
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.TAConditionTitle));
 
-        taConditionRecyclerView = findViewById(R.id.activity_ta_condition_recyclerView);
+        taConditionRecyclerView = findViewById(R.id.ta_condition_recyclerView);
         taConditionRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._24sdp), (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._24sdp)));
         taConditionRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         taConditionRecyclerView.setHasFixedSize(true);

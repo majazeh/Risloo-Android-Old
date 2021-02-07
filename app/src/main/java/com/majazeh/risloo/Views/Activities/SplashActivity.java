@@ -55,7 +55,7 @@ public class SplashActivity extends AppCompatActivity {
 
         listener();
 
-        launcher("intro");
+        launcher();
     }
 
     private void decorator() {
@@ -103,7 +103,7 @@ public class SplashActivity extends AppCompatActivity {
             updateDialog.dismiss();
 
             IntentManager.googlePlay(this);
-            launcher("finish");
+            finish();
         });
 
         updateDialogNegative.setOnClickListener(v -> {
@@ -112,9 +112,9 @@ public class SplashActivity extends AppCompatActivity {
             updateDialog.dismiss();
 
             if (explodeViewModel.forceUpdate()) {
-                launcher("finish");
+                finish();
             } else {
-                launcher("intro");
+                launcher();
             }
         });
 
@@ -122,9 +122,9 @@ public class SplashActivity extends AppCompatActivity {
             updateDialog.dismiss();
 
             if (explodeViewModel.forceUpdate()) {
-                launcher("finish");
+                finish();
             } else {
-                launcher("intro");
+                launcher();
             }
         });
     }
@@ -166,21 +166,21 @@ public class SplashActivity extends AppCompatActivity {
                     if (explodeViewModel.hasUpdate()) {
                         setData();
                     } else {
-                        launcher("intro");
+                        launcher();
                     }
 
                     versionTextView.setText(currentVersion());
                     updateProgressBar.setVisibility(View.GONE);
                     ExplodeRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
-                    launcher("finish");
+                    finish();
 
                     versionTextView.setText(currentVersion());
                     updateProgressBar.setVisibility(View.GONE);
                     Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     ExplodeRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
-                    launcher("finish");
+                    finish();
 
                     versionTextView.setText(currentVersion());
                     updateProgressBar.setVisibility(View.GONE);
@@ -191,15 +191,11 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
-    private void launcher(String activity) {
-        if (activity.equals("intro")) {
-            handler.postDelayed(() -> {
-                startActivity(new Intent(this, IntroActivity.class));
-                finish();
-            }, 1000);
-        } else if (activity.equals("finish")) {
+    private void launcher() {
+        handler.postDelayed(() -> {
+            startActivity(new Intent(this, IntroActivity.class));
             finish();
-        }
+        }, 1000);
     }
 
     private String currentVersion() {
