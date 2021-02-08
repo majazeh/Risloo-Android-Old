@@ -442,6 +442,15 @@ public class DetailSessionActivity extends AppCompatActivity {
                 }
                 IntentManager.file(this);
             }
+        } else if (requestCode == 200) {
+            if (grantResults.length > 0) {
+                for (int grantResult : grantResults) {
+                    if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+                }
+                detailSessionPracticesAdapter.downloadFile();
+            }
         }
     }
 

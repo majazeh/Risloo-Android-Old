@@ -39,6 +39,7 @@ public class DetailSessionPracticesAdapter extends RecyclerView.Adapter<DetailSe
     private int position;
     private Model model;
     private ArrayList<Model> practices;
+    private String type = "", attachment = "", homework = "";
 
     // Objects
     private Activity activity;
@@ -115,8 +116,11 @@ public class DetailSessionPracticesAdapter extends RecyclerView.Adapter<DetailSe
                         JSONObject attachments = (JSONObject) model.get("attachments");
                         JSONObject original = (JSONObject) attachments.get("original");
 
+                        type = "attachment";
+                        attachment = original.get("url").toString();
+
                         if (PermissionManager.storagePermission(activity)) {
-                            IntentManager.download(activity, original.get("url").toString());
+                            IntentManager.download(activity, attachment);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -130,10 +134,13 @@ public class DetailSessionPracticesAdapter extends RecyclerView.Adapter<DetailSe
 
                 if (model.attributes.has("homework") && !model.attributes.isNull("homework")) {
                     try {
-                        JSONObject homework = (JSONObject) model.get("homework");
+                        JSONObject homeworks = (JSONObject) model.get("homework");
+
+                        type = "homework";
+                        homework = homeworks.get("url").toString();
 
                         if (PermissionManager.storagePermission(activity)) {
-                            IntentManager.download(activity, homework.get("url").toString());
+                            IntentManager.download(activity, homework);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -218,6 +225,14 @@ public class DetailSessionPracticesAdapter extends RecyclerView.Adapter<DetailSe
                 }
             }
         });
+    }
+
+    public void downloadFile() {
+        if (type.equals("attachment")) {
+            IntentManager.download(activity, attachment);
+        } else if (type.equals("homework")){
+            IntentManager.download(activity, homework);
+        }
     }
 
     public void setPractice(ArrayList<Model> practices) {

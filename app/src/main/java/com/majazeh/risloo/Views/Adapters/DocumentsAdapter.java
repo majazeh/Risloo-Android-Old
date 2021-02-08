@@ -28,6 +28,7 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.Docu
 
     // Vars
     private ArrayList<Model> documents;
+    private String attachment = "";
 
     // Objects
     private Activity activity;
@@ -114,8 +115,10 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.Docu
                         JSONObject attachments = (JSONObject) model.get("attachments");
                         JSONObject original = (JSONObject) attachments.get("original");
 
+                        attachment = original.get("url").toString();
+
                         if (PermissionManager.storagePermission(activity)) {
-                            IntentManager.download(activity, original.get("url").toString());
+                            IntentManager.download(activity, attachment);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -156,6 +159,10 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.Docu
             ((DocumentsActivity) Objects.requireNonNull(activity)).loading = false;
             ((DocumentsActivity) Objects.requireNonNull(activity)).pagingProgressBar.setVisibility(View.GONE);
         }
+    }
+
+    public void downloadDocument() {
+        IntentManager.download(activity, attachment);
     }
 
     public void setDocument(ArrayList<Model> documents) {
