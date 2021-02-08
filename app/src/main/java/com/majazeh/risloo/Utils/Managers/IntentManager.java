@@ -60,7 +60,7 @@ public class IntentManager {
             File imageStorageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 
             File imageFile = File.createTempFile(imageFileName, imageFileSuffix, imageStorageDir);
-            String fileProviderAuthority = "com.majazeh.risloo.fileprovider";
+            String fileProviderAuthority = "com.majazeh.risloo.debug.fileprovider";
 
             intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(activity, fileProviderAuthority, imageFile));
 

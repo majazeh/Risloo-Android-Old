@@ -159,7 +159,7 @@ public class PathManager {
     }
 
     private boolean isLocalStorageDocument(Uri uri) {
-        return "com.majazeh.risloo.fileprovider".equals(uri.getAuthority());
+        return "com.majazeh.risloo.debug.fileprovider".equals(uri.getAuthority());
     }
 
     private boolean isExternalStorageDocument(Uri uri) {
