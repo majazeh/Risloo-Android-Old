@@ -52,7 +52,7 @@ public class DocumentsActivity extends AppCompatActivity {
 
     // ViewModels
     private AuthViewModel authViewModel;
-    private DocumentViewModel documentViewModel;
+    public DocumentViewModel documentViewModel;
 
     // Adapters
     private DocumentsAdapter documentsRecyclerViewAdapter;

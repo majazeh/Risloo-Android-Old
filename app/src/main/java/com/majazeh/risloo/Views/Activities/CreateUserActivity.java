@@ -42,7 +42,6 @@ import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
-import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
@@ -74,7 +73,7 @@ public class CreateUserActivity extends AppCompatActivity {
 
     // Vars
     public String type = "", caseId = "", roomId = "", roomName = "", roomTitle = "", clinicId = "", mobile = "", name = "", positionId = "", positionTitle = "";
-    private boolean addCase = false;
+    private int createCase = 0;
     private boolean referenceException = false, positionException = false, roomException = false;
 
     // Objects
@@ -369,10 +368,10 @@ public class CreateUserActivity extends AppCompatActivity {
         caseCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 caseCheckbox.setTextColor(getResources().getColor(R.color.Nero));
-                addCase = true;
+                createCase = 1;
             } else {
                 caseCheckbox.setTextColor(getResources().getColor(R.color.Mischka));
-                addCase = false;
+                createCase = 0;
             }
         });
 
@@ -748,11 +747,11 @@ public class CreateUserActivity extends AppCompatActivity {
                     break;
 
                 case "center":
-//                    mobile = mobileEditText.getText().toString().trim();
-//                    name = nameEditText.getText().toString().trim();
-//
-//                    centerViewModel.addUser(clinicId, mobile, name, positionId, roomId, addCase);
-//                    observeWork("centerViewModel");
+                    mobile = mobileEditText.getText().toString().trim();
+                    name = nameEditText.getText().toString().trim();
+
+                    centerViewModel.addUser(clinicId, mobile, roomId, positionId, createCase, name);
+                    observeWork("centerViewModel");
                     break;
             }
         } catch (JSONException e) {

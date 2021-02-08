@@ -130,7 +130,7 @@
                         android:paddingLeft="@dimen/_16sdp"
                         android:paddingRight="@dimen/_16sdp"
                         android:imeOptions="actionDone"
-                        android:inputType="number"
+                        android:inputType="text"
                         android:hint="@string/CreateUserName"
                         android:gravity="center|right"
                         android:textSize="@dimen/_12ssp"

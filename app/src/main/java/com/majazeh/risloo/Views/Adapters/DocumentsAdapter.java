@@ -70,9 +70,9 @@ public class DocumentsAdapter extends RecyclerView.Adapter<DocumentsAdapter.Docu
             // Status
             if (model.attributes.has("status") && !model.attributes.isNull("status") && !model.attributes.get("status").equals("")) {
                 String enStatus = model.get("status").toString();
-//                String faStatus = ((DocumentsActivity) Objects.requireNonNull(activity)).dicumentViewModel.getFAStatus(model.get("status").toString());
+                String faStatus = ((DocumentsActivity) Objects.requireNonNull(activity)).documentViewModel.getFAStatus(model.get("status").toString());
 
-                holder.statusTextView.setText(enStatus);
+                holder.statusTextView.setText(faStatus);
                 holder.statusLinearLayout.setVisibility(View.VISIBLE);
             } else {
                 holder.statusLinearLayout.setVisibility(View.GONE);

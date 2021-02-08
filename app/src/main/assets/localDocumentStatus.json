@@ -1,10 +1,10 @@
 [
   {
-    "fa_title": "رد کردن",
+    "fa_title": "تأیید نشده",
     "en_title": "unverified"
   },
   {
-    "fa_title": "تأیید",
+    "fa_title": "تأیید شده",
     "en_title": "verified"
   }
 ]
