@@ -398,13 +398,14 @@ public class CreateUserActivity extends AppCompatActivity {
                     if (mobileEditText.length() == 0) {
                         controlEditText.error(this, mobileEditText);
                     }
-                    if (positionId.isEmpty()) {
-                        errorException("position");
-                    }
+//                    if (positionId.isEmpty()) {
+//                        errorException("position");
+//                    }
 
-                    if (mobileEditText.length() != 0 && !positionId.isEmpty()) {
+//                    if (mobileEditText.length() != 0 && !positionId.isEmpty()) {
+                    if (mobileEditText.length() != 0) {
                         controlEditText.clear(this, mobileEditText);
-                        clearException("position");
+//                        clearException("position");
 
                         doWork();
                     }
