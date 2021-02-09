@@ -19,7 +19,7 @@
         android:paddingEnd="@dimen/_12sdp">
 
         <ImageView
-            android:id="@+id/expand_imageView"
+            android:id="@+id/item_fa_question_expand_imageView"
             android:layout_width="@dimen/_24sdp"
             android:layout_height="@dimen/_24sdp"
             android:layout_alignParentTop="true"
@@ -32,22 +32,22 @@
             android:background="@drawable/draw_oval_solid_white" />
 
         <TextView
-            android:id="@+id/subject_textView"
+            android:id="@+id/item_fa_question_subject_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_toEndOf="@id/expand_imageView"
+            android:layout_toEndOf="@id/item_fa_question_expand_imageView"
             android:gravity="start"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
             android:textAlignment="gravity" />
 
         <TextView
-            android:id="@+id/answer_textView"
+            android:id="@+id/item_fa_question_answer_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/expand_imageView"
+            android:layout_below="@id/item_fa_question_expand_imageView"
             android:layout_marginTop="@dimen/_10sdp"
             android:visibility="gone"
             android:gravity="start"

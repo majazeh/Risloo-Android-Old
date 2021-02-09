@@ -27,6 +27,6 @@
         app:zoomage_doubleTapToZoom="true"
         app:zoomage_doubleTapToZoomScaleFactor="3" />
 
-    <include layout="@layout/layout_toolbar" />
+    <include layout="@layout/component_toolbar" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

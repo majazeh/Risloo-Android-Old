@@ -62,7 +62,7 @@ public class SubListSmallAdapter extends RecyclerView.Adapter<SubListSmallAdapte
 
         public SubListSmallHolder(View view) {
             super(view);
-            titleTextView = view.findViewById(R.id.title_textView);
+            titleTextView = view.findViewById(R.id.item_sublist_small_title_textView);
         }
     }
 

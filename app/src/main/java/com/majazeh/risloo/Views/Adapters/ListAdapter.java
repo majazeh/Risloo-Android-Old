@@ -146,9 +146,9 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
         public ListHolder(View view) {
             super(view);
-            titleTextView = view.findViewById(R.id.title_textView);
-            descriptionTextView = view.findViewById(R.id.description_textView);
-            listRecyclerView = view.findViewById(R.id.list_recyclerView);
+            titleTextView = view.findViewById(R.id.item_list_title_textView);
+            descriptionTextView = view.findViewById(R.id.item_list_description_textView);
+            listRecyclerView = view.findViewById(R.id.item_list_recyclerView);
         }
     }
 

@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/title_textView"
+        android:id="@+id/item_list_title_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_4sdp"
@@ -21,7 +21,7 @@
         android:textAlignment="gravity" />
 
     <TextView
-        android:id="@+id/description_textView"
+        android:id="@+id/item_list_description_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -32,7 +32,7 @@
         android:textAlignment="gravity" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_recyclerView"
+        android:id="@+id/item_list_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_6sdp"

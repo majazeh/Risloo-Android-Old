@@ -114,9 +114,9 @@ public class FAQuestionAdapter extends RecyclerView.Adapter<FAQuestionAdapter.FA
 
         public FAQuestionHolder(View view) {
             super(view);
-            subjectTextView = view.findViewById(R.id.subject_textView);
-            answerTextView = view.findViewById(R.id.answer_textView);
-            expandImageView = view.findViewById(R.id.expand_imageView);
+            subjectTextView = view.findViewById(R.id.item_fa_question_subject_textView);
+            answerTextView = view.findViewById(R.id.item_fa_question_answer_textView);
+            expandImageView = view.findViewById(R.id.item_fa_question_expand_imageView);
         }
     }
 

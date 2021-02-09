@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.majazeh.risloo.Models.Repositories.ExplodeRepository;
+import com.majazeh.risloo.R;
 
 import org.json.JSONException;
 
@@ -48,8 +49,16 @@ public class ExplodeViewModel extends AndroidViewModel {
         return repository.currentVersion();
     }
 
+    public String currentVersionFa() {
+        return "نسخه" + " " + currentVersion();
+    }
+
     public String newVersion(){
         return repository.newVersion();
+    }
+
+    public String newVersionFa() {
+        return "نسخه" + " " + newVersion() + " " + "رسید";
     }
 
 }

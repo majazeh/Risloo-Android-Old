@@ -10,7 +10,7 @@
     tools:ignore="UnusedAttribute">
 
     <ImageView
-        android:id="@+id/avatar_imageView"
+        android:id="@+id/item_setting_avatar_imageView"
         android:layout_width="@dimen/_34sdp"
         android:layout_height="@dimen/_34sdp"
         android:layout_centerVertical="true"
@@ -23,12 +23,12 @@
         app:tint="@color/PrimaryDark" />
 
     <TextView
-        android:id="@+id/title_textView"
+        android:id="@+id/item_setting_title_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toStartOf="@id/avatar_imageView"
-        android:layout_toEndOf="@id/update_textView"
+        android:layout_toStartOf="@id/item_setting_avatar_imageView"
+        android:layout_toEndOf="@id/item_setting_update_textView"
         android:gravity="start"
         android:textSize="@dimen/_12ssp"
         android:textStyle="bold"
@@ -36,7 +36,7 @@
         android:textAlignment="gravity" />
 
     <TextView
-        android:id="@+id/update_textView"
+        android:id="@+id/item_setting_update_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -56,13 +56,13 @@
         android:background="@drawable/draw_8sdp_solid_primary" />
 
     <View
-        android:id="@+id/separator_view"
+        android:id="@+id/item_setting_separator_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
         android:layout_marginLeft="@dimen/_32sdp"
         android:layout_marginRight="@dimen/_32sdp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/avatar_imageView"
+        android:layout_below="@id/item_setting_avatar_imageView"
         android:background="@color/Solitude" />
 
 </RelativeLayout>

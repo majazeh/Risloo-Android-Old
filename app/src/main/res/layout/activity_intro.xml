@@ -18,13 +18,13 @@
         android:layout_height="0dp"
         android:layoutDirection="rtl"
         android:overScrollMode="always"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_view"
+        app:layout_constraintBottom_toTopOf="@+id/intro_bottom_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/skip_textView"
+        android:id="@+id/intro_skip_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/_16sdp"
@@ -37,11 +37,11 @@
         android:textStyle="bold"
         android:textColor="@color/Mischka"
         android:textAlignment="gravity"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_view"
+        app:layout_constraintBottom_toTopOf="@+id/intro_bottom_view"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/next_textView"
+        android:id="@+id/intro_next_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/_16sdp"
@@ -54,22 +54,22 @@
         android:textStyle="bold"
         android:textColor="@color/Primary"
         android:textAlignment="gravity"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_view"
+        app:layout_constraintBottom_toTopOf="@+id/intro_bottom_view"
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
-        android:id="@+id/dots_linearLayout"
+        android:id="@+id/intro_dots_linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layoutDirection="rtl"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_view"
+        app:layout_constraintBottom_toTopOf="@+id/intro_bottom_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/next_textView" />
+        app:layout_constraintTop_toTopOf="@+id/intro_next_textView" />
 
     <View
-        android:id="@+id/bottom_view"
+        android:id="@+id/intro_bottom_view"
         android:layout_width="0dp"
         android:layout_height="@dimen/_1sdp"
         android:background="@color/Quartz"

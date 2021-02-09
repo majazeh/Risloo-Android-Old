@@ -43,7 +43,7 @@ public class IntroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (intro()) {
+        if (getIntro()) {
             decorator();
 
             setContentView(R.layout.activity_intro);
@@ -56,7 +56,7 @@ public class IntroActivity extends AppCompatActivity {
 
             addDots(0);
         } else {
-            launcher();
+            navigator();
         }
     }
 
@@ -81,10 +81,10 @@ public class IntroActivity extends AppCompatActivity {
 
         introRtlViewPager = findViewById(R.id.intro_rtlViewPager);
 
-        nextTextView = findViewById(R.id.next_textView);
-        skipTextView = findViewById(R.id.skip_textView);
+        nextTextView = findViewById(R.id.intro_next_textView);
+        skipTextView = findViewById(R.id.intro_skip_textView);
 
-        dotsLinearLayout = findViewById(R.id.dots_linearLayout);
+        dotsLinearLayout = findViewById(R.id.intro_dots_linearLayout);
     }
 
     private void listener() {
@@ -99,7 +99,7 @@ public class IntroActivity extends AppCompatActivity {
             skipTextView.setClickable(false);
             handler.postDelayed(() -> skipTextView.setClickable(true), 250);
 
-            launcher();
+            navigator();
         });
 
         introRtlViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -157,21 +157,23 @@ public class IntroActivity extends AppCompatActivity {
         if (currentPage < introLayouts.length) {
             introRtlViewPager.setCurrentItem(currentPage);
         } else {
-            launcher();
+            navigator();
         }
     }
 
-    private void launcher() {
-        startActivity(new Intent(this, AuthActivity.class));
-        finish();
-
-        authViewModel.setIntro(false);
-    }
-
-    private boolean intro() {
+    private boolean getIntro() {
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
         return authViewModel.getIntro();
+    }
+
+    private void navigator() {
+        Intent authIntent = new Intent(this, AuthActivity.class);
+        startActivity(authIntent);
+
+        finish();
+
+        authViewModel.setIntro(false);
     }
 
 }

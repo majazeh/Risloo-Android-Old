@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/title_textView"
+        android:id="@+id/item_sublist_big_title_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_6sdp"
@@ -21,7 +21,7 @@
         android:textAlignment="gravity" />
 
     <TextView
-        android:id="@+id/description_textView"
+        android:id="@+id/item_sublist_big_description_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"

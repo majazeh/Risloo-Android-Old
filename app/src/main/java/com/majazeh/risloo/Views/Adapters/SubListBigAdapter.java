@@ -63,8 +63,8 @@ public class SubListBigAdapter extends RecyclerView.Adapter<SubListBigAdapter.Su
 
         public SubListBigHolder(View view) {
             super(view);
-            titleTextView = view.findViewById(R.id.title_textView);
-            descriptionTextView = view.findViewById(R.id.description_textView);
+            titleTextView = view.findViewById(R.id.item_sublist_big_title_textView);
+            descriptionTextView = view.findViewById(R.id.item_sublist_big_description_textView);
         }
     }
 

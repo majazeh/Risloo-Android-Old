@@ -70,7 +70,7 @@ public class TAConditionActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        toolbarLayout = findViewById(R.id.toolbar_include);
+        toolbarLayout = findViewById(R.id.ta_condition_toolbar);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);

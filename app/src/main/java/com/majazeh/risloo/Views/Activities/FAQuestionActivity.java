@@ -77,7 +77,7 @@ public class FAQuestionActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        toolbarLayout = findViewById(R.id.toolbar_include);
+        toolbarLayout = findViewById(R.id.fa_question_toolbar);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);

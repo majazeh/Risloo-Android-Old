@@ -55,7 +55,9 @@ public class SplashActivity extends AppCompatActivity {
 
         listener();
 
-        launcher();
+        setData();
+
+        getData();
     }
 
     private void decorator() {
@@ -70,10 +72,9 @@ public class SplashActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        versionTextView = findViewById(R.id.version_textView);
-        versionTextView.setText(currentVersion());
+        versionTextView = findViewById(R.id.splash_version_textView);
 
-        updateProgressBar = findViewById(R.id.update_progressBar);
+        updateProgressBar = findViewById(R.id.splash_update_progressBar);
 
         updateDialog = new Dialog(this, R.style.DialogTheme);
         updateDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -114,7 +115,7 @@ public class SplashActivity extends AppCompatActivity {
             if (explodeViewModel.forceUpdate()) {
                 finish();
             } else {
-                launcher();
+                navigator();
             }
         });
 
@@ -124,13 +125,33 @@ public class SplashActivity extends AppCompatActivity {
             if (explodeViewModel.forceUpdate()) {
                 finish();
             } else {
-                launcher();
+                navigator();
             }
         });
     }
 
     private void setData() {
-        updateDialogTitle.setText(newVersion());
+        versionTextView.setText(explodeViewModel.currentVersionFa());
+    }
+
+    private void getData() {
+//        handler.postDelayed(() -> {
+//            try {
+//                versionTextView.setText(getResources().getString(R.string.SplashLoading));
+//                updateProgressBar.setVisibility(View.VISIBLE);
+//
+//                explodeViewModel.explode();
+//                observeWork();
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }, 500);
+
+        navigator();
+    }
+
+    private void showDialog() {
+        updateDialogTitle.setText(explodeViewModel.newVersionFa());
 
         if (explodeViewModel.forceUpdate()) {
             updateDialogDescription.setText(getResources().getString(R.string.SplashUpdateDialogForceDescription));
@@ -145,45 +166,34 @@ public class SplashActivity extends AppCompatActivity {
         updateDialog.show();
     }
 
-    private void getData() {
-        handler.postDelayed(() -> {
-            try {
-                versionTextView.setText(getResources().getString(R.string.SplashLoading));
-                updateProgressBar.setVisibility(View.VISIBLE);
-
-                explodeViewModel.explode();
-                observeWork();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, 500);
-    }
-
     private void observeWork() {
         ExplodeRepository.workState.observe((LifecycleOwner) this, integer -> {
             if (ExplodeRepository.work.equals("explode")) {
                 if (integer == 1) {
                     if (explodeViewModel.hasUpdate()) {
-                        setData();
+                        showDialog();
                     } else {
-                        launcher();
+                        navigator();
                     }
 
-                    versionTextView.setText(currentVersion());
+                    versionTextView.setText(explodeViewModel.currentVersionFa());
                     updateProgressBar.setVisibility(View.GONE);
+
                     ExplodeRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == 0) {
                     finish();
 
-                    versionTextView.setText(currentVersion());
+                    versionTextView.setText(explodeViewModel.currentVersionFa());
                     updateProgressBar.setVisibility(View.GONE);
+
                     Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     ExplodeRepository.workState.removeObservers((LifecycleOwner) this);
                 } else if (integer == -2) {
                     finish();
 
-                    versionTextView.setText(currentVersion());
+                    versionTextView.setText(explodeViewModel.currentVersionFa());
                     updateProgressBar.setVisibility(View.GONE);
+
                     Toast.makeText(this, ExceptionGenerator.fa_message_text, Toast.LENGTH_SHORT).show();
                     ExplodeRepository.workState.removeObservers((LifecycleOwner) this);
                 }
@@ -191,19 +201,13 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
-    private void launcher() {
+    private void navigator() {
         handler.postDelayed(() -> {
-            startActivity(new Intent(this, IntroActivity.class));
+            Intent introIntent = new Intent(this, IntroActivity.class);
+            startActivity(introIntent);
+
             finish();
         }, 1000);
-    }
-
-    private String currentVersion() {
-        return getResources().getString(R.string.SplashVersion) + " " + explodeViewModel.currentVersion();
-    }
-
-    private String newVersion() {
-        return getResources().getString(R.string.SplashVersion) + " " + explodeViewModel.newVersion() + " " + getResources().getString(R.string.SplashArrived);
     }
 
     @Override
