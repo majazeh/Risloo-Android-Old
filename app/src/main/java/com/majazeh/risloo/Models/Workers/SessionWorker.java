@@ -332,7 +332,7 @@ public class SessionWorker extends Worker {
 
     public void Report() {
         try {
-            Call<ResponseBody> call = sessionApi.Report(token(), SessionRepository.sessionId, SessionRepository.report, SessionRepository.encryptionType);
+            Call<ResponseBody> call = sessionApi.Report(token(), SessionRepository.sessionId, SessionRepository.reportData);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {

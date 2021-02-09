@@ -36,6 +36,8 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+import retrofit2.http.Field;
+
 public class SessionRepository extends MainRepository {
     public static int page = 1;
     public static int practicesPage = 1;
@@ -47,9 +49,8 @@ public class SessionRepository extends MainRepository {
     public static MutableLiveData<Integer> workState;
     public static HashMap createData;
     public static HashMap updateData;
+    public static HashMap reportData;
     public static String Q = "";
-    public static String report = "";
-    public static String encryptionType = "";
     public static String fileTitle = "";
     public static String fileContent = "";
     public static String fileAttachment = "";
@@ -62,6 +63,7 @@ public class SessionRepository extends MainRepository {
         workState = new MediatorLiveData<>();
         createData = new HashMap();
         updateData = new HashMap();
+        reportData = new HashMap();
         workState.setValue(-1);
     }
 
@@ -130,9 +132,12 @@ public class SessionRepository extends MainRepository {
     }
 
     public void Report(String sessionId, String report, String encryptionType) throws JSONException {
+        reportData = new HashMap();
         SessionRepository.sessionId = sessionId;
-        SessionRepository.report = report;
-        SessionRepository.encryptionType = encryptionType;
+        if (!report.equals(""))
+            reportData.put("report",report);
+        if (!encryptionType.equals(""))
+            reportData.put("encryption_type",encryptionType );
         work = "createReport";
         workState.setValue(-1);
         workManager("createReport");
