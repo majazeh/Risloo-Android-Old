@@ -47,6 +47,8 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 public class CreateReportActivity extends AppCompatActivity {
@@ -239,7 +241,7 @@ public class CreateReportActivity extends AppCompatActivity {
                     encrypted = true;
                     cryptoLinearLayout.setVisibility(View.GONE);
 
-                } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidKeyException e) {
+                } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
                     e.printStackTrace();
                 }
             }

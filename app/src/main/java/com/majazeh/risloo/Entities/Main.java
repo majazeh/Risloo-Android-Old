@@ -24,7 +24,7 @@ public class Main {
     }
 
     public Object get(String key) throws JSONException {
-        if (arrayMap.indexOf(key) >= 0) {
+        if (arrayMap.contains(key)) {
             return attributes.get(key);
         } else {
             return null;

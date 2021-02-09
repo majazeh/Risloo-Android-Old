@@ -276,7 +276,7 @@ public class SessionRepository extends MainRepository {
         return null;
     }
 
-    public String encrypt(String text, String publicKey) throws InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException {
+    public String encrypt(String text, String publicKey) throws InvalidKeySpecException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, BadPaddingException, IllegalBlockSizeException {
         return CryptoManager.encrypt(text, publicKey);
     }
 

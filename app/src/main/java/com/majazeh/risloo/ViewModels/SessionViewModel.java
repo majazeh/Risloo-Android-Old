@@ -74,7 +74,7 @@ public class SessionViewModel extends AndroidViewModel {
         repository.Report(sessionId, report, encryptionType);
     }
 
-    public String encrypt(String text, String publicKey) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException {
+    public String encrypt(String text, String publicKey) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeySpecException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         return repository.encrypt(text, publicKey);
     }
 
