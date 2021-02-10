@@ -8,14 +8,14 @@
     android:layout_height="wrap_content"
     android:layout_gravity="top"
     android:background="@color/Primary5P"
-    android:fitsSystemWindows="true"
+    android:fitsSystemWindows="false"
     tools:context=".Views.Activities.AuthActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:paddingTop="@dimen/_16sdp"
+        android:paddingTop="@dimen/_32sdp"
         android:paddingBottom="@dimen/_16sdp"
         android:gravity="center"
         android:text="@string/AuthHeader"

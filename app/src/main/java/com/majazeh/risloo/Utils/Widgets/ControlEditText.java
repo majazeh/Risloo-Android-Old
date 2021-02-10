@@ -1,7 +1,6 @@
 package com.majazeh.risloo.Utils.Widgets;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -42,7 +41,7 @@ public class ControlEditText {
     }
 
     private void hideKeyboard(Activity activity, EditText editText) {
-        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         Objects.requireNonNull(inputMethodManager).hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
