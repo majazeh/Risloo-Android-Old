@@ -117,7 +117,22 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // Account strings
+    ////////////////////////////////////////////////////////////////////////////////
 
+    <string name="AccountTitle">حساب من</string>
+
+    <string name="AccountEdit">ویرایش من</string>
+    <string name="AccountLogOut">خروج از حساب</string>
+
+    <string name="AccountInfo">مشخصات من</string>
+
+    <string name="AccountLogOutDialogTitle">خروج از حساب.</string>
+    <string name="AccountLogOutDialogDescription">ایا تمایل به خروج از حساب خود را دارید؟</string>
+    <string name="AccountLogOutDialogPositive">خروج</string>
+    <string name="AccountLogOutDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -302,21 +317,7 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // Account strings
-    ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="AccountTitle">حساب کاربری</string>
-
-    <string name="AccountCrypto">رمز نگاری</string>
-
-    <string name="AccountInfo">مشخصات کاربر</string>
-
-    <string name="AccountLogOutDialogTitle">خروج از حساب کاربری.</string>
-    <string name="AccountLogOutDialogDescription">ایا تمایل به خروج از حساب کاربری خود را دارید؟</string>
-    <string name="AccountLogOutDialogPositive">خروج</string>
-    <string name="AccountLogOutDialogNegative">بستن</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
 
     // EditAccount strings
     ////////////////////////////////////////////////////////////////////////////////
