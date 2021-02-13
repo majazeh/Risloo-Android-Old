@@ -9,6 +9,7 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.majazeh.risloo.Entities.Model;
+import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.Models.Repositories.RoomRepository;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
@@ -22,6 +23,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -690,6 +692,26 @@ public class CenterWorker extends Worker {
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(bodyResponse.body().string());
+
+                if (successBody.has("key")) {
+                    AuthRepository.key = successBody.getString("key");
+                } else {
+                    AuthRepository.key = "";
+                }
+
+                AuthRepository.preTheory = AuthRepository.theory;
+
+                if (successBody.has("theory")) {
+                    AuthRepository.theory = successBody.getString("theory");
+                } else {
+                    AuthRepository.theory = "";
+                }
+
+                if (successBody.has("callback")) {
+                    AuthRepository.callback = successBody.getString("callback");
+                } else {
+                    AuthRepository.callback = "";
+                }
 
                 ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "addUser");
                 CenterRepository.workState.postValue(1);
