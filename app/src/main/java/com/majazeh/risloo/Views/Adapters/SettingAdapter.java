@@ -20,7 +20,6 @@ import com.majazeh.risloo.Views.Activities.SettingActivity;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingHolder> {
 
@@ -57,11 +56,11 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingH
             if (i != settings.size() - 1) {
                 holder.titleTextView.setText((String) model.get("title"));
             } else {
-                if (((SettingActivity) Objects.requireNonNull(activity)).explodeViewModel.hasUpdate()) {
+                if (((SettingActivity) activity).explodeViewModel.hasUpdate()) {
                     holder.titleTextView.setText(activity.getResources().getString(R.string.SettingUpdate));
                     holder.updateTextView.setVisibility(View.VISIBLE);
                 } else {
-                    holder.titleTextView.setText(((SettingActivity) Objects.requireNonNull(activity)).explodeViewModel.currentVersionFa());
+                    holder.titleTextView.setText(((SettingActivity) activity).explodeViewModel.currentVersionFa());
                     holder.updateTextView.setVisibility(View.INVISIBLE);
                 }
 
@@ -75,7 +74,7 @@ public class SettingAdapter extends RecyclerView.Adapter<SettingAdapter.SettingH
                 holder.itemView.setClickable(false);
                 handler.postDelayed(() -> holder.itemView.setClickable(true), 250);
 
-                ((SettingActivity) Objects.requireNonNull(activity)).navigator(i);
+                ((SettingActivity) activity).navigator(i);
             });
 
         } catch (JSONException e) {

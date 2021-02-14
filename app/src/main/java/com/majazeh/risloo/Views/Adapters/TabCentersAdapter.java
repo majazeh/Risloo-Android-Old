@@ -12,12 +12,14 @@ import com.majazeh.risloo.Views.Fragments.MyCentersFragment;
 
 public class TabCentersAdapter extends FragmentPagerAdapter {
 
+    // Fragments
+    public Fragment allFragment, myFragment;
+
     // Vars
     private boolean token;
 
     // Object
     private Activity activity;
-    public Fragment allFragment, myFragment;
 
     public TabCentersAdapter(@NonNull FragmentManager fragmentManager, int behavior, Activity activity, boolean token) {
         super(fragmentManager, behavior);

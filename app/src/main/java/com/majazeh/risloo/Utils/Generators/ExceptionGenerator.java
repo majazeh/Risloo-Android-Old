@@ -83,6 +83,9 @@ public class ExceptionGenerator {
                     case "SendToException":
                         fa_message_text = "فایلی ارسال نشده است.";
                         break;
+                    case "PictureException":
+                        fa_message_text = "عکس جدیدی انتخاب  نشده است.";
+                        break;
                     case "GalleryException":
                         fa_message_text = "عکسی انتخاب نشده است.";
                         break;

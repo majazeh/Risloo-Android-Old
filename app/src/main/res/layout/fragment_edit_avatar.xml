@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_edit_avatar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Views.Fragments.EditAvatarFragment">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/edit_avatar_circleImageView"
+        android:layout_width="@dimen/_96sdp"
+        android:layout_height="@dimen/_96sdp"
+        app:civ_border_color="@color/Snow"
+        app:civ_border_width="@dimen/_6sdp"
+        app:layout_constraintBottom_toTopOf="@+id/edit_avatar_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <ImageView
+        android:id="@+id/edit_avatar_imageView"
+        android:layout_width="@dimen/_32sdp"
+        android:layout_height="@dimen/_32sdp"
+        android:padding="@dimen/_8sdp"
+        android:contentDescription="@string/AppImageContent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_gallery_regular"
+        android:background="@drawable/draw_oval_solid_snow_border_quartz"
+        app:layout_constraintBottom_toBottomOf="@+id/edit_avatar_circleImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/edit_avatar_circleImageView"
+        app:layout_constraintTop_toBottomOf="@+id/edit_avatar_circleImageView"
+        app:tint="@color/Mischka" />
+
+    <Button
+        android:id="@+id/edit_avatar_button"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_36sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:gravity="center"
+        android:text="@string/EditAccountEdit"
+        android:textSize="@dimen/_12ssp"
+        android:textStyle="bold"
+        android:textColor="@color/White"
+        android:textAlignment="gravity"
+        android:background="@drawable/draw_16sdp_solid_primary"
+        style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_avatar_circleImageView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

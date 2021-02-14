@@ -1,185 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_edit_account"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbarSize="0dp"
-    android:overScrollMode="never"
-    android:fillViewport="true"
-    android:focusable="true"
+    android:background="@color/White"
     android:fitsSystemWindows="true"
+    android:focusable="true"
     android:focusableInTouchMode="true"
     android:descendantFocusability="blocksDescendants"
     tools:context=".Views.Activities.EditAccountActivity">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layoutDirection="rtl"
-        android:background="@color/White">
+    <include
+        android:id="@+id/edit_account_toolbar"
+        layout="@layout/component_toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
+    <View
+        android:id="@+id/edit_account_top_view"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_1sdp"
+        android:background="@color/Quartz"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_account_toolbar" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/edit_account_cardView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_36sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        app:cardBackgroundColor="@color/White"
+        app:cardCornerRadius="@dimen/_16sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_account_toolbar">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/edit_account_tabLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layoutDirection="rtl"
+            android:theme="@style/TabTheme"
+            android:background="@color/White"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            app:tabMaxWidth="0dp"
+            app:tabBackground="@null"
+            app:tabRippleColor="@color/Quartz"
+            app:tabIndicatorColor="@color/Primary5P"
+            app:tabIndicatorHeight="@dimen/_36sdp"
+            app:tabTextColor="@color/Mischka"
+            app:tabSelectedTextColor="@color/PrimaryDark"
+            app:tabTextAppearance="@style/TabTextBoldAppearance">
 
-            <include layout="@layout/component_toolbar" />
-
-            <View
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_1sdp"
-                android:background="@color/Quartz" />
+                android:layout_height="wrap_content"
+                android:text="@string/EditAccountPersonal" />
 
-            <LinearLayout
+            <com.google.android.material.tabs.TabItem
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/_24sdp"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:text="@string/EditAccountPassword" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_104sdp"
-                    android:layout_marginBottom="@dimen/_20sdp">
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/EditAccountAvatar" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/activity_edit_account_avatar_circleImageView"
-                        android:layout_width="@dimen/_96sdp"
-                        android:layout_height="@dimen/_96sdp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="@dimen/_8sdp"
-                        app:civ_border_width="@dimen/_6sdp"
-                        app:civ_border_color="@color/Snow" />
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/EditAccountCrypto" />
 
-                    <ImageView
-                        android:id="@+id/activity_edit_account_avatar_imageView"
-                        android:layout_width="@dimen/_32sdp"
-                        android:layout_height="@dimen/_32sdp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="@dimen/_minus4sdp"
-                        android:layout_toRightOf="@id/activity_edit_account_avatar_circleImageView"
-                        android:padding="@dimen/_8sdp"
-                        android:contentDescription="@string/AppImageContent"
-                        android:background="@drawable/draw_oval_solid_snow_border_quartz"
-                        android:src="@drawable/ic_gallery_regular"
-                        app:tint="@color/Mischka" />
+        </com.google.android.material.tabs.TabLayout>
 
-                </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
-                <EditText
-                    android:id="@+id/activity_edit_account_name_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_36sdp"
-                    android:layout_marginBottom="@dimen/_8sdp"
-                    android:paddingLeft="@dimen/_16sdp"
-                    android:paddingRight="@dimen/_16sdp"
-                    android:imeOptions="actionDone"
-                    android:inputType="text"
-                    android:hint="@string/EditAccountName"
-                    android:gravity="center|right"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="normal"
-                    android:textColor="@color/Grey"
-                    android:textColorHint="@color/Mischka"
-                    android:textAlignment="gravity"
-                    android:importantForAutofill="no"
-                    android:background="@drawable/draw_16sdp_border_quartz" />
+    <com.duolingo.open.rtlviewpager.RtlViewPager
+        android:id="@+id/edit_account_rtlViewPager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layoutDirection="rtl"
+        android:overScrollMode="always"
+        app:layout_constraintBottom_toBottomOf="@id/edit_account_bottom_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_account_cardView" />
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_36sdp"
-                    android:layout_marginBottom="@dimen/_8sdp"
-                    app:cardBackgroundColor="@color/White"
-                    app:cardCornerRadius="@dimen/_16sdp"
-                    app:cardElevation="0dp">
+    <View
+        android:id="@+id/edit_account_bottom_view"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_1sdp"
+        android:background="@color/Quartz"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-                    <com.google.android.material.tabs.TabLayout
-                        android:id="@+id/activity_edit_account_gender_tabLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:theme="@style/TabTheme"
-                        android:background="@drawable/draw_16sdp_border_quartz"
-                        app:tabMode="fixed"
-                        app:tabGravity="fill"
-                        app:tabMaxWidth="0dp"
-                        app:tabBackground="@null"
-                        app:tabRippleColor="@color/Quartz"
-                        app:tabIndicatorColor="@color/Primary5P"
-                        app:tabIndicatorHeight="@dimen/_36sdp"
-                        app:tabTextColor="@color/Mischka"
-                        app:tabSelectedTextColor="@color/Grey"
-                        app:tabTextAppearance="@style/TabTextNormalAppearance">
-
-                        <com.google.android.material.tabs.TabItem
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="@string/EditAccountMan" />
-
-                        <com.google.android.material.tabs.TabItem
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:text="@string/EditAccountWoman" />
-
-                    </com.google.android.material.tabs.TabLayout>
-
-                </androidx.cardview.widget.CardView>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_36sdp"
-                    android:layout_marginBottom="@dimen/_24sdp">
-
-                    <TextView
-                        android:id="@+id/activity_edit_account_birthday_textView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingLeft="@dimen/_16sdp"
-                        android:paddingRight="@dimen/_16sdp"
-                        android:gravity="center|right"
-                        android:hint="@string/EditAccountBirthday"
-                        android:textSize="@dimen/_12ssp"
-                        android:textStyle="normal"
-                        android:textColor="@color/Grey"
-                        android:textColorHint="@color/Mischka"
-                        android:textAlignment="gravity"
-                        android:background="@drawable/draw_16sdp_border_quartz" />
-
-                    <ImageView
-                        android:layout_width="@dimen/_12sdp"
-                        android:layout_height="@dimen/_12sdp"
-                        android:layout_marginLeft="@dimen/_12sdp"
-                        android:layout_gravity="center|left"
-                        android:contentDescription="@string/AppImageContent"
-                        android:src="@drawable/ic_chevron_down"
-                        app:tint="@color/Mischka" />
-
-                </FrameLayout>
-
-                <Button
-                    android:id="@+id/activity_edit_account_edit_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_36sdp"
-                    android:gravity="center"
-                    android:text="@string/EditAccountEdit"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    android:textColor="@color/White"
-                    android:textAlignment="gravity"
-                    android:background="@drawable/draw_16sdp_solid_primary"
-                    style="?android:attr/borderlessButtonStyle"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_1sdp"
-            android:layout_gravity="bottom"
-            android:background="@color/Quartz" />
-
-    </FrameLayout>
-
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

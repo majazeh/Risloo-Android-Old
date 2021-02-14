@@ -99,11 +99,11 @@ public class AccountActivity extends AppCompatActivity {
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.AccountTitle));
 
-        avatarCircleImageView = findViewById(R.id.activity_account_avatar_circleImageView);
+        avatarCircleImageView = findViewById(R.id.account_avatar_circleImageView);
 
-        nameTextView = findViewById(R.id.activity_account_name_textView);
-        editTextView = findViewById(R.id.activity_account_edit_textView);
-        logOutTextView = findViewById(R.id.activity_account_logout_textView);
+        nameTextView = findViewById(R.id.account_name_textView);
+        editTextView = findViewById(R.id.account_edit_textView);
+        logOutTextView = findViewById(R.id.account_logout_textView);
 
         accountRecyclerView = findViewById(R.id.account_recyclerView);
         accountRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._8sdp), (int) getResources().getDimension(R.dimen._32sdp)));
@@ -159,23 +159,14 @@ public class AccountActivity extends AppCompatActivity {
             avatarCircleImageView.setClickable(false);
             handler.postDelayed(() -> avatarCircleImageView.setClickable(true), 250);
 
-            if (!authViewModel.getName().equals("") && !authViewModel.getAvatar().equals("")) {
-                Intent imageIntent = (new Intent(this, ImageActivity.class));
-
-                imageIntent.putExtra("title", authViewModel.getName());
-                imageIntent.putExtra("bitmap", false);
-                imageIntent.putExtra("image", authViewModel.getAvatar());
-
-                startActivity(imageIntent);
-            }
+            navigator("Image");
         });
 
         editTextView.setOnClickListener(v -> {
             editTextView.setClickable(false);
             handler.postDelayed(() -> editTextView.setClickable(true), 250);
 
-            startActivityForResult(new Intent(this, EditAccountActivity.class), 100);
-            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+            navigator("EditAccount");
         });
 
         logOutTextView.setOnClickListener(v -> {
@@ -261,6 +252,24 @@ public class AccountActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void navigator(String activity) {
+        if (activity.equals("EditAccount")) {
+            Intent editAccountIntent = new Intent(this, EditAccountActivity.class);
+            startActivityForResult(editAccountIntent, 100);
+            overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
+        } else {
+            if (!authViewModel.getName().equals("") && !authViewModel.getAvatar().equals("")) {
+                Intent imageIntent = new Intent(this, ImageActivity.class);
+
+                imageIntent.putExtra("title", authViewModel.getName());
+                imageIntent.putExtra("bitmap", false);
+                imageIntent.putExtra("image", authViewModel.getAvatar());
+
+                startActivity(imageIntent);
+            }
+        }
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.majazeh.risloo.Models.Workers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -12,9 +11,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Apis.AuthApi;
-import com.majazeh.risloo.Models.Repositories.CenterRepository;
 import com.majazeh.risloo.Utils.Generators.RetroGenerator;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Utils.Managers.FileManager;
@@ -80,14 +77,17 @@ public class AuthWorker extends Worker {
                 case "me":
                     me();
                     break;
-                case "edit":
-                    edit();
-                    break;
-                case "avatar":
-                    avatar();
-                    break;
                 case "logOut":
                     logOut();
+                    break;
+                case "personal":
+                    editPersonal();
+                    break;
+                case "password":
+                    editPassword();
+                    break;
+                case "avatar":
+                    editAvatar();
                     break;
             }
         }
@@ -102,7 +102,7 @@ public class AuthWorker extends Worker {
         return "";
     }
 
-    private String userId() {
+    private String id() {
         if (!sharedPreferences.getString("userId", "").equals("")) {
             return sharedPreferences.getString("userId", "");
         }
@@ -441,29 +441,29 @@ public class AuthWorker extends Worker {
                         JSONObject center = centers.getJSONObject(i);
                         if (!center.isNull("acceptation")){
                             JSONObject acceptation = center.getJSONObject("acceptation");
-                        if (center.getString("type").equals("counseling center")) {
-                            JSONObject manager = center.getJSONObject("manager");
-                            if (manager.getString("id").equals(data.getString("id"))) {
-                                editor.putString("createRoomAccess", "true");
-                                editor.putString("centerOwner", "true");
+                            if (center.getString("type").equals("counseling center")) {
+                                JSONObject manager = center.getJSONObject("manager");
+                                if (manager.getString("id").equals(data.getString("id"))) {
+                                    editor.putString("createRoomAccess", "true");
+                                    editor.putString("centerOwner", "true");
+                                }
+                            }
+                            if (!acceptation.isNull("meta")){
+                                if (!acceptation.getJSONObject("meta").isNull("room_id")){
+                                    editor.putString("roomManager", "true");
+                                }
+                            }
+                            if (acceptation.getString("position").equals("operator")) {
+                                editor.putString("operator", "true");
+                                hasAccess = true;
+                            } else if (acceptation.getString("position").equals("manager")) {
+                                editor.putString("centerManager", "true");
+                                hasAccess = true;
+                            } else if (acceptation.getString("position").equals("psychologist")) {
+                                editor.putString("psychologist", "true");
+                                hasAccess = true;
                             }
                         }
-                        if (!acceptation.isNull("meta")){
-                            if (!acceptation.getJSONObject("meta").isNull("room_id")){
-                                editor.putString("roomManager", "true");
-                            }
-                        }
-                        if (acceptation.getString("position").equals("operator")) {
-                            editor.putString("operator", "true");
-                            hasAccess = true;
-                        } else if (acceptation.getString("position").equals("manager")) {
-                            editor.putString("centerManager", "true");
-                            hasAccess = true;
-                        } else if (acceptation.getString("position").equals("psychologist")) {
-                            editor.putString("psychologist", "true");
-                            hasAccess = true;
-                        }
-                    }
                     }
                 }
 
@@ -475,22 +475,16 @@ public class AuthWorker extends Worker {
                     editor.putString("userId", "");
                 }
 
-                if (data.has("username") && !data.isNull("username")) {
-                    editor.putString("userName", data.getString("username"));
-                } else {
-                    editor.putString("userName", "");
-                }
-
                 if (data.has("name") && !data.isNull("name")) {
                     editor.putString("name", data.getString("name"));
                 } else {
                     editor.putString("name", "");
                 }
 
-                if (data.has("type") && !data.isNull("type")) {
-                    editor.putString("type", data.getString("type"));
+                if (data.has("username") && !data.isNull("username")) {
+                    editor.putString("username", data.getString("username"));
                 } else {
-                    editor.putString("type", "");
+                    editor.putString("username", "");
                 }
 
                 if (data.has("mobile") && !data.isNull("mobile")) {
@@ -505,23 +499,27 @@ public class AuthWorker extends Worker {
                     editor.putString("email", "");
                 }
 
-                if (data.has("gender") && !data.isNull("gender")) {
-                    editor.putString("gender", data.getString("gender"));
-                } else {
-                    editor.putString("gender", "");
-                }
-
                 if (data.has("birthday") && !data.isNull("birthday")) {
                     editor.putString("birthday", data.getString("birthday"));
                 } else {
                     editor.putString("birthday", "");
                 }
 
-                if (data.has("public_key") && !data.isNull("public_key")) {
-                    editor.putString("public_key", data.getString("public_key"));
+                if (data.has("gender") && !data.isNull("gender")) {
+                    editor.putString("gender", data.getString("gender"));
                 } else {
-                    editor.putString("public_key", "");
+                    editor.putString("gender", "");
                 }
+
+                // TODO : Add Status
+
+                if (data.has("type") && !data.isNull("type")) {
+                    editor.putString("type", data.getString("type"));
+                } else {
+                    editor.putString("type", "");
+                }
+
+                // TODO : Add Password
 
                 if (!data.isNull("avatar") && data.get("avatar").getClass().getName().equals("org.json.JSONObject")) {
                     JSONObject avatar = data.getJSONObject("avatar");
@@ -530,6 +528,12 @@ public class AuthWorker extends Worker {
                     editor.putString("avatar", medium.getString("url"));
                 } else {
                     editor.putString("avatar", "");
+                }
+
+                if (data.has("public_key") && !data.isNull("public_key")) {
+                    editor.putString("public_key", data.getString("public_key"));
+                } else {
+                    editor.putString("public_key", "");
                 }
 
                 editor.apply();
@@ -561,9 +565,83 @@ public class AuthWorker extends Worker {
         }
     }
 
-    private void edit() {
+    private void logOut() {
         try {
-            Call<ResponseBody> call = api.edit(token(), AuthRepository.name, AuthRepository.gender, AuthRepository.birthday);
+            Call<ResponseBody> call = api.logOut(token());
+
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
+
+                editor.remove("hasAccess");
+
+                editor.remove("token");
+                editor.remove("userId");
+                editor.remove("name");
+                editor.remove("username");
+                editor.remove("mobile");
+                editor.remove("email");
+                editor.remove("birthday");
+                editor.remove("gender");
+                editor.remove("type");
+                editor.remove("avatar");
+                editor.remove("public_key");
+                editor.remove("private_key");
+
+                editor.apply();
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "logOut");
+                AuthRepository.workState.postValue(1);
+            } else if (bodyResponse.code() == 401) {
+                JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
+
+                editor.remove("hasAccess");
+
+                editor.remove("token");
+                editor.remove("userId");
+                editor.remove("name");
+                editor.remove("username");
+                editor.remove("mobile");
+                editor.remove("email");
+                editor.remove("birthday");
+                editor.remove("gender");
+                editor.remove("type");
+                editor.remove("avatar");
+                editor.remove("public_key");
+                editor.remove("private_key");
+
+                editor.apply();
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "logOut");
+                AuthRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "logOut");
+                AuthRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
+            AuthRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
+            AuthRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "IOException");
+            AuthRepository.workState.postValue(0);
+        }
+    }
+
+    private void editPersonal() {
+        try {
+            Call<ResponseBody> call = api.editPersonal(token(), AuthRepository.name, AuthRepository.gender, AuthRepository.birthday);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -602,10 +680,14 @@ public class AuthWorker extends Worker {
         }
     }
 
-    private void avatar() {
+    private void editPassword() {
+
+    }
+
+    private void editAvatar() {
         File avatar = new File(context.getCacheDir(), "image");
 
-        AndroidNetworking.upload("https://bapi.risloo.ir/api/users/" + userId() + "/" + "avatar")
+        AndroidNetworking.upload("https://bapi.risloo.ir/api/users/" + id() + "/" + "avatar")
                 .addHeaders("Authorization", token())
                 .addMultipartFile("avatar", avatar)
                 .setPriority(Priority.HIGH)
@@ -658,78 +740,6 @@ public class AuthWorker extends Worker {
                     }
 
                 });
-    }
-
-    private void logOut() {
-        try {
-            Call<ResponseBody> call = api.logOut(token());
-
-            Response<ResponseBody> bodyResponse = call.execute();
-            if (bodyResponse.isSuccessful()) {
-                JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
-
-                editor.remove("hasAccess");
-
-                editor.remove("token");
-                editor.remove("userId");
-                editor.remove("name");
-                editor.remove("type");
-                editor.remove("mobile");
-                editor.remove("email");
-                editor.remove("gender");
-                editor.remove("birthday");
-                editor.remove("avatar");
-                editor.remove("public_key");
-                editor.remove("private_key");
-
-                editor.apply();
-
-                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "logOut");
-                AuthRepository.workState.postValue(1);
-            } else if (bodyResponse.code() == 401) {
-                JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
-
-                editor.remove("hasAccess");
-
-                editor.remove("token");
-                editor.remove("userId");
-                editor.remove("name");
-                editor.remove("type");
-                editor.remove("mobile");
-                editor.remove("email");
-                editor.remove("gender");
-                editor.remove("birthday");
-                editor.remove("avatar");
-                editor.remove("public_key");
-                editor.remove("private_key");
-
-                editor.apply();
-
-                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "logOut");
-                AuthRepository.workState.postValue(1);
-            } else {
-                JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
-
-                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "logOut");
-                AuthRepository.workState.postValue(0);
-            }
-
-        } catch (SocketTimeoutException e) {
-            e.printStackTrace();
-
-            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
-            AuthRepository.workState.postValue(0);
-        } catch (JSONException e) {
-            e.printStackTrace();
-
-            ExceptionGenerator.getException(false, 0, null, "JSONException");
-            AuthRepository.workState.postValue(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            ExceptionGenerator.getException(false, 0, null, "IOException");
-            AuthRepository.workState.postValue(0);
-        }
     }
 
 }

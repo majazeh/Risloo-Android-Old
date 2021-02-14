@@ -51,16 +51,20 @@ public class AuthViewModel extends AndroidViewModel {
         repository.me();
     }
 
-    public void edit(String name, String gender, String birthday) throws JSONException {
-        repository.edit(name, gender, birthday);
-    }
-
-    public void avatar() throws JSONException {
-        repository.avatar();
-    }
-
     public void logOut() throws JSONException {
         repository.logOut();
+    }
+
+    public void editPersonal(String name, String username, String mobile, String email, String birthday, String gender, String status, String type) throws JSONException {
+        repository.editPersonal(name, username, mobile, email, birthday, gender, status, type);
+    }
+
+    public void editPassword(String password) throws JSONException {
+        repository.editPassword(password);
+    }
+
+    public void editAvatar() throws JSONException {
+        repository.editAvatar();
     }
 
     /*
@@ -69,6 +73,14 @@ public class AuthViewModel extends AndroidViewModel {
 
     public ArrayList<Model> getAll() throws JSONException {
         return repository.getAll();
+    }
+
+    public ArrayList<Model> getKeyAsset(String type) throws JSONException {
+        return repository.getKeyAsset(type);
+    }
+
+    public ArrayList<Model> getKeyAssetSubset(String type, int index) throws JSONException {
+        return repository.getKeyAssetSubset(type, index);
     }
 
     /*
@@ -304,31 +316,31 @@ public class AuthViewModel extends AndroidViewModel {
     }
 
     /*
-         ---------- Strings ----------
+         ---------- Gets ----------
     */
 
     public boolean getIntro() {
         return repository.getIntro();
     }
 
+    public boolean getCallUs() {
+        return repository.getCallUs();
+    }
+
     public String getToken() {
         return repository.getToken();
     }
 
-    public String getUserId() {
-        return repository.getUserId();
-    }
-
-    public String getUserName() {
-        return repository.getUserName();
+    public String getId() {
+        return repository.getId();
     }
 
     public String getName() {
         return repository.getName();
     }
 
-    public String getType() {
-        return repository.getType();
+    public String getUsername() {
+        return repository.getUsername();
     }
 
     public String getMobile() {
@@ -339,12 +351,24 @@ public class AuthViewModel extends AndroidViewModel {
         return repository.getEmail();
     }
 
+    public String getBirthday() {
+        return repository.getBirthday();
+    }
+
     public String getGender() {
         return repository.getGender();
     }
 
-    public String getBirthday() {
-        return repository.getBirthday();
+    public String getStatus() {
+        return repository.getStatus();
+    }
+
+    public String getType() {
+        return repository.getType();
+    }
+
+    public String getPassword() {
+        return repository.getPassword();
     }
 
     public String getAvatar() {
@@ -359,8 +383,16 @@ public class AuthViewModel extends AndroidViewModel {
         return repository.getPrivateKey();
     }
 
-    public void setIntro(boolean intro) {
-        repository.setIntro(intro);
+    /*
+         ---------- Sets ----------
+    */
+
+    public void setIntro(boolean bool) {
+        repository.setIntro(bool);
+    }
+
+    public void setCallUs(boolean bool) {
+        repository.setCallUs(bool);
     }
 
     public void setPublicKey(String key) {

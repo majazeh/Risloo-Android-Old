@@ -54,6 +54,10 @@ public class AuthItems {
         return sharedPreferences.getBoolean("intro", true);
     }
 
+    public boolean callUs() {
+        return sharedPreferences.getBoolean("callUs", true);
+    }
+
     public String token() {
         if (!sharedPreferences.getString("token", "").equals("")) {
             return sharedPreferences.getString("token", "");
@@ -61,16 +65,9 @@ public class AuthItems {
         return "";
     }
 
-    public String userId() {
+    public String id() {
         if (!sharedPreferences.getString("userId", "").equals("")) {
             return sharedPreferences.getString("userId", "");
-        }
-        return "";
-    }
-
-    public String userName() {
-        if (!sharedPreferences.getString("userName", "").equals("")) {
-            return sharedPreferences.getString("userName", "");
         }
         return "";
     }
@@ -82,22 +79,9 @@ public class AuthItems {
         return "";
     }
 
-    public String type() {
-        if (!sharedPreferences.getString("type", "").equals("")) {
-            switch (sharedPreferences.getString("type", "")) {
-                case "psychology":
-                    return application.getApplicationContext().getResources().getString(R.string.AuthTypePsychology);
-                case "clinic_center":
-                    return application.getApplicationContext().getResources().getString(R.string.AuthTypeClinicCenter);
-                case "operator":
-                    return application.getApplicationContext().getResources().getString(R.string.AuthTypeOperator);
-                case "admin":
-                    return application.getApplicationContext().getResources().getString(R.string.AuthTypeAdmin);
-                case "client":
-                    return application.getApplicationContext().getResources().getString(R.string.AuthTypeClient);
-                default:
-                    return application.getApplicationContext().getResources().getString(R.string.AuthTypeDefault);
-            }
+    public String username() {
+        if (!sharedPreferences.getString("username", "").equals("")) {
+            return sharedPreferences.getString("username", "");
         }
         return "";
     }
@@ -116,22 +100,66 @@ public class AuthItems {
         return "";
     }
 
+    public String birthday() {
+        if (!sharedPreferences.getString("birthday", "").equals("")) {
+            return DateManager.gregorianToJalali(sharedPreferences.getString("birthday", ""));
+        }
+        return "";
+    }
+
     public String gender() {
         if (!sharedPreferences.getString("gender", "").equals("")) {
-            if (sharedPreferences.getString("gender", "").equals("male")) {
-                return application.getApplicationContext().getResources().getString(R.string.AuthGenderMale);
-            } else if (sharedPreferences.getString("gender", "").equals("female")) {
-                return application.getApplicationContext().getResources().getString(R.string.AuthGenderFemale);
-            } else {
-                return application.getApplicationContext().getResources().getString(R.string.AuthGenderDefault);
+            switch (sharedPreferences.getString("gender", "")) {
+                case "male":
+                    return application.getApplicationContext().getResources().getString(R.string.AuthGenderMale);
+                case "female":
+                    return application.getApplicationContext().getResources().getString(R.string.AuthGenderFemale);
+                default:
+                    return application.getApplicationContext().getResources().getString(R.string.AuthGenderDefault);
             }
         }
         return "";
     }
 
-    public String birthday() {
-        if (!sharedPreferences.getString("birthday", "").equals("")) {
-            return DateManager.gregorianToJalali(sharedPreferences.getString("birthday", ""));
+    public String status() {
+        if (!sharedPreferences.getString("status", "").equals("")) {
+            switch (sharedPreferences.getString("status", "")) {
+                case "active":
+                    return application.getApplicationContext().getResources().getString(R.string.AuthStatusActive);
+                case "waiting":
+                    return application.getApplicationContext().getResources().getString(R.string.AuthStatusWaiting);
+                case "closed":
+                    return application.getApplicationContext().getResources().getString(R.string.AuthStatusClosed);
+                default:
+                    return application.getApplicationContext().getResources().getString(R.string.AuthStatusDefault);
+            }
+        }
+        return "";
+    }
+
+    public String type() {
+        if (!sharedPreferences.getString("type", "").equals("")) {
+            switch (sharedPreferences.getString("type", "")) {
+                case "admin":
+                    return application.getApplicationContext().getResources().getString(R.string.AuthTypeAdmin);
+                case "psychology":
+                    return application.getApplicationContext().getResources().getString(R.string.AuthTypePsychology);
+                case "operator":
+                    return application.getApplicationContext().getResources().getString(R.string.AuthTypeOperator);
+                case "clinic_center":
+                    return application.getApplicationContext().getResources().getString(R.string.AuthTypeClinicCenter);
+                case "client":
+                    return application.getApplicationContext().getResources().getString(R.string.AuthTypeClient);
+                default:
+                    return application.getApplicationContext().getResources().getString(R.string.AuthTypeDefault);
+            }
+        }
+        return "";
+    }
+
+    public String password() {
+        if (!sharedPreferences.getString("password", "").equals("")) {
+            return sharedPreferences.getString("password", "");
         }
         return "";
     }
@@ -157,8 +185,13 @@ public class AuthItems {
         return "";
     }
 
-    public void setIntro(boolean intro) {
-        editor.putBoolean("intro", intro);
+    public void setIntro(boolean bool) {
+        editor.putBoolean("intro", bool);
+        editor.apply();
+    }
+
+    public void setCallUs(boolean bool) {
+        editor.putBoolean("callUs", bool);
         editor.apply();
     }
 
@@ -174,35 +207,20 @@ public class AuthItems {
 
     private JSONArray data() throws JSONException {
         JSONArray data = new JSONArray();
-        if (!userId().equals("")) {
-            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthUserId)).put("subTitle", userId()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_code_light, null)));
-        }
-        if (!userName().equals("")) {
-            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthUserName)).put("subTitle", userName()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_at_light, null)));
-        }
         if (!name().equals("")) {
             data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthName)).put("subTitle", name()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_user_light, null)));
         }
-//        if (!type().equals("")) {
-//            if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypePsychology))) {
-//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image",ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_stethoscope_light, null)));
-//            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeClinicCenter))) {
-//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_hospital_light, null)));
-//            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeOperator))) {
-//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_headset_light, null)));
-//            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeAdmin))) {
-//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_headset_light, null)));
-//            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeClient))) {
-//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_pills_light, null)));
-//            } else {
-//                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_pills_light, null)));
-//            }
-//        }
+        if (!username().equals("")) {
+            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthUsername)).put("subTitle", username()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_at_light, null)));
+        }
         if (!mobile().equals("")) {
             data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthMobile)).put("subTitle", mobile()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_mobile_light, null)));
         }
         if (!email().equals("")) {
             data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthEmail)).put("subTitle", email()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_email_light, null)));
+        }
+        if (!birthday().equals("")) {
+            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthBirthday)).put("subTitle", birthday()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_calendar_light, null)));
         }
         if (!gender().equals("")) {
             if (gender().equals(application.getApplicationContext().getResources().getString(R.string.AuthGenderMale))) {
@@ -213,8 +231,31 @@ public class AuthItems {
                 data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthGender)).put("subTitle", gender()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_gender_light, null)));
             }
         }
-        if (!birthday().equals("")) {
-            data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthBirthday)).put("subTitle", birthday()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_calendar_light, null)));
+        if (!status().equals("")) {
+            if (status().equals(application.getApplicationContext().getResources().getString(R.string.AuthStatusActive))) {
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthStatus)).put("subTitle", status()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_user_active_light, null)));
+            } else if (status().equals(application.getApplicationContext().getResources().getString(R.string.AuthStatusWaiting))) {
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthStatus)).put("subTitle", status()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_user_waiting_light, null)));
+            } else if (status().equals(application.getApplicationContext().getResources().getString(R.string.AuthStatusClosed))) {
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthStatus)).put("subTitle", status()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_user_closed_light, null)));
+            } else {
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthStatus)).put("subTitle", status()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_user_active_light, null)));
+            }
+        }
+        if (!type().equals("")) {
+            if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeAdmin))) {
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_user_light, null)));
+            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypePsychology))) {
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image",ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_stethoscope_light, null)));
+            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeOperator))) {
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_headset_light, null)));
+            } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeClinicCenter))) {
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_hospital_light, null)));
+             } else if (type().equals(application.getApplicationContext().getResources().getString(R.string.AuthTypeClient))) {
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_pills_light, null)));
+            } else {
+                data.put(new JSONObject().put("title", application.getApplicationContext().getResources().getString(R.string.AuthType)).put("subTitle", type()).put("image", ResourcesCompat.getDrawable(application.getApplicationContext().getResources(), R.drawable.ic_pills_light, null)));
+            }
         }
         return data;
     }

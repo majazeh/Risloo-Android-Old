@@ -16,7 +16,9 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.Models.Items.AuthItems;
 import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Models.Workers.AuthWorker;
+import com.majazeh.risloo.Utils.Generators.JSONGenerator;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class AuthRepository extends MainRepository {
 
     // Objects
     private final AuthItems items;
+    private final JSONArray publicItems, privateItems;
 
     // Vars
     public static MutableLiveData<Integer> workState;
@@ -36,9 +39,13 @@ public class AuthRepository extends MainRepository {
     public static String authorizedKey = "";
     public static String callback = "";
     public static String name = "";
+    public static String username = "";
     public static String mobile = "";
-    public static String gender = "";
+    public static String email = "";
     public static String birthday = "";
+    public static String gender = "";
+    public static String status = "";
+    public static String type = "";
     public static String password = "";
     public static String code = "";
 
@@ -49,6 +56,9 @@ public class AuthRepository extends MainRepository {
 
         workState = new MutableLiveData<>();
         workState.setValue(-1);
+
+        publicItems = new JSONArray(JSONGenerator.getJSON(application.getApplicationContext(), "PublicKey.json"));
+        privateItems = new JSONArray(JSONGenerator.getJSON(application.getApplicationContext(), "PrivateKey.json"));
     }
 
     /*
@@ -103,26 +113,39 @@ public class AuthRepository extends MainRepository {
         workManager("me");
     }
 
-    public void edit(String name, String gender, String birthday) throws JSONException {
-        AuthRepository.name = name;
-        AuthRepository.gender = gender;
-        AuthRepository.birthday = birthday;
-
-        work = "edit";
-        workState.setValue(-1);
-        workManager("edit");
-    }
-
-    public void avatar() throws JSONException {
-        work = "avatar";
-        workState.setValue(-1);
-        workManager("avatar");
-    }
-
     public void logOut() throws JSONException {
         work = "logOut";
         workState.setValue(-1);
         workManager("logOut");
+    }
+
+    public void editPersonal(String name, String username, String mobile, String email, String birthday, String gender, String status, String type) throws JSONException {
+        AuthRepository.name = name;
+        AuthRepository.username = username;
+        AuthRepository.mobile = mobile;
+        AuthRepository.email = email;
+        AuthRepository.birthday = birthday;
+        AuthRepository.gender = gender;
+        AuthRepository.status = status;
+        AuthRepository.type = type;
+
+        work = "personal";
+        workState.setValue(-1);
+        workManager("personal");
+    }
+
+    public void editPassword(String password) throws JSONException {
+        AuthRepository.password = password;
+
+        work = "password";
+        workState.setValue(-1);
+        workManager("password");
+    }
+
+    public void editAvatar() throws JSONException {
+        work = "avatar";
+        workState.setValue(-1);
+        workManager("avatar");
     }
 
     /*
@@ -133,8 +156,38 @@ public class AuthRepository extends MainRepository {
         return items.items();
     }
 
+    public ArrayList<Model> getKeyAsset(String type) throws JSONException {
+        ArrayList<Model> items = new ArrayList<>();
+        if (type.equals("public")) {
+            for (int i = 0; i < this.publicItems.length(); i++) {
+                items.add(new Model(this.publicItems.getJSONObject(i)));
+            }
+        } else {
+            for (int i = 0; i < this.privateItems.length(); i++) {
+                items.add(new Model(this.privateItems.getJSONObject(i)));
+            }
+        }
+        return items;
+    }
+
+    public ArrayList<Model> getKeyAssetSubset(String type, int index) throws JSONException {
+        JSONArray subsets;
+
+        if (type.equals("public")) {
+            subsets = publicItems.getJSONObject(index).getJSONArray("items");
+        } else {
+            subsets = privateItems.getJSONObject(index).getJSONArray("items");
+        }
+
+        ArrayList<Model> items = new ArrayList<>();
+        for (int i = 0; i < subsets.length(); i++) {
+            items.add(new Model(subsets.getJSONObject(i)));
+        }
+        return items;
+    }
+
     /*
-         ---------- Booleans ----------
+         ---------- Policies ----------
     */
 
     public boolean auth() {
@@ -142,31 +195,31 @@ public class AuthRepository extends MainRepository {
     }
 
     /*
-         ---------- Strings ----------
+         ---------- Gets ----------
     */
 
     public boolean getIntro() {
         return items.intro();
     }
 
+    public boolean getCallUs() {
+        return items.callUs();
+    }
+
     public String getToken() {
         return items.token();
     }
 
-    public String getUserId() {
-        return items.userId();
-    }
-
-    public String getUserName() {
-        return items.userName();
+    public String getId() {
+        return items.id();
     }
 
     public String getName() {
         return items.name();
     }
 
-    public String getType() {
-        return items.type();
+    public String getUsername() {
+        return items.username();
     }
 
     public String getMobile() {
@@ -177,12 +230,24 @@ public class AuthRepository extends MainRepository {
         return items.email();
     }
 
+    public String getBirthday() {
+        return items.birthday();
+    }
+
     public String getGender() {
         return items.gender();
     }
 
-    public String getBirthday() {
-        return items.birthday();
+    public String getStatus() {
+        return items.status();
+    }
+
+    public String getType() {
+        return items.type();
+    }
+
+    public String getPassword() {
+        return items.password();
     }
 
     public String getAvatar() {
@@ -197,8 +262,16 @@ public class AuthRepository extends MainRepository {
         return items.privateKey();
     }
 
-    public void setIntro(boolean intro) {
-        items.setIntro(intro);
+    /*
+         ---------- Sets ----------
+    */
+
+    public void setIntro(boolean bool) {
+        items.setIntro(bool);
+    }
+
+    public void setCallUs(boolean bool) {
+        items.setCallUs(bool);
     }
 
     public void setPublicKey(String key) {

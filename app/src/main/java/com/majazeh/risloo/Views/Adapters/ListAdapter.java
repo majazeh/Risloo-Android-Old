@@ -14,13 +14,12 @@ import com.majazeh.risloo.Entities.Model;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
 import com.majazeh.risloo.Views.Activities.AboutUsActivity;
-import com.majazeh.risloo.Views.Activities.CryptoActivity;
+import com.majazeh.risloo.Views.Activities.EditAccountActivity;
 import com.majazeh.risloo.Views.Activities.TAConditionActivity;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
 
@@ -71,16 +70,16 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
             if (model.get("subset").equals("big")) {
                 switch (asset) {
                     case "AboutUs":
-                        subListBigAdapter.setList(((AboutUsActivity) Objects.requireNonNull(activity)).aboutUsViewModel.getSubset(i));
+                        subListBigAdapter.setList(((AboutUsActivity) activity).aboutUsViewModel.getSubset(i));
                         break;
                     case "TACondition":
-                        subListBigAdapter.setList(((TAConditionActivity) Objects.requireNonNull(activity)).taConditionViewModel.getSubset(i));
+                        subListBigAdapter.setList(((TAConditionActivity) activity).taConditionViewModel.getSubset(i));
                         break;
-                    case "CryptoPublic":
-                        subListBigAdapter.setList(((CryptoActivity) Objects.requireNonNull(activity)).cryptoViewModel.getSubset("public", i));
+                    case "EditCryptoPublic":
+                        subListBigAdapter.setList(((EditAccountActivity) activity).authViewModel.getKeyAssetSubset("public", i));
                         break;
-                    case "CryptoPrivate":
-                        subListBigAdapter.setList(((CryptoActivity) Objects.requireNonNull(activity)).cryptoViewModel.getSubset("private", i));
+                    case "EditCryptoPrivate":
+                        subListBigAdapter.setList(((EditAccountActivity) activity).authViewModel.getKeyAssetSubset("private", i));
                         break;
                 }
 
@@ -94,16 +93,16 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListHolder> {
             } else if (list.get(i).get("subset").equals("small")) {
                 switch (asset) {
                     case "AboutUs":
-                        subListSmallAdapter.setList(((AboutUsActivity) Objects.requireNonNull(activity)).aboutUsViewModel.getSubset(i));
+                        subListSmallAdapter.setList(((AboutUsActivity) activity).aboutUsViewModel.getSubset(i));
                         break;
                     case "TACondition":
-                        subListSmallAdapter.setList(((TAConditionActivity) Objects.requireNonNull(activity)).taConditionViewModel.getSubset(i));
+                        subListSmallAdapter.setList(((TAConditionActivity) activity).taConditionViewModel.getSubset(i));
                         break;
-                    case "CryptoPublic":
-                        subListSmallAdapter.setList(((CryptoActivity) Objects.requireNonNull(activity)).cryptoViewModel.getSubset("public", i));
+                    case "EditCryptoPublic":
+                        subListSmallAdapter.setList(((EditAccountActivity) activity).authViewModel.getKeyAssetSubset("public", i));
                         break;
-                    case "CryptoPrivate":
-                        subListSmallAdapter.setList(((CryptoActivity) Objects.requireNonNull(activity)).cryptoViewModel.getSubset("private", i));
+                    case "EditCryptoPrivate":
+                        subListSmallAdapter.setList(((EditAccountActivity) activity).authViewModel.getKeyAssetSubset("private", i));
                         break;
                 }
 

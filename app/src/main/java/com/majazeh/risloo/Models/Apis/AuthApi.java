@@ -45,7 +45,7 @@ public interface AuthApi {
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @PUT("me")
-    Call<ResponseBody> edit(@Header("Authorization") String authorization, @Query("name") String name, @Query("gender") String gender, @Query("birthday") String birthday);
+    Call<ResponseBody> editPersonal(@Header("Authorization") String authorization, @Query("name") String name, @Query("gender") String gender, @Query("birthday") String birthday);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @POST("logout")

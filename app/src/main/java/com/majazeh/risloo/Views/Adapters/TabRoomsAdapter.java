@@ -12,12 +12,14 @@ import com.majazeh.risloo.Views.Fragments.MyRoomsFragment;
 
 public class TabRoomsAdapter extends FragmentPagerAdapter {
 
+    // Fragments
+    public Fragment allFragment, myFragment;
+
     // Vars
     private boolean token;
 
     // Object
     private Activity activity;
-    public Fragment allFragment, myFragment;
 
     public TabRoomsAdapter(@NonNull FragmentManager fragmentManager, int behavior, Activity activity, boolean token) {
         super(fragmentManager, behavior);
