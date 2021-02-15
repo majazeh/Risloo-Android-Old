@@ -156,6 +156,10 @@ public class EditAccountActivity extends AppCompatActivity {
         editAccountTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                    controlEditText.clear(EditAccountActivity.this, controlEditText.input());
+                }
+
                 editAccountRtlViewPager.setCurrentItem(tab.getPosition());
             }
 
@@ -178,6 +182,10 @@ public class EditAccountActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                if (controlEditText.input() != null && controlEditText.input().hasFocus()) {
+                    controlEditText.clear(EditAccountActivity.this, controlEditText.input());
+                }
+
                 editAccountTabLayout.getTabAt(position).select();
             }
 

@@ -5,11 +5,11 @@
     android:id="@+id/activity_edit_account"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="rtl"
     android:background="@color/White"
     android:fitsSystemWindows="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:descendantFocusability="blocksDescendants"
     tools:context=".Views.Activities.EditAccountActivity">
 
     <include
@@ -45,7 +45,6 @@
             android:id="@+id/edit_account_tabLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layoutDirection="rtl"
             android:theme="@style/TabTheme"
             android:background="@color/White"
             app:tabMode="fixed"
@@ -87,7 +86,6 @@
         android:id="@+id/edit_account_rtlViewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layoutDirection="rtl"
         android:overScrollMode="always"
         app:layout_constraintBottom_toBottomOf="@id/edit_account_bottom_view"
         app:layout_constraintEnd_toEndOf="parent"

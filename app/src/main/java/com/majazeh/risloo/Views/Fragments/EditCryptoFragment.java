@@ -65,13 +65,15 @@ public class EditCryptoFragment extends Fragment {
         privateListAdapter = new ListAdapter(getActivity());
 
         publicKeyRecyclerView = view.findViewById(R.id.edit_crypto_publicKey_recyclerView);
-        publicKeyRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._24sdp), (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._24sdp)));
+        publicKeyRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._12sdp), (int) getResources().getDimension(R.dimen._20sdp)));
         publicKeyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        publicKeyRecyclerView.setNestedScrollingEnabled(false);
         publicKeyRecyclerView.setHasFixedSize(true);
 
         privateKeyRecyclerView = view.findViewById(R.id.edit_crypto_privateKey_recyclerView);
-        privateKeyRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._24sdp), (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._24sdp)));
+        privateKeyRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._12sdp), (int) getResources().getDimension(R.dimen._20sdp)));
         privateKeyRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        privateKeyRecyclerView.setNestedScrollingEnabled(false);
         privateKeyRecyclerView.setHasFixedSize(true);
 
         publicKeyEditText = view.findViewById(R.id.edit_crypto_publicKey_editText);

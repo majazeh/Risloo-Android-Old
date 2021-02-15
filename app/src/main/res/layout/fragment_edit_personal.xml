@@ -1,339 +1,346 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_edit_personal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    android:scrollbarSize="0dp"
+    android:overScrollMode="never"
     tools:context=".Views.Fragments.EditPersonalFragment">
 
-    <EditText
-        android:id="@+id/edit_personal_name_editText"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_36sdp"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:paddingLeft="@dimen/_16sdp"
-        android:paddingRight="@dimen/_16sdp"
-        android:imeOptions="actionDone"
-        android:inputType="text"
-        android:gravity="center|start"
-        android:hint="@string/EditPersonalNameHint"
-        android:textSize="@dimen/_12ssp"
-        android:textStyle="normal"
-        android:textColor="@color/Grey"
-        android:textColorHint="@color/Mischka"
-        android:textAlignment="gravity"
-        android:importantForAutofill="no"
-        android:background="@drawable/draw_16sdp_border_quartz"
-        app:layout_constraintBottom_toTopOf="@+id/edit_personal_username_editText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
-    <EditText
-        android:id="@+id/edit_personal_username_editText"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_36sdp"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:paddingLeft="@dimen/_16sdp"
-        android:paddingRight="@dimen/_16sdp"
-        android:imeOptions="actionDone"
-        android:inputType="text"
-        android:gravity="center|start"
-        android:hint="@string/EditPersonalUsernameHint"
-        android:textSize="@dimen/_12ssp"
-        android:textStyle="normal"
-        android:textColor="@color/Grey"
-        android:textColorHint="@color/Mischka"
-        android:textAlignment="gravity"
-        android:importantForAutofill="no"
-        android:background="@drawable/draw_16sdp_border_quartz"
-        app:layout_constraintBottom_toTopOf="@+id/edit_personal_mobile_editText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_personal_name_editText" />
-
-    <EditText
-        android:id="@+id/edit_personal_mobile_editText"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_36sdp"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:paddingLeft="@dimen/_16sdp"
-        android:paddingRight="@dimen/_16sdp"
-        android:imeOptions="actionDone"
-        android:inputType="number"
-        android:gravity="center|start"
-        android:hint="@string/EditPersonalMobileHint"
-        android:textSize="@dimen/_12ssp"
-        android:textStyle="normal"
-        android:textColor="@color/Grey"
-        android:textColorHint="@color/Mischka"
-        android:textAlignment="gravity"
-        android:importantForAutofill="no"
-        android:background="@drawable/draw_16sdp_border_quartz"
-        app:layout_constraintBottom_toTopOf="@+id/edit_personal_email_editText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_personal_username_editText" />
-
-    <EditText
-        android:id="@+id/edit_personal_email_editText"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_36sdp"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:paddingLeft="@dimen/_16sdp"
-        android:paddingRight="@dimen/_16sdp"
-        android:imeOptions="actionDone"
-        android:inputType="textEmailAddress"
-        android:gravity="center|start"
-        android:hint="@string/EditPersonalEmailHint"
-        android:textSize="@dimen/_12ssp"
-        android:textStyle="normal"
-        android:textColor="@color/Grey"
-        android:textColorHint="@color/Mischka"
-        android:textAlignment="gravity"
-        android:importantForAutofill="no"
-        android:background="@drawable/draw_16sdp_border_quartz"
-        app:layout_constraintBottom_toTopOf="@+id/edit_personal_birthday_textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_personal_mobile_editText" />
-
-    <TextView
-        android:id="@+id/edit_personal_birthday_textView"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_36sdp"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:paddingLeft="@dimen/_16sdp"
-        android:paddingRight="@dimen/_16sdp"
-        android:gravity="center|start"
-        android:hint="@string/EditPersonalBirthdayHint"
-        android:textSize="@dimen/_12ssp"
-        android:textStyle="normal"
-        android:textColor="@color/Grey"
-        android:textColorHint="@color/Mischka"
-        android:textAlignment="gravity"
-        android:background="@drawable/draw_16sdp_border_quartz"
-        app:layout_constraintBottom_toTopOf="@+id/edit_personal_gender_cardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_personal_email_editText" />
-
-    <ImageView
-        android:id="@+id/edit_personal_birthday_imageView"
-        android:layout_width="@dimen/_12sdp"
-        android:layout_height="@dimen/_12sdp"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:contentDescription="@string/AppImageContent"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_chevron_down"
-        app:layout_constraintBottom_toBottomOf="@+id/edit_personal_birthday_textView"
-        app:layout_constraintStart_toStartOf="@+id/edit_personal_birthday_textView"
-        app:layout_constraintTop_toTopOf="@+id/edit_personal_birthday_textView"
-        app:tint="@color/Mischka" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/edit_personal_gender_cardView"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_72sdp"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        app:cardBackgroundColor="@color/White"
-        app:cardCornerRadius="@dimen/_16sdp"
-        app:cardElevation="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/edit_personal_status_cardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_personal_birthday_textView">
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/edit_personal_gender_tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layoutDirection="rtl"
-            android:theme="@style/TabTheme"
+        <EditText
+            android:id="@+id/edit_personal_name_editText"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_36sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:paddingLeft="@dimen/_16sdp"
+            android:paddingRight="@dimen/_16sdp"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:gravity="center|right"
+            android:hint="@string/EditPersonalNameHint"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="normal"
+            android:textColor="@color/Grey"
+            android:textColorHint="@color/Mischka"
+            android:textAlignment="gravity"
+            android:importantForAutofill="no"
             android:background="@drawable/draw_16sdp_border_quartz"
-            app:tabMode="fixed"
-            app:tabGravity="fill"
-            app:tabMaxWidth="0dp"
-            app:tabBackground="@null"
-            app:tabRippleColor="@color/Quartz"
-            app:tabIconTint="@drawable/sel_tab_icon"
-            app:tabIndicatorColor="@color/Primary5P"
-            app:tabIndicatorHeight="@dimen/_72sdp"
-            app:tabTextColor="@color/Mischka"
-            app:tabSelectedTextColor="@color/Grey"
-            app:tabTextAppearance="@style/TabTextNormalAppearance">
+            app:layout_constraintBottom_toTopOf="@+id/edit_personal_username_editText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:icon="@drawable/ic_male_light"
-                android:text="@string/EditPersonalGenderMale" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:icon="@drawable/ic_female_light"
-                android:text="@string/EditPersonalGenderFemale" />
-
-        </com.google.android.material.tabs.TabLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/edit_personal_status_cardView"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_72sdp"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        app:cardBackgroundColor="@color/White"
-        app:cardCornerRadius="@dimen/_16sdp"
-        app:cardElevation="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/edit_personal_type_cardView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_personal_gender_cardView">
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/edit_personal_status_tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layoutDirection="rtl"
-            android:theme="@style/TabTheme"
+        <EditText
+            android:id="@+id/edit_personal_username_editText"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_36sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:paddingLeft="@dimen/_16sdp"
+            android:paddingRight="@dimen/_16sdp"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:gravity="center|right"
+            android:hint="@string/EditPersonalUsernameHint"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="normal"
+            android:textColor="@color/Grey"
+            android:textColorHint="@color/Mischka"
+            android:textAlignment="gravity"
+            android:importantForAutofill="no"
             android:background="@drawable/draw_16sdp_border_quartz"
-            app:tabMode="fixed"
-            app:tabGravity="fill"
-            app:tabMaxWidth="0dp"
-            app:tabBackground="@null"
-            app:tabRippleColor="@color/Quartz"
-            app:tabIconTint="@drawable/sel_tab_icon"
-            app:tabIndicatorColor="@color/Primary5P"
-            app:tabIndicatorHeight="@dimen/_72sdp"
-            app:tabTextColor="@color/Mischka"
-            app:tabSelectedTextColor="@color/Grey"
-            app:tabTextAppearance="@style/TabTextNormalAppearance">
+            app:layout_constraintBottom_toTopOf="@+id/edit_personal_mobile_editText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_personal_name_editText" />
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:icon="@drawable/ic_user_active_light"
-                android:text="@string/EditPersonalStatusActive" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:icon="@drawable/ic_user_waiting_light"
-                android:text="@string/EditPersonalStatusWaiting" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:icon="@drawable/ic_user_closed_light"
-                android:text="@string/EditPersonalStatusClosed" />
-
-        </com.google.android.material.tabs.TabLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/edit_personal_type_cardView"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_72sdp"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        app:cardBackgroundColor="@color/White"
-        app:cardCornerRadius="@dimen/_16sdp"
-        app:cardElevation="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/edit_personal_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_personal_status_cardView">
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/edit_personal_type_tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layoutDirection="rtl"
-            android:theme="@style/TabTheme"
+        <EditText
+            android:id="@+id/edit_personal_mobile_editText"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_36sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:paddingLeft="@dimen/_16sdp"
+            android:paddingRight="@dimen/_16sdp"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:gravity="center|right"
+            android:hint="@string/EditPersonalMobileHint"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="normal"
+            android:textColor="@color/Grey"
+            android:textColorHint="@color/Mischka"
+            android:textAlignment="gravity"
+            android:importantForAutofill="no"
             android:background="@drawable/draw_16sdp_border_quartz"
-            app:tabMode="fixed"
-            app:tabGravity="fill"
-            app:tabMaxWidth="0dp"
-            app:tabBackground="@null"
-            app:tabRippleColor="@color/Quartz"
-            app:tabIconTint="@drawable/sel_tab_icon"
-            app:tabIndicatorColor="@color/Primary5P"
-            app:tabIndicatorHeight="@dimen/_72sdp"
-            app:tabTextColor="@color/Mischka"
-            app:tabSelectedTextColor="@color/Grey"
-            app:tabTextAppearance="@style/TabTextNormalAppearance">
+            app:layout_constraintBottom_toTopOf="@+id/edit_personal_email_editText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_personal_username_editText" />
 
-            <com.google.android.material.tabs.TabItem
+        <EditText
+            android:id="@+id/edit_personal_email_editText"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_36sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:paddingLeft="@dimen/_16sdp"
+            android:paddingRight="@dimen/_16sdp"
+            android:imeOptions="actionDone"
+            android:inputType="textEmailAddress"
+            android:gravity="center|right"
+            android:hint="@string/EditPersonalEmailHint"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="normal"
+            android:textColor="@color/Grey"
+            android:textColorHint="@color/Mischka"
+            android:textAlignment="gravity"
+            android:importantForAutofill="no"
+            android:background="@drawable/draw_16sdp_border_quartz"
+            app:layout_constraintBottom_toTopOf="@+id/edit_personal_birthday_textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_personal_mobile_editText" />
+
+        <TextView
+            android:id="@+id/edit_personal_birthday_textView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_36sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:paddingLeft="@dimen/_16sdp"
+            android:paddingRight="@dimen/_16sdp"
+            android:gravity="center|right"
+            android:hint="@string/EditPersonalBirthdayHint"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="normal"
+            android:textColor="@color/Grey"
+            android:textColorHint="@color/Mischka"
+            android:textAlignment="gravity"
+            android:background="@drawable/draw_16sdp_border_quartz"
+            app:layout_constraintBottom_toTopOf="@+id/edit_personal_gender_cardView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_personal_email_editText" />
+
+        <ImageView
+            android:id="@+id/edit_personal_birthday_imageView"
+            android:layout_width="@dimen/_12sdp"
+            android:layout_height="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:contentDescription="@string/AppImageContent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_chevron_down"
+            app:layout_constraintBottom_toBottomOf="@+id/edit_personal_birthday_textView"
+            app:layout_constraintEnd_toEndOf="@+id/edit_personal_birthday_textView"
+            app:layout_constraintTop_toTopOf="@+id/edit_personal_birthday_textView"
+            app:tint="@color/Mischka" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/edit_personal_gender_cardView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_72sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            app:cardBackgroundColor="@color/White"
+            app:cardCornerRadius="@dimen/_16sdp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/edit_personal_status_cardView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_personal_birthday_textView">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/edit_personal_gender_tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:icon="@drawable/ic_user_light"
-                android:text="@string/EditPersonalTypeAdmin" />
+                android:theme="@style/TabTheme"
+                android:background="@drawable/draw_16sdp_border_quartz"
+                app:tabMode="fixed"
+                app:tabGravity="fill"
+                app:tabMaxWidth="0dp"
+                app:tabBackground="@null"
+                app:tabRippleColor="@color/Quartz"
+                app:tabIconTint="@drawable/sel_tab_icon"
+                app:tabIndicatorColor="@color/Primary5P"
+                app:tabIndicatorHeight="@dimen/_72sdp"
+                app:tabTextColor="@color/Mischka"
+                app:tabSelectedTextColor="@color/Grey"
+                app:tabTextAppearance="@style/TabTextNormalAppearance">
 
-            <com.google.android.material.tabs.TabItem
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/ic_male_light"
+                    android:text="@string/EditPersonalGenderMale" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/ic_female_light"
+                    android:text="@string/EditPersonalGenderFemale" />
+
+            </com.google.android.material.tabs.TabLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/edit_personal_status_cardView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_72sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            app:cardBackgroundColor="@color/White"
+            app:cardCornerRadius="@dimen/_16sdp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/edit_personal_type_cardView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_personal_gender_cardView">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/edit_personal_status_tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:icon="@drawable/ic_stethoscope_light"
-                android:text="@string/EditPersonalTypePsychology" />
+                android:theme="@style/TabTheme"
+                android:background="@drawable/draw_16sdp_border_quartz"
+                app:tabMode="fixed"
+                app:tabGravity="fill"
+                app:tabMaxWidth="0dp"
+                app:tabBackground="@null"
+                app:tabRippleColor="@color/Quartz"
+                app:tabIconTint="@drawable/sel_tab_icon"
+                app:tabIndicatorColor="@color/Primary5P"
+                app:tabIndicatorHeight="@dimen/_72sdp"
+                app:tabTextColor="@color/Mischka"
+                app:tabSelectedTextColor="@color/Grey"
+                app:tabTextAppearance="@style/TabTextNormalAppearance">
 
-            <com.google.android.material.tabs.TabItem
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/ic_user_active_light"
+                    android:text="@string/EditPersonalStatusActive" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/ic_user_waiting_light"
+                    android:text="@string/EditPersonalStatusWaiting" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/ic_user_closed_light"
+                    android:text="@string/EditPersonalStatusClosed" />
+
+            </com.google.android.material.tabs.TabLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/edit_personal_type_cardView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_72sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            app:cardBackgroundColor="@color/White"
+            app:cardCornerRadius="@dimen/_16sdp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/edit_personal_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_personal_status_cardView">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/edit_personal_type_tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:icon="@drawable/ic_headset_light"
-                android:text="@string/EditPersonalTypeOperator" />
+                android:theme="@style/TabTheme"
+                android:background="@drawable/draw_16sdp_border_quartz"
+                app:tabMode="fixed"
+                app:tabGravity="fill"
+                app:tabMaxWidth="0dp"
+                app:tabBackground="@null"
+                app:tabRippleColor="@color/Quartz"
+                app:tabIconTint="@drawable/sel_tab_icon"
+                app:tabIndicatorColor="@color/Primary5P"
+                app:tabIndicatorHeight="@dimen/_72sdp"
+                app:tabTextColor="@color/Mischka"
+                app:tabSelectedTextColor="@color/Grey"
+                app:tabTextAppearance="@style/TabTextNormalAppearance">
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:icon="@drawable/ic_hospital_light"
-                android:text="@string/EditPersonalTypeClinicCenter" />
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/ic_user_light"
+                    android:text="@string/EditPersonalTypeAdmin" />
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:icon="@drawable/ic_pills_light"
-                android:text="@string/EditPersonalTypeClient" />
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/ic_stethoscope_light"
+                    android:text="@string/EditPersonalTypePsychology" />
 
-        </com.google.android.material.tabs.TabLayout>
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/ic_headset_light"
+                    android:text="@string/EditPersonalTypeOperator" />
 
-    </androidx.cardview.widget.CardView>
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/ic_hospital_light"
+                    android:text="@string/EditPersonalTypeClinicCenter" />
 
-    <Button
-        android:id="@+id/edit_personal_button"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_36sdp"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_12sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:gravity="center"
-        android:text="@string/EditAccountEdit"
-        android:textSize="@dimen/_12ssp"
-        android:textStyle="bold"
-        android:textColor="@color/White"
-        android:textAlignment="gravity"
-        android:background="@drawable/draw_16sdp_solid_primary"
-        style="?android:attr/borderlessButtonStyle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_personal_type_cardView" />
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:icon="@drawable/ic_pills_light"
+                    android:text="@string/EditPersonalTypeClient" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.tabs.TabLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/edit_personal_button"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_36sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_24sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:gravity="center"
+            android:text="@string/EditAccountEdit"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            android:textColor="@color/White"
+            android:textAlignment="gravity"
+            android:background="@drawable/draw_16sdp_solid_primary"
+            style="?android:attr/borderlessButtonStyle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_personal_type_cardView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
