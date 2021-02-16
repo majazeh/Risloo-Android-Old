@@ -102,7 +102,7 @@ public class AuthWorker extends Worker {
         return "";
     }
 
-    private String id() {
+    private String userId() {
         if (!sharedPreferences.getString("userId", "").equals("")) {
             return sharedPreferences.getString("userId", "");
         }
@@ -199,6 +199,11 @@ public class AuthWorker extends Worker {
                     AuthRepository.callback = "";
                 }
 
+                if (!AuthRepository.password.equals("")) {
+                    editor.putString("password", AuthRepository.password);
+                    editor.apply();
+                }
+
                 if (successBody.has("token")) {
                     editor.putString("token", successBody.getString("token"));
                     editor.apply();
@@ -259,6 +264,11 @@ public class AuthWorker extends Worker {
                     AuthRepository.callback = successBody.getString("callback");
                 } else {
                     AuthRepository.callback = "";
+                }
+
+                if (!AuthRepository.password.equals("")) {
+                    editor.putString("password", AuthRepository.password);
+                    editor.apply();
                 }
 
                 if (successBody.has("token")) {
@@ -360,7 +370,7 @@ public class AuthWorker extends Worker {
     private void recovery() {
         try {
             Call<ResponseBody> call = api.recovery(AuthRepository.mobile);
-            System.out.println(AuthRepository.mobile);
+
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
@@ -511,15 +521,17 @@ public class AuthWorker extends Worker {
                     editor.putString("gender", "");
                 }
 
-                // TODO : Add Status
+                if (data.has("status") && !data.isNull("status")) {
+                    editor.putString("status", data.getString("status"));
+                } else {
+                    editor.putString("status", "");
+                }
 
                 if (data.has("type") && !data.isNull("type")) {
                     editor.putString("type", data.getString("type"));
                 } else {
                     editor.putString("type", "");
                 }
-
-                // TODO : Add Password
 
                 if (!data.isNull("avatar") && data.get("avatar").getClass().getName().equals("org.json.JSONObject")) {
                     JSONObject avatar = data.getJSONObject("avatar");
@@ -584,6 +596,7 @@ public class AuthWorker extends Worker {
                 editor.remove("birthday");
                 editor.remove("gender");
                 editor.remove("type");
+                editor.remove("password");
                 editor.remove("avatar");
                 editor.remove("public_key");
                 editor.remove("private_key");
@@ -606,6 +619,7 @@ public class AuthWorker extends Worker {
                 editor.remove("birthday");
                 editor.remove("gender");
                 editor.remove("type");
+                editor.remove("password");
                 editor.remove("avatar");
                 editor.remove("public_key");
                 editor.remove("private_key");
@@ -641,30 +655,29 @@ public class AuthWorker extends Worker {
 
     private void editPersonal() {
         try {
-            System.out.println( AuthRepository.name+ AuthRepository.gender+ AuthRepository.birthday+AuthRepository.username+AuthRepository.mobile+AuthRepository.email+AuthRepository.status+AuthRepository.type);
-            Call<ResponseBody> call = api.editPersonal(token(),AuthRepository.editData);
+            Call<ResponseBody> call = api.editPersonal(token(), AuthRepository.editData);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
 
                 editor.putString("name", AuthRepository.name);
-                editor.putString("gender", AuthRepository.gender);
-                editor.putString("birthday", AuthRepository.birthday);
                 editor.putString("username", AuthRepository.username);
                 editor.putString("mobile", AuthRepository.mobile);
                 editor.putString("email", AuthRepository.email);
+                editor.putString("birthday", AuthRepository.birthday);
+                editor.putString("gender", AuthRepository.gender);
                 editor.putString("status", AuthRepository.status);
                 editor.putString("type", AuthRepository.type);
 
                 editor.apply();
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "edit");
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "personal");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "edit");
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "personal");
                 AuthRepository.workState.postValue(0);
             }
 
@@ -688,19 +701,21 @@ public class AuthWorker extends Worker {
 
     private void editPassword() {
         try {
-            System.out.println(sharedPreferences.getString("userId","")+"wtf!");
-            Call<ResponseBody> call = api.editPassword(token(),sharedPreferences.getString("userId",""), AuthRepository.password);
+            Call<ResponseBody> call = api.editPassword(token(), userId(), AuthRepository.password);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
                 JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "edit");
+                editor.putString("password", AuthRepository.password);
+                editor.apply();
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "password");
                 AuthRepository.workState.postValue(1);
             } else {
                 JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
 
-                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "edit");
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "password");
                 AuthRepository.workState.postValue(0);
             }
 
@@ -725,7 +740,7 @@ public class AuthWorker extends Worker {
     private void editAvatar() {
         File avatar = new File(context.getCacheDir(), "image");
 
-        AndroidNetworking.upload("https://bapi.risloo.ir/api/users/" + id() + "/" + "avatar")
+        AndroidNetworking.upload("https://bapi.risloo.ir/api/users/" + userId() + "/" + "avatar")
                 .addHeaders("Authorization", token())
                 .addMultipartFile("avatar", avatar)
                 .setPriority(Priority.HIGH)

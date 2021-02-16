@@ -47,17 +47,16 @@ public interface AuthApi {
     Call<ResponseBody> me(@Header("Authorization") String authorization);
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
+    @POST("logout")
+    Call<ResponseBody> logOut(@Header("Authorization") String authorization);
+
+    @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @PUT("me")
     Call<ResponseBody> editPersonal(@Header("Authorization") String authorization, @Body HashMap hashMap);
-
 
     @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
     @FormUrlEncoded
     @PUT("users/{user_id}/change-password")
     Call<ResponseBody> editPassword(@Header("Authorization") String authorization, @Path("user_id") String user_id, @Field("new_password") String new_password);
-
-    @Headers({"content-type: application/x-www-form-urlencoded", "Accept-Language:fa"})
-    @POST("logout")
-    Call<ResponseBody> logOut(@Header("Authorization") String authorization);
 
 }

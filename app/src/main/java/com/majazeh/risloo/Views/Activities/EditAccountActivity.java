@@ -41,6 +41,7 @@ import com.majazeh.risloo.Utils.Widgets.ControlEditText;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
 import com.majazeh.risloo.Views.Adapters.TabAccountAdapter;
 import com.majazeh.risloo.Views.Fragments.EditAvatarFragment;
+import com.majazeh.risloo.Views.Fragments.EditCryptoFragment;
 import com.majazeh.risloo.Views.Fragments.EditPasswordFragment;
 import com.majazeh.risloo.Views.Fragments.EditPersonalFragment;
 
@@ -54,6 +55,7 @@ public class EditAccountActivity extends AppCompatActivity {
     public EditPersonalFragment editPersonalFragment;
     public EditPasswordFragment editPasswordFragment;
     public EditAvatarFragment editAvatarFragment;
+    public EditCryptoFragment editCryptoFragment;
 
     // ViewModels
     public AuthViewModel authViewModel;
@@ -103,6 +105,7 @@ public class EditAccountActivity extends AppCompatActivity {
         editPersonalFragment = ((EditPersonalFragment) getSupportFragmentManager().findFragmentById(R.id.edit_account_rtlViewPager));
         editPasswordFragment = ((EditPasswordFragment) getSupportFragmentManager().findFragmentById(R.id.edit_account_rtlViewPager));
         editAvatarFragment = ((EditAvatarFragment) getSupportFragmentManager().findFragmentById(R.id.edit_account_rtlViewPager));
+        editCryptoFragment = ((EditCryptoFragment) getSupportFragmentManager().findFragmentById(R.id.edit_account_rtlViewPager));
 
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 

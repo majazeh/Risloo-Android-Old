@@ -331,8 +331,8 @@ public class AuthViewModel extends AndroidViewModel {
         return repository.getToken();
     }
 
-    public String getId() {
-        return repository.getId();
+    public String getUserId() {
+        return repository.getUserId();
     }
 
     public String getName() {

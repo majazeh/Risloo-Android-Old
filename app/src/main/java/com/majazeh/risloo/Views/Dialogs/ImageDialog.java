@@ -93,8 +93,10 @@ public class ImageDialog extends BottomSheetDialogFragment {
 
             if (PermissionManager.cameraPermission(activity)) {
                 switch (type) {
-                    case "EditAccount":
-                        ((EditAccountActivity) Objects.requireNonNull(activity)).editAvatarFragment.avatarFilePath = IntentManager.camera(activity);
+                    case "EditAvatar":
+                        if (((EditAccountActivity) Objects.requireNonNull(activity)).editAvatarFragment != null) {
+                            ((EditAccountActivity) Objects.requireNonNull(activity)).editAvatarFragment.avatarFilePath = IntentManager.camera(activity);
+                        }
                         break;
                     case "CreateCenter":
                         ((CreateCenterActivity) Objects.requireNonNull(activity)).imageFilePath = IntentManager.camera(activity);

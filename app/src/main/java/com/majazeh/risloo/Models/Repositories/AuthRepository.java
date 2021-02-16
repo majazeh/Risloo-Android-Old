@@ -221,8 +221,8 @@ public class AuthRepository extends MainRepository {
         return items.token();
     }
 
-    public String getId() {
-        return items.id();
+    public String getUserId() {
+        return items.userId();
     }
 
     public String getName() {

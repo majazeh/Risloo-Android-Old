@@ -65,7 +65,7 @@ public class AuthItems {
         return "";
     }
 
-    public String id() {
+    public String userId() {
         if (!sharedPreferences.getString("userId", "").equals("")) {
             return sharedPreferences.getString("userId", "");
         }

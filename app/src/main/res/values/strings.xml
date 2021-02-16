@@ -304,13 +304,13 @@
     <string name="AuthGenderFemale">زن</string>
     <string name="AuthGenderDefault">نامشخص</string>
 
-    <string name="AuthStatus">جنسیت</string>
+    <string name="AuthStatus">وضعیت</string>
     <string name="AuthStatusActive">فعال</string>
     <string name="AuthStatusWaiting">در انتظار</string>
     <string name="AuthStatusClosed">بسته شده</string>
     <string name="AuthStatusDefault">نامشخص</string>
 
-    <string name="AuthType">نوع حساب</string>
+    <string name="AuthType">نوع</string>
     <string name="AuthTypeAdmin">ادمین</string>
     <string name="AuthTypePsychology">مشاور</string>
     <string name="AuthTypeOperator">اپراتور</string>
