@@ -641,7 +641,8 @@ public class AuthWorker extends Worker {
 
     private void editPersonal() {
         try {
-            Call<ResponseBody> call = api.editPersonal(token(), AuthRepository.name, AuthRepository.gender, AuthRepository.birthday);
+            System.out.println( AuthRepository.name+ AuthRepository.gender+ AuthRepository.birthday+AuthRepository.username+AuthRepository.mobile+AuthRepository.email+AuthRepository.status+AuthRepository.type);
+            Call<ResponseBody> call = api.editPersonal(token(),AuthRepository.editData);
 
             Response<ResponseBody> bodyResponse = call.execute();
             if (bodyResponse.isSuccessful()) {
@@ -650,6 +651,11 @@ public class AuthWorker extends Worker {
                 editor.putString("name", AuthRepository.name);
                 editor.putString("gender", AuthRepository.gender);
                 editor.putString("birthday", AuthRepository.birthday);
+                editor.putString("username", AuthRepository.username);
+                editor.putString("mobile", AuthRepository.mobile);
+                editor.putString("email", AuthRepository.email);
+                editor.putString("status", AuthRepository.status);
+                editor.putString("type", AuthRepository.type);
 
                 editor.apply();
 
@@ -681,7 +687,39 @@ public class AuthWorker extends Worker {
     }
 
     private void editPassword() {
+        try {
+            System.out.println(sharedPreferences.getString("userId","")+"wtf!");
+            Call<ResponseBody> call = api.editPassword(token(),sharedPreferences.getString("userId",""), AuthRepository.password);
 
+            Response<ResponseBody> bodyResponse = call.execute();
+            if (bodyResponse.isSuccessful()) {
+                JSONObject successBody = new JSONObject(Objects.requireNonNull(bodyResponse.body()).string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), successBody, "edit");
+                AuthRepository.workState.postValue(1);
+            } else {
+                JSONObject errorBody = new JSONObject(Objects.requireNonNull(bodyResponse.errorBody()).string());
+
+                ExceptionGenerator.getException(true, bodyResponse.code(), errorBody, "edit");
+                AuthRepository.workState.postValue(0);
+            }
+
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "SocketTimeoutException");
+            AuthRepository.workState.postValue(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "JSONException");
+            AuthRepository.workState.postValue(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            ExceptionGenerator.getException(false, 0, null, "IOException");
+            AuthRepository.workState.postValue(0);
+        }
     }
 
     private void editAvatar() {

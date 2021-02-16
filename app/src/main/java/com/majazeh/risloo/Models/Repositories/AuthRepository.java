@@ -22,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class AuthRepository extends MainRepository {
@@ -32,6 +33,7 @@ public class AuthRepository extends MainRepository {
 
     // Vars
     public static MutableLiveData<Integer> workState;
+    public static HashMap<String, Object> editData;
     public static String work = "";
     public static String theory = "auth";
     public static String preTheory = "";
@@ -56,6 +58,8 @@ public class AuthRepository extends MainRepository {
 
         workState = new MutableLiveData<>();
         workState.setValue(-1);
+
+        editData = new HashMap<>();
 
         publicItems = new JSONArray(JSONGenerator.getJSON(application.getApplicationContext(), "PublicKey.json"));
         privateItems = new JSONArray(JSONGenerator.getJSON(application.getApplicationContext(), "PrivateKey.json"));
@@ -120,15 +124,22 @@ public class AuthRepository extends MainRepository {
     }
 
     public void editPersonal(String name, String username, String mobile, String email, String birthday, String gender, String status, String type) throws JSONException {
-        AuthRepository.name = name;
-        AuthRepository.username = username;
-        AuthRepository.mobile = mobile;
-        AuthRepository.email = email;
-        AuthRepository.birthday = birthday;
-        AuthRepository.gender = gender;
-        AuthRepository.status = status;
-        AuthRepository.type = type;
-
+        if (!name.equals(""))
+            editData.put("name", name);
+        if (!username.equals(""))
+            editData.put("username", username);
+        if (!mobile.equals(""))
+            editData.put("mobile", mobile);
+        if (!email.equals(""))
+            editData.put("email", email);
+        if (!birthday.equals(""))
+            editData.put("birthday", birthday);
+        if (!gender.equals(""))
+            editData.put("gender", gender);
+        if (!status.equals(""))
+            editData.put("status", status);
+        if (!type.equals(""))
+            editData.put("type", type);
         work = "personal";
         workState.setValue(-1);
         workManager("personal");
