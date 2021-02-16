@@ -29,8 +29,8 @@
             android:hint="@string/EditPersonalNameHint"
             android:textSize="@dimen/_12ssp"
             android:textStyle="normal"
-            android:textColor="@color/Grey"
-            android:textColorHint="@color/Mischka"
+            android:textColor="@color/Gray700"
+            android:textColorHint="@color/Gray300"
             android:textAlignment="gravity"
             android:importantForAutofill="no"
             android:background="@drawable/draw_16sdp_border_quartz"
@@ -55,8 +55,8 @@
             android:hint="@string/EditPersonalUsernameHint"
             android:textSize="@dimen/_12ssp"
             android:textStyle="normal"
-            android:textColor="@color/Grey"
-            android:textColorHint="@color/Mischka"
+            android:textColor="@color/Gray700"
+            android:textColorHint="@color/Gray300"
             android:textAlignment="gravity"
             android:importantForAutofill="no"
             android:background="@drawable/draw_16sdp_border_quartz"
@@ -80,8 +80,8 @@
             android:hint="@string/EditPersonalMobileHint"
             android:textSize="@dimen/_12ssp"
             android:textStyle="normal"
-            android:textColor="@color/Grey"
-            android:textColorHint="@color/Mischka"
+            android:textColor="@color/Gray700"
+            android:textColorHint="@color/Gray300"
             android:textAlignment="gravity"
             android:importantForAutofill="no"
             android:background="@drawable/draw_16sdp_border_quartz"
@@ -105,8 +105,8 @@
             android:hint="@string/EditPersonalEmailHint"
             android:textSize="@dimen/_12ssp"
             android:textStyle="normal"
-            android:textColor="@color/Grey"
-            android:textColorHint="@color/Mischka"
+            android:textColor="@color/Gray700"
+            android:textColorHint="@color/Gray300"
             android:textAlignment="gravity"
             android:importantForAutofill="no"
             android:background="@drawable/draw_16sdp_border_quartz"
@@ -128,8 +128,8 @@
             android:hint="@string/EditPersonalBirthdayHint"
             android:textSize="@dimen/_12ssp"
             android:textStyle="normal"
-            android:textColor="@color/Grey"
-            android:textColorHint="@color/Mischka"
+            android:textColor="@color/Gray700"
+            android:textColorHint="@color/Gray300"
             android:textAlignment="gravity"
             android:background="@drawable/draw_16sdp_border_quartz"
             app:layout_constraintBottom_toTopOf="@+id/edit_personal_gender_cardView"
@@ -148,7 +148,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/edit_personal_birthday_textView"
             app:layout_constraintEnd_toEndOf="@+id/edit_personal_birthday_textView"
             app:layout_constraintTop_toTopOf="@+id/edit_personal_birthday_textView"
-            app:tint="@color/Mischka" />
+            app:tint="@color/Gray300" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/edit_personal_gender_cardView"
@@ -175,12 +175,12 @@
                 app:tabGravity="fill"
                 app:tabMaxWidth="0dp"
                 app:tabBackground="@null"
-                app:tabRippleColor="@color/Quartz"
+                app:tabRippleColor="@color/Gray200"
                 app:tabIconTint="@drawable/sel_tab_icon"
                 app:tabIndicatorColor="@color/Primary5P"
                 app:tabIndicatorHeight="@dimen/_72sdp"
-                app:tabTextColor="@color/Mischka"
-                app:tabSelectedTextColor="@color/Grey"
+                app:tabTextColor="@color/Gray300"
+                app:tabSelectedTextColor="@color/Gray700"
                 app:tabTextAppearance="@style/TabTextNormalAppearance">
 
                 <com.google.android.material.tabs.TabItem
@@ -224,12 +224,12 @@
                 app:tabGravity="fill"
                 app:tabMaxWidth="0dp"
                 app:tabBackground="@null"
-                app:tabRippleColor="@color/Quartz"
+                app:tabRippleColor="@color/Gray200"
                 app:tabIconTint="@drawable/sel_tab_icon"
                 app:tabIndicatorColor="@color/Primary5P"
                 app:tabIndicatorHeight="@dimen/_72sdp"
-                app:tabTextColor="@color/Mischka"
-                app:tabSelectedTextColor="@color/Grey"
+                app:tabTextColor="@color/Gray300"
+                app:tabSelectedTextColor="@color/Gray700"
                 app:tabTextAppearance="@style/TabTextNormalAppearance">
 
                 <com.google.android.material.tabs.TabItem
@@ -279,12 +279,12 @@
                 app:tabGravity="fill"
                 app:tabMaxWidth="0dp"
                 app:tabBackground="@null"
-                app:tabRippleColor="@color/Quartz"
+                app:tabRippleColor="@color/Gray200"
                 app:tabIconTint="@drawable/sel_tab_icon"
                 app:tabIndicatorColor="@color/Primary5P"
                 app:tabIndicatorHeight="@dimen/_72sdp"
-                app:tabTextColor="@color/Mischka"
-                app:tabSelectedTextColor="@color/Grey"
+                app:tabTextColor="@color/Gray300"
+                app:tabSelectedTextColor="@color/Gray700"
                 app:tabTextAppearance="@style/TabTextNormalAppearance">
 
                 <com.google.android.material.tabs.TabItem

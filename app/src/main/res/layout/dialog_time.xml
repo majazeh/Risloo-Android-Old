@@ -29,7 +29,7 @@
             android:text="@string/CreateSessionTimeDialogTitle"
             android:textSize="@dimen/_14ssp"
             android:textStyle="bold"
-            android:textColor="@color/Nero"
+            android:textColor="@color/Gray900"
             android:textAlignment="gravity" />
 
         <LinearLayout
@@ -77,7 +77,7 @@
                 android:text="@string/CreateSessionTimeDialogPositive"
                 android:textSize="@dimen/_12ssp"
                 android:textStyle="bold"
-                android:textColor="@color/PrimaryDark"
+                android:textColor="@color/Risloo800"
                 android:textAlignment="gravity" />
 
             <TextView
@@ -93,7 +93,7 @@
                 android:text="@string/CreateSessionTimeDialogNegative"
                 android:textSize="@dimen/_12ssp"
                 android:textStyle="bold"
-                android:textColor="@color/Mischka"
+                android:textColor="@color/Gray300"
                 android:textAlignment="gravity" />
 
         </LinearLayout>

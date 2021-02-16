@@ -23,7 +23,7 @@
         android:id="@+id/edit_account_top_view"
         android:layout_width="0dp"
         android:layout_height="@dimen/_1sdp"
-        android:background="@color/Quartz"
+        android:background="@color/Gray200"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_account_toolbar" />
@@ -51,11 +51,11 @@
             app:tabGravity="fill"
             app:tabMaxWidth="0dp"
             app:tabBackground="@null"
-            app:tabRippleColor="@color/Quartz"
+            app:tabRippleColor="@color/Gray200"
             app:tabIndicatorColor="@color/Primary5P"
             app:tabIndicatorHeight="@dimen/_36sdp"
-            app:tabTextColor="@color/Mischka"
-            app:tabSelectedTextColor="@color/PrimaryDark"
+            app:tabTextColor="@color/Gray300"
+            app:tabSelectedTextColor="@color/Risloo800"
             app:tabTextAppearance="@style/TabTextBoldAppearance">
 
             <com.google.android.material.tabs.TabItem
@@ -96,7 +96,7 @@
         android:id="@+id/edit_account_bottom_view"
         android:layout_width="0dp"
         android:layout_height="@dimen/_1sdp"
-        android:background="@color/Quartz"
+        android:background="@color/Gray200"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

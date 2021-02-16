@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
             android:layout_gravity="bottom"
-            android:background="@color/Quartz" />
+            android:background="@color/Gray200" />
 
     </FrameLayout>
 

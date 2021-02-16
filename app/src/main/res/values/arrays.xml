@@ -5,17 +5,17 @@
     ////////////////////////////////////////////////////////////////////////////////
 
     <array name="activeColors">
-        <item>@color/Primary</item>
-        <item>@color/Primary</item>
-        <item>@color/Primary</item>
-        <item>@color/Primary</item>
+        <item>@color/Risloo500</item>
+        <item>@color/Risloo500</item>
+        <item>@color/Risloo500</item>
+        <item>@color/Risloo500</item>
     </array>
 
     <array name="inActiveColors">
-        <item>@color/Mischka25P</item>
-        <item>@color/Mischka25P</item>
-        <item>@color/Mischka25P</item>
-        <item>@color/Mischka25P</item>
+        <item>@color/Gray400</item>
+        <item>@color/Gray400</item>
+        <item>@color/Gray400</item>
+        <item>@color/Gray400</item>
     </array>
 
     ////////////////////////////////////////////////////////////////////////////////

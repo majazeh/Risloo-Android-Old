@@ -88,7 +88,7 @@
                 android:gravity="center|right"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"
-                android:textColor="@color/Nero"
+                android:textColor="@color/Gray900"
                 android:textAlignment="gravity" />
 
         </LinearLayout>
@@ -120,7 +120,7 @@
                         android:layout_gravity="center"
                         android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_user_light"
-                        app:tint="@color/Mischka" />
+                        app:tint="@color/Gray300" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -129,7 +129,7 @@
                         android:text="@string/UsersReference"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal"
-                        android:textColor="@color/Mischka"
+                        android:textColor="@color/Gray300"
                         android:textAlignment="gravity" />
 
                 </LinearLayout>
@@ -141,7 +141,7 @@
                     android:gravity="center|right"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/Grey"
+                    android:textColor="@color/Gray700"
                     android:textAlignment="gravity" />
 
             </LinearLayout>
@@ -166,7 +166,7 @@
                         android:layout_gravity="center"
                         android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_edit_light"
-                        app:tint="@color/Mischka" />
+                        app:tint="@color/Gray300" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -175,7 +175,7 @@
                         android:text="@string/UsersCreator"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal"
-                        android:textColor="@color/Mischka"
+                        android:textColor="@color/Gray300"
                         android:textAlignment="gravity" />
 
                 </LinearLayout>
@@ -187,7 +187,7 @@
                     android:gravity="center|right"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/Grey"
+                    android:textColor="@color/Gray700"
                     android:textAlignment="gravity" />
 
             </LinearLayout>
@@ -222,7 +222,7 @@
                         android:layout_gravity="center"
                         android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_clock_light"
-                        app:tint="@color/Mischka" />
+                        app:tint="@color/Gray300" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -231,7 +231,7 @@
                         android:text="@string/UsersTime"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal"
-                        android:textColor="@color/Mischka"
+                        android:textColor="@color/Gray300"
                         android:textAlignment="gravity" />
 
                 </LinearLayout>
@@ -243,7 +243,7 @@
                     android:gravity="center|right"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/Grey"
+                    android:textColor="@color/Gray700"
                     android:textAlignment="gravity" />
 
                 <TextView
@@ -254,7 +254,7 @@
                     android:gravity="center|right"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/CoralRed"
+                    android:textColor="@color/Red500"
                     android:textAlignment="gravity" />
 
             </LinearLayout>
@@ -279,7 +279,7 @@
                         android:layout_gravity="center"
                         android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_dot_light"
-                        app:tint="@color/Mischka" />
+                        app:tint="@color/Gray300" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -288,7 +288,7 @@
                         android:text="@string/UsersPosition"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal"
-                        android:textColor="@color/Mischka"
+                        android:textColor="@color/Gray300"
                         android:textAlignment="gravity" />
 
                 </LinearLayout>
@@ -317,7 +317,7 @@
                             android:gravity="center|right"
                             android:textSize="@dimen/_9ssp"
                             android:textStyle="bold"
-                            android:textColor="@color/Grey"
+                            android:textColor="@color/Gray700"
                             android:textAlignment="gravity" />
 
                         <ImageView
@@ -329,7 +329,7 @@
                             android:contentDescription="@string/AppImageContent"
                             android:src="@drawable/ic_chevron_down"
                             android:visibility="gone"
-                            app:tint="@color/Mischka" />
+                            app:tint="@color/Gray300" />
 
                     </LinearLayout>
 
@@ -340,7 +340,7 @@
                         android:gravity="center|right"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal"
-                        android:textColor="@color/Grey"
+                        android:textColor="@color/Gray700"
                         android:textAlignment="gravity" />
 
                 </LinearLayout>

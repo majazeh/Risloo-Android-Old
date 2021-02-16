@@ -24,7 +24,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
-            android:background="@color/Quartz" />
+            android:background="@color/Gray200" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -48,7 +48,7 @@
                     android:text="@string/CentersSearched"
                     android:textSize="@dimen/_10ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/Mischka"
+                    android:textColor="@color/Gray300"
                     android:textAlignment="gravity" />
 
                 <LinearLayout
@@ -74,7 +74,7 @@
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_times"
-                        app:tint="@color/CoralRed"/>
+                        app:tint="@color/Red500"/>
 
                     <TextView
                         android:id="@+id/activity_centers_search_textView"
@@ -83,7 +83,7 @@
                         android:gravity="center"
                         android:textSize="@dimen/_10ssp"
                         android:textStyle="normal"
-                        android:textColor="@color/Grey"
+                        android:textColor="@color/Gray700"
                         android:textAlignment="gravity" />
 
                 </LinearLayout>
@@ -117,11 +117,11 @@
                         app:tabGravity="fill"
                         app:tabMaxWidth="0dp"
                         app:tabBackground="@null"
-                        app:tabRippleColor="@color/Quartz"
+                        app:tabRippleColor="@color/Gray200"
                         app:tabIndicatorColor="@color/Primary5P"
                         app:tabIndicatorHeight="@dimen/_36sdp"
-                        app:tabTextColor="@color/Mischka"
-                        app:tabSelectedTextColor="@color/PrimaryDark"
+                        app:tabTextColor="@color/Gray300"
+                        app:tabSelectedTextColor="@color/Risloo800"
                         app:tabTextAppearance="@style/TabTextBoldAppearance">
 
                         <com.google.android.material.tabs.TabItem
@@ -163,6 +163,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
         android:layout_gravity="bottom"
-        android:background="@color/Quartz" />
+        android:background="@color/Gray200" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

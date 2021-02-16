@@ -221,13 +221,13 @@ public class RegisterFragment extends Fragment {
                 passwordVisibility = true;
                 passwordImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_eye_light));
 
-                ImageViewCompat.setImageTintList(passwordImageView, AppCompatResources.getColorStateList(activity, R.color.Primary));
+                ImageViewCompat.setImageTintList(passwordImageView, AppCompatResources.getColorStateList(activity, R.color.Risloo500));
                 passwordEditText.setTransformationMethod(null);
             } else {
                 passwordVisibility = false;
                 passwordImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_eye_slash_light));
 
-                ImageViewCompat.setImageTintList(passwordImageView, AppCompatResources.getColorStateList(activity, R.color.Mischka));
+                ImageViewCompat.setImageTintList(passwordImageView, AppCompatResources.getColorStateList(activity, R.color.Gray300));
                 passwordEditText.setTransformationMethod(new PasswordTransformationMethod());
             }
         });

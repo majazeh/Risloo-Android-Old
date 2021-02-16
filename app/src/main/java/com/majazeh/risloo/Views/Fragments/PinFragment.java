@@ -142,7 +142,7 @@ public class PinFragment extends Fragment {
 
             @Override
             public void updateDrawState(@NonNull TextPaint textPaint) {
-                textPaint.setColor(getResources().getColor(R.color.PrimaryDark));
+                textPaint.setColor(getResources().getColor(R.color.Risloo800));
                 textPaint.setUnderlineText(false);
             }
         };

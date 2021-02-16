@@ -18,7 +18,7 @@
         android:gravity="top|right"
         android:textSize="@dimen/_9ssp"
         android:textStyle="bold"
-        android:textColor="@color/Grey"
+        android:textColor="@color/Gray700"
         android:textAlignment="gravity" />
 
     <TextView
@@ -31,7 +31,7 @@
         android:gravity="top|right"
         android:textSize="@dimen/_9ssp"
         android:textStyle="bold"
-        android:textColor="@color/Grey"
+        android:textColor="@color/Gray700"
         android:textAlignment="gravity" />
 
     <TextView
@@ -44,7 +44,7 @@
         android:gravity="top|right"
         android:textSize="@dimen/_9ssp"
         android:textStyle="bold"
-        android:textColor="@color/Grey"
+        android:textColor="@color/Gray700"
         android:textAlignment="gravity" />
 
     <TextView
@@ -55,7 +55,7 @@
         android:gravity="top|right"
         android:textSize="@dimen/_9ssp"
         android:textStyle="bold"
-        android:textColor="@color/Grey"
+        android:textColor="@color/Gray700"
         android:textAlignment="gravity" />
 
     <LinearLayout
@@ -73,7 +73,7 @@
             android:padding="@dimen/_6sdp"
             android:contentDescription="@string/AppImageContent"
             android:src="@drawable/ic_edit_light"
-            app:tint="@color/PrimaryDark" />
+            app:tint="@color/Risloo800" />
 
         <ImageView
             android:id="@+id/single_item_detail_case_sessions_link_imageView"
@@ -82,7 +82,7 @@
             android:padding="@dimen/_4sdp"
             android:contentDescription="@string/AppImageContent"
             android:src="@drawable/ic_eye_light"
-            app:tint="@color/PrimaryDark" />
+            app:tint="@color/Risloo800" />
 
     </LinearLayout>
 

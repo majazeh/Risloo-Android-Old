@@ -24,7 +24,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
-            android:background="@color/Quartz" />
+            android:background="@color/Gray200" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -71,7 +71,7 @@
                                     android:text="@string/DetailCaseName"
                                     android:textSize="@dimen/_10ssp"
                                     android:textStyle="bold"
-                                    android:textColor="@color/Nero"
+                                    android:textColor="@color/Gray900"
                                     android:textAlignment="gravity" />
 
                                 <View
@@ -79,7 +79,7 @@
                                     android:layout_height="@dimen/_1sdp"
                                     android:layout_marginTop="@dimen/_8sdp"
                                     android:layout_marginBottom="@dimen/_12sdp"
-                                    android:background="@color/Quartz" />
+                                    android:background="@color/Gray200" />
 
                                 <RelativeLayout
                                     android:layout_width="match_parent"
@@ -105,7 +105,7 @@
                                             android:visibility="gone"
                                             android:textSize="@dimen/_12ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Grey"
+                                            android:textColor="@color/Gray700"
                                             android:textAlignment="gravity"/>
 
                                     </FrameLayout>
@@ -125,7 +125,7 @@
                                             android:gravity="right"
                                             android:textSize="@dimen/_12ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Grey"
+                                            android:textColor="@color/Gray700"
                                             android:textAlignment="gravity"/>
 
                                         <TextView
@@ -136,7 +136,7 @@
                                             android:gravity="right"
                                             android:textSize="@dimen/_9ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Mischka"
+                                            android:textColor="@color/Gray300"
                                             android:textAlignment="gravity" />
 
                                     </LinearLayout>
@@ -163,7 +163,7 @@
                                         android:text="@string/DetailCaseComplaint"
                                         android:textSize="@dimen/_9ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/PrimaryDark"
+                                        android:textColor="@color/Risloo800"
                                         android:textAlignment="gravity"/>
 
                                     <TextView
@@ -173,7 +173,7 @@
                                         android:gravity="right"
                                         android:textSize="@dimen/_9ssp"
                                         android:textStyle="normal"
-                                        android:textColor="@color/Grey"
+                                        android:textColor="@color/Gray700"
                                         android:textAlignment="gravity" />
 
                                 </LinearLayout>
@@ -200,7 +200,7 @@
                                             android:text="@string/DetailCaseSessionsCount"
                                             android:textSize="@dimen/_9ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Mischka"
+                                            android:textColor="@color/Gray300"
                                             android:textAlignment="gravity" />
 
                                         <TextView
@@ -210,7 +210,7 @@
                                             android:gravity="left"
                                             android:textSize="@dimen/_9ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Grey"
+                                            android:textColor="@color/Gray700"
                                             android:textAlignment="gravity" />
 
                                     </LinearLayout>
@@ -230,7 +230,7 @@
                                             android:text="@string/DetailCaseTestsCount"
                                             android:textSize="@dimen/_9ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Mischka"
+                                            android:textColor="@color/Gray300"
                                             android:textAlignment="gravity" />
 
                                         <TextView
@@ -240,7 +240,7 @@
                                             android:gravity="left"
                                             android:textSize="@dimen/_9ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Grey"
+                                            android:textColor="@color/Gray700"
                                             android:textAlignment="gravity" />
 
                                     </LinearLayout>
@@ -260,7 +260,7 @@
                                             android:text="@string/DetailCaseLastSessionDate"
                                             android:textSize="@dimen/_9ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Mischka"
+                                            android:textColor="@color/Gray300"
                                             android:textAlignment="gravity" />
 
                                         <TextView
@@ -270,7 +270,7 @@
                                             android:gravity="left"
                                             android:textSize="@dimen/_9ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Grey"
+                                            android:textColor="@color/Gray700"
                                             android:textAlignment="gravity" />
 
                                     </LinearLayout>
@@ -288,7 +288,7 @@
                                             android:text="@string/DetailCaseCreatedCaseDate"
                                             android:textSize="@dimen/_9ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Mischka"
+                                            android:textColor="@color/Gray300"
                                             android:textAlignment="gravity" />
 
                                         <TextView
@@ -298,7 +298,7 @@
                                             android:gravity="left"
                                             android:textSize="@dimen/_9ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Grey"
+                                            android:textColor="@color/Gray700"
                                             android:textAlignment="gravity" />
 
                                     </LinearLayout>
@@ -354,7 +354,7 @@
                                         android:text="@string/DetailCaseReferences"
                                         android:textSize="@dimen/_10ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Nero"
+                                        android:textColor="@color/Gray900"
                                         android:textAlignment="gravity" />
 
                                 </LinearLayout>
@@ -364,7 +364,7 @@
                                     android:layout_height="@dimen/_1sdp"
                                     android:layout_marginTop="@dimen/_8sdp"
                                     android:layout_marginBottom="@dimen/_12sdp"
-                                    android:background="@color/Quartz" />
+                                    android:background="@color/Gray200" />
 
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/activity_detail_case_references_recyclerView"
@@ -381,7 +381,7 @@
                                     android:text="@string/DetailCaseEmptyReference"
                                     android:textSize="@dimen/_8ssp"
                                     android:textStyle="bold"
-                                    android:textColor="@color/Mischka"
+                                    android:textColor="@color/Gray300"
                                     android:textAlignment="gravity" />
 
                             </LinearLayout>
@@ -433,7 +433,7 @@
                                         android:text="@string/DetailCaseSessions"
                                         android:textSize="@dimen/_10ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Nero"
+                                        android:textColor="@color/Gray900"
                                         android:textAlignment="gravity" />
 
                                 </LinearLayout>
@@ -443,7 +443,7 @@
                                     android:layout_height="@dimen/_1sdp"
                                     android:layout_marginTop="@dimen/_8sdp"
                                     android:layout_marginBottom="@dimen/_12sdp"
-                                    android:background="@color/Quartz" />
+                                    android:background="@color/Gray200" />
 
                                 <LinearLayout
                                     android:id="@+id/activity_detail_case_sessions_hint_linearLayout"
@@ -461,7 +461,7 @@
                                         android:text="@string/DetailCaseSessionId"
                                         android:textSize="@dimen/_9ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Mischka"
+                                        android:textColor="@color/Gray300"
                                         android:textAlignment="gravity" />
 
                                     <TextView
@@ -474,7 +474,7 @@
                                         android:text="@string/DetailCaseSessionStartedAt"
                                         android:textSize="@dimen/_9ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Mischka"
+                                        android:textColor="@color/Gray300"
                                         android:textAlignment="gravity" />
 
                                     <TextView
@@ -487,7 +487,7 @@
                                         android:text="@string/DetailCaseSessionDuration"
                                         android:textSize="@dimen/_9ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Mischka"
+                                        android:textColor="@color/Gray300"
                                         android:textAlignment="gravity" />
 
                                     <TextView
@@ -498,7 +498,7 @@
                                         android:text="@string/DetailCaseSessionStatus"
                                         android:textSize="@dimen/_9ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Mischka"
+                                        android:textColor="@color/Gray300"
                                         android:textAlignment="gravity" />
 
                                     <View
@@ -523,7 +523,7 @@
                                     android:text="@string/DetailCaseEmptySession"
                                     android:textSize="@dimen/_8ssp"
                                     android:textStyle="bold"
-                                    android:textColor="@color/Mischka"
+                                    android:textColor="@color/Gray300"
                                     android:textAlignment="gravity" />
 
                             </LinearLayout>
@@ -575,7 +575,7 @@
                                         android:text="@string/DetailCaseSamples"
                                         android:textSize="@dimen/_10ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Nero"
+                                        android:textColor="@color/Gray900"
                                         android:textAlignment="gravity" />
 
                                 </LinearLayout>
@@ -585,7 +585,7 @@
                                     android:layout_height="@dimen/_1sdp"
                                     android:layout_marginTop="@dimen/_8sdp"
                                     android:layout_marginBottom="@dimen/_12sdp"
-                                    android:background="@color/Quartz" />
+                                    android:background="@color/Gray200" />
 
                                 <LinearLayout
                                     android:id="@+id/activity_detail_case_samples_hint_linearLayout"
@@ -603,7 +603,7 @@
                                         android:text="@string/DetailCaseSampleTitle"
                                         android:textSize="@dimen/_9ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Mischka"
+                                        android:textColor="@color/Gray300"
                                         android:textAlignment="gravity" />
 
                                     <TextView
@@ -616,7 +616,7 @@
                                         android:text="@string/DetailCaseSampleStatus"
                                         android:textSize="@dimen/_9ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Mischka"
+                                        android:textColor="@color/Gray300"
                                         android:textAlignment="gravity" />
 
                                     <TextView
@@ -629,7 +629,7 @@
                                         android:text="@string/DetailCaseSampleSessionId"
                                         android:textSize="@dimen/_9ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Mischka"
+                                        android:textColor="@color/Gray300"
                                         android:textAlignment="gravity" />
 
                                     <TextView
@@ -640,7 +640,7 @@
                                         android:text="@string/DetailCaseSampleReference"
                                         android:textSize="@dimen/_9ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Mischka"
+                                        android:textColor="@color/Gray300"
                                         android:textAlignment="gravity" />
 
                                     <View
@@ -665,7 +665,7 @@
                                     android:text="@string/DetailCaseEmptySample"
                                     android:textSize="@dimen/_8ssp"
                                     android:textStyle="bold"
-                                    android:textColor="@color/Mischka"
+                                    android:textColor="@color/Gray300"
                                     android:textAlignment="gravity" />
 
                             </LinearLayout>
@@ -694,6 +694,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
         android:layout_gravity="bottom"
-        android:background="@color/Quartz" />
+        android:background="@color/Gray200" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

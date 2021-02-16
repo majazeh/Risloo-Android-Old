@@ -47,7 +47,7 @@
             android:gravity="right"
             android:textSize="@dimen/_14ssp"
             android:textStyle="bold"
-            android:textColor="@color/Nero"
+            android:textColor="@color/Gray900"
             android:textAlignment="gravity" />
 
         <TextView
@@ -58,7 +58,7 @@
             android:gravity="right"
             android:textSize="@dimen/_11ssp"
             android:textStyle="bold"
-            android:textColor="@color/Grey"
+            android:textColor="@color/Gray700"
             android:textAlignment="gravity" />
 
         <LinearLayout
@@ -88,7 +88,7 @@
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:layout_gravity="center"
                         android:contentDescription="@string/AppImageContent"
-                        app:tint="@color/Mischka" />
+                        app:tint="@color/Gray300" />
 
                     <TextView
                         android:id="@+id/single_item_archives_reference_hint_textView"
@@ -97,7 +97,7 @@
                         android:gravity="center|right"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal"
-                        android:textColor="@color/Mischka"
+                        android:textColor="@color/Gray300"
                         android:textAlignment="gravity" />
 
                 </LinearLayout>
@@ -109,7 +109,7 @@
                     android:gravity="center|right"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/Grey"
+                    android:textColor="@color/Gray700"
                     android:textAlignment="gravity" />
 
             </LinearLayout>
@@ -134,7 +134,7 @@
                         android:layout_gravity="center"
                         android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_case_light"
-                        app:tint="@color/Mischka" />
+                        app:tint="@color/Gray300" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -143,7 +143,7 @@
                         android:text="@string/ArchivesCase"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal"
-                        android:textColor="@color/Mischka"
+                        android:textColor="@color/Gray300"
                         android:textAlignment="gravity" />
 
                 </LinearLayout>
@@ -155,7 +155,7 @@
                     android:gravity="center|right"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/Grey"
+                    android:textColor="@color/Gray700"
                     android:textAlignment="gravity" />
 
             </LinearLayout>
@@ -180,7 +180,7 @@
                         android:layout_gravity="center"
                         android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_hospital_light"
-                        app:tint="@color/Mischka" />
+                        app:tint="@color/Gray300" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -189,7 +189,7 @@
                         android:text="@string/ArchivesRoom"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal"
-                        android:textColor="@color/Mischka"
+                        android:textColor="@color/Gray300"
                         android:textAlignment="gravity" />
 
                 </LinearLayout>
@@ -201,7 +201,7 @@
                     android:gravity="center|right"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/Grey"
+                    android:textColor="@color/Gray700"
                     android:textAlignment="gravity" />
 
             </LinearLayout>
@@ -258,7 +258,7 @@
                     android:gravity="right|center"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/Mischka"
+                    android:textColor="@color/Gray300"
                     android:textAlignment="gravity" />
 
             </LinearLayout>

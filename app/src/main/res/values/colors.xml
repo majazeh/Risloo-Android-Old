@@ -1,47 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    // app colors
+    // Risloo Colors
     ////////////////////////////////////////////////////////////////////////////////
 
-    <color name="Primary">#007BA4</color>
-    <color name="PrimaryDark">#006283</color>
-    <color name="Accent">#00A47B</color>
+    <color name="Risloo50">#ECF6F9</color>
+    <color name="Risloo500">#007BA4</color>
+    <color name="Risloo800">#00688B</color>
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // customize colors
+    // White Colors
     ////////////////////////////////////////////////////////////////////////////////
-
-    <color name="MountainMeadow">#10B981</color>
-    <color name="OrangePeel">#F59E0B</color>
-    <color name="CoralRed">#EF4444</color>
 
     <color name="White">#FFFFFF</color>
-    <color name="Snow">#FAFAFA</color>
-    <color name="Solitude">#F4F5F8</color>
-    <color name="Quartz">#E1E1EF</color>
-    <color name="Mischka">#A0A9B8</color>
-    <color name="Grey">#757575</color>
-    <color name="Nero">#222222</color>
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // percent colors
+    // Gray Colors
     ////////////////////////////////////////////////////////////////////////////////
 
-    <color name="Primary5P">#0D007BA4</color>
-    <color name="Primary20P">#33007BA4</color>
-
-    <color name="VioletRed20P">#33EF4444</color>
-
-    <color name="White15P">#26FFFFFF</color>
-    <color name="Mischka25P">#40A0A9B8</color>
-    <color name="Nero5P">#0D222222</color>
+    <color name="Gray50">#F9FAFB</color>
+    <color name="Gray100">#F3F4F6</color>
+    <color name="Gray200">#E5E7EB</color>
+    <color name="Gray300">#D1D5DB</color>
+    <color name="Gray400">#9CA3AF</color>
+    <color name="Gray500">#6B7280</color>
+    <color name="Gray600">#4B5563</color>
+    <color name="Gray700">#374151</color>
+    <color name="Gray800">#1F2937</color>
+    <color name="Gray900">#111827</color>
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // gradient colors
+    // Red Colors
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <color name="Red50">#FEF2F2</color>
+    <color name="Red500">#EF4444</color>
+    <color name="Red600">#DC2626</color>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // Yellow Colors
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <color name="Yellow50">#FFFBEB</color>
+    <color name="Yellow500">#F59E0B</color>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // Green Colors
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <color name="Green50">#ECFDF5</color>
+    <color name="Green500">#10B981</color>
+    <color name="Green600">#059669</color>
+    <color name="Green700">#047857</color>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+    // Gradient Colors
     ////////////////////////////////////////////////////////////////////////////////
 
     <color name="Gradient0">#40E8F6BB</color>
@@ -62,5 +81,19 @@
     <color name="Gradient15">#40FFB477</color>
 
     ////////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <color name="Snow">#FAFAFA</color>
+
+    <color name="Primary5P">#0D007BA4</color>
+    <color name="Primary20P">#33007BA4</color>
+
+    <color name="White15P">#26FFFFFF</color>
+    <color name="Nero5P">#0D222222</color>
 
 </resources>

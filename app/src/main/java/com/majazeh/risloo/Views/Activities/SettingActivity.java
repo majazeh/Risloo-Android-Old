@@ -91,7 +91,7 @@ public class SettingActivity extends AppCompatActivity {
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
-        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.SettingTitle));
@@ -126,7 +126,7 @@ public class SettingActivity extends AppCompatActivity {
         availableUpdateDialogDescription.setText(getResources().getString(R.string.SettingAvailableUpdateDialogDescription));
         availableUpdateDialogPositive = availableUpdateDialog.findViewById(R.id.dialog_action_positive_textView);
         availableUpdateDialogPositive.setText(getResources().getString(R.string.SettingAvailableUpdateDialogPositive));
-        availableUpdateDialogPositive.setTextColor(getResources().getColor(R.color.PrimaryDark));
+        availableUpdateDialogPositive.setTextColor(getResources().getColor(R.color.Risloo800));
         availableUpdateDialogNegative = availableUpdateDialog.findViewById(R.id.dialog_action_negative_textView);
         availableUpdateDialogNegative.setText(getResources().getString(R.string.SettingAvailableUpdateDialogNegative));
     }

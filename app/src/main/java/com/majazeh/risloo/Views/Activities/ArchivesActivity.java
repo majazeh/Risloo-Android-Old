@@ -93,7 +93,7 @@ public class ArchivesActivity extends AppCompatActivity implements ItemTouchRecy
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
-        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.ArchivesTitle));
@@ -191,8 +191,8 @@ public class ArchivesActivity extends AppCompatActivity implements ItemTouchRecy
             messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen._11ssp));
             actionTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen._11ssp));
 
-            messageTextView.setTextColor(getResources().getColor(R.color.Mischka));
-            actionTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
+            messageTextView.setTextColor(getResources().getColor(R.color.Gray300));
+            actionTextView.setTextColor(getResources().getColor(R.color.Risloo800));
 
             snackbar.show();
         }

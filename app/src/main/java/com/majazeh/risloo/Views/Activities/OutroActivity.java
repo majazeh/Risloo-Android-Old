@@ -120,7 +120,7 @@ public class OutroActivity extends AppCompatActivity {
         outroDialogTitle = outroDialog.findViewById(R.id.dialog_action_title_textView);
         outroDialogDescription = outroDialog.findViewById(R.id.dialog_action_description_textView);
         outroDialogPositive = outroDialog.findViewById(R.id.dialog_action_positive_textView);
-        outroDialogPositive.setTextColor(getResources().getColor(R.color.PrimaryDark));
+        outroDialogPositive.setTextColor(getResources().getColor(R.color.Risloo800));
         outroDialogNegative = outroDialog.findViewById(R.id.dialog_action_negative_textView);
     }
 

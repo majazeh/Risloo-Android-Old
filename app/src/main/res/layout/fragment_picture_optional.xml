@@ -32,7 +32,7 @@
                 android:paddingRight="@dimen/_16sdp"
                 android:paddingBottom="@dimen/_8sdp"
                 android:textAlignment="gravity"
-                android:textColor="@color/Nero"
+                android:textColor="@color/Gray900"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold"
                 android:visibility="gone" />
@@ -48,7 +48,7 @@
                 android:paddingRight="@dimen/_16sdp"
                 android:paddingBottom="@dimen/_8sdp"
                 android:textAlignment="gravity"
-                android:textColor="@color/Nero"
+                android:textColor="@color/Gray900"
                 android:textSize="@dimen/_14ssp"
                 android:textStyle="bold" />
 

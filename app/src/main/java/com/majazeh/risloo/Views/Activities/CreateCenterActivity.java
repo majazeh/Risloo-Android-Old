@@ -166,7 +166,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
-        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CreateCenterTitle));
@@ -246,7 +246,7 @@ public class CreateCenterActivity extends AppCompatActivity {
         phoneDialogInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_PHONE);
         phoneDialogPositive = phoneDialog.findViewById(R.id.dialog_type_positive_textView);
         phoneDialogPositive.setText(getResources().getString(R.string.CreateCenterPhoneDialogPositive));
-        phoneDialogPositive.setTextColor(getResources().getColor(R.color.PrimaryDark));
+        phoneDialogPositive.setTextColor(getResources().getColor(R.color.Risloo800));
         phoneDialogNegative = phoneDialog.findViewById(R.id.dialog_type_negative_textView);
         phoneDialogNegative.setText(getResources().getString(R.string.CreateCenterPhoneDialogNegative));
     }
@@ -634,7 +634,7 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         if (!managerId.equals("")) {
             managerNameTextView.setText(managerName);
-            managerNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+            managerNameTextView.setTextColor(getResources().getColor(R.color.Gray700));
 
             managerIdTextView.setText(managerId);
             managerIdTextView.setVisibility(View.VISIBLE);
@@ -642,22 +642,22 @@ public class CreateCenterActivity extends AppCompatActivity {
 
         if (!title.equals("")) {
             titleEditText.setText(title);
-            titleEditText.setTextColor(getResources().getColor(R.color.Grey));
+            titleEditText.setTextColor(getResources().getColor(R.color.Gray700));
         }
 
         if (!imageFilePath.equals("")) {
             avatarTextView.setText(imageFilePath);
-            avatarTextView.setTextColor(getResources().getColor(R.color.Grey));
+            avatarTextView.setTextColor(getResources().getColor(R.color.Gray700));
         }
 
         if (!description.equals("")) {
             descriptionEditText.setText(description);
-            descriptionEditText.setTextColor(getResources().getColor(R.color.Grey));
+            descriptionEditText.setTextColor(getResources().getColor(R.color.Gray700));
         }
 
         if (!address.equals("")) {
             addressEditText.setText(address);
-            addressEditText.setTextColor(getResources().getColor(R.color.Grey));
+            addressEditText.setTextColor(getResources().getColor(R.color.Gray700));
         }
 
         if (extras.getString("phone_numbers") != null) {
@@ -773,7 +773,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                     managerName = "";
 
                     managerNameTextView.setText(getResources().getString(R.string.CreateCenterManager));
-                    managerNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                    managerNameTextView.setTextColor(getResources().getColor(R.color.Gray300));
 
                     managerIdTextView.setText(managerId);
                     managerIdTextView.setVisibility(View.GONE);
@@ -791,7 +791,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                     selectedBitmap = null;
 
                     avatarTextView.setText(getResources().getString(R.string.CreateCenterAvatar));
-                    avatarTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                    avatarTextView.setTextColor(getResources().getColor(R.color.Gray300));
                 }
                 break;
             case "managerDialog":
@@ -1008,7 +1008,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                         managerName = model.get("name").toString();
 
                         managerNameTextView.setText(managerName);
-                        managerNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+                        managerNameTextView.setTextColor(getResources().getColor(R.color.Gray700));
 
                         managerIdTextView.setText(managerId);
                         managerIdTextView.setVisibility(View.VISIBLE);
@@ -1017,7 +1017,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                         managerName = "";
 
                         managerNameTextView.setText(getResources().getString(R.string.CreateCenterManager));
-                        managerNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        managerNameTextView.setTextColor(getResources().getColor(R.color.Gray300));
 
                         managerIdTextView.setText(managerId);
                         managerIdTextView.setVisibility(View.GONE);
@@ -1079,7 +1079,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                     selectedBitmap = BitmapManager.scaleToCenter(imageBitmap);
 
                     avatarTextView.setText(imageFilePath);
-                    avatarTextView.setTextColor(getResources().getColor(R.color.Grey));
+                    avatarTextView.setTextColor(getResources().getColor(R.color.Gray700));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -1098,7 +1098,7 @@ public class CreateCenterActivity extends AppCompatActivity {
                 selectedBitmap = BitmapManager.scaleToCenter(imageBitmap);
 
                 avatarTextView.setText(imageFilePath);
-                avatarTextView.setTextColor(getResources().getColor(R.color.Grey));
+                avatarTextView.setTextColor(getResources().getColor(R.color.Gray700));
             }
         } else if (resultCode == RESULT_CANCELED) {
             if (requestCode == 300) {

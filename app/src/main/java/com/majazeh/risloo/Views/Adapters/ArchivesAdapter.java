@@ -87,16 +87,16 @@ public class ArchivesAdapter extends RecyclerView.Adapter<ArchivesAdapter.Archiv
                 switch (model.get("status").toString()) {
                     case "open":
                         holder.statusTextView.setText(activity.getResources().getString(R.string.ArchivesStatusOpen));
-                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Risloo800));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Risloo800));
 
                         holder.continueTextView.setVisibility(View.VISIBLE);
                         break;
 
                     default:
                         holder.statusTextView.setText(model.get("status").toString());
-                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
-                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Mischka));
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Gray300));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Gray300));
 
                         holder.continueTextView.setVisibility(View.INVISIBLE);
                         break;
@@ -197,7 +197,7 @@ public class ArchivesAdapter extends RecyclerView.Adapter<ArchivesAdapter.Archiv
         continueDialogDescription.setText(activity.getResources().getString(R.string.ArchivesContinueDialogDescription));
         continueDialogPositive = continueDialog.findViewById(R.id.dialog_action_positive_textView);
         continueDialogPositive.setText(activity.getResources().getString(R.string.ArchivesContinueDialogPositive));
-        continueDialogPositive.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+        continueDialogPositive.setTextColor(activity.getResources().getColor(R.color.Risloo800));
         continueDialogNegative = continueDialog.findViewById(R.id.dialog_action_negative_textView);
         continueDialogNegative.setText(activity.getResources().getString(R.string.ArchivesContinueDialogNegative));
     }

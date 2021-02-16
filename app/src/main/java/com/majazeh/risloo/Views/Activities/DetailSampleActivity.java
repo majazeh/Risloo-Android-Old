@@ -140,7 +140,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
-        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.DetailSampleTitle));
@@ -247,7 +247,7 @@ public class DetailSampleActivity extends AppCompatActivity {
 
             @Override
             public void updateDrawState(@NonNull TextPaint textPaint) {
-                textPaint.setColor(getResources().getColor(R.color.PrimaryDark));
+                textPaint.setColor(getResources().getColor(R.color.Risloo800));
                 textPaint.setUnderlineText(false);
             }
         };
@@ -259,8 +259,8 @@ public class DetailSampleActivity extends AppCompatActivity {
                 doWork("close");
             } else if (actionTextView.getText().toString().equals(getResources().getString(R.string.DetailSampleScore))) {
                 statusTextView.setText(getResources().getString(R.string.DetailSampleStatusScoring));
-                statusTextView.setTextColor(getResources().getColor(R.color.OrangePeel));
-                ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.OrangePeel));
+                statusTextView.setTextColor(getResources().getColor(R.color.Yellow500));
+                ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Yellow500));
 
                 setButton(actionTextView, false);
 
@@ -270,10 +270,10 @@ public class DetailSampleActivity extends AppCompatActivity {
 
         editCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                editCheckbox.setTextColor(getResources().getColor(R.color.Nero));
+                editCheckbox.setTextColor(getResources().getColor(R.color.Gray900));
                 detailSampleAnswersAdapter.setEditable(true);
             } else {
-                editCheckbox.setTextColor(getResources().getColor(R.color.Mischka));
+                editCheckbox.setTextColor(getResources().getColor(R.color.Gray300));
                 detailSampleAnswersAdapter.setEditable(false);
             }
         });
@@ -315,7 +315,7 @@ public class DetailSampleActivity extends AppCompatActivity {
             }
         } else {
             button.setClickable(false);
-            button.setTextColor(getResources().getColor(R.color.Mischka));
+            button.setTextColor(getResources().getColor(R.color.Gray300));
             button.setBackgroundResource(R.drawable.draw_8sdp_border_quartz);
         }
     }
@@ -365,8 +365,8 @@ public class DetailSampleActivity extends AppCompatActivity {
                 switch (data.get("status").toString()) {
                     case "seald":
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusSeald));
-                        statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
-                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+                        statusTextView.setTextColor(getResources().getColor(R.color.Risloo800));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Risloo800));
 
                         actionTextView.setText(getResources().getString(R.string.DetailSampleClose));
                         setButton(actionTextView, true);
@@ -376,8 +376,8 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                     case "open":
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusOpen));
-                        statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
-                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+                        statusTextView.setTextColor(getResources().getColor(R.color.Risloo800));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Risloo800));
 
                         actionTextView.setText(getResources().getString(R.string.DetailSampleClose));
                         setButton(actionTextView, true);
@@ -387,8 +387,8 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                     case "closed":
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
-                        statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
-                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+                        statusTextView.setTextColor(getResources().getColor(R.color.Risloo800));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Risloo800));
 
                         actionTextView.setText(getResources().getString(R.string.DetailSampleScore));
                         setButton(actionTextView, true);
@@ -398,8 +398,8 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                     case "scoring":
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusScoring));
-                        statusTextView.setTextColor(getResources().getColor(R.color.OrangePeel));
-                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.OrangePeel));
+                        statusTextView.setTextColor(getResources().getColor(R.color.Yellow500));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Yellow500));
 
                         actionTextView.setVisibility(View.INVISIBLE);
 
@@ -408,8 +408,8 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                     case "craeting_files":
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusCreatingFiles));
-                        statusTextView.setTextColor(getResources().getColor(R.color.OrangePeel));
-                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.OrangePeel));
+                        statusTextView.setTextColor(getResources().getColor(R.color.Yellow500));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Yellow500));
 
                         actionTextView.setVisibility(View.INVISIBLE);
 
@@ -418,8 +418,8 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                     case "done":
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusDone));
-                        statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
-                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Mischka));
+                        statusTextView.setTextColor(getResources().getColor(R.color.Gray300));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Gray300));
 
                         actionTextView.setVisibility(View.INVISIBLE);
 
@@ -443,8 +443,8 @@ public class DetailSampleActivity extends AppCompatActivity {
 
                     default:
                         statusTextView.setText(data.get("status").toString());
-                        statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
-                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Mischka));
+                        statusTextView.setTextColor(getResources().getColor(R.color.Gray300));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Gray300));
 
                         actionTextView.setVisibility(View.INVISIBLE);
 
@@ -624,8 +624,8 @@ public class DetailSampleActivity extends AppCompatActivity {
                         getData("getGeneral");
                     } else if (integer == 0) {
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
-                        statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
-                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+                        statusTextView.setTextColor(getResources().getColor(R.color.Risloo800));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Risloo800));
 
                         actionTextView.setText(getResources().getString(R.string.DetailSampleScore));
                         setButton(actionTextView, true);
@@ -636,8 +636,8 @@ public class DetailSampleActivity extends AppCompatActivity {
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
-                        statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
-                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+                        statusTextView.setTextColor(getResources().getColor(R.color.Risloo800));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Risloo800));
 
                         actionTextView.setText(getResources().getString(R.string.DetailSampleScore));
                         setButton(actionTextView, true);
@@ -657,8 +657,8 @@ public class DetailSampleActivity extends AppCompatActivity {
                         setResult(RESULT_OK, null);
                     } else if (integer == 0) {
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
-                        statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
-                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+                        statusTextView.setTextColor(getResources().getColor(R.color.Risloo800));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Risloo800));
 
                         actionTextView.setText(getResources().getString(R.string.DetailSampleScore));
                         setButton(actionTextView, true);
@@ -669,8 +669,8 @@ public class DetailSampleActivity extends AppCompatActivity {
                         SampleRepository.workStateSample.removeObservers((LifecycleOwner) this);
                     } else if (integer == -2) {
                         statusTextView.setText(getResources().getString(R.string.DetailSampleStatusClosed));
-                        statusTextView.setTextColor(getResources().getColor(R.color.PrimaryDark));
-                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+                        statusTextView.setTextColor(getResources().getColor(R.color.Risloo800));
+                        ImageViewCompat.setImageTintList(statusImageView, AppCompatResources.getColorStateList(this, R.color.Risloo800));
 
                         actionTextView.setText(getResources().getString(R.string.DetailSampleScore));
                         setButton(actionTextView, true);

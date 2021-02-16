@@ -130,7 +130,7 @@ public class DetailSessionActivity extends AppCompatActivity {
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
-        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.DetailSessionTitle));
@@ -194,7 +194,7 @@ public class DetailSessionActivity extends AppCompatActivity {
 
             @Override
             public void updateDrawState(@NonNull TextPaint textPaint) {
-                textPaint.setColor(getResources().getColor(R.color.PrimaryDark));
+                textPaint.setColor(getResources().getColor(R.color.Risloo800));
                 textPaint.setUnderlineText(false);
             }
         };
@@ -298,11 +298,11 @@ public class DetailSessionActivity extends AppCompatActivity {
                         JSONObject medium = avatar.getJSONObject("medium");
                         roomUrl = medium.get("url").toString();
 
-                        Picasso.get().load(roomUrl).placeholder(R.color.Solitude).into(roomAvatarImageView);
+                        Picasso.get().load(roomUrl).placeholder(R.color.Gray50).into(roomAvatarImageView);
 
                         roomSubTitleTextView.setVisibility(View.GONE);
                     } else {
-                        Picasso.get().load(R.color.Solitude).placeholder(R.color.Solitude).into(roomAvatarImageView);
+                        Picasso.get().load(R.color.Gray50).placeholder(R.color.Gray50).into(roomAvatarImageView);
 
                         roomSubTitleTextView.setVisibility(View.VISIBLE);
                         roomSubTitleTextView.setText(StringManager.firstChars(roomName));
@@ -317,7 +317,7 @@ public class DetailSessionActivity extends AppCompatActivity {
 
                 String status = getResources().getString(R.string.DetailSessionName) + " " + "(" + faStatus + ")";
 
-                nameTextView.setText(StringManager.foreground(status, 12, status.length(), getResources().getColor(R.color.PrimaryDark)));
+                nameTextView.setText(StringManager.foreground(status, 12, status.length(), getResources().getColor(R.color.Risloo800)));
             }
 
             // Report

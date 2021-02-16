@@ -156,19 +156,19 @@ public class SamplesActivity extends AppCompatActivity {
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
-        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
         toolbarCreateImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
         toolbarCreateImageView.setImageResource(R.drawable.ic_plus_light);
-        ImageViewCompat.setImageTintList(toolbarCreateImageView, AppCompatResources.getColorStateList(this, R.color.MountainMeadow));
+        ImageViewCompat.setImageTintList(toolbarCreateImageView, AppCompatResources.getColorStateList(this, R.color.Green500));
         toolbarFilterImageView = findViewById(R.id.layout_toolbar_thirdly_imageView);
         toolbarFilterImageView.setImageResource(R.drawable.ic_filter_light);
-        ImageViewCompat.setImageTintList(toolbarFilterImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        ImageViewCompat.setImageTintList(toolbarFilterImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.SamplesTitle));
 
         swipeLayout = findViewById(R.id.activity_samples_swipeLayout);
-        swipeLayout.setColorSchemeResources(R.color.Primary);
+        swipeLayout.setColorSchemeResources(R.color.Risloo500);
         swipeLayout.setProgressBackgroundColorSchemeColor(getResources().getColor(R.color.White));
 
         filterLayout = findViewById(R.id.activity_samples_filterLayout);
@@ -306,7 +306,7 @@ public class SamplesActivity extends AppCompatActivity {
 
             @Override
             public void updateDrawState(@NonNull TextPaint textPaint) {
-                textPaint.setColor(getResources().getColor(R.color.PrimaryDark));
+                textPaint.setColor(getResources().getColor(R.color.Risloo800));
                 textPaint.setUnderlineText(false);
             }
         };
@@ -478,13 +478,13 @@ public class SamplesActivity extends AppCompatActivity {
                 filterLayout.setVisibility(View.GONE);
 
                 toolbarFilterImageView.setImageResource(R.drawable.ic_filter_light);
-                ImageViewCompat.setImageTintList(toolbarFilterImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+                ImageViewCompat.setImageTintList(toolbarFilterImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
             } else {
                 if (filterLayout.getVisibility() == View.GONE) {
                     filterLayout.setVisibility(View.VISIBLE);
 
                     toolbarFilterImageView.setImageResource(R.drawable.ic_filter_solid);
-                    ImageViewCompat.setImageTintList(toolbarFilterImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+                    ImageViewCompat.setImageTintList(toolbarFilterImageView, AppCompatResources.getColorStateList(this, R.color.Risloo800));
                 }
             }
         } else if (method.equals("roomDialog")) {

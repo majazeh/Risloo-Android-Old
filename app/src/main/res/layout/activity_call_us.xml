@@ -31,7 +31,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_1sdp"
-                android:background="@color/Quartz" />
+                android:background="@color/Gray200" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -52,8 +52,8 @@
                     android:gravity="center|right"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"
-                    android:textColor="@color/Grey"
-                    android:textColorHint="@color/Mischka"
+                    android:textColor="@color/Gray700"
+                    android:textColorHint="@color/Gray300"
                     android:textAlignment="gravity"
                     android:importantForAutofill="no"
                     android:background="@drawable/draw_16sdp_border_quartz" />
@@ -71,8 +71,8 @@
                     android:gravity="center|right"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"
-                    android:textColor="@color/Grey"
-                    android:textColorHint="@color/Mischka"
+                    android:textColor="@color/Gray700"
+                    android:textColorHint="@color/Gray300"
                     android:textAlignment="gravity"
                     android:importantForAutofill="no"
                     android:background="@drawable/draw_16sdp_border_quartz" />
@@ -93,8 +93,8 @@
                     android:gravity="top|right"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="normal"
-                    android:textColor="@color/Grey"
-                    android:textColorHint="@color/Mischka"
+                    android:textColor="@color/Gray700"
+                    android:textColorHint="@color/Gray300"
                     android:textAlignment="gravity"
                     android:importantForAutofill="no"
                     android:background="@drawable/draw_16sdp_border_quartz" />
@@ -120,7 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
             android:layout_gravity="bottom"
-            android:background="@color/Quartz" />
+            android:background="@color/Gray200" />
 
     </FrameLayout>
 

@@ -26,7 +26,7 @@
             android:text="@string/PinDescription"
             android:textSize="@dimen/_13ssp"
             android:textStyle="bold"
-            android:textColor="@color/Grey"
+            android:textColor="@color/Gray700"
             android:textAlignment="gravity" />
 
         <EditText
@@ -43,8 +43,8 @@
             android:hint="@string/PinHint"
             android:textSize="@dimen/_12ssp"
             android:textStyle="normal"
-            android:textColor="@color/Grey"
-            android:textColorHint="@color/Mischka"
+            android:textColor="@color/Gray700"
+            android:textColorHint="@color/Gray300"
             android:textAlignment="gravity"
             android:importantForAutofill="no"
             android:background="@drawable/draw_16sdp_border_quartz" />
@@ -83,7 +83,7 @@
                     android:text="@string/PinTimer"
                     android:textSize="@dimen/_11ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/Mischka"
+                    android:textColor="@color/Gray300"
                     android:textAlignment="gravity" />
 
                 <TextView
@@ -93,7 +93,7 @@
                     android:gravity="center"
                     android:textSize="@dimen/_11ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/Grey"
+                    android:textColor="@color/Gray700"
                     android:textAlignment="gravity" />
 
             </LinearLayout>
@@ -105,7 +105,7 @@
                 android:gravity="center"
                 android:textSize="@dimen/_11ssp"
                 android:textStyle="bold"
-                android:textColor="@color/Mischka"
+                android:textColor="@color/Gray300"
                 android:textAlignment="gravity" />
 
         </ViewFlipper>

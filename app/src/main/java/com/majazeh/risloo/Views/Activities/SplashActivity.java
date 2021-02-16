@@ -25,8 +25,6 @@ import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.Utils.Managers.ParamsManager;
 import com.majazeh.risloo.ViewModels.ExplodeViewModel;
 
-import org.json.JSONException;
-
 public class SplashActivity extends AppCompatActivity {
 
     // ViewModels
@@ -64,7 +62,7 @@ public class SplashActivity extends AppCompatActivity {
         WindowDecorator windowDecorator = new WindowDecorator();
 
         windowDecorator.darkShowSystemUI(this);
-        windowDecorator.darkSetSystemUIColor(this, getResources().getColor(R.color.CoralRed), getResources().getColor(R.color.CoralRed));
+        windowDecorator.darkSetSystemUIColor(this, getResources().getColor(R.color.Red500), getResources().getColor(R.color.Red500));
     }
 
     private void initializer() {
@@ -86,7 +84,7 @@ public class SplashActivity extends AppCompatActivity {
         updateDialogTitle = updateDialog.findViewById(R.id.dialog_action_title_textView);
         updateDialogDescription = updateDialog.findViewById(R.id.dialog_action_description_textView);
         updateDialogPositive = updateDialog.findViewById(R.id.dialog_action_positive_textView);
-        updateDialogPositive.setTextColor(getResources().getColor(R.color.PrimaryDark));
+        updateDialogPositive.setTextColor(getResources().getColor(R.color.Risloo800));
         updateDialogNegative = updateDialog.findViewById(R.id.dialog_action_negative_textView);
     }
 

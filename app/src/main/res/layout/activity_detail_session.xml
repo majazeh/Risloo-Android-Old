@@ -24,7 +24,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
-            android:background="@color/Quartz" />
+            android:background="@color/Gray200" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -71,7 +71,7 @@
                                     android:text="@string/DetailSessionName"
                                     android:textSize="@dimen/_10ssp"
                                     android:textStyle="bold"
-                                    android:textColor="@color/Nero"
+                                    android:textColor="@color/Gray900"
                                     android:textAlignment="gravity" />
 
                                 <View
@@ -79,7 +79,7 @@
                                     android:layout_height="@dimen/_1sdp"
                                     android:layout_marginTop="@dimen/_8sdp"
                                     android:layout_marginBottom="@dimen/_12sdp"
-                                    android:background="@color/Quartz" />
+                                    android:background="@color/Gray200" />
 
                                 <RelativeLayout
                                     android:layout_width="match_parent"
@@ -105,7 +105,7 @@
                                             android:visibility="gone"
                                             android:textSize="@dimen/_12ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Grey"
+                                            android:textColor="@color/Gray700"
                                             android:textAlignment="gravity"/>
 
                                     </FrameLayout>
@@ -125,7 +125,7 @@
                                             android:gravity="right"
                                             android:textSize="@dimen/_12ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Grey"
+                                            android:textColor="@color/Gray700"
                                             android:textAlignment="gravity"/>
 
                                         <TextView
@@ -136,7 +136,7 @@
                                             android:gravity="right"
                                             android:textSize="@dimen/_9ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Mischka"
+                                            android:textColor="@color/Gray300"
                                             android:textAlignment="gravity" />
 
                                         <TextView
@@ -148,7 +148,7 @@
                                             android:text="@string/DetailSessionCaseId"
                                             android:textSize="@dimen/_9ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Mischka"
+                                            android:textColor="@color/Gray300"
                                             android:textAlignment="gravity" />
 
                                     </LinearLayout>
@@ -205,7 +205,7 @@
                                         android:text="@string/DetailSessionReport"
                                         android:textSize="@dimen/_10ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Nero"
+                                        android:textColor="@color/Gray900"
                                         android:textAlignment="gravity" />
 
                                 </LinearLayout>
@@ -215,7 +215,7 @@
                                     android:layout_height="@dimen/_1sdp"
                                     android:layout_marginTop="@dimen/_8sdp"
                                     android:layout_marginBottom="@dimen/_12sdp"
-                                    android:background="@color/Quartz" />
+                                    android:background="@color/Gray200" />
 
                                 <TextView
                                     android:id="@+id/activity_detail_session_report_textView"
@@ -225,7 +225,7 @@
                                     android:gravity="right"
                                     android:textSize="@dimen/_8ssp"
                                     android:textStyle="bold"
-                                    android:textColor="@color/Mischka"
+                                    android:textColor="@color/Gray300"
                                     android:textAlignment="gravity" />
 
                                 <TextView
@@ -237,7 +237,7 @@
                                     android:text="@string/DetailSessionEmptyReport"
                                     android:textSize="@dimen/_8ssp"
                                     android:textStyle="bold"
-                                    android:textColor="@color/Mischka"
+                                    android:textColor="@color/Gray300"
                                     android:textAlignment="gravity" />
 
                             </LinearLayout>
@@ -289,7 +289,7 @@
                                         android:text="@string/DetailSessionPractices"
                                         android:textSize="@dimen/_10ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Nero"
+                                        android:textColor="@color/Gray900"
                                         android:textAlignment="gravity" />
 
                                 </LinearLayout>
@@ -299,7 +299,7 @@
                                     android:layout_height="@dimen/_1sdp"
                                     android:layout_marginTop="@dimen/_8sdp"
                                     android:layout_marginBottom="@dimen/_12sdp"
-                                    android:background="@color/Quartz" />
+                                    android:background="@color/Gray200" />
 
                                 <LinearLayout
                                     android:id="@+id/activity_detail_session_practices_hint_linearLayout"
@@ -317,7 +317,7 @@
                                         android:text="@string/DetailSessionPracticeId"
                                         android:textSize="@dimen/_9ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Mischka"
+                                        android:textColor="@color/Gray300"
                                         android:textAlignment="gravity" />
 
                                     <TextView
@@ -330,7 +330,7 @@
                                         android:text="@string/DetailSessionPracticeName"
                                         android:textSize="@dimen/_9ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Mischka"
+                                        android:textColor="@color/Gray300"
                                         android:textAlignment="gravity" />
 
                                     <TextView
@@ -343,7 +343,7 @@
                                         android:text="@string/DetailSessionPracticeContent"
                                         android:textSize="@dimen/_9ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Mischka"
+                                        android:textColor="@color/Gray300"
                                         android:textAlignment="gravity" />
 
                                     <TextView
@@ -357,7 +357,7 @@
                                         android:text="@string/DetailSessionPracticeNote"
                                         android:textSize="@dimen/_9ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Mischka"
+                                        android:textColor="@color/Gray300"
                                         android:textAlignment="gravity" />
 
                                     <TextView
@@ -368,7 +368,7 @@
                                         android:text="@string/DetailSessionPracticeAttachment"
                                         android:textSize="@dimen/_9ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Mischka"
+                                        android:textColor="@color/Gray300"
                                         android:textAlignment="gravity" />
 
                                     <TextView
@@ -379,7 +379,7 @@
                                         android:text="@string/DetailSessionPracticeHomeWork"
                                         android:textSize="@dimen/_9ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Mischka"
+                                        android:textColor="@color/Gray300"
                                         android:textAlignment="gravity" />
 
                                 </LinearLayout>
@@ -399,7 +399,7 @@
                                     android:text="@string/DetailSessionEmptyPractice"
                                     android:textSize="@dimen/_8ssp"
                                     android:textStyle="bold"
-                                    android:textColor="@color/Mischka"
+                                    android:textColor="@color/Gray300"
                                     android:textAlignment="gravity" />
 
                             </LinearLayout>
@@ -428,6 +428,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
         android:layout_gravity="bottom"
-        android:background="@color/Quartz" />
+        android:background="@color/Gray200" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

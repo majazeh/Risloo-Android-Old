@@ -96,11 +96,11 @@ public class CasesAdapter extends RecyclerView.Adapter<CasesAdapter.CasesHolder>
                     JSONObject avatar = manager.getJSONObject("avatar");
                     JSONObject medium = avatar.getJSONObject("medium");
 
-                    Picasso.get().load(medium.get("url").toString()).placeholder(R.color.Solitude).into(holder.roomAvatarImageView);
+                    Picasso.get().load(medium.get("url").toString()).placeholder(R.color.Gray50).into(holder.roomAvatarImageView);
 
                     holder.roomSubTitleTextView.setVisibility(View.GONE);
                 } else {
-                    Picasso.get().load(R.color.Solitude).placeholder(R.color.Solitude).into(holder.roomAvatarImageView);
+                    Picasso.get().load(R.color.Gray50).placeholder(R.color.Gray50).into(holder.roomAvatarImageView);
 
                     holder.roomSubTitleTextView.setVisibility(View.VISIBLE);
                     holder.roomSubTitleTextView.setText(StringManager.firstChars(holder.roomTitleTextView.getText().toString()));

@@ -22,7 +22,7 @@
         android:layout_marginBottom="@dimen/_32sdp"
         android:textSize="@dimen/_11ssp"
         android:textStyle="bold"
-        android:textColor="@color/Mischka"
+        android:textColor="@color/Gray300"
         android:textAlignment="gravity" />
 
 </LinearLayout>

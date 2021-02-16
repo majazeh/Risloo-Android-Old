@@ -21,7 +21,7 @@
         android:fitsSystemWindows="true"
         android:theme="@style/NavigationViewTheme"
         app:headerLayout="@layout/activity_auth_header"
-        app:itemTextColor="@color/Grey"
+        app:itemTextColor="@color/Gray700"
         app:itemTextAppearance="@style/NavigationTextAppearance"
         app:itemIconSize="@dimen/_16sdp"
         app:itemIconPadding="@dimen/_16sdp"

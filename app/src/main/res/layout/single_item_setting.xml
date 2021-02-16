@@ -20,7 +20,7 @@
         android:padding="@dimen/_8sdp"
         android:contentDescription="@string/AppImageContent"
         android:scaleType="fitCenter"
-        app:tint="@color/PrimaryDark" />
+        app:tint="@color/Risloo800" />
 
     <TextView
         android:id="@+id/item_setting_title_textView"
@@ -32,7 +32,7 @@
         android:gravity="start"
         android:textSize="@dimen/_12ssp"
         android:textStyle="bold"
-        android:textColor="@color/Grey"
+        android:textColor="@color/Gray700"
         android:textAlignment="gravity" />
 
     <TextView
@@ -63,6 +63,6 @@
         android:layout_marginRight="@dimen/_32sdp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/item_setting_avatar_imageView"
-        android:background="@color/Solitude" />
+        android:background="@color/Gray50" />
 
 </RelativeLayout>

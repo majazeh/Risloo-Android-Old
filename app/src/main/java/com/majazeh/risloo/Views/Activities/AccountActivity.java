@@ -94,7 +94,7 @@ public class AccountActivity extends AppCompatActivity {
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
-        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.AccountTitle));
@@ -129,7 +129,7 @@ public class AccountActivity extends AppCompatActivity {
         logOutDialogDescription.setText(getResources().getString(R.string.AccountLogOutDialogDescription));
         logOutDialogPositive = logOutDialog.findViewById(R.id.dialog_action_positive_textView);
         logOutDialogPositive.setText(getResources().getString(R.string.AccountLogOutDialogPositive));
-        logOutDialogPositive.setTextColor(getResources().getColor(R.color.CoralRed));
+        logOutDialogPositive.setTextColor(getResources().getColor(R.color.Red500));
         logOutDialogNegative = logOutDialog.findViewById(R.id.dialog_action_negative_textView);
         logOutDialogNegative.setText(getResources().getString(R.string.AccountLogOutDialogNegative));
     }
@@ -201,7 +201,7 @@ public class AccountActivity extends AppCompatActivity {
             if (authViewModel.getAvatar().equals("")) {
                 avatarCircleImageView.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_user_circle_solid, null));
             } else {
-                Picasso.get().load(authViewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarCircleImageView);
+                Picasso.get().load(authViewModel.getAvatar()).placeholder(R.color.Gray50).into(avatarCircleImageView);
             }
 
             if (authViewModel.getName().equals("")) {

@@ -33,7 +33,7 @@
             android:visibility="gone"
             android:textSize="@dimen/_10ssp"
             android:textStyle="bold"
-            android:textColor="@color/Grey"
+            android:textColor="@color/Gray700"
             android:textAlignment="gravity"/>
 
     </FrameLayout>
@@ -52,7 +52,7 @@
             android:gravity="right"
             android:textSize="@dimen/_10ssp"
             android:textStyle="bold"
-            android:textColor="@color/Grey"
+            android:textColor="@color/Gray700"
             android:textAlignment="gravity" />
 
         <TextView
@@ -64,7 +64,7 @@
             android:gravity="right"
             android:textSize="@dimen/_8ssp"
             android:textStyle="normal"
-            android:textColor="@color/Mischka"
+            android:textColor="@color/Gray300"
             android:textAlignment="gravity" />
 
     </LinearLayout>

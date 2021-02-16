@@ -60,7 +60,7 @@ public class ImageActivity extends AppCompatActivity {
         WindowDecorator windowDecorator = new WindowDecorator();
 
         windowDecorator.darkShowSystemUI(this);
-        windowDecorator.darkSetSystemUIColor(this, getResources().getColor(R.color.Nero), getResources().getColor(R.color.Nero));
+        windowDecorator.darkSetSystemUIColor(this, getResources().getColor(R.color.Gray900), getResources().getColor(R.color.Gray900));
     }
 
     private void initializer() {
@@ -69,7 +69,7 @@ public class ImageActivity extends AppCompatActivity {
         handler = new Handler();
 
         toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
-        toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Nero));
+        toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Gray900));
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
@@ -117,7 +117,7 @@ public class ImageActivity extends AppCompatActivity {
 
         if (!bitmap) {
             image = extras.getString("image");
-            Picasso.get().load(image).placeholder(R.color.Nero).into(imageView);
+            Picasso.get().load(image).placeholder(R.color.Gray900).into(imageView);
             toolbarDownloadImageView.setVisibility(View.VISIBLE);
         } else {
             path = extras.getString("path");

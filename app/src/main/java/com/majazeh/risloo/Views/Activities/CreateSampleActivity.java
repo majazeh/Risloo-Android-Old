@@ -167,7 +167,7 @@ public class CreateSampleActivity extends AppCompatActivity {
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
-        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CreateSampleTitle));
@@ -920,7 +920,7 @@ public class CreateSampleActivity extends AppCompatActivity {
 
         if (!roomId.equals("")) {
             roomNameTextView.setText(roomName);
-            roomNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+            roomNameTextView.setTextColor(getResources().getColor(R.color.Gray700));
 
             roomTitleTextView.setText(roomTitle);
             roomTitleTextView.setVisibility(View.VISIBLE);
@@ -933,7 +933,7 @@ public class CreateSampleActivity extends AppCompatActivity {
             referenceCaseLayout.setVisibility(View.VISIBLE);
 
             caseTextView.setText(caseName);
-            caseTextView.setTextColor(getResources().getColor(R.color.Grey));
+            caseTextView.setTextColor(getResources().getColor(R.color.Gray700));
 
             casesTextView.setVisibility(View.VISIBLE);
             casesRecyclerView.setVisibility(View.VISIBLE);
@@ -963,7 +963,7 @@ public class CreateSampleActivity extends AppCompatActivity {
 
         if (!sessionId.equals("")) {
             sessionNameTextView.setText(sessionName);
-            sessionNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+            sessionNameTextView.setTextColor(getResources().getColor(R.color.Gray700));
 
             sessionIdTextView.setText(sessionId);
             sessionIdTextView.setVisibility(View.VISIBLE);
@@ -1116,7 +1116,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     caseName = "";
 
                     caseTextView.setText(getResources().getString(R.string.CreateSampleCase));
-                    caseTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                    caseTextView.setTextColor(getResources().getColor(R.color.Gray300));
                 }
                 break;
             case "caseReference":
@@ -1148,7 +1148,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                     sessionName = "";
 
                     sessionNameTextView.setText(getResources().getString(R.string.CreateSampleSession));
-                    sessionNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                    sessionNameTextView.setTextColor(getResources().getColor(R.color.Gray300));
 
                     sessionIdTextView.setText(sessionId);
                     sessionIdTextView.setVisibility(View.GONE);
@@ -1530,7 +1530,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         roomName = manager.get("name").toString();
 
                         roomNameTextView.setText(roomName);
-                        roomNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+                        roomNameTextView.setTextColor(getResources().getColor(R.color.Gray700));
 
                         JSONObject center = (JSONObject) model.get("center");
                         JSONObject detail = (JSONObject) center.get("detail");
@@ -1544,7 +1544,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         roomTitle = "";
 
                         roomNameTextView.setText(getResources().getString(R.string.CreateSampleRoom));
-                        roomNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        roomNameTextView.setTextColor(getResources().getColor(R.color.Gray300));
 
                         roomTitleTextView.setText(roomTitle);
                         roomTitleTextView.setVisibility(View.GONE);
@@ -1597,7 +1597,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         caseName = name.toString();
 
                         caseTextView.setText(caseName);
-                        caseTextView.setTextColor(getResources().getColor(R.color.Grey));
+                        caseTextView.setTextColor(getResources().getColor(R.color.Gray700));
 
                         casesTextView.setVisibility(View.VISIBLE);
                         casesRecyclerView.setVisibility(View.VISIBLE);
@@ -1608,7 +1608,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         caseName = "";
 
                         caseTextView.setText(getResources().getString(R.string.CreateSampleCase));
-                        caseTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        caseTextView.setTextColor(getResources().getColor(R.color.Gray300));
 
                         casesTextView.setVisibility(View.GONE);
                         casesRecyclerView.setVisibility(View.GONE);
@@ -1685,7 +1685,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         sessionName = faStatus;
 
                         sessionNameTextView.setText(sessionName);
-                        sessionNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+                        sessionNameTextView.setTextColor(getResources().getColor(R.color.Gray700));
 
                         sessionIdTextView.setText(sessionId);
                         sessionIdTextView.setVisibility(View.VISIBLE);
@@ -1694,7 +1694,7 @@ public class CreateSampleActivity extends AppCompatActivity {
                         sessionName = "";
 
                         sessionNameTextView.setText(getResources().getString(R.string.CreateSampleSession));
-                        sessionNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        sessionNameTextView.setTextColor(getResources().getColor(R.color.Gray300));
 
                         sessionIdTextView.setText(sessionId);
                         sessionIdTextView.setVisibility(View.GONE);

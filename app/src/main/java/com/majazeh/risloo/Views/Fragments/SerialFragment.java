@@ -169,7 +169,7 @@ public class SerialFragment extends Fragment {
         super.onResume();
 
         if (sampleViewModel.getArchive() != null) {
-            serialIncompleteTextView.setText(StringManager.foregroundSize("شما" + " " + sampleViewModel.getArchive().size() + " " + "آزمون ناتمام دارید!", 4, 6, getResources().getColor(R.color.OrangePeel), (int) getResources().getDimension(R.dimen._14ssp)));
+            serialIncompleteTextView.setText(StringManager.foregroundSize("شما" + " " + sampleViewModel.getArchive().size() + " " + "آزمون ناتمام دارید!", 4, 6, getResources().getColor(R.color.Yellow500), (int) getResources().getDimension(R.dimen._14ssp)));
 
             serialArchiveLinearLayout.setVisibility(View.VISIBLE);
             serialArchiveLinearLayout.setAnimation(animSlideIn);

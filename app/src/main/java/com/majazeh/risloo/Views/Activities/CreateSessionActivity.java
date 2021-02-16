@@ -143,7 +143,7 @@ public class CreateSessionActivity extends AppCompatActivity {
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
-        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CreateSessionTitle));
@@ -664,7 +664,7 @@ public class CreateSessionActivity extends AppCompatActivity {
 
         if (!roomId.equals("")) {
             roomNameTextView.setText(roomName);
-            roomNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+            roomNameTextView.setTextColor(getResources().getColor(R.color.Gray700));
 
             roomTitleTextView.setText(roomTitle);
             roomTitleTextView.setVisibility(View.VISIBLE);
@@ -672,17 +672,17 @@ public class CreateSessionActivity extends AppCompatActivity {
 
         if (!caseId.equals("")) {
             caseTextView.setText(caseName);
-            caseTextView.setTextColor(getResources().getColor(R.color.Grey));
+            caseTextView.setTextColor(getResources().getColor(R.color.Gray700));
         }
 
         if (!duration.equals("")) {
             durationEditText.setText(duration);
-            durationEditText.setTextColor(getResources().getColor(R.color.Grey));
+            durationEditText.setTextColor(getResources().getColor(R.color.Gray700));
         }
 
         if (!statusId.equals("")) {
             statusTextView.setText(statusTitle);
-            statusTextView.setTextColor(getResources().getColor(R.color.Grey));
+            statusTextView.setTextColor(getResources().getColor(R.color.Gray700));
         }
 
         startedAtTimeTextView.setText(startedAtTime);
@@ -808,7 +808,7 @@ public class CreateSessionActivity extends AppCompatActivity {
                     caseName = "";
 
                     caseTextView.setText(getResources().getString(R.string.CreateSampleCase));
-                    caseTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                    caseTextView.setTextColor(getResources().getColor(R.color.Gray300));
                 }
                 break;
             case "roomDialog":
@@ -1010,7 +1010,7 @@ public class CreateSessionActivity extends AppCompatActivity {
                         roomName =manager.get("name").toString();
 
                         roomNameTextView.setText(roomName);
-                        roomNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+                        roomNameTextView.setTextColor(getResources().getColor(R.color.Gray700));
 
                         JSONObject center = (JSONObject) model.get("center");
                         JSONObject detail = (JSONObject) center.get("detail");
@@ -1024,7 +1024,7 @@ public class CreateSessionActivity extends AppCompatActivity {
                         roomTitle = "";
 
                         roomNameTextView.setText(getResources().getString(R.string.CreateSessionRoom));
-                        roomNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        roomNameTextView.setTextColor(getResources().getColor(R.color.Gray300));
 
                         roomTitleTextView.setText(roomTitle);
                         roomTitleTextView.setVisibility(View.GONE);
@@ -1065,13 +1065,13 @@ public class CreateSessionActivity extends AppCompatActivity {
                         caseName = name.toString();
 
                         caseTextView.setText(caseName);
-                        caseTextView.setTextColor(getResources().getColor(R.color.Grey));
+                        caseTextView.setTextColor(getResources().getColor(R.color.Gray700));
                     } else if (caseId.equals(model.get("id").toString())) {
                         caseId = "";
                         caseName = "";
 
                         caseTextView.setText(getResources().getString(R.string.CreateSessionCase));
-                        caseTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        caseTextView.setTextColor(getResources().getColor(R.color.Gray300));
                     }
 
                     resetData("caseDialog");
@@ -1092,13 +1092,13 @@ public class CreateSessionActivity extends AppCompatActivity {
                         statusTitle = model.get("fa_title").toString();
 
                         statusTextView.setText(statusTitle);
-                        statusTextView.setTextColor(getResources().getColor(R.color.Grey));
+                        statusTextView.setTextColor(getResources().getColor(R.color.Gray700));
                     } else if (statusId.equals(model.get("en_title").toString())) {
                         statusId = "";
                         statusTitle = "";
 
                         statusTextView.setText(getResources().getString(R.string.CreateSessionStatus));
-                        statusTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        statusTextView.setTextColor(getResources().getColor(R.color.Gray300));
                     }
 
                     statusDialog.dismiss();

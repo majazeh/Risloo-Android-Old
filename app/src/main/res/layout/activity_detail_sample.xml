@@ -24,7 +24,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
-            android:background="@color/Quartz" />
+            android:background="@color/Gray200" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -71,7 +71,7 @@
                                     android:gravity="right"
                                     android:textSize="@dimen/_14ssp"
                                     android:textStyle="bold"
-                                    android:textColor="@color/Nero"
+                                    android:textColor="@color/Gray900"
                                     android:textAlignment="gravity" />
 
                                 <TextView
@@ -82,7 +82,7 @@
                                     android:gravity="right"
                                     android:textSize="@dimen/_11ssp"
                                     android:textStyle="bold"
-                                    android:textColor="@color/Grey"
+                                    android:textColor="@color/Gray700"
                                     android:textAlignment="gravity" />
 
                                 <LinearLayout
@@ -112,7 +112,7 @@
                                                 android:layout_marginLeft="@dimen/_4sdp"
                                                 android:layout_gravity="center"
                                                 android:contentDescription="@string/AppImageContent"
-                                                app:tint="@color/Mischka" />
+                                                app:tint="@color/Gray300" />
 
                                             <TextView
                                                 android:id="@+id/activity_detail_sample_reference_hint_textView"
@@ -121,7 +121,7 @@
                                                 android:gravity="center|right"
                                                 android:textSize="@dimen/_9ssp"
                                                 android:textStyle="normal"
-                                                android:textColor="@color/Mischka"
+                                                android:textColor="@color/Gray300"
                                                 android:textAlignment="gravity" />
 
                                         </LinearLayout>
@@ -133,7 +133,7 @@
                                             android:gravity="center|right"
                                             android:textSize="@dimen/_9ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Grey"
+                                            android:textColor="@color/Gray700"
                                             android:textAlignment="gravity" />
 
                                     </LinearLayout>
@@ -158,7 +158,7 @@
                                                 android:layout_gravity="center"
                                                 android:contentDescription="@string/AppImageContent"
                                                 android:src="@drawable/ic_case_light"
-                                                app:tint="@color/Mischka" />
+                                                app:tint="@color/Gray300" />
 
                                             <TextView
                                                 android:layout_width="match_parent"
@@ -167,7 +167,7 @@
                                                 android:text="@string/DetailSampleCase"
                                                 android:textSize="@dimen/_9ssp"
                                                 android:textStyle="normal"
-                                                android:textColor="@color/Mischka"
+                                                android:textColor="@color/Gray300"
                                                 android:textAlignment="gravity" />
 
                                         </LinearLayout>
@@ -179,7 +179,7 @@
                                             android:gravity="center|right"
                                             android:textSize="@dimen/_9ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Grey"
+                                            android:textColor="@color/Gray700"
                                             android:textAlignment="gravity" />
 
                                     </LinearLayout>
@@ -204,7 +204,7 @@
                                                 android:layout_gravity="center"
                                                 android:contentDescription="@string/AppImageContent"
                                                 android:src="@drawable/ic_hospital_light"
-                                                app:tint="@color/Mischka" />
+                                                app:tint="@color/Gray300" />
 
                                             <TextView
                                                 android:layout_width="match_parent"
@@ -213,7 +213,7 @@
                                                 android:text="@string/DetailSampleRoom"
                                                 android:textSize="@dimen/_9ssp"
                                                 android:textStyle="normal"
-                                                android:textColor="@color/Mischka"
+                                                android:textColor="@color/Gray300"
                                                 android:textAlignment="gravity" />
 
                                         </LinearLayout>
@@ -225,7 +225,7 @@
                                             android:gravity="center|right"
                                             android:textSize="@dimen/_9ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Grey"
+                                            android:textColor="@color/Gray700"
                                             android:textAlignment="gravity" />
 
                                     </LinearLayout>
@@ -279,7 +279,7 @@
                                             android:gravity="right|center"
                                             android:textSize="@dimen/_9ssp"
                                             android:textStyle="bold"
-                                            android:textColor="@color/Mischka"
+                                            android:textColor="@color/Gray300"
                                             android:textAlignment="gravity" />
 
                                     </LinearLayout>
@@ -326,7 +326,7 @@
                                     android:text="@string/DetailSampleScoring"
                                     android:textSize="@dimen/_12ssp"
                                     android:textStyle="bold"
-                                    android:textColor="@color/PrimaryDark"
+                                    android:textColor="@color/Risloo800"
                                     android:textAlignment="gravity" />
 
                             </LinearLayout>
@@ -363,7 +363,7 @@
                                         android:padding="@dimen/_6sdp"
                                         android:contentDescription="@string/AppImageContent"
                                         android:src="@drawable/ic_download_light"
-                                        app:tint="@color/Grey" />
+                                        app:tint="@color/Gray700" />
 
                                     <TextView
                                         android:layout_width="match_parent"
@@ -372,7 +372,7 @@
                                         android:text="@string/DetailSampleResult"
                                         android:textSize="@dimen/_10ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Nero"
+                                        android:textColor="@color/Gray900"
                                         android:textAlignment="gravity" />
 
                                 </LinearLayout>
@@ -382,7 +382,7 @@
                                     android:layout_height="@dimen/_1sdp"
                                     android:layout_marginTop="@dimen/_8sdp"
                                     android:layout_marginBottom="@dimen/_12sdp"
-                                    android:background="@color/Quartz" />
+                                    android:background="@color/Gray200" />
 
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/activity_detail_sample_result_recyclerView"
@@ -427,7 +427,7 @@
                                         android:text="@string/DetailSampleEdit"
                                         android:textSize="@dimen/_10ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Mischka"
+                                        android:textColor="@color/Gray300"
                                         android:textAlignment="gravity"
                                         android:theme="@style/CheckBoxTheme"
                                         android:background="@android:color/transparent"/>
@@ -439,7 +439,7 @@
                                         android:text="@string/DetailSampleForm"
                                         android:textSize="@dimen/_10ssp"
                                         android:textStyle="bold"
-                                        android:textColor="@color/Nero"
+                                        android:textColor="@color/Gray900"
                                         android:textAlignment="gravity" />
 
                                 </LinearLayout>
@@ -449,7 +449,7 @@
                                     android:layout_height="@dimen/_1sdp"
                                     android:layout_marginTop="@dimen/_8sdp"
                                     android:layout_marginBottom="@dimen/_12sdp"
-                                    android:background="@color/Quartz" />
+                                    android:background="@color/Gray200" />
 
                                 <TextView
                                     android:id="@+id/activity_detail_sample_general_textView"
@@ -459,7 +459,7 @@
                                     android:text="@string/DetailSampleGeneral"
                                     android:textSize="@dimen/_10ssp"
                                     android:textStyle="bold"
-                                    android:textColor="@color/Grey"
+                                    android:textColor="@color/Gray700"
                                     android:textAlignment="gravity" />
 
                                 <androidx.recyclerview.widget.RecyclerView
@@ -478,7 +478,7 @@
                                     android:text="@string/DetailSamplePrerequisite"
                                     android:textSize="@dimen/_10ssp"
                                     android:textStyle="bold"
-                                    android:textColor="@color/Grey"
+                                    android:textColor="@color/Gray700"
                                     android:textAlignment="gravity" />
 
                                 <androidx.recyclerview.widget.RecyclerView
@@ -497,7 +497,7 @@
                                     android:text="@string/DetailSampleAnswer"
                                     android:textSize="@dimen/_10ssp"
                                     android:textStyle="bold"
-                                    android:textColor="@color/Grey"
+                                    android:textColor="@color/Gray700"
                                     android:textAlignment="gravity" />
 
                                 <androidx.recyclerview.widget.RecyclerView
@@ -533,6 +533,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_1sdp"
         android:layout_gravity="bottom"
-        android:background="@color/Quartz" />
+        android:background="@color/Gray200" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
-    android:background="@color/Nero"
+    android:background="@color/Gray900"
     android:descendantFocusability="blocksDescendants"
     tools:context=".Views.Activities.ImageActivity">
 

@@ -29,7 +29,7 @@
             android:gravity="right"
             android:textSize="@dimen/_14ssp"
             android:textStyle="bold"
-            android:textColor="@color/Nero"
+            android:textColor="@color/Gray900"
             android:textAlignment="gravity" />
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -51,8 +51,8 @@
                 android:hint="@string/AppSearchInput"
                 android:textSize="@dimen/_12ssp"
                 android:textStyle="normal"
-                android:textColor="@color/Grey"
-                android:textColorHint="@color/Mischka"
+                android:textColor="@color/Gray700"
+                android:textColorHint="@color/Gray300"
                 android:textAlignment="gravity"
                 android:importantForAutofill="no"
                 android:background="@drawable/draw_16sdp_border_quartz" />
@@ -65,7 +65,7 @@
                 android:layout_marginLeft="@dimen/_8sdp"
                 android:padding="@dimen/_6sdp"
                 android:src="@drawable/ic_search_light"
-                app:tint="@color/Mischka" />
+                app:tint="@color/Gray300" />
 
             <ProgressBar
                 android:id="@+id/dialog_search_progressBar"
@@ -82,7 +82,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/Solitude"
+            app:cardBackgroundColor="@color/Gray50"
             app:cardCornerRadius="@dimen/_16sdp"
             app:cardElevation="0dp">
 
@@ -104,7 +104,7 @@
                 android:text="@string/AppSearchEmpty"
                 android:textSize="@dimen/_10ssp"
                 android:textStyle="bold"
-                android:textColor="@color/Grey"
+                android:textColor="@color/Gray700"
                 android:textAlignment="gravity" />
 
         </androidx.cardview.widget.CardView>
@@ -123,7 +123,7 @@
             android:text="@string/AppSearchConfirm"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
-            android:textColor="@color/PrimaryDark"
+            android:textColor="@color/Risloo800"
             android:textAlignment="gravity" />
 
     </LinearLayout>

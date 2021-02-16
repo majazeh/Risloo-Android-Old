@@ -26,7 +26,7 @@
             android:text="@string/RegisterDescription"
             android:textSize="@dimen/_13ssp"
             android:textStyle="bold"
-            android:textColor="@color/Grey"
+            android:textColor="@color/Gray700"
             android:textAlignment="gravity" />
 
         <EditText
@@ -42,8 +42,8 @@
             android:hint="@string/RegisterNameHint"
             android:textSize="@dimen/_12ssp"
             android:textStyle="normal"
-            android:textColor="@color/Grey"
-            android:textColorHint="@color/Mischka"
+            android:textColor="@color/Gray700"
+            android:textColorHint="@color/Gray300"
             android:textAlignment="gravity"
             android:importantForAutofill="no"
             android:background="@drawable/draw_16sdp_border_quartz" />
@@ -61,8 +61,8 @@
             android:hint="@string/RegisterMobileHint"
             android:textSize="@dimen/_12ssp"
             android:textStyle="normal"
-            android:textColor="@color/Grey"
-            android:textColorHint="@color/Mischka"
+            android:textColor="@color/Gray700"
+            android:textColorHint="@color/Gray300"
             android:textAlignment="gravity"
             android:importantForAutofill="no"
             android:background="@drawable/draw_16sdp_border_quartz" />
@@ -86,11 +86,11 @@
                 app:tabGravity="fill"
                 app:tabMaxWidth="0dp"
                 app:tabBackground="@null"
-                app:tabRippleColor="@color/Quartz"
+                app:tabRippleColor="@color/Gray200"
                 app:tabIndicatorColor="@color/Primary5P"
                 app:tabIndicatorHeight="@dimen/_36sdp"
-                app:tabTextColor="@color/Mischka"
-                app:tabSelectedTextColor="@color/Grey"
+                app:tabTextColor="@color/Gray300"
+                app:tabSelectedTextColor="@color/Gray700"
                 app:tabTextAppearance="@style/TabTextNormalAppearance">
 
                 <com.google.android.material.tabs.TabItem
@@ -124,8 +124,8 @@
                 android:hint="@string/RegisterPasswordHint"
                 android:textSize="@dimen/_12ssp"
                 android:textStyle="normal"
-                android:textColor="@color/Grey"
-                android:textColorHint="@color/Mischka"
+                android:textColor="@color/Gray700"
+                android:textColorHint="@color/Gray300"
                 android:textAlignment="gravity"
                 android:importantForAutofill="no"
                 android:background="@drawable/draw_16sdp_border_quartz" />
@@ -139,7 +139,7 @@
                 android:padding="@dimen/_6sdp"
                 android:visibility="invisible"
                 android:src="@drawable/ic_eye_slash_light"
-                app:tint="@color/Mischka" />
+                app:tint="@color/Gray300" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

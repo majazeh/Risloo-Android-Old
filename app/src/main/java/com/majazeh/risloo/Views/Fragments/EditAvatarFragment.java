@@ -115,7 +115,7 @@ public class EditAvatarFragment extends Fragment {
         if (((EditAccountActivity) getActivity()).authViewModel.getAvatar().equals("")) {
             avatarCircleImageView.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_user_circle_solid, null));
         } else {
-            Picasso.get().load(((EditAccountActivity) getActivity()).authViewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarCircleImageView);
+            Picasso.get().load(((EditAccountActivity) getActivity()).authViewModel.getAvatar()).placeholder(R.color.Gray50).into(avatarCircleImageView);
         }
     }
 

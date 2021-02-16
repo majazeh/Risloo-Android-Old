@@ -24,7 +24,7 @@
         android:text="@string/AppLoading"
         android:textSize="@dimen/_11ssp"
         android:textStyle="bold"
-        android:textColor="@color/Grey"
+        android:textColor="@color/Gray700"
         android:textAlignment="gravity" />
 
 </LinearLayout>

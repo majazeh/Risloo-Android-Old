@@ -57,11 +57,11 @@ public class FAQuestionAdapter extends RecyclerView.Adapter<FAQuestionAdapter.FA
             }
 
             if (model.get("important").equals(true)) {
-                holder.subjectTextView.setTextColor(ResourcesCompat.getColor(activity.getResources(), R.color.PrimaryDark, null));
-                ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
+                holder.subjectTextView.setTextColor(ResourcesCompat.getColor(activity.getResources(), R.color.Risloo800, null));
+                ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Risloo800));
             } else {
-                holder.subjectTextView.setTextColor(ResourcesCompat.getColor(activity.getResources(), R.color.Grey, null));
-                ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Grey));
+                holder.subjectTextView.setTextColor(ResourcesCompat.getColor(activity.getResources(), R.color.Gray700, null));
+                ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Gray700));
             }
 
             holder.subjectTextView.setText((String) model.get("subject"));

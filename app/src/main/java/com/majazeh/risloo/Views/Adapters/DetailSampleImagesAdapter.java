@@ -50,7 +50,7 @@ public class DetailSampleImagesAdapter extends RecyclerView.Adapter<DetailSample
         Model model = images.get(i);
 
         try {
-            Picasso.get().load(model.get("url").toString()).placeholder(R.color.Solitude).into(holder.zoomImageView);
+            Picasso.get().load(model.get("url").toString()).placeholder(R.color.Gray50).into(holder.zoomImageView);
 
             holder.zoomImageView.setOnClickListener(v -> {
                 holder.zoomImageView.setClickable(false);

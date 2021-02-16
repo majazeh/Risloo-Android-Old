@@ -57,7 +57,7 @@ public class PictoralAdapter extends RecyclerView.Adapter<PictoralAdapter.Pictor
             holder.itemView.setBackgroundResource(R.drawable.draw_16sdp_solid_white_border_quartz_ripple_solitude);
         }
 
-        Picasso.get().load(answer).placeholder(R.color.Solitude).into(holder.answerImageView);
+        Picasso.get().load(answer).placeholder(R.color.Gray50).into(holder.answerImageView);
 
         if (position == -1) {
             holder.answerImageView.setBackgroundResource(R.drawable.draw_16sdp_border_quartz);

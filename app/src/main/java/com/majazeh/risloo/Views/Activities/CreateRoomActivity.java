@@ -123,7 +123,7 @@ public class CreateRoomActivity extends AppCompatActivity {
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
-        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CreateRoomTitle));
@@ -396,7 +396,7 @@ public class CreateRoomActivity extends AppCompatActivity {
 
         if (!centerId.equals("")) {
             centerNameTextView.setText(centerName);
-            centerNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+            centerNameTextView.setTextColor(getResources().getColor(R.color.Gray700));
 
             centerIdTextView.setText(centerId);
             centerIdTextView.setVisibility(View.VISIBLE);
@@ -404,7 +404,7 @@ public class CreateRoomActivity extends AppCompatActivity {
 
         if (!psychologyId.equals("")) {
             psychologyNameTextView.setText(psychologyName);
-            psychologyNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+            psychologyNameTextView.setTextColor(getResources().getColor(R.color.Gray700));
 
             psychologyIdTextView.setText(psychologyId);
             psychologyIdTextView.setVisibility(View.VISIBLE);
@@ -616,7 +616,7 @@ public class CreateRoomActivity extends AppCompatActivity {
                         centerName = detail.get("title").toString();
 
                         centerNameTextView.setText(centerName);
-                        centerNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+                        centerNameTextView.setTextColor(getResources().getColor(R.color.Gray700));
 
                         centerIdTextView.setText(centerId);
                         centerIdTextView.setVisibility(View.VISIBLE);
@@ -625,7 +625,7 @@ public class CreateRoomActivity extends AppCompatActivity {
                         centerName = "";
 
                         centerNameTextView.setText(getResources().getString(R.string.CreateRoomCenter));
-                        centerNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        centerNameTextView.setTextColor(getResources().getColor(R.color.Gray300));
 
                         centerIdTextView.setText(centerId);
                         centerIdTextView.setVisibility(View.GONE);
@@ -651,7 +651,7 @@ public class CreateRoomActivity extends AppCompatActivity {
                         psychologyName = creator.get("name").toString();
 
                         psychologyNameTextView.setText(psychologyName);
-                        psychologyNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+                        psychologyNameTextView.setTextColor(getResources().getColor(R.color.Gray700));
 
                         psychologyIdTextView.setText(psychologyId);
                         psychologyIdTextView.setVisibility(View.VISIBLE);
@@ -660,7 +660,7 @@ public class CreateRoomActivity extends AppCompatActivity {
                         psychologyName = "";
 
                         psychologyNameTextView.setText(getResources().getString(R.string.CreateRoomPsychology));
-                        psychologyNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        psychologyNameTextView.setTextColor(getResources().getColor(R.color.Gray300));
 
                         psychologyIdTextView.setText(psychologyId);
                         psychologyIdTextView.setVisibility(View.GONE);

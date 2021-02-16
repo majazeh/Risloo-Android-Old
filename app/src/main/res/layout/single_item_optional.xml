@@ -21,7 +21,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:textSize="@dimen/_13ssp"
-        android:textColor="@color/Nero"
+        android:textColor="@color/Gray900"
         android:textStyle="normal"
         android:textAlignment="gravity" />
 
@@ -33,7 +33,7 @@
         android:gravity="right"
         android:textSize="@dimen/_12ssp"
         android:textStyle="normal"
-        android:textColor="@color/Grey"
+        android:textColor="@color/Gray700"
         android:textAlignment="gravity"/>
 
 </LinearLayout>

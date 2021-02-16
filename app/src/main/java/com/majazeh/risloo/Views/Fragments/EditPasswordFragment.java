@@ -132,13 +132,13 @@ public class EditPasswordFragment extends Fragment {
                 passwordVisibility = true;
                 passwordImageView.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_eye_light, null));
 
-                ImageViewCompat.setImageTintList(passwordImageView, AppCompatResources.getColorStateList(activity, R.color.Primary));
+                ImageViewCompat.setImageTintList(passwordImageView, AppCompatResources.getColorStateList(activity, R.color.Risloo500));
                 passwordEditText.setTransformationMethod(null);
             } else {
                 passwordVisibility = false;
                 passwordImageView.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_eye_slash_light, null));
 
-                ImageViewCompat.setImageTintList(passwordImageView, AppCompatResources.getColorStateList(activity, R.color.Mischka));
+                ImageViewCompat.setImageTintList(passwordImageView, AppCompatResources.getColorStateList(activity, R.color.Gray300));
                 passwordEditText.setTransformationMethod(new PasswordTransformationMethod());
             }
         });

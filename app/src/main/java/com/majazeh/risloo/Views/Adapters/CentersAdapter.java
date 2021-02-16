@@ -129,7 +129,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
 
                 if (acceptation.get("position").toString().equals("manager")) {
                     holder.requestTextView.setText(activity.getResources().getString(R.string.CentersOwner));
-                    holder.requestTextView.setTextColor(activity.getResources().getColor(R.color.Nero));
+                    holder.requestTextView.setTextColor(activity.getResources().getColor(R.color.Gray900));
                 } else {
                     if (acceptation.has("kicked_at") && !acceptation.isNull("kicked_at")) {
                         holder.requestTextView.setText(activity.getResources().getString(R.string.CentersKicked));
@@ -139,7 +139,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                         else
                             holder.requestTextView.setText(activity.getResources().getString(R.string.CentersAwaiting));
                     }
-                    holder.requestTextView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                    holder.requestTextView.setTextColor(activity.getResources().getColor(R.color.Gray700));
                 }
                 holder.requestTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_solitude);
 
@@ -225,11 +225,11 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                 imageIntent.putExtra("bitmap", false);
                 imageIntent.putExtra("image", medium.getString("url"));
 
-                Picasso.get().load(medium.get("url").toString()).placeholder(R.color.Solitude).into(holder.avatarImageView);
+                Picasso.get().load(medium.get("url").toString()).placeholder(R.color.Gray50).into(holder.avatarImageView);
 
                 holder.subTitleTextView.setVisibility(View.GONE);
             } else {
-                Picasso.get().load(R.color.Solitude).placeholder(R.color.Solitude).into(holder.avatarImageView);
+                Picasso.get().load(R.color.Gray50).placeholder(R.color.Gray50).into(holder.avatarImageView);
 
                 holder.subTitleTextView.setVisibility(View.VISIBLE);
                 holder.subTitleTextView.setText(StringManager.firstChars(detail.get("title").toString()));
@@ -242,112 +242,112 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
                 switch (createdAt % 16) {
                     case 0:
                         holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_solid_nero5p);
-                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Gray900));
 
                         holder.gradientImageView.setImageResource(R.drawable.gra_0);
                         holder.expandLinearLayout.setBackgroundResource(R.color.Gradient0);
                         break;
                     case 1:
                         holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_solid_nero5p);
-                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Gray900));
 
                         holder.gradientImageView.setImageResource(R.drawable.gra_1);
                         holder.expandLinearLayout.setBackgroundResource(R.color.Gradient1);
                         break;
                     case 2:
                         holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_solid_nero5p);
-                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Gray900));
 
                         holder.gradientImageView.setImageResource(R.drawable.gra_2);
                         holder.expandLinearLayout.setBackgroundResource(R.color.Gradient2);
                         break;
                     case 3:
                         holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_solid_nero5p);
-                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Gray900));
 
                         holder.gradientImageView.setImageResource(R.drawable.gra_3);
                         holder.expandLinearLayout.setBackgroundResource(R.color.Gradient3);
                         break;
                     case 4:
                         holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_solid_nero5p);
-                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Gray900));
 
                         holder.gradientImageView.setImageResource(R.drawable.gra_4);
                         holder.expandLinearLayout.setBackgroundResource(R.color.Gradient4);
                         break;
                     case 5:
                         holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_solid_nero5p);
-                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Gray900));
 
                         holder.gradientImageView.setImageResource(R.drawable.gra_5);
                         holder.expandLinearLayout.setBackgroundResource(R.color.Gradient5);
                         break;
                     case 6:
                         holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_solid_nero5p);
-                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Gray900));
 
                         holder.gradientImageView.setImageResource(R.drawable.gra_6);
                         holder.expandLinearLayout.setBackgroundResource(R.color.Gradient6);
                         break;
                     case 7:
                         holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_solid_nero5p);
-                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Gray900));
 
                         holder.gradientImageView.setImageResource(R.drawable.gra_7);
                         holder.expandLinearLayout.setBackgroundResource(R.color.Gradient7);
                         break;
                     case 8:
                         holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_solid_nero5p);
-                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Gray900));
 
                         holder.gradientImageView.setImageResource(R.drawable.gra_8);
                         holder.expandLinearLayout.setBackgroundResource(R.color.Gradient8);
                         break;
                     case 9:
                         holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_solid_nero5p);
-                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Gray900));
 
                         holder.gradientImageView.setImageResource(R.drawable.gra_9);
                         holder.expandLinearLayout.setBackgroundResource(R.color.Gradient9);
                         break;
                     case 10:
                         holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_solid_nero5p);
-                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Nero));
+                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Gray900));
 
                         holder.gradientImageView.setImageResource(R.drawable.gra_10);
                         holder.expandLinearLayout.setBackgroundResource(R.color.Gradient10);
                         break;
                     case 11:
                         holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_solid_white15p);
-                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Solitude));
+                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Gray50));
 
                         holder.gradientImageView.setImageResource(R.drawable.gra_11);
                         holder.expandLinearLayout.setBackgroundResource(R.color.Gradient11);
                         break;
                     case 12:
                         holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_solid_white15p);
-                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Solitude));
+                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Gray50));
 
                         holder.gradientImageView.setImageResource(R.drawable.gra_12);
                         holder.expandLinearLayout.setBackgroundResource(R.color.Gradient12);
                         break;
                     case 13:
                         holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_solid_white15p);
-                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Solitude));
+                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Gray50));
 
                         holder.gradientImageView.setImageResource(R.drawable.gra_13);
                         holder.expandLinearLayout.setBackgroundResource(R.color.Gradient13);
                         break;
                     case 14:
                         holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_solid_white15p);
-                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Solitude));
+                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Gray50));
 
                         holder.gradientImageView.setImageResource(R.drawable.gra_14);
                         holder.expandLinearLayout.setBackgroundResource(R.color.Gradient14);
                         break;
                     case 15:
                         holder.expandImageView.setBackgroundResource(R.drawable.draw_oval_solid_white15p);
-                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Solitude));
+                        ImageViewCompat.setImageTintList(holder.expandImageView, AppCompatResources.getColorStateList(activity, R.color.Gray50));
 
                         holder.gradientImageView.setImageResource(R.drawable.gra_15);
                         holder.expandLinearLayout.setBackgroundResource(R.color.Gradient15);
@@ -493,7 +493,7 @@ public class CentersAdapter extends RecyclerView.Adapter<CentersAdapter.CentersH
         requestDialogDescription.setText(activity.getResources().getString(R.string.CentersRequestDialogDescription));
         requestDialogPositive = requestDialog.findViewById(R.id.dialog_action_positive_textView);
         requestDialogPositive.setText(activity.getResources().getString(R.string.CentersRequestDialogPositive));
-        requestDialogPositive.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+        requestDialogPositive.setTextColor(activity.getResources().getColor(R.color.Risloo800));
         requestDialogNegative = requestDialog.findViewById(R.id.dialog_action_negative_textView);
         requestDialogNegative.setText(activity.getResources().getString(R.string.CentersRequestDialogNegative));
     }

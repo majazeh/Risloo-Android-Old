@@ -153,7 +153,7 @@ public class CreateUserActivity extends AppCompatActivity {
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
-        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CreateUserTitle));
@@ -367,10 +367,10 @@ public class CreateUserActivity extends AppCompatActivity {
 
         caseCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                caseCheckbox.setTextColor(getResources().getColor(R.color.Nero));
+                caseCheckbox.setTextColor(getResources().getColor(R.color.Gray900));
                 createCase = 1;
             } else {
-                caseCheckbox.setTextColor(getResources().getColor(R.color.Mischka));
+                caseCheckbox.setTextColor(getResources().getColor(R.color.Gray300));
                 createCase = 0;
             }
         });
@@ -576,7 +576,7 @@ public class CreateUserActivity extends AppCompatActivity {
 
                 if (!roomId.equals("")) {
                     roomNameTextView.setText(roomName);
-                    roomNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+                    roomNameTextView.setTextColor(getResources().getColor(R.color.Gray700));
 
                     roomTitleTextView.setText(roomTitle);
                     roomTitleTextView.setVisibility(View.VISIBLE);
@@ -1010,13 +1010,13 @@ public class CreateUserActivity extends AppCompatActivity {
                         positionTitle = model.get("fa_title").toString();
 
                         positionTextView.setText(positionTitle);
-                        positionTextView.setTextColor(getResources().getColor(R.color.Grey));
+                        positionTextView.setTextColor(getResources().getColor(R.color.Gray700));
                     } else if (positionId.equals(model.get("en_title").toString())) {
                         positionId = "";
                         positionTitle = "";
 
                         positionTextView.setText(getResources().getString(R.string.CreateUserPosition));
-                        positionTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        positionTextView.setTextColor(getResources().getColor(R.color.Gray300));
                     }
 
                     positionDialog.dismiss();
@@ -1033,7 +1033,7 @@ public class CreateUserActivity extends AppCompatActivity {
                         roomName = manager.get("name").toString();
 
                         roomNameTextView.setText(roomName);
-                        roomNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+                        roomNameTextView.setTextColor(getResources().getColor(R.color.Gray700));
 
                         JSONObject center = (JSONObject) model.get("center");
                         JSONObject detail = (JSONObject) center.get("detail");
@@ -1047,7 +1047,7 @@ public class CreateUserActivity extends AppCompatActivity {
                         roomTitle = "";
 
                         roomNameTextView.setText(getResources().getString(R.string.CreateCaseRoom));
-                        roomNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        roomNameTextView.setTextColor(getResources().getColor(R.color.Gray300));
 
                         roomTitleTextView.setText(roomTitle);
                         roomTitleTextView.setVisibility(View.GONE);

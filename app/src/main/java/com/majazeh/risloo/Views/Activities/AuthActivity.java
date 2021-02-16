@@ -119,7 +119,7 @@ public class AuthActivity extends AppCompatActivity {
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_bars_light);
-        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
 
@@ -237,7 +237,7 @@ public class AuthActivity extends AppCompatActivity {
             if (authViewModel.getAvatar().equals("")) {
                 avatarCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_light));
             } else {
-                Picasso.get().load(authViewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarCircleImageView);
+                Picasso.get().load(authViewModel.getAvatar()).placeholder(R.color.Gray50).into(avatarCircleImageView);
             }
         } else {
             avatarCircleImageView.setVisibility(View.GONE);
@@ -548,7 +548,7 @@ public class AuthActivity extends AppCompatActivity {
                     if (authViewModel.getAvatar().equals("")) {
                         avatarCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_user_circle_light));
                     } else {
-                        Picasso.get().load(authViewModel.getAvatar()).placeholder(R.color.Solitude).into(avatarCircleImageView);
+                        Picasso.get().load(authViewModel.getAvatar()).placeholder(R.color.Gray50).into(avatarCircleImageView);
                     }
                 }
             }

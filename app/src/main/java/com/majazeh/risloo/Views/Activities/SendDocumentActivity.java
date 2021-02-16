@@ -106,7 +106,7 @@ public class SendDocumentActivity extends AppCompatActivity {
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
-        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.SendDocumentTitle));
@@ -343,7 +343,7 @@ public class SendDocumentActivity extends AppCompatActivity {
                 attachment = pathManager.getLocalPath(this, uri);
 
                 attachmentTextView.setText(StringManager.substring(attachment, '/'));
-                attachmentTextView.setTextColor(getResources().getColor(R.color.Nero));
+                attachmentTextView.setTextColor(getResources().getColor(R.color.Gray900));
 
                 attachmentImageView.setVisibility(View.GONE);
                 suffixTextView.setVisibility(View.VISIBLE);

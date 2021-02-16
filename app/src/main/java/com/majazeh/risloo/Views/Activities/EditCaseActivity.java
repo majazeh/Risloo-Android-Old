@@ -146,7 +146,7 @@ public class EditCaseActivity extends AppCompatActivity {
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
-        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.EditCaseTitle));
@@ -476,7 +476,7 @@ public class EditCaseActivity extends AppCompatActivity {
 
         if (!roomId.equals("")) {
             roomNameTextView.setText(roomName);
-            roomNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+            roomNameTextView.setTextColor(getResources().getColor(R.color.Gray700));
 
             roomTitleTextView.setText(roomTitle);
             roomTitleTextView.setVisibility(View.VISIBLE);
@@ -499,7 +499,7 @@ public class EditCaseActivity extends AppCompatActivity {
 
         if (!complaint.equals("")) {
             complaintEditText.setText(complaint);
-            complaintEditText.setTextColor(getResources().getColor(R.color.Grey));
+            complaintEditText.setTextColor(getResources().getColor(R.color.Gray700));
         }
     }
 
@@ -746,7 +746,7 @@ public class EditCaseActivity extends AppCompatActivity {
                         roomName =manager.get("name").toString();
 
                         roomNameTextView.setText(roomName);
-                        roomNameTextView.setTextColor(getResources().getColor(R.color.Grey));
+                        roomNameTextView.setTextColor(getResources().getColor(R.color.Gray700));
 
                         JSONObject center = (JSONObject) model.get("center");
                         JSONObject detail = (JSONObject) center.get("detail");
@@ -760,7 +760,7 @@ public class EditCaseActivity extends AppCompatActivity {
                         roomTitle = "";
 
                         roomNameTextView.setText(getResources().getString(R.string.EditCaseRoom));
-                        roomNameTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        roomNameTextView.setTextColor(getResources().getColor(R.color.Gray300));
 
                         roomTitleTextView.setText(roomTitle);
                         roomTitleTextView.setVisibility(View.GONE);

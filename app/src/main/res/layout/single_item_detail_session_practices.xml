@@ -18,7 +18,7 @@
         android:gravity="top|right"
         android:textSize="@dimen/_9ssp"
         android:textStyle="bold"
-        android:textColor="@color/Grey"
+        android:textColor="@color/Gray700"
         android:textAlignment="gravity" />
 
     <TextView
@@ -31,7 +31,7 @@
         android:gravity="top|right"
         android:textSize="@dimen/_9ssp"
         android:textStyle="bold"
-        android:textColor="@color/Grey"
+        android:textColor="@color/Gray700"
         android:textAlignment="gravity" />
 
     <TextView
@@ -44,7 +44,7 @@
         android:gravity="top|right"
         android:textSize="@dimen/_9ssp"
         android:textStyle="bold"
-        android:textColor="@color/Grey"
+        android:textColor="@color/Gray700"
         android:textAlignment="gravity" />
 
     <TextView
@@ -58,7 +58,7 @@
         android:gravity="top|right"
         android:textSize="@dimen/_9ssp"
         android:textStyle="bold"
-        android:textColor="@color/Grey"
+        android:textColor="@color/Gray700"
         android:textAlignment="gravity" />
 
     <LinearLayout
@@ -79,7 +79,7 @@
             android:text="@string/DetailSessionPracticeAttachmentDownload"
             android:textSize="@dimen/_8ssp"
             android:textStyle="bold"
-            android:textColor="@color/PrimaryDark"
+            android:textColor="@color/Risloo800"
             android:textAlignment="gravity"
             android:background="@drawable/draw_8sdp_solid_snow_border_quartz"/>
 
@@ -102,7 +102,7 @@
             android:gravity="center"
             android:textSize="@dimen/_8ssp"
             android:textStyle="bold"
-            android:textColor="@color/PrimaryDark"
+            android:textColor="@color/Risloo800"
             android:textAlignment="gravity"
             android:background="@drawable/draw_8sdp_solid_snow_border_quartz"/>
 

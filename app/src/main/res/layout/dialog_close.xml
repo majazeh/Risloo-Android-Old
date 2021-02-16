@@ -29,7 +29,7 @@
             android:text="@string/SampleCloseDialogTitle"
             android:textSize="@dimen/_14ssp"
             android:textStyle="bold"
-            android:textColor="@color/Nero"
+            android:textColor="@color/Gray900"
             android:textAlignment="gravity" />
 
         <TextView
@@ -40,7 +40,7 @@
             android:text="@string/SampleCloseDialogDescription"
             android:textSize="@dimen/_12ssp"
             android:textStyle="normal"
-            android:textColor="@color/Grey"
+            android:textColor="@color/Gray700"
             android:textAlignment="gravity" />
 
         <LinearLayout
@@ -71,7 +71,7 @@
                     android:gravity="center"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/MountainMeadow"
+                    android:textColor="@color/Green500"
                     android:textAlignment="gravity" />
 
                 <TextView
@@ -81,7 +81,7 @@
                     android:text="@string/SampleCloseDialogAnswered"
                     android:textSize="@dimen/_10ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/Mischka"
+                    android:textColor="@color/Gray300"
                     android:textAlignment="gravity" />
 
             </LinearLayout>
@@ -91,7 +91,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/_1sdp"
                 android:layout_marginBottom="@dimen/_1sdp"
-                android:background="@color/Quartz" />
+                android:background="@color/Gray200" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -109,7 +109,7 @@
                     android:gravity="center"
                     android:textSize="@dimen/_12ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/OrangePeel"
+                    android:textColor="@color/Yellow500"
                     android:textAlignment="gravity" />
 
                 <TextView
@@ -119,7 +119,7 @@
                     android:text="@string/SampleCloseDialogUnAnswered"
                     android:textSize="@dimen/_10ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/Mischka"
+                    android:textColor="@color/Gray300"
                     android:textAlignment="gravity" />
 
             </LinearLayout>
@@ -146,7 +146,7 @@
                 android:text="@string/SampleCloseDialogPositive"
                 android:textSize="@dimen/_12ssp"
                 android:textStyle="bold"
-                android:textColor="@color/PrimaryDark"
+                android:textColor="@color/Risloo800"
                 android:textAlignment="gravity" />
 
             <TextView
@@ -162,7 +162,7 @@
                 android:text="@string/SampleCloseDialogNegative"
                 android:textSize="@dimen/_12ssp"
                 android:textStyle="bold"
-                android:textColor="@color/Mischka"
+                android:textColor="@color/Gray300"
                 android:textAlignment="gravity" />
 
         </LinearLayout>

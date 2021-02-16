@@ -60,7 +60,7 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
                 holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solid_snow_border_primary);
             }
 
-            holder.numberTextView.setTextColor(activity.getResources().getColor(R.color.Nero));
+            holder.numberTextView.setTextColor(activity.getResources().getColor(R.color.Gray900));
         } else {
             if (!answers.get(i).equals("")) {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -69,7 +69,7 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
                     holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solid_primary20p);
                 }
 
-                holder.numberTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                holder.numberTextView.setTextColor(activity.getResources().getColor(R.color.Risloo800));
             } else {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                     holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solid_solitude_ripple_quartz);
@@ -77,7 +77,7 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexHolder>
                     holder.numberTextView.setBackgroundResource(R.drawable.draw_oval_solid_solitude);
                 }
 
-                holder.numberTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
+                holder.numberTextView.setTextColor(activity.getResources().getColor(R.color.Gray300));
             }
         }
 

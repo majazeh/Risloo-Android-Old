@@ -125,7 +125,7 @@ public class CreateReportActivity extends AppCompatActivity {
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
-        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CreateReportTitle));
@@ -232,7 +232,7 @@ public class CreateReportActivity extends AppCompatActivity {
                     description = sessionViewModel.encrypt(descriptionEditText.getText().toString().trim(), authViewModel.getPublicKey());
 
                     descriptionEditText.setText(description);
-                    descriptionEditText.setTextColor(getResources().getColor(R.color.Grey));
+                    descriptionEditText.setTextColor(getResources().getColor(R.color.Gray700));
 
                     descriptionEditText.setEnabled(false);
                     descriptionEditText.setFocusableInTouchMode(false);
@@ -295,12 +295,12 @@ public class CreateReportActivity extends AppCompatActivity {
 
         if (!description.equals("")) {
             descriptionEditText.setText(description);
-            descriptionEditText.setTextColor(getResources().getColor(R.color.Grey));
+            descriptionEditText.setTextColor(getResources().getColor(R.color.Gray700));
         }
 
         if (!encryptionId.equals("")) {
             encryptionTextView.setText(encryptionTitle);
-            encryptionTextView.setTextColor(getResources().getColor(R.color.Grey));
+            encryptionTextView.setTextColor(getResources().getColor(R.color.Gray700));
         }
     }
 
@@ -412,13 +412,13 @@ public class CreateReportActivity extends AppCompatActivity {
                         encryptionTitle = model.get("fa_title").toString();
 
                         encryptionTextView.setText(encryptionTitle);
-                        encryptionTextView.setTextColor(getResources().getColor(R.color.Grey));
+                        encryptionTextView.setTextColor(getResources().getColor(R.color.Gray700));
                     } else if (encryptionTitle.equals(model.get("en_title").toString())) {
                         encryptionId = "";
                         encryptionTitle = "";
 
                         encryptionTextView.setText(getResources().getString(R.string.CreateReportEncryption));
-                        encryptionTextView.setTextColor(getResources().getColor(R.color.Mischka));
+                        encryptionTextView.setTextColor(getResources().getColor(R.color.Gray300));
                     }
 
                     if (encryptionId.equals("publicKey")) {

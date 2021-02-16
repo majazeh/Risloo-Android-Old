@@ -495,13 +495,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
         switch (widget) {
             case "textView":
                 if (inputValue.equals(outputValue)) {
-                    textView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                    textView.setTextColor(activity.getResources().getColor(R.color.Risloo800));
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
                         itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
                     else
                         itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
                 } else {
-                    textView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                    textView.setTextColor(activity.getResources().getColor(R.color.Gray700));
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
                         itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz);
                     else
@@ -510,13 +510,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
                 break;
             case "recyclerView":
                 if (inputList.contains(outputValue)) {
-                    textView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+                    textView.setTextColor(activity.getResources().getColor(R.color.Risloo800));
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
                         itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p_ripple_primary);
                     else
                         itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_primary5p);
                 } else {
-                    textView.setTextColor(activity.getResources().getColor(R.color.Grey));
+                    textView.setTextColor(activity.getResources().getColor(R.color.Gray700));
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP)
                         itemView.setBackgroundResource(R.drawable.draw_rectangle_solid_solitude_ripple_quartz);
                     else

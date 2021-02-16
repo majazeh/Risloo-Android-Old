@@ -105,8 +105,8 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
                 switch (model.get("status").toString()) {
                     case "seald":
                         holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusSeald));
-                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Risloo800));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Risloo800));
 
                         if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.startSample(model)) {
                             holder.startTextView.setVisibility(View.VISIBLE);
@@ -117,8 +117,8 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
 
                     case "open":
                         holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusOpen));
-                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Risloo800));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Risloo800));
 
                         if (((SamplesActivity) Objects.requireNonNull(activity)).authViewModel.startSample(model)) {
                             holder.startTextView.setVisibility(View.VISIBLE);
@@ -129,40 +129,40 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
 
                     case "closed":
                         holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusClosed));
-                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
-                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.PrimaryDark));
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Risloo800));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Risloo800));
 
                         holder.startTextView.setVisibility(View.INVISIBLE);
                         break;
 
                     case "scoring":
                         holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusScoring));
-                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.OrangePeel));
-                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.OrangePeel));
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Yellow500));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Yellow500));
 
                         holder.startTextView.setVisibility(View.INVISIBLE);
                         break;
 
                     case "craeting_files":
                         holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusCreatingFiles));
-                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.OrangePeel));
-                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.OrangePeel));
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Yellow500));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Yellow500));
 
                         holder.startTextView.setVisibility(View.INVISIBLE);
                         break;
 
                     case "done":
                         holder.statusTextView.setText(activity.getResources().getString(R.string.SamplesStatusDone));
-                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
-                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Mischka));
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Gray300));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Gray300));
 
                         holder.startTextView.setVisibility(View.INVISIBLE);
                         break;
 
                     default:
                         holder.statusTextView.setText(model.get("status").toString());
-                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Mischka));
-                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Mischka));
+                        holder.statusTextView.setTextColor(activity.getResources().getColor(R.color.Gray300));
+                        ImageViewCompat.setImageTintList(holder.statusImageView, AppCompatResources.getColorStateList(activity, R.color.Gray300));
 
                         holder.startTextView.setVisibility(View.INVISIBLE);
                         break;
@@ -216,11 +216,11 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
                     JSONObject avatar = manager.getJSONObject("avatar");
                     JSONObject medium = avatar.getJSONObject("medium");
 
-                    Picasso.get().load(medium.get("url").toString()).placeholder(R.color.Solitude).into(holder.roomAvatarImageView);
+                    Picasso.get().load(medium.get("url").toString()).placeholder(R.color.Gray50).into(holder.roomAvatarImageView);
 
                     holder.roomSubTitleTextView.setVisibility(View.GONE);
                 } else {
-                    Picasso.get().load(R.color.Solitude).placeholder(R.color.Solitude).into(holder.roomAvatarImageView);
+                    Picasso.get().load(R.color.Gray50).placeholder(R.color.Gray50).into(holder.roomAvatarImageView);
 
                     holder.roomSubTitleTextView.setVisibility(View.VISIBLE);
                     holder.roomSubTitleTextView.setText(StringManager.firstChars(holder.roomTitleTextView.getText().toString()));
@@ -305,7 +305,7 @@ public class SamplesAdapter extends RecyclerView.Adapter<SamplesAdapter.SamplesH
         startDialogDescription.setText(activity.getResources().getString(R.string.SamplesStartDialogDescription));
         startDialogPositive = startDialog.findViewById(R.id.dialog_action_positive_textView);
         startDialogPositive.setText(activity.getResources().getString(R.string.SamplesStartDialogPositive));
-        startDialogPositive.setTextColor(activity.getResources().getColor(R.color.PrimaryDark));
+        startDialogPositive.setTextColor(activity.getResources().getColor(R.color.Risloo800));
         startDialogNegative = startDialog.findViewById(R.id.dialog_action_negative_textView);
         startDialogNegative.setText(activity.getResources().getString(R.string.SamplesStartDialogNegative));
     }

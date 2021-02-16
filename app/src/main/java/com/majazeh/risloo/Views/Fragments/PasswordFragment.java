@@ -147,13 +147,13 @@ public class PasswordFragment extends Fragment {
                 passwordVisibility = true;
                 passwordImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_eye_light));
 
-                ImageViewCompat.setImageTintList(passwordImageView, AppCompatResources.getColorStateList(activity, R.color.Primary));
+                ImageViewCompat.setImageTintList(passwordImageView, AppCompatResources.getColorStateList(activity, R.color.Risloo500));
                 passwordEditText.setTransformationMethod(null);
             } else {
                 passwordVisibility = false;
                 passwordImageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_eye_slash_light));
 
-                ImageViewCompat.setImageTintList(passwordImageView, AppCompatResources.getColorStateList(activity, R.color.Mischka));
+                ImageViewCompat.setImageTintList(passwordImageView, AppCompatResources.getColorStateList(activity, R.color.Gray300));
                 passwordEditText.setTransformationMethod(new PasswordTransformationMethod());
             }
         });
@@ -176,7 +176,7 @@ public class PasswordFragment extends Fragment {
 
             @Override
             public void updateDrawState(@NonNull TextPaint textPaint) {
-                textPaint.setColor(getResources().getColor(R.color.PrimaryDark));
+                textPaint.setColor(getResources().getColor(R.color.Risloo800));
                 textPaint.setUnderlineText(false);
             }
         };

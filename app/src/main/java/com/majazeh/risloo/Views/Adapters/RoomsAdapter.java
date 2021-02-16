@@ -109,11 +109,11 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomsHolder>
                 imageIntent.putExtra("bitmap", false);
                 imageIntent.putExtra("image", medium.getString("url"));
 
-                Picasso.get().load(medium.get("url").toString()).placeholder(R.color.Solitude).into(holder.avatarImageView);
+                Picasso.get().load(medium.get("url").toString()).placeholder(R.color.Gray50).into(holder.avatarImageView);
 
                 holder.subTitleTextView.setVisibility(View.GONE);
             } else {
-                Picasso.get().load(R.color.Solitude).placeholder(R.color.Solitude).into(holder.avatarImageView);
+                Picasso.get().load(R.color.Gray50).placeholder(R.color.Gray50).into(holder.avatarImageView);
 
                 holder.subTitleTextView.setVisibility(View.VISIBLE);
                 holder.subTitleTextView.setText(StringManager.firstChars(manager.get("name").toString()));

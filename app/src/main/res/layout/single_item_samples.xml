@@ -25,7 +25,7 @@
             android:gravity="right"
             android:textSize="@dimen/_14ssp"
             android:textStyle="bold"
-            android:textColor="@color/Nero"
+            android:textColor="@color/Gray900"
             android:textAlignment="gravity" />
 
         <TextView
@@ -35,7 +35,7 @@
             android:gravity="right"
             android:textSize="@dimen/_11ssp"
             android:textStyle="bold"
-            android:textColor="@color/Grey"
+            android:textColor="@color/Gray700"
             android:textAlignment="gravity" />
 
         <View
@@ -43,7 +43,7 @@
             android:layout_height="@dimen/_1sdp"
             android:layout_marginTop="@dimen/_8sdp"
             android:layout_marginBottom="@dimen/_8sdp"
-            android:background="@color/Quartz" />
+            android:background="@color/Gray200" />
 
         <LinearLayout
             android:id="@+id/single_item_samples_room_linearLayout"
@@ -64,7 +64,7 @@
                     android:layout_gravity="center"
                     android:contentDescription="@string/AppImageContent"
                     android:src="@drawable/ic_room_light"
-                    app:tint="@color/Mischka" />
+                    app:tint="@color/Gray300" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                     android:text="@string/SamplesRoom"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="normal"
-                    android:textColor="@color/Mischka"
+                    android:textColor="@color/Gray300"
                     android:textAlignment="gravity" />
 
             </LinearLayout>
@@ -104,7 +104,7 @@
                         android:visibility="gone"
                         android:textSize="@dimen/_12ssp"
                         android:textStyle="bold"
-                        android:textColor="@color/Grey"
+                        android:textColor="@color/Gray700"
                         android:textAlignment="gravity"/>
 
                 </FrameLayout>
@@ -124,7 +124,7 @@
                         android:gravity="right"
                         android:textSize="@dimen/_11ssp"
                         android:textStyle="bold"
-                        android:textColor="@color/Grey"
+                        android:textColor="@color/Gray700"
                         android:textAlignment="gravity"/>
 
                     <TextView
@@ -135,7 +135,7 @@
                         android:gravity="right"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="bold"
-                        android:textColor="@color/Mischka"
+                        android:textColor="@color/Gray300"
                         android:textAlignment="gravity" />
 
                 </LinearLayout>
@@ -171,7 +171,7 @@
                         android:layout_marginLeft="@dimen/_4sdp"
                         android:layout_gravity="center"
                         android:contentDescription="@string/AppImageContent"
-                        app:tint="@color/Mischka" />
+                        app:tint="@color/Gray300" />
 
                     <TextView
                         android:id="@+id/single_item_samples_reference_hint_textView"
@@ -180,7 +180,7 @@
                         android:gravity="center|right"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal"
-                        android:textColor="@color/Mischka"
+                        android:textColor="@color/Gray300"
                         android:textAlignment="gravity" />
 
                 </LinearLayout>
@@ -192,7 +192,7 @@
                     android:gravity="center|right"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/Grey"
+                    android:textColor="@color/Gray700"
                     android:textAlignment="gravity" />
 
             </LinearLayout>
@@ -217,7 +217,7 @@
                         android:layout_gravity="center"
                         android:contentDescription="@string/AppImageContent"
                         android:src="@drawable/ic_case_light"
-                        app:tint="@color/Mischka" />
+                        app:tint="@color/Gray300" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -226,7 +226,7 @@
                         android:text="@string/SamplesCase"
                         android:textSize="@dimen/_9ssp"
                         android:textStyle="normal"
-                        android:textColor="@color/Mischka"
+                        android:textColor="@color/Gray300"
                         android:textAlignment="gravity" />
 
                 </LinearLayout>
@@ -238,7 +238,7 @@
                     android:gravity="center|right"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/Grey"
+                    android:textColor="@color/Gray700"
                     android:textAlignment="gravity" />
 
             </LinearLayout>
@@ -295,7 +295,7 @@
                     android:gravity="right|center"
                     android:textSize="@dimen/_9ssp"
                     android:textStyle="bold"
-                    android:textColor="@color/Mischka"
+                    android:textColor="@color/Gray300"
                     android:textAlignment="gravity" />
 
             </LinearLayout>

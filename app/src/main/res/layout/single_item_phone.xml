@@ -13,6 +13,6 @@
     android:gravity="right"
     android:textSize="@dimen/_9ssp"
     android:textStyle="bold"
-    android:textColor="@color/Grey"
+    android:textColor="@color/Gray700"
     android:textAlignment="gravity"
     android:background="@drawable/draw_4sdp_solid_white" />

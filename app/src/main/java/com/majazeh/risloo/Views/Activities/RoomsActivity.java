@@ -127,13 +127,13 @@ public class RoomsActivity extends AppCompatActivity {
 
         toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
-        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
         toolbarCreateImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
         toolbarCreateImageView.setImageResource(R.drawable.ic_plus_light);
-        ImageViewCompat.setImageTintList(toolbarCreateImageView, AppCompatResources.getColorStateList(this, R.color.MountainMeadow));
+        ImageViewCompat.setImageTintList(toolbarCreateImageView, AppCompatResources.getColorStateList(this, R.color.Green500));
         toolbarSearchImageView = findViewById(R.id.layout_toolbar_thirdly_imageView);
         toolbarSearchImageView.setImageResource(R.drawable.ic_search_light);
-        ImageViewCompat.setImageTintList(toolbarSearchImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+        ImageViewCompat.setImageTintList(toolbarSearchImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
         toolbarTextView = findViewById(R.id.layout_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.RoomsTitle));
@@ -173,7 +173,7 @@ public class RoomsActivity extends AppCompatActivity {
         searchDialogInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
         searchDialogPositive = searchDialog.findViewById(R.id.dialog_type_positive_textView);
         searchDialogPositive.setText(getResources().getString(R.string.ScalesSearchDialogPositive));
-        searchDialogPositive.setTextColor(getResources().getColor(R.color.PrimaryDark));
+        searchDialogPositive.setTextColor(getResources().getColor(R.color.Risloo800));
         searchDialogNegative = searchDialog.findViewById(R.id.dialog_type_negative_textView);
         searchDialogNegative.setText(getResources().getString(R.string.ScalesSearchDialogNegative));
     }
@@ -291,7 +291,7 @@ public class RoomsActivity extends AppCompatActivity {
 
             @Override
             public void updateDrawState(@NonNull TextPaint textPaint) {
-                textPaint.setColor(getResources().getColor(R.color.PrimaryDark));
+                textPaint.setColor(getResources().getColor(R.color.Risloo800));
                 textPaint.setUnderlineText(false);
             }
         };
@@ -394,13 +394,13 @@ public class RoomsActivity extends AppCompatActivity {
                 searchLayout.setVisibility(View.GONE);
 
                 toolbarSearchImageView.setImageResource(R.drawable.ic_search_light);
-                ImageViewCompat.setImageTintList(toolbarSearchImageView, AppCompatResources.getColorStateList(this, R.color.Nero));
+                ImageViewCompat.setImageTintList(toolbarSearchImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
             } else {
                 if (searchLayout.getVisibility() == View.GONE) {
                     searchLayout.setVisibility(View.VISIBLE);
 
                     toolbarSearchImageView.setImageResource(R.drawable.ic_search_solid);
-                    ImageViewCompat.setImageTintList(toolbarSearchImageView, AppCompatResources.getColorStateList(this, R.color.PrimaryDark));
+                    ImageViewCompat.setImageTintList(toolbarSearchImageView, AppCompatResources.getColorStateList(this, R.color.Risloo800));
                 }
             }
         }

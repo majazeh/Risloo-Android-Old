@@ -188,7 +188,7 @@ public class SampleActivity extends AppCompatActivity {
         cancelDialogDescription.setText(getResources().getString(R.string.SampleCancelDialogDescription));
         cancelDialogPositive = cancelDialog.findViewById(R.id.dialog_action_positive_textView);
         cancelDialogPositive.setText(getResources().getString(R.string.SampleCancelDialogPositive));
-        cancelDialogPositive.setTextColor(getResources().getColor(R.color.CoralRed));
+        cancelDialogPositive.setTextColor(getResources().getColor(R.color.Red500));
         cancelDialogNegative = cancelDialog.findViewById(R.id.dialog_action_negative_textView);
         cancelDialogNegative.setText(getResources().getString(R.string.SampleCancelDialogNegative));
     }
@@ -214,7 +214,7 @@ public class SampleActivity extends AppCompatActivity {
 
             @Override
             public void updateDrawState(@NonNull TextPaint textPaint) {
-                textPaint.setColor(getResources().getColor(R.color.PrimaryDark));
+                textPaint.setColor(getResources().getColor(R.color.Risloo800));
                 textPaint.setUnderlineText(false);
             }
         };

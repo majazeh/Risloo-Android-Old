@@ -25,7 +25,7 @@
         android:layout_marginLeft="@dimen/_4sdp"
         android:contentDescription="@string/AppImageContent"
         android:src="@drawable/ic_times"
-        app:tint="@color/CoralRed"/>
+        app:tint="@color/Red500"/>
 
     <FrameLayout
         android:id="@+id/single_item_spinner_avatar_frameLayout"
@@ -46,7 +46,7 @@
             android:visibility="gone"
             android:textSize="@dimen/_9ssp"
             android:textStyle="bold"
-            android:textColor="@color/Grey"
+            android:textColor="@color/Gray700"
             android:textAlignment="gravity"/>
 
     </FrameLayout>
@@ -63,7 +63,7 @@
             android:gravity="right"
             android:textSize="@dimen/_9ssp"
             android:textStyle="bold"
-            android:textColor="@color/Grey"
+            android:textColor="@color/Gray700"
             android:textAlignment="gravity" />
 
         <TextView
@@ -75,7 +75,7 @@
             android:gravity="right"
             android:textSize="@dimen/_7ssp"
             android:textStyle="normal"
-            android:textColor="@color/Mischka"
+            android:textColor="@color/Gray300"
             android:textAlignment="gravity" />
 
     </LinearLayout>
