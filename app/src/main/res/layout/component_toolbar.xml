@@ -1,65 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_toolbar_linearLayout"
+    android:id="@+id/component_toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:layout_gravity="top"
-    tools:ignore="RtlHardcoded">
+    android:layout_gravity="center"
+    android:layoutDirection="rtl"
+    tools:background="@color/Gray50">
 
     <ImageView
-        android:id="@+id/layout_toolbar_primary_imageView"
+        android:id="@+id/component_toolbar_primary_imageView"
         android:layout_width="@dimen/_28sdp"
         android:layout_height="@dimen/_28sdp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/_6sdp"
+        android:layout_marginStart="@dimen/_6sdp"
         android:contentDescription="@string/AppImageContent"
-        android:padding="@dimen/_6sdp" />
+        android:padding="@dimen/_6sdp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/component_toolbar_textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/icon_angle_right_light"
+        tools:tint="@color/Gray500"/>
 
     <TextView
-        android:id="@+id/layout_toolbar_textView"
-        android:layout_width="match_parent"
+        android:id="@+id/component_toolbar_textView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/layout_toolbar_primary_imageView"
-        android:layout_toRightOf="@id/layout_toolbar_option_linearLayout"
-        android:layout_marginRight="@dimen/_12sdp"
-        android:layout_marginLeft="@dimen/_6sdp"
-        android:textSize="@dimen/_14ssp"
-        android:textStyle="bold"
-        android:textColor="@color/Gray900"
-        android:textAlignment="gravity" />
+        android:layout_marginEnd="@dimen/_6sdp"
+        android:layout_marginStart="@dimen/_6sdp"
+        android:gravity="start"
+        android:textSize="@dimen/_12ssp"
+        android:textStyle="normal"
+        android:textColor="@color/Gray700"
+        android:textAlignment="gravity"
+        android:fontFamily="@font/dana_demi_bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/component_toolbar_thirdly_imageView"
+        app:layout_constraintStart_toEndOf="@+id/component_toolbar_primary_imageView"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="عنوان"/>
 
-    <LinearLayout
-        android:id="@+id/layout_toolbar_option_linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:orientation="horizontal"
-        android:layoutDirection="ltr">
+    <ImageView
+        android:id="@+id/component_toolbar_secondary_imageView"
+        android:layout_width="@dimen/_28sdp"
+        android:layout_height="@dimen/_28sdp"
+        android:layout_marginEnd="@dimen/_6sdp"
+        android:contentDescription="@string/AppImageContent"
+        android:padding="@dimen/_6sdp"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/component_toolbar_thirdly_imageView"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
-        <ImageView
-            android:id="@+id/layout_toolbar_secondary_imageView"
-            android:layout_width="@dimen/_28sdp"
-            android:layout_height="@dimen/_28sdp"
-            android:layout_marginLeft="@dimen/_6sdp"
-            android:contentDescription="@string/AppImageContent"
-            android:padding="@dimen/_5sdp"
-            android:visibility="gone"/>
+    <ImageView
+        android:id="@+id/component_toolbar_thirdly_imageView"
+        android:layout_width="@dimen/_28sdp"
+        android:layout_height="@dimen/_28sdp"
+        android:layout_marginEnd="@dimen/_6sdp"
+        android:contentDescription="@string/AppImageContent"
+        android:padding="@dimen/_6sdp"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/component_toolbar_secondary_imageView"
+        app:layout_constraintStart_toEndOf="@+id/component_toolbar_textView"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
-        <ImageView
-            android:id="@+id/layout_toolbar_thirdly_imageView"
-            android:layout_width="@dimen/_28sdp"
-            android:layout_height="@dimen/_28sdp"
-            android:layout_marginLeft="@dimen/_6sdp"
-            android:contentDescription="@string/AppImageContent"
-            android:padding="@dimen/_6sdp"
-            android:visibility="gone"/>
-
-    </LinearLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

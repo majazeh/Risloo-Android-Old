@@ -6,157 +6,215 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
-    android:background="@color/White"
     android:fitsSystemWindows="true"
+    android:background="@color/White"
     android:focusable="true"
     android:focusableInTouchMode="true"
     tools:context=".Views.Activities.AccountActivity">
 
     <include
-        android:id="@+id/account_toolbar"
+        android:id="@+id/activity_account_toolbar"
         layout="@layout/component_toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/account_top_view"
+        android:id="@+id/activity_account_top_view"
         android:layout_width="0dp"
         android:layout_height="@dimen/_1sdp"
         android:background="@color/Gray200"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_account_toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/account_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_account_toolbar" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/account_cardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_24sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        app:cardBackgroundColor="@color/Snow"
-        app:cardCornerRadius="@dimen/_16sdp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/account_top_view">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/account_constraintLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/account_avatar_circleImageView"
-                android:layout_width="@dimen/_64sdp"
-                android:layout_height="@dimen/_64sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                app:civ_border_color="@color/White"
-                app:civ_border_width="@dimen/_4sdp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/account_name_textView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:gravity="start"
-                android:textSize="@dimen/_14ssp"
-                android:textStyle="bold"
-                android:textColor="@color/Risloo800"
-                android:textAlignment="gravity"
-                app:layout_constraintStart_toEndOf="@+id/account_avatar_circleImageView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/account_avatar_circleImageView" />
-
-            <TextView
-                android:id="@+id/account_edit_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_24sdp"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:layout_marginStart="@dimen/_12sdp"
-                android:paddingLeft="@dimen/_8sdp"
-                android:paddingRight="@dimen/_8sdp"
-                android:gravity="center"
-                android:text="@string/AccountEdit"
-                android:textSize="@dimen/_8ssp"
-                android:textStyle="bold"
-                android:textColor="@color/Gray300"
-                android:textAlignment="gravity"
-                android:background="@drawable/draw_8sdp_solid_snow_border_quartz"
-                app:layout_constraintStart_toEndOf="@+id/account_avatar_circleImageView"
-                app:layout_constraintTop_toBottomOf="@+id/account_name_textView" />
-
-            <TextView
-                android:id="@+id/account_logout_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_24sdp"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:paddingLeft="@dimen/_8sdp"
-                android:paddingRight="@dimen/_8sdp"
-                android:gravity="center"
-                android:text="@string/AccountLogOut"
-                android:textSize="@dimen/_8ssp"
-                android:textStyle="bold"
-                android:textColor="@color/Gray300"
-                android:textAlignment="gravity"
-                android:background="@drawable/draw_8sdp_solid_snow_border_quartz"
-                app:layout_constraintBottom_toBottomOf="@+id/account_edit_textView"
-                app:layout_constraintStart_toEndOf="@+id/account_edit_textView"
-                app:layout_constraintTop_toTopOf="@+id/account_edit_textView" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <View
-        android:id="@+id/account_center_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_2sdp"
-        android:layout_gravity="center"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_24sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:background="@color/Gray50"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/account_cardView" />
-
-    <TextView
-        android:id="@+id/account_info_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_28sdp"
-        android:paddingLeft="@dimen/_6sdp"
-        android:paddingRight="@dimen/_6sdp"
-        android:gravity="center"
-        android:text="@string/AccountInfo"
-        android:textSize="@dimen/_11ssp"
-        android:textStyle="bold"
-        android:textColor="@color/Gray900"
-        android:textAlignment="gravity"
-        android:background="@color/White"
-        app:layout_constraintBottom_toBottomOf="@+id/account_center_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/account_center_view" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/account_recyclerView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/activity_account_constraintLayout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:overScrollMode="never"
-        app:layout_constraintBottom_toTopOf="@+id/account_bottom_view"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:paddingBottom="@dimen/_12sdp"
+        android:background="@drawable/draw_2sdp_border_gray200"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/account_info_textView" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_account_top_view">
+
+        <ImageView
+            android:id="@+id/activity_account_background_imageView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_64sdp"
+            android:layout_margin="@dimen/_1sdp"
+            android:contentDescription="@string/AppImageContent"
+            android:scaleType="fitCenter"
+            android:background="@drawable/draw_gra_2sdp_blue200_and_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/activity_account_avatar_circleImageView"
+            layout="@layout/component_avatar_big"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/activity_account_background_imageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_account_background_imageView" />
+
+        <include
+            android:id="@+id/activity_account_enter_imageView"
+            layout="@layout/component_button_oval_mid"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/activity_account_avatar_circleImageView"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <include
+            android:id="@+id/activity_account_edit_textView"
+            layout="@layout/component_button_mid"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_marginEnd="@dimen/_6sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/activity_account_enter_imageView"
+            app:layout_constraintEnd_toStartOf="@+id/activity_account_enter_imageView"
+            app:layout_constraintTop_toTopOf="@+id/activity_account_enter_imageView" />
+
+        <TextView
+            android:id="@+id/activity_account_name_textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:gravity="start"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="normal"
+            android:textColor="@color/Gray900"
+            android:textAlignment="gravity"
+            android:fontFamily="@font/dana_bold"
+            app:layout_constraintStart_toStartOf="@+id/activity_account_avatar_circleImageView"
+            app:layout_constraintTop_toBottomOf="@+id/activity_account_avatar_circleImageView"
+            tools:text="نام و نام خانوادگی" />
+
+        <ImageView
+            android:id="@+id/activity_account_name_imageView"
+            android:layout_width="@dimen/_14sdp"
+            android:layout_height="@dimen/_14sdp"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:contentDescription="@string/AppImageContent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_badge_check_solid"
+            app:layout_constraintBottom_toBottomOf="@+id/activity_account_name_textView"
+            app:layout_constraintStart_toEndOf="@+id/activity_account_name_textView"
+            app:layout_constraintTop_toTopOf="@+id/activity_account_name_textView"
+            app:tint="@color/Blue500" />
+
+        <TextView
+            android:id="@+id/activity_account_username_textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:gravity="start"
+            android:textSize="@dimen/_10ssp"
+            android:textStyle="normal"
+            android:textColor="@color/Gray600"
+            android:textAlignment="gravity"
+            android:fontFamily="@font/dana_regular"
+            app:layout_constraintStart_toStartOf="@+id/activity_account_avatar_circleImageView"
+            app:layout_constraintTop_toBottomOf="@+id/activity_account_name_textView"
+            tools:text="شناسه کاربری" />
+
+        <ImageView
+            android:id="@+id/activity_account_birthday_imageView"
+            android:layout_width="@dimen/_14sdp"
+            android:layout_height="@dimen/_14sdp"
+            android:contentDescription="@string/AppImageContent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_calendar_alt_light"
+            app:layout_constraintBottom_toBottomOf="@+id/activity_account_birthday_textView"
+            app:layout_constraintStart_toStartOf="@+id/activity_account_username_textView"
+            app:layout_constraintTop_toTopOf="@+id/activity_account_birthday_textView"
+            app:tint="@color/Gray500" />
+
+        <TextView
+            android:id="@+id/activity_account_birthday_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:gravity="center"
+            android:textSize="@dimen/_10ssp"
+            android:textStyle="normal"
+            android:textColor="@color/Gray600"
+            android:textAlignment="gravity"
+            android:fontFamily="@font/dana_regular"
+            app:layout_constraintStart_toEndOf="@+id/activity_account_birthday_imageView"
+            app:layout_constraintTop_toBottomOf="@+id/activity_account_username_textView"
+            tools:text="تاریخ تولد" />
+
+        <ImageView
+            android:id="@+id/activity_account_mobile_imageView"
+            android:layout_width="@dimen/_14sdp"
+            android:layout_height="@dimen/_14sdp"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:contentDescription="@string/AppImageContent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_phone_alt_light"
+            app:layout_constraintBottom_toBottomOf="@+id/activity_account_mobile_textView"
+            app:layout_constraintStart_toEndOf="@+id/activity_account_birthday_textView"
+            app:layout_constraintTop_toTopOf="@+id/activity_account_mobile_textView"
+            app:tint="@color/Gray500" />
+
+        <TextView
+            android:id="@+id/activity_account_mobile_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:gravity="center"
+            android:textSize="@dimen/_10ssp"
+            android:textStyle="normal"
+            android:textColor="@color/Gray600"
+            android:textAlignment="gravity"
+            android:fontFamily="@font/dana_regular"
+            app:layout_constraintBottom_toBottomOf="@+id/activity_account_birthday_textView"
+            app:layout_constraintStart_toEndOf="@+id/activity_account_mobile_imageView"
+            app:layout_constraintTop_toTopOf="@+id/activity_account_birthday_textView"
+            tools:text="شماره همراه" />
+
+        <ImageView
+            android:id="@+id/activity_account_email_imageView"
+            android:layout_width="@dimen/_14sdp"
+            android:layout_height="@dimen/_14sdp"
+            android:contentDescription="@string/AppImageContent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_envelope_light"
+            app:layout_constraintBottom_toBottomOf="@+id/activity_account_email_textView"
+            app:layout_constraintStart_toStartOf="@+id/activity_account_birthday_imageView"
+            app:layout_constraintTop_toTopOf="@+id/activity_account_email_textView"
+            app:tint="@color/Gray500" />
+
+        <TextView
+            android:id="@+id/activity_account_email_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_marginStart="@dimen/_6sdp"
+            android:gravity="center"
+            android:textSize="@dimen/_10ssp"
+            android:textStyle="normal"
+            android:textColor="@color/Gray600"
+            android:textAlignment="gravity"
+            android:fontFamily="@font/dana_regular"
+            app:layout_constraintStart_toEndOf="@+id/activity_account_email_imageView"
+            app:layout_constraintTop_toBottomOf="@+id/activity_account_birthday_textView"
+            tools:text="ایمیل" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
-        android:id="@+id/account_bottom_view"
+        android:id="@+id/activity_account_bottom_view"
         android:layout_width="0dp"
         android:layout_height="@dimen/_1sdp"
         android:background="@color/Gray200"

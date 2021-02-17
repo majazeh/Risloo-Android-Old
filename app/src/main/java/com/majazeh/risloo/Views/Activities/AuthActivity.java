@@ -3,6 +3,7 @@ package com.majazeh.risloo.Views.Activities;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.core.widget.ImageViewCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -67,7 +68,7 @@ public class AuthActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private FrameLayout navigationFooter;
-    private RelativeLayout toolbarLayout;
+    private ConstraintLayout toolbarLayout;
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
     private CircleImageView avatarCircleImageView;
@@ -115,13 +116,13 @@ public class AuthActivity extends AppCompatActivity {
 
         navigationFooter = navigationView.findViewById(R.id.activity_auth_footer);
 
-        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout = findViewById(R.id.component_toolbar);
 
-        toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
+        toolbarImageView = findViewById(R.id.component_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_bars_light);
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
-        toolbarTextView = findViewById(R.id.layout_toolbar_textView);
+        toolbarTextView = findViewById(R.id.component_toolbar_textView);
 
         avatarCircleImageView = findViewById(R.id.activity_auth_avatar_circleImageView);
 

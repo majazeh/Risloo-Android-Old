@@ -2,6 +2,7 @@ package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,7 +35,7 @@ public class AboutUsActivity extends AppCompatActivity {
     private Handler handler;
 
     // Widgets
-    private RelativeLayout toolbarLayout;
+    private ConstraintLayout toolbarLayout;
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
     private RecyclerView aboutUsRecyclerView;
@@ -73,11 +74,11 @@ public class AboutUsActivity extends AppCompatActivity {
         toolbarLayout = findViewById(R.id.about_us_toolbar);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
 
-        toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
+        toolbarImageView = findViewById(R.id.component_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
-        toolbarTextView = findViewById(R.id.layout_toolbar_textView);
+        toolbarTextView = findViewById(R.id.component_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.AboutUsTitle));
 
         aboutUsRecyclerView = findViewById(R.id.about_us_recyclerView);

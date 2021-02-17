@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
@@ -70,7 +71,7 @@ public class DetailCaseActivity extends AppCompatActivity {
     private ClickableSpan retrySpan;
 
     // Widgets
-    private RelativeLayout toolbarLayout;
+    private ConstraintLayout toolbarLayout;
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
     private FrameLayout mainLayout;
@@ -120,14 +121,14 @@ public class DetailCaseActivity extends AppCompatActivity {
         extras = getIntent().getExtras();
         caseId = Objects.requireNonNull(extras).getString("id");
 
-        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout = findViewById(R.id.component_toolbar);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
 
-        toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
+        toolbarImageView = findViewById(R.id.component_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
-        toolbarTextView = findViewById(R.id.layout_toolbar_textView);
+        toolbarTextView = findViewById(R.id.component_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.DetailCaseTitle));
 
         mainLayout = findViewById(R.id.activity_detail_case_mainLayout);

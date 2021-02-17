@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
@@ -67,7 +68,7 @@ public class ScalesActivity extends AppCompatActivity {
     private ClickableSpan retrySpan;
 
     // Widgets
-    private RelativeLayout toolbarLayout;
+    private ConstraintLayout toolbarLayout;
     private ImageView toolbarImageView, toolbarSearchImageView;
     private TextView toolbarTextView;
     private LinearLayout searchLayout;
@@ -117,17 +118,17 @@ public class ScalesActivity extends AppCompatActivity {
 
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
-        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout = findViewById(R.id.component_toolbar);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
 
-        toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
+        toolbarImageView = findViewById(R.id.component_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
-        toolbarSearchImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
+        toolbarSearchImageView = findViewById(R.id.component_toolbar_secondary_imageView);
         toolbarSearchImageView.setImageResource(R.drawable.ic_search_light);
         ImageViewCompat.setImageTintList(toolbarSearchImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
-        toolbarTextView = findViewById(R.id.layout_toolbar_textView);
+        toolbarTextView = findViewById(R.id.component_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.ScalesTitle));
 
         searchLayout = findViewById(R.id.activity_scales_searchLayout);

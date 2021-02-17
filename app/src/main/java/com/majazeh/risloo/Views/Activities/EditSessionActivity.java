@@ -2,6 +2,7 @@ package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.LifecycleOwner;
@@ -79,7 +80,7 @@ public class EditSessionActivity extends AppCompatActivity {
     private ControlEditText controlEditText;
 
     // Widgets
-    private RelativeLayout toolbarLayout;
+    private ConstraintLayout toolbarLayout;
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
     private FrameLayout roomFrameLayout, caseFrameLayout, statusFrameLayout;
@@ -138,14 +139,14 @@ public class EditSessionActivity extends AppCompatActivity {
 
         controlEditText = new ControlEditText();
 
-        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout = findViewById(R.id.component_toolbar);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
 
-        toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
+        toolbarImageView = findViewById(R.id.component_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
-        toolbarTextView = findViewById(R.id.layout_toolbar_textView);
+        toolbarTextView = findViewById(R.id.component_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.EditSessionTitle));
 
         roomFrameLayout = findViewById(R.id.activity_edit_session_room_frameLayout);

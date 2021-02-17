@@ -3,6 +3,7 @@ package com.majazeh.risloo.Views.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.ImageViewCompat;
 
 import android.content.pm.PackageManager;
@@ -34,7 +35,7 @@ public class ImageActivity extends AppCompatActivity {
     private Handler handler;
 
     // Widgets
-    private RelativeLayout toolbarLayout;
+    private ConstraintLayout toolbarLayout;
     private ImageView toolbarImageView, toolbarDownloadImageView;
     private TextView toolbarTextView;
     private ZoomageView imageView;
@@ -68,17 +69,17 @@ public class ImageActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout = findViewById(R.id.component_toolbar);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Gray900));
 
-        toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
+        toolbarImageView = findViewById(R.id.component_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.White));
-        toolbarDownloadImageView = findViewById(R.id.layout_toolbar_secondary_imageView);
+        toolbarDownloadImageView = findViewById(R.id.component_toolbar_secondary_imageView);
         toolbarDownloadImageView.setImageResource(R.drawable.ic_download_light);
         ImageViewCompat.setImageTintList(toolbarDownloadImageView, AppCompatResources.getColorStateList(this, R.color.White));
 
-        toolbarTextView = findViewById(R.id.layout_toolbar_textView);
+        toolbarTextView = findViewById(R.id.component_toolbar_textView);
         toolbarTextView.setTextColor(getResources().getColor(R.color.White));
 
         imageView = findViewById(R.id.activity_image_imageView);

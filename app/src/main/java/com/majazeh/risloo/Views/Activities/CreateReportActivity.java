@@ -2,6 +2,7 @@ package com.majazeh.risloo.Views.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
@@ -71,7 +72,7 @@ public class CreateReportActivity extends AppCompatActivity {
     private ControlEditText controlEditText;
 
     // Widgets
-    private RelativeLayout toolbarLayout;
+    private ConstraintLayout toolbarLayout;
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
     private FrameLayout encryptionFrameLayout;
@@ -120,14 +121,14 @@ public class CreateReportActivity extends AppCompatActivity {
 
         controlEditText = new ControlEditText();
 
-        toolbarLayout = findViewById(R.id.layout_toolbar_linearLayout);
+        toolbarLayout = findViewById(R.id.component_toolbar);
         toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
 
-        toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
+        toolbarImageView = findViewById(R.id.component_toolbar_primary_imageView);
         toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
 
-        toolbarTextView = findViewById(R.id.layout_toolbar_textView);
+        toolbarTextView = findViewById(R.id.component_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.CreateReportTitle));
 
         encryptionFrameLayout = findViewById(R.id.activity_create_report_encryption_frameLayout);

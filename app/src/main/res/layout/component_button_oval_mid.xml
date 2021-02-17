@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/component_button_oval_mid"
+    android:layout_width="@dimen/_24sdp"
+    android:layout_height="@dimen/_24sdp"
+    android:layout_gravity="center"
+    android:layoutDirection="rtl"
+    android:padding="@dimen/_6sdp"
+    android:contentDescription="@string/AppImageContent"
+    android:scaleType="fitCenter"
+    tools:src="@drawable/icon_ellipsis_light"
+    tools:tint="@color/Gray500"
+    tools:background="@drawable/draw_oval_border_gray500" />

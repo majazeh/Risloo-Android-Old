@@ -3,12 +3,10 @@ package com.majazeh.risloo.Views.Activities;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.content.res.ResourcesCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.ImageViewCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -17,9 +15,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,10 +25,9 @@ import com.majazeh.risloo.Utils.Generators.ExceptionGenerator;
 import com.majazeh.risloo.Models.Repositories.AuthRepository;
 import com.majazeh.risloo.R;
 import com.majazeh.risloo.Utils.Managers.ParamsManager;
-import com.majazeh.risloo.Utils.Widgets.ItemDecorateRecyclerView;
+import com.majazeh.risloo.Utils.Managers.StringManager;
 import com.majazeh.risloo.Utils.Managers.WindowDecorator;
 import com.majazeh.risloo.ViewModels.AuthViewModel;
-import com.majazeh.risloo.Views.Adapters.AccountAdapter;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -42,19 +39,18 @@ public class AccountActivity extends AppCompatActivity {
     // ViewModels
     private AuthViewModel authViewModel;
 
-    // Adapters
-    private AccountAdapter accountAdapter;
-
     // Objects
     private Handler handler;
 
     // Widgets
-    private RelativeLayout toolbarLayout;
-    private ImageView toolbarImageView;
+    private ConstraintLayout toolbarConstraintLayout;
+    private ImageView toolbarImageView, toolbarLogOutImageView;
     private TextView toolbarTextView;
     private CircleImageView avatarCircleImageView;
-    private TextView nameTextView, editTextView, logOutTextView;
-    private RecyclerView accountRecyclerView;
+    private TextView avatarTextView;
+    private TextView nameTextView, usernameTextView, mobileTextView, emailTextView, birthdayTextView;
+    private ImageView enterImageView;
+    private TextView editTextView;
     private Dialog logOutDialog, progressDialog;
     private TextView logOutDialogTitle, logOutDialogDescription, logOutDialogPositive, logOutDialogNegative;
 
@@ -79,36 +75,46 @@ public class AccountActivity extends AppCompatActivity {
         WindowDecorator windowDecorator = new WindowDecorator();
 
         windowDecorator.lightShowSystemUI(this);
-        windowDecorator.lightSetSystemUIColor(this, getResources().getColor(R.color.Snow), getResources().getColor(R.color.Snow));
+        windowDecorator.lightSetSystemUIColor(this, getResources().getColor(R.color.Gray50), getResources().getColor(R.color.Gray50));
     }
 
     private void initializer() {
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
-        accountAdapter = new AccountAdapter(this);
-
         handler = new Handler();
 
-        toolbarLayout = findViewById(R.id.account_toolbar);
-        toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
+        toolbarConstraintLayout = findViewById(R.id.activity_account_toolbar);
+        toolbarConstraintLayout.setBackgroundColor(getResources().getColor(R.color.Gray50));
 
-        toolbarImageView = findViewById(R.id.layout_toolbar_primary_imageView);
-        toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
-        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
+        toolbarImageView = findViewById(R.id.component_toolbar_primary_imageView);
+        toolbarImageView.setImageResource(R.drawable.icon_angle_right_light);
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray500));
+        toolbarLogOutImageView = findViewById(R.id.component_toolbar_secondary_imageView);
+        toolbarLogOutImageView.setImageResource(R.drawable.icon_logout_alt_light);
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray500));
+        toolbarLogOutImageView.setVisibility(View.VISIBLE);
+        toolbarLogOutImageView.setRotation(toolbarLogOutImageView.getRotation() + 180);
 
-        toolbarTextView = findViewById(R.id.layout_toolbar_textView);
+        toolbarTextView = findViewById(R.id.component_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.AccountTitle));
 
-        avatarCircleImageView = findViewById(R.id.account_avatar_circleImageView);
+        avatarCircleImageView = findViewById(R.id.component_avatar_big_circleImageView);
 
-        nameTextView = findViewById(R.id.account_name_textView);
-        editTextView = findViewById(R.id.account_edit_textView);
-        logOutTextView = findViewById(R.id.account_logout_textView);
+        avatarTextView = findViewById(R.id.component_avatar_big_textView);
 
-        accountRecyclerView = findViewById(R.id.account_recyclerView);
-        accountRecyclerView.addItemDecoration(new ItemDecorateRecyclerView("verticalLayout", (int) getResources().getDimension(R.dimen._16sdp), (int) getResources().getDimension(R.dimen._8sdp), (int) getResources().getDimension(R.dimen._32sdp)));
-        accountRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        accountRecyclerView.setHasFixedSize(true);
+        nameTextView = findViewById(R.id.activity_account_name_textView);
+        usernameTextView = findViewById(R.id.activity_account_username_textView);
+        mobileTextView = findViewById(R.id.activity_account_mobile_textView);
+        emailTextView = findViewById(R.id.activity_account_email_textView);
+        birthdayTextView = findViewById(R.id.activity_account_birthday_textView);
+
+        enterImageView = findViewById(R.id.activity_account_enter_imageView);
+        enterImageView.setImageResource(R.drawable.icon_user_cog_light);
+        ImageViewCompat.setImageTintList(enterImageView, AppCompatResources.getColorStateList(this, R.color.Gray500));
+
+        editTextView = findViewById(R.id.activity_account_edit_textView);
+        editTextView.setText(getResources().getString(R.string.AccountEdit));
+        editTextView.setTextColor(getResources().getColor(R.color.Gray500));
 
         logOutDialog = new Dialog(this, R.style.DialogTheme);
         logOutDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -136,13 +142,17 @@ public class AccountActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
+            toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_gray50_ripple_gray200);
+            toolbarLogOutImageView.setBackgroundResource(R.drawable.draw_oval_solid_gray50_ripple_red200);
 
-            editTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
-            logOutTextView.setBackgroundResource(R.drawable.draw_8sdp_solid_snow_border_quartz_ripple_quartz);
+            editTextView.setBackgroundResource(R.drawable.draw_16sdp_solid_white_border_gray500_ripple_gray500);
+            enterImageView.setBackgroundResource(R.drawable.draw_oval_solid_white_border_gray500_ripple_gray500);
 
             logOutDialogPositive.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
             logOutDialogNegative.setBackgroundResource(R.drawable.draw_12sdp_solid_snow_ripple_quartz);
+        } else {
+            editTextView.setBackgroundResource(R.drawable.draw_16sdp_border_gray500);
+            enterImageView.setBackgroundResource(R.drawable.draw_oval_border_gray500);
         }
     }
 
@@ -153,6 +163,13 @@ public class AccountActivity extends AppCompatActivity {
 
             finish();
             overridePendingTransition(R.anim.stay_still, R.anim.slide_out_bottom);
+        });
+
+        toolbarLogOutImageView.setOnClickListener(v -> {
+            toolbarLogOutImageView.setClickable(false);
+            handler.postDelayed(() -> toolbarLogOutImageView.setClickable(true), 250);
+
+            logOutDialog.show();
         });
 
         avatarCircleImageView.setOnClickListener(v -> {
@@ -169,11 +186,11 @@ public class AccountActivity extends AppCompatActivity {
             navigator("EditAccount");
         });
 
-        logOutTextView.setOnClickListener(v -> {
-            logOutTextView.setClickable(false);
-            handler.postDelayed(() -> logOutTextView.setClickable(true), 250);
+        enterImageView.setOnClickListener(v -> {
+            enterImageView.setClickable(false);
+            handler.postDelayed(() -> enterImageView.setClickable(true), 250);
 
-            logOutDialog.show();
+          // TODO : Enter User From Another Account
         });
 
         logOutDialogPositive.setOnClickListener(v -> {
@@ -194,23 +211,45 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     private void setData() {
-        try {
-            accountAdapter.setAccount(authViewModel.getAll());
-            accountRecyclerView.setAdapter(accountAdapter);
+        if (authViewModel.getAvatar().equals("")) {
+            Picasso.get().load(R.color.Gray100).placeholder(R.color.Gray100).into(avatarCircleImageView);
 
-            if (authViewModel.getAvatar().equals("")) {
-                avatarCircleImageView.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_user_circle_solid, null));
-            } else {
-                Picasso.get().load(authViewModel.getAvatar()).placeholder(R.color.Gray50).into(avatarCircleImageView);
-            }
+            avatarTextView.setVisibility(View.VISIBLE);
+            avatarTextView.setText(StringManager.firstChars(authViewModel.getName()));
+        } else {
+            Picasso.get().load(authViewModel.getAvatar()).placeholder(R.color.Gray100).into(avatarCircleImageView);
 
-            if (authViewModel.getName().equals("")) {
-                nameTextView.setText(getResources().getString(R.string.AuthNameDefault));
-            } else {
-                nameTextView.setText(authViewModel.getName());
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+            avatarTextView.setVisibility(View.GONE);
+        }
+
+        if (authViewModel.getName().equals("")) {
+            nameTextView.setText(getResources().getString(R.string.AuthNameDefault));
+        } else {
+            nameTextView.setText(authViewModel.getName());
+        }
+
+        if (authViewModel.getUsername().equals("")) {
+            usernameTextView.setText(getResources().getString(R.string.AuthUsernameDefault));
+        } else {
+            usernameTextView.setText(authViewModel.getUsername());
+        }
+
+        if (authViewModel.getMobile().equals("")) {
+            mobileTextView.setText(getResources().getString(R.string.AuthMobileDefault));
+        } else {
+            mobileTextView.setText(authViewModel.getMobile());
+        }
+
+        if (authViewModel.getEmail().equals("")) {
+            emailTextView.setText(getResources().getString(R.string.AuthEmailDefault));
+        } else {
+            emailTextView.setText(authViewModel.getEmail());
+        }
+
+        if (authViewModel.getBirthday().equals("")) {
+            birthdayTextView.setText(getResources().getString(R.string.AuthBirthdayDefault));
+        } else {
+            birthdayTextView.setText(authViewModel.getBirthday());
         }
     }
 
@@ -229,10 +268,10 @@ public class AccountActivity extends AppCompatActivity {
         AuthRepository.workState.observe((LifecycleOwner) this, integer -> {
             if (AuthRepository.work.equals("logOut")) {
                 if (integer == 1) {
-                    Intent result = new Intent();
-                    result.putExtra("RESULT_STRING", AuthRepository.work);
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("RESULT_STRING", AuthRepository.work);
 
-                    setResult(RESULT_OK, result);
+                    setResult(RESULT_OK, resultIntent);
                     finish();
 
                     progressDialog.dismiss();
@@ -260,10 +299,10 @@ public class AccountActivity extends AppCompatActivity {
             startActivityForResult(editAccountIntent, 100);
             overridePendingTransition(R.anim.slide_in_bottom, R.anim.stay_still);
         } else {
-            if (!authViewModel.getName().equals("") && !authViewModel.getAvatar().equals("")) {
+            if (!nameTextView.getText().toString().equals("") && !authViewModel.getAvatar().equals("")) {
                 Intent imageIntent = new Intent(this, ImageActivity.class);
 
-                imageIntent.putExtra("title", authViewModel.getName());
+                imageIntent.putExtra("title", nameTextView.getText().toString().equals(""));
                 imageIntent.putExtra("bitmap", false);
                 imageIntent.putExtra("image", authViewModel.getAvatar());
 
@@ -278,10 +317,10 @@ public class AccountActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (requestCode == 100) {
-                Intent result = new Intent();
-                result.putExtra("RESULT_STRING", AuthRepository.work);
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("RESULT_STRING", AuthRepository.work);
 
-                setResult(RESULT_OK, result);
+                setResult(RESULT_OK, resultIntent);
                 setData();
             }
         }

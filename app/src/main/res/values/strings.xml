@@ -1,6 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    // Account Strings
+    ////////////////////////////////////////////////////////////////////////////////
+
+    <string name="AccountTitle">حساب من</string>
+
+    <string name="AccountEdit">ویرایش</string>
+
+    <string name="AccountLogOutDialogTitle">خروج از حساب.</string>
+    <string name="AccountLogOutDialogDescription">ایا تمایل به خروج از حساب خود را دارید؟</string>
+    <string name="AccountLogOutDialogPositive">خروج</string>
+    <string name="AccountLogOutDialogNegative">بستن</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // App Strings
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -136,23 +235,6 @@
     <string name="CallUsRepeatDialogDescription">اپراتور‌های ما در اسرع وقت پیام شما را بررسی خواهند داد.</string>
     <string name="CallUsRepeatDialogPositive">پیام جدید</string>
     <string name="CallUsRepeatDialogNegative">خروج</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    // Account strings
-    ////////////////////////////////////////////////////////////////////////////////
-
-    <string name="AccountTitle">حساب من</string>
-
-    <string name="AccountEdit">ویرایش من</string>
-    <string name="AccountLogOut">خروج از حساب</string>
-
-    <string name="AccountInfo">مشخصات من</string>
-
-    <string name="AccountLogOutDialogTitle">خروج از حساب.</string>
-    <string name="AccountLogOutDialogDescription">ایا تمایل به خروج از حساب خود را دارید؟</string>
-    <string name="AccountLogOutDialogPositive">خروج</string>
-    <string name="AccountLogOutDialogNegative">بستن</string>
 
     ////////////////////////////////////////////////////////////////////////////////
 
@@ -294,10 +376,10 @@
     <string name="AuthUserIdDefault">نامشخص</string>
 
     <string name="AuthUsername">شناسه کاربری</string>
-    <string name="AuthUserNameDefault">نامشخص</string>
+    <string name="AuthUsernameDefault">نامشخص</string>
 
     <string name="AuthName">نام و نام خانوادگی</string>
-    <string name="AuthNameDefault">کاربر تجربی</string>
+    <string name="AuthNameDefault">نامشخص</string>
 
     <string name="AuthGender">جنسیت</string>
     <string name="AuthGenderMale">مرد</string>
