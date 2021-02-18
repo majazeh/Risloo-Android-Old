@@ -6,56 +6,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl"
-    android:background="@color/White"
     android:fitsSystemWindows="true"
+    android:background="@color/White"
     android:focusable="true"
     android:focusableInTouchMode="true"
     tools:context=".Views.Activities.EditAccountActivity">
 
     <include
-        android:id="@+id/edit_account_toolbar"
+        android:id="@+id/activity_edit_account_toolbar"
         layout="@layout/component_toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/edit_account_top_view"
+        android:id="@+id/activity_edit_account_top_view"
         android:layout_width="0dp"
         android:layout_height="@dimen/_1sdp"
         android:background="@color/Gray200"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_edit_account_toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_account_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_edit_account_toolbar" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/edit_account_cardView"
+        android:id="@+id/activity_edit_account_cardView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_36sdp"
-        android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:layout_marginEnd="@dimen/_16sdp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
         app:cardBackgroundColor="@color/White"
-        app:cardCornerRadius="@dimen/_16sdp"
+        app:cardCornerRadius="@dimen/_2sdp"
+        app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_account_toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/activity_edit_account_toolbar">
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/edit_account_tabLayout"
+            android:id="@+id/activity_edit_account_tabLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:theme="@style/TabTheme"
-            android:background="@color/White"
+            android:background="@drawable/draw_2sdp_border_gray200"
             app:tabMode="fixed"
             app:tabGravity="fill"
             app:tabMaxWidth="0dp"
             app:tabBackground="@null"
             app:tabRippleColor="@color/Gray200"
-            app:tabIndicatorColor="@color/Primary5P"
+            app:tabIndicatorColor="@color/Blue50"
             app:tabIndicatorHeight="@dimen/_36sdp"
             app:tabTextColor="@color/Gray300"
-            app:tabSelectedTextColor="@color/Risloo800"
+            app:tabSelectedTextColor="@color/Blue700"
             app:tabTextAppearance="@style/TabTextBoldAppearance">
 
             <com.google.android.material.tabs.TabItem
@@ -83,17 +85,17 @@
     </androidx.cardview.widget.CardView>
 
     <com.duolingo.open.rtlviewpager.RtlViewPager
-        android:id="@+id/edit_account_rtlViewPager"
+        android:id="@+id/activity_edit_account_rtlViewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:overScrollMode="always"
-        app:layout_constraintBottom_toBottomOf="@id/edit_account_bottom_view"
+        app:layout_constraintBottom_toBottomOf="@id/activity_edit_account_bottom_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_account_cardView" />
+        app:layout_constraintTop_toBottomOf="@+id/activity_edit_account_cardView" />
 
     <View
-        android:id="@+id/edit_account_bottom_view"
+        android:id="@+id/activity_edit_account_bottom_view"
         android:layout_width="0dp"
         android:layout_height="@dimen/_1sdp"
         android:background="@color/Gray200"

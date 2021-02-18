@@ -276,15 +276,6 @@ public class EditPersonalFragment extends Fragment {
                         type = "admin";
                         break;
                     case 1:
-                        type = "psychology";
-                        break;
-                    case 2:
-                        type = "operator";
-                        break;
-                    case 3:
-                        type = "clinic_center";
-                        break;
-                    case 4:
                         type = "client";
                         break;
                 }
@@ -428,18 +419,9 @@ public class EditPersonalFragment extends Fragment {
             statusTabLayout.getTabAt(0).select();
         }
 
-        if (((EditAccountActivity) getActivity()).authViewModel.getType().equals(getActivity().getResources().getString(R.string.EditPersonalTypePsychology))) {
-            type = "psychology";
-            typeTabLayout.getTabAt(1).select();
-        } else if (((EditAccountActivity) getActivity()).authViewModel.getType().equals(getActivity().getResources().getString(R.string.EditPersonalTypeOperator))) {
-            type = "operator";
-            typeTabLayout.getTabAt(2).select();
-        } else if (((EditAccountActivity) getActivity()).authViewModel.getType().equals(getActivity().getResources().getString(R.string.EditPersonalTypeClinicCenter))) {
-            type = "clinic_center";
-            typeTabLayout.getTabAt(3).select();
-        } else if (((EditAccountActivity) getActivity()).authViewModel.getType().equals(getActivity().getResources().getString(R.string.EditPersonalTypeClient))) {
+        if (((EditAccountActivity) getActivity()).authViewModel.getType().equals(getActivity().getResources().getString(R.string.EditPersonalTypeClient))) {
             type = "client";
-            typeTabLayout.getTabAt(4).select();
+            typeTabLayout.getTabAt(1).select();
         } else {
             type = "admin";
             typeTabLayout.getTabAt(0).select();

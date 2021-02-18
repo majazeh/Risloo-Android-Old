@@ -15,7 +15,51 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    // EditAccount strings
+    ////////////////////////////////////////////////////////////////////////////////
 
+    <string name="EditAccountTitle">ویرایش من</string>
+
+    <string name="EditAccountPersonal">شخصی</string>
+    <string name="EditAccountPassword">کلمه عبور</string>
+    <string name="EditAccountAvatar">تصویر</string>
+    <string name="EditAccountCrypto">کلید عمومی</string>
+
+    <string name="EditAccountEdit">ویرایش حساب</string>
+
+    <string name="EditPersonalNameHint">نام و نام خانوادگی</string>
+    <string name="EditPersonalUsernameHint">شناسه کاربری</string>
+    <string name="EditPersonalMobileHint">تلفن همراه</string>
+    <string name="EditPersonalEmailHint">رایانامه</string>
+
+    <string name="EditPersonalBirthdayHint">تاریخ تولد</string>
+    <string name="EditPersonalBirthdayDefault">1400-01-01</string>
+
+    <string name="EditPersonalBirthdayDialogTitle">تاریخ تولد خودتان را انتخاب کنید.</string>
+    <string name="EditPersonalBirthdayDialogPositive">ثبت</string>
+    <string name="EditPersonalBirthdayDialogNegative">بستن</string>
+
+    <string name="EditPersonalGenderMale">مرد</string>
+    <string name="EditPersonalGenderFemale">زن</string>
+
+    <string name="EditPersonalStatusActive">فعال</string>
+    <string name="EditPersonalStatusWaiting">در انتظار</string>
+    <string name="EditPersonalStatusClosed">بسته شده</string>
+
+    <string name="EditPersonalTypeAdmin">ادمین</string>
+    <string name="EditPersonalTypeClient">مراجع</string>
+
+    <string name="EditPasswordHint">گذرواژه</string>
+
+    <string name="EditAvatarImageDialogTitle">از کجا می خوای عکس بیارید؟</string>
+    <string name="EditAvatarImageDialogGallery">البوم</string>
+    <string name="EditAvatarImageDialogCamera">دوربین</string>
+    <string name="EditAvatarImageDialogClose">بستن</string>
+
+    <string name="EditCryptoPublicKeyHint">کلید عمومی</string>
+    <string name="EditCryptoPrivateKeyHint">کلید خصوصی</string>
+
+    ////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -238,54 +282,7 @@
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // EditAccount strings
-    ////////////////////////////////////////////////////////////////////////////////
 
-    <string name="EditAccountTitle">ویرایش من</string>
-
-    <string name="EditAccountPersonal">شخصی</string>
-    <string name="EditAccountPassword">کلمه عبور</string>
-    <string name="EditAccountAvatar">تصویر</string>
-    <string name="EditAccountCrypto">کلید عمومی</string>
-
-    <string name="EditAccountEdit">ویرایش</string>
-
-    <string name="EditPersonalNameHint">نام و نام خانوادگی</string>
-    <string name="EditPersonalUsernameHint">شناسه کاربری</string>
-    <string name="EditPersonalMobileHint">شماره همراه</string>
-    <string name="EditPersonalEmailHint">ایمیل</string>
-
-    <string name="EditPersonalBirthdayHint">تاریخ تولد</string>
-    <string name="EditPersonalBirthdayDefault">1400-01-01</string>
-
-    <string name="EditPersonalBirthdayDialogTitle">تاریخ تولد خودتان را انتخاب کنید.</string>
-    <string name="EditPersonalBirthdayDialogPositive">ثبت</string>
-    <string name="EditPersonalBirthdayDialogNegative">بستن</string>
-
-    <string name="EditPersonalGenderMale">مرد</string>
-    <string name="EditPersonalGenderFemale">زن</string>
-
-    <string name="EditPersonalStatusActive">فعال</string>
-    <string name="EditPersonalStatusWaiting">در انتظار</string>
-    <string name="EditPersonalStatusClosed">بسته شده</string>
-
-    <string name="EditPersonalTypeAdmin">ادمین</string>
-    <string name="EditPersonalTypePsychology">مشاور</string>
-    <string name="EditPersonalTypeOperator">اپراتور</string>
-    <string name="EditPersonalTypeClinicCenter">مرکز درمان</string>
-    <string name="EditPersonalTypeClient">مراجع</string>
-
-    <string name="EditPasswordHint">کلمه عبور</string>
-
-    <string name="EditAvatarImageDialogTitle">از کجا می خوای عکس بیارید؟</string>
-    <string name="EditAvatarImageDialogGallery">البوم</string>
-    <string name="EditAvatarImageDialogCamera">دوربین</string>
-    <string name="EditAvatarImageDialogClose">بستن</string>
-
-    <string name="EditCryptoPublicKeyHint">کلید عمومی</string>
-    <string name="EditCryptoPrivateKeyHint">کلید خصوصی</string>
-
-    ////////////////////////////////////////////////////////////////////////////////
 
 
 

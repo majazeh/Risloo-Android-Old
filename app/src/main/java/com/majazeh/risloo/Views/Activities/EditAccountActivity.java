@@ -24,7 +24,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Window;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,7 +70,7 @@ public class EditAccountActivity extends AppCompatActivity {
     public PathManager pathManager;
 
     // Widgets
-    private ConstraintLayout toolbarLayout;
+    private ConstraintLayout toolbarConstrainLayout;
     private ImageView toolbarImageView;
     private TextView toolbarTextView;
     private TabLayout editAccountTabLayout;
@@ -99,14 +98,14 @@ public class EditAccountActivity extends AppCompatActivity {
         WindowDecorator windowDecorator = new WindowDecorator();
 
         windowDecorator.lightShowSystemUI(this);
-        windowDecorator.lightSetSystemUIColor(this, getResources().getColor(R.color.Snow), getResources().getColor(R.color.Snow));
+        windowDecorator.lightSetSystemUIColor(this, getResources().getColor(R.color.Gray50), getResources().getColor(R.color.Gray50));
     }
 
     private void initializer() {
-        editPersonalFragment = ((EditPersonalFragment) getSupportFragmentManager().findFragmentById(R.id.edit_account_rtlViewPager));
-        editPasswordFragment = ((EditPasswordFragment) getSupportFragmentManager().findFragmentById(R.id.edit_account_rtlViewPager));
-        editAvatarFragment = ((EditAvatarFragment) getSupportFragmentManager().findFragmentById(R.id.edit_account_rtlViewPager));
-        editCryptoFragment = ((EditCryptoFragment) getSupportFragmentManager().findFragmentById(R.id.edit_account_rtlViewPager));
+        editPersonalFragment = ((EditPersonalFragment) getSupportFragmentManager().findFragmentById(R.id.activity_edit_account_rtlViewPager));
+        editPasswordFragment = ((EditPasswordFragment) getSupportFragmentManager().findFragmentById(R.id.activity_edit_account_rtlViewPager));
+        editAvatarFragment = ((EditAvatarFragment) getSupportFragmentManager().findFragmentById(R.id.activity_edit_account_rtlViewPager));
+        editCryptoFragment = ((EditCryptoFragment) getSupportFragmentManager().findFragmentById(R.id.activity_edit_account_rtlViewPager));
 
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
@@ -120,19 +119,19 @@ public class EditAccountActivity extends AppCompatActivity {
 
         pathManager = new PathManager();
 
-        toolbarLayout = findViewById(R.id.edit_account_toolbar);
-        toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Snow));
+        toolbarConstrainLayout = findViewById(R.id.activity_edit_account_toolbar);
+        toolbarConstrainLayout.setBackgroundColor(getResources().getColor(R.color.Gray50));
 
         toolbarImageView = findViewById(R.id.component_toolbar_primary_imageView);
-        toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
-        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray900));
+        toolbarImageView.setImageResource(R.drawable.icon_angle_right_light);
+        ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.Gray500));
 
         toolbarTextView = findViewById(R.id.component_toolbar_textView);
         toolbarTextView.setText(getResources().getString(R.string.EditAccountTitle));
 
-        editAccountTabLayout = findViewById(R.id.edit_account_tabLayout);
+        editAccountTabLayout = findViewById(R.id.activity_edit_account_tabLayout);
 
-        editAccountRtlViewPager = findViewById(R.id.edit_account_rtlViewPager);
+        editAccountRtlViewPager = findViewById(R.id.activity_edit_account_rtlViewPager);
 
         progressDialog = new Dialog(this, R.style.DialogTheme);
         progressDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -143,7 +142,7 @@ public class EditAccountActivity extends AppCompatActivity {
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_snow_ripple_quartz);
+            toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_gray50_ripple_gray200);
         }
     }
 

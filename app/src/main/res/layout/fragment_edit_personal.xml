@@ -296,24 +296,6 @@
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:icon="@drawable/ic_stethoscope_light"
-                    android:text="@string/EditPersonalTypePsychology" />
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:icon="@drawable/ic_headset_light"
-                    android:text="@string/EditPersonalTypeOperator" />
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:icon="@drawable/ic_hospital_light"
-                    android:text="@string/EditPersonalTypeClinicCenter" />
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:icon="@drawable/ic_pills_light"
                     android:text="@string/EditPersonalTypeClient" />
 

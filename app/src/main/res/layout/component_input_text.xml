@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/component_input_text"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layoutDirection="ltr"
+    tools:layout_margin="@dimen/_16sdp">
+
+    <TextView
+        android:id="@+id/component_input_text_header_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:gravity="center"
+        android:textSize="@dimen/_11ssp"
+        android:textStyle="normal"
+        android:textColor="@color/Gray800"
+        android:textAlignment="gravity"
+        android:fontFamily="@font/dana_medium"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/component_input_text_editText"
+        app:layout_constraintEnd_toEndOf="@+id/component_input_text_editText"
+        tools:text="سرتيتر" />
+
+    <EditText
+        android:id="@+id/component_input_text_editText"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_36sdp"
+        android:paddingLeft="@dimen/_12sdp"
+        android:paddingRight="@dimen/_12sdp"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:gravity="center|start"
+        android:textSize="@dimen/_11ssp"
+        android:textStyle="normal"
+        android:textColor="@color/Gray700"
+        android:textColorHint="@color/Gray300"
+        android:textAlignment="gravity"
+        android:fontFamily="@font/dana_medium"
+        android:importantForAutofill="no"
+        android:background="@drawable/draw_2sdp_border_gray500"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:hint="عنوان"/>
+
+    <TextView
+        android:id="@+id/component_input_text_error_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:layout_marginEnd="@dimen/_4sdp"
+        android:gravity="center"
+        android:textSize="@dimen/_9ssp"
+        android:textStyle="normal"
+        android:textColor="@color/Red500"
+        android:textAlignment="gravity"
+        android:fontFamily="@font/dana_light"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/component_input_text_error_imageView"
+        app:layout_constraintTop_toBottomOf="@+id/component_input_text_editText"
+        tools:text="خطا" />
+
+    <ImageView
+        android:id="@+id/component_input_text_error_imageView"
+        android:layout_width="@dimen/_8sdp"
+        android:layout_height="@dimen/_8sdp"
+        android:contentDescription="@string/AppImageContent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon_exclamation_triangle_light"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/component_input_text_error_textView"
+        app:layout_constraintEnd_toEndOf="@+id/component_input_text_editText"
+        app:layout_constraintTop_toTopOf="@+id/component_input_text_error_textView"
+        app:tint="@color/Red500" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

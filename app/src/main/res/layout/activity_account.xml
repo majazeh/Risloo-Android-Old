@@ -49,7 +49,7 @@
             android:layout_margin="@dimen/_1sdp"
             android:contentDescription="@string/AppImageContent"
             android:scaleType="fitCenter"
-            android:background="@drawable/draw_gra_2sdp_blue200_and_white"
+            android:background="@drawable/draw_gra_2sdp_blue100_and_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
