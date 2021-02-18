@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_image"
@@ -9,24 +8,34 @@
     android:layoutDirection="rtl"
     android:fitsSystemWindows="true"
     android:background="@color/Gray900"
-    android:descendantFocusability="blocksDescendants"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context=".Views.Activities.ImageActivity">
 
     <com.jsibbold.zoomage.ZoomageView
-        android:id="@+id/activity_image_imageView"
+        android:id="@+id/activity_image_zoomageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:zoomage_restrictBounds="false"
-        app:zoomage_animateOnReset="true"
-        app:zoomage_autoResetMode="UNDER"
-        app:zoomage_autoCenter="true"
-        app:zoomage_minScale="0.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:zoomage_maxScale="8"
+        app:zoomage_minScale="0.5"
         app:zoomage_zoomable="true"
         app:zoomage_translatable="true"
+        app:zoomage_autoCenter="true"
+        app:zoomage_restrictBounds="false"
+        app:zoomage_animateOnReset="true"
         app:zoomage_doubleTapToZoom="true"
+        app:zoomage_autoResetMode="UNDER"
         app:zoomage_doubleTapToZoomScaleFactor="3" />
 
-    <include layout="@layout/component_toolbar" />
+    <include
+        android:id="@+id/activity_image_toolbar"
+        layout="@layout/component_toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

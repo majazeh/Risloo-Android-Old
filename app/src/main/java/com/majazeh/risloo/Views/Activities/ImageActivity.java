@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jsibbold.zoomage.ZoomageView;
@@ -35,10 +34,10 @@ public class ImageActivity extends AppCompatActivity {
     private Handler handler;
 
     // Widgets
-    private ConstraintLayout toolbarLayout;
+    private ConstraintLayout toolbarConstraintLayout;
     private ImageView toolbarImageView, toolbarDownloadImageView;
     private TextView toolbarTextView;
-    private ZoomageView imageView;
+    private ZoomageView avatarZoomageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,26 +68,26 @@ public class ImageActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        toolbarLayout = findViewById(R.id.component_toolbar);
-        toolbarLayout.setBackgroundColor(getResources().getColor(R.color.Gray900));
+        toolbarConstraintLayout = findViewById(R.id.activity_image_toolbar);
+        toolbarConstraintLayout.setBackgroundColor(getResources().getColor(R.color.Gray900));
 
         toolbarImageView = findViewById(R.id.component_toolbar_primary_imageView);
-        toolbarImageView.setImageResource(R.drawable.ic_chevron_right);
+        toolbarImageView.setImageResource(R.drawable.icon_angle_right_light);
         ImageViewCompat.setImageTintList(toolbarImageView, AppCompatResources.getColorStateList(this, R.color.White));
         toolbarDownloadImageView = findViewById(R.id.component_toolbar_secondary_imageView);
-        toolbarDownloadImageView.setImageResource(R.drawable.ic_download_light);
+        toolbarDownloadImageView.setImageResource(R.drawable.icon_download_light);
         ImageViewCompat.setImageTintList(toolbarDownloadImageView, AppCompatResources.getColorStateList(this, R.color.White));
 
         toolbarTextView = findViewById(R.id.component_toolbar_textView);
         toolbarTextView.setTextColor(getResources().getColor(R.color.White));
 
-        imageView = findViewById(R.id.activity_image_imageView);
+        avatarZoomageView = findViewById(R.id.activity_image_zoomageView);
     }
 
     private void detector() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_nero_ripple_white);
-            toolbarDownloadImageView.setBackgroundResource(R.drawable.draw_oval_solid_nero_ripple_white);
+            toolbarImageView.setBackgroundResource(R.drawable.draw_oval_solid_gray900_ripple_white);
+            toolbarDownloadImageView.setBackgroundResource(R.drawable.draw_oval_solid_gray900_ripple_white);
         }
     }
 
@@ -111,18 +110,28 @@ public class ImageActivity extends AppCompatActivity {
     }
 
     private void setData() {
-        title = extras.getString("title");
-        bitmap = extras.getBoolean("bitmap");
+        if (extras.getString("title") != null) {
+            title = extras.getString("title");
+        }
+        if (extras.getString("path") != null) {
+            path = extras.getString("path");
+        }
+        if (extras.getString("image") != null) {
+            image = extras.getString("image");
+        }
+        if (extras.getBoolean("bitmap")) {
+            bitmap = extras.getBoolean("bitmap");
+        }
 
-        toolbarTextView.setText(title);
+        if (!title.equals("")) {
+            toolbarTextView.setText(title);
+        }
 
         if (!bitmap) {
-            image = extras.getString("image");
-            Picasso.get().load(image).placeholder(R.color.Gray900).into(imageView);
+            Picasso.get().load(image).placeholder(R.color.Gray900).into(avatarZoomageView);
             toolbarDownloadImageView.setVisibility(View.VISIBLE);
         } else {
-            path = extras.getString("path");
-            imageView.setImageBitmap(BitmapManager.modifyOrientation(FileManager.readBitmapFromCache(this, "image"), path));
+            avatarZoomageView.setImageBitmap(BitmapManager.modifyOrientation(FileManager.readBitmapFromCache(this, "image"), path));
             FileManager.deleteFileFromCache(this, "image");
         }
     }
